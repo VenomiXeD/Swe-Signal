@@ -1,10 +1,7 @@
 package venomized.mc.mods.swsignals.block;
 
-import com.jozufozu.flywheel.Flywheel;
 import com.simibubi.create.AllTags;
-import com.simibubi.create.content.kinetics.flywheel.FlywheelBlock;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +19,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -30,7 +26,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.blockentity.BlockEntitySignalBlock;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 
 public abstract class BlockAbstractSignal extends SwAbstract45DegreeBlock implements EntityBlock {
 	public static BooleanProperty MOUNTED = BooleanProperty.create("mounting");

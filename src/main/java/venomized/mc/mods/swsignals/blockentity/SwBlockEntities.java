@@ -1,14 +1,11 @@
 package venomized.mc.mods.swsignals.blockentity;
 
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.SwBlocks;
-
-import java.rmi.registry.Registry;
 
 public final class SwBlockEntities {
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, SwSignal.MOD_ID);

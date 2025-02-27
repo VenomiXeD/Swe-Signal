@@ -1,14 +1,9 @@
 package venomized.mc.mods.swsignals.client;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.client.model.geometry.IGeometryLoader;
-import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;

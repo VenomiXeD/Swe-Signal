@@ -1,6 +1,5 @@
 package venomized.mc.mods.swsignals.client.blockentityrenderer;
 
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import venomized.mc.mods.swsignals.SwSignal;
 
