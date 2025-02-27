@@ -1,0 +1,8 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "model": "swsignal:models/block/sw_4l_signal_post_1970.obj",
+  "textures": {
+    "texture": "swsignal:block/sw_4l_signal_post_1970"
+  }
+}

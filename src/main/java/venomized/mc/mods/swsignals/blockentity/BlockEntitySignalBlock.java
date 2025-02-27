@@ -1,15 +1,22 @@
 package venomized.mc.mods.swsignals.blockentity;
 
+import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.SwedishSignalAspect;
 
-public abstract class BlockEntitySignalBlock extends BlockEntity {
+import java.util.List;
+
+public abstract class BlockEntitySignalBlock extends BlockEntity implements IHaveGoggleInformation {
 	private int lightCount;
 
 	private SwedishSignalAspect cachedAspect;
@@ -22,8 +29,8 @@ public abstract class BlockEntitySignalBlock extends BlockEntity {
 
 	public float[] lightLevels;
 
-	public BlockEntitySignalBlock(BlockPos pPos, BlockState pBlockState, int lightCount) {
-		super(SwBlockEntities.BE_TWO_LIGHT_SIGNAL.get(), pPos, pBlockState);
+	public BlockEntitySignalBlock(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState, int lightCount) {
+		super(t, pPos, pBlockState);
 		this.lightCount = lightCount;
 		this.lightLevels = new float[lightCount];
 	}
@@ -49,7 +56,7 @@ public abstract class BlockEntitySignalBlock extends BlockEntity {
 	}
 
 	public boolean valid() {
-		return signalBlockPosition != null && this.getCurrentAspect() != null;
+		return signalBlockPosition != null && this.getCurrentAspect() != null && this.getConnectedSignalBlock() != null;
 	}
 
 	public SwedishSignalAspect getCurrentAspect() {
@@ -64,11 +71,12 @@ public abstract class BlockEntitySignalBlock extends BlockEntity {
 		}
 
 		SignalBlockEntity.SignalState state = b.getState();
-		if (state == SignalBlockEntity.SignalState.RED) {
-			result = SwedishSignalAspect.STOP;
-		} else {
-			result = SwedishSignalAspect.PROCEED_80;
-		}
+		result = switch (state) {
+			case GREEN -> SwedishSignalAspect.PROCEED_80;
+			case RED -> SwedishSignalAspect.STOP;
+			case YELLOW -> SwedishSignalAspect.PROCEED_40_CAUTION;
+			case INVALID -> null;
+		};
 
 		this.cachedAspect = result;
 		return result;
@@ -145,5 +153,24 @@ public abstract class BlockEntitySignalBlock extends BlockEntity {
 
 	public static <T extends BlockEntity> void worldTick(Level level, BlockPos blockPos, BlockState blockState, T t) {
 		worldTick((BlockEntitySignalBlock)t, level, blockPos, blockState);
+	}
+
+	/**
+	 * this method will be called when looking at a BlockEntity that implemented this
+	 * interface
+	 *
+	 * @param tooltip
+	 * @param isPlayerSneaking
+	 * @return {@code true} if the tooltip creation was successful and should be
+	 * displayed, or {@code false} if the overlay should not be displayed
+	 */
+	@Override
+	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+		SwedishSignalAspect signalAspect = this.getCurrentAspect();
+		if (signalAspect != null && this.valid()) {
+			tooltip.add(Component.translatable(signalAspect.getDescription()));
+			return true;
+		}
+		return false;
 	}
 }

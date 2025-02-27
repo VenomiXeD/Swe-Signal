@@ -1,6 +1,8 @@
 package venomized.mc.mods.swsignals.block;
 
+import com.jozufozu.flywheel.Flywheel;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.content.kinetics.flywheel.FlywheelBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -30,29 +32,21 @@ import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.blockentity.BlockEntitySignalBlock;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 
-public abstract class BlockAbstractSignal extends SwAbstractBlock implements EntityBlock {
+public abstract class BlockAbstractSignal extends SwAbstract45DegreeBlock implements EntityBlock {
 	public static BooleanProperty MOUNTED = BooleanProperty.create("mounting");
-	public static IntegerProperty ORIENTATION = IntegerProperty.create("orientation", 0, 7);
 
 
 
 	public BlockAbstractSignal() {
 		super(Properties.copy(Blocks.IRON_BLOCK).noOcclusion().pushReaction(PushReaction.DESTROY));
-		this.registerDefaultState(this.stateDefinition.any().setValue(MOUNTED, false).setValue(ORIENTATION, 0));
-	}
-
-	private static int get8Direction(float yaw) {
-		yaw += 180;
-		int index = Mth.floor((yaw + 22.5F) / 45.0F) & 7; // Convert to 8 steps
-		return index;
 	}
 
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+		super.createBlockStateDefinition(pBuilder);
 		pBuilder
-				.add(MOUNTED)
-				.add(ORIENTATION);
+				.add(MOUNTED);
 	}
 
 	/**
@@ -93,17 +87,25 @@ public abstract class BlockAbstractSignal extends SwAbstractBlock implements Ent
 	}
 
 	/**
+	 * @param pLevel
+	 * @param pState
+	 * @param pBlockEntityType
+	 * @param <T>
+	 * @return
+	 */
+	@Override
+	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+		return BlockEntitySignalBlock::worldTick;
+	}
+
+	/**
 	 * @param pContext
 	 * @return
 	 */
 	@Override
 	public @Nullable BlockState getStateForPlacement(BlockPlaceContext pContext) {
-		int orientation = get8Direction(pContext.getRotation());
-		return this.defaultBlockState()
-				.setValue(ORIENTATION,orientation);
+		return super.getStateForPlacement(pContext).setValue(MOUNTED, false);
 	}
-
-
 
 	/**
 	 * @param pState

@@ -1,9 +1,13 @@
 package venomized.mc.mods.swsignals.client.blockentityrenderer;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
@@ -16,11 +20,11 @@ import org.joml.Quaternionf;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.SwedishSignalAspect;
 import venomized.mc.mods.swsignals.block.BlockAbstractSignal;
-import venomized.mc.mods.swsignals.block.BlockTwoLightSignal;
+import venomized.mc.mods.swsignals.block.BlockModernTwoLightSignal;
 import venomized.mc.mods.swsignals.blockentity.BlockEntitySignalBlock;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class BlockEntityRendererAbstractSignal<T extends BlockEntitySignalBlock> implements BlockEntityRenderer<T> {
+public abstract class BlockEntityRendererSignal<T extends BlockEntitySignalBlock> implements BlockEntityRenderer<T> {
 	protected static final int FULLBRIGHT = 0xFFFFFF;
 
 	private static BakedModel SIGNAL_LIGHT_MODEL;
@@ -32,14 +36,15 @@ public abstract class BlockEntityRendererAbstractSignal<T extends BlockEntitySig
 		return SIGNAL_LIGHT_MODEL;
 	}
 
-	private BakedModel SIGNAL_MODEL;
-	private BakedModel signalModel() {
-		if (SIGNAL_MODEL == null) {
-			SIGNAL_MODEL = Minecraft.getInstance().getModelManager().getModel(this.getSignalModelLocation());
+	private BakedModel cachedSignalModel;
+	public BakedModel getSignalModel() {
+		if (cachedSignalModel == null) {
+			cachedSignalModel = Minecraft.getInstance().getModelManager().getModel(this.getSignalModelLoc());
 		}
-		return SIGNAL_MODEL;
+		return cachedSignalModel;
 	}
-	protected abstract ResourceLocation getSignalModelLocation();
+	public abstract ResourceLocation getSignalModelLoc();
+	public boolean isObjModel() {return false;}
 
 	@Override
 	public void render(T t, float partialTick, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay) {
@@ -47,22 +52,28 @@ public abstract class BlockEntityRendererAbstractSignal<T extends BlockEntitySig
 
 		ModelBlockRenderer renderer = Minecraft.getInstance().getBlockRenderer().getModelRenderer();
 
-		poseStack.pushPose();
+		//poseStack.pushPose();
 
 		poseStack.rotateAround(
 				new Quaternionf(
-						new AxisAngle4f(t.getBlockState().getValue(BlockTwoLightSignal.ORIENTATION)/-4f*Mth.PI,0,1,0)), .5f,0,.5f
+						new AxisAngle4f(t.getBlockState().getValue(BlockModernTwoLightSignal.ORIENTATION)/-4f*Mth.PI,0,1,0)), .5f,0,.5f
 		);
 
 		if (t.getBlockState().getValue(BlockAbstractSignal.MOUNTED)) {
 			poseStack.translate(0,8/16d,0);
 		}
 
- 		renderer.tesselateWithAO(t.getLevel(), signalModel(), t.getBlockState(), t.getBlockPos(), poseStack, multiBufferSource.getBuffer(RenderType.solid()), true, t.getLevel().getRandom(), light, overlay);
-
+		if (this.isObjModel()) {
+			poseStack.pushPose();
+			poseStack.translate(.5, 0, .5);
+		}
+ 		renderer.tesselateWithAO(t.getLevel(), getSignalModel(), t.getBlockState(), t.getBlockPos(), poseStack, multiBufferSource.getBuffer(RenderType.solid()), true, t.getLevel().getRandom(), light, overlay);
+		if (this.isObjModel()) {
+			poseStack.popPose();
+		}
 
 		poseStack.translate(.5d,0d,.5d);
-		poseStack.translate(0,5/16d,-4d/16d);
+		poseStack.translate(0,2.9/16d,-5.6d/16d);
 // SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;//
 		SwedishSignalAspect aspect = t.getCurrentAspect();
 
@@ -114,14 +125,22 @@ public abstract class BlockEntityRendererAbstractSignal<T extends BlockEntitySig
 				break;
 			}
 
+			poseStack.pushPose();
+			// Rescale it to fit properly in the spots
+			poseStack.scale(1.1f,1.1f,1.1f);
 			renderer.renderModel(
 					poseStack.last(),
-					multiBufferSource.getBuffer(RenderType.solid()), null, this.signalLightModel(), r, g, b, FULLBRIGHT, overlay
+					// RenderType.debugFilledBox()
+					multiBufferSource.getBuffer(RenderType.debugQuads()), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
+					// multiBufferSource.getBuffer(RenderType.eyes(ResourceLocation.fromNamespaceAndPath("swsignal","textures/block/light.png"))), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
+					//multiBufferSource.getBuffer(RenderType.beaconBeam(ResourceLocation.fromNamespaceAndPath("swsignal","textures/block/light.png"),true)), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
+					// multiBufferSource.getBuffer(RenderType.()), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
 			);
+			poseStack.popPose();
 
 			poseStack.translate(0, -8 / 16d, 0);
 		}
-		poseStack.popPose();
+		//poseStack.popPose();
 	}
 
 

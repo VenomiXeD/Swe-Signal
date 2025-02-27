@@ -1,5 +1,7 @@
 package venomized.mc.mods.swsignals.data;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
@@ -17,10 +19,14 @@ public class ModelDataGenerator extends BlockModelProvider {
 	 */
 	@Override
 	protected void registerModels() {
-		this.getBuilder("light").customLoader(ObjModelBuilder::begin)
-				.modelLocation(ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "models/block/light.obj"))
-				.emissiveAmbient(true)
-				.shadeQuads(true)
+		// this.getBuilder("light").customLoader(ObjModelBuilder::begin)
+		// 		.modelLocation(ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "models/block/light.obj"))
+		// 		.emissiveAmbient(true)
+		// 		.shadeQuads(false)
+		// 		.flipV(true)
+		// 		.end();
+		this.getBuilder("sw_5l_signal_post_1970").customLoader(ObjModelBuilder::begin)
+				.modelLocation(ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,"models/block/sw_5l_signal_post_1970.obj"))
 				.end();
 	}
 }
