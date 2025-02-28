@@ -37,7 +37,7 @@ public class SwSignal {
                 CreativeModeTab.builder()
                         .title(Component.literal("Swedish Signals"))
                         .displayItems((parameters,output)->{
-                            output.acceptAll(SwItems.ITEMS.getEntries().stream().map(e->new ItemStack(e.get())).toList());
+                            output.acceptAll(SwItems.ITEMS.getEntries().stream().map(e->new ItemStack(e.get(), 1)).toList());
                         })
                         .build()
             );
