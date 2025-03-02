@@ -19,9 +19,9 @@ import org.apache.logging.log4j.Logger;
 import venomized.mc.mods.swsignals.block.SwBlocks;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.client.ClientEvents;
+import venomized.mc.mods.swsignals.client.ForgeClientEvents;
 import venomized.mc.mods.swsignals.data.BlockStateDataGenerator;
 import venomized.mc.mods.swsignals.data.ItemModelDataGenerator;
-import venomized.mc.mods.swsignals.data.ModelDataGenerator;
 import venomized.mc.mods.swsignals.item.SwItems;
 
 @Mod(SwSignal.MOD_ID)
@@ -29,6 +29,11 @@ public class SwSignal {
     public static final String MOD_ID = "swsignal";
 
     public static final Logger LOGGER = LogManager.getLogger(SwSignal.class);
+
+    private static Networking network;
+    public static Networking network() {
+        return network;
+    }
 
     public static DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SwSignal.MOD_ID);
 
@@ -52,17 +57,22 @@ public class SwSignal {
 
         CREATIVE_TABS.register(eventbus);
 
+        EventHandler eventHandler = new EventHandler();
+        MinecraftForge.EVENT_BUS.register(eventHandler);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            eventbus.register(ClientEvents.class);
+            ClientEvents clientEvents = new ClientEvents();
+            ForgeClientEvents forgeClientEvents = new ForgeClientEvents();
+            eventbus.register(clientEvents);
+            MinecraftForge.EVENT_BUS.register(forgeClientEvents);
         });
 
-
-
+        network = new Networking();
+        network.init();
     }
 
     @SubscribeEvent
     public void onDataGenerator(GatherDataEvent e) {
-        e.getGenerator().addProvider(e.includeClient(), new ModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+        // e.getGenerator().addProvider(e.includeClient(), new ModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
         e.getGenerator().addProvider(true, new BlockStateDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
         e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
     }

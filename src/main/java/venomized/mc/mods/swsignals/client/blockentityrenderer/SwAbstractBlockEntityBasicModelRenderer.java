@@ -3,7 +3,7 @@ package venomized.mc.mods.swsignals.client.blockentityrenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
@@ -13,12 +13,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
-import venomized.mc.mods.swsignals.block.BlockModernTwoLightSignal;
 import venomized.mc.mods.swsignals.block.SwAbstract45DegreeBlock;
-import venomized.mc.mods.swsignals.blockentity.BlockEntityUSign;
+import venomized.mc.mods.swsignals.block.sw.BlockModernTwoLightSignal;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class SwAbstractBlockEntityBasicModelRenderer<T extends BlockEntity> implements BlockEntityRenderer<T> {
+
+	protected ModelBlockRenderer getRenderer() {
+		return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
+	}
 
 	private BakedModel model;
 	protected abstract ResourceLocation modelLoc();
@@ -50,6 +53,5 @@ public abstract class SwAbstractBlockEntityBasicModelRenderer<T extends BlockEnt
 							new AxisAngle4f(pBlockEntity.getBlockState().getValue(BlockModernTwoLightSignal.ORIENTATION)/-4f*Mth.PI,0,1,0)), .5f,0,.5f
 			);
 		}
-		// Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateWithAO(pBlockEntity.getLevel(), getModel(), pBlockEntity.getBlockState(), pBlockEntity.getBlockPos(), pPoseStack, pBuffer.getBuffer(RenderType.solid()), true, pBlockEntity.getLevel().getRandom(), pPackedLight, pPackedOverlay);
 	}
 }
