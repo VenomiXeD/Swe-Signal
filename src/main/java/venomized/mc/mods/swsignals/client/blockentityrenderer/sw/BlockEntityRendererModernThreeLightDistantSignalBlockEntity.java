@@ -10,7 +10,7 @@ import venomized.mc.mods.swsignals.client.blockentityrenderer.SwAbstractBlockEnt
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 public class BlockEntityRendererModernThreeLightDistantSignalBlockEntity extends SwAbstractBlockEntityBasicModelRenderer<BlockEntityThreeLightDistantSignal> {
-	private static final ResourceLocation SIGNAL_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,"block/sw_3l_distant_signal_post_1970");
+	private static final ResourceLocation SIGNAL_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "block/sw_3l_distant_signal_post_1970");
 
 	@Override
 	protected ResourceLocation modelLoc() {
@@ -42,40 +42,39 @@ public class BlockEntityRendererModernThreeLightDistantSignalBlockEntity extends
 		);
 
 		// Center light in proper position
-		pPoseStack.translate(.5f,1/16f,8f/16f);
-		pPoseStack.translate(0f,1.9f/16f,-5.6f/16f);
+		pPoseStack.translate(.5f, 1 / 16f, 8f / 16f);
+		pPoseStack.translate(0f, 1.9f / 16f, -5.6f / 16f);
 
 		SwedishSignalAspect aspect = pBlockEntity.getCurrentDisplayingAspect();
-		pBlockEntity.stepSignalLighting(pPartialTick,aspect, !pBlockEntity.valid() || aspect == null);
+		pBlockEntity.stepSignalLighting(pPartialTick, aspect, !pBlockEntity.valid() || aspect == null);
 
-		pPoseStack.translate(0,6.5/16f*2,0);
-		for (int i = 0;i<3;i++) {
+		pPoseStack.translate(0, 6.5 / 16f * 2, 0);
+		for (int i = 0; i < 3; i++) {
 
 			float r = 0;
 			float g = 0;
 			float b = 0;
 			if (i == 1) {
-				float w = pBlockEntity.lightLevels[i+2];
+				float w = pBlockEntity.lightLevels[i + 2];
 				r = w;
 				g = w;
 				b = w;
-			}
-			else {
-				g = pBlockEntity.lightLevels[i+2];
+			} else {
+				g = pBlockEntity.lightLevels[i + 2];
 			}
 			pPoseStack.pushPose();
-			pPoseStack.scale(1.1f,1.1f,1f);
+			pPoseStack.scale(1.1f, 1.1f, 0f);
 			getRenderer().renderModel(
 					pPoseStack.last(),
 					pBuffer.getBuffer(RenderType.beaconBeam(BlockEntityRendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
 					pBlockEntity.getBlockState(),
 					BlockEntityRendererSignal.signalLightModel(),
-					r,g,b,
+					r, g, b,
 					BlockEntityRendererSignal.FULLBRIGHT,
 					pPackedOverlay
 			);
 			pPoseStack.popPose();
-			pPoseStack.translate(0,-6.5/16f,0);
+			pPoseStack.translate(0, -6.5 / 16f, 0);
 		}
 	}
 }

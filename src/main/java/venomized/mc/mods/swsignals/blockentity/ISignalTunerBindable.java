@@ -5,10 +5,16 @@ import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import java.util.Optional;
 
 public interface ISignalTunerBindable extends IForgeBlockEntity {
-	default void onStartBinding() {};
+	default void onStartBinding() {
+	}
 
-	default boolean isSource() { return true; };
-	default boolean isTarget() { return true; };
+	default boolean isSource() {
+		return true;
+	}
+
+	default boolean isTarget() {
+		return true;
+	}
 
 	/**
 	 * Signal Box A -> Create Signal; Create Signal is the source
@@ -26,7 +32,7 @@ public interface ISignalTunerBindable extends IForgeBlockEntity {
 	 */
 	void onBindToTarget(Optional<ISignalTunerBindable> targetBlockEntity, SignalTunerMode mode);
 
-	public enum SignalTunerMode {
+	enum SignalTunerMode {
 		DISCONNECT_ALL,
 		DISCONNECT,
 		CONNECT,

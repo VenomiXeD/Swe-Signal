@@ -31,7 +31,7 @@ public class EventHandler {
 				UUID backward = SignalUtilities.getGroupForSignalBackwardDirection(firstSignal);
 				// SignalEdgeGroup orDefault = Create.RAILWAYS.signalEdgeGroups.getOrDefault(group, null);
 				// int trainsOnThisBlock = orDefault.trains.size();
-				SignalUtilities.DistantSignalEdgeGroup id = SignalUtilities.recursiveGetDistantSignalEdgeGroup(forward, backward,2);
+				SignalUtilities.DistantSignalEdgeGroup id = SignalUtilities.recursiveGetDistantSignalEdgeGroup(forward, backward, 2);
 				System.out.println(id);
 				if (id != null) {
 					SignalEdgeGroup signalEdgeGroupById = SignalUtilities.getSignalEdgeGroupById(id.distant(), true);
@@ -63,7 +63,7 @@ public class EventHandler {
 
 				// System.out.println("trains count on the coming block: " + trainsOnThisBlock);
 				firstSignal = null;
-				return;/*
+				/*
 				if (secondSignal == null) {
 					System.out.println("Second signal selected");
 					secondSignal = sbe;

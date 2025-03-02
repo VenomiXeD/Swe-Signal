@@ -18,6 +18,7 @@ public class BlockEntityRendererGeneric extends SwAbstractBlockEntityBasicModelR
 	public BlockEntityRendererGeneric(String resourceLoc) {
 		this.MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, resourceLoc);
 	}
+
 	/**
 	 * @return
 	 */

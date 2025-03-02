@@ -28,10 +28,11 @@ import java.util.function.Consumer;
 public class CustomModelBlockItem extends BlockItem {
 	private final ResourceLocation modelLocation;
 	private final int lights;
-	private boolean objModel;
+	private final boolean objModel;
+
 	public CustomModelBlockItem(Block pBlock, Properties pProperties, String modModelLoc, int lightCount, boolean objModel) {
 		super(pBlock, pProperties);
-		this.modelLocation = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,modModelLoc);
+		this.modelLocation = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, modModelLoc);
 		this.lights = lightCount;
 		this.objModel = objModel;
 	}
@@ -67,7 +68,7 @@ public class CustomModelBlockItem extends BlockItem {
 			 */
 			@Override
 			public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-				return new BlockEntityWithoutLevelRenderer(Minecraft.getInstance().getBlockEntityRenderDispatcher(),Minecraft.getInstance().getEntityModels()) {
+				return new BlockEntityWithoutLevelRenderer(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels()) {
 					/**
 					 * @param pStack
 					 * @param pDisplayContext
@@ -87,7 +88,7 @@ public class CustomModelBlockItem extends BlockItem {
 						// );
 						BakedModel signalModel = Minecraft.getInstance().getModelManager().getModel(ResourceLocation.fromNamespaceAndPath("swsignal", "block/sw_5l_signal_post_1970"));
 						if (pDisplayContext != ItemDisplayContext.GUI) {
-							pPoseStack.translate(-.25f,0,-0.25f);
+							pPoseStack.translate(-.25f, 0, -0.25f);
 						}
 
 						pPoseStack.rotateAround(new Quaternionf(new AxisAngle4f(Mth.PI, 0f, 1f, 0f)), 0f, 0f, 0f);

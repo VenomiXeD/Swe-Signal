@@ -13,7 +13,8 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 @OnlyIn(Dist.CLIENT)
 public class BlockEntityRendererEndpointSignal extends SwAbstractBlockEntityBasicModelRenderer<BlockEntityEndpointSignal> {
-	public static final ResourceLocation SIGNAL_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,"block/sw_1l_signal_endpoint_post_1920");
+	public static final ResourceLocation SIGNAL_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "block/sw_1l_signal_endpoint_post_1920");
+
 	/**
 	 * @return
 	 */
@@ -46,11 +47,11 @@ public class BlockEntityRendererEndpointSignal extends SwAbstractBlockEntityBasi
 				pPackedOverlay
 		);
 
-		pPoseStack.translate(.5f,1/16f,8f/16f);
-		pPoseStack.translate(0f,2.9f/16f,-5.6f/16f);
+		pPoseStack.translate(.5f, 1 / 16f, 8f / 16f);
+		pPoseStack.translate(0f, 2.9f / 16f, -5.6f / 16f);
 
 		pPoseStack.pushPose();
-		pPoseStack.scale(1.1f,1.1f,1.1f);
+		pPoseStack.scale(1.1f, 1.1f, 0f);
 
 		SwedishSignalAspect aspect = pBlockEntity.getCurrentDisplayingAspect();
 		pBlockEntity.stepSignalLighting(pPartialTick, aspect, !pBlockEntity.valid());
@@ -58,7 +59,7 @@ public class BlockEntityRendererEndpointSignal extends SwAbstractBlockEntityBasi
 		final float r = pBlockEntity.lightLevels[0];
 		getRenderer().renderModel(
 				pPoseStack.last(),
-				pBuffer.getBuffer(RenderType.beaconBeam(BlockEntityRendererSignal.SIGNAL_LIGHT_TEX_LOC,true)),
+				pBuffer.getBuffer(RenderType.beaconBeam(BlockEntityRendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
 				pBlockEntity.getBlockState(),
 				BlockEntityRendererSignal.signalLightModel(),
 				r, 0, 0,

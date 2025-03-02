@@ -8,6 +8,7 @@ import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityEndpointSignal;
 
 public class BlockModernEndpointSignal extends BlockAbstractSignal {
 	public static final String BLOCK_NAME = "sw_endpoint_signal_modern";
+
 	/**
 	 * @param pPos
 	 * @param pState

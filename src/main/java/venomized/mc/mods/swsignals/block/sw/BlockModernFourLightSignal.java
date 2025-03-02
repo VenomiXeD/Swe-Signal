@@ -8,6 +8,7 @@ import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityFourLightSignal;
 
 public class BlockModernFourLightSignal extends BlockAbstractSignal {
 	public static final String BLOCK_NAME = "signal_4l_modern";
+
 	/**
 	 * @param pPos
 	 * @param pState

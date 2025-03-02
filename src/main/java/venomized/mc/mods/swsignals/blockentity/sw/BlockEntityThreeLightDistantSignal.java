@@ -13,7 +13,9 @@ public class BlockEntityThreeLightDistantSignal extends BlockEntitySignalBlock {
 	@Override
 	public SwedishSignalAspect getCurrentDisplayingAspect() {
 		SwedishSignalAspect aspect = super.getCurrentDisplayingAspect();
-		if (aspect == null) {return null;}
+		if (aspect == null) {
+			return null;
+		}
 		// Remap to distant signal aspects
 		return switch (aspect) {
 			case STOP -> SwedishSignalAspect.PROCEED_80_EXPECT_STOP;

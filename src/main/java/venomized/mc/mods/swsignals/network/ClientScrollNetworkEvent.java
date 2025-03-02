@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  * Packet for handling when client scrolled
  */
 public class ClientScrollNetworkEvent {
-	private boolean up;
+	private final boolean up;
 
 	public ClientScrollNetworkEvent(boolean up) {
 		this.up = up;
@@ -20,10 +20,6 @@ public class ClientScrollNetworkEvent {
 
 	public ClientScrollNetworkEvent(FriendlyByteBuf buf) {
 		this.up = buf.readBoolean();
-	}
-
-	public void encode(FriendlyByteBuf buf) {
-		buf.writeBoolean(up);
 	}
 
 	public static void handle(ClientScrollNetworkEvent event, Supplier<NetworkEvent.Context> ctx) {
@@ -34,5 +30,9 @@ public class ClientScrollNetworkEvent {
 			}
 		});
 		ctx.get().setPacketHandled(true);
+	}
+
+	public void encode(FriendlyByteBuf buf) {
+		buf.writeBoolean(up);
 	}
 }

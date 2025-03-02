@@ -26,54 +26,52 @@ import venomized.mc.mods.swsignals.item.SwItems;
 
 @Mod(SwSignal.MOD_ID)
 public class SwSignal {
-    public static final String MOD_ID = "swsignal";
+	public static final String MOD_ID = "swsignal";
 
-    public static final Logger LOGGER = LogManager.getLogger(SwSignal.class);
+	public static final Logger LOGGER = LogManager.getLogger(SwSignal.class);
+	public static DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SwSignal.MOD_ID);
+	public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("sw_tab",
+			() ->
+					CreativeModeTab.builder()
+							.title(Component.literal("Swedish Signals"))
+							.displayItems((parameters, output) -> {
+								output.acceptAll(SwItems.ITEMS.getEntries().stream().map(e -> new ItemStack(e.get(), 1)).toList());
+							})
+							.build()
+	);
+	private static Networking network;
 
-    private static Networking network;
-    public static Networking network() {
-        return network;
-    }
+	public SwSignal() {
+		IEventBus eventbus = FMLJavaModLoadingContext.get().getModEventBus();
+		MinecraftForge.EVENT_BUS.register(this);
+		eventbus.register(this);
+		SwBlocks.BLOCKS.register(eventbus);
+		SwItems.ITEMS.register(eventbus);
+		SwBlockEntities.BLOCK_ENTITIES.register(eventbus);
 
-    public static DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SwSignal.MOD_ID);
+		CREATIVE_TABS.register(eventbus);
 
-    public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("sw_tab",
-            ()->
-                CreativeModeTab.builder()
-                        .title(Component.literal("Swedish Signals"))
-                        .displayItems((parameters,output)->{
-                            output.acceptAll(SwItems.ITEMS.getEntries().stream().map(e->new ItemStack(e.get(), 1)).toList());
-                        })
-                        .build()
-            );
+		EventHandler eventHandler = new EventHandler();
+		MinecraftForge.EVENT_BUS.register(eventHandler);
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+			ClientEvents clientEvents = new ClientEvents();
+			ForgeClientEvents forgeClientEvents = new ForgeClientEvents();
+			eventbus.register(clientEvents);
+			MinecraftForge.EVENT_BUS.register(forgeClientEvents);
+		});
 
-    public SwSignal() {
-        IEventBus eventbus = FMLJavaModLoadingContext.get().getModEventBus();
-        MinecraftForge.EVENT_BUS.register(this);
-        eventbus.register(this);
-        SwBlocks.BLOCKS.register(eventbus);
-        SwItems.ITEMS.register(eventbus);
-        SwBlockEntities.BLOCK_ENTITIES.register(eventbus);
+		network = new Networking();
+		Networking.init();
+	}
 
-        CREATIVE_TABS.register(eventbus);
+	public static Networking network() {
+		return network;
+	}
 
-        EventHandler eventHandler = new EventHandler();
-        MinecraftForge.EVENT_BUS.register(eventHandler);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            ClientEvents clientEvents = new ClientEvents();
-            ForgeClientEvents forgeClientEvents = new ForgeClientEvents();
-            eventbus.register(clientEvents);
-            MinecraftForge.EVENT_BUS.register(forgeClientEvents);
-        });
-
-        network = new Networking();
-        network.init();
-    }
-
-    @SubscribeEvent
-    public void onDataGenerator(GatherDataEvent e) {
-        // e.getGenerator().addProvider(e.includeClient(), new ModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
-        e.getGenerator().addProvider(true, new BlockStateDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
-        e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
-    }
+	@SubscribeEvent
+	public void onDataGenerator(GatherDataEvent e) {
+		// e.getGenerator().addProvider(e.includeClient(), new ModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+		e.getGenerator().addProvider(true, new BlockStateDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+		e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+	}
 }

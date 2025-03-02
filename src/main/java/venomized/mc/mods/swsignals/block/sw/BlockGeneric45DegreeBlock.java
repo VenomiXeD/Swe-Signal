@@ -10,6 +10,10 @@ import venomized.mc.mods.swsignals.block.SwAbstract45DegreeBlock;
 import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityUSign;
 
 public class BlockGeneric45DegreeBlock extends SwAbstract45DegreeBlock implements EntityBlock {
+	public BlockGeneric45DegreeBlock() {
+		super(Properties.copy(Blocks.IRON_BLOCK).noOcclusion().noCollission());
+	}
+
 	/**
 	 * @param pPos
 	 * @param pState
@@ -18,10 +22,5 @@ public class BlockGeneric45DegreeBlock extends SwAbstract45DegreeBlock implement
 	@Override
 	public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
 		return new BlockEntityUSign(pPos, pState);
-	}
-
-
-	public BlockGeneric45DegreeBlock() {
-		super(Properties.copy(Blocks.IRON_BLOCK).noOcclusion().noCollission());
 	}
 }

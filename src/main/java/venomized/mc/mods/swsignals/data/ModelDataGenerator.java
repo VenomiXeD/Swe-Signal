@@ -24,7 +24,7 @@ public class ModelDataGenerator extends BlockModelProvider {
 		// 		.flipV(true)
 		// 		.end();
 		this.getBuilder("sw_5l_signal_post_1970").customLoader(ObjModelBuilder::begin)
-				.modelLocation(ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,"models/block/sw_5l_signal_post_1970.obj"))
+				.modelLocation(ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "models/block/sw_5l_signal_post_1970.obj"))
 				.end();
 	}
 }

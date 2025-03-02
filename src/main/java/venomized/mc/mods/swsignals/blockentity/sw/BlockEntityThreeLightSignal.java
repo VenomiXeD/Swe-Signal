@@ -8,6 +8,10 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 public class BlockEntityThreeLightSignal extends BlockEntitySignalBlock {
 	public static final String NAME = "be_3l_modern";
 
+	public BlockEntityThreeLightSignal(BlockPos pPos, BlockState pBlockState) {
+		super(SwBlockEntities.BE_THREE_LIGHT_SIGNAL.get(), pPos, pBlockState, 3);
+	}
+
 	@Override
 	public SwedishSignalAspect getCurrentDisplayingAspect() {
 		SwedishSignalAspect displayingAspect = super.getCurrentDisplayingAspect();
@@ -15,9 +19,5 @@ public class BlockEntityThreeLightSignal extends BlockEntitySignalBlock {
 			return SwedishSignalAspect.PROCEED_40_CAUTION;
 		}
 		return displayingAspect;
-	}
-
-	public BlockEntityThreeLightSignal(BlockPos pPos, BlockState pBlockState) {
-		super(SwBlockEntities.BE_THREE_LIGHT_SIGNAL.get(), pPos, pBlockState, 3);
 	}
 }

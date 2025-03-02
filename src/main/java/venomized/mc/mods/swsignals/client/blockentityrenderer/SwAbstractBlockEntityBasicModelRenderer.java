@@ -19,11 +19,16 @@ import venomized.mc.mods.swsignals.block.sw.BlockModernTwoLightSignal;
 @OnlyIn(Dist.CLIENT)
 public abstract class SwAbstractBlockEntityBasicModelRenderer<T extends BlockEntity> implements BlockEntityRenderer<T> {
 
+	private BakedModel model;
+
+	public SwAbstractBlockEntityBasicModelRenderer() {
+
+	}
+
 	protected ModelBlockRenderer getRenderer() {
 		return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
 	}
 
-	private BakedModel model;
 	protected abstract ResourceLocation modelLoc();
 
 	protected BakedModel getModel() {
@@ -34,9 +39,6 @@ public abstract class SwAbstractBlockEntityBasicModelRenderer<T extends BlockEnt
 		return model;
 	}
 
-	public SwAbstractBlockEntityBasicModelRenderer() {
-
-	}
 	/**
 	 * @param pBlockEntity
 	 * @param pPartialTick
@@ -47,10 +49,10 @@ public abstract class SwAbstractBlockEntityBasicModelRenderer<T extends BlockEnt
 	 */
 	@Override
 	public void render(T pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
-		if(pBlockEntity.getBlockState().hasProperty(SwAbstract45DegreeBlock.ORIENTATION)) {
+		if (pBlockEntity.getBlockState().hasProperty(SwAbstract45DegreeBlock.ORIENTATION)) {
 			pPoseStack.rotateAround(
 					new Quaternionf(
-							new AxisAngle4f(pBlockEntity.getBlockState().getValue(BlockModernTwoLightSignal.ORIENTATION)/-4f*Mth.PI,0,1,0)), .5f,0,.5f
+							new AxisAngle4f(pBlockEntity.getBlockState().getValue(BlockModernTwoLightSignal.ORIENTATION) / -4f * Mth.PI, 0, 1, 0)), .5f, 0, .5f
 			);
 		}
 	}

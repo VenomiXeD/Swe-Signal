@@ -33,7 +33,6 @@ public abstract class BlockAbstractSignal extends SwAbstract45DegreeBlock implem
 	public static BooleanProperty MOUNTED = BooleanProperty.create("mounting");
 
 
-
 	public BlockAbstractSignal() {
 		super(Properties.copy(Blocks.IRON_BLOCK).noOcclusion().dynamicShape().pushReaction(PushReaction.DESTROY));
 	}
@@ -134,7 +133,7 @@ public abstract class BlockAbstractSignal extends SwAbstract45DegreeBlock implem
 	@Override
 	public VoxelShape getInteractionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
 		return Shapes.create(
-				AABB.ofSize(pPos.getCenter(),1,2,1)
+				AABB.ofSize(pPos.getCenter(), 1, 2, 1)
 		);
 	}
 }

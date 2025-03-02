@@ -15,6 +15,10 @@ import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignalBox;
 public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {
 	public static final String BLOCK_NAME = "sw_signal_box";
 
+	public BlockSignalBox() {
+		super(Properties.copy(Blocks.IRON_BLOCK));
+	}
+
 	/**
 	 * @param pPos
 	 * @param pState
@@ -35,10 +39,6 @@ public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {
 	@Override
 	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
 		return EntityBlock.super.getTicker(pLevel, pState, pBlockEntityType);
-	}
-
-	public BlockSignalBox() {
-		super(Properties.copy(Blocks.IRON_BLOCK));
 	}
 
 

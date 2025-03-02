@@ -29,6 +29,5 @@ public abstract class MixinCreateTrainSignal implements ISignalTunerBindable {
 	 */
 	@Override
 	public void onBindToTarget(Optional<ISignalTunerBindable> targetBlockEntity, SignalTunerMode mode) {
-		System.out.println("target: " + targetBlockEntity);
 	}
 }

@@ -17,14 +17,14 @@ import org.jetbrains.annotations.Nullable;
 public abstract class SwAbstract45DegreeBlock extends SwAbstractBlock {
 	public static IntegerProperty ORIENTATION = IntegerProperty.create("orientation", 0, 7);
 
+	public SwAbstract45DegreeBlock(BlockBehaviour.Properties properties) {
+		super(properties);
+	}
+
 	public static int get8Direction(float yaw) {
 		yaw += 180;
 		int index = Mth.floor((yaw + 22.5F) / 45.0F) & 7; // Convert to 8 steps
 		return index;
-	}
-
-	public SwAbstract45DegreeBlock(BlockBehaviour.Properties properties) {
-		super(properties);
 	}
 
 	@Override

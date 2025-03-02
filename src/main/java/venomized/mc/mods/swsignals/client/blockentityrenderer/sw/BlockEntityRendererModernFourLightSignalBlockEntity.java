@@ -7,7 +7,8 @@ import venomized.mc.mods.swsignals.SwSignal;
 
 @OnlyIn(Dist.CLIENT)
 public class BlockEntityRendererModernFourLightSignalBlockEntity extends BlockEntityRendererSignal {
-	public static final ResourceLocation SIGNAL_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,"block/sw_4l_signal_post_1970");
+	public static final ResourceLocation SIGNAL_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "block/sw_4l_signal_post_1970");
+
 	/**
 	 * @return
 	 */

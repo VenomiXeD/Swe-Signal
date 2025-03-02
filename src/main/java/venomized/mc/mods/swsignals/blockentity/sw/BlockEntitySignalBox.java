@@ -11,7 +11,6 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 	public static final String NAME = "be_sw_signal_box";
 
-
 	private SwedishSignalAspect cachedAspect;
 
 	public BlockEntitySignalBox(BlockPos pPos, BlockState pBlockState) {

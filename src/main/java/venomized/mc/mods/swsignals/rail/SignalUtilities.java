@@ -83,7 +83,9 @@ public class SignalUtilities {
 
 		return null;
 	}
-	public record DistantSignalEdgeGroup(UUID distant, UUID previous) {}
+
+	public record DistantSignalEdgeGroup(UUID distant, UUID previous) {
+	}
 }
 
 

@@ -6,15 +6,14 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import venomized.mc.mods.swsignals.network.ClientScrollNetworkEvent;
 
 public class Networking {
-	private static int MSG_ID = 0;
 	private static final String NET_VERSION = "1.0";
 	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-			ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,"main"),
+			ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "main"),
 			() -> NET_VERSION,
 			NET_VERSION::equals,
 			NET_VERSION::equals
 	);
-
+	private static int MSG_ID = 0;
 
 	public static void init() {
 		CHANNEL.registerMessage(MSG_ID++,

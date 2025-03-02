@@ -24,13 +24,11 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implements IHaveGoggleInformation, ISignalTunerBindable {
-	private int lightCount;
-
-	private BlockPos signalBoxPosition;
-
-	private int tick;
-
+	private static final String SIGNAL_BOX_POS_TAG = "signalboxpos";
 	public float[] lightLevels;
+	private final int lightCount;
+	private BlockPos signalBoxPosition;
+	private int tick;
 	private int remainingTicksAspectChangeDelay;
 
 	public BlockEntitySignalBlock(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState, int lightCount) {
@@ -41,6 +39,15 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 		}
 	}
 
+	private static void worldTick(BlockEntitySignalBlock pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
+		pBlockEntity.tick = (pBlockEntity.tick + 1) % 20;
+		pBlockEntity.remainingTicksAspectChangeDelay = Math.max(0, pBlockEntity.remainingTicksAspectChangeDelay - 1);
+	}
+
+	public static <T extends BlockEntity> void worldTick(Level level, BlockPos blockPos, BlockState blockState, T t) {
+		worldTick((BlockEntitySignalBlock) t, level, blockPos, blockState);
+	}
+
 	public int getLightCount() {
 		return this.lightCount;
 	}
@@ -48,7 +55,7 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 	public void setTargetedSignalBoxPosition(BlockPos signalBoxPosition) {
 		this.signalBoxPosition = signalBoxPosition;
 		this.setChanged();
-		this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(),2);
+		this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
 	}
 
 	private BlockEntitySignalBox getConnectedSignalBox() {
@@ -79,38 +86,28 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 		return tick > 10;
 	}
 
-	private static void worldTick(BlockEntitySignalBlock pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
-		pBlockEntity.tick = (pBlockEntity.tick + 1) % 20;
-		pBlockEntity.remainingTicksAspectChangeDelay = Math.max(0, pBlockEntity.remainingTicksAspectChangeDelay-1);
-	}
-
-	public static <T extends BlockEntity> void worldTick(Level level, BlockPos blockPos, BlockState blockState, T t) {
-		worldTick((BlockEntitySignalBlock)t, level, blockPos, blockState);
-	}
-
 	public void stepSignalLighting(float partialTick, SwedishSignalAspect aspect, boolean doInvalidBlinking) {
-		if (doInvalidBlinking||aspect==null) {
+		if (doInvalidBlinking || aspect == null) {
 			for (int i = 0; i < this.lightLevels.length; i++) {
 				this.lightLevels[i] = this.blink() ? 1 : 0;
 			}
 			return;
 		}
-		for(int i = 0;i<lightCount;i++) {
+		for (int i = 0; i < lightCount; i++) {
 			char s = aspect.getLightPattern().charAt(i);
-			switch(s) {
+			switch (s) {
 				case 'S':
-					this.lightLevels[i] = Math.min(1,this.lightLevels[i]+(partialTick/10));
+					this.lightLevels[i] = Math.min(1, this.lightLevels[i] + (partialTick / 10));
 					break;
 				case 'F':
 					if (this.blink()) {
-						this.lightLevels[i] = Math.min(1,this.lightLevels[i]+(partialTick/10));
-					}
-					else {
-						this.lightLevels[i] = Math.max(0,this.lightLevels[i]-(partialTick/20));
+						this.lightLevels[i] = Math.min(1, this.lightLevels[i] + (partialTick / 10));
+					} else {
+						this.lightLevels[i] = Math.max(0, this.lightLevels[i] - (partialTick / 20));
 					}
 					break;
 				default:
-					this.lightLevels[i] = Math.max(0, this.lightLevels[i]-(partialTick/10));
+					this.lightLevels[i] = Math.max(0, this.lightLevels[i] - (partialTick / 10));
 			}
 		}
 	}
@@ -145,7 +142,7 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 	 */
 	@Override
 	public AABB getRenderBoundingBox() {
-		return AABB.ofSize(getBlockPos().getCenter(),1,2,1);
+		return AABB.ofSize(getBlockPos().getCenter(), 1, 2, 1);
 	}
 
 	/**
@@ -157,7 +154,7 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 	 */
 	@Override
 	public void onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
-		sourceBlockEntity.ifPresent(e->{
+		sourceBlockEntity.ifPresent(e -> {
 			if (e instanceof BlockEntitySignalBox sb) {
 				this.setTargetedSignalBoxPosition(sb.getBlockPos());
 			}
@@ -180,8 +177,6 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 		return false;
 	}
 
-
-	private static final String SIGNAL_BOX_POS_TAG = "signalboxpos";
 	@Override
 	public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
 		return ClientboundBlockEntityDataPacket.create(this);
@@ -195,7 +190,7 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 	public CompoundTag getUpdateTag() {
 		CompoundTag syncTag = super.getUpdateTag();
 		if (signalBoxPosition != null) {
-			syncTag.put(SIGNAL_BOX_POS_TAG,NbtUtils.writeBlockPos(signalBoxPosition));
+			syncTag.put(SIGNAL_BOX_POS_TAG, NbtUtils.writeBlockPos(signalBoxPosition));
 		}
 		return syncTag;
 	}
@@ -225,17 +220,16 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 	 */
 	@Override
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		if(pkt.getTag()!= null) {
+		if (pkt.getTag() != null) {
 			this.signalBoxPosition = NbtUtils.readBlockPos(pkt.getTag().getCompound(SIGNAL_BOX_POS_TAG));
 		}
 	}
 
 
-
 	@Override
 	public void load(CompoundTag pTag) {
 		super.load(pTag);
-		if(pTag.contains(SIGNAL_BOX_POS_TAG)) {
+		if (pTag.contains(SIGNAL_BOX_POS_TAG)) {
 			this.signalBoxPosition = NbtUtils.readBlockPos(pTag.getCompound(SIGNAL_BOX_POS_TAG));
 		}
 	}

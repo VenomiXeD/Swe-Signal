@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -16,6 +17,10 @@ import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
 import java.util.Optional;
 
 public class ItemSignalTuner extends Item implements IScrollableItem {
+	public ItemSignalTuner() {
+		super(new Properties());
+	}
+
 	/**
 	 * @param itemStack
 	 * @param up
@@ -32,7 +37,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 			currentScroll = ISignalTunerBindable.SignalTunerMode.values()[tag.getInt("mode")];
 		}
 		tag.putInt("mode",
-			Math.max(ISignalTunerBindable.SignalTunerMode.values().length-1, Math.min(0, currentScroll.ordinal() + (up ? 1 : -1)))
+				Math.max(ISignalTunerBindable.SignalTunerMode.values().length - 1, Math.min(0, currentScroll.ordinal() + (up ? 1 : -1)))
 		);
 		player.displayClientMessage(Component.literal("Mode: %d".formatted(currentScroll)).setStyle(
 						Style.EMPTY.withColor(ChatFormatting.GOLD)),
@@ -45,10 +50,6 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 		// );
 	}
 
-	public ItemSignalTuner() {
-		super(new Properties());
-	}
-
 	/**
 	 * Called when this item is used when targeting a Block
 	 *
@@ -57,6 +58,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 	@Override
 	public InteractionResult useOn(UseOnContext pContext) {
 		if (pContext.getLevel().isClientSide()) {
+			pContext.getPlayer().openMenu(new MenuType<>());
 			return InteractionResult.SUCCESS;
 		}
 
@@ -92,8 +94,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 				Optional<ISignalTunerBindable> target;
 				if (targetBlockEntity instanceof ISignalTunerBindable) {
 					target = Optional.of((ISignalTunerBindable) targetBlockEntity);
-				}
-				else {
+				} else {
 					target = Optional.empty();
 				}
 

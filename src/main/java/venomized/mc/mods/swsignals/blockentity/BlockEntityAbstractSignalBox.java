@@ -76,7 +76,7 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	public void load(CompoundTag pTag) {
 		super.load(pTag);
 		if (pTag.contains("create_signal_source")) {
-			this.createSignalBlockEntityPosition  = NbtUtils.readBlockPos(pTag.getCompound("create_signal_source"));
+			this.createSignalBlockEntityPosition = NbtUtils.readBlockPos(pTag.getCompound("create_signal_source"));
 		}
 		if (pTag.contains("source_signalbox_source")) {
 			sourceSignalBox = NbtUtils.readBlockPos(pTag.getCompound("source_signalbox_source"));
@@ -109,7 +109,7 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	@Override
 	public void handleUpdateTag(CompoundTag pTag) {
 		if (pTag.contains("create_signal_source")) {
-			this.createSignalBlockEntityPosition  = NbtUtils.readBlockPos(pTag.getCompound("create_signal_source"));
+			this.createSignalBlockEntityPosition = NbtUtils.readBlockPos(pTag.getCompound("create_signal_source"));
 		}
 		if (pTag.contains("source_signalbox_source")) {
 			sourceSignalBox = NbtUtils.readBlockPos(pTag.getCompound("source_signalbox_source"));
@@ -125,7 +125,7 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	 */
 	@Override
 	public void onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
-		sourceBlockEntity.ifPresent(e->{
+		sourceBlockEntity.ifPresent(e -> {
 			if (e instanceof SignalBlockEntity sbe) {
 				this.setCreateSignalSource(sbe.getBlockPos());
 				System.out.println("Binded to SignalBlockEntity " + sbe);
