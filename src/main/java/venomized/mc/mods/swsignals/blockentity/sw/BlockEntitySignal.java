@@ -1,6 +1,7 @@
 package venomized.mc.mods.swsignals.blockentity.sw;
 
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.foundation.utility.Lang;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -23,15 +24,15 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implements IHaveGoggleInformation, ISignalTunerBindable {
-	private static final String SIGNAL_BOX_POS_TAG = "signalboxpos";
+public abstract class BlockEntitySignal extends SwBlockEntityBase implements IHaveGoggleInformation, ISignalTunerBindable {
+	private static final String SIGNAL_BOX_POS_TAG = "signal_box_pos";
 	public float[] lightLevels;
 	private final int lightCount;
 	private BlockPos signalBoxPosition;
 	private int tick;
 	private int remainingTicksAspectChangeDelay;
 
-	public BlockEntitySignalBlock(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState, int lightCount) {
+	public BlockEntitySignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState, int lightCount) {
 		super(t, pPos, pBlockState);
 		this.lightCount = lightCount;
 		if (lightCount != -1) {
@@ -39,13 +40,13 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 		}
 	}
 
-	private static void worldTick(BlockEntitySignalBlock pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
+	private static void worldTick(BlockEntitySignal pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
 		pBlockEntity.tick = (pBlockEntity.tick + 1) % 20;
 		pBlockEntity.remainingTicksAspectChangeDelay = Math.max(0, pBlockEntity.remainingTicksAspectChangeDelay - 1);
 	}
 
 	public static <T extends BlockEntity> void worldTick(Level level, BlockPos blockPos, BlockState blockState, T t) {
-		worldTick((BlockEntitySignalBlock) t, level, blockPos, blockState);
+		worldTick((BlockEntitySignal) t, level, blockPos, blockState);
 	}
 
 	public int getLightCount() {
@@ -55,7 +56,7 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 	public void setTargetedSignalBoxPosition(BlockPos signalBoxPosition) {
 		this.signalBoxPosition = signalBoxPosition;
 		this.setChanged();
-		this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
+		this.updateSelf();
 	}
 
 	private BlockEntitySignalBox getConnectedSignalBox() {
@@ -78,6 +79,14 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 		return connectedSignalBox.getCurrentAspect();
 	}
 
+	public SignalBlockEntity.SignalState getCurrentDisplayingState() {
+		BlockEntitySignalBox connectedSignalBox = this.getConnectedSignalBox();
+		if (connectedSignalBox == null) {
+			return SignalBlockEntity.SignalState.INVALID;
+		}
+		return connectedSignalBox.getCreateSignalState();
+	}
+
 	public boolean valid() {
 		return this.getConnectedSignalBox() != null;
 	}
@@ -86,7 +95,7 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase implement
 		return tick > 10;
 	}
 
-	public void stepSignalLighting(float partialTick, SwedishSignalAspect aspect, boolean doInvalidBlinking) {
+	public void stepSignalLighting(float partialTick, SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
 		if (doInvalidBlinking || aspect == null) {
 			for (int i = 0; i < this.lightLevels.length; i++) {
 				this.lightLevels[i] = this.blink() ? 1 : 0;

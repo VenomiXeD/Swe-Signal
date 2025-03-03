@@ -9,8 +9,6 @@ import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntityBase;
 
 public class BlockEntityUSign extends SwBlockEntityBase implements IHaveGoggleInformation {
-	private TrackTargetingBehaviour<SignalBoundary> edgePoint;
-
 	/**
 	 * @param pPos
 	 * @param pBlockState

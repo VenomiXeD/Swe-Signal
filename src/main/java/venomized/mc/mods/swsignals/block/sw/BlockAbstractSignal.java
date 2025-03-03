@@ -27,7 +27,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.block.SwAbstract45DegreeBlock;
-import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignalBlock;
+import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignal;
 
 public abstract class BlockAbstractSignal extends SwAbstract45DegreeBlock implements EntityBlock {
 	public static BooleanProperty MOUNTED = BooleanProperty.create("mounting");
@@ -91,7 +91,7 @@ public abstract class BlockAbstractSignal extends SwAbstract45DegreeBlock implem
 	 */
 	@Override
 	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-		return BlockEntitySignalBlock::worldTick;
+		return BlockEntitySignal::worldTick;
 	}
 
 	/**

@@ -6,7 +6,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.SwSignal;
 
 @OnlyIn(Dist.CLIENT)
-public class BlockEntityRendererModernFiveLightSignalBlockEntity extends BlockEntityRendererSignal {
+public class BlockEntityRendererModernFiveLightSignal extends BlockEntityRendererSignal {
 	public static final ResourceLocation SIGNAL_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "block/sw_5l_signal_post_1970");
 
 	/**

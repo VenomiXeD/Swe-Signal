@@ -44,6 +44,8 @@ public abstract class SwAbstract45DegreeBlock extends SwAbstractBlock {
 				.setValue(ORIENTATION, orientation);
 	}
 
+
+
 	/**
 	 * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
 	 * LIQUID for vanilla liquids, INVISIBLE to skip all rendering

@@ -1,5 +1,6 @@
 package venomized.mc.mods.swsignals;
 
+import com.tterrag.registrate.Registrate;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -22,11 +23,14 @@ import venomized.mc.mods.swsignals.client.ClientEvents;
 import venomized.mc.mods.swsignals.client.ForgeClientEvents;
 import venomized.mc.mods.swsignals.data.BlockStateDataGenerator;
 import venomized.mc.mods.swsignals.data.ItemModelDataGenerator;
+import venomized.mc.mods.swsignals.data.SoundEventDataGenerator;
 import venomized.mc.mods.swsignals.item.SwItems;
 
 @Mod(SwSignal.MOD_ID)
 public class SwSignal {
 	public static final String MOD_ID = "swsignal";
+
+	public static Registrate register = Registrate.create(MOD_ID);
 
 	public static final Logger LOGGER = LogManager.getLogger(SwSignal.class);
 	public static DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SwSignal.MOD_ID);
@@ -48,6 +52,8 @@ public class SwSignal {
 		SwBlocks.BLOCKS.register(eventbus);
 		SwItems.ITEMS.register(eventbus);
 		SwBlockEntities.BLOCK_ENTITIES.register(eventbus);
+
+		AllSounds.SOUNDS.register(eventbus);
 
 		CREATIVE_TABS.register(eventbus);
 
@@ -71,7 +77,8 @@ public class SwSignal {
 	@SubscribeEvent
 	public void onDataGenerator(GatherDataEvent e) {
 		// e.getGenerator().addProvider(e.includeClient(), new ModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
-		e.getGenerator().addProvider(true, new BlockStateDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
-		e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+		// e.getGenerator().addProvider(true, new BlockStateDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+		// e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+		e.getGenerator().addProvider(true, new SoundEventDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
 	}
 }

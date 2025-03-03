@@ -58,7 +58,6 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 	@Override
 	public InteractionResult useOn(UseOnContext pContext) {
 		if (pContext.getLevel().isClientSide()) {
-			pContext.getPlayer().openMenu(new MenuType<>());
 			return InteractionResult.SUCCESS;
 		}
 

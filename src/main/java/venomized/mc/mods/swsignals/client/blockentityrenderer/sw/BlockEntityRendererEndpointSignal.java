@@ -8,11 +8,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityEndpointSignal;
-import venomized.mc.mods.swsignals.client.blockentityrenderer.SwAbstractBlockEntityBasicModelRenderer;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 @OnlyIn(Dist.CLIENT)
-public class BlockEntityRendererEndpointSignal extends SwAbstractBlockEntityBasicModelRenderer<BlockEntityEndpointSignal> {
+public class BlockEntityRendererEndpointSignal extends BlockEntityRendererBase<BlockEntityEndpointSignal> {
 	public static final ResourceLocation SIGNAL_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "block/sw_1l_signal_endpoint_post_1920");
 
 	/**
@@ -54,7 +54,7 @@ public class BlockEntityRendererEndpointSignal extends SwAbstractBlockEntityBasi
 		pPoseStack.scale(1.1f, 1.1f, 0f);
 
 		SwedishSignalAspect aspect = pBlockEntity.getCurrentDisplayingAspect();
-		pBlockEntity.stepSignalLighting(pPartialTick, aspect, !pBlockEntity.valid());
+		pBlockEntity.stepSignalLighting(pPartialTick, aspect, pBlockEntity.getCurrentDisplayingState(), !pBlockEntity.valid());
 
 		final float r = pBlockEntity.lightLevels[0];
 		getRenderer().renderModel(

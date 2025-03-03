@@ -11,11 +11,22 @@ import venomized.mc.mods.swsignals.blockentity.sw.*;
 public final class SwBlockEntities {
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, SwSignal.MOD_ID);
 
+
+
+	public static final RegistryObject<BlockEntityType<BlockEntityRailroadCrossingController>> BE_RAILROAD_CROSSING_CONTROLLER =
+			BLOCK_ENTITIES.register("be_railroad_crossing_controller", () -> BlockEntityType.Builder.of(BlockEntityRailroadCrossingController::new,
+							SwBlocks.BLOCK_RAILROAD_CROSSING_CONTROLLER.get()
+					).build(null)
+			);
+
+	// #region SWEDISH CONTENT
 	public static final RegistryObject<BlockEntityType<BlockEntitySignalBox>> BE_SW_SIGNAL_BOX = BLOCK_ENTITIES.register(
 			BlockEntitySignalBox.NAME, () -> BlockEntityType.Builder.of(BlockEntitySignalBox::new,
 					SwBlocks.BLOCK_SW_SIGNAL_BOX.get()
 			).build(null)
 	);
+
+	// == SIGNALS FROM 2-5 LIGHTS ==
 	public static final RegistryObject<BlockEntityType<BlockEntityTwoLightSignal>> BE_TWO_LIGHT_SIGNAL =
 			BLOCK_ENTITIES.register(BlockEntityTwoLightSignal.NAME, () -> BlockEntityType.Builder.of(BlockEntityTwoLightSignal::new,
 							SwBlocks.BLOCK_TWO_LIGHT_SIGNAL.get()
@@ -40,11 +51,23 @@ public final class SwBlockEntities {
 					).build(null)
 			);
 
+	// == DISTANT SIGNALS ==
+
 	public static final RegistryObject<BlockEntityType<BlockEntityThreeLightDistantSignal>> BE_THREE_LIGHT_DISTANT_SIGNAL =
 			BLOCK_ENTITIES.register("be_sw_3l_distant_signal", () -> BlockEntityType.Builder.of(BlockEntityThreeLightDistantSignal::new,
 							SwBlocks.BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL.get()
 					).build(null)
 			);
+
+	// == DWARF SIGNALS ==
+
+	public static final RegistryObject<BlockEntityType<BlockEntityDwarfSignal>> BE_DWARF_SIGNAL =
+			BLOCK_ENTITIES.register("be_sw_dwarf_signal_modern", () -> BlockEntityType.Builder.of(BlockEntityDwarfSignal::new,
+							SwBlocks.BLOCK_MODERN_DWARF_SIGNAL.get()
+					).build(null)
+			);
+
+	// == MISC SIGNALS ==
 
 	public static final RegistryObject<BlockEntityType<BlockEntityEndpointSignal>> BE_ENDPOINT_SIGNAL =
 			BLOCK_ENTITIES.register(BlockEntityEndpointSignal.NAME, () -> BlockEntityType.Builder.of(BlockEntityEndpointSignal::new,
@@ -58,5 +81,12 @@ public final class SwBlockEntities {
 					).build(null)
 			);
 
+	// == RAILROAD CROSSING SIGNALS ==
 
+	public static final RegistryObject<BlockEntityType<BlockEntityRailroadCrossingSignal>> BE_RAILROAD_SIGNAL =
+			BLOCK_ENTITIES.register("be_railroad_crossing_signal", () -> BlockEntityType.Builder.of(BlockEntityRailroadCrossingSignal::new,
+							SwBlocks.BLOCK_RAILROAD_SIGNAL.get()
+					).build(null)
+			);
+	// #endregion SWEDISH CONTENT
 }

@@ -2,7 +2,6 @@ package venomized.mc.mods.swsignals.blockentity.sw;
 
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityAbstractSignalBox;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
@@ -17,34 +16,38 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 		super(SwBlockEntities.BE_SW_SIGNAL_BOX.get(), pPos, pBlockState);
 	}
 
-	public SignalBlockEntity getCreateSignalBlockEntity() {
-		if (createSignalBlockEntityPosition == null) {
-			return null;
-		}
-		BlockEntity blockEntity = this.getLevel().getBlockEntity(createSignalBlockEntityPosition);
-		if (blockEntity instanceof SignalBlockEntity) {
-			return (SignalBlockEntity) blockEntity;
-		}
-		return null;
-	}
-
 	public SwedishSignalAspect getCurrentAspect() {
 		SwedishSignalAspect result;
 
-		SignalBlockEntity b = this.getCreateSignalBlockEntity();
-		if (b == null) {
-			return null;
-		} else if (b.getSignal() == null) {
+		SignalBlockEntity.SignalState state = this.getCreateSignalState();
+
+		if (state == null) {
 			return cachedAspect;
 		}
 
-		SignalBlockEntity.SignalState state = b.getState();
 		result = switch (state) {
 			case GREEN -> SwedishSignalAspect.PROCEED_80;
-			case RED -> SwedishSignalAspect.STOP;
 			case YELLOW -> SwedishSignalAspect.PROCEED_40_CAUTION;
-			case INVALID -> null;
+			case RED, INVALID -> SwedishSignalAspect.STOP;
 		};
+		this.cachedAspect = result;
+		if (result == SwedishSignalAspect.STOP) {
+			return result;
+		}
+
+		// Determine the aspect from the next coming signal
+		if (this.getSignalBoxBlockEntity() instanceof BlockEntitySignalBox sb) {
+			result = sb.getCurrentAspect();
+			if (result != null) {
+				result = switch (result) {
+					case STOP -> SwedishSignalAspect.PROCEED_40_CAUTION;
+					case PROCEED_40_CAUTION -> SwedishSignalAspect.PROCEED_80;
+					case PROCEED_80 -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_80;
+					case PROCEED_80_EXPECT_PROCEED_80 -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;
+					default -> result;
+				};
+			}
+		}
 
 		this.cachedAspect = result;
 		return result;

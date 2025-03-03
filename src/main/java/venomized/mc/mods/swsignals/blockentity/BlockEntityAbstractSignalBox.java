@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignalBox;
 
 import java.util.Optional;
 
@@ -36,6 +37,39 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 
 	public BlockEntityAbstractSignalBox(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
 		super(pType, pPos, pBlockState);
+	}
+
+	public SignalBlockEntity.SignalState getCreateSignalState() {
+		if (createSignalBlockEntityPosition == null) {
+			return SignalBlockEntity.SignalState.INVALID;
+		}
+		SignalBlockEntity.SignalState s = this.getCreateSignalBlockEntity().getState();
+		if (s == null) {
+			return SignalBlockEntity.SignalState.INVALID;
+		}
+		return s;
+	}
+
+	public SignalBlockEntity getCreateSignalBlockEntity() {
+		if (createSignalBlockEntityPosition == null) {
+			return null;
+		}
+		BlockEntity blockEntity = this.getLevel().getBlockEntity(createSignalBlockEntityPosition);
+		if (blockEntity instanceof SignalBlockEntity sbe) {
+			return sbe;
+		}
+		return null;
+	}
+
+	public BlockEntityAbstractSignalBox getSignalBoxBlockEntity() {
+		if (this.sourceSignalBox == null) {
+			return null;
+		}
+		BlockEntity blockEntity = this.getLevel().getBlockEntity(sourceSignalBox);
+		if (blockEntity instanceof BlockEntityAbstractSignalBox sb) {
+			return sb;
+		}
+		return null;
 	}
 
 	public void setCreateSignalSource(BlockPos createSignalPos) {
@@ -125,10 +159,17 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	 */
 	@Override
 	public void onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+		if (mode == SignalTunerMode.DISCONNECT_ALL) {
+			setSignalBoxSource(null);
+			setCreateSignalSource(null);
+			return;
+		}
 		sourceBlockEntity.ifPresent(e -> {
 			if (e instanceof SignalBlockEntity sbe) {
 				this.setCreateSignalSource(sbe.getBlockPos());
-				System.out.println("Binded to SignalBlockEntity " + sbe);
+			}
+			if (e instanceof BlockEntitySignalBox sb) {
+				this.setSignalBoxSource(sb.getBlockPos());
 			}
 		});
 	}
@@ -144,6 +185,4 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	public void onBindToTarget(Optional<ISignalTunerBindable> targetBlockEntity, SignalTunerMode mode) {
 
 	}
-
-
 }

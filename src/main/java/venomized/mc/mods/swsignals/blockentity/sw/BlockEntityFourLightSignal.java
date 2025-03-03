@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 
-public class BlockEntityFourLightSignal extends BlockEntitySignalBlock {
+public class BlockEntityFourLightSignal extends BlockEntitySignal {
 	public static final String NAME = "be_4l_modern";
 
 	public BlockEntityFourLightSignal(BlockPos pPos, BlockState pBlockState) {

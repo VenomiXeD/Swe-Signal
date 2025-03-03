@@ -9,10 +9,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityUSign;
-import venomized.mc.mods.swsignals.client.blockentityrenderer.SwAbstractBlockEntityBasicModelRenderer;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 
 @OnlyIn(Dist.CLIENT)
-public class BlockEntityRendererGeneric extends SwAbstractBlockEntityBasicModelRenderer<BlockEntityUSign> {
+public class BlockEntityRendererGeneric extends BlockEntityRendererBase<BlockEntityUSign> {
 	public final ResourceLocation MODEL_LOC;
 
 	public BlockEntityRendererGeneric(String resourceLoc) {

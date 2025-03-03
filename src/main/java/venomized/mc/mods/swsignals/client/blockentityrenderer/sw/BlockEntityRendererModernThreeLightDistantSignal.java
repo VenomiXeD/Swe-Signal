@@ -6,10 +6,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityThreeLightDistantSignal;
-import venomized.mc.mods.swsignals.client.blockentityrenderer.SwAbstractBlockEntityBasicModelRenderer;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
-public class BlockEntityRendererModernThreeLightDistantSignalBlockEntity extends SwAbstractBlockEntityBasicModelRenderer<BlockEntityThreeLightDistantSignal> {
+public class BlockEntityRendererModernThreeLightDistantSignal extends BlockEntityRendererBase<BlockEntityThreeLightDistantSignal> {
 	private static final ResourceLocation SIGNAL_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "block/sw_3l_distant_signal_post_1970");
 
 	@Override
@@ -46,7 +46,7 @@ public class BlockEntityRendererModernThreeLightDistantSignalBlockEntity extends
 		pPoseStack.translate(0f, 1.9f / 16f, -5.6f / 16f);
 
 		SwedishSignalAspect aspect = pBlockEntity.getCurrentDisplayingAspect();
-		pBlockEntity.stepSignalLighting(pPartialTick, aspect, !pBlockEntity.valid() || aspect == null);
+		pBlockEntity.stepSignalLighting(pPartialTick, aspect, pBlockEntity.getCurrentDisplayingState(), !pBlockEntity.valid() || aspect == null);
 
 		pPoseStack.translate(0, 6.5 / 16f * 2, 0);
 		for (int i = 0; i < 3; i++) {

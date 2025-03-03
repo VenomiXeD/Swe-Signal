@@ -11,12 +11,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.sw.BlockAbstractSignal;
-import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignalBlock;
-import venomized.mc.mods.swsignals.client.blockentityrenderer.SwAbstractBlockEntityBasicModelRenderer;
+import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignal;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class BlockEntityRendererSignal<T extends BlockEntitySignalBlock> extends SwAbstractBlockEntityBasicModelRenderer<T> {
+public abstract class BlockEntityRendererSignal<T extends BlockEntitySignal> extends BlockEntityRendererBase<T> {
 	protected static final int FULLBRIGHT = 0xFFFFFF;
 	public static ResourceLocation SIGNAL_LIGHT_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "block/light");
 	public static ResourceLocation SIGNAL_LIGHT_TEX_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "textures/block/light.png");
@@ -90,7 +90,7 @@ public abstract class BlockEntityRendererSignal<T extends BlockEntitySignalBlock
 		poseStack.translate(0, 2.9 / 16d, -5.6d / 16d);
 // SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;//
 		SwedishSignalAspect aspect = t.getCurrentDisplayingAspect();
-		t.stepSignalLighting(partialTick, aspect, !t.valid() || aspect == null);
+		t.stepSignalLighting(partialTick, aspect, t.getCurrentDisplayingState(), !t.valid() || aspect == null);
 
 		poseStack.translate(0, 0.5d * (lightCount - 1), 0);
 

@@ -13,15 +13,19 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
+import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.SwAbstract45DegreeBlock;
 import venomized.mc.mods.swsignals.block.sw.BlockModernTwoLightSignal;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class SwAbstractBlockEntityBasicModelRenderer<T extends BlockEntity> implements BlockEntityRenderer<T> {
+public abstract class BlockEntityRendererBase<T extends BlockEntity> implements BlockEntityRenderer<T> {
+	protected ResourceLocation modLoc(String p) {
+		return ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,p);
+	}
 
 	private BakedModel model;
 
-	public SwAbstractBlockEntityBasicModelRenderer() {
+	public BlockEntityRendererBase() {
 
 	}
 
