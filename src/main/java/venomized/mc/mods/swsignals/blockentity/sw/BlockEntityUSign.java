@@ -1,6 +1,6 @@
 package venomized.mc.mods.swsignals.blockentity.sw;
 
-import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import net.minecraft.core.BlockPos;
