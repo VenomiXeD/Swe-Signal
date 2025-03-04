@@ -9,8 +9,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
+@OnlyIn(Dist.CLIENT)
 public class ScreenTest extends AbstractContainerScreen<MenuTest> {
 	private EditBox editBox;
 

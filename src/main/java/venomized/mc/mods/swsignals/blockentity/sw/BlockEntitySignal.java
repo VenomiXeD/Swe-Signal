@@ -24,13 +24,15 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BlockEntitySignalBlock extends SwBlockEntityBase
+public abstract class BlockEntitySignal extends SwBlockEntityBase
 		implements IHaveGoggleInformation, ISignalTunerBindable {
 	private int lightCount;
 
 	private BlockPos signalBoxPosition;
 	private int tick;
 	private int remainingTicksAspectChangeDelay;
+
+	public float[] lightLevels;
 
 	public BlockEntitySignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState, int lightCount) {
 		super(t, pPos, pBlockState);
@@ -191,7 +193,7 @@ public abstract class BlockEntitySignalBlock extends SwBlockEntityBase
 		return false;
 	}
 
-	private static final String SIGNAL_BOX_POS_TAG = "signalboxpos";
+	private static final String SIGNAL_BOX_POS_TAG = "signal_box_pos";
 
 	@Override
 	public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
