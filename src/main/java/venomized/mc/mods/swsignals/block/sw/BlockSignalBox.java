@@ -63,17 +63,18 @@ public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {
 	 */
 	@Override
 	public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-		if (pLevel.isClientSide()) {
-			return InteractionResult.SUCCESS;
-		};
+		// if (pLevel.isClientSide()) {
+		// 	return InteractionResult.SUCCESS;
+		// };
 
-		if(pPlayer.getItemInHand(pHand).isEmpty()) {
-			NetworkHooks.openScreen((ServerPlayer) pPlayer, pState.getMenuProvider(pLevel, pPos), (data)->
-					data.writeUtf("Hello world!")
-			);
-		}
+		// if(pPlayer.getItemInHand(pHand).isEmpty()) {
+		// 	NetworkHooks.openScreen((ServerPlayer) pPlayer, pState.getMenuProvider(pLevel, pPos), (data)->
+		// 			data.writeUtf("Hello world!")
+		// 	);
+		// }
 
-		return InteractionResult.sidedSuccess(pLevel.isClientSide());
+		// return InteractionResult.sidedSuccess(pLevel.isClientSide());
+		return InteractionResult.SUCCESS;
 	}
 
 	/**

@@ -50,6 +50,8 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 		// );
 	}
 
+	int testMode = 0;
+
 	/**
 	 * Called when this item is used when targeting a Block
 	 *
@@ -61,7 +63,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 			return InteractionResult.SUCCESS;
 		}
 
-		System.out.println("useOn");
+		System.out.println("useOn, mode: " + testMode);
 
 		ISignalTunerBindable.SignalTunerMode mode = ISignalTunerBindable.SignalTunerMode.CONNECT;
 		CompoundTag tag = pContext.getItemInHand().getOrCreateTag();
@@ -77,6 +79,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 			
 			// We don't have one so we store the TARGET position
 			if (!tag.contains("bind_location_start")) {
+				testMode = 1;
 				System.out.println("Bind If Case");
 
 				if (!currentTarget.isTarget()) {
@@ -94,6 +97,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 
 				return InteractionResult.SUCCESS;
 			} else {
+				testMode = 2;
 				System.out.println("Bind Else Case");
 
 				BlockEntity targetBlockEntity = pContext.getLevel().getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("bind_location_start")));
