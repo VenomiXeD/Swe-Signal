@@ -26,7 +26,6 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	 * Detailed state reader (repeat aspects etc);
 	 * May be null
 	 */
-
 	@Nullable
 	protected BlockPos sourceSignalBox;
 
@@ -34,10 +33,10 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	 * @param pPos
 	 * @param pBlockState
 	 */
-
 	public BlockEntityAbstractSignalBox(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
 		super(pType, pPos, pBlockState);
 	}
+
 
 	public SignalBlockEntity.SignalState getCreateSignalState() {
 		if (createSignalBlockEntityPosition == null) {
@@ -50,6 +49,7 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		return s;
 	}
 
+
 	public SignalBlockEntity getCreateSignalBlockEntity() {
 		if (createSignalBlockEntityPosition == null) {
 			return null;
@@ -60,6 +60,7 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		}
 		return null;
 	}
+
 
 	public BlockEntityAbstractSignalBox getSignalBoxBlockEntity() {
 		if (this.sourceSignalBox == null) {
@@ -72,16 +73,19 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		return null;
 	}
 
+
 	public void setCreateSignalSource(BlockPos createSignalPos) {
 		this.createSignalBlockEntityPosition = createSignalPos;
 		this.updateSelf();
 	}
+
 
 	public void setSignalBoxSource(BlockPos sourceSignalBoxPos) {
 		this.sourceSignalBox = sourceSignalBoxPos;
 		this.updateSelf();
 	}
 
+	
 	@Override
 	public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
 		return ClientboundBlockEntityDataPacket.create(this);
