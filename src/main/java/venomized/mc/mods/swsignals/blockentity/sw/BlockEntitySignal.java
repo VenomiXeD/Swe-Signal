@@ -24,10 +24,10 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BlockEntitySignal extends SwBlockEntityBase implements IHaveGoggleInformation, ISignalTunerBindable {
-	private static final String SIGNAL_BOX_POS_TAG = "signal_box_pos";
-	public float[] lightLevels;
-	private final int lightCount;
+public abstract class BlockEntitySignalBlock extends SwBlockEntityBase
+		implements IHaveGoggleInformation, ISignalTunerBindable {
+	private int lightCount;
+
 	private BlockPos signalBoxPosition;
 	private int tick;
 	private int remainingTicksAspectChangeDelay;
@@ -122,29 +122,34 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase implements IHa
 	}
 
 	/**
-	 * this method will be called when looking at a BlockEntity that implemented this
+	 * this method will be called when looking at a BlockEntity that implemented
+	 * this
 	 * interface
 	 *
 	 * @param tooltip
 	 * @param isPlayerSneaking
 	 * @return {@code true} if the tooltip creation was successful and should be
-	 * displayed, or {@code false} if the overlay should not be displayed
+	 *         displayed, or {@code false} if the overlay should not be displayed
 	 */
 	@Override
 	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
 		Lang.builder().add(Component.literal("WIP")).forGoggles(tooltip);
 		// SwedishSignalAspect signalAspect = this.getCurrentAspect();
 		// if (signalAspect != null && this.valid()) {
-		// 	Lang.builder().add(Component.translatable(signalAspect.getDescription())).forGoggles(tooltip);
-		// 	return true;
+		// Lang.builder().add(Component.translatable(signalAspect.getDescription())).forGoggles(tooltip);
+		// return true;
 		// }
 		// return false;
 		return true;
 	}
 
 	/**
-	 * Return an {@link AABB} that controls the visible scope of a {@link BlockEntityWithoutLevelRenderer} associated with this {@link BlockEntity}
-	 * Defaults to the collision bounding box {@link BlockState#getCollisionShape(BlockGetter, BlockPos)} associated with the block
+	 * Return an {@link AABB} that controls the visible scope of a
+	 * {@link BlockEntityWithoutLevelRenderer} associated with this
+	 * {@link BlockEntity}
+	 * Defaults to the collision bounding box
+	 * {@link BlockState#getCollisionShape(BlockGetter, BlockPos)} associated with
+	 * the block
 	 * at this location.
 	 *
 	 * @return an appropriately size {@link AABB} for the {@link BlockEntity}
@@ -186,14 +191,18 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase implements IHa
 		return false;
 	}
 
+	private static final String SIGNAL_BOX_POS_TAG = "signalboxpos";
+
 	@Override
 	public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
 		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	/**
-	 * Get an NBT compound to sync to the client with SPacketChunkData, used for initial loading of the chunk or when
-	 * many blocks change at once. This compound comes back to you clientside in {@link handleUpdateTag}
+	 * Get an NBT compound to sync to the client with SPacketChunkData, used for
+	 * initial loading of the chunk or when
+	 * many blocks change at once. This compound comes back to you clientside in
+	 * {@link handleUpdateTag}
 	 */
 	@Override
 	public CompoundTag getUpdateTag() {
@@ -205,11 +214,14 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase implements IHa
 	}
 
 	/**
-	 * Called when the chunk's TE update tag, gotten from {@link BlockEntity#getUpdateTag()}, is received on the client.
+	 * Called when the chunk's TE update tag, gotten from
+	 * {@link BlockEntity#getUpdateTag()}, is received on the client.
 	 * <p>
-	 * Used to handle this tag in a special way. By default this simply calls {@link BlockEntity#load(CompoundTag)}.
+	 * Used to handle this tag in a special way. By default this simply calls
+	 * {@link BlockEntity#load(CompoundTag)}.
 	 *
-	 * @param tag The {@link CompoundTag} sent from {@link BlockEntity#getUpdateTag()}
+	 * @param tag The {@link CompoundTag} sent from
+	 *            {@link BlockEntity#getUpdateTag()}
 	 */
 	@Override
 	public void handleUpdateTag(CompoundTag tag) {
@@ -233,7 +245,6 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase implements IHa
 			this.signalBoxPosition = NbtUtils.readBlockPos(pkt.getTag().getCompound(SIGNAL_BOX_POS_TAG));
 		}
 	}
-
 
 	@Override
 	public void load(CompoundTag pTag) {

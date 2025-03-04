@@ -211,6 +211,8 @@ dependencies {
         jarJar.ranged(it, "[0.4.1,)")
     }
 
+    implementation 'org.jetbrains:annotations:24.0.0'
+
 
     // implementation fg.deobf("curse.maven:oculus-581495:6020952")
 

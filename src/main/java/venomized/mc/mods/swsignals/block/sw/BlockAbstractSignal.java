@@ -32,6 +32,11 @@ import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignal;
 public abstract class BlockAbstractSignal extends SwAbstract45DegreeBlock implements EntityBlock {
 	public static BooleanProperty MOUNTED = BooleanProperty.create("mounting");
 
+	@Override
+	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	public BlockAbstractSignal() {
 		super(Properties.copy(Blocks.IRON_BLOCK).noOcclusion().dynamicShape().pushReaction(PushReaction.DESTROY));

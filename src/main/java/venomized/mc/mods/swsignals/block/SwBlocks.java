@@ -6,6 +6,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.sw.*;
+import venomized.mc.mods.swsignals.block.test.TestBlock;
 
 public final class SwBlocks {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SwSignal.MOD_ID);
@@ -38,4 +39,7 @@ public final class SwBlocks {
 	public static final RegistryObject<BlockRailroadCrossingDistantSignal> BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL = BLOCKS.register(
 			"sw_railroad_crossing_distant_signal", BlockRailroadCrossingDistantSignal::new
 	);
+
+	//For testing purposes
+	public static final RegistryObject<TestBlock> BLOCK_TEST = BLOCKS.register("test_test", TestBlock::new);
 }

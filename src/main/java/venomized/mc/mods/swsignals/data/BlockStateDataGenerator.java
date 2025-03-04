@@ -12,11 +12,8 @@ public class BlockStateDataGenerator extends BlockStateProvider {
 		super(output, SwSignal.MOD_ID, exFileHelper);
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	protected void registerStatesAndModels() {
-		this.cubeAll(SwBlocks.BLOCK_SW_SIGNAL_BOX.get());
+		this.simpleBlock(SwBlocks.BLOCK_SW_SIGNAL_BOX.get(), cubeAll(SwBlocks.BLOCK_SW_SIGNAL_BOX.get()));
 	}
 }
