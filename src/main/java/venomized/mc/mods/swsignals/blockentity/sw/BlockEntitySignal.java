@@ -104,6 +104,7 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 			}
 			return;
 		}
+
 		for (int i = 0; i < lightCount; i++) {
 			char s = aspect.getLightPattern().charAt(i);
 			switch (s) {
@@ -117,8 +118,12 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 						this.lightLevels[i] = Math.max(0, this.lightLevels[i] - (partialTick / 20));
 					}
 					break;
-				default:
+				case 'U':
 					this.lightLevels[i] = Math.max(0, this.lightLevels[i] - (partialTick / 10));
+					break;
+				default:
+					this.lightLevels[i] = this.blink() ? 1 : 0;
+					break;
 			}
 		}
 	}
