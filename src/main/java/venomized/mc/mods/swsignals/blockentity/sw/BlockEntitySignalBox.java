@@ -51,10 +51,10 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 		}
 
 		// Determine the aspect from the next coming signal
-		// Checks if sb is the same as this
-		BlockEntitySignalBox signalBox = this.getSignalBoxBlockEntity() instanceof BlockEntitySignalBox sb ? sb : null;
+		BlockEntityAbstractSignalBox abstractSignalBox = this.getSignalBoxBlockEntity();
+		BlockEntitySignalBox signalBox = abstractSignalBox instanceof BlockEntitySignalBox ? (BlockEntitySignalBox)abstractSignalBox : null;
 
-		if (signalBox == this) {
+		if (signalBox == null || signalBox == this) {
 			return SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
 		} else if (signalBox != null) {
 			result = signalBox.getCurrentAspect();
