@@ -25,12 +25,23 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 			return cachedAspect;
 		}
 
-		result = switch (state) {
-			case GREEN -> SwedishSignalAspect.PROCEED_80;
-			case YELLOW -> SwedishSignalAspect.PROCEED_40_CAUTION;
-			case RED, INVALID -> SwedishSignalAspect.STOP;
-		};
+		switch (state) {
+			case GREEN:
+				result = SwedishSignalAspect.PROCEED_80;
+				break;
+			case YELLOW:
+				result = SwedishSignalAspect.PROCEED_40_CAUTION;
+				break;
+			case RED:
+				result = SwedishSignalAspect.STOP;
+				break;
+			default:
+				result = SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
+				break;
+		}
+
 		this.cachedAspect = result;
+
 		if (result == SwedishSignalAspect.STOP) {
 			return result;
 		}
@@ -39,13 +50,23 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 		if (this.getSignalBoxBlockEntity() instanceof BlockEntitySignalBox sb) {
 			result = sb.getCurrentAspect();
 			if (result != null) {
-				result = switch (result) {
-					case STOP -> SwedishSignalAspect.PROCEED_40_CAUTION;
-					case PROCEED_40_CAUTION -> SwedishSignalAspect.PROCEED_80;
-					case PROCEED_80 -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_80;
-					case PROCEED_80_EXPECT_PROCEED_80 -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;
-					default -> result;
-				};
+				switch (result) {
+					case STOP:
+						result = SwedishSignalAspect.PROCEED_40_CAUTION;
+						break;
+					case PROCEED_40_CAUTION:
+						result = SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;
+						break;
+					case PROCEED_80:
+						result = SwedishSignalAspect.PROCEED_80;
+						break;
+					case PROCEED_80_EXPECT_PROCEED_40:
+						result = SwedishSignalAspect.PROCEED_80;
+						break;
+					default:
+						result = SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
+						break;
+				}
 			}
 		}
 

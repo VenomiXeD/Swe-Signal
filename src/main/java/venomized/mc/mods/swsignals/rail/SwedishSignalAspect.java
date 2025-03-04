@@ -10,7 +10,9 @@ public enum SwedishSignalAspect {
 	// Distant signals
 	PROCEED_80_EXPECT_STOP("Proceed 80, expect Stop", "Proceed at max 80 kph, next signal showing stop", "SUFUU"),
 	PROCEED_80_EXPECT_PROCEED_40("Proceed 80, expect Proceed 40", "Proceed at max 80 kph, next signal is showing Proceed 40", "SUFUF"),
-	PROCEED_80_EXPECT_PROCEED_80("Proceed 80, expect Proceed 80", "Proceed at max 80 kph, next signal is showing Proceed 80", "SUUFU");
+	PROCEED_80_EXPECT_PROCEED_80("Proceed 80, expect Proceed 80", "Proceed at max 80 kph, next signal is showing Proceed 80", "SUUFU"),
+
+	FAULTY_RAIL_SIGNALS("Faulty Rail Signals", "Faulty Rail Signals, proceed with caution", "UUUUU");
 
 	private final String name;
 	private final String description;
