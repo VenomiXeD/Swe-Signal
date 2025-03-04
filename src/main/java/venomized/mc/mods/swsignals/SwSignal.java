@@ -21,6 +21,7 @@ import venomized.mc.mods.swsignals.block.SwBlocks;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.client.ClientEvents;
 import venomized.mc.mods.swsignals.client.ForgeClientEvents;
+import venomized.mc.mods.swsignals.client.SwMenus;
 import venomized.mc.mods.swsignals.data.BlockStateDataGenerator;
 import venomized.mc.mods.swsignals.data.ItemModelDataGenerator;
 import venomized.mc.mods.swsignals.data.SoundEventDataGenerator;
@@ -56,6 +57,8 @@ public class SwSignal {
 		AllSounds.SOUNDS.register(eventbus);
 
 		CREATIVE_TABS.register(eventbus);
+
+		SwMenus.MENUS.register(eventbus);
 
 		EventHandler eventHandler = new EventHandler();
 		MinecraftForge.EVENT_BUS.register(eventHandler);

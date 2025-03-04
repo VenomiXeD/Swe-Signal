@@ -1,8 +1,9 @@
-package venomized.mc.mods.swsignals.blockentity.sw;
+package venomized.mc.mods.swsignals.blockentity.sw.mainsignals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignal;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 public class BlockEntityThreeLightSignal extends BlockEntitySignal {
@@ -15,7 +16,7 @@ public class BlockEntityThreeLightSignal extends BlockEntitySignal {
 	@Override
 	public SwedishSignalAspect getCurrentDisplayingAspect() {
 		SwedishSignalAspect displayingAspect = super.getCurrentDisplayingAspect();
-		if (displayingAspect == SwedishSignalAspect.PROCEED_80_EXPECT_STOP) {
+		if (displayingAspect == SwedishSignalAspect.PROCEED_80_EXPECT_STOP||displayingAspect == SwedishSignalAspect.PROCEED_40_CAUTION) {
 			return SwedishSignalAspect.PROCEED_40_CAUTION;
 		}
 		return displayingAspect;

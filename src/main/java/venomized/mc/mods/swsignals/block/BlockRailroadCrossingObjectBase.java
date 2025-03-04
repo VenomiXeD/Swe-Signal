@@ -1,18 +1,15 @@
 package venomized.mc.mods.swsignals.block;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.sounds.SoundEventRegistration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.event.sound.SoundEvent;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityRailroadCrossingSignal;
+import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityRailroadCrossingSignal;
 
-public abstract class BlockRailroadCrossingObjectBase extends SwAbstractBlock implements EntityBlock {
+public abstract class BlockRailroadCrossingObjectBase extends SwAbstract45DegreeBlock implements EntityBlock {
 	@Override
 	public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
 		return new BlockEntityRailroadCrossingSignal(pPos, pState);

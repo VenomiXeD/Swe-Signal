@@ -33,5 +33,9 @@ public final class SwBlocks {
 	public static final RegistryObject<BlockGeneric45DegreeBlock> BLOCK_U_SIGN = BLOCKS.register("sw_u_sign", BlockGeneric45DegreeBlock::new);
 
 	// == RAILROAD CROSSING SIGNALS ==
-	public static final RegistryObject<BlockRailroadCrossingObjectBase> BLOCK_RAILROAD_SIGNAL = BLOCKS.register("sw_railroad_crossing_signal", BlockRailroadCrossingSignal::new);
+	public static final RegistryObject<BlockRailroadCrossingSignal> BLOCK_RAILROAD_CROSSING_SIGNAL = BLOCKS.register("sw_railroad_crossing_signal", BlockRailroadCrossingSignal::new);
+
+	public static final RegistryObject<BlockRailroadCrossingDistantSignal> BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL = BLOCKS.register(
+			"sw_railroad_crossing_distant_signal", BlockRailroadCrossingDistantSignal::new
+	);
 }

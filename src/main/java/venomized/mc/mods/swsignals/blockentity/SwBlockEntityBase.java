@@ -12,5 +12,6 @@ public abstract class SwBlockEntityBase extends BlockEntity {
 
 	public void updateSelf() {
 		this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
+		this.setChanged();
 	}
 }

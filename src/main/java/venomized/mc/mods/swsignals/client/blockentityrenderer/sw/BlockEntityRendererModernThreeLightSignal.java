@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityThreeLightSignal;
+import venomized.mc.mods.swsignals.blockentity.sw.mainsignals.BlockEntityThreeLightSignal;
 
 @OnlyIn(Dist.CLIENT)
 public class BlockEntityRendererModernThreeLightSignal extends BlockEntityRendererSignal<BlockEntityThreeLightSignal> {

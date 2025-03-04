@@ -1,9 +1,10 @@
-package venomized.mc.mods.swsignals.blockentity.sw;
+package venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals;
 
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignal;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 public class BlockEntityEndpointSignal extends BlockEntitySignal {

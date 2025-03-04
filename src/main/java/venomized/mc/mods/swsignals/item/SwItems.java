@@ -32,6 +32,9 @@ public class SwItems {
 
 	public static final RegistryObject<BlockItem> ITEM_ENDPOINT_SIGNAL = ITEMS.register(BlockModernEndpointSignal.BLOCK_NAME, () -> new BlockItem(SwBlocks.BLOCK_ENDPOINT_SIGNAL.get(), new Item.Properties()));
 
+	public static final RegistryObject<BlockItem> ITEM_RAILROAD_CROSSING_SIGNAL = ITEMS.register("sw_railroad_crossing_signal", () -> new BlockItem(SwBlocks.BLOCK_RAILROAD_CROSSING_SIGNAL.get(), new Item.Properties()));
+	public static final RegistryObject<BlockItem> ITEM_RAILROAD_CROSSING_DISTANT_SIGNAL = ITEMS.register("sw_railroad_crossing_distant_signal", () -> new BlockItem(SwBlocks.BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL.get(), new Item.Properties()));
+
 	public static final RegistryObject<BlockItem> ITEM_U_SIGN = ITEMS.register("sw_u_sign", () -> new TrackTargetingBlockItem(SwBlocks.BLOCK_U_SIGN.get(), new Item.Properties(), EdgePointType.SIGNAL));
 
 	public static final RegistryObject<ItemSignalTuner> ITEM_SIGNAL_TEST = ITEMS.register("signalitem", ItemSignalTuner::new);

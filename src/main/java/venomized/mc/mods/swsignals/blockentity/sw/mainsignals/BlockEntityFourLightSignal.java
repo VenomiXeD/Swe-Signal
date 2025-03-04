@@ -1,8 +1,9 @@
-package venomized.mc.mods.swsignals.blockentity.sw;
+package venomized.mc.mods.swsignals.blockentity.sw.mainsignals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignal;
 
 public class BlockEntityFourLightSignal extends BlockEntitySignal {
 	public static final String NAME = "be_4l_modern";

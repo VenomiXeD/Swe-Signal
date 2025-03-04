@@ -7,6 +7,13 @@ import net.minecraftforge.registries.RegistryObject;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.SwBlocks;
 import venomized.mc.mods.swsignals.blockentity.sw.*;
+import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityEndpointSignal;
+import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityRailroadCrossingDistantSignal;
+import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityRailroadCrossingSignal;
+import venomized.mc.mods.swsignals.blockentity.sw.mainsignals.BlockEntityFiveLightSignal;
+import venomized.mc.mods.swsignals.blockentity.sw.mainsignals.BlockEntityFourLightSignal;
+import venomized.mc.mods.swsignals.blockentity.sw.mainsignals.BlockEntityThreeLightSignal;
+import venomized.mc.mods.swsignals.blockentity.sw.mainsignals.BlockEntityTwoLightSignal;
 
 public final class SwBlockEntities {
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, SwSignal.MOD_ID);
@@ -83,9 +90,15 @@ public final class SwBlockEntities {
 
 	// == RAILROAD CROSSING SIGNALS ==
 
-	public static final RegistryObject<BlockEntityType<BlockEntityRailroadCrossingSignal>> BE_RAILROAD_SIGNAL =
+	public static final RegistryObject<BlockEntityType<BlockEntityRailroadCrossingSignal>> BE_RAILROAD_CROSSING_SIGNAL =
 			BLOCK_ENTITIES.register("be_railroad_crossing_signal", () -> BlockEntityType.Builder.of(BlockEntityRailroadCrossingSignal::new,
-							SwBlocks.BLOCK_RAILROAD_SIGNAL.get()
+							SwBlocks.BLOCK_RAILROAD_CROSSING_SIGNAL.get()
+					).build(null)
+			);
+
+	public static final RegistryObject<BlockEntityType<BlockEntityRailroadCrossingDistantSignal>> BE_RAILROAD_CROSSING_DISTANT_SIGNAL =
+			BLOCK_ENTITIES.register("be_railroad_crossing_distant_signal", () -> BlockEntityType.Builder.of(BlockEntityRailroadCrossingDistantSignal::new,
+							SwBlocks.BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL.get()
 					).build(null)
 			);
 	// #endregion SWEDISH CONTENT

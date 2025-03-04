@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityEndpointSignal;
+import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityEndpointSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 

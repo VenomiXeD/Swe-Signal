@@ -1,9 +1,16 @@
 package venomized.mc.mods.swsignals.client.blockentityrenderer.sw;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.util.Mth;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityDwarfSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
@@ -26,6 +33,7 @@ public class BlockEntityRendererModernDwarfSignal extends BlockEntityRendererBas
 	 */
 	@Override
 	public void render(BlockEntityDwarfSignal pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
+		pPoseStack.pushPose();
 		super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
 		pPoseStack.translate(.5f*(1f-SCALE),0f,0f);
 		pPoseStack.scale(SCALE,SCALE,SCALE);
@@ -116,5 +124,30 @@ public class BlockEntityRendererModernDwarfSignal extends BlockEntityRendererBas
 
 
 		pPoseStack.popPose();
+
+		pPoseStack.popPose();
+
+		// pPoseStack.translate(.58f,.14f,1f-(2/16f));
+//
+		// pPoseStack.scale(.005f,.005f,.005f);
+//
+		// pPoseStack.rotateAround(new Quaternionf(new AxisAngle4f(
+		// 		Mth.PI, 0, 0, 1
+		// 		)
+		// 		), .5f, .5f, .5f
+		// );
+//
+//
+//
+		// Minecraft.getInstance().font.drawInBatch(
+		// 		FormattedCharSequence.forward("Hb 193", Style.EMPTY),
+		// 		0,0, 0xFFFFFF,
+		// 		false,
+		// 		pPoseStack.last().pose(),
+		// 		pBuffer,
+		// 		Font.DisplayMode.NORMAL,
+		// 		0x000000,
+		// 		pPackedOverlay
+		// );
 	}
 }
