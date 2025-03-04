@@ -22,7 +22,7 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 		SignalBlockEntity.SignalState state = this.getCreateSignalState();
 
 		if (state == null) {
-			return cachedAspect;
+			return SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
 		}
 
 		switch (state) {
@@ -35,6 +35,9 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 			case RED:
 				result = SwedishSignalAspect.STOP;
 				break;
+			case INVALID:
+				result = SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
+				break;
 			default:
 				result = SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
 				break;
@@ -42,7 +45,7 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 
 		this.cachedAspect = result;
 
-		if (result == SwedishSignalAspect.STOP) {
+		if (result == SwedishSignalAspect.STOP || result == SwedishSignalAspect.FAULTY_RAIL_SIGNALS) {
 			return result;
 		}
 
@@ -51,16 +54,16 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 			result = sb.getCurrentAspect();
 			if (result != null) {
 				switch (result) {
-					case STOP:
+					case STOP, FAULTY_RAIL_SIGNALS:
 						result = SwedishSignalAspect.PROCEED_40_CAUTION;
 						break;
 					case PROCEED_40_CAUTION:
 						result = SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;
 						break;
-					case PROCEED_80:
+					case PROCEED_80_EXPECT_PROCEED_40:
 						result = SwedishSignalAspect.PROCEED_80;
 						break;
-					case PROCEED_80_EXPECT_PROCEED_40:
+					case PROCEED_80:
 						result = SwedishSignalAspect.PROCEED_80;
 						break;
 					default:
