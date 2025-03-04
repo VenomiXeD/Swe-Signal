@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -16,8 +17,6 @@ import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
 import java.util.Optional;
 
 public class ItemSignalTuner extends Item implements IScrollableItem {
-	boolean is_binding = false;
-
 	public ItemSignalTuner() {
 		super(new Properties());
 	}
@@ -38,20 +37,18 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 			currentScroll = ISignalTunerBindable.SignalTunerMode.values()[tag.getInt("mode")];
 		}
 		tag.putInt("mode",
-				Math.max(ISignalTunerBindable.SignalTunerMode.values().length - 1,
-						Math.min(0, currentScroll.ordinal() + (up ? 1 : -1))));
+				Math.max(ISignalTunerBindable.SignalTunerMode.values().length - 1, Math.min(0, currentScroll.ordinal() + (up ? 1 : -1)))
+		);
 		player.displayClientMessage(Component.literal("Mode: %d".formatted(currentScroll)).setStyle(
-				Style.EMPTY.withColor(ChatFormatting.GOLD)),
-				true);
+						Style.EMPTY.withColor(ChatFormatting.GOLD)),
+				true
+		);
 		// Minecraft.getInstance().level.playSound(
-		// Minecraft.getInstance().player,
-		// Minecraft.getInstance().player,
-		// AllSoundEvents.SCROLL_VALUE.getMainEvent(), SoundSource.MASTER, 1f, 1f +
-		// currentScroll/10f
+		// 		Minecraft.getInstance().player,
+		// 		Minecraft.getInstance().player,
+		// 		AllSoundEvents.SCROLL_VALUE.getMainEvent(), SoundSource.MASTER, 1f, 1f + currentScroll/10f
 		// );
 	}
-
-	int testMode = 0;
 
 	/**
 	 * Called when this item is used when targeting a Block
@@ -64,7 +61,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 			return InteractionResult.SUCCESS;
 		}
 
-		System.out.println("useOn, mode: " + is_binding);
+		System.out.println("useOn");
 
 		ISignalTunerBindable.SignalTunerMode mode = ISignalTunerBindable.SignalTunerMode.CONNECT;
 		CompoundTag tag = pContext.getItemInHand().getOrCreateTag();
@@ -77,9 +74,11 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 		final ISignalTunerBindable.SignalTunerMode tunerMode = mode;
 
 		if (blockEntity instanceof ISignalTunerBindable currentTarget) {
-
+			
 			// We don't have one so we store the TARGET position
-			if (is_binding) {
+			if (!tag.contains("bind_location_start")) {
+				System.out.println("Bind If Case");
+
 				if (!currentTarget.isTarget()) {
 					System.out.println("not a target: " + currentTarget);
 					return InteractionResult.FAIL;
@@ -89,14 +88,15 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 
 				pContext.getPlayer().displayClientMessage(
 						Component.literal(
-								"Bind (Target) start: " + pContext.getClickedPos().toShortString()),
-						true);
+								"Bind (Target) start: " + pContext.getClickedPos().toShortString()
+						), true
+				);
 
-				is_binding = false;
 				return InteractionResult.SUCCESS;
 			} else {
-				BlockEntity targetBlockEntity = pContext.getLevel()
-						.getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("bind_location_start")));
+				System.out.println("Bind Else Case");
+
+				BlockEntity targetBlockEntity = pContext.getLevel().getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("bind_location_start")));
 				Optional<ISignalTunerBindable> source = Optional.of(currentTarget);
 				Optional<ISignalTunerBindable> target;
 				if (targetBlockEntity instanceof ISignalTunerBindable) {
@@ -109,8 +109,6 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 				target.ifPresent(sourceBlockEntity -> sourceBlockEntity.onBindToSource(source, tunerMode));
 
 				tag.remove("bind_location_start");
-
-				is_binding = true;
 			}
 		}
 

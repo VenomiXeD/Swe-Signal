@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -47,12 +48,12 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 			return SignalBlockEntity.SignalState.INVALID;
 		}
 
-		SignalBlockEntity.SignalState signalBlockEntity = createSignalBlockEntity.getState();
-		if (signalBlockEntity == null) {
+		SignalBlockEntity.SignalState s = createSignalBlockEntity.getState();
+
+		if (s == null) {
 			return SignalBlockEntity.SignalState.INVALID;
 		}
-
-		return signalBlockEntity;
+		return s;
 	}
 
 	public SignalBlockEntity getCreateSignalBlockEntity() {
@@ -60,12 +61,14 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 			return null;
 		}
 
-		BlockEntity blockEntity = this.getLevel().getBlockEntity(createSignalBlockEntityPosition);
+		Level level = this.getLevel();
+		if (level == null) {
+			return null;
+		}
 
-		if (blockEntity != null) {
-			if (blockEntity instanceof SignalBlockEntity sbe) {
-				return sbe;
-			}
+		BlockEntity blockEntity = level.getBlockEntity(createSignalBlockEntityPosition);
+		if (blockEntity instanceof SignalBlockEntity sbe) {
+			return sbe;
 		}
 
 		return null;
