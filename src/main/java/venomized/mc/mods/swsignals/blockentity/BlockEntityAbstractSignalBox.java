@@ -37,30 +37,39 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		super(pType, pPos, pBlockState);
 	}
 
-
 	public SignalBlockEntity.SignalState getCreateSignalState() {
 		if (createSignalBlockEntityPosition == null) {
 			return SignalBlockEntity.SignalState.INVALID;
 		}
-		SignalBlockEntity.SignalState s = this.getCreateSignalBlockEntity().getState();
-		if (s == null) {
+
+		SignalBlockEntity createSignalBlockEntity = this.getCreateSignalBlockEntity();
+		if (createSignalBlockEntity == null) {
 			return SignalBlockEntity.SignalState.INVALID;
 		}
-		return s;
-	}
 
+		SignalBlockEntity.SignalState signalBlockEntity = createSignalBlockEntity.getState();
+		if (signalBlockEntity == null) {
+			return SignalBlockEntity.SignalState.INVALID;
+		}
+
+		return signalBlockEntity;
+	}
 
 	public SignalBlockEntity getCreateSignalBlockEntity() {
 		if (createSignalBlockEntityPosition == null) {
 			return null;
 		}
+
 		BlockEntity blockEntity = this.getLevel().getBlockEntity(createSignalBlockEntityPosition);
-		if (blockEntity instanceof SignalBlockEntity sbe) {
-			return sbe;
+
+		if (blockEntity != null) {
+			if (blockEntity instanceof SignalBlockEntity sbe) {
+				return sbe;
+			}
 		}
+
 		return null;
 	}
-
 
 	public BlockEntityAbstractSignalBox getSignalBoxBlockEntity() {
 		if (this.sourceSignalBox == null) {
@@ -73,13 +82,11 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		return null;
 	}
 
-
 	public void setCreateSignalSource(BlockPos createSignalPos) {
 		this.createSignalBlockEntityPosition = createSignalPos;
 		this.setChanged();
 		this.updateSelf();
 	}
-
 
 	public void setSignalBoxSource(BlockPos sourceSignalBoxPos) {
 		this.sourceSignalBox = sourceSignalBoxPos;
@@ -87,7 +94,6 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		this.updateSelf();
 	}
 
-	
 	@Override
 	public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
 		return ClientboundBlockEntityDataPacket.create(this);
@@ -122,8 +128,10 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	}
 
 	/**
-	 * Get an NBT compound to sync to the client with SPacketChunkData, used for initial loading of the chunk or when
-	 * many blocks change at once. This compound comes back to you clientside in {@link handleUpdateTag}
+	 * Get an NBT compound to sync to the client with SPacketChunkData, used for
+	 * initial loading of the chunk or when
+	 * many blocks change at once. This compound comes back to you clientside in
+	 * {@link handleUpdateTag}
 	 */
 	@Override
 	public CompoundTag getUpdateTag() {
@@ -138,11 +146,14 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	}
 
 	/**
-	 * Called when the chunk's TE update tag, gotten from {@link BlockEntity#getUpdateTag()}, is received on the client.
+	 * Called when the chunk's TE update tag, gotten from
+	 * {@link BlockEntity#getUpdateTag()}, is received on the client.
 	 * <p>
-	 * Used to handle this tag in a special way. By default this simply calls {@link BlockEntity#load(CompoundTag)}.
+	 * Used to handle this tag in a special way. By default this simply calls
+	 * {@link BlockEntity#load(CompoundTag)}.
 	 *
-	 * @param tag The {@link CompoundTag} sent from {@link BlockEntity#getUpdateTag()}
+	 * @param tag The {@link CompoundTag} sent from
+	 *            {@link BlockEntity#getUpdateTag()}
 	 */
 	@Override
 	public void handleUpdateTag(CompoundTag pTag) {

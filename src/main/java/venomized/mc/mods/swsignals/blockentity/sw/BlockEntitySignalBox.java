@@ -43,12 +43,19 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 		if (result == SwedishSignalAspect.STOP || result == SwedishSignalAspect.FAULTY_RAIL_SIGNALS) {
 			return result;
 		}
-
+		
 		// Gets the signalBox
-		BlockEntitySignalBox signalBox = this.getSignalBoxBlockEntity() instanceof BlockEntitySignalBox sb ? sb : null;
+		BlockEntityAbstractSignalBox abstractSignalBox = this.getSignalBoxBlockEntity();
+		BlockEntitySignalBox signalBox = null;
+		// Checks if it is usable
+		if(abstractSignalBox == null) {
+			return SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
+		}else if(abstractSignalBox instanceof BlockEntitySignalBox) {
+			signalBox = (BlockEntitySignalBox) abstractSignalBox;
+		}
 
 		// If the signal box is the same as itself, show error
-		if (signalBox == this) {
+		if (signalBox == null || signalBox == this) {
 			return SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
 		} else if (signalBox != null) {
 			result = signalBox.getCurrentAspect();
