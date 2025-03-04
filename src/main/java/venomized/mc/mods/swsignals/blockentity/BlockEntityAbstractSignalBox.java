@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -37,30 +38,41 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		super(pType, pPos, pBlockState);
 	}
 
-
 	public SignalBlockEntity.SignalState getCreateSignalState() {
 		if (createSignalBlockEntityPosition == null) {
 			return SignalBlockEntity.SignalState.INVALID;
 		}
-		SignalBlockEntity.SignalState s = this.getCreateSignalBlockEntity().getState();
+
+		SignalBlockEntity createSignalBlockEntity = this.getCreateSignalBlockEntity();
+		if (createSignalBlockEntity == null) {
+			return SignalBlockEntity.SignalState.INVALID;
+		}
+
+		SignalBlockEntity.SignalState s = createSignalBlockEntity.getState();
+
 		if (s == null) {
 			return SignalBlockEntity.SignalState.INVALID;
 		}
 		return s;
 	}
 
-
 	public SignalBlockEntity getCreateSignalBlockEntity() {
 		if (createSignalBlockEntityPosition == null) {
 			return null;
 		}
-		BlockEntity blockEntity = this.getLevel().getBlockEntity(createSignalBlockEntityPosition);
+
+		Level level = this.getLevel();
+		if (level == null) {
+			return null;
+		}
+
+		BlockEntity blockEntity = level.getBlockEntity(createSignalBlockEntityPosition);
 		if (blockEntity instanceof SignalBlockEntity sbe) {
 			return sbe;
 		}
+
 		return null;
 	}
-
 
 	public BlockEntityAbstractSignalBox getSignalBoxBlockEntity() {
 		if (this.sourceSignalBox == null) {
@@ -73,19 +85,16 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		return null;
 	}
 
-
 	public void setCreateSignalSource(BlockPos createSignalPos) {
 		this.createSignalBlockEntityPosition = createSignalPos;
 		this.updateSelf();
 	}
-
 
 	public void setSignalBoxSource(BlockPos sourceSignalBoxPos) {
 		this.sourceSignalBox = sourceSignalBoxPos;
 		this.updateSelf();
 	}
 
-	
 	@Override
 	public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
 		return ClientboundBlockEntityDataPacket.create(this);
@@ -120,8 +129,10 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	}
 
 	/**
-	 * Get an NBT compound to sync to the client with SPacketChunkData, used for initial loading of the chunk or when
-	 * many blocks change at once. This compound comes back to you clientside in {@link handleUpdateTag}
+	 * Get an NBT compound to sync to the client with SPacketChunkData, used for
+	 * initial loading of the chunk or when
+	 * many blocks change at once. This compound comes back to you clientside in
+	 * {@link handleUpdateTag}
 	 */
 	@Override
 	public CompoundTag getUpdateTag() {
@@ -131,11 +142,14 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	}
 
 	/**
-	 * Called when the chunk's TE update tag, gotten from {@link BlockEntity#getUpdateTag()}, is received on the client.
+	 * Called when the chunk's TE update tag, gotten from
+	 * {@link BlockEntity#getUpdateTag()}, is received on the client.
 	 * <p>
-	 * Used to handle this tag in a special way. By default this simply calls {@link BlockEntity#load(CompoundTag)}.
+	 * Used to handle this tag in a special way. By default this simply calls
+	 * {@link BlockEntity#load(CompoundTag)}.
 	 *
-	 * @param tag The {@link CompoundTag} sent from {@link BlockEntity#getUpdateTag()}
+	 * @param tag The {@link CompoundTag} sent from
+	 *            {@link BlockEntity#getUpdateTag()}
 	 */
 	@Override
 	public void handleUpdateTag(CompoundTag pTag) {

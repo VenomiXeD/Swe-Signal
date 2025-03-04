@@ -55,7 +55,6 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 		BlockEntitySignalBox signalBox = this.getSignalBoxBlockEntity() instanceof BlockEntitySignalBox sb ? sb : null;
 
 		if (signalBox == this) {
-			System.out.println("Signal box has itself as source");
 			return SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
 		} else if (signalBox != null) {
 			result = signalBox.getCurrentAspect();
