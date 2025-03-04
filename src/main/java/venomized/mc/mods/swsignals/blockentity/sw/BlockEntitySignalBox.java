@@ -2,6 +2,7 @@ package venomized.mc.mods.swsignals.blockentity.sw;
 
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityAbstractSignalBox;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
@@ -50,8 +51,15 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 		}
 
 		// Determine the aspect from the next coming signal
-		if (this.getSignalBoxBlockEntity() instanceof BlockEntitySignalBox sb) {
-			result = sb.getCurrentAspect();
+		// Checks if sb is the same as this
+		BlockEntitySignalBox signalBox = this.getSignalBoxBlockEntity() instanceof BlockEntitySignalBox sb ? sb : null;
+
+		if (signalBox == this) {
+			System.out.println("Signal box has itself as source");
+			return SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
+		} else if (signalBox != null) {
+			result = signalBox.getCurrentAspect();
+
 			if (result != null) {
 				switch (result) {
 					case STOP, FAULTY_RAIL_SIGNALS:

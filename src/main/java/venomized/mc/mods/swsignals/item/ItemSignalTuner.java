@@ -61,17 +61,23 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 			return InteractionResult.SUCCESS;
 		}
 
+		System.out.println("useOn");
+
 		ISignalTunerBindable.SignalTunerMode mode = ISignalTunerBindable.SignalTunerMode.CONNECT;
 		CompoundTag tag = pContext.getItemInHand().getOrCreateTag();
+
 		if (tag.contains("mode")) {
 			mode = ISignalTunerBindable.SignalTunerMode.values()[tag.getInt("mode")];
 		}
-		BlockEntity blockEntity = pContext.getLevel().getBlockEntity(pContext.getClickedPos());
 
+		BlockEntity blockEntity = pContext.getLevel().getBlockEntity(pContext.getClickedPos());
 		final ISignalTunerBindable.SignalTunerMode tunerMode = mode;
+
 		if (blockEntity instanceof ISignalTunerBindable currentTarget) {
+			
 			// We don't have one so we store the TARGET position
 			if (!tag.contains("bind_location_start")) {
+				System.out.println("Bind If Case");
 
 				if (!currentTarget.isTarget()) {
 					System.out.println("not a target: " + currentTarget);
@@ -88,6 +94,8 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 
 				return InteractionResult.SUCCESS;
 			} else {
+				System.out.println("Bind Else Case");
+
 				BlockEntity targetBlockEntity = pContext.getLevel().getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("bind_location_start")));
 				Optional<ISignalTunerBindable> source = Optional.of(currentTarget);
 				Optional<ISignalTunerBindable> target;
