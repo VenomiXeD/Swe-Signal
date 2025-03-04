@@ -6,7 +6,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class AllSounds {
+public class 	AllSounds {
 	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, SwSignal.MOD_ID);
 
 	public static final RegistryObject<SoundEvent> SE_TEST = SOUNDS.register("sw_crossing_bell", () ->

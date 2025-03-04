@@ -74,13 +74,11 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 
 	public void setCreateSignalSource(BlockPos createSignalPos) {
 		this.createSignalBlockEntityPosition = createSignalPos;
-		this.setChanged();
 		this.updateSelf();
 	}
 
 	public void setSignalBoxSource(BlockPos sourceSignalBoxPos) {
 		this.sourceSignalBox = sourceSignalBoxPos;
-		this.setChanged();
 		this.updateSelf();
 	}
 
@@ -124,12 +122,7 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	@Override
 	public CompoundTag getUpdateTag() {
 		CompoundTag pTag = super.getUpdateTag();
-		if (createSignalBlockEntityPosition != null) {
-			pTag.put("create_signal_source", NbtUtils.writeBlockPos(createSignalBlockEntityPosition));
-		}
-		if (sourceSignalBox != null) {
-			pTag.put("source_signalbox_source", NbtUtils.writeBlockPos(sourceSignalBox));
-		}
+		this.saveAdditional(pTag);
 		return pTag;
 	}
 
@@ -168,7 +161,7 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 			if (e instanceof SignalBlockEntity sbe) {
 				this.setCreateSignalSource(sbe.getBlockPos());
 			}
-			if (e instanceof BlockEntitySignalBox sb) {
+			if (e instanceof BlockEntityAbstractSignalBox sb) {
 				this.setSignalBoxSource(sb.getBlockPos());
 			}
 		});

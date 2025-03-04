@@ -214,9 +214,7 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 	@Override
 	public CompoundTag getUpdateTag() {
 		CompoundTag syncTag = super.getUpdateTag();
-		if (signalBoxPosition != null) {
-			syncTag.put(SIGNAL_BOX_POS_TAG, NbtUtils.writeBlockPos(signalBoxPosition));
-		}
+		this.saveAdditional(syncTag);
 		return syncTag;
 	}
 
@@ -234,22 +232,6 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 	public void handleUpdateTag(CompoundTag tag) {
 		if (tag.contains(SIGNAL_BOX_POS_TAG)) {
 			this.signalBoxPosition = NbtUtils.readBlockPos(tag.getCompound(SIGNAL_BOX_POS_TAG));
-		}
-	}
-
-	/**
-	 * Called when you receive a TileEntityData packet for the location this
-	 * TileEntity is currently in. On the client, the NetworkManager will always
-	 * be the remote server. On the server, it will be whomever is responsible for
-	 * sending the packet.
-	 *
-	 * @param net The NetworkManager the packet originated from
-	 * @param pkt The data packet
-	 */
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		if (pkt.getTag() != null) {
-			this.signalBoxPosition = NbtUtils.readBlockPos(pkt.getTag().getCompound(SIGNAL_BOX_POS_TAG));
 		}
 	}
 
