@@ -1,13 +1,14 @@
 package venomized.mc.mods.swsignals.item;
 
+import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -36,13 +37,14 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 		if (tag.contains("mode")) {
 			currentScroll = ISignalTunerBindable.SignalTunerMode.values()[tag.getInt("mode")];
 		}
-		tag.putInt("mode",
-				Math.max(ISignalTunerBindable.SignalTunerMode.values().length - 1, Math.min(0, currentScroll.ordinal() + (up ? 1 : -1)))
-		);
-		player.displayClientMessage(Component.literal("Mode: %d".formatted(currentScroll)).setStyle(
+		int newMode = Math.min(ISignalTunerBindable.SignalTunerMode.values().length - 1, Math.max(0, currentScroll.ordinal() + (up ? 1 : -1)));
+		tag.putInt("mode",newMode);
+		player.displayClientMessage(Component.literal("Mode: %s".formatted(currentScroll.toString())).setStyle(
 						Style.EMPTY.withColor(ChatFormatting.GOLD)),
 				true
 		);
+
+		System.out.println("current mode: " + currentScroll);
 		// Minecraft.getInstance().level.playSound(
 		// 		Minecraft.getInstance().player,
 		// 		Minecraft.getInstance().player,
@@ -58,7 +60,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 	@Override
 	public InteractionResult useOn(UseOnContext pContext) {
 		if (pContext.getLevel().isClientSide()) {
-			return InteractionResult.SUCCESS;
+			return InteractionResult.sidedSuccess(pContext.getLevel().isClientSide());
 		}
 
 		System.out.println("useOn");
@@ -79,8 +81,8 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 			if (!tag.contains("bind_location_start")) {
 				System.out.println("Bind If Case");
 
-				if (!currentTarget.isTarget()) {
-					System.out.println("not a target: " + currentTarget);
+				if (!currentTarget.isDestination()) {
+					System.out.println("Not a data destination: " + pContext.getClickedPos().toString());
 					return InteractionResult.FAIL;
 				}
 
@@ -96,22 +98,60 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 			} else {
 				System.out.println("Bind Else Case");
 
-				BlockEntity targetBlockEntity = pContext.getLevel().getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("bind_location_start")));
-				Optional<ISignalTunerBindable> source = Optional.of(currentTarget);
-				Optional<ISignalTunerBindable> target;
-				if (targetBlockEntity instanceof ISignalTunerBindable) {
-					target = Optional.of((ISignalTunerBindable) targetBlockEntity);
+				BlockEntity destinationBlockEntity = pContext.getLevel().getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("bind_location_start")));
+
+				Optional<ISignalTunerBindable> source = Optional.ofNullable(currentTarget);
+
+				Optional<ISignalTunerBindable> destination;
+				if (destinationBlockEntity instanceof ISignalTunerBindable) {
+					destination = Optional.ofNullable((ISignalTunerBindable) destinationBlockEntity);
 				} else {
-					target = Optional.empty();
+					destination = Optional.empty();
 				}
 
-				source.ifPresent(sourceBlockEntity -> sourceBlockEntity.onBindToTarget(target, tunerMode));
-				target.ifPresent(sourceBlockEntity -> sourceBlockEntity.onBindToSource(source, tunerMode));
+				if(source.isPresent()) {
+					Pair<InteractionResult, Component> result = destination.get().onBindToSource(source, tunerMode);
+
+					if (result.right() != null) {
+						MutableComponent fullMessage = Component.literal("[SOURCE] ").append(result.right() != null ? result.right() : Component.empty());
+						sendStatusMessageFromInteraction(pContext, result, fullMessage);
+					}
+				}
+
+				if (destination.isPresent()) {
+					Pair<InteractionResult, Component> result = source.get().onBindToTarget(destination, tunerMode);
+
+					if (result.right() != null) {
+						MutableComponent fullMessage = Component.literal("[TARGET] ").append(result.right());
+						sendStatusMessageFromInteraction(pContext, result, fullMessage);
+					}
+				}
 
 				tag.remove("bind_location_start");
 			}
 		}
 
 		return InteractionResult.PASS;
+	}
+
+	private static void sendStatusMessageFromInteraction(UseOnContext pContext, Pair<InteractionResult, Component> result, MutableComponent fullMessage) {
+		if (result.left() != null && result.right() != null) {
+			switch (result.left()) {
+				case SUCCESS:
+					pContext.getPlayer().sendSystemMessage(
+							fullMessage.setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN))
+					);
+					break;
+				case FAIL:
+					pContext.getPlayer().sendSystemMessage(
+							fullMessage.setStyle(Style.EMPTY.withColor(ChatFormatting.RED))
+					);
+				case PASS:
+					pContext.getPlayer().sendSystemMessage(
+							fullMessage
+					);
+					break;
+			}
+		}
 	}
 }

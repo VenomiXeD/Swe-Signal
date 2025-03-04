@@ -3,14 +3,15 @@ package venomized.mc.mods.swsignals.blockentity.sw;
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.foundation.utility.Lang;
+import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -23,6 +24,8 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.ibm.icu.text.PluralRules.Operand.e;
 
 public abstract class BlockEntitySignal extends SwBlockEntityBase
 		implements IHaveGoggleInformation, ISignalTunerBindable {
@@ -143,10 +146,9 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 		Lang.builder().add(Component.literal("WIP")).forGoggles(tooltip);
 		// SwedishSignalAspect signalAspect = this.getCurrentAspect();
 		// if (signalAspect != null && this.valid()) {
-		// Lang.builder().add(Component.translatable(signalAspect.getDescription())).forGoggles(tooltip);
-		// return true;
+		// 	Lang.builder().add(Component.translatable(signalAspect.getDescription())).forGoggles(tooltip);
 		// }
-		// return false;
+		// return true;
 		return true;
 	}
 
@@ -172,25 +174,17 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 	 *
 	 * @param sourceBlockEntity
 	 * @param mode
+	 * @return
 	 */
 	@Override
-	public void onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
-		sourceBlockEntity.ifPresent(e -> {
-			if (e instanceof BlockEntitySignalBox sb) {
+	public Pair<InteractionResult, Component> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+		if(sourceBlockEntity.isPresent()) {
+			if (sourceBlockEntity.get() instanceof BlockEntitySignalBox sb) {
 				this.setTargetedSignalBoxPosition(sb.getBlockPos());
+				return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully bound to signal box"));
 			}
-		});
-	}
-
-	/**
-	 * Called on the source block entity;
-	 * Signal Box A -> Create Signal; Signal Box A is the target
-	 *
-	 * @param targetBlockEntity
-	 * @param mode
-	 */
-	@Override
-	public void onBindToTarget(Optional<ISignalTunerBindable> targetBlockEntity, SignalTunerMode mode) {
+		}
+		return ISignalTunerBindable.super.onBindToSource(sourceBlockEntity, mode);
 	}
 
 	@Override
@@ -232,6 +226,8 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 	public void handleUpdateTag(CompoundTag tag) {
 		if (tag.contains(SIGNAL_BOX_POS_TAG)) {
 			this.signalBoxPosition = NbtUtils.readBlockPos(tag.getCompound(SIGNAL_BOX_POS_TAG));
+		} else {
+			this.signalBoxPosition = null;
 		}
 	}
 
@@ -240,6 +236,8 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 		super.load(pTag);
 		if (pTag.contains(SIGNAL_BOX_POS_TAG)) {
 			this.signalBoxPosition = NbtUtils.readBlockPos(pTag.getCompound(SIGNAL_BOX_POS_TAG));
+		} else {
+			this.signalBoxPosition = null;
 		}
 	}
 
@@ -248,6 +246,8 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 		super.saveAdditional(pTag);
 		if (signalBoxPosition != null) {
 			pTag.put(SIGNAL_BOX_POS_TAG, NbtUtils.writeBlockPos(signalBoxPosition));
+		} else {
+			pTag.putBoolean(SIGNAL_BOX_POS_TAG + "_missing", true);
 		}
 	}
 }

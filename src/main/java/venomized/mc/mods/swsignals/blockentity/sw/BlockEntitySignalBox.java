@@ -2,7 +2,6 @@ package venomized.mc.mods.swsignals.blockentity.sw;
 
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityAbstractSignalBox;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
@@ -23,7 +22,7 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 		SignalBlockEntity.SignalState state = this.getCreateSignalState();
 
 		if (state == null) {
-			return SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
+			return SwedishSignalAspect.SIGNAL_FAULT_INCORRECT_WIRING;
 		}
 
 		switch (state) {
@@ -36,50 +35,45 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 			case RED:
 				result = SwedishSignalAspect.STOP;
 				break;
-			case INVALID:
-				result = SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
-				break;
 			default:
-				result = SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
+				result = SwedishSignalAspect.SIGNAL_FAULT_INCORRECT_WIRING;
 				break;
 		}
 
-		this.cachedAspect = result;
-
-		if (result == SwedishSignalAspect.STOP || result == SwedishSignalAspect.FAULTY_RAIL_SIGNALS) {
+		if (result == SwedishSignalAspect.STOP || result == SwedishSignalAspect.SIGNAL_FAULT_INCORRECT_WIRING) {
 			return result;
 		}
 
 		// Determine the aspect from the next coming signal
-		BlockEntityAbstractSignalBox abstractSignalBox = this.getSignalBoxBlockEntity();
-		BlockEntitySignalBox signalBox = abstractSignalBox instanceof BlockEntitySignalBox ? (BlockEntitySignalBox)abstractSignalBox : null;
+		if (this.getSignalBoxBlockEntity() instanceof BlockEntitySignalBox signalBox) {
+			if (signalBox == this) {
+				return SwedishSignalAspect.SIGNAL_FAULT_INCORRECT_WIRING;
+			}
+			if (signalBox != null) {
+				result = signalBox.getCurrentAspect();
 
-		if (signalBox == null || signalBox == this) {
-			return SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
-		} else if (signalBox != null) {
-			result = signalBox.getCurrentAspect();
-
-			if (result != null) {
-				switch (result) {
-					case STOP, FAULTY_RAIL_SIGNALS:
-						result = SwedishSignalAspect.PROCEED_40_CAUTION;
-						break;
-					case PROCEED_40_CAUTION:
-						result = SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;
-						break;
-					case PROCEED_80_EXPECT_PROCEED_40:
-						result = SwedishSignalAspect.PROCEED_80;
-						break;
-					case PROCEED_80:
-						result = SwedishSignalAspect.PROCEED_80;
-						break;
-					default:
-						result = SwedishSignalAspect.FAULTY_RAIL_SIGNALS;
-						break;
+				if (result != null) {
+					switch (result) {
+						case STOP, SIGNAL_FAULT_INCORRECT_WIRING:
+							result = SwedishSignalAspect.PROCEED_40_CAUTION;
+							break;
+						case PROCEED_40_CAUTION:
+							result = SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;
+							break;
+						case PROCEED_80_EXPECT_PROCEED_40:
+							result = SwedishSignalAspect.PROCEED_80;
+							break;
+						case PROCEED_80:
+							result = SwedishSignalAspect.PROCEED_80;
+							break;
+						default:
+							result = SwedishSignalAspect.SIGNAL_FAULT_INCORRECT_WIRING;
+							break;
+					}
 				}
 			}
-		}
 
+		}
 		this.cachedAspect = result;
 		return result;
 	}

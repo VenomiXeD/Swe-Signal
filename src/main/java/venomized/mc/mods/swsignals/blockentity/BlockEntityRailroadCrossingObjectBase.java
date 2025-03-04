@@ -1,15 +1,18 @@
 package venomized.mc.mods.swsignals.blockentity;
 
+import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -39,25 +42,18 @@ public abstract class BlockEntityRailroadCrossingObjectBase extends SwBlockEntit
 	 *
 	 * @param sourceBlockEntity source block destination
 	 * @param mode
+	 * @return
 	 */
 	@Override
-	public void onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
-		sourceBlockEntity.ifPresent(be->{
+	public Pair<InteractionResult, Component> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+		if(sourceBlockEntity.isPresent()) {
+			IForgeBlockEntity be = sourceBlockEntity.get();
 			if (be instanceof BlockEntityRailroadCrossingController c) {
 				setRailroadCrossingControllerPos(c.getBlockPos());
+				return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully bound to controller"));
 			}
-		});
-	}
-
-	/**
-	 * Signal Box A -> Create Signal; Signal Box A is the target
-	 *
-	 * @param targetBlockEntity target block destination
-	 * @param mode
-	 */
-	@Override
-	public void onBindToTarget(Optional<ISignalTunerBindable> targetBlockEntity, SignalTunerMode mode) {
-
+		}
+		return Pair.of(InteractionResult.PASS, null);
 	}
 
 	@Override

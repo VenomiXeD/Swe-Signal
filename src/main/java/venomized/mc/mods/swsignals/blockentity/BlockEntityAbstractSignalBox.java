@@ -1,18 +1,20 @@
 package venomized.mc.mods.swsignals.blockentity;
 
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
+import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignalBox;
 
 import java.util.Optional;
 
@@ -108,9 +110,13 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		super.saveAdditional(pTag);
 		if (createSignalBlockEntityPosition != null) {
 			pTag.put("create_signal_source", NbtUtils.writeBlockPos(createSignalBlockEntityPosition));
+		} else {
+			pTag.putBoolean("create_signal_source_missing",true);
 		}
 		if (sourceSignalBox != null) {
 			pTag.put("source_signalbox_source", NbtUtils.writeBlockPos(sourceSignalBox));
+		} else {
+			pTag.putBoolean("source_signalbox_source_missing",true);
 		}
 	}
 
@@ -120,11 +126,17 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	@Override
 	public void load(CompoundTag pTag) {
 		super.load(pTag);
+
 		if (pTag.contains("create_signal_source")) {
 			this.createSignalBlockEntityPosition = NbtUtils.readBlockPos(pTag.getCompound("create_signal_source"));
+		} else {
+			this.createSignalBlockEntityPosition = null;
 		}
+
 		if (pTag.contains("source_signalbox_source")) {
 			sourceSignalBox = NbtUtils.readBlockPos(pTag.getCompound("source_signalbox_source"));
+		} else {
+			sourceSignalBox = null;
 		}
 	}
 
@@ -153,12 +165,18 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	 */
 	@Override
 	public void handleUpdateTag(CompoundTag pTag) {
-		if (pTag.contains("create_signal_source")) {
-			this.createSignalBlockEntityPosition = NbtUtils.readBlockPos(pTag.getCompound("create_signal_source"));
-		}
-		if (pTag.contains("source_signalbox_source")) {
-			sourceSignalBox = NbtUtils.readBlockPos(pTag.getCompound("source_signalbox_source"));
-		}
+		this.load(pTag);
+		// if (pTag.contains("create_signal_source")) {
+		// 	this.createSignalBlockEntityPosition = NbtUtils.readBlockPos(pTag.getCompound("create_signal_source"));
+		// } else {
+		// 	this.createSignalBlockEntityPosition = null;
+		// }
+//
+		// if (pTag.contains("source_signalbox_source")) {
+		// 	sourceSignalBox = NbtUtils.readBlockPos(pTag.getCompound("source_signalbox_source"));
+		// } else {
+		// 	this.sourceSignalBox = null;
+		// }
 	}
 
 	/**
@@ -167,33 +185,26 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	 *
 	 * @param sourceBlockEntity
 	 * @param mode
+	 * @return
 	 */
 	@Override
-	public void onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+	public Pair<InteractionResult, Component> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
 		if (mode == SignalTunerMode.DISCONNECT_ALL) {
 			setSignalBoxSource(null);
 			setCreateSignalSource(null);
-			return;
+			return Pair.of(InteractionResult.SUCCESS,Component.literal("Successfully unbound all"));
 		}
-		sourceBlockEntity.ifPresent(e -> {
-			if (e instanceof SignalBlockEntity sbe) {
+		if (sourceBlockEntity.isPresent()) {
+			ISignalTunerBindable be = sourceBlockEntity.get();
+			if (be instanceof SignalBlockEntity sbe) {
 				this.setCreateSignalSource(sbe.getBlockPos());
+				return Pair.of(InteractionResult.SUCCESS,Component.literal("Successfully bound to signal"));
 			}
-			if (e instanceof BlockEntityAbstractSignalBox sb) {
+			if (be instanceof BlockEntityAbstractSignalBox sb) {
 				this.setSignalBoxSource(sb.getBlockPos());
+				return Pair.of(InteractionResult.SUCCESS,Component.literal("Successfully bound to signal box"));
 			}
-		});
-	}
-
-	/**
-	 * Called on the source block entity;
-	 * Signal Box A -> Create Signal; Signal Box A is the target
-	 *
-	 * @param targetBlockEntity
-	 * @param mode
-	 */
-	@Override
-	public void onBindToTarget(Optional<ISignalTunerBindable> targetBlockEntity, SignalTunerMode mode) {
-
+		}
+		return Pair.of(InteractionResult.PASS,Component.literal("No block entity bound"));
 	}
 }
