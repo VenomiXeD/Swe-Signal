@@ -154,32 +154,6 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	}
 
 	/**
-	 * Called when the chunk's TE update tag, gotten from
-	 * {@link BlockEntity#getUpdateTag()}, is received on the client.
-	 * <p>
-	 * Used to handle this tag in a special way. By default this simply calls
-	 * {@link BlockEntity#load(CompoundTag)}.
-	 *
-	 * @param tag The {@link CompoundTag} sent from
-	 *            {@link BlockEntity#getUpdateTag()}
-	 */
-	@Override
-	public void handleUpdateTag(CompoundTag pTag) {
-		this.load(pTag);
-		// if (pTag.contains("create_signal_source")) {
-		// 	this.createSignalBlockEntityPosition = NbtUtils.readBlockPos(pTag.getCompound("create_signal_source"));
-		// } else {
-		// 	this.createSignalBlockEntityPosition = null;
-		// }
-//
-		// if (pTag.contains("source_signalbox_source")) {
-		// 	sourceSignalBox = NbtUtils.readBlockPos(pTag.getCompound("source_signalbox_source"));
-		// } else {
-		// 	this.sourceSignalBox = null;
-		// }
-	}
-
-	/**
 	 * Called on the target block entity;
 	 * Signal Box A -> Create Signal; Create Signal is the source
 	 *

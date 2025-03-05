@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "swsignal:block/sw_3l_distant_railroad_crossing_signal",
-		"particle": "swsignal:block/sw_3l_distant_railroad_crossing_signal"
+		"0": "swsignal:block/signals/se/3l_railroad_crossing_lights",
+		"particle": "swsignal:block/signals/se/3l_railroad_crossing_lights"
 	},
 	"elements": [
 		{

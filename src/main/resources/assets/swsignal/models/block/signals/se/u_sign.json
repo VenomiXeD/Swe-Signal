@@ -1,8 +1,8 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "swsignal:block/sw_u_sign_plate",
-    "1": "swsignal:block/sw_u_sign_rod"
+    "0": "swsignal:block/signals/se/u_sign_plate",
+    "1": "swsignal:block/signals/se/u_sign_rod"
   },
   "elements": [
     {

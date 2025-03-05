@@ -20,6 +20,13 @@ public class BlockEntityRendererGeneric extends BlockEntityRendererBase<BlockEnt
 	}
 
 	/**
+	 * A generic renderer - will use the block model supplied by the BlockState model
+	 */
+	public BlockEntityRendererGeneric() {
+		this.MODEL_LOC = null;
+	}
+
+	/**
 	 * @return
 	 */
 	@Override
@@ -38,6 +45,6 @@ public class BlockEntityRendererGeneric extends BlockEntityRendererBase<BlockEnt
 	@Override
 	public void render(BlockEntityUSign pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
 		super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
-		Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateWithAO(pBlockEntity.getLevel(), getModel(), pBlockEntity.getBlockState(), pBlockEntity.getBlockPos(), pPoseStack, pBuffer.getBuffer(RenderType.solid()), true, pBlockEntity.getLevel().getRandom(), pPackedLight, pPackedOverlay);
+		Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateWithAO(pBlockEntity.getLevel(), getModel(pBlockEntity.getBlockState()), pBlockEntity.getBlockState(), pBlockEntity.getBlockPos(), pPoseStack, pBuffer.getBuffer(RenderType.solid()), true, pBlockEntity.getLevel().getRandom(), pPackedLight, pPackedOverlay);
 	}
 }

@@ -8,11 +8,6 @@ import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityR
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 
 public class BlockEntityRendererRailroadCrossingDistantSignal extends BlockEntityRendererBase<BlockEntityRailroadCrossingDistantSignal> {
-	@Override
-	protected ResourceLocation modelLoc() {
-		return modLoc("block/sw_3l_distant_railroad_crossing_signal");
-	}
-
 	/**
 	 * @param pBlockEntity
 	 * @param pPartialTick
@@ -26,7 +21,7 @@ public class BlockEntityRendererRailroadCrossingDistantSignal extends BlockEntit
 		super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
 		getRenderer().tesselateWithAO(
 				pBlockEntity.getLevel(),
-				getModel(),
+				getModel(pBlockEntity.getBlockState()),
 				pBlockEntity.getBlockState(),
 				pBlockEntity.getBlockPos(),
 				pPoseStack,

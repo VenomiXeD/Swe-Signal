@@ -5,8 +5,8 @@
     32
   ],
   "textures": {
-    "3": "swsignal:block/sw_3l_signal_post_1970",
-    "particle": "swsignal:block/sw_3l_signal_post_1970"
+    "3": "swsignal:block/signals/se/3l_signal_post_1970",
+    "particle": "swsignal:block/signals/se/3l_signal_post_1970"
   },
   "elements": [
     {

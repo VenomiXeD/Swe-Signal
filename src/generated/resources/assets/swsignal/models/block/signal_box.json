@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "swsignal:block/sw_signal_box"
+    "all": "swsignal:block/signals/se/signal_box"
   }
 }

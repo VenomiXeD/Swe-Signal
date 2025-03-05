@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "swsignal:block/signal_box"
+    }
+  }
+}

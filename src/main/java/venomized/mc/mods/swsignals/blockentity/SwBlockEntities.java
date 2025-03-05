@@ -7,6 +7,7 @@ import net.minecraftforge.registries.RegistryObject;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.SwBlocks;
 import venomized.mc.mods.swsignals.blockentity.sw.*;
+import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityDwarfSignal;
 import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityEndpointSignal;
 import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityRailroadCrossingDistantSignal;
 import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityRailroadCrossingSignal;

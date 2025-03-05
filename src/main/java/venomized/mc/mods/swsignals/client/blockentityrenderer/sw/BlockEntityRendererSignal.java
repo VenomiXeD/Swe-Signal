@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.SwSignal;
@@ -16,7 +17,7 @@ import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendere
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class BlockEntityRendererSignal<T extends BlockEntitySignal>
+public class BlockEntityRendererSignal<T extends BlockEntitySignal>
 		extends BlockEntityRendererBase<T> {
 	protected static final int FULLBRIGHT = 0xFFFFFF;
 
@@ -39,24 +40,9 @@ public abstract class BlockEntityRendererSignal<T extends BlockEntitySignal>
 	}
 
 	@Override
-	protected BakedModel getModel() {
-		return this.getSignalModel();
-	}
-
-	@Override
 	protected ResourceLocation modelLoc() {
-		return this.getSignalModelLoc();
+		return null;
 	}
-
-	public BakedModel getSignalModel() {
-		ResourceLocation signalModelLoc = this.getSignalModelLoc();
-		if (signalModelLoc == null) {
-			throw new IllegalStateException("BlockEntityRender may not have a null model location");
-		}
-		return Minecraft.getInstance().getModelManager().getModel(this.getSignalModelLoc());
-	}
-
-	public abstract ResourceLocation getSignalModelLoc();
 
 	public boolean isObjModel() {
 		return false;
@@ -83,7 +69,7 @@ public abstract class BlockEntityRendererSignal<T extends BlockEntitySignal>
 
 		renderer.tesselateWithAO(
 				t.getLevel(),
-				this.getModel(),
+				this.getModel(t.getBlockState()),
 				t.getBlockState(),
 				t.getBlockPos(),
 				poseStack,

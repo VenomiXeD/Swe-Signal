@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "orientation=0": {
+      "model": "swsignal:block/signals/se/3l_distant_railroad_crossing_signal"
+    },
+    "orientation=1": {
+      "model": "swsignal:block/signals/se/3l_distant_railroad_crossing_signal"
+    },
+    "orientation=2": {
+      "model": "swsignal:block/signals/se/3l_distant_railroad_crossing_signal"
+    },
+    "orientation=3": {
+      "model": "swsignal:block/signals/se/3l_distant_railroad_crossing_signal"
+    },
+    "orientation=4": {
+      "model": "swsignal:block/signals/se/3l_distant_railroad_crossing_signal"
+    },
+    "orientation=5": {
+      "model": "swsignal:block/signals/se/3l_distant_railroad_crossing_signal"
+    },
+    "orientation=6": {
+      "model": "swsignal:block/signals/se/3l_distant_railroad_crossing_signal"
+    },
+    "orientation=7": {
+      "model": "swsignal:block/signals/se/3l_distant_railroad_crossing_signal"
+    }
+  }
+}

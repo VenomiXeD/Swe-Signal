@@ -6,7 +6,7 @@
     32
   ],
   "textures": {
-    "1": "swsignal:block/sw_3l_distant_signal_post_1970"
+    "1": "swsignal:block/signals/se/3l_distant_signal_post_1970"
   },
   "elements": [
     {

@@ -3,7 +3,7 @@
 	"parent": "sw_railroadcrossing_signal_2",
 	"texture_size": [32, 32],
 	"textures": {
-		"1": "swsignal:block/sw_railroadcrossing_signal_2"
+		"1": "swsignal:block/signals/se/railroadcrossing_signal_2"
 	},
 	"elements": [
 		{
