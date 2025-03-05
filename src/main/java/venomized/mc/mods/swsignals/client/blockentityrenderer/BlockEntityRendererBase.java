@@ -9,6 +9,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.AxisAngle4f;
@@ -33,12 +34,17 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
 		return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
 	}
 
-	protected abstract ResourceLocation modelLoc();
+	protected ResourceLocation modelLoc() { return null; };
 
-	protected BakedModel getModel() {
+	protected BakedModel getModel(BlockState currentBlockState) {
 		if (model == null) {
-			Minecraft mc = Minecraft.getInstance();
-			model = mc.getModelManager().getModel(modelLoc());
+			ResourceLocation modelLoc = modelLoc();
+			if (modelLoc == null) {
+				model = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(currentBlockState);
+			} else {
+				Minecraft mc = Minecraft.getInstance();
+				model = mc.getModelManager().getModel(modelLoc);
+			}
 		}
 		return model;
 	}

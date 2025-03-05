@@ -13,16 +13,6 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 @OnlyIn(Dist.CLIENT)
 public class BlockEntityRendererEndpointSignal extends BlockEntityRendererBase<BlockEntityEndpointSignal> {
-	public static final ResourceLocation SIGNAL_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "block/sw_1l_signal_endpoint_post_1920");
-
-	/**
-	 * @return
-	 */
-	@Override
-	protected ResourceLocation modelLoc() {
-		return SIGNAL_MODEL_LOC;
-	}
-
 	/**
 	 * @param pBlockEntity
 	 * @param pPartialTick
@@ -36,7 +26,7 @@ public class BlockEntityRendererEndpointSignal extends BlockEntityRendererBase<B
 		super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
 		getRenderer().tesselateWithAO(
 				pBlockEntity.getLevel(),
-				getModel(),
+				getModel(pBlockEntity.getBlockState()),
 				pBlockEntity.getBlockState(),
 				pBlockEntity.getBlockPos(),
 				pPoseStack,

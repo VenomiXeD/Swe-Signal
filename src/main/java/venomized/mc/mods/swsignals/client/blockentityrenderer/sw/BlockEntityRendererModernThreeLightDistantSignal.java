@@ -10,13 +10,6 @@ import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendere
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 public class BlockEntityRendererModernThreeLightDistantSignal extends BlockEntityRendererBase<BlockEntityThreeLightDistantSignal> {
-	private static final ResourceLocation SIGNAL_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "block/sw_3l_distant_signal_post_1970");
-
-	@Override
-	protected ResourceLocation modelLoc() {
-		return SIGNAL_MODEL_LOC;
-	}
-
 	/**
 	 * @param pBlockEntity
 	 * @param pPartialTick
@@ -30,7 +23,7 @@ public class BlockEntityRendererModernThreeLightDistantSignal extends BlockEntit
 		super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
 		getRenderer().tesselateWithAO(
 				pBlockEntity.getLevel(),
-				getModel(),
+				getModel(pBlockEntity.getBlockState()),
 				pBlockEntity.getBlockState(),
 				pBlockEntity.getBlockPos(),
 				pPoseStack,

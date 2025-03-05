@@ -4,9 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.block.SwAbstract45DegreeBlock;
-import venomized.mc.mods.swsignals.block.SwAbstractBlock;
-import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityDwarfSignal;
+import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityDwarfSignal;
 
 public class BlockModernDwarfSignal extends BlockAbstractSignal {
 	@Override

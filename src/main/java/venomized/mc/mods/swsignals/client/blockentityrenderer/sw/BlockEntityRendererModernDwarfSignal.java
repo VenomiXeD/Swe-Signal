@@ -1,18 +1,11 @@
 package venomized.mc.mods.swsignals.client.blockentityrenderer.sw;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
-import net.minecraft.util.Mth;
-import org.joml.AxisAngle4f;
-import org.joml.Quaternionf;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.blockentity.sw.BlockEntityDwarfSignal;
+import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityDwarfSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 
 public class BlockEntityRendererModernDwarfSignal extends BlockEntityRendererBase<BlockEntityDwarfSignal> {
@@ -20,7 +13,7 @@ public class BlockEntityRendererModernDwarfSignal extends BlockEntityRendererBas
 
 	@Override
 	protected ResourceLocation modelLoc() {
-		return ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,"block/sw_4l_dwarf_signal_post_1970");
+		return null; // return ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,"block/sw_4l_dwarf_signal_post_1970");
 	}
 
 	/**
@@ -39,7 +32,7 @@ public class BlockEntityRendererModernDwarfSignal extends BlockEntityRendererBas
 		pPoseStack.scale(SCALE,SCALE,SCALE);
 		getRenderer().tesselateWithAO(
 				pBlockEntity.getLevel(),
-				this.getModel(),
+				this.getModel(pBlockEntity.getBlockState()),
 				pBlockEntity.getBlockState(),
 				pBlockEntity.getBlockPos(),
 				pPoseStack,

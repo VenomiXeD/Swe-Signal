@@ -29,8 +29,8 @@ public class ClientEvents {
 	@SubscribeEvent
 	public void onEntityRenderRegisterEvent(EntityRenderersEvent.RegisterRenderers event) {
 		SwSignal.LOGGER.info("Registering EntityRenderers");
-		event.registerBlockEntityRenderer(SwBlockEntities.BE_TWO_LIGHT_SIGNAL.get(), (ctx) -> new BlockEntityRendererModernTwoLightSignal());
-		event.registerBlockEntityRenderer(SwBlockEntities.BE_THREE_LIGHT_SIGNAL.get(), (ctx) -> new BlockEntityRendererModernThreeLightSignal());
+		event.registerBlockEntityRenderer(SwBlockEntities.BE_TWO_LIGHT_SIGNAL.get(), (ctx) -> new BlockEntityRendererSignal());
+		event.registerBlockEntityRenderer(SwBlockEntities.BE_THREE_LIGHT_SIGNAL.get(), (ctx) -> new BlockEntityRendererSignal());
 		event.registerBlockEntityRenderer(SwBlockEntities.BE_FOUR_LIGHT_SIGNAL.get(), (ctx) -> new BlockEntityRendererModernFourLightSignal());
 		event.registerBlockEntityRenderer(SwBlockEntities.BE_FIVE_LIGHT_SIGNAL.get(), (ctx) -> new BlockEntityRendererModernFiveLightSignal());
 
@@ -43,7 +43,7 @@ public class ClientEvents {
 		event.registerBlockEntityRenderer(SwBlockEntities.BE_RAILROAD_CROSSING_SIGNAL.get(), (ctx)-> new BlockEntityRendererRailroadCrossingSignal());
 		event.registerBlockEntityRenderer(SwBlockEntities.BE_RAILROAD_CROSSING_DISTANT_SIGNAL.get(), (ctx)-> new BlockEntityRendererRailroadCrossingDistantSignal());
 
-		event.registerBlockEntityRenderer(SwBlockEntities.BE_U_SIGN.get(), (ctx) -> new BlockEntityRendererGeneric("block/sw_u_sign"));
+		event.registerBlockEntityRenderer(SwBlockEntities.BE_U_SIGN.get(), (ctx) -> new BlockEntityRendererGeneric());
 	}
 
 	@SubscribeEvent
@@ -51,20 +51,20 @@ public class ClientEvents {
 		SwSignal.LOGGER.info("Registering Additional Models");
 		e.register(BlockEntityRendererSignal.SIGNAL_LIGHT_MODEL_LOC);
 
-		e.register(BlockEntityRendererModernTwoLightSignal.SIGNAL_MODEL_LOC);
-		e.register(BlockEntityRendererModernThreeLightSignal.SIGNAL_MODEL_LOC);
-		e.register(BlockEntityRendererModernFourLightSignal.SIGNAL_MODEL_LOC);
-		e.register(BlockEntityRendererModernFiveLightSignal.SIGNAL_MODEL_LOC);
-
-		e.register(modLoc("block/sw_4l_dwarf_signal_post_1970"));
-
-		e.register(BlockEntityRendererEndpointSignal.SIGNAL_MODEL_LOC);
-
-		e.register(modLoc("block/sw_3l_distant_signal_post_1970"));
-
-		e.register(modLoc("block/sw_railroadcrossing_signal_2"));
-		e.register(modLoc("block/sw_3l_distant_railroad_crossing_signal"));
-
-		e.register(modLoc("block/sw_u_sign"));
+		// e.register(BlockEntityRendererModernTwoLightSignal.SIGNAL_MODEL_LOC);
+		// e.register(BlockEntityRendererModernThreeLightSignal.SIGNAL_MODEL_LOC);
+		// e.register(BlockEntityRendererModernFourLightSignal.SIGNAL_MODEL_LOC);
+		// e.register(BlockEntityRendererModernFiveLightSignal.SIGNAL_MODEL_LOC);
+//
+		// e.register(modLoc("block/sw_4l_dwarf_signal_post_1970"));
+//
+		// e.register(BlockEntityRendererEndpointSignal.SIGNAL_MODEL_LOC);
+//
+		// e.register(modLoc("block/sw_3l_distant_signal_post_1970"));
+//
+		// e.register(modLoc("block/signals/se/sw_railroadcrossing_signal_2"));
+		// e.register(modLoc("block/sw_3l_distant_railroad_crossing_signal"));
+//
+		// e.register(modLoc("block/sw_u_sign"));
 	}
 }
