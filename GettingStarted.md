@@ -1,4 +1,4 @@
-How to start the gradle project and being able to use everything needed! 
+# How to start the gradle project and being able to use everything needed! 
 
 1. ./gradlew                                Starts the gradle project. 
 2. ./gradlew --refresh-dependencies         Refreshesh all the dependencies and downloads them?

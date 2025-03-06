@@ -3,7 +3,6 @@ package venomized.mc.mods.swsignals.client.blockentityrenderer.sw;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
 import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityRailroadCrossingSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 

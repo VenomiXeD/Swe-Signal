@@ -42,4 +42,6 @@ public final class SwBlocks {
 
 	//For testing purposes
 	public static final RegistryObject<TestBlock> BLOCK_TEST = BLOCKS.register("test_test", TestBlock::new);
+
+	public static final RegistryObject<BlockATCController> BLOCK_ATC_CONTROLLER = BLOCKS.register("atc_controller", BlockATCController::new);
 }

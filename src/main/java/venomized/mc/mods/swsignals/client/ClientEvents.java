@@ -6,11 +6,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererATCController;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.sw.*;
+import venomized.mc.mods.swsignals.client.overlays.ATCOverlayHUD;
 import venomized.mc.mods.swsignals.client.ui.ScreenTest;
 
 @OnlyIn(Dist.CLIENT)
@@ -44,12 +48,21 @@ public class ClientEvents {
 		event.registerBlockEntityRenderer(SwBlockEntities.BE_RAILROAD_CROSSING_DISTANT_SIGNAL.get(), (ctx)-> new BlockEntityRendererRailroadCrossingDistantSignal());
 
 		event.registerBlockEntityRenderer(SwBlockEntities.BE_U_SIGN.get(), (ctx) -> new BlockEntityRendererGeneric());
+
+		event.registerBlockEntityRenderer(SwBlockEntities.BE_ATC_CONTROLLER.get(), BlockEntityRendererATCController::new);
+	}
+
+	@SubscribeEvent
+	public void onScreenOverlay(RegisterGuiOverlaysEvent e) {
+		e.registerAbove(VanillaGuiOverlay.HOTBAR.id(), "atc_overlay", ATCOverlayHUD::render);
 	}
 
 	@SubscribeEvent
 	public void onRegisterAdditionalModelsEvent(ModelEvent.RegisterAdditional e) {
 		SwSignal.LOGGER.info("Registering Additional Models");
 		e.register(BlockEntityRendererSignal.SIGNAL_LIGHT_MODEL_LOC);
+
+		e.register(SwSignal.modLoc("block/tracks/se_balise"));
 
 		// e.register(BlockEntityRendererModernTwoLightSignal.SIGNAL_MODEL_LOC);
 		// e.register(BlockEntityRendererModernThreeLightSignal.SIGNAL_MODEL_LOC);

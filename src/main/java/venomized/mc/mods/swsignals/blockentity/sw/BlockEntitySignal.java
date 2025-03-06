@@ -25,8 +25,6 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 import java.util.List;
 import java.util.Optional;
 
-import static com.ibm.icu.text.PluralRules.Operand.e;
-
 public abstract class BlockEntitySignal extends SwBlockEntityBase
 		implements IHaveGoggleInformation, ISignalTunerBindable {
 	private int lightCount;

@@ -119,11 +119,21 @@ minecraft {
         client {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', mod_id
+
+            property("mixin.env.remapRefMap", "true")
+            property("mixin.env.refMapRemappingFile", "${projectDir}/build/createSrgToMcp/output.srg")
+
+            arg("-mixin.config=create.mixins.json")
         }
 
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
+
+            property("mixin.env.remapRefMap", "true")
+            property("mixin.env.refMapRemappingFile", "${projectDir}/build/createSrgToMcp/output.srg")
+
+            arg("-mixin.config=create.mixins.json")
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
@@ -166,11 +176,13 @@ repositories {
     maven {
         url = "https://maven.blamejared.com"
     }
-    repositories {
-        maven {
-            url "https://cursemaven.com"
-        }
+    maven {
+        url = 'https://jitpack.io'
     }
+    maven {
+        url = "https://cursemaven.com"
+    }
+
 }
 
 dependencies {
@@ -191,15 +203,16 @@ dependencies {
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
     // The group id is ignored when searching -- in this case, it is "blank"
-    // implementation fg.deobf("blank:pantographsandwires-${minecraft_version}:${coolmod_version}")
+    // compileOnly fg.deobf("blank:Steam_Rails-1.6.7+forge-mc${minecraft_version}")
 
 
-    // runtimeOnly fg.deobf("curse.maven:embeddium-908741:5630140")
-    // runtimeOnly fg.deobf("curse.maven:oculus-581495:6020952")
+    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5630140")
+    runtimeOnly fg.deobf("curse.maven:oculus-581495:6020952")
 
-
+    // implementation fg.deobf("curse.maven:create-steam-n-rails-688231:5840017")
     // implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
-    // implementation fg.deobf("curse.maven:create-pantographs-and-wires-1186908:6255630")
+    // implementation fg.deobf('com.github.MisterJulsen:Create-Pantographs-and-Wires:1.20.1')
+    // implementation fg.deobf("curse.maven:create-railways-navigator-935929:6087014")
 
 
     implementation fg.deobf("com.simibubi.create:create-${create_minecraft_version}:${create_version}:slim") { transitive = false }

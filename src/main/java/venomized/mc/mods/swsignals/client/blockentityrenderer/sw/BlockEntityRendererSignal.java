@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.SwSignal;
@@ -36,7 +35,7 @@ public class BlockEntityRendererSignal<T extends BlockEntitySignal>
 
 	@Override
 	public int getViewDistance() {
-		return 1024;
+		return 512;
 	}
 
 	@Override
@@ -119,7 +118,7 @@ public class BlockEntityRendererSignal<T extends BlockEntitySignal>
 					poseStack.last(),
 					// RenderType.debugFilledBox()
 					// multiBufferSource.getBuffer(RenderType.debugQuads()), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
-					// multiBufferSource.getBuffer(RenderType.eyes(ResourceLocation.fromNamespaceAndPath("swsignal","textures/block/light.png"))), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
+					// multiBufferSource.getBuffer(RenderType.solid()), t.getBlockState(), signalLightModel(), r, g, b, FULLBRIGHT, overlay
 					multiBufferSource.getBuffer(RenderType.beaconBeam(SIGNAL_LIGHT_TEX_LOC, true)), t.getBlockState(), signalLightModel(), r, g, b, FULLBRIGHT, overlay
 					// multiBufferSource.getBuffer(RenderType.()), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
 			);

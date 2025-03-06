@@ -5,11 +5,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 public class BlockEntityRailroadCrossingController extends SwBlockEntityBase implements ISignalTunerBindable {
 	private boolean powered;

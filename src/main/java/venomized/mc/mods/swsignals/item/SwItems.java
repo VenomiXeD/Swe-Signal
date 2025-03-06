@@ -1,18 +1,16 @@
 package venomized.mc.mods.swsignals.item;
 
-import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.track.TrackTargetingBlockItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.block.BlockRailroadCrossingController;
 import venomized.mc.mods.swsignals.block.SwBlocks;
 import venomized.mc.mods.swsignals.block.sw.*;
 import venomized.mc.mods.swsignals.client.CustomModelBlockItem;
+import venomized.mc.mods.swsignals.create.tracks.ATCController;
 
 public class SwItems {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SwSignal.MOD_ID);
@@ -53,4 +51,6 @@ public class SwItems {
 	// TODO: For testing purposes
 	public static final RegistryObject<BlockItem> ITEM_TEST = ITEMS.register("test_test",
 			() -> new BlockItem(SwBlocks.BLOCK_TEST.get(), new Item.Properties()));
+
+	public static final RegistryObject<TrackTargetingBlockItem> ITEM_ATC_CONTROLLER = ITEMS.register("atc_controller", () -> new TrackTargetingBlockItem(SwBlocks.BLOCK_ATC_CONTROLLER.get(), new Item.Properties(), ATCController.ATC));
 }

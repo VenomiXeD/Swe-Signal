@@ -22,5 +22,6 @@ public abstract class MixinItemRenderer {
 		// 	pPoseStack.popPose();
 		// 	ci.cancel();
 		// }
+
 	}
 }
