@@ -2,7 +2,7 @@ package venomized.mc.mods.swsignals.network;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
-import venomized.mc.mods.swsignals.client.overlays.ATCOverlayHUD;
+import venomized.mc.mods.swsignals.client.ui.overlays.ATCOverlayHUD;
 
 import java.util.function.Supplier;
 

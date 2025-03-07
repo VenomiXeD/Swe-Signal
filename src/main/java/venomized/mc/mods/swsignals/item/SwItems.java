@@ -35,6 +35,7 @@ public class SwItems {
 	public static final RegistryObject<BlockItem> ITEM_THREE_LIGHT_DISTANT_SIGNAL = ITEMS.register("sw_3l_distant_signal", () -> new BlockItem(SwBlocks.BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL.get(), new Item.Properties()));
 
 	public static final RegistryObject<BlockItem> ITEM_DWARF_SIGNAL = ITEMS.register("sw_dwarf_signal_modern", () -> new BlockItem(SwBlocks.BLOCK_MODERN_DWARF_SIGNAL.get(), new Item.Properties()));
+	public static final RegistryObject<BlockItem> ITEM_MAIN_DWARF_SIGNAL = ITEMS.register("sw_main_dwarf_signal_modern", () -> new BlockItem(SwBlocks.BLOCK_MODERN_MAIN_DWARF_SIGNAL.get(), new Item.Properties()));
 
 	public static final RegistryObject<BlockItem> ITEM_ENDPOINT_SIGNAL = ITEMS.register(
 			BlockModernEndpointSignal.BLOCK_NAME,

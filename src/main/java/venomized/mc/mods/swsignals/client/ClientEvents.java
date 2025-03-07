@@ -13,8 +13,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererATCController;
-import venomized.mc.mods.swsignals.client.blockentityrenderer.sw.*;
-import venomized.mc.mods.swsignals.client.overlays.ATCOverlayHUD;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.se.*;
+import venomized.mc.mods.swsignals.client.ui.overlays.ATCOverlayHUD;
 import venomized.mc.mods.swsignals.client.ui.ScreenTest;
 
 @OnlyIn(Dist.CLIENT)
@@ -39,6 +39,7 @@ public class ClientEvents {
 		event.registerBlockEntityRenderer(SwBlockEntities.BE_FIVE_LIGHT_SIGNAL.get(), (ctx) -> new BlockEntityRendererModernFiveLightSignal());
 
 		event.registerBlockEntityRenderer(SwBlockEntities.BE_DWARF_SIGNAL.get(), (ctx) -> new BlockEntityRendererModernDwarfSignal());
+		event.registerBlockEntityRenderer(SwBlockEntities.BE_MAIN_DWARF_SIGNAL.get(), (ctx) -> new BlockEntityRendererModernMainDwarfSignal());
 
 		event.registerBlockEntityRenderer(SwBlockEntities.BE_ENDPOINT_SIGNAL.get(), (ctx) -> new BlockEntityRendererEndpointSignal());
 

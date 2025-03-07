@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import venomized.mc.mods.swsignals.client.overlays.ATCOverlayHUD;
+import venomized.mc.mods.swsignals.client.ui.overlays.ATCOverlayHUD;
 
 @OnlyIn(Dist.CLIENT)
 @Mixin(value = TrainHUD.class,remap = false)

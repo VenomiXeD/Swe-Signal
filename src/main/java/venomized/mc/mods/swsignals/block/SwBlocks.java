@@ -28,6 +28,8 @@ public final class SwBlocks {
 	// == DWARF SIGNALS ==
 	public static final RegistryObject<BlockModernDwarfSignal> BLOCK_MODERN_DWARF_SIGNAL = BLOCKS.register("signals.se.4l_dwarf_signal_post_1970", BlockModernDwarfSignal::new);
 
+	public static final RegistryObject<BlockModernMainDwarfSignal> BLOCK_MODERN_MAIN_DWARF_SIGNAL = BLOCKS.register("signals.se.7l_dwarf_main_signal_post_1970", BlockModernMainDwarfSignal::new);
+
 	// == MISC SIGNALS ==
 	public static final RegistryObject<BlockModernEndpointSignal> BLOCK_ENDPOINT_SIGNAL = BLOCKS.register("signals.se.1l_signal_endpoint_post_1920", BlockModernEndpointSignal::new);
 
