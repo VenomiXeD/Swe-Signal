@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "swsignals:item/signal_3l_modern"
+  }
+}
