@@ -1,9 +1,0 @@
-{
-  "loader": "forge:obj",
-  "shadeQuads": false,
-  "model": "swsignal:models/block/light.obj",
-  "textures": {
-    "light": "swsignal:block/light"
-  },
-  "emissive_ambient": true
-}

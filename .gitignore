@@ -1,30 +1,40 @@
+# gradle
+
+.gradle/
+build/
+out/
+classes/
+
 # eclipse
-bin
+
 *.launch
-.settings
-.metadata
+
+# idea
+
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# vscode
+
+.settings/
+.vscode/
+bin/
 .classpath
 .project
 
-# idea
-out
-*.ipr
-*.iws
-*.iml
-.idea
+# macos
 
-# gradle
-build
-.gradle
+*.DS_Store
 
-# other
-eclipse
-run
+# fabric
 
-# Files from Forge MDK
-forge*changelog.txt
-/run-data
-/src/generated/resources/.cache
-/.vscode
-/libs/pantographsandwires-forge-1.20.1-alpha-0.0.4.jar
-/libs/Steam_Rails-1.6.7+forge-mc1.20.1.jar
+run/
+
+# java
+
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr

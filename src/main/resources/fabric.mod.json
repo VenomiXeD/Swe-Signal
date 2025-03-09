@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "swsignal",
+	"version": "${version}",
+	"name": "Swedish Signals",
+	"description": "I'm a fun little description :D",
+	"authors": [
+		"mkmod generator"
+	],
+	"contact": {
+		"homepage": "https://github.com/snackbag/mkmod",
+		"sources": "https://github.com/snackbag/mkmod/blob/main/fabric"
+	},
+	"license": "MIT",
+	"icon": "assets/swsignal/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"venomized.mc.mods.swsignals.SwSignal"
+		],
+		"fabric-datagen": [
+			"venomized.mc.mods.swsignals.SwSignalDataGenerator"
+		]
+	},
+	"mixins": [
+		"swsignal.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {}
+}
