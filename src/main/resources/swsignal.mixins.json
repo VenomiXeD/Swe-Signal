@@ -1,9 +1,10 @@
 {
 	"required": true,
 	"package": "venomized.mc.mods.swsignals.mixin",
-	"compatibilityLevel": "JAVA_21",
+	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
+	],
+	"client": [
 	],
 	"injectors": {
 		"defaultRequire": 1

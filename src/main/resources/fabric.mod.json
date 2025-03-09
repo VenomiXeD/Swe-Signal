@@ -3,13 +3,13 @@
 	"id": "swsignal",
 	"version": "${version}",
 	"name": "Swedish Signals",
-	"description": "I'm a fun little description :D",
+	"description": "",
 	"authors": [
-		"mkmod generator"
+		""
 	],
 	"contact": {
-		"homepage": "https://github.com/snackbag/mkmod",
-		"sources": "https://github.com/snackbag/mkmod/blob/main/fabric"
+		"homepage": "https://github.com/VenomiXeD/Swe-Signal",
+		"sources": "https://github.com/VenomiXeD/Swe-Signal"
 	},
 	"license": "MIT",
 	"icon": "assets/swsignal/icon.png",
@@ -30,6 +30,5 @@
 		"minecraft": "~1.20.1",
 		"java": ">=17",
 		"fabric-api": "*"
-	},
-	"suggests": {}
+	}
 }

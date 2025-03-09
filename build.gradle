@@ -11,11 +11,18 @@ base {
 }
 
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+	mavenCentral()
+	maven {
+		name = "forge"
+		url = "https://files.minecraftforge.net/maven"
+	}
+
+	maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu
+	maven { url = "https://mvn.devos.one/snapshots/" } // Create, Porting Lib, Forge Tags, Milk Lib, Registrate
+	maven { url = "https://mvn.devos.one/releases/" } // Porting Lib Releases
+	maven { url = "https://maven.tterrag.com/" } // Flywheel
+	maven { url = "https://maven.jamieswhiteshirt.com/libs-release/" } // Reach Entity Attributes
+	maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" } // Forge Config API Port
 }
 
 fabricApi {
@@ -30,7 +37,13 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
+
+	runtimeOnly "curse.maven:sodium-394468:6260639"
+	runtimeOnly "curse.maven:irisshaders-455508:6258195"
+	runtimeOnly "curse.maven:modmenu-308702:5162837"
+
+	// Create
+	modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}")
 }
 
 processResources {
