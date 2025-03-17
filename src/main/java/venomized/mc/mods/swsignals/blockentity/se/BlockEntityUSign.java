@@ -1,4 +1,4 @@
-package venomized.mc.mods.swsignals.blockentity.sw;
+package venomized.mc.mods.swsignals.blockentity.se;
 
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.trains.signal.SignalBoundary;

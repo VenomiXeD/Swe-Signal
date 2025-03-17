@@ -1,7 +1,7 @@
 package venomized.mc.mods.swsignals.blockentity.se;
 
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
-import com.simibubi.create.foundation.utility.NBTHelper;
+import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
@@ -78,7 +78,7 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox implement
 		}
 		CompoundTag overrideTag = new CompoundTag();
 		for (Map.Entry<SwedishSignalAspect, SwedishSignalAspect> swedishSignalAspectSwedishSignalAspectEntry : this.manualOverrides.entrySet()) {
-			NBTHelper.writeEnum(overrideTag,swedishSignalAspectSwedishSignalAspectEntry.getKey().name(),swedishSignalAspectSwedishSignalAspectEntry.getValue());
+			net.createmod.catnip.nbt.NBTHelper.writeEnum(overrideTag,swedishSignalAspectSwedishSignalAspectEntry.getKey().name(),swedishSignalAspectSwedishSignalAspectEntry.getValue());
 		}
 
 		pTag.put("override", overrideTag);
