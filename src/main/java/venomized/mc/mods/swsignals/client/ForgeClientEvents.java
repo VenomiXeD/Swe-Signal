@@ -7,9 +7,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import venomized.mc.mods.swsignals.network.Networking;
 import venomized.mc.mods.swsignals.item.IScrollableItem;
 import venomized.mc.mods.swsignals.network.ClientScrollNetworkEvent;
+import venomized.mc.mods.swsignals.network.Networking;
 
 @OnlyIn(Dist.CLIENT)
 public class ForgeClientEvents {

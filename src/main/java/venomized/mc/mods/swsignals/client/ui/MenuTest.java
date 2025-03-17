@@ -1,5 +1,7 @@
 package venomized.mc.mods.swsignals.client.ui;
 
+import com.simibubi.create.foundation.utility.NBTHelper;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -7,17 +9,24 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import venomized.mc.mods.swsignals.client.SwMenus;
+import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
+
+import java.util.HashMap;
 
 
 public class MenuTest extends AbstractContainerMenu {
-	private String signalDesignation;
-
 	private ContainerLevelAccess access;
+
+	private final HashMap<SwedishSignalAspect, SwedishSignalAspect> manualOverrides = new HashMap<>();
 
 	public MenuTest(int containerId, Inventory plrInventory, FriendlyByteBuf extraData) {
 		this(containerId, plrInventory, ContainerLevelAccess.NULL);
 
-		this.signalDesignation = extraData.readUtf();
+		CompoundTag overrideTag = extraData.readAnySizeNbt().getCompound("overrides");
+		for (String key : overrideTag.getAllKeys()) {
+			manualOverrides.put(SwedishSignalAspect.valueOf(key), NBTHelper.readEnum(overrideTag,key,SwedishSignalAspect.class));
+		}
+
 	}
 
 	public MenuTest(int containerId, Inventory plrInventory, ContainerLevelAccess pLevel) {
@@ -26,8 +35,8 @@ public class MenuTest extends AbstractContainerMenu {
 		this.access = pLevel;
 	}
 
-	public String getSignalDesignation() {
-		return signalDesignation;
+	public HashMap<SwedishSignalAspect,SwedishSignalAspect> getManualOverrides() {
+		return manualOverrides;
 	}
 
 	/**

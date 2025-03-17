@@ -1,18 +1,5 @@
 package venomized.mc.mods.swsignals.rail;
 
-import com.simibubi.create.Create;
-import com.simibubi.create.CreateClient;
-import com.simibubi.create.content.trains.graph.EdgePointType;
-import com.simibubi.create.content.trains.graph.TrackGraph;
-import com.simibubi.create.content.trains.signal.SignalBlockEntity;
-import com.simibubi.create.content.trains.signal.SignalBoundary;
-import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
-import net.minecraft.core.Direction;
-
-import java.util.Collection;
-import java.util.Optional;
-import java.util.UUID;
-
 public class SignalUtilities {
 	public static float computeLightValue(float currentValue, float partialTick, boolean lit) {
 		return lit ? Math.min(1, currentValue + partialTick / 10) : Math.max(0, currentValue - partialTick / 20);

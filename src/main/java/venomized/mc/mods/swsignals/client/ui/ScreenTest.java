@@ -1,13 +1,9 @@
 package venomized.mc.mods.swsignals.client.ui;
 
-import com.simibubi.create.foundation.blockEntity.behaviour.ValueSettingsBehaviour;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.OptionInstance;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -15,8 +11,9 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.SwSignal;
+import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
-import java.util.List;
+import java.util.Arrays;
 
 @OnlyIn(Dist.CLIENT)
 public class ScreenTest extends AbstractContainerScreen<MenuTest> {
@@ -61,16 +58,11 @@ public class ScreenTest extends AbstractContainerScreen<MenuTest> {
 		optionsList = this.addRenderableWidget(
 				CycleButton.<String>builder(Component::literal)
 						.withValues(
-								"Hello",
-								"World",
-								"Value 2"
-						)
-						.create(this.leftPos + 10,this.topPos + 50,120, 16, Component.literal("option"),
-								(ins,newValue)->System.out.println(newValue)
-						)
+								Arrays.stream(SwedishSignalAspect.values())
+										.map(e->e.getName())
+										.toArray(String[]::new)
+						).create(this.leftPos,this.topPos,120,16,Component.nullToEmpty("Aspect"))
 		);
-
-		this.editBox.setHint(Component.literal("sample text"));
 	}
 
 	@Override

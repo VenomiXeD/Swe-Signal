@@ -1,22 +1,36 @@
 package venomized.mc.mods.swsignals.blockentity.se;
 
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
+import com.simibubi.create.foundation.utility.NBTHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityAbstractSignalBox;
+import venomized.mc.mods.swsignals.blockentity.ITickingEntity;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
-public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
+import java.util.HashMap;
+import java.util.Map;
+
+public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox implements ITickingEntity<BlockEntitySignalBox> {
 	public static final String NAME = "be_sw_signal_box";
 
-	private SwedishSignalAspect cachedAspect;
+	private SwedishSignalAspect aspect;
+	private SwedishSignalAspect previousAspect;
+
+	private HashMap<SwedishSignalAspect,SwedishSignalAspect> manualOverrides = new HashMap<>();
 
 	public BlockEntitySignalBox(BlockPos pPos, BlockState pBlockState) {
 		super(SwBlockEntities.BE_SW_SIGNAL_BOX.get(), pPos, pBlockState);
 	}
 
 	public SwedishSignalAspect getCurrentAspect() {
+		if (this.level.isClientSide()) {
+			return aspect;
+		}
+
 		SwedishSignalAspect result;
 
 		SignalBlockEntity.SignalState state = this.getCreateSignalState();
@@ -41,21 +55,54 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox {
 			if (signalBox == this) {
 				return SwedishSignalAspect.SIGNAL_FAULT_INCORRECT_WIRING;
 			}
-			if (signalBox != null) {
-				SwedishSignalAspect nextSignal = signalBox.getCurrentAspect();
+            SwedishSignalAspect nextSignal = signalBox.getCurrentAspect();
 
-				if (nextSignal != null) {
-					result = switch (nextSignal) {
-						case STOP, SIGNAL_FAULT_INCORRECT_WIRING -> SwedishSignalAspect.PROCEED_40_CAUTION;
-						case PROCEED_40_SHORT, PROCEED_40_CAUTION -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;
-						case PROCEED_80_EXPECT_STOP, PROCEED_80, PROCEED_80_EXPECT_PROCEED_80 -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_80;
-						case PROCEED_80_EXPECT_PROCEED_40 ->  SwedishSignalAspect.PROCEED_80;
-					};
-				}
-			}
+            if (nextSignal != null) {
+                result = switch (nextSignal) {
+                    case STOP, SIGNAL_FAULT_INCORRECT_WIRING -> SwedishSignalAspect.PROCEED_40_CAUTION;
+                    case PROCEED_40_SHORT, PROCEED_40_CAUTION -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;
+                    case PROCEED_80_EXPECT_STOP, PROCEED_80, PROCEED_80_EXPECT_PROCEED_80 -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_80;
+                    case PROCEED_80_EXPECT_PROCEED_40 ->  SwedishSignalAspect.PROCEED_80;
+                };
+            }
 
-		}
-		this.cachedAspect = result;
+        }
 		return result;
+	}
+
+	@Override
+	protected void saveAdditional(CompoundTag pTag) {
+		super.saveAdditional(pTag);
+		if (this.aspect != null) {
+			pTag.putInt("self_signal_spect", this.aspect.ordinal());
+		}
+		CompoundTag overrideTag = new CompoundTag();
+		for (Map.Entry<SwedishSignalAspect, SwedishSignalAspect> swedishSignalAspectSwedishSignalAspectEntry : this.manualOverrides.entrySet()) {
+			NBTHelper.writeEnum(overrideTag,swedishSignalAspectSwedishSignalAspectEntry.getKey().name(),swedishSignalAspectSwedishSignalAspectEntry.getValue());
+		}
+
+		pTag.put("override", overrideTag);
+	}
+
+	@Override
+	public void load(CompoundTag pTag) {
+		super.load(pTag);
+		if (pTag.contains("self_signal_spect")) {
+			this.aspect = SwedishSignalAspect.values()[pTag.getInt("self_signal_spect")];
+		}
+
+		CompoundTag overrideTag = pTag.getCompound("override");
+		for (String key : overrideTag.getAllKeys()) {
+			this.manualOverrides.put(SwedishSignalAspect.valueOf(key),NBTHelper.readEnum(overrideTag,key,SwedishSignalAspect.class));
+		}
+	}
+
+	@Override
+	public void tick(Level level, BlockPos pos, BlockState state, BlockEntitySignalBox blockEntity) {
+		this.aspect = this.getCurrentAspect();
+		if (this.previousAspect != aspect) {
+			this.previousAspect = aspect;
+			this.updateSelf();
+		}
 	}
 }

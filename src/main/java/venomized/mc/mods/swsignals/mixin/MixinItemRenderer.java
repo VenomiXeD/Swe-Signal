@@ -14,14 +14,14 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(ItemRenderer.class)
 public abstract class MixinItemRenderer {
-	@Inject(method = "render", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;pushPose()V", shift = At.Shift.AFTER), cancellable = true)
+	@Inject(method = "render", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value="HEAD"), cancellable = true)
 	public void render(ItemStack pItemStack, ItemDisplayContext pDisplayContext, boolean pLeftHand, PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, int pCombinedOverlay, BakedModel pModel, CallbackInfo ci) {
-		// if (pItemStack.getItem() instanceof CustomModelBlockItem) {
-		// 	IClientItemExtensions.of(pItemStack.getItem()).getCustomRenderer()
-		// 			.renderByItem(pItemStack, pDisplayContext, pPoseStack, pBuffer, pCombinedLight, pCombinedOverlay);
-		// 	pPoseStack.popPose();
-		// 	ci.cancel();
-		// }
+	// if (pItemStack.getItem() instanceof CustomModelBlockItem) {
+	// 	IClientItemExtensions.of(pItemStack.getItem()).getCustomRenderer()
+	// 			.renderByItem(pItemStack, pDisplayContext, pPoseStack, pBuffer, pCombinedLight, pCombinedOverlay);
+	// 	pPoseStack.popPose();
+	// 	ci.cancel();
+	// }
 
 	}
 }

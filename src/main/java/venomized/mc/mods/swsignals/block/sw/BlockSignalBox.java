@@ -20,6 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.block.SwAbstractBlock;
+import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
 import venomized.mc.mods.swsignals.client.ui.MenuTest;
 
@@ -29,6 +30,8 @@ public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {
 	public BlockSignalBox() {
 		super(Properties.copy(Blocks.IRON_BLOCK));
 	}
+
+
 
 	/**
 	 * @param pPos
@@ -49,7 +52,10 @@ public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {
 	 */
 	@Override
 	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-		return EntityBlock.super.getTicker(pLevel, pState, pBlockEntityType);
+		if (pBlockEntityType == SwBlockEntities.BE_SW_SIGNAL_BOX.get()) {
+			return ((pLevel1, pPos, pState1, pBlockEntity) -> ((BlockEntitySignalBox) pBlockEntity).tick(pLevel1, pPos, pState1, (BlockEntitySignalBox)pBlockEntity));
+		}
+		return null;
 	}
 
 	/**
@@ -68,9 +74,10 @@ public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {
 		};
 
 		if(pPlayer.getItemInHand(pHand).isEmpty()) {
-			NetworkHooks.openScreen((ServerPlayer) pPlayer, pState.getMenuProvider(pLevel, pPos), (data)->
-					data.writeUtf("Hello world!")
-			);
+			BlockEntitySignalBox blockEntity = (BlockEntitySignalBox) pLevel.getBlockEntity(pPos);
+			NetworkHooks.openScreen((ServerPlayer) pPlayer, pState.getMenuProvider(pLevel, pPos), (data)->{
+				data.writeNbt(blockEntity.getUpdateTag());
+			});
 		}
 
 		return InteractionResult.sidedSuccess(pLevel.isClientSide());
