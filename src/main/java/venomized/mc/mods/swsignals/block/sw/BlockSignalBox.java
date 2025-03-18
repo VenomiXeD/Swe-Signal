@@ -20,7 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.block.SwAbstractBlock;
-import venomized.mc.mods.swsignals.blockentity.sw.BlockEntitySignalBox;
+import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
 import venomized.mc.mods.swsignals.client.ui.MenuTest;
 
 public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {

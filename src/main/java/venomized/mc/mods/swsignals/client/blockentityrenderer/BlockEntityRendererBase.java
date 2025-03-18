@@ -24,10 +24,14 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
 		return ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,p);
 	}
 
-	private BakedModel model;
+	private BakedModel cachedModel;
 
 	public BlockEntityRendererBase() {
+	}
 
+	@Override
+	public int getViewDistance() {
+		return 1024;
 	}
 
 	protected ModelBlockRenderer getRenderer() {
@@ -37,16 +41,16 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
 	protected ResourceLocation modelLoc() { return null; };
 
 	protected BakedModel getModel(BlockState currentBlockState) {
-		if (model == null) {
+		if (cachedModel == null) {
 			ResourceLocation modelLoc = modelLoc();
 			if (modelLoc == null) {
-				model = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(currentBlockState);
+				cachedModel = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(currentBlockState);
 			} else {
 				Minecraft mc = Minecraft.getInstance();
-				model = mc.getModelManager().getModel(modelLoc);
+				cachedModel = mc.getModelManager().getModel(modelLoc);
 			}
 		}
-		return model;
+		return cachedModel;
 	}
 
 	/**

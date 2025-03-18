@@ -21,5 +21,10 @@ public class ItemModelDataGenerator extends ItemModelProvider {
 				.override()
 				.model(new ModelFile.ExistingModelFile(modLoc("block/sw_u_sign"), existingFileHelper))
 				.end();
+
+		this.basicItem(SwItems.ITEM_THREE_LIGHT_SIGNAL.get())
+				.override()
+				.model(new ModelFile.ExistingModelFile(modLoc("block/signals/se/3l_signal_post_1970"), existingFileHelper))
+				.end();
 	}
 }

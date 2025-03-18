@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.block.BlockRailroadCrossingObjectBase;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
-import venomized.mc.mods.swsignals.blockentity.sw.auxilliarysignals.BlockEntityRailroadCrossingSignal;
+import venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals.BlockEntityRailroadCrossingSignal;
 
 public class BlockRailroadCrossingSignal extends BlockRailroadCrossingObjectBase {
 	@Override

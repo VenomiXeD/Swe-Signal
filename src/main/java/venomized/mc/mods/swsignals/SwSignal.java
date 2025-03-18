@@ -3,6 +3,7 @@ package venomized.mc.mods.swsignals;
 import com.tterrag.registrate.Registrate;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,13 +25,17 @@ import venomized.mc.mods.swsignals.client.ClientEvents;
 import venomized.mc.mods.swsignals.client.ForgeClientEvents;
 import venomized.mc.mods.swsignals.client.SwMenus;
 import venomized.mc.mods.swsignals.data.BlockStateDataGenerator;
-import venomized.mc.mods.swsignals.data.ItemModelDataGenerator;
 import venomized.mc.mods.swsignals.data.SoundEventDataGenerator;
 import venomized.mc.mods.swsignals.item.SwItems;
+import venomized.mc.mods.swsignals.network.Networking;
 
 @Mod(SwSignal.MOD_ID)
 public class SwSignal {
 	public static final String MOD_ID = "swsignal";
+
+	public static final ResourceLocation modLoc(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+	}
 
 	public static Registrate register = Registrate.create(MOD_ID);
 
@@ -44,7 +50,7 @@ public class SwSignal {
 							})
 							.build()
 	);
-	private static Networking network;
+	private static Networking SW_SIGNAL_NETWORK;
 
 	public SwSignal() {
 		IEventBus eventbus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -69,12 +75,12 @@ public class SwSignal {
 			MinecraftForge.EVENT_BUS.register(forgeClientEvents);
 		});
 
-		network = new Networking();
+		SW_SIGNAL_NETWORK = new Networking();
 		Networking.init();
 	}
 
 	public static Networking network() {
-		return network;
+		return SW_SIGNAL_NETWORK;
 	}
 
 	@SubscribeEvent
@@ -83,5 +89,10 @@ public class SwSignal {
 		e.getGenerator().addProvider(true, new BlockStateDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
 		// e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
 		e.getGenerator().addProvider(true, new SoundEventDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+	}
+
+	@SubscribeEvent
+	public void onRegisterEvent(RegisterEvent e) {
+		// e.register(EdgePointType.SIGNAL
 	}
 }

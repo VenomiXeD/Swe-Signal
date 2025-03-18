@@ -27,18 +27,18 @@ public class EventHandler {
 					firstSignal = sbe;
 				}
 
-				UUID forward = SignalUtilities.getGroupForSignalForwardDirection(firstSignal);
-				UUID backward = SignalUtilities.getGroupForSignalBackwardDirection(firstSignal);
-				// SignalEdgeGroup orDefault = Create.RAILWAYS.signalEdgeGroups.getOrDefault(group, null);
-				// int trainsOnThisBlock = orDefault.trains.size();
-				SignalUtilities.DistantSignalEdgeGroup id = SignalUtilities.recursiveGetDistantSignalEdgeGroup(forward, backward, 2);
-				System.out.println(id);
-				if (id != null) {
-					SignalEdgeGroup signalEdgeGroupById = SignalUtilities.getSignalEdgeGroupById(id.distant(), true);
-					if (signalEdgeGroupById != null) {
-						signalEdgeGroupById.color = EdgeGroupColor.values()[event.getLevel().random.nextInt(EdgeGroupColor.values().length)];
-					}
-				}
+				// UUID forward = SignalUtilities.getGroupForSignalForwardDirection(firstSignal);
+				// UUID backward = SignalUtilities.getGroupForSignalBackwardDirection(firstSignal);
+				// // SignalEdgeGroup orDefault = Create.RAILWAYS.signalEdgeGroups.getOrDefault(group, null);
+				// // int trainsOnThisBlock = orDefault.trains.size();
+				// SignalUtilities.DistantSignalEdgeGroup id = SignalUtilities.recursiveGetDistantSignalEdgeGroup(forward, backward, 2);
+				// System.out.println(id);
+				// if (id != null) {
+				// 	SignalEdgeGroup signalEdgeGroupById = SignalUtilities.getSignalEdgeGroupById(id.distant(), true);
+				// 	if (signalEdgeGroupById != null) {
+				// 		signalEdgeGroupById.color = EdgeGroupColor.values()[event.getLevel().random.nextInt(EdgeGroupColor.values().length)];
+				// 	}
+				// }
 
 				// if (orDefault != null) {
 				// 	Collection<TrackGraph> values = CreateClient.RAILWAYS.trackNetworks.values();
