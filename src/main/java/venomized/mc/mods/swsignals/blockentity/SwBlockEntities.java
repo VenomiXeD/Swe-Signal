@@ -6,14 +6,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.SwBlocks;
-import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
-import venomized.mc.mods.swsignals.blockentity.se.BlockEntityThreeLightDistantSignal;
-import venomized.mc.mods.swsignals.blockentity.se.BlockEntityUSign;
+import venomized.mc.mods.swsignals.blockentity.se.*;
 import venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals.*;
-import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityFiveLightSignal;
-import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityFourLightSignal;
-import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityThreeLightSignal;
-import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityTwoLightSignal;
+import venomized.mc.mods.swsignals.blockentity.se.mainsignals.*;
 
 public final class SwBlockEntities {
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, SwSignal.MOD_ID);

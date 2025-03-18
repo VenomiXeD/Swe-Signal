@@ -9,7 +9,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -31,6 +33,8 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	 */
 	@Nullable
 	protected BlockPos sourceSignalBox;
+
+	protected boolean doLoadExternalSignalBox = true;
 
 	/**
 	 * @param pPos
@@ -80,12 +84,24 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		if (this.sourceSignalBox == null) {
 			return null;
 		}
+
 		BlockEntity blockEntity = this.getLevel().getBlockEntity(sourceSignalBox);
 		if (blockEntity instanceof BlockEntityAbstractSignalBox sb) {
 			return sb;
 		}
 		return null;
 	}
+
+	@Override
+	public void setRemoved() {
+		if (!level.isClientSide() && this.doLoadExternalSignalBox && sourceSignalBox != null) {
+			ChunkPos chunkPos = new ChunkPos(sourceSignalBox);
+			((ServerLevel)level).setChunkForced(chunkPos.x, chunkPos.z, false);
+		}
+		super.setRemoved();
+	}
+
+
 
 	public void setCreateSignalSource(BlockPos createSignalPos) {
 		this.createSignalBlockEntityPosition = createSignalPos;
@@ -118,6 +134,13 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		} else {
 			pTag.putBoolean("source_signalbox_source_missing",true);
 		}
+	}
+
+	@Override
+	public void onLoad() {
+		// attempt to load the signal box
+		this.getSignalBoxBlockEntity();
+		super.onLoad();
 	}
 
 	/**
@@ -166,7 +189,7 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		if (mode == SignalTunerMode.DISCONNECT_ALL) {
 			setSignalBoxSource(null);
 			setCreateSignalSource(null);
-			return Pair.of(InteractionResult.SUCCESS,Component.literal("Successfully unbound all"));
+			return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully unbound all"));
 		}
 		if (sourceBlockEntity.isPresent()) {
 			ISignalTunerBindable be = sourceBlockEntity.get();

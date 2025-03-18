@@ -8,6 +8,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mc.mods.swsignals.create.tracks.ATCController;
 
+import java.util.UUID;
+
 
 @Mixin(value = Train.class, remap = false)
 public class MixinTrain {
@@ -26,5 +28,10 @@ public class MixinTrain {
 		};
 
 		cir.setReturnValue(modified);
+	}
+
+	@Inject(method = "occupy", at = @At("HEAD"))
+	private void onOccupy(UUID groupId, UUID boundaryId, CallbackInfoReturnable<Boolean> cir) {
+		// SignalNetwork.onSignalUpdate(groupId, boundaryId);
 	}
 }

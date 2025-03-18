@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
-import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
@@ -35,12 +34,7 @@ public class BlockEntityRendererSignal<T extends BlockEntitySignal>
 		return SIGNAL_LIGHT_MODEL;
 	}
 
-	@Override
-	public int getViewDistance() {
-		return 1024;
-	}
-
-	@Override
+    @Override
 	public boolean shouldRenderOffScreen(T pBlockEntity) {
 		return true;
 	}

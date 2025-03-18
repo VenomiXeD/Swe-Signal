@@ -1,15 +1,10 @@
 package venomized.mc.mods.swsignals;
 
 
-import com.simibubi.create.content.trains.signal.EdgeGroupColor;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
-import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import venomized.mc.mods.swsignals.rail.SignalUtilities;
-
-import java.util.UUID;
 
 public class EventHandler {
 	private SignalBlockEntity firstSignal;

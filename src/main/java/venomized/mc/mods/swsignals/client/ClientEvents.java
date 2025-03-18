@@ -14,8 +14,8 @@ import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererATCController;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.*;
-import venomized.mc.mods.swsignals.client.ui.overlays.ATCOverlayHUD;
 import venomized.mc.mods.swsignals.client.ui.ScreenTest;
+import venomized.mc.mods.swsignals.client.ui.overlays.ATCOverlayHUD;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientEvents {
