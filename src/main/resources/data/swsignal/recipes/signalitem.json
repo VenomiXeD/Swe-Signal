@@ -7,13 +7,13 @@
   ],
   "key": {
     "#": {
-      "item": "create:framed_glass"
+      "item": "create:redstone_link"
     },
     "%": {
-      "item": "create:iron_sheet"
+      "item": "swsignal:sw_signal_box"
     }
   },
   "result": {
-    "item": "swsignal:light_bulb"
+    "item": "swsignal:signalitem"
   }
 }

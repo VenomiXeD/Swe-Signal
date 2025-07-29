@@ -3,17 +3,18 @@
   "category": "misc",
   "pattern": [
     "#",
-    "%"
+    "%",
+    "#"
   ],
   "key": {
     "#": {
-      "item": "create:framed_glass"
+      "item": "swsignal:light_bulb"
     },
     "%": {
-      "item": "create:iron_sheet"
+      "item": "create:track_signal"
     }
   },
   "result": {
-    "item": "swsignal:light_bulb"
+    "item": "swsignal:signal_2l_modern"
   }
 }

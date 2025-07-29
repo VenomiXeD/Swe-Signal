@@ -2,18 +2,18 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "#",
-    "%"
+    "#%#",
+    "%#%"
   ],
   "key": {
     "#": {
-      "item": "create:framed_glass"
+      "item": "swsignal:light_bulb"
     },
     "%": {
-      "item": "create:iron_sheet"
+      "item": "black_concrete"
     }
   },
   "result": {
-    "item": "swsignal:light_bulb"
+    "item": "swsignal:sw_railroad_crossing_distant_signal"
   }
 }

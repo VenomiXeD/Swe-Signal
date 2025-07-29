@@ -7,13 +7,13 @@
   ],
   "key": {
     "#": {
-      "item": "create:framed_glass"
+      "item": "swsignal:sw_endpoint_signal_modern"
     },
     "%": {
-      "item": "create:iron_sheet"
+      "item": "yellow_concrete"
     }
   },
   "result": {
-    "item": "swsignal:light_bulb"
+    "item": "swsignal:sw_railroad_crossing_signal"
   }
 }

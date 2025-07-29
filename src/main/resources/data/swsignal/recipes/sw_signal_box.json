@@ -2,18 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "#",
-    "%"
+    " # ",
+    "#%#",
+    " # "
   ],
   "key": {
     "#": {
-      "item": "create:framed_glass"
+      "item": "white_concrete"
     },
     "%": {
-      "item": "create:iron_sheet"
+      "item": "create:track_signal"
     }
   },
   "result": {
-    "item": "swsignal:light_bulb"
+    "item": "swsignal:sw_signal_box"
   }
 }

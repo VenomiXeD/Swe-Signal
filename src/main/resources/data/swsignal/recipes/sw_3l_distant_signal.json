@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "%#%",
+    "&#&",
+    "%#%"
+  ],
+  "key": {
+    "#": {
+      "item": "swsignal:light_bulb"
+    },
+    "%": {
+      "item": "black_concrete"
+    },
+    "&": {
+      "item": "white_concrete"
+    }
+  },
+  "result": {
+    "item": "swsignal:sw_3l_distant_signal"
+  }
+}
