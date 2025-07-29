@@ -44,7 +44,7 @@ public class SwSignal {
 	public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("sw_tab",
 			() ->
 					CreativeModeTab.builder()
-							.title(Component.literal("Swedish Signals"))
+							.title(Component.translatable("creativetab.sw_tab"))
 							.icon(() -> new ItemStack(SwItems.ITEM_TWO_LIGHT_SIGNAL.get()))
 							.displayItems((parameters, output) -> {
 								output.acceptAll(SwItems.ITEMS.getEntries().stream().map(e -> new ItemStack(e.get(), 1)).toList());
