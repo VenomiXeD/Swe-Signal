@@ -48,6 +48,9 @@ public class SwItems {
 
 	public static final RegistryObject<ItemSignalTuner> ITEM_SIGNAL_TEST = ITEMS.register("signalitem",
 			ItemSignalTuner::new);
+	
+	public static final RegistryObject<Item> LIGHT_BULB = ITEMS.register("light_bulb",
+            () -> new Item(new Item.Properties()));
 
 	// TODO: For testing purposes
 	public static final RegistryObject<BlockItem> ITEM_TEST = ITEMS.register("test_test",

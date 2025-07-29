@@ -27,7 +27,9 @@
 
     "block.swsignal.signals.se.3l_distant_railroad_crossing_signal": "3L Distant Railroad Crossing Signal",
 
-    "item.swsignal.signalitem": "Signal connection tool"
+    "item.swsignal.signalitem": "Signal connection tool",
+
+    "item.swsignal.light_bulb": "Light bulb"
 }
 
 
