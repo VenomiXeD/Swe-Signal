@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "swsignal:item/sw_railroad_crossing_distant_signal"
+    }
+}
