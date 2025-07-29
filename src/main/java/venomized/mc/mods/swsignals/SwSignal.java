@@ -45,6 +45,7 @@ public class SwSignal {
 			() ->
 					CreativeModeTab.builder()
 							.title(Component.literal("Swedish Signals"))
+							.icon(() -> new ItemStack(SwItems.ITEM_TWO_LIGHT_SIGNAL.get()))
 							.displayItems((parameters, output) -> {
 								output.acceptAll(SwItems.ITEMS.getEntries().stream().map(e -> new ItemStack(e.get(), 1)).toList());
 							})
