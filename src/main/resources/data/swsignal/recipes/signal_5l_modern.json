@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "#",
+    "%"
+  ],
+  "key": {
+    "#": {
+      "item": "swsignal:light_bulb"
+    },
+    "%": {
+      "item": "swsignal:signal_4l_modern"
+    }
+  },
+  "result": {
+    "item": "swsignal:signal_5l_modern"
+  }
+}

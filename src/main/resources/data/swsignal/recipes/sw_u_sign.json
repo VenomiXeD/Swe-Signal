@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "#",
+    "%"
+  ],
+  "key": {
+    "#": {
+      "item": "white_concrete"
+    },
+    "%": {
+      "tag": "minecraft:signs"
+    }
+  },
+  "result": {
+    "item": "swsignal:sw_u_sign"
+  }
+}

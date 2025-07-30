@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "#%#",
+    "%#%"
+  ],
+  "key": {
+    "#": {
+      "item": "swsignal:light_bulb"
+    },
+    "%": {
+      "item": "black_concrete"
+    }
+  },
+  "result": {
+    "item": "swsignal:sw_railroad_crossing_distant_signal"
+  }
+}

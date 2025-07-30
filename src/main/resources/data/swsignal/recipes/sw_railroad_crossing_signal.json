@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "#",
+    "%"
+  ],
+  "key": {
+    "#": {
+      "item": "swsignal:sw_endpoint_signal_modern"
+    },
+    "%": {
+      "item": "yellow_concrete"
+    }
+  },
+  "result": {
+    "item": "swsignal:sw_railroad_crossing_signal"
+  }
+}

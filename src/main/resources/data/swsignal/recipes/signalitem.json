@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "#",
+    "%"
+  ],
+  "key": {
+    "#": {
+      "item": "create:redstone_link"
+    },
+    "%": {
+      "item": "swsignal:sw_signal_box"
+    }
+  },
+  "result": {
+    "item": "swsignal:signalitem"
+  }
+}

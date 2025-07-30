@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "#",
+    "%",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "swsignal:light_bulb"
+    },
+    "%": {
+      "item": "create:track_signal"
+    }
+  },
+  "result": {
+    "item": "swsignal:signal_2l_modern"
+  }
+}
