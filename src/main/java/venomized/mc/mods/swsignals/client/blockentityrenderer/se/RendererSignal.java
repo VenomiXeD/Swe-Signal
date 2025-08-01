@@ -18,7 +18,7 @@ import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendere
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 @OnlyIn(Dist.CLIENT)
-public class BlockEntityRendererSignal<T extends BlockEntitySignal>
+public class RendererSignal<T extends BlockEntitySignal>
 		extends BlockEntityRendererBase<T> {
 	protected static final int FULLBRIGHT = 0xFFFFFF;
 	public static ResourceLocation SIGNAL_LIGHT_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,
@@ -27,7 +27,7 @@ public class BlockEntityRendererSignal<T extends BlockEntitySignal>
 			"textures/block/light.png");
 	private static BakedModel SIGNAL_LIGHT_MODEL;
 
-	public BlockEntityRendererSignal(BlockEntityRendererProvider.Context context) {
+	public RendererSignal(BlockEntityRendererProvider.Context context) {
 	}
 
 	public static BakedModel signalLightModel() {

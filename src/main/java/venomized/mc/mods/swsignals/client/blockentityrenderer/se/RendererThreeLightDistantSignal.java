@@ -8,8 +8,8 @@ import venomized.mc.mods.swsignals.blockentity.se.BlockEntityThreeLightDistantSi
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
-public class BlockEntityRendererModernThreeLightDistantSignal extends BlockEntityRendererBase<BlockEntityThreeLightDistantSignal> {
-	public BlockEntityRendererModernThreeLightDistantSignal(BlockEntityRendererProvider.Context context) {
+public class RendererThreeLightDistantSignal extends BlockEntityRendererBase<BlockEntityThreeLightDistantSignal> {
+	public RendererThreeLightDistantSignal(BlockEntityRendererProvider.Context context) {
 	}
 
 	/**
@@ -61,11 +61,11 @@ public class BlockEntityRendererModernThreeLightDistantSignal extends BlockEntit
 			pPoseStack.scale(1.1f, 1.1f, 0f);
 			getRenderer().renderModel(
 					pPoseStack.last(),
-					pBuffer.getBuffer(RenderType.beaconBeam(BlockEntityRendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+					pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
 					pBlockEntity.getBlockState(),
-					BlockEntityRendererSignal.signalLightModel(),
+					RendererSignal.signalLightModel(),
 					r, g, b,
-					BlockEntityRendererSignal.FULLBRIGHT,
+					RendererSignal.FULLBRIGHT,
 					pPackedOverlay
 			);
 			pPoseStack.popPose();

@@ -6,7 +6,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -16,11 +18,13 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import venomized.mc.mods.swsignals.block.SwBlocks;
+import venomized.mc.mods.swsignals.block.se.SeBlocks;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.client.ClientEvents;
 import venomized.mc.mods.swsignals.client.ForgeClientEvents;
@@ -42,9 +46,8 @@ public class SwSignal {
 			() ->
 					CreativeModeTab.builder()
 							.title(Component.translatable("creativetab.sw_tab"))
-							.icon(() -> new ItemStack(SwItems.ITEM_TWO_LIGHT_SIGNAL.get()))
+							.icon(()->SeBlocks.BLOCK_TWO_LIGHT_SIGNAL.asStack())
 							.displayItems((parameters, output) -> {
-								output.acceptAll(SwItems.ITEMS.getEntries().stream().map(e -> new ItemStack(e.get(), 1)).toList());
 							})
 							.build()
 	);
@@ -71,6 +74,13 @@ public class SwSignal {
 
 		SW_SIGNAL_NETWORK = new Networking();
 		Networking.init();
+
+		initializeContent();
+	}
+
+	private static void initializeContent() {
+		SeBlocks.init();
+		SwBlockEntities.init();
 	}
 
 	public static final ResourceLocation modLoc(String path) {

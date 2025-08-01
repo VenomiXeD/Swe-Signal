@@ -5,10 +5,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class BlockEntityRendererModernFiveLightSignal extends BlockEntityRendererSignal {
-	public BlockEntityRendererModernFiveLightSignal(BlockEntityRendererProvider.Context context) {
+public class RendererModernFourLightSignal extends RendererSignal {
+	public RendererModernFourLightSignal(BlockEntityRendererProvider.Context context) {
 		super(context);
-
 	}
 
 	/**

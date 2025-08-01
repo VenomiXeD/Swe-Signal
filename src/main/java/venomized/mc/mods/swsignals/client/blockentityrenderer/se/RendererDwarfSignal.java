@@ -3,17 +3,15 @@ package venomized.mc.mods.swsignals.client.blockentityrenderer.se;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals.BlockEntityDwarfSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 
-public class BlockEntityRendererModernDwarfSignal extends BlockEntityRendererBase<BlockEntityDwarfSignal>{
+public class RendererDwarfSignal extends BlockEntityRendererBase<BlockEntityDwarfSignal> {
 	private static final float SCALE = 0.8f;
 
-	public BlockEntityRendererModernDwarfSignal(BlockEntityRendererProvider.Context context) {
+	public RendererDwarfSignal(BlockEntityRendererProvider.Context context) {
 	}
 
 	@Override
@@ -65,11 +63,11 @@ public class BlockEntityRendererModernDwarfSignal extends BlockEntityRendererBas
 		w = pBlockEntity.lightLevels[2];
 		getRenderer().renderModel(
 				pPoseStack.last(),
-				pBuffer.getBuffer(RenderType.beaconBeam(BlockEntityRendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+				pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
 				pBlockEntity.getBlockState(),
-				BlockEntityRendererSignal.signalLightModel(),
+				RendererSignal.signalLightModel(),
 				w, w, w,
-				BlockEntityRendererSignal.FULLBRIGHT,
+				RendererSignal.FULLBRIGHT,
 				pPackedOverlay
 		);
 
@@ -82,11 +80,11 @@ public class BlockEntityRendererModernDwarfSignal extends BlockEntityRendererBas
 		w = pBlockEntity.lightLevels[3];
 		getRenderer().renderModel(
 				pPoseStack.last(),
-				pBuffer.getBuffer(RenderType.beaconBeam(BlockEntityRendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+				pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
 				pBlockEntity.getBlockState(),
-				BlockEntityRendererSignal.signalLightModel(),
+				RendererSignal.signalLightModel(),
 				w, w, w,
-				BlockEntityRendererSignal.FULLBRIGHT,
+				RendererSignal.FULLBRIGHT,
 				pPackedOverlay
 		);
 		pPoseStack.popPose();
@@ -98,11 +96,11 @@ public class BlockEntityRendererModernDwarfSignal extends BlockEntityRendererBas
 		w = pBlockEntity.lightLevels[1];
 		getRenderer().renderModel(
 				pPoseStack.last(),
-				pBuffer.getBuffer(RenderType.beaconBeam(BlockEntityRendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+				pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
 				pBlockEntity.getBlockState(),
-				BlockEntityRendererSignal.signalLightModel(),
+				RendererSignal.signalLightModel(),
 				w, w, w,
-				BlockEntityRendererSignal.FULLBRIGHT,
+				RendererSignal.FULLBRIGHT,
 				pPackedOverlay
 		);
 		pPoseStack.popPose();
@@ -114,11 +112,11 @@ public class BlockEntityRendererModernDwarfSignal extends BlockEntityRendererBas
 		w = pBlockEntity.lightLevels[0];
 		getRenderer().renderModel(
 				pPoseStack.last(),
-				pBuffer.getBuffer(RenderType.beaconBeam(BlockEntityRendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+				pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
 				pBlockEntity.getBlockState(),
-				BlockEntityRendererSignal.signalLightModel(),
+				RendererSignal.signalLightModel(),
 				w, w, w,
-				BlockEntityRendererSignal.FULLBRIGHT,
+				RendererSignal.FULLBRIGHT,
 				pPackedOverlay
 		);
 		pPoseStack.popPose();

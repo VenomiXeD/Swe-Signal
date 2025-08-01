@@ -13,21 +13,22 @@ import venomized.mc.mods.swsignals.blockentity.se.BlockEntityUSign;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 
 @OnlyIn(Dist.CLIENT)
-public class BlockEntityRendererGeneric extends BlockEntityRendererBase<BlockEntityUSign> {
+public class RendererGeneric extends BlockEntityRendererBase<BlockEntityUSign> {
 	protected final ResourceLocation MODEL_LOC;
 
-	public BlockEntityRendererGeneric(String resourceLoc) {
+	public RendererGeneric(String resourceLoc) {
 		this.MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, resourceLoc);
 	}
 
 	/**
 	 * A generic renderer - will use the block model supplied by the BlockState model
 	 */
-	public BlockEntityRendererGeneric() {
+	public RendererGeneric() {
 		this.MODEL_LOC = null;
 	}
 
-	public BlockEntityRendererGeneric(BlockEntityRendererProvider.Context context) {
+	public RendererGeneric(BlockEntityRendererProvider.Context context) {
+		this();
 	}
 
 	/**

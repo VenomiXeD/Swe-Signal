@@ -11,8 +11,8 @@ import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendere
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 @OnlyIn(Dist.CLIENT)
-public class BlockEntityRendererEndpointSignal extends BlockEntityRendererBase<BlockEntityEndpointSignal> {
-	public BlockEntityRendererEndpointSignal(BlockEntityRendererProvider.Context context) {
+public class RendererEndpointSignal extends BlockEntityRendererBase<BlockEntityEndpointSignal> {
+	public RendererEndpointSignal(BlockEntityRendererProvider.Context context) {
 	}
 
 	/**
@@ -51,11 +51,11 @@ public class BlockEntityRendererEndpointSignal extends BlockEntityRendererBase<B
 		final float r = pBlockEntity.lightLevels[0];
 		getRenderer().renderModel(
 				pPoseStack.last(),
-				pBuffer.getBuffer(RenderType.beaconBeam(BlockEntityRendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+				pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
 				pBlockEntity.getBlockState(),
-				BlockEntityRendererSignal.signalLightModel(),
+				RendererSignal.signalLightModel(),
 				r, 0, 0,
-				BlockEntityRendererSignal.FULLBRIGHT,
+				RendererSignal.FULLBRIGHT,
 				pPackedOverlay
 		);
 		pPoseStack.popPose();
