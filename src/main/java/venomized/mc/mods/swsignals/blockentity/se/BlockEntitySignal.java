@@ -28,8 +28,8 @@ import java.util.Optional;
 public abstract class BlockEntitySignal extends SwBlockEntityBase
 		implements IHaveGoggleInformation, ISignalTunerBindable {
 	private static final String SIGNAL_BOX_POS_TAG = "signal_box_pos";
-	public float[] lightLevels;
 	private final int lightCount;
+	public float[] lightLevels;
 	private BlockPos signalBoxPosition;
 	private int tick;
 	private int remainingTicksAspectChangeDelay;

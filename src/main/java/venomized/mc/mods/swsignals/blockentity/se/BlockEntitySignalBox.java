@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityAbstractSignalBox;
 import venomized.mc.mods.swsignals.blockentity.ITickingEntity;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 import java.util.HashMap;
@@ -17,11 +16,9 @@ import java.util.Map;
 
 public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox implements ITickingEntity<BlockEntitySignalBox> {
 	public static final String NAME = "be_sw_signal_box";
-
+	private final HashMap<SwedishSignalAspect, SwedishSignalAspect> manualOverrides = new HashMap<>();
 	private SwedishSignalAspect aspect;
 	private SwedishSignalAspect previousAspect;
-
-	private final HashMap<SwedishSignalAspect, SwedishSignalAspect> manualOverrides = new HashMap<>();
 
 	public BlockEntitySignalBox(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
 		super(pType, pPos, pBlockState);

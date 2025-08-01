@@ -11,7 +11,7 @@ import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.client.blockentityrenderer.se.*;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.se.RendererSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.crossing.BlockEntityRendererCrossingGate;
 import venomized.mc.mods.swsignals.client.ui.ScreenTest;
 import venomized.mc.mods.swsignals.client.ui.overlays.ATCOverlayHUD;

@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.AllSounds;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityRailroadCrossingObjectBase;
 import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 
 public class BlockEntityRailroadCrossingSignal extends BlockEntityRailroadCrossingObjectBase implements ISignalTunerBindable {
 	public BlockEntityRailroadCrossingSignal(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {

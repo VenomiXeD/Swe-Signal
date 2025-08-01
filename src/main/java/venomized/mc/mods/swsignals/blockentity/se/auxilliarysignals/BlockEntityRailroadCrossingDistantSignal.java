@@ -5,7 +5,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityRailroadCrossingObjectBase;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 
 public class BlockEntityRailroadCrossingDistantSignal extends BlockEntityRailroadCrossingObjectBase {
 	public float lightLevel = 0;

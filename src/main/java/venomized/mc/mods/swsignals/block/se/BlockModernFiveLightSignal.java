@@ -5,8 +5,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntityBase;
-import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityFiveLightSignal;
 
 public class BlockModernFiveLightSignal extends BlockSignal {
 	public BlockModernFiveLightSignal(Properties properties) {

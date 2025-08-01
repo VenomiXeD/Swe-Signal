@@ -6,9 +6,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -16,14 +13,11 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import venomized.mc.mods.swsignals.block.SwBlocks;
 import venomized.mc.mods.swsignals.block.se.SeBlocks;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.client.ClientEvents;
@@ -39,19 +33,20 @@ public class SwSignal {
 	public static final String MOD_ID = "swsignal";
 	public static final Logger LOGGER = LogManager.getLogger(SwSignal.class);
 
-	public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(()->Registrate.create(MOD_ID));
+	public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
 
 	public static DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SwSignal.MOD_ID);
 	public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("sw_tab",
 			() ->
 					CreativeModeTab.builder()
 							.title(Component.translatable("creativetab.sw_tab"))
-							.icon(()->SeBlocks.BLOCK_TWO_LIGHT_SIGNAL.asStack())
+							.icon(() -> SeBlocks.BLOCK_TWO_LIGHT_SIGNAL.asStack())
 							.displayItems((parameters, output) -> {
 							})
 							.build()
 	);
 	private static Networking SW_SIGNAL_NETWORK;
+
 	public SwSignal() {
 		IEventBus eventbus = REGISTRATE.get().getModEventBus();
 		MinecraftForge.EVENT_BUS.register(this);

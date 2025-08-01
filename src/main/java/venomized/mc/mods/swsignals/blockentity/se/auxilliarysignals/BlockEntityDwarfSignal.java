@@ -4,7 +4,6 @@ import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignal;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
@@ -16,6 +15,7 @@ public class BlockEntityDwarfSignal extends BlockEntitySignal {
 	public BlockEntityDwarfSignal(BlockEntityType t, BlockPos pPos, BlockState pBlockState, int lightCount) {
 		super(t, pPos, pBlockState, lightCount);
 	}
+
 	@Override
 	public void stepSignalLighting(float partialTick, SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
 		switch (createSignalState) {

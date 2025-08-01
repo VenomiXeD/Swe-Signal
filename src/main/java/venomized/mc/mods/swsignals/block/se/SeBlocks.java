@@ -10,7 +10,6 @@ import venomized.mc.mods.swsignals.block.SwBlocks;
 import venomized.mc.mods.swsignals.block.se.crossing.BlockCrossingGate;
 
 public class SeBlocks {
-	public static void init() {}
 	// == SWEDISH CONTENT ==
 	public static final BlockEntry<BlockSignalBox> BLOCK_SIGNAL_BOX = SwBlocks.modelledBlock("signals.se.signal_box", BlockSignalBox::new)
 			.simpleItem()
@@ -60,7 +59,10 @@ public class SeBlocks {
 			.simpleItem()
 			.register();
 	public static final BlockEntry<BlockATCController> BLOCK_ATC_CONTROLLER = SwSignal.REGISTRATE.get().block("atc_controller", BlockATCController::new)
-			.properties(p-> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+			.properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
 			.simpleItem()
 			.register();
+
+	public static void init() {
+	}
 }

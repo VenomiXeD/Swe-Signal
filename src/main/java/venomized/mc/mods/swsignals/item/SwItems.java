@@ -1,33 +1,16 @@
 package venomized.mc.mods.swsignals.item;
 
-import com.simibubi.create.content.trains.track.TrackTargetingBlockItem;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.block.SwBlocks;
-import venomized.mc.mods.swsignals.block.se.*;
-import venomized.mc.mods.swsignals.client.CustomModelBlockItem;
-import venomized.mc.mods.swsignals.create.tracks.ATCController;
 
 public class SwItems {
-	public static void init() {
-	}
-
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SwSignal.MOD_ID);
-
-	public static <T extends Item> ItemBuilder<T, Registrate> item(String iName, NonNullFunction<Item.Properties, T> iFactory) {
-		return SwSignal.REGISTRATE.get().item(iName, iFactory);
-	}
-
-	;
-
 	// public static final RegistryObject<BlockItem> ITEM_SW_SIGNAL_BOX = ITEMS.register("sw_signal_box", () -> new BlockItem(SeBlocks.BLOCK_SIGNAL_BOX.get(), new Item.Properties()));
 //
 	// public static final RegistryObject<BlockItem> ITEM_RAILROAD_CROSSING_CONTROLLER = ITEMS.register("railroad_crossing_controller", () -> new BlockItem(SeBlocks.BLOCK_RAILROAD_CROSSING_CONTROLLER.get(), new Item.Properties()));
@@ -65,6 +48,13 @@ public class SwItems {
 			SwSignal.REGISTRATE.get().item("signalitem",
 							ItemSignalTuner::new)
 					.register();
+
+	public static void init() {
+	}
+
+	public static <T extends Item> ItemBuilder<T, Registrate> item(String iName, NonNullFunction<Item.Properties, T> iFactory) {
+		return SwSignal.REGISTRATE.get().item(iName, iFactory);
+	}
 //
 	// public static final RegistryObject<Item> LIGHT_BULB = ITEMS.register("light_bulb",
 	// 		() -> new Item(new Item.Properties()));
