@@ -1,49 +1,33 @@
 package venomized.mc.mods.swsignals.block;
 
+import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.block.sw.*;
 import venomized.mc.mods.swsignals.block.test.TestBlock;
 
 public final class SwBlocks {
-	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SwSignal.MOD_ID);
+	// public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SwSignal.MOD_ID);
 
-	public static final RegistryObject<BlockRailroadCrossingController> BLOCK_RAILROAD_CROSSING_CONTROLLER = BLOCKS.register("railroad_crossing_controller", BlockRailroadCrossingController::new);
-
-	// == SWEDISH CONTENT ==
-	public static final RegistryObject<BlockSignalBox> BLOCK_SW_SIGNAL_BOX = BLOCKS.register("signals.se.signal_box", BlockSignalBox::new);
-
-	// == SIGNALS FROM 2-5 LIGHTS ==
-	public static final RegistryObject<BlockModernTwoLightSignal> BLOCK_TWO_LIGHT_SIGNAL = BLOCKS.register("signals.se.2l_signal_post_1970", BlockModernTwoLightSignal::new);
-	public static final RegistryObject<BlockModernThreeLightSignal> BLOCK_THREE_LIGHT_SIGNAL = BLOCKS.register("signals.se.3l_signal_post_1970", BlockModernThreeLightSignal::new);
-	public static final RegistryObject<BlockModernFourLightSignal> BLOCK_FOUR_LIGHT_SIGNAL = BLOCKS.register("signals.se.4l_signal_post_1970", BlockModernFourLightSignal::new);
-	public static final RegistryObject<BlockModernFiveLightSignal> BLOCK_FIVE_LIGHT_SIGNAL = BLOCKS.register("signals.se.5l_signal_post_1970", BlockModernFiveLightSignal::new);
-
-	// == DISTANT SIGNALS ==
-	public static final RegistryObject<BlockModernThreeLightDistantSignal> BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL = BLOCKS.register("signals.se.3l_distant_signal_post_1970", BlockModernThreeLightDistantSignal::new);
-
-	// == DWARF SIGNALS ==
-	public static final RegistryObject<BlockModernDwarfSignal> BLOCK_MODERN_DWARF_SIGNAL = BLOCKS.register("signals.se.4l_dwarf_signal_post_1970", BlockModernDwarfSignal::new);
-
-	public static final RegistryObject<BlockModernMainDwarfSignal> BLOCK_MODERN_MAIN_DWARF_SIGNAL = BLOCKS.register("signals.se.7l_dwarf_main_signal_post_1970", BlockModernMainDwarfSignal::new);
-
-	// == MISC SIGNALS ==
-	public static final RegistryObject<BlockModernEndpointSignal> BLOCK_ENDPOINT_SIGNAL = BLOCKS.register("signals.se.1l_signal_endpoint_post_1920", BlockModernEndpointSignal::new);
-
-	public static final RegistryObject<BlockGeneric45DegreeBlock> BLOCK_U_SIGN = BLOCKS.register("signals.se.u_sign", BlockGeneric45DegreeBlock::new);
-
-	// == RAILROAD CROSSING SIGNALS ==
-	public static final RegistryObject<BlockRailroadCrossingSignal> BLOCK_RAILROAD_CROSSING_SIGNAL = BLOCKS.register("signals.se.1l_railroad_crossing_signal_2", BlockRailroadCrossingSignal::new);
-
-	public static final RegistryObject<BlockRailroadCrossingDistantSignal> BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL = BLOCKS.register(
-			"signals.se.3l_distant_railroad_crossing_signal", BlockRailroadCrossingDistantSignal::new
-	);
+	public static <T extends Block> BlockEntry<T> modelledBlock(String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
+		return SwSignal.REGISTRATE.get().block(name, blockCreator)
+				.properties(prop-> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+				.blockstate((blockTDataGenContext, registrateBlockstateProvider) ->
+						registrateBlockstateProvider.getVariantBuilder(blockTDataGenContext.get())
+								.forAllStates(blockState -> ConfiguredModel.builder()
+										.modelFile(new ModelFile.ExistingModelFile(
+												registrateBlockstateProvider.modLoc("block/" + blockTDataGenContext.getId().getPath().replace(".","/")),
+												registrateBlockstateProvider.models().existingFileHelper)
+										).build())).register();
+	}
 
 	//For testing purposes
-	public static final RegistryObject<TestBlock> BLOCK_TEST = BLOCKS.register("test_test", TestBlock::new);
+	public static final BlockEntry<TestBlock> BLOCK_TEST = SwSignal.REGISTRATE.get().block("test_test", TestBlock::new)
+			.properties(p-> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+			.register();
 
-	public static final RegistryObject<BlockATCController> BLOCK_ATC_CONTROLLER = BLOCKS.register("atc_controller", BlockATCController::new);
 }

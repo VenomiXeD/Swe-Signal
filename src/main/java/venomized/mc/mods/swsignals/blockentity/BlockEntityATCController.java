@@ -17,8 +17,8 @@ import java.util.List;
 public class BlockEntityATCController extends SmartBlockEntity implements ITransformableBlockEntity {
 	public TrackTargetingBehaviour<ATCController> atcControllerPoint;
 
-	public BlockEntityATCController(BlockPos pos, BlockState state) {
-		super(SwBlockEntities.BE_ATC_CONTROLLER.get(), pos, state);
+	public BlockEntityATCController(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 
 	@Override
@@ -29,20 +29,5 @@ public class BlockEntityATCController extends SmartBlockEntity implements ITrans
 	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
 		atcControllerPoint = new TrackTargetingBehaviour<>(this, ATCController.ATC);
 		behaviours.add(atcControllerPoint);
-	}
-
-	@Override
-	public Collection<BlockEntityBehaviour> getAllBehaviours() {
-		return super.getAllBehaviours();
-	}
-
-	@Override
-	public ClientboundBlockEntityDataPacket getUpdatePacket() {
-		return super.getUpdatePacket();
-	}
-
-	@Override
-	public BlockEntityType<?> getType() {
-		return super.getType();
 	}
 }

@@ -2,16 +2,15 @@ package venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals;
 
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignal;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 public class BlockEntityEndpointSignal extends BlockEntitySignal {
-	public static final String NAME = "be_sw_1l_endpoint_signal";
-
-	public BlockEntityEndpointSignal(BlockPos pPos, BlockState pBlockState) {
-		super(SwBlockEntities.BE_ENDPOINT_SIGNAL.get(), pPos, pBlockState, 1);
+	public BlockEntityEndpointSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
+		super(t, pPos, pBlockState, 1);
 	}
 
 	@Override

@@ -1,13 +1,17 @@
-package venomized.mc.mods.swsignals.block.sw;
+package venomized.mc.mods.swsignals.block.se;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.blockentity.SwBlockEntityBase;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityFiveLightSignal;
 
-public class BlockModernFiveLightSignal extends BlockAbstractSignal {
-	public static String BLOCK_NAME = "signal_5l_modern";
+public class BlockModernFiveLightSignal extends BlockSignal {
+	public BlockModernFiveLightSignal(Properties properties) {
+		super(properties);
+	}
 
 	/**
 	 * @param pPos
@@ -16,6 +20,6 @@ public class BlockModernFiveLightSignal extends BlockAbstractSignal {
 	 */
 	@Override
 	public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return new BlockEntityFiveLightSignal(pPos, pState);
+		return SwBlockEntities.BE_FIVE_LIGHT_SIGNAL.create(pPos, pState);
 	}
 }

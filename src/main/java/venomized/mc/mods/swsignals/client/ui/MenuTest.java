@@ -15,16 +15,15 @@ import java.util.HashMap;
 
 
 public class MenuTest extends AbstractContainerMenu {
-	private ContainerLevelAccess access;
-
 	private final HashMap<SwedishSignalAspect, SwedishSignalAspect> manualOverrides = new HashMap<>();
+	private final ContainerLevelAccess access;
 
 	public MenuTest(int containerId, Inventory plrInventory, FriendlyByteBuf extraData) {
 		this(containerId, plrInventory, ContainerLevelAccess.NULL);
 
 		CompoundTag overrideTag = extraData.readAnySizeNbt().getCompound("overrides");
 		for (String key : overrideTag.getAllKeys()) {
-			manualOverrides.put(SwedishSignalAspect.valueOf(key), NBTHelper.readEnum(overrideTag,key,SwedishSignalAspect.class));
+			manualOverrides.put(SwedishSignalAspect.valueOf(key), NBTHelper.readEnum(overrideTag, key, SwedishSignalAspect.class));
 		}
 
 	}
@@ -35,7 +34,7 @@ public class MenuTest extends AbstractContainerMenu {
 		this.access = pLevel;
 	}
 
-	public HashMap<SwedishSignalAspect,SwedishSignalAspect> getManualOverrides() {
+	public HashMap<SwedishSignalAspect, SwedishSignalAspect> getManualOverrides() {
 		return manualOverrides;
 	}
 

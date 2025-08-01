@@ -9,16 +9,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals.BlockEntityRailroadCrossingSignal;
 
-public abstract class BlockRailroadCrossingObjectBase extends SwAbstract45DegreeBlock implements EntityBlock {
-	@Override
-	public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return new BlockEntityRailroadCrossingSignal(pPos, pState);
+public abstract class BlockRailroadCrossingObject extends Sw45DegreeBlock implements EntityBlock {
+	public BlockRailroadCrossingObject(Properties properties) {
+		super(properties);
 	}
-
-	public BlockRailroadCrossingObjectBase() {
-		super(Properties.copy(Blocks.IRON_BLOCK));
-	}
-
 	/**
 	 * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
 	 * LIQUID for vanilla liquids, INVISIBLE to skip all rendering

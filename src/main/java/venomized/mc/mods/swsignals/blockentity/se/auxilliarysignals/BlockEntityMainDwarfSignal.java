@@ -2,6 +2,7 @@ package venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals;
 
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.rail.SignalUtilities;
@@ -10,6 +11,10 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 public class BlockEntityMainDwarfSignal extends BlockEntityDwarfSignal {
 	public BlockEntityMainDwarfSignal(BlockPos pPos, BlockState pBlockState) {
 		super(SwBlockEntities.BE_MAIN_DWARF_SIGNAL.get(), pPos, pBlockState, 7);
+	}
+
+	public BlockEntityMainDwarfSignal(BlockEntityType t, BlockPos pPos, BlockState pBlockState) {
+		super(t, pPos, pBlockState);
 	}
 
 	@Override

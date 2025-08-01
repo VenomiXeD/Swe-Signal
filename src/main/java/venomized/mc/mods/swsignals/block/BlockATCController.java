@@ -11,10 +11,10 @@ import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 
 public class BlockATCController extends SwAbstractBlock implements IBE {
 	/**
-	 * @param pProperties
+	 * @param properties
 	 */
-	public BlockATCController() {
-		super(Properties.copy(Blocks.IRON_BLOCK));
+	public BlockATCController(Properties properties) {
+		super(properties);
 	}
 
 	@Override

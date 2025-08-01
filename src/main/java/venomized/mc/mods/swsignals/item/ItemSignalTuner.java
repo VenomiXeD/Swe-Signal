@@ -22,6 +22,27 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 		super(new Properties());
 	}
 
+	private static void sendStatusMessageFromInteraction(UseOnContext pContext, Pair<InteractionResult, Component> result, MutableComponent fullMessage) {
+		if (result.left() != null && result.right() != null) {
+			switch (result.left()) {
+				case SUCCESS:
+					pContext.getPlayer().sendSystemMessage(
+							fullMessage.setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN))
+					);
+					break;
+				case FAIL:
+					pContext.getPlayer().sendSystemMessage(
+							fullMessage.setStyle(Style.EMPTY.withColor(ChatFormatting.RED))
+					);
+				case PASS:
+					pContext.getPlayer().sendSystemMessage(
+							fullMessage
+					);
+					break;
+			}
+		}
+	}
+
 	/**
 	 * @param itemStack
 	 * @param up
@@ -38,7 +59,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 			currentScroll = ISignalTunerBindable.SignalTunerMode.values()[tag.getInt("mode")];
 		}
 		int newMode = Math.min(ISignalTunerBindable.SignalTunerMode.values().length - 1, Math.max(0, currentScroll.ordinal() + (up ? 1 : -1)));
-		tag.putInt("mode",newMode);
+		tag.putInt("mode", newMode);
 		player.displayClientMessage(Component.literal("Mode: %s".formatted(currentScroll.toString())).setStyle(
 						Style.EMPTY.withColor(ChatFormatting.GOLD)),
 				true
@@ -76,13 +97,13 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 		final ISignalTunerBindable.SignalTunerMode tunerMode = mode;
 
 		if (blockEntity instanceof ISignalTunerBindable currentTarget) {
-			
+
 			// We don't have one so we store the TARGET position
 			if (!tag.contains("bind_location_start")) {
 				System.out.println("Bind If Case");
 
 				if (!currentTarget.isDestination()) {
-					System.out.println("Not a data destination: " + pContext.getClickedPos().toString());
+					System.out.println("Not a data destination: " + pContext.getClickedPos());
 					return InteractionResult.FAIL;
 				}
 
@@ -109,7 +130,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 					destination = Optional.empty();
 				}
 
-				if(source.isPresent()) {
+				if (source.isPresent()) {
 					Pair<InteractionResult, Component> result = destination.get().onBindToSource(source, tunerMode);
 
 					if (result.right() != null) {
@@ -132,26 +153,5 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 		}
 
 		return InteractionResult.PASS;
-	}
-
-	private static void sendStatusMessageFromInteraction(UseOnContext pContext, Pair<InteractionResult, Component> result, MutableComponent fullMessage) {
-		if (result.left() != null && result.right() != null) {
-			switch (result.left()) {
-				case SUCCESS:
-					pContext.getPlayer().sendSystemMessage(
-							fullMessage.setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN))
-					);
-					break;
-				case FAIL:
-					pContext.getPlayer().sendSystemMessage(
-							fullMessage.setStyle(Style.EMPTY.withColor(ChatFormatting.RED))
-					);
-				case PASS:
-					pContext.getPlayer().sendSystemMessage(
-							fullMessage
-					);
-					break;
-			}
-		}
 	}
 }

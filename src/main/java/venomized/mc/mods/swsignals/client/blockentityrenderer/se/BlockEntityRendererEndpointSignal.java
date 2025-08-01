@@ -3,6 +3,7 @@ package venomized.mc.mods.swsignals.client.blockentityrenderer.se;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals.BlockEntityEndpointSignal;
@@ -11,6 +12,9 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 @OnlyIn(Dist.CLIENT)
 public class BlockEntityRendererEndpointSignal extends BlockEntityRendererBase<BlockEntityEndpointSignal> {
+	public BlockEntityRendererEndpointSignal(BlockEntityRendererProvider.Context context) {
+	}
+
 	/**
 	 * @param pBlockEntity
 	 * @param pPartialTick

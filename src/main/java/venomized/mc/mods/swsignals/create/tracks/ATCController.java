@@ -9,6 +9,7 @@ import net.minecraftforge.network.PacketDistributor;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityATCController;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.network.Networking;
 import venomized.mc.mods.swsignals.network.UpdateATCEvent;
 
 import java.util.Objects;
@@ -27,17 +28,18 @@ public class ATCController extends SingleBlockEntityEdgePoint {
 
 	/**
 	 * Executed when a train runs over.
+	 *
 	 * @param train
 	 */
 	public void onATCAction(Train train) {
-		Optional<UUID> controllingPlayer = train.carriages.stream().map(e->e.anyAvailableEntity().getControllingPlayer().orElseGet(()->null)).filter(e->!Objects.isNull(e)).findFirst();
+		Optional<UUID> controllingPlayer = train.carriages.stream().map(e -> e.anyAvailableEntity().getControllingPlayer().orElseGet(() -> null)).filter(e -> !Objects.isNull(e)).findFirst();
 		Level level = train.carriages.get(0).anyAvailableEntity().level();
 
 		Optional<BlockEntityATCController> blockEntity = level.getBlockEntity(this.getBlockEntityPos(), SwBlockEntities.BE_ATC_CONTROLLER.get());
 		blockEntity.ifPresent(blockEntityATCController -> {
 			// if any player is controlling
 			if (controllingPlayer.isPresent()) {
-				SwSignal.network().CHANNEL.send(
+				Networking.CHANNEL.send(
 						PacketDistributor.PLAYER.with(() -> (ServerPlayer) level.getPlayerByUUID(controllingPlayer.get())),
 						new UpdateATCEvent(0.5f)
 				);

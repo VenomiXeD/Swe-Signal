@@ -3,11 +3,15 @@ package venomized.mc.mods.swsignals.client.blockentityrenderer.se;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntityThreeLightDistantSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 public class BlockEntityRendererModernThreeLightDistantSignal extends BlockEntityRendererBase<BlockEntityThreeLightDistantSignal> {
+	public BlockEntityRendererModernThreeLightDistantSignal(BlockEntityRendererProvider.Context context) {
+	}
+
 	/**
 	 * @param pBlockEntity
 	 * @param pPartialTick

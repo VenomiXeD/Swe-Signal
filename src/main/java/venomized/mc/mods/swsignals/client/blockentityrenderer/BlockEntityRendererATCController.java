@@ -19,13 +19,13 @@ import venomized.mc.mods.swsignals.create.tracks.ATCController;
 
 public class BlockEntityRendererATCController extends SafeBlockEntityRenderer<BlockEntityATCController> {
 
-	public BlockEntityRendererATCController(BlockEntityRendererProvider.Context context) {}
+	public BlockEntityRendererATCController(BlockEntityRendererProvider.Context context) {
+	}
 
 	@Override
 	public boolean shouldRenderOffScreen(BlockEntityATCController pBlockEntity) {
 		return true;
 	}
-
 
 
 	@Override
@@ -46,7 +46,7 @@ public class BlockEntityRendererATCController extends SafeBlockEntityRenderer<Bl
 		TransformStack.cast(ms)
 				.translate(targetPosition.subtract(pos));
 
-		((ITrackBlock)block).prepareTrackOverlay(
+		((ITrackBlock) block).prepareTrackOverlay(
 				level,
 				targetPosition,
 				trackState,
@@ -56,25 +56,25 @@ public class BlockEntityRendererATCController extends SafeBlockEntityRenderer<Bl
 				TrackTargetingBehaviour.RenderedTrackOverlayType.SIGNAL
 		);
 
-		ms.translate(0f,2f/16f,0f);
+		ms.translate(0f, 2f / 16f, 0f);
 
 		Minecraft.getInstance().getBlockRenderer().getModelRenderer()
-						.tesselateWithAO(
-								level,
-								Minecraft.getInstance().getModelManager().getModel(SwSignal.modLoc("block/tracks/se_balise")),
-								trackState,
-								targetPosition,
-								ms,
-								bufferSource.getBuffer(RenderType.solid()),
-								false,
-								level.random,
-								light,
-								overlay
-						);
+				.tesselateWithAO(
+						level,
+						Minecraft.getInstance().getModelManager().getModel(SwSignal.modLoc("block/tracks/se_balise")),
+						trackState,
+						targetPosition,
+						ms,
+						bufferSource.getBuffer(RenderType.solid()),
+						false,
+						level.random,
+						light,
+						overlay
+				);
 
 		// TrackTargetingBehaviour.RenderedTrackOverlayType type = overlayState == SignalBlockEntity.OverlayState.DUAL ? TrackTargetingBehaviour.RenderedTrackOverlayType.DUAL_SIGNAL : TrackTargetingBehaviour.RenderedTrackOverlayType.SIGNAL;
 		// TrackTargetingBehaviour.render(level, targetPosition, atcControllerPoint.getTargetDirection(), atcControllerPoint.getTargetBezier(), ms,
-				// bufferSource, light, overlay, TrackTargetingBehaviour.RenderedTrackOverlayType.SIGNAL, 1);
+		// bufferSource, light, overlay, TrackTargetingBehaviour.RenderedTrackOverlayType.SIGNAL, 1);
 		ms.popPose();
 	}
 }

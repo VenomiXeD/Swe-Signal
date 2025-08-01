@@ -36,7 +36,6 @@ public class ScreenTest extends AbstractContainerScreen<MenuTest> {
 		// this.height = Minecraft.getInstance().screen.height/2;
 
 
-
 	}
 
 	@Override
@@ -56,12 +55,12 @@ public class ScreenTest extends AbstractContainerScreen<MenuTest> {
 		this.editBox.setBordered(false);
 
 		optionsList = this.addRenderableWidget(
-				CycleButton.<String>builder(Component::literal)
+				CycleButton.builder(Component::literal)
 						.withValues(
 								Arrays.stream(SwedishSignalAspect.values())
-										.map(e->e.getName())
+										.map(e -> e.getName())
 										.toArray(String[]::new)
-						).create(this.leftPos,this.topPos,120,16,Component.nullToEmpty("Aspect"))
+						).create(this.leftPos, this.topPos, 120, 16, Component.nullToEmpty("Aspect"))
 		);
 	}
 
@@ -80,12 +79,9 @@ public class ScreenTest extends AbstractContainerScreen<MenuTest> {
 	}
 
 
-
-
-
 	@Override
 	protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-			renderBackground(pGuiGraphics);
+		renderBackground(pGuiGraphics);
 	}
 
 	/**
@@ -137,6 +133,6 @@ public class ScreenTest extends AbstractContainerScreen<MenuTest> {
 		if (this.editBox.isFocused()) {
 			return this.editBox.keyPressed(pKeyCode, pScanCode, pModifiers);
 		}
-		return super.keyPressed(pKeyCode,pScanCode,pModifiers);
+		return super.keyPressed(pKeyCode, pScanCode, pModifiers);
 	}
 }

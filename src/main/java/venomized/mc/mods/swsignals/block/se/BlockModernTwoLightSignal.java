@@ -1,13 +1,16 @@
-package venomized.mc.mods.swsignals.block.sw;
+package venomized.mc.mods.swsignals.block.se;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityTwoLightSignal;
 
-public class BlockModernTwoLightSignal extends BlockAbstractSignal {
-	public static final String BLOCK_NAME = "signal_2l_modern";
+public class BlockModernTwoLightSignal extends BlockSignal {
+	public BlockModernTwoLightSignal(Properties properties) {
+		super(properties);
+	}
 
 	/**
 	 * @param pPos
@@ -16,6 +19,6 @@ public class BlockModernTwoLightSignal extends BlockAbstractSignal {
 	 */
 	@Override
 	public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return new BlockEntityTwoLightSignal(pPos, pState);
+		return SwBlockEntities.BE_TWO_LIGHT_SIGNAL.create(pPos, pState);
 	}
 }

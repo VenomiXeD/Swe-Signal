@@ -15,18 +15,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.block.SwAbstract45DegreeBlock;
-import venomized.mc.mods.swsignals.block.sw.BlockModernTwoLightSignal;
+import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
+import venomized.mc.mods.swsignals.block.se.BlockModernTwoLightSignal;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class BlockEntityRendererBase<T extends BlockEntity> implements BlockEntityRenderer<T> {
-	protected ResourceLocation modLoc(String p) {
-		return ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,p);
-	}
-
 	private BakedModel cachedModel;
 
 	public BlockEntityRendererBase() {
+	}
+
+	protected ResourceLocation modLoc(String p) {
+		return ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, p);
 	}
 
 	@Override
@@ -38,7 +38,9 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
 		return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
 	}
 
-	protected ResourceLocation modelLoc() { return null; };
+	protected ResourceLocation modelLoc() {
+		return null;
+	}
 
 	protected BakedModel getModel(BlockState currentBlockState) {
 		if (cachedModel == null) {
@@ -63,7 +65,7 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
 	 */
 	@Override
 	public void render(T pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
-		if (pBlockEntity.getBlockState().hasProperty(SwAbstract45DegreeBlock.ORIENTATION)) {
+		if (pBlockEntity.getBlockState().hasProperty(Sw45DegreeBlock.ORIENTATION)) {
 			pPoseStack.rotateAround(
 					new Quaternionf(
 							new AxisAngle4f(pBlockEntity.getBlockState().getValue(BlockModernTwoLightSignal.ORIENTATION) / -4f * Mth.PI, 0, 1, 0)), .5f, 0, .5f

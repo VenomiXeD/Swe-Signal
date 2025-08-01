@@ -1,4 +1,4 @@
-package venomized.mc.mods.swsignals.block.sw;
+package venomized.mc.mods.swsignals.block.se;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -10,7 +10,6 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -25,13 +24,9 @@ import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
 import venomized.mc.mods.swsignals.client.ui.MenuTest;
 
 public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {
-	public static final String BLOCK_NAME = "sw_signal_box";
-
-	public BlockSignalBox() {
-		super(Properties.copy(Blocks.IRON_BLOCK));
+	public BlockSignalBox(Properties pProperties) {
+		super(pProperties);
 	}
-
-
 
 	/**
 	 * @param pPos
@@ -40,7 +35,7 @@ public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {
 	 */
 	@Override
 	public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return new BlockEntitySignalBox(pPos, pState);
+		return SwBlockEntities.BE_SE_SIGNAL_BOX.create(pPos, pState);
 	}
 
 	/**
@@ -52,8 +47,8 @@ public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {
 	 */
 	@Override
 	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-		if (pBlockEntityType == SwBlockEntities.BE_SW_SIGNAL_BOX.get()) {
-			return ((pLevel1, pPos, pState1, pBlockEntity) -> ((BlockEntitySignalBox) pBlockEntity).tick(pLevel1, pPos, pState1, (BlockEntitySignalBox)pBlockEntity));
+		if (pBlockEntityType == SwBlockEntities.BE_SE_SIGNAL_BOX.get()) {
+			return ((pLevel1, pPos, pState1, pBlockEntity) -> ((BlockEntitySignalBox) pBlockEntity).tick(pLevel1, pPos, pState1, (BlockEntitySignalBox) pBlockEntity));
 		}
 		return null;
 	}
@@ -71,11 +66,11 @@ public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {
 	public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
 		if (pLevel.isClientSide()) {
 			return InteractionResult.SUCCESS;
-		};
+		}
 
-		if(pPlayer.getItemInHand(pHand).isEmpty()) {
+		if (pPlayer.getItemInHand(pHand).isEmpty()) {
 			BlockEntitySignalBox blockEntity = (BlockEntitySignalBox) pLevel.getBlockEntity(pPos);
-			NetworkHooks.openScreen((ServerPlayer) pPlayer, pState.getMenuProvider(pLevel, pPos), (data)->{
+			NetworkHooks.openScreen((ServerPlayer) pPlayer, pState.getMenuProvider(pLevel, pPos), (data) -> {
 				data.writeNbt(blockEntity.getUpdateTag());
 			});
 		}

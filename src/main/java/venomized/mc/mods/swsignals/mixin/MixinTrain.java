@@ -19,7 +19,7 @@ public class MixinTrain {
 		TravellingPoint.IEdgePointListener original = cir.getReturnValue();
 
 		TravellingPoint.IEdgePointListener modified = (distance, couple) -> {
-			if(couple.getFirst() instanceof ATCController atcController) {
+			if (couple.getFirst() instanceof ATCController atcController) {
 				atcController.onATCAction(self);
 				return false;
 			}

@@ -1,14 +1,14 @@
 package venomized.mc.mods.swsignals.blockentity.se.mainsignals;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignal;
 
 public class BlockEntityTwoLightSignal extends BlockEntitySignal {
-	public static final String NAME = "be_2l_modern";
 
-	public BlockEntityTwoLightSignal(BlockPos pPos, BlockState pBlockState) {
-		super(SwBlockEntities.BE_TWO_LIGHT_SIGNAL.get(), pPos, pBlockState, 2);
+	public BlockEntityTwoLightSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
+		super(t, pPos, pBlockState, 2);
 	}
 }

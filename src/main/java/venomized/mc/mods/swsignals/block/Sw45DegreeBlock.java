@@ -14,11 +14,11 @@ import org.jetbrains.annotations.Nullable;
  * Any object that can have 45 degrees rotation.
  * Needs an Block Entity Renderer
  */
-public abstract class SwAbstract45DegreeBlock extends SwAbstractBlock {
+public class Sw45DegreeBlock extends SwAbstractBlock {
 	public static IntegerProperty ORIENTATION = IntegerProperty.create("orientation", 0, 7);
 
-	public SwAbstract45DegreeBlock(BlockBehaviour.Properties properties) {
-		super(properties);
+	public Sw45DegreeBlock(BlockBehaviour.Properties properties) {
+		super(properties.noOcclusion());
 	}
 
 	public static int get8Direction(float yaw) {
@@ -43,7 +43,6 @@ public abstract class SwAbstract45DegreeBlock extends SwAbstractBlock {
 		return this.defaultBlockState()
 				.setValue(ORIENTATION, orientation);
 	}
-
 
 
 	/**

@@ -3,7 +3,7 @@ package venomized.mc.mods.swsignals.create;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
 import com.simibubi.create.foundation.ponder.PonderTag;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.block.SwBlocks;
+import venomized.mc.mods.swsignals.block.se.SeBlocks;
 import venomized.mc.mods.swsignals.item.SwItems;
 
 public class PonderTags {
@@ -14,6 +14,6 @@ public class PonderTags {
 
 	public static void register() {
 		PonderRegistry.TAGS.forTag(DWARF_SIGNALS)
-				.add(SwBlocks.BLOCK_MODERN_DWARF_SIGNAL.get());
+				.add(SeBlocks.BLOCK_MODERN_DWARF_SIGNAL.get());
 	}
 }

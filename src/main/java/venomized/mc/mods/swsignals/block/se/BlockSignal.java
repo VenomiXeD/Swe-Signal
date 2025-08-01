@@ -1,4 +1,4 @@
-package venomized.mc.mods.swsignals.block.sw;
+package venomized.mc.mods.swsignals.block.se;
 
 import com.simibubi.create.AllTags;
 import net.minecraft.core.BlockPos;
@@ -26,22 +26,21 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.block.SwAbstract45DegreeBlock;
+import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignal;
 
-public abstract class BlockAbstractSignal extends SwAbstract45DegreeBlock implements EntityBlock {
+public abstract class BlockSignal extends Sw45DegreeBlock implements EntityBlock {
 	public static BooleanProperty MOUNTED = BooleanProperty.create("mounting");
+
+	public BlockSignal(Properties properties) {
+		super(properties.noOcclusion().dynamicShape().pushReaction(PushReaction.DESTROY));
+	}
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	public BlockAbstractSignal() {
-		super(Properties.copy(Blocks.IRON_BLOCK).noOcclusion().dynamicShape().pushReaction(PushReaction.DESTROY));
-	}
-
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {

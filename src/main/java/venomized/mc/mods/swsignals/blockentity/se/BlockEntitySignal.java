@@ -27,13 +27,12 @@ import java.util.Optional;
 
 public abstract class BlockEntitySignal extends SwBlockEntityBase
 		implements IHaveGoggleInformation, ISignalTunerBindable {
-	private int lightCount;
-
+	private static final String SIGNAL_BOX_POS_TAG = "signal_box_pos";
+	public float[] lightLevels;
+	private final int lightCount;
 	private BlockPos signalBoxPosition;
 	private int tick;
 	private int remainingTicksAspectChangeDelay;
-
-	public float[] lightLevels;
 
 	public BlockEntitySignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState, int lightCount) {
 		super(t, pPos, pBlockState);
@@ -137,7 +136,7 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 	 * @param tooltip
 	 * @param isPlayerSneaking
 	 * @return {@code true} if the tooltip creation was successful and should be
-	 *         displayed, or {@code false} if the overlay should not be displayed
+	 * displayed, or {@code false} if the overlay should not be displayed
 	 */
 	@Override
 	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
@@ -176,7 +175,7 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 	 */
 	@Override
 	public Pair<InteractionResult, Component> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
-		if(sourceBlockEntity.isPresent()) {
+		if (sourceBlockEntity.isPresent()) {
 			if (sourceBlockEntity.get() instanceof BlockEntitySignalBox sb) {
 				this.setTargetedSignalBoxPosition(sb.getBlockPos());
 				return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully bound to signal box"));
@@ -189,8 +188,6 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
 	public boolean isSource() {
 		return false;
 	}
-
-	private static final String SIGNAL_BOX_POS_TAG = "signal_box_pos";
 
 	@Override
 	public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {

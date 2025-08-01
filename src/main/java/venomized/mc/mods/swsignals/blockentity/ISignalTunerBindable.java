@@ -8,7 +8,8 @@ import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import java.util.Optional;
 
 public interface ISignalTunerBindable extends IForgeBlockEntity {
-	default void onStartBinding() {}
+	default void onStartBinding() {
+	}
 
 	default boolean isSource() {
 		return true;
@@ -25,7 +26,9 @@ public interface ISignalTunerBindable extends IForgeBlockEntity {
 	 * @param mode
 	 * @return
 	 */
-	default Pair<InteractionResult, Component> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {return Pair.of(InteractionResult.FAIL,Component.literal("Invalid Data Source Tile"));}
+	default Pair<InteractionResult, Component> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+		return Pair.of(InteractionResult.FAIL, Component.literal("Invalid Data Source Tile"));
+	}
 
 	/**
 	 * Signal Box A -> Create Signal; Signal Box A is the target
@@ -33,7 +36,9 @@ public interface ISignalTunerBindable extends IForgeBlockEntity {
 	 * @param targetBlockEntity target block destination
 	 * @param mode
 	 */
-	default Pair<InteractionResult, Component> onBindToTarget(Optional<ISignalTunerBindable> targetBlockEntity, SignalTunerMode mode) {return Pair.of(InteractionResult.CONSUME,Component.empty());}
+	default Pair<InteractionResult, Component> onBindToTarget(Optional<ISignalTunerBindable> targetBlockEntity, SignalTunerMode mode) {
+		return Pair.of(InteractionResult.CONSUME, Component.empty());
+	}
 
 	enum SignalTunerMode {
 		DISCONNECT_ALL,

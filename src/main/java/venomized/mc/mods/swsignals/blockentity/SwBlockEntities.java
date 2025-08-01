@@ -1,104 +1,124 @@
 package venomized.mc.mods.swsignals.blockentity;
 
+import com.simibubi.create.content.trains.signal.SignalRenderer;
+import com.tterrag.registrate.Registrate;
+import com.tterrag.registrate.builders.BlockEntityBuilder;
+import com.tterrag.registrate.util.entry.BlockEntityEntry;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.block.SwBlocks;
+import venomized.mc.mods.swsignals.block.se.SeBlocks;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntityThreeLightDistantSignal;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntityUSign;
 import venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals.*;
+import venomized.mc.mods.swsignals.blockentity.se.crossing.BlockEntityCrossingGate;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityFiveLightSignal;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityFourLightSignal;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityThreeLightSignal;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityTwoLightSignal;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.se.*;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.se.crossing.BlockEntityRendererCrossingGate;
 
 public final class SwBlockEntities {
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, SwSignal.MOD_ID);
+	// public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, SwSignal.MOD_ID);
 
+	public static <T extends BlockEntity> BlockEntityBuilder<T, Registrate> simpleBlockEntity(String beName, BlockEntityBuilder.BlockEntityFactory<T> beFactory, NonNullSupplier<? extends Block> validBlock) {
+		return SwSignal.REGISTRATE.get()
+				.blockEntity(beName,beFactory)
+				.validBlock(validBlock);
+	}
 
-	public static final RegistryObject<BlockEntityType<BlockEntityRailroadCrossingController>> BE_RAILROAD_CROSSING_CONTROLLER =
-			BLOCK_ENTITIES.register("be_railroad_crossing_controller", () -> BlockEntityType.Builder.of(BlockEntityRailroadCrossingController::new,
-					SwBlocks.BLOCK_RAILROAD_CROSSING_CONTROLLER.get()
-			).build(null));
+	// public static final RegistryObject<BlockEntityType<BlockEntityRailroadCrossingController>> BE_RAILROAD_CROSSING_CONTROLLER =
+	// 		BLOCK_ENTITIES.register("be_railroad_crossing_controller", () -> BlockEntityType.Builder.of(BlockEntityRailroadCrossingController::new,
+	// 				SeBlocks.BLOCK_RAILROAD_CROSSING_CONTROLLER.get()
+	// 		).build(null));
 
-	// #region SWEDISH CONTENT
-	public static final RegistryObject<BlockEntityType<BlockEntitySignalBox>> BE_SW_SIGNAL_BOX = BLOCK_ENTITIES.register(
-			BlockEntitySignalBox.NAME, () -> BlockEntityType.Builder.of(BlockEntitySignalBox::new,
-					SwBlocks.BLOCK_SW_SIGNAL_BOX.get()).build(null)
-	);
+	public static final BlockEntityEntry<BlockEntityRailroadCrossingController> BE_SE_RAILROAD_CROSSING_CONTROLLER =
+			simpleBlockEntity(
+					"be_se_crossing_controller",
+					BlockEntityRailroadCrossingController::new,
+					SeBlocks.BLOCK_RAILROAD_CROSSING_CONTROLLER
+			).register();
+	//region SWEDISH CONTENT
+	public static final BlockEntityEntry<BlockEntitySignalBox> BE_SE_SIGNAL_BOX =
+			simpleBlockEntity("be_se_signal_box", BlockEntitySignalBox::new,SeBlocks.BLOCK_SIGNAL_BOX)
+					.register();
 
 	// == SIGNALS FROM 2-5 LIGHTS ==
-	public static final RegistryObject<BlockEntityType<BlockEntityTwoLightSignal>> BE_TWO_LIGHT_SIGNAL =
-			BLOCK_ENTITIES.register(BlockEntityTwoLightSignal.NAME, () -> BlockEntityType.Builder.of(BlockEntityTwoLightSignal::new,
-					SwBlocks.BLOCK_TWO_LIGHT_SIGNAL.get()
-			).build(null));
+	public static final BlockEntityEntry<BlockEntityTwoLightSignal> BE_TWO_LIGHT_SIGNAL =
+			simpleBlockEntity("be_se_2l_signal",BlockEntityTwoLightSignal::new, SeBlocks.BLOCK_TWO_LIGHT_SIGNAL)
+					.renderer(()->BlockEntityRendererSignal::new)
+					.register();
 
-	public static final RegistryObject<BlockEntityType<BlockEntityThreeLightSignal>> BE_THREE_LIGHT_SIGNAL =
-			BLOCK_ENTITIES.register(BlockEntityThreeLightSignal.NAME, () -> BlockEntityType.Builder.of(BlockEntityThreeLightSignal::new,
-					SwBlocks.BLOCK_THREE_LIGHT_SIGNAL.get()
-			).build(null));
+	public static final BlockEntityEntry<BlockEntityThreeLightSignal> BE_THREE_LIGHT_SIGNAL =
+			simpleBlockEntity("be_se_3l_signal", BlockEntityThreeLightSignal::new, SeBlocks.BLOCK_THREE_LIGHT_SIGNAL)
+					.renderer(()->BlockEntityRendererSignal::new)
+					.register();
 
-	public static final RegistryObject<BlockEntityType<BlockEntityFourLightSignal>> BE_FOUR_LIGHT_SIGNAL =
-			BLOCK_ENTITIES.register(BlockEntityFourLightSignal.NAME, () -> BlockEntityType.Builder.of(BlockEntityFourLightSignal::new,
-					SwBlocks.BLOCK_FOUR_LIGHT_SIGNAL.get()
-			).build(null));
+	public static final BlockEntityEntry<BlockEntityFourLightSignal> BE_FOUR_LIGHT_SIGNAL =
+			simpleBlockEntity("be_se_4l_signal",BlockEntityFourLightSignal::new,SeBlocks.BLOCK_FOUR_LIGHT_SIGNAL)
+					.renderer(()->BlockEntityRendererModernFourLightSignal::new)
+					.register();
 
-	public static final RegistryObject<BlockEntityType<BlockEntityFiveLightSignal>> BE_FIVE_LIGHT_SIGNAL =
-			BLOCK_ENTITIES.register(BlockEntityFiveLightSignal.NAME, () -> BlockEntityType.Builder.of(BlockEntityFiveLightSignal::new,
-					SwBlocks.BLOCK_FIVE_LIGHT_SIGNAL.get()
-			).build(null));
+	public static final BlockEntityEntry<BlockEntityFiveLightSignal> BE_FIVE_LIGHT_SIGNAL =
+			simpleBlockEntity("be_se_5l_signal",BlockEntityFiveLightSignal::new,SeBlocks.BLOCK_FIVE_LIGHT_SIGNAL)
+					.renderer(()->BlockEntityRendererModernFiveLightSignal::new)
+					.register();
 
 	// == DISTANT SIGNALS ==
-
-	public static final RegistryObject<BlockEntityType<BlockEntityThreeLightDistantSignal>> BE_THREE_LIGHT_DISTANT_SIGNAL =
-			BLOCK_ENTITIES.register("be_sw_3l_distant_signal", () -> BlockEntityType.Builder.of(BlockEntityThreeLightDistantSignal::new,
-					SwBlocks.BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL.get()
-			).build(null));
+	public static final BlockEntityEntry<BlockEntityThreeLightDistantSignal> BE_THREE_LIGHT_DISTANT_SIGNAL =
+			simpleBlockEntity("be_se_3l_distant_signal",BlockEntityThreeLightDistantSignal::new,SeBlocks.BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL)
+					.renderer(()->BlockEntityRendererModernThreeLightDistantSignal::new)
+					.register();
 
 	// == DWARF SIGNALS ==
+	public static final BlockEntityEntry<BlockEntityDwarfSignal> BE_DWARF_SIGNAL =
+			simpleBlockEntity("be_se_dwarf_signal",BlockEntityDwarfSignal::new,SeBlocks.BLOCK_MODERN_DWARF_SIGNAL)
+					.renderer(() -> BlockEntityRendererModernDwarfSignal::new)
+					.register();
 
-	public static final RegistryObject<BlockEntityType<BlockEntityDwarfSignal>> BE_DWARF_SIGNAL =
-			BLOCK_ENTITIES.register("be_sw_dwarf_signal_modern", () -> BlockEntityType.Builder.of(BlockEntityDwarfSignal::new,
-							SwBlocks.BLOCK_MODERN_DWARF_SIGNAL.get()
-					).build(null)
-			);
-
-	public static final RegistryObject<BlockEntityType<BlockEntityMainDwarfSignal>> BE_MAIN_DWARF_SIGNAL = BLOCK_ENTITIES.register(
-			"be_se_main_dwarf_signal_modern", () -> BlockEntityType.Builder.of(
-					BlockEntityMainDwarfSignal::new, SwBlocks.BLOCK_MODERN_DWARF_SIGNAL.get(), SwBlocks.BLOCK_MODERN_MAIN_DWARF_SIGNAL.get()
-			).build(null)
-	);
+	public static final BlockEntityEntry<BlockEntityMainDwarfSignal> BE_MAIN_DWARF_SIGNAL =
+		 	simpleBlockEntity("be_se_main_dwarf_signal",BlockEntityMainDwarfSignal::new,SeBlocks.BLOCK_MODERN_MAIN_DWARF_SIGNAL)
+					.renderer(()->BlockEntityRendererModernMainDwarfSignal::new)
+					.register();
 
 	// == MISC SIGNALS ==
 
-	public static final RegistryObject<BlockEntityType<BlockEntityEndpointSignal>> BE_ENDPOINT_SIGNAL =
-			BLOCK_ENTITIES.register(BlockEntityEndpointSignal.NAME, () -> BlockEntityType.Builder.of(BlockEntityEndpointSignal::new,
-					SwBlocks.BLOCK_ENDPOINT_SIGNAL.get()
-			).build(null));
+	public static final BlockEntityEntry<BlockEntityEndpointSignal> BE_ENDPOINT_SIGNAL =
+			simpleBlockEntity("be_se_1l_endpoint_signal",BlockEntityEndpointSignal::new,SeBlocks.BLOCK_ENDPOINT_SIGNAL)
+					.renderer(()->BlockEntityRendererEndpointSignal::new)
+					.register();
 
-	public static final RegistryObject<BlockEntityType<BlockEntityUSign>> BE_U_SIGN =
-			BLOCK_ENTITIES.register("be_u_sign", () -> BlockEntityType.Builder.of(BlockEntityUSign::new,
-					SwBlocks.BLOCK_U_SIGN.get()
-			).build(null));
+	public static final BlockEntityEntry<BlockEntityUSign> BE_U_SIGN =
+			simpleBlockEntity("be_se_u_sign",BlockEntityUSign::new,SeBlocks.BLOCK_U_SIGN)
+					.renderer(()->BlockEntityRendererGeneric::new)
+					.register();
 
 	// == RAILROAD CROSSING SIGNALS ==
 
-	public static final RegistryObject<BlockEntityType<BlockEntityRailroadCrossingSignal>> BE_RAILROAD_CROSSING_SIGNAL =
-			BLOCK_ENTITIES.register("be_railroad_crossing_signal", () -> BlockEntityType.Builder.of(BlockEntityRailroadCrossingSignal::new,
-					SwBlocks.BLOCK_RAILROAD_CROSSING_SIGNAL.get()
-			).build(null));
+	public static final BlockEntityEntry<BlockEntityRailroadCrossingSignal> BE_RAILROAD_CROSSING_SIGNAL =
+			simpleBlockEntity("be_se_railroad_crossing_signal",BlockEntityRailroadCrossingSignal::new,SeBlocks.BLOCK_RAILROAD_CROSSING_SIGNAL)
+					.renderer(()->BlockEntityRendererRailroadCrossingSignal::new)
+					.register();
 
-	public static final RegistryObject<BlockEntityType<BlockEntityRailroadCrossingDistantSignal>> BE_RAILROAD_CROSSING_DISTANT_SIGNAL =
-			BLOCK_ENTITIES.register("be_railroad_crossing_distant_signal", () -> BlockEntityType.Builder.of(BlockEntityRailroadCrossingDistantSignal::new,
-					SwBlocks.BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL.get()
-			).build(null));
-	// #endregion SWEDISH CONTENT
+	public static final BlockEntityEntry<BlockEntityRailroadCrossingDistantSignal> BE_RAILROAD_CROSSING_DISTANT_SIGNAL =
+			simpleBlockEntity("be_se_railroad_crossing_distant_signal",BlockEntityRailroadCrossingDistantSignal::new,SeBlocks.BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL)
+					.renderer(()->BlockEntityRendererRailroadCrossingDistantSignal::new)
+					.register();
+
+	public static final BlockEntityEntry<BlockEntityCrossingGate> BE_CROSSING_GATE =
+			simpleBlockEntity("be_se_crossing_gate",BlockEntityCrossingGate::new,SeBlocks.BLOCK_CROSSING_GATE)
+					.renderer(()->BlockEntityRendererCrossingGate::new)
+					.register();
+	//endregion
 
 	// TESTING AREA
-	public static final RegistryObject<BlockEntityType<BlockEntityATCController>> BE_ATC_CONTROLLER = BLOCK_ENTITIES.register("be_atc_controller", () -> BlockEntityType.Builder.of(BlockEntityATCController::new,
-			SwBlocks.BLOCK_ATC_CONTROLLER.get()
-	).build(null));
+	public static final BlockEntityEntry<BlockEntityATCController> BE_ATC_CONTROLLER =
+			simpleBlockEntity("be_se_atc_controller",BlockEntityATCController::new, SeBlocks.BLOCK_ATC_CONTROLLER)
+					.register();
 }

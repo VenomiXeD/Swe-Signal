@@ -11,19 +11,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class TestBlock extends Block {
-    public TestBlock() {
-        super(Block.Properties.copy(Blocks.STONE).strength(3.0F, 3.0F));
-    }
+	public TestBlock(Properties properties) {
+		super(properties);
+	}
 
-    @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
-            BlockHitResult pHit) {
-        System.out.println("PState: " + pState + " PLevel: " + pLevel + " PPos: " + pPos + " PPlayer: " + pPlayer
-                + " PHand: " + pHand + " PHit: " + pHit);
-        pLevel.setBlock(pPos.above(), Blocks.DIAMOND_BLOCK.defaultBlockState(), 3);
+	@Override
+	public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
+								 BlockHitResult pHit) {
+		System.out.println("PState: " + pState + " PLevel: " + pLevel + " PPos: " + pPos + " PPlayer: " + pPlayer
+				+ " PHand: " + pHand + " PHit: " + pHit);
+		pLevel.setBlock(pPos.above(), Blocks.DIAMOND_BLOCK.defaultBlockState(), 3);
 
-        System.out.println("Is Client: " + pLevel.isClientSide);
+		System.out.println("Is Client: " + pLevel.isClientSide);
 
-        return InteractionResult.SUCCESS;
-    }
+		return InteractionResult.SUCCESS;
+	}
 }

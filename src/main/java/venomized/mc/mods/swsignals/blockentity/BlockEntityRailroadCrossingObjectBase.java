@@ -46,7 +46,7 @@ public abstract class BlockEntityRailroadCrossingObjectBase extends SwBlockEntit
 	 */
 	@Override
 	public Pair<InteractionResult, Component> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
-		if(sourceBlockEntity.isPresent()) {
+		if (sourceBlockEntity.isPresent()) {
 			IForgeBlockEntity be = sourceBlockEntity.get();
 			if (be instanceof BlockEntityRailroadCrossingController c) {
 				setRailroadCrossingControllerPos(c.getBlockPos());

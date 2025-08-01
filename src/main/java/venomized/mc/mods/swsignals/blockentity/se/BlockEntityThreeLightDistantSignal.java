@@ -1,13 +1,14 @@
 package venomized.mc.mods.swsignals.blockentity.se;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 public class BlockEntityThreeLightDistantSignal extends BlockEntitySignal {
-	public BlockEntityThreeLightDistantSignal(BlockPos pPos, BlockState pBlockState) {
-		super(SwBlockEntities.BE_THREE_LIGHT_DISTANT_SIGNAL.get(), pPos, pBlockState, 5); // Trick it - so it can compute distant signal states
+	public BlockEntityThreeLightDistantSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
+		super(t, pPos, pBlockState, 5);// Trick it - so it can compute distant signal states
 	}
 
 	@Override

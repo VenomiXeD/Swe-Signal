@@ -2,17 +2,17 @@ package venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityRailroadCrossingObjectBase;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 
 public class BlockEntityRailroadCrossingDistantSignal extends BlockEntityRailroadCrossingObjectBase {
+	public float lightLevel = 0;
 	private int tick;
 
-	public float lightLevel = 0;
-
-	public BlockEntityRailroadCrossingDistantSignal(BlockPos pPos, BlockState pBlockState) {
-		super(SwBlockEntities.BE_RAILROAD_CROSSING_DISTANT_SIGNAL.get(), pPos, pBlockState);
+	public BlockEntityRailroadCrossingDistantSignal(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+		super(pType, pPos, pBlockState);
 	}
 
 	public boolean blink() {

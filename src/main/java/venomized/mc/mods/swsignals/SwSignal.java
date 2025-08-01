@@ -1,6 +1,7 @@
 package venomized.mc.mods.swsignals;
 
 import com.tterrag.registrate.Registrate;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -32,14 +33,10 @@ import venomized.mc.mods.swsignals.network.Networking;
 @Mod(SwSignal.MOD_ID)
 public class SwSignal {
 	public static final String MOD_ID = "swsignal";
-
-	public static final ResourceLocation modLoc(String path) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
-	}
-
-	public static Registrate register = Registrate.create(MOD_ID);
-
 	public static final Logger LOGGER = LogManager.getLogger(SwSignal.class);
+
+	public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(()->Registrate.create(MOD_ID));
+
 	public static DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SwSignal.MOD_ID);
 	public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("sw_tab",
 			() ->
@@ -52,14 +49,10 @@ public class SwSignal {
 							.build()
 	);
 	private static Networking SW_SIGNAL_NETWORK;
-
 	public SwSignal() {
-		IEventBus eventbus = FMLJavaModLoadingContext.get().getModEventBus();
+		IEventBus eventbus = REGISTRATE.get().getModEventBus();
 		MinecraftForge.EVENT_BUS.register(this);
 		eventbus.register(this);
-		SwBlocks.BLOCKS.register(eventbus);
-		SwItems.ITEMS.register(eventbus);
-		SwBlockEntities.BLOCK_ENTITIES.register(eventbus);
 
 		AllSounds.SOUNDS.register(eventbus);
 
@@ -78,6 +71,10 @@ public class SwSignal {
 
 		SW_SIGNAL_NETWORK = new Networking();
 		Networking.init();
+	}
+
+	public static final ResourceLocation modLoc(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 
 	public static Networking network() {

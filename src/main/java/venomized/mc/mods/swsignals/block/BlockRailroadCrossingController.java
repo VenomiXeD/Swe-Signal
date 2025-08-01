@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityRailroadCrossingController;
+import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 
 public class BlockRailroadCrossingController extends SwAbstractBlock implements EntityBlock {
 	/**
@@ -20,9 +21,13 @@ public class BlockRailroadCrossingController extends SwAbstractBlock implements 
 		super(Properties.copy(Blocks.IRON_BLOCK));
 	}
 
+	public BlockRailroadCrossingController(Properties pProperties) {
+		super(pProperties);
+	}
+
 	@Override
 	public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return new BlockEntityRailroadCrossingController(pPos, pState);
+		return SwBlockEntities.BE_SE_RAILROAD_CROSSING_CONTROLLER.get().create(pPos, pState);
 	}
 
 	/**
@@ -61,7 +66,9 @@ public class BlockRailroadCrossingController extends SwAbstractBlock implements 
 
 	@Override
 	public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pNeighborBlock, BlockPos pNeighborPos, boolean pMovedByPiston) {
-		if (pLevel.isClientSide) {return;}
+		if (pLevel.isClientSide) {
+			return;
+		}
 		BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
 		if (blockEntity instanceof BlockEntityRailroadCrossingController rcc) {
 			rcc.setPowered(pLevel.hasNeighborSignal(pPos));

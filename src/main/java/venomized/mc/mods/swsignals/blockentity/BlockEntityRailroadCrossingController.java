@@ -5,20 +5,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class BlockEntityRailroadCrossingController extends SwBlockEntityBase implements ISignalTunerBindable {
 	private boolean powered;
-	public void setPowered(boolean powered) {
-		if (this.powered != powered) {
-			this.powered = powered;
-			this.updateSelf();
-		}
-	}
 
-	public BlockEntityRailroadCrossingController(BlockPos pPos, BlockState pBlockState) {
-		super(SwBlockEntities.BE_RAILROAD_CROSSING_CONTROLLER.get(), pPos, pBlockState);
+	public BlockEntityRailroadCrossingController(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+		super(pType, pPos, pBlockState);
 	}
 
 	@Override
@@ -64,5 +59,12 @@ public class BlockEntityRailroadCrossingController extends SwBlockEntityBase imp
 
 	public boolean isPowered() {
 		return this.powered;
+	}
+
+	public void setPowered(boolean powered) {
+		if (this.powered != powered) {
+			this.powered = powered;
+			this.updateSelf();
+		}
 	}
 }

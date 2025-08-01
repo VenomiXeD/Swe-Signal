@@ -5,13 +5,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.block.sw.BlockAbstractSignal;
+import venomized.mc.mods.swsignals.block.se.BlockSignal;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
@@ -20,12 +21,14 @@ import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 public class BlockEntityRendererSignal<T extends BlockEntitySignal>
 		extends BlockEntityRendererBase<T> {
 	protected static final int FULLBRIGHT = 0xFFFFFF;
-
-	private static BakedModel SIGNAL_LIGHT_MODEL;
 	public static ResourceLocation SIGNAL_LIGHT_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,
 			"block/light");
 	public static ResourceLocation SIGNAL_LIGHT_TEX_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,
 			"textures/block/light.png");
+	private static BakedModel SIGNAL_LIGHT_MODEL;
+
+	public BlockEntityRendererSignal(BlockEntityRendererProvider.Context context) {
+	}
 
 	public static BakedModel signalLightModel() {
 		if (SIGNAL_LIGHT_MODEL == null) {
@@ -34,7 +37,7 @@ public class BlockEntityRendererSignal<T extends BlockEntitySignal>
 		return SIGNAL_LIGHT_MODEL;
 	}
 
-    @Override
+	@Override
 	public boolean shouldRenderOffScreen(T pBlockEntity) {
 		return true;
 	}
@@ -56,14 +59,14 @@ public class BlockEntityRendererSignal<T extends BlockEntitySignal>
 	@SuppressWarnings("deprecation")
 	@Override
 	public void render(T t, float partialTick, PoseStack poseStack, MultiBufferSource multiBufferSource, int light,
-			int overlay) {
+					   int overlay) {
 		super.render(t, partialTick, poseStack, multiBufferSource, light, overlay);
 
 		int lightCount = t.getLightCount();
 
 		ModelBlockRenderer renderer = Minecraft.getInstance().getBlockRenderer().getModelRenderer();
 
-		if (t.getBlockState().getValue(BlockAbstractSignal.MOUNTED)) {
+		if (t.getBlockState().getValue(BlockSignal.MOUNTED)) {
 			poseStack.translate(0, 8 / 16d, 0);
 		}
 
@@ -125,7 +128,7 @@ public class BlockEntityRendererSignal<T extends BlockEntitySignal>
 					// RenderType.debugFilledBox()
 					// multiBufferSource.getBuffer(RenderType.debugQuads()), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
 					// multiBufferSource.getBuffer(RenderType.solid()), t.getBlockState(), signalLightModel(), r, g, b, FULLBRIGHT, overlay
-					multiBufferSource.getBuffer(RenderType.beaconBeam(SIGNAL_LIGHT_TEX_LOC,true)), t.getBlockState(), signalLightModel(), r, g, b, FULLBRIGHT, overlay
+					multiBufferSource.getBuffer(RenderType.beaconBeam(SIGNAL_LIGHT_TEX_LOC, true)), t.getBlockState(), signalLightModel(), r, g, b, FULLBRIGHT, overlay
 					// multiBufferSource.getBuffer(RenderType.()), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
 			);
 			poseStack.popPose();

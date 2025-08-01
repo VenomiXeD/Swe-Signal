@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,7 +14,7 @@ import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendere
 
 @OnlyIn(Dist.CLIENT)
 public class BlockEntityRendererGeneric extends BlockEntityRendererBase<BlockEntityUSign> {
-	public final ResourceLocation MODEL_LOC;
+	protected final ResourceLocation MODEL_LOC;
 
 	public BlockEntityRendererGeneric(String resourceLoc) {
 		this.MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, resourceLoc);
@@ -24,6 +25,9 @@ public class BlockEntityRendererGeneric extends BlockEntityRendererBase<BlockEnt
 	 */
 	public BlockEntityRendererGeneric() {
 		this.MODEL_LOC = null;
+	}
+
+	public BlockEntityRendererGeneric(BlockEntityRendererProvider.Context context) {
 	}
 
 	/**

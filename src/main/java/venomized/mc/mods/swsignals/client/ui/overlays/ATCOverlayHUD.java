@@ -21,7 +21,8 @@ public class ATCOverlayHUD {
 			return null;
 		return cce.getCarriage();
 	}
-//                 overlay.render(this, guiGraphics, partialTick, screenWidth, screenHeight);
+
+	//                 overlay.render(this, guiGraphics, partialTick, screenWidth, screenHeight);
 	public static void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTick, int w, int h) {
 
 		Carriage carriage = getCarriage();
@@ -41,7 +42,7 @@ public class ATCOverlayHUD {
 
 		guiGraphics.drawString(
 				forgeGui.getFont(),
-				"Current ATC Limit: %.2f".formatted(currentATCLimit*100d) + "%",
+				"Current ATC Limit: %.2f".formatted(currentATCLimit * 100d) + "%",
 				w / 2 - 50,
 				h - 55,
 				overspeedBlinkTick > 10 ? 0xFF0000 : 0xFFFFFF

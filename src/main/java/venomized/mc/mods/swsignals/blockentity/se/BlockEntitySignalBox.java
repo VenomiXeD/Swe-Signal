@@ -5,6 +5,7 @@ import com.simibubi.create.foundation.utility.NBTHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityAbstractSignalBox;
 import venomized.mc.mods.swsignals.blockentity.ITickingEntity;
@@ -20,10 +21,10 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox implement
 	private SwedishSignalAspect aspect;
 	private SwedishSignalAspect previousAspect;
 
-	private HashMap<SwedishSignalAspect,SwedishSignalAspect> manualOverrides = new HashMap<>();
+	private final HashMap<SwedishSignalAspect, SwedishSignalAspect> manualOverrides = new HashMap<>();
 
-	public BlockEntitySignalBox(BlockPos pPos, BlockState pBlockState) {
-		super(SwBlockEntities.BE_SW_SIGNAL_BOX.get(), pPos, pBlockState);
+	public BlockEntitySignalBox(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+		super(pType, pPos, pBlockState);
 	}
 
 	public SwedishSignalAspect getCurrentAspect() {
@@ -55,18 +56,19 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox implement
 			if (signalBox == this) {
 				return SwedishSignalAspect.SIGNAL_FAULT_INCORRECT_WIRING;
 			}
-            SwedishSignalAspect nextSignal = signalBox.getCurrentAspect();
+			SwedishSignalAspect nextSignal = signalBox.getCurrentAspect();
 
-            if (nextSignal != null) {
-                result = switch (nextSignal) {
-                    case STOP, SIGNAL_FAULT_INCORRECT_WIRING -> SwedishSignalAspect.PROCEED_40_CAUTION;
-                    case PROCEED_40_SHORT, PROCEED_40_CAUTION -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;
-                    case PROCEED_80_EXPECT_STOP, PROCEED_80, PROCEED_80_EXPECT_PROCEED_80 -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_80;
-                    case PROCEED_80_EXPECT_PROCEED_40 ->  SwedishSignalAspect.PROCEED_80;
-                };
-            }
+			if (nextSignal != null) {
+				result = switch (nextSignal) {
+					case STOP, SIGNAL_FAULT_INCORRECT_WIRING -> SwedishSignalAspect.PROCEED_40_CAUTION;
+					case PROCEED_40_SHORT, PROCEED_40_CAUTION -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;
+					case PROCEED_80_EXPECT_STOP, PROCEED_80, PROCEED_80_EXPECT_PROCEED_80 ->
+							SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_80;
+					case PROCEED_80_EXPECT_PROCEED_40 -> SwedishSignalAspect.PROCEED_80;
+				};
+			}
 
-        }
+		}
 		return result;
 	}
 
@@ -78,7 +80,7 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox implement
 		}
 		CompoundTag overrideTag = new CompoundTag();
 		for (Map.Entry<SwedishSignalAspect, SwedishSignalAspect> swedishSignalAspectSwedishSignalAspectEntry : this.manualOverrides.entrySet()) {
-			NBTHelper.writeEnum(overrideTag,swedishSignalAspectSwedishSignalAspectEntry.getKey().name(),swedishSignalAspectSwedishSignalAspectEntry.getValue());
+			NBTHelper.writeEnum(overrideTag, swedishSignalAspectSwedishSignalAspectEntry.getKey().name(), swedishSignalAspectSwedishSignalAspectEntry.getValue());
 		}
 
 		pTag.put("override", overrideTag);
@@ -93,7 +95,7 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox implement
 
 		CompoundTag overrideTag = pTag.getCompound("override");
 		for (String key : overrideTag.getAllKeys()) {
-			this.manualOverrides.put(SwedishSignalAspect.valueOf(key),NBTHelper.readEnum(overrideTag,key,SwedishSignalAspect.class));
+			this.manualOverrides.put(SwedishSignalAspect.valueOf(key), NBTHelper.readEnum(overrideTag, key, SwedishSignalAspect.class));
 		}
 	}
 

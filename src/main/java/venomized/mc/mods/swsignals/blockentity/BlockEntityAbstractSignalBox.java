@@ -96,11 +96,10 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 	public void setRemoved() {
 		if (!level.isClientSide() && this.doLoadExternalSignalBox && sourceSignalBox != null) {
 			ChunkPos chunkPos = new ChunkPos(sourceSignalBox);
-			((ServerLevel)level).setChunkForced(chunkPos.x, chunkPos.z, false);
+			((ServerLevel) level).setChunkForced(chunkPos.x, chunkPos.z, false);
 		}
 		super.setRemoved();
 	}
-
 
 
 	public void setCreateSignalSource(BlockPos createSignalPos) {
@@ -127,12 +126,12 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 		if (createSignalBlockEntityPosition != null) {
 			pTag.put("create_signal_source", NbtUtils.writeBlockPos(createSignalBlockEntityPosition));
 		} else {
-			pTag.putBoolean("create_signal_source_missing",true);
+			pTag.putBoolean("create_signal_source_missing", true);
 		}
 		if (sourceSignalBox != null) {
 			pTag.put("source_signalbox_source", NbtUtils.writeBlockPos(sourceSignalBox));
 		} else {
-			pTag.putBoolean("source_signalbox_source_missing",true);
+			pTag.putBoolean("source_signalbox_source_missing", true);
 		}
 	}
 
@@ -195,13 +194,13 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase imp
 			ISignalTunerBindable be = sourceBlockEntity.get();
 			if (be instanceof SignalBlockEntity sbe) {
 				this.setCreateSignalSource(sbe.getBlockPos());
-				return Pair.of(InteractionResult.SUCCESS,Component.literal("Successfully bound to signal"));
+				return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully bound to signal"));
 			}
 			if (be instanceof BlockEntityAbstractSignalBox sb) {
 				this.setSignalBoxSource(sb.getBlockPos());
-				return Pair.of(InteractionResult.SUCCESS,Component.literal("Successfully bound to signal box"));
+				return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully bound to signal box"));
 			}
 		}
-		return Pair.of(InteractionResult.PASS,Component.literal("No block entity bound"));
+		return Pair.of(InteractionResult.PASS, Component.literal("No block entity bound"));
 	}
 }
