@@ -81,6 +81,7 @@ public class SwSignal {
 	private static void initializeContent() {
 		SeBlocks.init();
 		SwBlockEntities.init();
+		SwItems.init();
 	}
 
 	public static final ResourceLocation modLoc(String path) {

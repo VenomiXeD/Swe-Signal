@@ -17,11 +17,16 @@ import venomized.mc.mods.swsignals.client.CustomModelBlockItem;
 import venomized.mc.mods.swsignals.create.tracks.ATCController;
 
 public class SwItems {
+	public static void init() {
+	}
+
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SwSignal.MOD_ID);
 
 	public static <T extends Item> ItemBuilder<T, Registrate> item(String iName, NonNullFunction<Item.Properties, T> iFactory) {
 		return SwSignal.REGISTRATE.get().item(iName, iFactory);
-	};
+	}
+
+	;
 
 	// public static final RegistryObject<BlockItem> ITEM_SW_SIGNAL_BOX = ITEMS.register("sw_signal_box", () -> new BlockItem(SeBlocks.BLOCK_SIGNAL_BOX.get(), new Item.Properties()));
 //
@@ -56,8 +61,10 @@ public class SwItems {
 //
 	// public static final RegistryObject<BlockItem> ITEM_U_SIGN = ITEMS.register("sw_u_sign", () -> new BlockItem(SeBlocks.BLOCK_U_SIGN.get(), new Item.Properties()));
 //
-	// public static final RegistryObject<ItemSignalTuner> ITEM_SIGNAL_TEST = ITEMS.register("signalitem",
-	// 		ItemSignalTuner::new);
+	public static final ItemEntry<ItemSignalTuner> ITEM_SIGNAL_TEST =
+			SwSignal.REGISTRATE.get().item("signalitem",
+							ItemSignalTuner::new)
+					.register();
 //
 	// public static final RegistryObject<Item> LIGHT_BULB = ITEMS.register("light_bulb",
 	// 		() -> new Item(new Item.Properties()));

@@ -18,8 +18,8 @@ import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
 import java.util.Optional;
 
 public class ItemSignalTuner extends Item implements IScrollableItem {
-	public ItemSignalTuner() {
-		super(new Properties());
+	public ItemSignalTuner(Properties pProperties) {
+		super(pProperties);
 	}
 
 	private static void sendStatusMessageFromInteraction(UseOnContext pContext, Pair<InteractionResult, Component> result, MutableComponent fullMessage) {

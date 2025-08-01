@@ -37,12 +37,6 @@ public abstract class BlockSignal extends Sw45DegreeBlock implements EntityBlock
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
 		super.createBlockStateDefinition(pBuilder);
 		pBuilder
