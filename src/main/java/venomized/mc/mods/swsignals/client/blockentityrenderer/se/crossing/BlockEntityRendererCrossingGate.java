@@ -1,23 +1,24 @@
 package venomized.mc.mods.swsignals.client.blockentityrenderer.se.crossing;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.util.Mth;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
-import venomized.mc.mods.swsignals.SwSignal;
+import venomized.mc.mods.swsignals.block.se.SeModels;
 import venomized.mc.mods.swsignals.blockentity.se.crossing.BlockEntityCrossingGate;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 
+@OnlyIn(Dist.CLIENT)
 public class BlockEntityRendererCrossingGate extends BlockEntityRendererBase<BlockEntityCrossingGate> {
-	public static String ARM_5 = "block/signals/se/crossing/gate_5";
+	// public static String ARM_5 = ;
 
-	private final BakedModel MODEL_ARM_5 = Minecraft.getInstance().getModelManager().getModel(SwSignal.modLoc(ARM_5));
-
+	// private final BakedModel MODEL_ARM_5 = Minecraft.getInstance().getModelManager().getModel(SwSignal.modLoc(ARM_5));
+//
 	public BlockEntityRendererCrossingGate(BlockEntityRendererProvider.Context context) {
 	}
 
@@ -58,7 +59,7 @@ public class BlockEntityRendererCrossingGate extends BlockEntityRendererBase<Blo
 
 		getRenderer().tesselateBlock(
 				pBlockEntity.getLevel(),
-				MODEL_ARM_5,
+				SeModels.ARM_5.get(),
 				pBlockEntity.getBlockState(),
 				pBlockEntity.getBlockPos(),
 				pPoseStack,

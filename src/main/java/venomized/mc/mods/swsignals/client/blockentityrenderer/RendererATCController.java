@@ -17,9 +17,9 @@ import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityATCController;
 import venomized.mc.mods.swsignals.create.tracks.ATCController;
 
-public class BlockEntityRendererATCController extends SafeBlockEntityRenderer<BlockEntityATCController> {
+public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityATCController> {
 
-	public BlockEntityRendererATCController(BlockEntityRendererProvider.Context context) {
+	public RendererATCController(BlockEntityRendererProvider.Context context) {
 	}
 
 	@Override

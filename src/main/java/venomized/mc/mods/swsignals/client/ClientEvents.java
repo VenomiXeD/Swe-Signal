@@ -12,7 +12,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.RendererSignal;
-import venomized.mc.mods.swsignals.client.blockentityrenderer.se.crossing.BlockEntityRendererCrossingGate;
 import venomized.mc.mods.swsignals.client.ui.ScreenTest;
 import venomized.mc.mods.swsignals.client.ui.overlays.ATCOverlayHUD;
 
@@ -78,7 +77,7 @@ public class ClientEvents {
 
 		e.register(SwSignal.modLoc("block/tracks/se_balise"));
 
-		e.register(SwSignal.modLoc(BlockEntityRendererCrossingGate.ARM_5));
+		// e.register(SwSignal.modLoc(BlockEntityRendererCrossingGate.ARM_5));
 
 		// what an ugly way to do this
 		for (ResourceLocation loc : externalModelAssetsPaths) {
