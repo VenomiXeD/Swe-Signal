@@ -44,7 +44,7 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
 		pPoseStack.translate(8f / 16f, 1.0f, 8f / 16f);
 
 		pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(
-				MathHelp.easeInOutBack(pBlockEntity.progress(),.5f) * Mth.HALF_PI, 1, 0, 0)
+				MathHelp.easeInOutBack(pBlockEntity.progress(), .5f) * Mth.HALF_PI, 1, 0, 0)
 		));
 
 		// getRenderer().renderModel(
@@ -72,7 +72,7 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
 				pPackedOverlay
 		);
 
-		pBlockEntity.progressDelta(pPartialTick/20f/ARM_MOVEMENT_TIME);
+		pBlockEntity.progressDelta(pPartialTick / 20f / ARM_MOVEMENT_TIME);
 	}
 
 	@Override

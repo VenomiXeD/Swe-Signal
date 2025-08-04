@@ -1,7 +1,5 @@
 package venomized.mc.mods.swsignals.util;
 
-import net.minecraft.util.Mth;
-
 public class MathHelp {
 	public static float easeInOutBack(float x) {
 		float c1 = 1.70158f;

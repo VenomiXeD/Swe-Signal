@@ -19,7 +19,6 @@ import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import venomized.mc.mods.swsignals.block.se.SeBlocks;
-import venomized.mc.mods.swsignals.block.se.SeModels;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.client.ClientEvents;
 import venomized.mc.mods.swsignals.client.ForgeClientEvents;

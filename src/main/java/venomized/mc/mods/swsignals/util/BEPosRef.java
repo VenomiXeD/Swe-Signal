@@ -5,7 +5,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 /**
  * Holds a reference to a block entity at a given position
@@ -25,7 +24,7 @@ public final class BEPosRef<T extends BlockEntity> {
 		}
 		BlockEntity be = world.getBlockEntity(posRef);
 		if (valid(be)) {
-			return (T)be;
+			return (T) be;
 		}
 		return null;
 	}
@@ -40,7 +39,7 @@ public final class BEPosRef<T extends BlockEntity> {
 	}
 
 	public boolean valid(BlockEntity be) {
-		return be != null && compatibleType.isInstance(be);
+		return compatibleType.isInstance(be);
 	}
 
 	public void newTarget(BlockPos newBlockPosTarget) {
