@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "swsignal:item/signal_3l_modern"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "swsignal:item/signal_3l_modern"
+  }
 }

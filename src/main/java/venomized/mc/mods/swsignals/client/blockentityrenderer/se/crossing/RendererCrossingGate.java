@@ -16,7 +16,7 @@ import venomized.mc.mods.swsignals.util.MathHelp;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCrossingGate> {
-	private static final float ARM_MOVEMENT_TIME = 45f;
+	private static final float ARM_MOVEMENT_TIME = 60f;
 	// public static String ARM_5 = ;
 
 	// private final BakedModel MODEL_ARM_5 = Minecraft.getInstance().getModelManager().getModel(SwSignal.modLoc(ARM_5));
@@ -28,7 +28,7 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
 	public void render(BlockEntityCrossingGate pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
 		super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
 
-		getRenderer().tesselateWithAO(
+		getRenderer().tesselateBlock(
 				pBlockEntity.getLevel(),
 				this.getModel(pBlockEntity.getBlockState()),
 				pBlockEntity.getBlockState(),
@@ -41,10 +41,10 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
 				pPackedOverlay
 		);
 
-		pPoseStack.translate(8f / 16f, 1.0f, 8f / 16f);
+		pPoseStack.translate(8f / 16f, 17f / 16f, 8f / 16f);
 
 		pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(
-				MathHelp.easeInOutBack(pBlockEntity.progress(), .5f) * Mth.HALF_PI, 1, 0, 0)
+				MathHelp.easeInOutBack(pBlockEntity.progress(), 0.6f) * Mth.HALF_PI, 1, 0, 0)
 		));
 
 		// getRenderer().renderModel(
