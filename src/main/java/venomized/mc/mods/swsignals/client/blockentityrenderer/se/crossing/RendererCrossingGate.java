@@ -12,14 +12,16 @@ import org.joml.Quaternionf;
 import venomized.mc.mods.swsignals.block.se.SeModels;
 import venomized.mc.mods.swsignals.blockentity.se.crossing.BlockEntityCrossingGate;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
+import venomized.mc.mods.swsignals.util.MathHelp;
 
 @OnlyIn(Dist.CLIENT)
-public class BlockEntityRendererCrossingGate extends BlockEntityRendererBase<BlockEntityCrossingGate> {
+public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCrossingGate> {
+	private static final float ARM_MOVEMENT_TIME = 45f;
 	// public static String ARM_5 = ;
 
 	// private final BakedModel MODEL_ARM_5 = Minecraft.getInstance().getModelManager().getModel(SwSignal.modLoc(ARM_5));
 //
-	public BlockEntityRendererCrossingGate(BlockEntityRendererProvider.Context context) {
+	public RendererCrossingGate(BlockEntityRendererProvider.Context context) {
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class BlockEntityRendererCrossingGate extends BlockEntityRendererBase<Blo
 		pPoseStack.translate(8f / 16f, 1.0f, 8f / 16f);
 
 		pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(
-				pBlockEntity.rotation() / 20f * Mth.PI / 60f, 1, 0, 0)
+				MathHelp.easeInOutBack(pBlockEntity.progress(),.5f) * Mth.HALF_PI, 1, 0, 0)
 		));
 
 		// getRenderer().renderModel(
@@ -70,6 +72,13 @@ public class BlockEntityRendererCrossingGate extends BlockEntityRendererBase<Blo
 				pPackedOverlay
 		);
 
-		pBlockEntity.rotationDelta(pPartialTick);
+		pBlockEntity.progressDelta(pPartialTick/20f/ARM_MOVEMENT_TIME);
 	}
+
+	@Override
+	public boolean shouldRenderOffScreen(BlockEntityCrossingGate pBlockEntity) {
+		return true;
+	}
+
+
 }

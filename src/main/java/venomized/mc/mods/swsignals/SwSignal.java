@@ -50,6 +50,7 @@ public class SwSignal {
 
 	public SwSignal() {
 		IEventBus eventbus = REGISTRATE.get().getModEventBus();
+
 		MinecraftForge.EVENT_BUS.register(this);
 		eventbus.register(this);
 
@@ -79,8 +80,6 @@ public class SwSignal {
 	}
 
 	private static void swedishContent() {
-		SeModels.init();
-
 		SeBlocks.init();
 		SwBlockEntities.init();
 

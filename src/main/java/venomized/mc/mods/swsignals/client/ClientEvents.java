@@ -11,6 +11,7 @@ import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import venomized.mc.mods.swsignals.SwSignal;
+import venomized.mc.mods.swsignals.block.se.SeModels;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.RendererSignal;
 import venomized.mc.mods.swsignals.client.ui.ScreenTest;
 import venomized.mc.mods.swsignals.client.ui.overlays.ATCOverlayHUD;
@@ -32,6 +33,8 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void onClientSetup(FMLClientSetupEvent event) {
+		SeModels.init();
+
 		event.enqueueWork(() -> {
 			MenuScreens.register(SwMenus.MENU_TEST.get(), ScreenTest::new);
 		});
