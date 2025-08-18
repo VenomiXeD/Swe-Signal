@@ -25,7 +25,7 @@ import venomized.mc.mods.swsignals.client.ui.MenuTest;
 
 public class BlockSignalBox extends SwAbstractBlock implements EntityBlock {
 	public BlockSignalBox(Properties pProperties) {
-		super(pProperties);
+		super(pProperties.noOcclusion().noCollission());
 	}
 
 	/**

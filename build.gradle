@@ -1,5 +1,3 @@
-import java.text.SimpleDateFormat
-import java.time.Instant
 import java.time.format.DateTimeFormatter
 
 buildscript {
@@ -44,7 +42,7 @@ version = mod_version
 group = mod_group_id
 
 base {
-    archivesName = mod_id + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"))
+    archivesName = mod_id + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + "-" + create_minecraft_version + "-"  
 }
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
@@ -184,6 +182,9 @@ repositories {
     }
 
 }
+configurations {
+    clientOnlyRuntime
+}
 
 dependencies {
     // Specify the version of Minecraft to use.
@@ -204,10 +205,11 @@ dependencies {
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
     // The group id is ignored when searching -- in this case, it is "blank"
     // compileOnly fg.deobf("blank:Steam_Rails-1.6.7+forge-mc${minecraft_version}")
-
-
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5630140")
-    runtimeOnly fg.deobf("curse.maven:oculus-581495:6020952")
+    // if (hasProperty("clientOnlyMods") && property("clientOnlyMods")=="true") {
+    //     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5630140")
+    //     runtimeOnly fg.deobf("curse.maven:oculus-581495:6020952")
+    // }
 
     // implementation fg.deobf("curse.maven:create-steam-n-rails-688231:5840017")
     // implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
@@ -247,6 +249,8 @@ mixin {
 // When "copyIdeResources" is enabled, this will also run before the game launches in IDE environments.
 // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
 tasks.named('processResources', ProcessResources).configure {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
     var replaceProperties = [
             minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
             forge_version: forge_version, forge_version_range: forge_version_range,
