@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignal;
 
 public class BlockEntityFiveLightSignal extends BlockEntitySignal {
-	public BlockEntityFiveLightSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
-		super(t, pPos, pBlockState, 5);
-	}
+    public BlockEntityFiveLightSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
+        super(t, pPos, pBlockState, 5);
+    }
 }

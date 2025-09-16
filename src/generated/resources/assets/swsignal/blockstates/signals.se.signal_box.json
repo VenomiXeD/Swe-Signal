@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "orientation=0": {
+      "model": "swsignal:block/signals/se/signal_box"
+    },
+    "orientation=1": {
+      "model": "swsignal:block/signals/se/signal_box"
+    },
+    "orientation=2": {
+      "model": "swsignal:block/signals/se/signal_box"
+    },
+    "orientation=3": {
+      "model": "swsignal:block/signals/se/signal_box"
+    },
+    "orientation=4": {
+      "model": "swsignal:block/signals/se/signal_box"
+    },
+    "orientation=5": {
+      "model": "swsignal:block/signals/se/signal_box"
+    },
+    "orientation=6": {
+      "model": "swsignal:block/signals/se/signal_box"
+    },
+    "orientation=7": {
+      "model": "swsignal:block/signals/se/signal_box"
+    }
+  }
+}

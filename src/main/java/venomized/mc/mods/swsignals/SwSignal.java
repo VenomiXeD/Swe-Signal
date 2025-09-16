@@ -30,79 +30,79 @@ import venomized.mc.mods.swsignals.network.Networking;
 
 @Mod(SwSignal.MOD_ID)
 public class SwSignal {
-	public static final String MOD_ID = "swsignal";
-	public static final Logger LOGGER = LogManager.getLogger(SwSignal.class);
+    public static final String MOD_ID = "swsignal";
+    public static final Logger LOGGER = LogManager.getLogger(SwSignal.class);
 
-	public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
+    public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
 
-	public static DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SwSignal.MOD_ID);
-	public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("sw_tab",
-			() ->
-					CreativeModeTab.builder()
-							.title(Component.translatable("creativetab.sw_tab"))
-							.icon(() -> SeBlocks.BLOCK_TWO_LIGHT_SIGNAL.asStack())
-							.displayItems((parameters, output) -> {
-							})
-							.build()
-	);
-	private static Networking SW_SIGNAL_NETWORK;
+    public static DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SwSignal.MOD_ID);
+    public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("sw_tab",
+            () ->
+                    CreativeModeTab.builder()
+                            .title(Component.translatable("creativetab.sw_tab"))
+                            .icon(() -> SeBlocks.BLOCK_TWO_LIGHT_SIGNAL.asStack())
+                            .displayItems((parameters, output) -> {
+                            })
+                            .build()
+    );
+    private static Networking SW_SIGNAL_NETWORK;
 
-	public SwSignal() {
-		IEventBus eventbus = REGISTRATE.get().getModEventBus();
+    public SwSignal() {
+        IEventBus eventbus = REGISTRATE.get().getModEventBus();
 
-		MinecraftForge.EVENT_BUS.register(this);
-		eventbus.register(this);
+        MinecraftForge.EVENT_BUS.register(this);
+        eventbus.register(this);
 
-		AllSounds.SOUNDS.register(eventbus);
+        AllSounds.SOUNDS.register(eventbus);
 
-		CREATIVE_TABS.register(eventbus);
+        CREATIVE_TABS.register(eventbus);
 
-		SwMenus.MENUS.register(eventbus);
+        SwMenus.MENUS.register(eventbus);
 
-		EventHandler eventHandler = new EventHandler();
-		MinecraftForge.EVENT_BUS.register(eventHandler);
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			ClientEvents clientEvents = new ClientEvents();
-			ForgeClientEvents forgeClientEvents = new ForgeClientEvents();
-			eventbus.register(clientEvents);
-			MinecraftForge.EVENT_BUS.register(forgeClientEvents);
-		});
+        EventHandler eventHandler = new EventHandler();
+        MinecraftForge.EVENT_BUS.register(eventHandler);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            ClientEvents clientEvents = new ClientEvents();
+            ForgeClientEvents forgeClientEvents = new ForgeClientEvents();
+            eventbus.register(clientEvents);
+            MinecraftForge.EVENT_BUS.register(forgeClientEvents);
+        });
 
-		SW_SIGNAL_NETWORK = new Networking();
-		Networking.init();
+        SW_SIGNAL_NETWORK = new Networking();
+        Networking.init();
 
-		initializeContent();
-	}
+        initializeContent();
+    }
 
-	private static void initializeContent() {
-		swedishContent();
-	}
+    private static void initializeContent() {
+        swedishContent();
+    }
 
-	private static void swedishContent() {
-		SeBlocks.init();
-		SwBlockEntities.init();
+    private static void swedishContent() {
+        SeBlocks.init();
+        SwBlockEntities.init();
 
-		SwItems.init();
-	}
+        SwItems.init();
+    }
 
-	public static final ResourceLocation modLoc(String path) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
-	}
+    public static final ResourceLocation modLoc(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
 
-	public static Networking network() {
-		return SW_SIGNAL_NETWORK;
-	}
+    public static Networking network() {
+        return SW_SIGNAL_NETWORK;
+    }
 
-	@SubscribeEvent
-	public void onDataGenerator(GatherDataEvent e) {
-		// e.getGenerator().addProvider(e.includeClient(), new ModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
-		e.getGenerator().addProvider(true, new BlockStateDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
-		// e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
-		e.getGenerator().addProvider(true, new SoundEventDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
-	}
+    @SubscribeEvent
+    public void onDataGenerator(GatherDataEvent e) {
+        // e.getGenerator().addProvider(e.includeClient(), new ModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+        e.getGenerator().addProvider(true, new BlockStateDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+        // e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+        e.getGenerator().addProvider(true, new SoundEventDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+    }
 
-	@SubscribeEvent
-	public void onRegisterEvent(RegisterEvent e) {
-		// e.register(EdgePointType.SIGNAL
-	}
+    @SubscribeEvent
+    public void onRegisterEvent(RegisterEvent e) {
+        // e.register(EdgePointType.SIGNAL
+    }
 }

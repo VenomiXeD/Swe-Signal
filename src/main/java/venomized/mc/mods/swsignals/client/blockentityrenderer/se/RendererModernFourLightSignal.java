@@ -6,15 +6,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererModernFourLightSignal extends RendererSignal {
-	public RendererModernFourLightSignal(BlockEntityRendererProvider.Context context) {
-		super(context);
-	}
+    public RendererModernFourLightSignal(BlockEntityRendererProvider.Context context) {
+        super(context);
+    }
 
-	/**
-	 * @return
-	 */
-	@Override
-	public boolean isObjModel() {
-		return true;
-	}
+    /**
+     * @return
+     */
+    @Override
+    public boolean isObjModel() {
+        return true;
+    }
 }

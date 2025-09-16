@@ -18,36 +18,36 @@ import java.util.UUID;
 
 public class ATCController extends SingleBlockEntityEdgePoint {
 
-	public static final EdgePointType<ATCController> ATC = EdgePointType.register(
-			SwSignal.modLoc("atc"), ATCController::new
-	);
+    public static final EdgePointType<ATCController> ATC = EdgePointType.register(
+            SwSignal.modLoc("atc"), ATCController::new
+    );
 
-	public ATCController() {
-	}
+    public ATCController() {
+    }
 
 
-	/**
-	 * Executed when a train runs over.
-	 *
-	 * @param train
-	 */
-	public void onATCAction(Train train) {
-		Optional<UUID> controllingPlayer = train.carriages.stream().map(e -> e.anyAvailableEntity().getControllingPlayer().orElseGet(() -> null)).filter(e -> !Objects.isNull(e)).findFirst();
-		Level level = train.carriages.get(0).anyAvailableEntity().level();
+    /**
+     * Executed when a train runs over.
+     *
+     * @param train
+     */
+    public void onATCAction(Train train) {
+        Optional<UUID> controllingPlayer = train.carriages.stream().map(e -> e.anyAvailableEntity().getControllingPlayer().orElseGet(() -> null)).filter(e -> !Objects.isNull(e)).findFirst();
+        Level level = train.carriages.get(0).anyAvailableEntity().level();
 
-		Optional<BlockEntityATCController> blockEntity = level.getBlockEntity(this.getBlockEntityPos(), SwBlockEntities.BE_ATC_CONTROLLER.get());
-		blockEntity.ifPresent(blockEntityATCController -> {
-			// if any player is controlling
-			if (controllingPlayer.isPresent()) {
-				Networking.CHANNEL.send(
-						PacketDistributor.PLAYER.with(() -> (ServerPlayer) level.getPlayerByUUID(controllingPlayer.get())),
-						new UpdateATCEvent(0.5f)
-				);
-			}
-			// if AI is controlling it (likely)
-			else {
-				train.throttle = 1.0f;
-			}
-		});
-	}
+        Optional<BlockEntityATCController> blockEntity = level.getBlockEntity(this.getBlockEntityPos(), SwBlockEntities.BE_ATC_CONTROLLER.get());
+        blockEntity.ifPresent(blockEntityATCController -> {
+            // if any player is controlling
+            if (controllingPlayer.isPresent()) {
+                Networking.CHANNEL.send(
+                        PacketDistributor.PLAYER.with(() -> (ServerPlayer) level.getPlayerByUUID(controllingPlayer.get())),
+                        new UpdateATCEvent(0.5f)
+                );
+            }
+            // if AI is controlling it (likely)
+            else {
+                train.throttle = 1.0f;
+            }
+        });
+    }
 }

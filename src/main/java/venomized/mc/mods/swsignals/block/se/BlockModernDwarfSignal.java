@@ -7,12 +7,12 @@ import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 
 public class BlockModernDwarfSignal extends BlockSignal {
-	public BlockModernDwarfSignal(Properties properties) {
-		super(properties);
-	}
+    public BlockModernDwarfSignal(Properties properties) {
+        super(properties);
+    }
 
-	@Override
-	public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return SwBlockEntities.BE_DWARF_SIGNAL.create(pPos, pState);
-	}
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return SwBlockEntities.BE_DWARF_SIGNAL.create(pPos, pState);
+    }
 }

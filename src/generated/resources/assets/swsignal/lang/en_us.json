@@ -1,0 +1,18 @@
+{
+  "block.swsignal.atc_controller": "Atc Controller",
+  "block.swsignal.signals.se.1l_railroad_crossing_signal_2": "Signals.se.1l Railroad Crossing Signal 2",
+  "block.swsignal.signals.se.1l_signal_endpoint_post_1920": "Signals.se.1l Signal Endpoint Post 1920",
+  "block.swsignal.signals.se.2l_signal_post_1970": "Signals.se.2l Signal Post 1970",
+  "block.swsignal.signals.se.3l_distant_railroad_crossing_signal": "Signals.se.3l Distant Railroad Crossing Signal",
+  "block.swsignal.signals.se.3l_distant_signal_post_1970": "Signals.se.3l Distant Signal Post 1970",
+  "block.swsignal.signals.se.3l_signal_post_1970": "Signals.se.3l Signal Post 1970",
+  "block.swsignal.signals.se.4l_dwarf_signal_post_1970": "Signals.se.4l Dwarf Signal Post 1970",
+  "block.swsignal.signals.se.4l_signal_post_1970": "Signals.se.4l Signal Post 1970",
+  "block.swsignal.signals.se.5l_signal_post_1970": "Signals.se.5l Signal Post 1970",
+  "block.swsignal.signals.se.7l_dwarf_main_signal_post_1970": "Signals.se.7l Dwarf Main Signal Post 1970",
+  "block.swsignal.signals.se.crossing.base": "Signals.se.crossing.base",
+  "block.swsignal.signals.se.crossing.controller": "Signals.se.crossing.controller",
+  "block.swsignal.signals.se.signal_box": "Signals.se.signal Box",
+  "block.swsignal.signals.se.u_sign": "Signals.se.u Sign",
+  "item.swsignal.signalitem": "Signalitem"
+}

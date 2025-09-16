@@ -13,25 +13,25 @@ import java.util.UUID;
 
 @Mixin(value = Train.class, remap = false)
 public class MixinTrain {
-	@Inject(method = "frontSignalListener", at = @At("RETURN"), cancellable = true)
-	private void frontSignalListener(CallbackInfoReturnable<TravellingPoint.IEdgePointListener> cir) {
-		Train self = (Train) (Object) this;
-		TravellingPoint.IEdgePointListener original = cir.getReturnValue();
+    @Inject(method = "frontSignalListener", at = @At("RETURN"), cancellable = true)
+    private void frontSignalListener(CallbackInfoReturnable<TravellingPoint.IEdgePointListener> cir) {
+        Train self = (Train) (Object) this;
+        TravellingPoint.IEdgePointListener original = cir.getReturnValue();
 
-		TravellingPoint.IEdgePointListener modified = (distance, couple) -> {
-			if (couple.getFirst() instanceof ATCController atcController) {
-				atcController.onATCAction(self);
-				return false;
-			}
+        TravellingPoint.IEdgePointListener modified = (distance, couple) -> {
+            if (couple.getFirst() instanceof ATCController atcController) {
+                atcController.onATCAction(self);
+                return false;
+            }
 
-			return original.test(distance, couple);
-		};
+            return original.test(distance, couple);
+        };
 
-		cir.setReturnValue(modified);
-	}
+        cir.setReturnValue(modified);
+    }
 
-	@Inject(method = "occupy", at = @At("HEAD"))
-	private void onOccupy(UUID groupId, UUID boundaryId, CallbackInfoReturnable<Boolean> cir) {
-		// SignalNetwork.onSignalUpdate(groupId, boundaryId);
-	}
+    @Inject(method = "occupy", at = @At("HEAD"))
+    private void onOccupy(UUID groupId, UUID boundaryId, CallbackInfoReturnable<Boolean> cir) {
+        // SignalNetwork.onSignalUpdate(groupId, boundaryId);
+    }
 }

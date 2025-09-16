@@ -12,8 +12,8 @@ import venomized.mc.mods.swsignals.client.ui.overlays.ATCOverlayHUD;
 @OnlyIn(Dist.CLIENT)
 @Mixin(value = TrainHUD.class, remap = false)
 public abstract class MixinTrainHUD {
-	@Inject(method = "tick", at = @At("RETURN"))
-	private static void tick(CallbackInfo ci) {
-		ATCOverlayHUD.tick();
-	}
+    @Inject(method = "tick", at = @At("RETURN"))
+    private static void tick(CallbackInfo ci) {
+        ATCOverlayHUD.tick();
+    }
 }

@@ -10,24 +10,24 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public interface ISimpleEntityBlockTicker<T extends BlockEntity, I extends ITickingEntity> extends EntityBlock {
-	BlockEntityType<T> getBlockEntityType();
+    BlockEntityType<T> getBlockEntityType();
 
-	@Override
-	@Nullable
-	default <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-		BlockEntityTicker<T> result = null;
+    @Override
+    @Nullable
+    default <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+        BlockEntityTicker<T> result = null;
 
-		if (getBlockEntityType() == pBlockEntityType) {
-			result = (level, pos, state, blockEntity) -> {
-				((I) blockEntity).tick(level, pos, state, blockEntity);
-			};
-		}
-		return result;
-	}
+        if (getBlockEntityType() == pBlockEntityType) {
+            result = (level, pos, state, blockEntity) -> {
+                ((I) blockEntity).tick(level, pos, state, blockEntity);
+            };
+        }
+        return result;
+    }
 
-	@Override
-	@Nullable
-	default BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return getBlockEntityType().create(pPos, pState);
-	}
+    @Override
+    @Nullable
+    default BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return getBlockEntityType().create(pPos, pState);
+    }
 }

@@ -20,56 +20,56 @@ import venomized.mc.mods.swsignals.block.se.BlockModernTwoLightSignal;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class BlockEntityRendererBase<T extends BlockEntity> implements BlockEntityRenderer<T> {
-	private BakedModel cachedModel;
+    private BakedModel cachedModel;
 
-	public BlockEntityRendererBase() {
-	}
+    public BlockEntityRendererBase() {
+    }
 
-	protected ResourceLocation modLoc(String p) {
-		return ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, p);
-	}
+    protected ResourceLocation modLoc(String p) {
+        return ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, p);
+    }
 
-	@Override
-	public int getViewDistance() {
-		return 1024;
-	}
+    @Override
+    public int getViewDistance() {
+        return 1024;
+    }
 
-	protected ModelBlockRenderer getRenderer() {
-		return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
-	}
+    protected ModelBlockRenderer getRenderer() {
+        return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
+    }
 
-	protected ResourceLocation modelLoc() {
-		return null;
-	}
+    protected ResourceLocation modelLoc() {
+        return null;
+    }
 
-	protected BakedModel getModel(BlockState currentBlockState) {
-		if (cachedModel == null) {
-			ResourceLocation modelLoc = modelLoc();
-			if (modelLoc == null) {
-				cachedModel = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(currentBlockState);
-			} else {
-				Minecraft mc = Minecraft.getInstance();
-				cachedModel = mc.getModelManager().getModel(modelLoc);
-			}
-		}
-		return cachedModel;
-	}
+    protected BakedModel getModel(BlockState currentBlockState) {
+        if (cachedModel == null) {
+            ResourceLocation modelLoc = modelLoc();
+            if (modelLoc == null) {
+                cachedModel = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(currentBlockState);
+            } else {
+                Minecraft mc = Minecraft.getInstance();
+                cachedModel = mc.getModelManager().getModel(modelLoc);
+            }
+        }
+        return cachedModel;
+    }
 
-	/**
-	 * @param pBlockEntity
-	 * @param pPartialTick
-	 * @param pPoseStack
-	 * @param pBuffer
-	 * @param pPackedLight
-	 * @param pPackedOverlay
-	 */
-	@Override
-	public void render(T pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
-		if (pBlockEntity.getBlockState().hasProperty(Sw45DegreeBlock.ORIENTATION)) {
-			pPoseStack.rotateAround(
-					new Quaternionf(
-							new AxisAngle4f(pBlockEntity.getBlockState().getValue(BlockModernTwoLightSignal.ORIENTATION) / -4f * Mth.PI, 0, 1, 0)), .5f, 0, .5f
-			);
-		}
-	}
+    /**
+     * @param pBlockEntity
+     * @param pPartialTick
+     * @param pPoseStack
+     * @param pBuffer
+     * @param pPackedLight
+     * @param pPackedOverlay
+     */
+    @Override
+    public void render(T pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
+        if (pBlockEntity.getBlockState().hasProperty(Sw45DegreeBlock.ORIENTATION)) {
+            pPoseStack.rotateAround(
+                    new Quaternionf(
+                            new AxisAngle4f(pBlockEntity.getBlockState().getValue(BlockModernTwoLightSignal.ORIENTATION) / -4f * Mth.PI, 0, 1, 0)), .5f, 0, .5f
+            );
+        }
+    }
 }

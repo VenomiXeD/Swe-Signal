@@ -8,12 +8,12 @@ import venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals.BlockEntityM
 
 public class BlockModernMainDwarfSignal extends BlockModernDwarfSignal {
 
-	public BlockModernMainDwarfSignal(Properties properties) {
-		super(properties);
-	}
+    public BlockModernMainDwarfSignal(Properties properties) {
+        super(properties);
+    }
 
-	@Override
-	public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return new BlockEntityMainDwarfSignal(pPos, pState);
-	}
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return new BlockEntityMainDwarfSignal(pPos, pState);
+    }
 }

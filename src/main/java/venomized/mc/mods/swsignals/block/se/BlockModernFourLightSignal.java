@@ -7,17 +7,17 @@ import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 
 public class BlockModernFourLightSignal extends BlockSignal {
-	public BlockModernFourLightSignal(Properties properties) {
-		super(properties);
-	}
+    public BlockModernFourLightSignal(Properties properties) {
+        super(properties);
+    }
 
-	/**
-	 * @param pPos
-	 * @param pState
-	 * @return
-	 */
-	@Override
-	public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return SwBlockEntities.BE_FOUR_LIGHT_SIGNAL.create(pPos, pState);
-	}
+    /**
+     * @param pPos
+     * @param pState
+     * @return
+     */
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return SwBlockEntities.BE_FOUR_LIGHT_SIGNAL.create(pPos, pState);
+    }
 }

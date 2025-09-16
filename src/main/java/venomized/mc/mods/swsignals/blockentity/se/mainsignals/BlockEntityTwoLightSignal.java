@@ -7,7 +7,7 @@ import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignal;
 
 public class BlockEntityTwoLightSignal extends BlockEntitySignal {
 
-	public BlockEntityTwoLightSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
-		super(t, pPos, pBlockState, 2);
-	}
+    public BlockEntityTwoLightSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
+        super(t, pPos, pBlockState, 2);
+    }
 }

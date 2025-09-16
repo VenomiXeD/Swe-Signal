@@ -6,16 +6,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererModernFiveLightSignal extends RendererSignal {
-	public RendererModernFiveLightSignal(BlockEntityRendererProvider.Context context) {
-		super(context);
+    public RendererModernFiveLightSignal(BlockEntityRendererProvider.Context context) {
+        super(context);
 
-	}
+    }
 
-	/**
-	 * @return
-	 */
-	@Override
-	public boolean isObjModel() {
-		return true;
-	}
+    /**
+     * @return
+     */
+    @Override
+    public boolean isObjModel() {
+        return true;
+    }
 }

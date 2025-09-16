@@ -15,48 +15,48 @@ import java.util.HashMap;
 
 
 public class MenuTest extends AbstractContainerMenu {
-	private final HashMap<SwedishSignalAspect, SwedishSignalAspect> manualOverrides = new HashMap<>();
-	private final ContainerLevelAccess access;
+    private final HashMap<SwedishSignalAspect, SwedishSignalAspect> manualOverrides = new HashMap<>();
+    private final ContainerLevelAccess access;
 
-	public MenuTest(int containerId, Inventory plrInventory, FriendlyByteBuf extraData) {
-		this(containerId, plrInventory, ContainerLevelAccess.NULL);
+    public MenuTest(int containerId, Inventory plrInventory, FriendlyByteBuf extraData) {
+        this(containerId, plrInventory, ContainerLevelAccess.NULL);
 
-		CompoundTag overrideTag = extraData.readAnySizeNbt().getCompound("overrides");
-		for (String key : overrideTag.getAllKeys()) {
-			manualOverrides.put(SwedishSignalAspect.valueOf(key), NBTHelper.readEnum(overrideTag, key, SwedishSignalAspect.class));
-		}
+        CompoundTag overrideTag = extraData.readAnySizeNbt().getCompound("overrides");
+        for (String key : overrideTag.getAllKeys()) {
+            manualOverrides.put(SwedishSignalAspect.valueOf(key), NBTHelper.readEnum(overrideTag, key, SwedishSignalAspect.class));
+        }
 
-	}
+    }
 
-	public MenuTest(int containerId, Inventory plrInventory, ContainerLevelAccess pLevel) {
-		super(SwMenus.MENU_TEST.get(), containerId);
+    public MenuTest(int containerId, Inventory plrInventory, ContainerLevelAccess pLevel) {
+        super(SwMenus.MENU_TEST.get(), containerId);
 
-		this.access = pLevel;
-	}
+        this.access = pLevel;
+    }
 
-	public HashMap<SwedishSignalAspect, SwedishSignalAspect> getManualOverrides() {
-		return manualOverrides;
-	}
+    public HashMap<SwedishSignalAspect, SwedishSignalAspect> getManualOverrides() {
+        return manualOverrides;
+    }
 
-	/**
-	 * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player
-	 * inventory and the other inventory(s).
-	 *
-	 * @param pPlayer
-	 * @param pIndex
-	 */
-	@Override
-	public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
-		return ItemStack.EMPTY;
-	}
+    /**
+     * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player
+     * inventory and the other inventory(s).
+     *
+     * @param pPlayer
+     * @param pIndex
+     */
+    @Override
+    public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
+        return ItemStack.EMPTY;
+    }
 
-	/**
-	 * Determines whether supplied player can use this container
-	 *
-	 * @param pPlayer
-	 */
-	@Override
-	public boolean stillValid(Player pPlayer) {
-		return true;
-	}
+    /**
+     * Determines whether supplied player can use this container
+     *
+     * @param pPlayer
+     */
+    @Override
+    public boolean stillValid(Player pPlayer) {
+        return true;
+    }
 }

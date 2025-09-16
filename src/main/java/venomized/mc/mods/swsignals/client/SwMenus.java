@@ -10,7 +10,7 @@ import venomized.mc.mods.swsignals.client.ui.MenuTest;
 
 
 public final class SwMenus {
-	public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, SwSignal.MOD_ID);
+    public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, SwSignal.MOD_ID);
 
-	public static final RegistryObject<MenuType<MenuTest>> MENU_TEST = MENUS.register("test", () -> IForgeMenuType.create(MenuTest::new));
+    public static final RegistryObject<MenuType<MenuTest>> MENU_TEST = MENUS.register("test", () -> IForgeMenuType.create(MenuTest::new));
 }

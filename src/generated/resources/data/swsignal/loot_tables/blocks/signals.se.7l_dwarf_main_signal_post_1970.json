@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "swsignal:signals.se.7l_dwarf_main_signal_post_1970"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "swsignal:blocks/signals.se.7l_dwarf_main_signal_post_1970"
+}

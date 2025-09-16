@@ -12,27 +12,27 @@ import java.util.function.Supplier;
  * Packet for handling when client scrolled
  */
 public class ClientScrollNetworkEvent {
-	private final boolean up;
+    private final boolean up;
 
-	public ClientScrollNetworkEvent(boolean up) {
-		this.up = up;
-	}
+    public ClientScrollNetworkEvent(boolean up) {
+        this.up = up;
+    }
 
-	public ClientScrollNetworkEvent(FriendlyByteBuf buf) {
-		this.up = buf.readBoolean();
-	}
+    public ClientScrollNetworkEvent(FriendlyByteBuf buf) {
+        this.up = buf.readBoolean();
+    }
 
-	public static void handle(ClientScrollNetworkEvent event, Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
-			ItemStack mainHandItem = ctx.get().getSender().getMainHandItem();
-			if (mainHandItem.getItem() instanceof IScrollableItem scrollableItem) {
-				scrollableItem.onItemScroll(ctx.get().getSender(), mainHandItem, event.up);
-			}
-		});
-		ctx.get().setPacketHandled(true);
-	}
+    public static void handle(ClientScrollNetworkEvent event, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            ItemStack mainHandItem = ctx.get().getSender().getMainHandItem();
+            if (mainHandItem.getItem() instanceof IScrollableItem scrollableItem) {
+                scrollableItem.onItemScroll(ctx.get().getSender(), mainHandItem, event.up);
+            }
+        });
+        ctx.get().setPacketHandled(true);
+    }
 
-	public void encode(FriendlyByteBuf buf) {
-		buf.writeBoolean(up);
-	}
+    public void encode(FriendlyByteBuf buf) {
+        buf.writeBoolean(up);
+    }
 }

@@ -16,69 +16,70 @@ import venomized.mc.mods.swsignals.util.MathHelp;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCrossingGate> {
-	private static final float ARM_MOVEMENT_TIME = 60f;
-	// public static String ARM_5 = ;
+    private static final float ARM_MOVEMENT_TIME = 60f;
+    // public static String ARM_5 = ;
 
-	// private final BakedModel MODEL_ARM_5 = Minecraft.getInstance().getModelManager().getModel(SwSignal.modLoc(ARM_5));
+    // private final BakedModel MODEL_ARM_5 = Minecraft.getInstance().getModelManager().getModel(SwSignal.modLoc(ARM_5));
 //
-	public RendererCrossingGate(BlockEntityRendererProvider.Context context) {
-	}
+    public RendererCrossingGate(BlockEntityRendererProvider.Context context) {
+    }
 
-	@Override
-	public void render(BlockEntityCrossingGate pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
-		super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
+    @Override
+    public void render(BlockEntityCrossingGate pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
+        super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
 
-		getRenderer().tesselateBlock(
-				pBlockEntity.getLevel(),
-				this.getModel(pBlockEntity.getBlockState()),
-				pBlockEntity.getBlockState(),
-				pBlockEntity.getBlockPos(),
-				pPoseStack,
-				pBuffer.getBuffer(RenderType.solid()),
-				true,
-				pBlockEntity.getLevel().getRandom(),
-				pPackedLight,
-				pPackedOverlay
-		);
+        getRenderer().tesselateBlock(
+                pBlockEntity.getLevel(),
+                this.getModel(pBlockEntity.getBlockState()),
+                pBlockEntity.getBlockState(),
+                pBlockEntity.getBlockPos(),
+                pPoseStack,
+                pBuffer.getBuffer(RenderType.solid()),
+                true,
+                pBlockEntity.getLevel().getRandom(),
+                pPackedLight,
+                pPackedOverlay
+        );
 
-		pPoseStack.translate(8f / 16f, 17f / 16f, 8f / 16f);
+        pPoseStack.translate(8f / 16f, 17f / 16f, 8f / 16f);
 
-		pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(
-				MathHelp.easeInOutBack(pBlockEntity.progress(), 0.6f) * Mth.HALF_PI, 1, 0, 0)
-		));
+        final float rotationProgress = (pBlockEntity.getArmMovementProgressTicks() +
+                (pPartialTick * (pBlockEntity.isRailroadCrossingControllerPowered() ? -1 : 1))) / (20*20f);
 
-		// getRenderer().renderModel(
-		// 		pPoseStack.last(),
-		// 		pBuffer.getBuffer(RenderType.solid()),
-		// 		pBlockEntity.getBlockState(),
-		// 		MODEL_ARM_5,
-		// 		1,
-		// 		1,
-		// 		1,
-		// 		pPackedLight,
-		// 		pPackedOverlay
-		// );
+        pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(
+                MathHelp.easeInOutBack(rotationProgress, 0.6f) * Mth.HALF_PI, 1, 0, 0)
+        ));
 
-		getRenderer().tesselateBlock(
-				pBlockEntity.getLevel(),
-				SeModels.ARM_5.get(),
-				pBlockEntity.getBlockState(),
-				pBlockEntity.getBlockPos(),
-				pPoseStack,
-				pBuffer.getBuffer(RenderType.solid()),
-				false,
-				pBlockEntity.getLevel().getRandom(),
-				pPackedLight,
-				pPackedOverlay
-		);
+        // getRenderer().renderModel(
+        // 		pPoseStack.last(),
+        // 		pBuffer.getBuffer(RenderType.solid()),
+        // 		pBlockEntity.getBlockState(),
+        // 		MODEL_ARM_5,
+        // 		1,
+        // 		1,
+        // 		1,
+        // 		pPackedLight,
+        // 		pPackedOverlay
+        // );
 
-		pBlockEntity.progressDelta(pPartialTick / 20f / ARM_MOVEMENT_TIME);
-	}
+        getRenderer().tesselateBlock(
+                pBlockEntity.getLevel(),
+                SeModels.ARM_5.get(),
+                pBlockEntity.getBlockState(),
+                pBlockEntity.getBlockPos(),
+                pPoseStack,
+                pBuffer.getBuffer(RenderType.solid()),
+                false,
+                pBlockEntity.getLevel().getRandom(),
+                pPackedLight,
+                pPackedOverlay
+        );
+    }
 
-	@Override
-	public boolean shouldRenderOffScreen(BlockEntityCrossingGate pBlockEntity) {
-		return true;
-	}
+    @Override
+    public boolean shouldRenderOffScreen(BlockEntityCrossingGate pBlockEntity) {
+        return true;
+    }
 
 
 }

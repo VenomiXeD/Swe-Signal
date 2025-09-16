@@ -10,43 +10,43 @@ import java.util.Optional;
  * Holds a reference to a block entity at a given position
  */
 public final class BEPosRef<T extends BlockEntity> {
-	private final Class<T> compatibleType;
+    private final Class<T> compatibleType;
 
-	private BlockPos posRef;
+    private BlockPos posRef;
 
-	public BEPosRef(Class<T> compatibleType) {
-		this.compatibleType = compatibleType;
-	}
+    public BEPosRef(Class<T> compatibleType) {
+        this.compatibleType = compatibleType;
+    }
 
-	public T getReference(BlockGetter world) {
-		if (this.posRef == null) {
-			return null;
-		}
-		BlockEntity be = world.getBlockEntity(posRef);
-		if (valid(be)) {
-			return (T) be;
-		}
-		return null;
-	}
+    public T getReference(BlockGetter world) {
+        if (this.posRef == null) {
+            return null;
+        }
+        BlockEntity be = world.getBlockEntity(posRef);
+        if (valid(be)) {
+            return (T) be;
+        }
+        return null;
+    }
 
-	public Optional<T> getOptionalReference(BlockGetter world) {
-		return Optional.ofNullable(getReference(world));
-	}
+    public Optional<T> getOptionalReference(BlockGetter world) {
+        return Optional.ofNullable(getReference(world));
+    }
 
-	public boolean referenceValid(BlockGetter world) {
-		BlockEntity be = world.getBlockEntity(posRef);
-		return valid(be);
-	}
+    public boolean referenceValid(BlockGetter world) {
+        BlockEntity be = world.getBlockEntity(posRef);
+        return valid(be);
+    }
 
-	public boolean valid(BlockEntity be) {
-		return compatibleType.isInstance(be);
-	}
+    public boolean valid(BlockEntity be) {
+        return compatibleType.isInstance(be);
+    }
 
-	public void newTarget(BlockPos newBlockPosTarget) {
-		this.posRef = newBlockPosTarget;
-	}
+    public void newTarget(BlockPos newBlockPosTarget) {
+        this.posRef = newBlockPosTarget;
+    }
 
-	public void newTarget(T newBlockEntityTarget) {
-		this.posRef = newBlockEntityTarget.getBlockPos();
-	}
+    public void newTarget(T newBlockEntityTarget) {
+        this.posRef = newBlockEntityTarget.getBlockPos();
+    }
 }

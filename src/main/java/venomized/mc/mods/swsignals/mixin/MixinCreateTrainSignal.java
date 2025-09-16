@@ -6,8 +6,8 @@ import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
 
 @Mixin(SignalBlockEntity.class)
 public abstract class MixinCreateTrainSignal implements ISignalTunerBindable {
-	@Override
-	public boolean isDestination() {
-		return false;
-	}
+    @Override
+    public boolean isDestination() {
+        return false;
+    }
 }

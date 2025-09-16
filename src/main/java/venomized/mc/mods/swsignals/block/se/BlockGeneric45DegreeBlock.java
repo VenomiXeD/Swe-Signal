@@ -9,17 +9,17 @@ import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 
 public class BlockGeneric45DegreeBlock extends Sw45DegreeBlock implements EntityBlock {
-	public BlockGeneric45DegreeBlock(Properties properties) {
-		super(properties.noOcclusion().noCollission());
-	}
+    public BlockGeneric45DegreeBlock(Properties properties) {
+        super(properties.noOcclusion().noCollission());
+    }
 
-	/**
-	 * @param pPos
-	 * @param pState
-	 * @return
-	 */
-	@Override
-	public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-		return SwBlockEntities.BE_U_SIGN.create(pPos, pState);
-	}
+    /**
+     * @param pPos
+     * @param pState
+     * @return
+     */
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return SwBlockEntities.BE_U_SIGN.create(pPos, pState);
+    }
 }

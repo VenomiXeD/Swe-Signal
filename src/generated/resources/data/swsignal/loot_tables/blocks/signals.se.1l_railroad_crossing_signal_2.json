@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "swsignal:signals.se.1l_railroad_crossing_signal_2"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "swsignal:blocks/signals.se.1l_railroad_crossing_signal_2"
+}
