@@ -4,8 +4,6 @@ import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -34,13 +32,13 @@ public final class SwBlocks {
                     //}
                 })
                 .simpleItem();
-                // .item()
-                // .build();
-                // .defaultModel()
-                // .simpleItem()
-                // .item()
-                // .tab(SwSignal.SW_SIGNAL_TAB.getKey())
-                // .build();
+        // .item()
+        // .build();
+        // .defaultModel()
+        // .simpleItem()
+        // .item()
+        // .tab(SwSignal.SW_SIGNAL_TAB.getKey())
+        // .build();
     }
 
     public static <T extends Block> BlockBuilder<T, Registrate> signalBlock(String nationID, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
