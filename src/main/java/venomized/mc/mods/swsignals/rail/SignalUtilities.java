@@ -1,12 +1,16 @@
 package venomized.mc.mods.swsignals.rail;
 
+import net.minecraft.util.Mth;
+
 public class SignalUtilities {
-    public static float computeLightValue(float currentValue, float partialTick, boolean lit) {
-        return lit ? Math.min(1, currentValue + partialTick / 10) : Math.max(0, currentValue - partialTick / 20);
+    public static float computeLightValue(float currentValue, boolean lit) {
+        return lit ?
+                Mth.clamp(currentValue + 1 / 10f, 0, 1) :
+                Mth.clamp(currentValue - 1 / 10f, 0, 1);
     }
 
-    public static void computeLightValueAt(int idx, float[] lightValues, float partialTick, boolean lit) {
-        lightValues[idx] = computeLightValue(lightValues[idx], partialTick, lit);
+    public static void computeLightValueAt(int idx, float[] lightValues, boolean lit) {
+        lightValues[idx] = computeLightValue(lightValues[idx], lit);
     }
 
     // public static UUID getGroupForSignalForwardDirection(SignalBlockEntity signal) {

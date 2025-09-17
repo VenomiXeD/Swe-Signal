@@ -26,8 +26,8 @@ public class RendererMainDwarfSignal extends RendererSeDwarfSignal {
 
         float w = 0;
         pPoseStack.pushPose();
-        pPoseStack.translate(11f / 16f, 21 / 16f, 4.3 / 16f);
-        pPoseStack.scale(.6f, .6f, .6f);
+        pPoseStack.translate(3.15f / 16f, 17.6 / 16f, 5.25f / 16f);
+        pPoseStack.scale(.85f, .85f, .85f);
 
         w = pMainBlockEntity.lightLevels[4];
         getRenderer().renderModel(
@@ -43,8 +43,8 @@ public class RendererMainDwarfSignal extends RendererSeDwarfSignal {
 
         w = pMainBlockEntity.lightLevels[5];
         pPoseStack.pushPose();
-        pPoseStack.translate(11f / 16f, 5.1 / 16f, 4.3 / 16f);
-        pPoseStack.scale(.6f, .6f, .6f);
+        pPoseStack.translate(11f / 16f, 5.1 / 16f, 5.275f / 16f);
+        pPoseStack.scale(.8f, .8f, .8f);
 
         w = pMainBlockEntity.lightLevels[6];
         getRenderer().renderModel(
@@ -60,8 +60,8 @@ public class RendererMainDwarfSignal extends RendererSeDwarfSignal {
 
 
         pPoseStack.pushPose();
-        pPoseStack.translate(5f / 16f, 5.1 / 16f, 4.3 / 16f);
-        pPoseStack.scale(.6f, .6f, .6f);
+        pPoseStack.translate(5f / 16f, 5f / 16f, 5.275f / 16f);
+        pPoseStack.scale(.8f, .8f, .8f);
 
         w = pMainBlockEntity.lightLevels[5];
         getRenderer().renderModel(

@@ -8,7 +8,7 @@ import venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals.BlockEntityD
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 
 public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> extends BlockEntityRendererBase<T> {
-    private static final float SCALE = 0.8f;
+    private static final float SCALE = 1f;
 
     public RendererSeDwarfSignal(BlockEntityRendererProvider.Context context) {
     }
@@ -43,7 +43,7 @@ public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> ex
                 pPackedOverlay
         );
 
-        pBlockEntity.stepSignalLighting(pPartialTick, null, pBlockEntity.getCurrentDisplayingState(), false);
+        // pBlockEntity.clientTick(null, pBlockEntity.getCurrentDisplayingState(), false);
 
         float w = 0;
 
@@ -51,8 +51,8 @@ public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> ex
         pPoseStack.translate(.5f, getLightHeightOffset(), .5f);
 
         pPoseStack.pushPose();
-        pPoseStack.translate(-3f / 16f, 5.5f / 16f, -3.65f / 16f);
-        pPoseStack.scale(.6f, .6f, .6f);
+        pPoseStack.translate(-3f / 16f, 5f / 16f, -2.725f / 16f);
+        pPoseStack.scale(.8f, .8f, .8f);
 
         w = pBlockEntity.lightLevels[2];
         getRenderer().renderModel(
@@ -68,8 +68,8 @@ public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> ex
         pPoseStack.popPose();
 
         pPoseStack.pushPose();
-        pPoseStack.translate(3f / 16f, 5.5f / 16f, -3.65f / 16f);
-        pPoseStack.scale(.6f, .6f, .6f);
+        pPoseStack.translate(3f / 16f, 5f / 16f, -2.725f / 16f);
+        pPoseStack.scale(.8f, .8f, .8f);
 
         w = pBlockEntity.lightLevels[3];
         getRenderer().renderModel(
@@ -84,8 +84,8 @@ public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> ex
         pPoseStack.popPose();
 
         pPoseStack.pushPose();
-        pPoseStack.translate(3f / 16f, 11.5f / 16f, -3.65f / 16f);
-        pPoseStack.scale(.6f, .6f, .6f);
+        pPoseStack.translate(3f / 16f, 11 / 16f, -2.725f / 16f);
+        pPoseStack.scale(.8f, .8f, .8f);
 
         w = pBlockEntity.lightLevels[1];
         getRenderer().renderModel(
@@ -100,8 +100,8 @@ public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> ex
         pPoseStack.popPose();
 
         pPoseStack.pushPose();
-        pPoseStack.translate(-1.5f / 16f, 10f / 16f, -3.65f / 16f);
-        pPoseStack.scale(.6f, .6f, .6f);
+        pPoseStack.translate(-1.5f / 16f, 9.6f / 16f, -2.725f / 16f);
+        pPoseStack.scale(.8f, .8f, .8f);
 
         w = pBlockEntity.lightLevels[0];
         getRenderer().renderModel(

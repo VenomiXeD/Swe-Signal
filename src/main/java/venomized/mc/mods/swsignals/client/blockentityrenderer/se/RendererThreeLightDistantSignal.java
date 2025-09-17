@@ -41,7 +41,7 @@ public class RendererThreeLightDistantSignal extends BlockEntityRendererBase<Blo
         pPoseStack.translate(0f, 1.9f / 16f, -5.6f / 16f);
 
         SwedishSignalAspect aspect = pBlockEntity.getCurrentDisplayingAspect();
-        pBlockEntity.stepSignalLighting(pPartialTick, aspect, pBlockEntity.getCurrentDisplayingState(), !pBlockEntity.valid() || aspect == null);
+        // pBlockEntity.clientTick(aspect, pBlockEntity.getCurrentDisplayingState(), !pBlockEntity.valid() || aspect == null);
 
         pPoseStack.translate(0, 6.5 / 16f * 2, 0);
         for (int i = 0; i < 3; i++) {

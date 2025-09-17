@@ -46,7 +46,7 @@ public class RendererEndpointSignal extends BlockEntityRendererBase<BlockEntityE
         pPoseStack.scale(1.1f, 1.1f, 0f);
 
         SwedishSignalAspect aspect = pBlockEntity.getCurrentDisplayingAspect();
-        pBlockEntity.stepSignalLighting(pPartialTick, aspect, pBlockEntity.getCurrentDisplayingState(), !pBlockEntity.valid());
+        // pBlockEntity.clientTick(pPartialTick, aspect, pBlockEntity.getCurrentDisplayingState(), !pBlockEntity.valid());
 
         final float r = pBlockEntity.lightLevels[0];
         getRenderer().renderModel(

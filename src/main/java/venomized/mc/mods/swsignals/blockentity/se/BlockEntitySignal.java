@@ -20,6 +20,7 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntityBase;
+import venomized.mc.mods.swsignals.rail.SignalUtilities;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 import java.util.List;
@@ -42,13 +43,14 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
         }
     }
 
-    private static void worldTick(BlockEntitySignal pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
+    public static void commonTick(BlockEntitySignal pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
         pBlockEntity.tick = (pBlockEntity.tick + 1) % 20;
         pBlockEntity.remainingTicksAspectChangeDelay = Math.max(0, pBlockEntity.remainingTicksAspectChangeDelay - 1);
+
     }
 
-    public static <T extends BlockEntity> void worldTick(Level level, BlockPos blockPos, BlockState blockState, T t) {
-        worldTick((BlockEntitySignal) t, level, blockPos, blockState);
+    public static void serverTick(BlockEntitySignal pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
+        commonTick(pBlockEntity, pLevel, pPos, pBlockState);
     }
 
     public int getLightCount() {
@@ -97,10 +99,10 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
         return tick > 10;
     }
 
-    public void stepSignalLighting(float partialTick, SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
+    protected void computeSignalLightValues(SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
         if (doInvalidBlinking || aspect == null) {
-            for (int i = 0; i < this.lightLevels.length; i++) {
-                this.lightLevels[i] = this.blink() ? 1 : 0;
+            for (int i = 0; i < lightLevels.length; i++) {
+                lightLevels[i] = blink() ? 1 : 0;
             }
             return;
         }
@@ -109,23 +111,24 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
             char s = aspect.getLightPattern().charAt(i);
             switch (s) {
                 case 'S':
-                    this.lightLevels[i] = Math.min(1, this.lightLevels[i] + (partialTick / 20));
+                    SignalUtilities.computeLightValueAt(i,lightLevels,true);
                     break;
                 case 'F':
-                    if (this.blink()) {
-                        this.lightLevels[i] = Math.min(1, this.lightLevels[i] + (partialTick / 20));
-                    } else {
-                        this.lightLevels[i] = Math.max(0, this.lightLevels[i] - (partialTick / 20));
-                    }
+                    SignalUtilities.computeLightValueAt(i,lightLevels,blink());
                     break;
                 case 'U':
-                    this.lightLevels[i] = Math.max(0, this.lightLevels[i] - (partialTick / 20));
+                    SignalUtilities.computeLightValueAt(i,lightLevels,false);
                     break;
                 default:
-                    this.lightLevels[i] = this.blink() ? 1 : 0;
+                    lightLevels[i] = blink() ? 1 : 0;
                     break;
             }
         }
+    }
+
+    public static void clientTick(BlockEntitySignal be, SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
+        commonTick(be, be.getLevel(), be.getBlockPos(), be.getBlockState());
+        be.computeSignalLightValues(aspect, createSignalState, doInvalidBlinking);
     }
 
     /**

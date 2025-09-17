@@ -2,12 +2,14 @@ package venomized.mc.mods.swsignals.client.blockentityrenderer.se;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.main.GameConfig;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -70,6 +72,7 @@ public class RendererSignal<T extends BlockEntitySignal>
             poseStack.translate(0, 8 / 16d, 0);
         }
 
+        // What a garbage way to center something
         if (this.isObjModel()) {
             poseStack.pushPose();
             poseStack.translate(.5, 0, .5);
@@ -93,10 +96,10 @@ public class RendererSignal<T extends BlockEntitySignal>
         }
 
         poseStack.translate(.5d, 0d, .5d);
-        poseStack.translate(0, 2.9 / 16d, -5.6d / 16d);
+        poseStack.translate(0, 2.75f / 16d, -5.6d / 16d);
 
         SwedishSignalAspect aspect = t.getCurrentDisplayingAspect();
-        t.stepSignalLighting(partialTick, aspect, t.getCurrentDisplayingState(), !t.valid() || aspect == null);
+        // t.clientTick(partialTick, aspect, t.getCurrentDisplayingState(), !t.valid() || aspect == null);
 
         poseStack.translate(0, 0.5d * (lightCount - 1), 0);
 
@@ -108,15 +111,15 @@ public class RendererSignal<T extends BlockEntitySignal>
             switch (i) {
                 // Second light is red only
                 case 1:
-                    r = t.lightLevels[i];
+                    r = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0 ? partialTick : -partialTick) / 20f),0f,1f);
                     break;
                 // Fourth light is white only
                 case 3:
-                    r = t.lightLevels[i];
-                    g = t.lightLevels[i];
-                    b = t.lightLevels[i];
+                    r = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0  ? partialTick : -partialTick) / 20f),0f,1f);
+                    g = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0  ? partialTick : -partialTick) / 20f),0f,1f);
+                    b = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0  ? partialTick : -partialTick) / 20f),0f,1f);
                 default:
-                    g = t.lightLevels[i];
+                    g = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0  ? partialTick : -partialTick) / 20f),0f,1f);
                     break;
             }
 

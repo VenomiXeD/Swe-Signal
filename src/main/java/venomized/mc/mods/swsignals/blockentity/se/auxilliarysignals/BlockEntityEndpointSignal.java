@@ -13,7 +13,7 @@ public class BlockEntityEndpointSignal extends BlockEntitySignal {
     }
 
     @Override
-    public void stepSignalLighting(float partialTick, SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
+    public void computeSignalLightValues(SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
         float r = 0f;
         if (doInvalidBlinking || aspect == null) {
             this.lightLevels[0] = this.blink() ? 1 : 0;
@@ -21,10 +21,10 @@ public class BlockEntityEndpointSignal extends BlockEntitySignal {
         }
         switch (aspect) {
             case STOP:
-                this.lightLevels[0] = Math.min(this.lightLevels[0] + partialTick / 20, 1);
+                this.lightLevels[0] = Math.min(this.lightLevels[0] + 1, 1);
                 break;
             default:
-                this.lightLevels[0] = Math.max(this.lightLevels[0] - partialTick / 20, 0);
+                this.lightLevels[0] = Math.max(this.lightLevels[0] - 1, 0);
                 break;
         }
     }

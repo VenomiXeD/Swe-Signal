@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignal;
+import venomized.mc.mods.swsignals.rail.SignalUtilities;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 public class BlockEntityDwarfSignal extends BlockEntitySignal {
@@ -17,31 +18,31 @@ public class BlockEntityDwarfSignal extends BlockEntitySignal {
     }
 
     @Override
-    public void stepSignalLighting(float partialTick, SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
+    public void computeSignalLightValues(SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
         switch (createSignalState) {
             case INVALID -> {
-                this.lightLevels[0] = Math.max(0, this.lightLevels[0] - partialTick / 20);
-                this.lightLevels[1] = Math.min(1, this.lightLevels[1] + partialTick / 10);
-                this.lightLevels[2] = Math.min(1, this.lightLevels[2] + partialTick / 10);
-                this.lightLevels[3] = Math.max(0, this.lightLevels[3] - partialTick / 20);
+                SignalUtilities.computeLightValueAt(0, lightLevels, false);
+                SignalUtilities.computeLightValueAt(1, lightLevels, true);
+                SignalUtilities.computeLightValueAt(2, lightLevels, true);
+                SignalUtilities.computeLightValueAt(3, lightLevels, false);
             }
             case RED -> {
-                this.lightLevels[0] = Math.max(0, this.lightLevels[0] - partialTick / 20);
-                this.lightLevels[1] = Math.max(0, this.lightLevels[1] - partialTick / 20);
-                this.lightLevels[2] = Math.min(1, this.lightLevels[2] + partialTick / 10);
-                this.lightLevels[3] = Math.min(1, this.lightLevels[3] + partialTick / 10);
+                SignalUtilities.computeLightValueAt(0, lightLevels, false);
+                SignalUtilities.computeLightValueAt(1, lightLevels, false);
+                SignalUtilities.computeLightValueAt(2, lightLevels, true);
+                SignalUtilities.computeLightValueAt(3, lightLevels, true);
             }
             case GREEN -> {
-                this.lightLevels[0] = Math.max(0, this.lightLevels[0] - partialTick / 20);
-                this.lightLevels[1] = Math.min(1, this.lightLevels[1] + partialTick / 10);
-                this.lightLevels[2] = Math.max(0, this.lightLevels[2] - partialTick / 20);
-                this.lightLevels[3] = Math.min(1, this.lightLevels[3] + partialTick / 10);
+                SignalUtilities.computeLightValueAt(0, lightLevels, false);
+                SignalUtilities.computeLightValueAt(1, lightLevels, true);
+                SignalUtilities.computeLightValueAt(2, lightLevels, false);
+                SignalUtilities.computeLightValueAt(3, lightLevels, true);
             }
             case YELLOW -> {
-                this.lightLevels[0] = Math.min(1, this.lightLevels[0] + partialTick / 10);
-                this.lightLevels[1] = Math.max(0, this.lightLevels[1] - partialTick / 20);
-                this.lightLevels[2] = Math.max(0, this.lightLevels[2] - partialTick / 20);
-                this.lightLevels[3] = Math.min(1, this.lightLevels[3] + partialTick / 10);
+                SignalUtilities.computeLightValueAt(0, lightLevels, true);
+                SignalUtilities.computeLightValueAt(1, lightLevels, false);
+                SignalUtilities.computeLightValueAt(2, lightLevels, false);
+                SignalUtilities.computeLightValueAt(3, lightLevels, true);
             }
         }
     }
