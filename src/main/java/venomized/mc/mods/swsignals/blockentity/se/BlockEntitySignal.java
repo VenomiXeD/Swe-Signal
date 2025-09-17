@@ -53,6 +53,11 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
         commonTick(pBlockEntity, pLevel, pPos, pBlockState);
     }
 
+    public static void clientTick(BlockEntitySignal be, SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
+        commonTick(be, be.getLevel(), be.getBlockPos(), be.getBlockState());
+        be.computeSignalLightValues(aspect, createSignalState, doInvalidBlinking);
+    }
+
     public int getLightCount() {
         return this.lightCount;
     }
@@ -111,24 +116,19 @@ public abstract class BlockEntitySignal extends SwBlockEntityBase
             char s = aspect.getLightPattern().charAt(i);
             switch (s) {
                 case 'S':
-                    SignalUtilities.computeLightValueAt(i,lightLevels,true);
+                    SignalUtilities.computeLightValueAt(i, lightLevels, true);
                     break;
                 case 'F':
-                    SignalUtilities.computeLightValueAt(i,lightLevels,blink());
+                    SignalUtilities.computeLightValueAt(i, lightLevels, blink());
                     break;
                 case 'U':
-                    SignalUtilities.computeLightValueAt(i,lightLevels,false);
+                    SignalUtilities.computeLightValueAt(i, lightLevels, false);
                     break;
                 default:
                     lightLevels[i] = blink() ? 1 : 0;
                     break;
             }
         }
-    }
-
-    public static void clientTick(BlockEntitySignal be, SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
-        commonTick(be, be.getLevel(), be.getBlockPos(), be.getBlockState());
-        be.computeSignalLightValues(aspect, createSignalState, doInvalidBlinking);
     }
 
     /**

@@ -2,7 +2,6 @@ package venomized.mc.mods.swsignals.client.blockentityrenderer.se;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.main.GameConfig;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
@@ -111,15 +110,15 @@ public class RendererSignal<T extends BlockEntitySignal>
             switch (i) {
                 // Second light is red only
                 case 1:
-                    r = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0 ? partialTick : -partialTick) / 20f),0f,1f);
+                    r = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0 ? partialTick : -partialTick) / 20f), 0f, 1f);
                     break;
                 // Fourth light is white only
                 case 3:
-                    r = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0  ? partialTick : -partialTick) / 20f),0f,1f);
-                    g = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0  ? partialTick : -partialTick) / 20f),0f,1f);
-                    b = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0  ? partialTick : -partialTick) / 20f),0f,1f);
+                    r = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0 ? partialTick : -partialTick) / 20f), 0f, 1f);
+                    g = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0 ? partialTick : -partialTick) / 20f), 0f, 1f);
+                    b = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0 ? partialTick : -partialTick) / 20f), 0f, 1f);
                 default:
-                    g = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0  ? partialTick : -partialTick) / 20f),0f,1f);
+                    g = Mth.clamp(t.lightLevels[i] + ((t.blink() && t.lightLevels[i] != 0 ? partialTick : -partialTick) / 20f), 0f, 1f);
                     break;
             }
 

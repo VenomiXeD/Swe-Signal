@@ -35,12 +35,12 @@ public class BlockEntityMainDwarfSignal extends BlockEntityDwarfSignal {
         if (aspect != null) {
             switch (aspect) {
                 case PROCEED_40_SHORT, PROCEED_40_CAUTION:
-                    SignalUtilities.computeLightValueAt(5, lightLevels,  true);
-                    SignalUtilities.computeLightValueAt(6, lightLevels,  false);
+                    SignalUtilities.computeLightValueAt(5, lightLevels, true);
+                    SignalUtilities.computeLightValueAt(6, lightLevels, false);
                     break;
                 case PROCEED_80, PROCEED_80_EXPECT_PROCEED_80:
-                    SignalUtilities.computeLightValueAt(5, lightLevels,  false);
-                    SignalUtilities.computeLightValueAt(6, lightLevels,  true);
+                    SignalUtilities.computeLightValueAt(5, lightLevels, false);
+                    SignalUtilities.computeLightValueAt(6, lightLevels, true);
                     break;
                 case PROCEED_80_EXPECT_STOP:
                     SignalUtilities.computeLightValueAt(5, lightLevels, this.blink());

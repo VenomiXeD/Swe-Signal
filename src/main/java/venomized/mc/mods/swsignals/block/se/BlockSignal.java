@@ -99,8 +99,7 @@ public abstract class BlockSignal extends Sw45DegreeBlock implements EntityBlock
                         BlockEntitySignal.clientTick(signal, aspect, signal.getCurrentDisplayingState(), !signal.valid() || aspect == null);
                     }
                 };
-            }
-            else {
+            } else {
                 return (level, pos, state, be) -> {
                     if (be instanceof BlockEntitySignal signal) {
                         BlockEntitySignal.serverTick(signal, level, pos, state);
