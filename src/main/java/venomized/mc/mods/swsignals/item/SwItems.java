@@ -45,8 +45,8 @@ public class SwItems {
     // public static final RegistryObject<BlockItem> ITEM_U_SIGN = ITEMS.register("sw_u_sign", () -> new BlockItem(SeBlocks.BLOCK_U_SIGN.get(), new Item.Properties()));
 //
     public static final ItemEntry<ItemSignalTuner> ITEM_SIGNAL_TEST =
-            SwSignal.REGISTRATE.get().item("signalitem",
-                            ItemSignalTuner::new)
+            SwSignal.REGISTRATE.get().item("signalitem", ItemSignalTuner::new)
+                    .tab(SwSignal.SW_SIGNAL_TAB.getKey())
                     .register();
 
     public static void init() {

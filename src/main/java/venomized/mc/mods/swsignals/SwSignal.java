@@ -1,14 +1,17 @@
 package venomized.mc.mods.swsignals;
 
 import com.tterrag.registrate.Registrate;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -35,16 +38,10 @@ public class SwSignal {
 
     public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
 
-    public static DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SwSignal.MOD_ID);
-    public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("sw_tab",
-            () ->
-                    CreativeModeTab.builder()
-                            .title(Component.translatable("creativetab.sw_tab"))
-                            .icon(() -> SeBlocks.BLOCK_TWO_LIGHT_SIGNAL.asStack())
-                            .displayItems((parameters, output) -> {
-                            })
-                            .build()
-    );
+    public static final RegistryEntry<CreativeModeTab> SW_SIGNAL_TAB = REGISTRATE.get()
+            .defaultCreativeTab("extended_signals")
+            .register();
+
     private static Networking SW_SIGNAL_NETWORK;
 
     public SwSignal() {
@@ -55,7 +52,7 @@ public class SwSignal {
 
         AllSounds.SOUNDS.register(eventbus);
 
-        CREATIVE_TABS.register(eventbus);
+        // SW_SIGNAL_TAB..register(eventbus);
 
         SwMenus.MENUS.register(eventbus);
 
@@ -104,5 +101,13 @@ public class SwSignal {
     @SubscribeEvent
     public void onRegisterEvent(RegisterEvent e) {
         // e.register(EdgePointType.SIGNAL
+    }
+
+    @SubscribeEvent
+    public void onCreativeTabBuildContents(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == SW_SIGNAL_TAB.getKey()) {
+            REGISTRATE.get().getAll(Registries.ITEM).forEach(item -> event.accept(item.get()));
+            // REGISTRATE.get().getAll(Registries.BLOCK).forEach(block -> event.accept(new ItemStack(block.get())));
+        }
     }
 }

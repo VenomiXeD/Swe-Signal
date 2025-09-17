@@ -1,9 +1,9 @@
 {
   "block.swsignal.atc_controller": "ɹǝןןoɹʇuoƆ ɔʇⱯ",
-  "block.swsignal.signals.se.1l_railroad_crossing_signal_2": "ᄅ ןɐubıS buıssoɹƆ pɐoɹןıɐᴚ ןƖ˙ǝs˙sןɐubıS",
-  "block.swsignal.signals.se.1l_signal_endpoint_post_1920": "0ᄅ6Ɩ ʇsoԀ ʇuıodpuƎ ןɐubıS ןƖ˙ǝs˙sןɐubıS",
+  "block.swsignal.signals.se.1l_endpoint_post_1970": "0ㄥ6Ɩ ʇsoԀ ʇuıodpuƎ ןƖ˙ǝs˙sןɐubıS",
+  "block.swsignal.signals.se.1l_railroad_crossing_signal_2_post_1970": "0ㄥ6Ɩ ʇsoԀ ᄅ ןɐubıS buıssoɹƆ pɐoɹןıɐᴚ ןƖ˙ǝs˙sןɐubıS",
   "block.swsignal.signals.se.2l_signal_post_1970": "0ㄥ6Ɩ ʇsoԀ ןɐubıS ןᄅ˙ǝs˙sןɐubıS",
-  "block.swsignal.signals.se.3l_distant_railroad_crossing_signal": "ןɐubıS buıssoɹƆ pɐoɹןıɐᴚ ʇuɐʇsıᗡ ןƐ˙ǝs˙sןɐubıS",
+  "block.swsignal.signals.se.3l_distant_railroad_crossing_signal_post_1970": "0ㄥ6Ɩ ʇsoԀ ןɐubıS buıssoɹƆ pɐoɹןıɐᴚ ʇuɐʇsıᗡ ןƐ˙ǝs˙sןɐubıS",
   "block.swsignal.signals.se.3l_distant_signal_post_1970": "0ㄥ6Ɩ ʇsoԀ ןɐubıS ʇuɐʇsıᗡ ןƐ˙ǝs˙sןɐubıS",
   "block.swsignal.signals.se.3l_signal_post_1970": "0ㄥ6Ɩ ʇsoԀ ןɐubıS ןƐ˙ǝs˙sןɐubıS",
   "block.swsignal.signals.se.4l_dwarf_signal_post_1970": "0ㄥ6Ɩ ʇsoԀ ןɐubıS ɟɹɐʍᗡ ןㄣ˙ǝs˙sןɐubıS",
@@ -14,5 +14,6 @@
   "block.swsignal.signals.se.crossing.controller": "ɹǝןןoɹʇuoɔ˙buıssoɹɔ˙ǝs˙sןɐubıS",
   "block.swsignal.signals.se.signal_box": "xoᗺ ןɐubıs˙ǝs˙sןɐubıS",
   "block.swsignal.signals.se.u_sign": "ubıS n˙ǝs˙sןɐubıS",
-  "item.swsignal.signalitem": "ɯǝʇıןɐubıS"
+  "item.swsignal.signalitem": "ɯǝʇıןɐubıS",
+  "itemGroup.swsignal.extended_signals": "sןɐubıS pǝpuǝʇxƎ"
 }

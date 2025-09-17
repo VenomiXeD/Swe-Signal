@@ -1,4 +1,4 @@
-package venomized.mc.mods.swsignals.client.blockentityrenderer.se;
+    package venomized.mc.mods.swsignals.client.blockentityrenderer.se;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;

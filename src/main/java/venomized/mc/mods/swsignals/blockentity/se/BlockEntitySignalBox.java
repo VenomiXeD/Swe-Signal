@@ -57,7 +57,7 @@ public class BlockEntitySignalBox extends BlockEntityAbstractSignalBox implement
 
             if (nextSignal != null) {
                 result = switch (nextSignal) {
-                    case STOP, SIGNAL_FAULT_INCORRECT_WIRING -> SwedishSignalAspect.PROCEED_40_CAUTION;
+                    case STOP, SIGNAL_FAULT_INCORRECT_WIRING -> SwedishSignalAspect.PROCEED_80_EXPECT_STOP;
                     case PROCEED_40_SHORT, PROCEED_40_CAUTION -> SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_40;
                     case PROCEED_80_EXPECT_STOP, PROCEED_80, PROCEED_80_EXPECT_PROCEED_80 ->
                             SwedishSignalAspect.PROCEED_80_EXPECT_PROCEED_80;

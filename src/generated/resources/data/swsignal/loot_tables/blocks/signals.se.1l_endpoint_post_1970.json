@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "swsignal:signals.se.3l_distant_railroad_crossing_signal"
+          "name": "minecraft:air"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "swsignal:blocks/signals.se.3l_distant_railroad_crossing_signal"
+  "random_sequence": "swsignal:blocks/signals.se.1l_endpoint_post_1970"
 }

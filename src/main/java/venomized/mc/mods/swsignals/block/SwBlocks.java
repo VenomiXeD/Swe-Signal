@@ -33,15 +33,38 @@ public final class SwBlocks {
                             )).build());
                     //}
                 })
-                .item()
-                .model((itemBlockItemDataGenContext, registrateItemModelProvider) -> {
-                    ResourceLocation texturePath = registrateItemModelProvider.modLoc("item/" + name.replace(".", "/"));
-                    if (registrateItemModelProvider.existingFileHelper.exists(texturePath, PackType.CLIENT_RESOURCES)) {
-                        registrateItemModelProvider.singleTexture(itemBlockItemDataGenContext.getName(), registrateItemModelProvider.mcLoc("item/generated"), "layer0", texturePath);
-                    } else {
-                        registrateItemModelProvider.itemTexture(() -> Items.ARROW);
-                    }
-                }).build();
+                .simpleItem();
+                // .item()
+                // .build();
+                // .defaultModel()
+                // .simpleItem()
+                // .item()
+                // .tab(SwSignal.SW_SIGNAL_TAB.getKey())
+                // .build();
+    }
+
+    public static <T extends Block> BlockBuilder<T, Registrate> signalBlock(String nationID, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
+        return SwSignal.REGISTRATE.get()
+                .block(name, blockCreator)
+                .properties(prop -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+                .blockstate((blockTDataGenContext, registrateBlockstateProvider) -> {
+                    //if (blockTDataGenContext.get() instanceof Sw45DegreeBlock) {
+                    String path = "block/signals/" + nationID + "/" + name;
+                    ResourceLocation loc = registrateBlockstateProvider.modLoc(path);
+
+                    SwSignal.LOGGER.info("modelled block path: {}", path);
+
+                    registrateBlockstateProvider.getVariantBuilder(blockTDataGenContext.get())
+                            .forAllStates(blockState -> ConfiguredModel.builder().modelFile(new ModelFile.UncheckedModelFile(
+                                    loc
+                            )).build());
+                    //}
+                });
+        // .defaultModel()
+        // .simpleItem()
+        // .item()
+        // .tab(SwSignal.SW_SIGNAL_TAB.getKey())
+        // .build();
     }
 
     //For testing purposes
