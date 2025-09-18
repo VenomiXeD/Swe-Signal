@@ -5,8 +5,8 @@
     64
   ],
   "textures": {
-    "0": "swsignal:block/signals/se/3l_railroad_crossing_lights",
-    "particle": "swsignal:block/signals/se/3l_railroad_crossing_lights"
+    "0": "swsignal:block/signals/se/crossing/3l_railroad_crossing_lights_post_1970",
+    "particle": "swsignal:block/signals/se/crossing/3l_railroad_crossing_lights_post_1970"
   },
   "elements": [
     {

@@ -193,8 +193,8 @@ dependencies {
     // If the group id is "net.minecraft" and the artifact id is one of ["client", "server", "joined"],
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-
+	annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+    annotationProcessor "org.projectlombok:lombok:1.18.32"
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
@@ -226,7 +226,8 @@ dependencies {
         jarJar.ranged(it, "[0.4.1,)")
     }
 
-    compileOnly 'org.jetbrains:annotations:24.0.0'
+    compileOnly "org.projectlombok:lombok:1.18.32"
+    compileOnly "org.jetbrains:annotations:24.0.0"
 
 
     // implementation fg.deobf("curse.maven:oculus-581495:6020952")

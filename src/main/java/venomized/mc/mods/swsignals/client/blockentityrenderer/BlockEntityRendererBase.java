@@ -26,57 +26,14 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
 
     public BlockEntityRendererBase() {
     }
-    public boolean isObjModel() {
-        return false;
-    }
-
-    protected ResourceLocation modLoc(String p) {
-        return ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, p);
-    }
-
-    @Override
-    public int getViewDistance() {
-        return 1024;
-    }
 
     protected static ModelBlockRenderer getRenderer() {
         return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
     }
 
-    protected ResourceLocation modelLoc() {
-        return null;
-    }
-
-    protected BakedModel getModel(BlockState currentBlockState) {
-        if (cachedModel == null) {
-            ResourceLocation modelLoc = modelLoc();
-            if (modelLoc == null) {
-                cachedModel = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(currentBlockState);
-            } else {
-                Minecraft mc = Minecraft.getInstance();
-                cachedModel = mc.getModelManager().getModel(modelLoc);
-            }
-        }
-        return cachedModel;
-    }
-
-    protected void renderSelfBlock(T pBlockEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
-        getRenderer().tesselateWithAO(
-                pBlockEntity.getLevel(),
-                getModel(pBlockEntity.getBlockState()),
-                pBlockEntity.getBlockState(),
-                pBlockEntity.getBlockPos(),
-                pPoseStack,
-                pBuffer.getBuffer(RenderType.solid()),
-                true,
-                pBlockEntity.getLevel().getRandom(),
-                pPackedLight,
-                pPackedOverlay
-        );
-    }
-
     /**
      * Renders a single light at the given position with the given scale and color.
+     *
      * @param pMainBlockEntity
      * @param pPoseStack
      * @param pBuffer
@@ -114,8 +71,53 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
                 pBuffer,
                 pPackedOverlay,
                 x, y, z,
-                1f,1f,1f,
+                1f, 1f, 1f,
                 r, g, b
+        );
+    }
+
+    public boolean isObjModel() {
+        return false;
+    }
+
+    protected ResourceLocation modLoc(String p) {
+        return ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, p);
+    }
+
+    @Override
+    public int getViewDistance() {
+        return 1024;
+    }
+
+    protected ResourceLocation modelLoc() {
+        return null;
+    }
+
+    protected BakedModel getModel(BlockState currentBlockState) {
+        if (cachedModel == null) {
+            ResourceLocation modelLoc = modelLoc();
+            if (modelLoc == null) {
+                cachedModel = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(currentBlockState);
+            } else {
+                Minecraft mc = Minecraft.getInstance();
+                cachedModel = mc.getModelManager().getModel(modelLoc);
+            }
+        }
+        return cachedModel;
+    }
+
+    protected void renderSelfBlock(T pBlockEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
+        getRenderer().tesselateWithAO(
+                pBlockEntity.getLevel(),
+                getModel(pBlockEntity.getBlockState()),
+                pBlockEntity.getBlockState(),
+                pBlockEntity.getBlockPos(),
+                pPoseStack,
+                pBuffer.getBuffer(RenderType.solid()),
+                true,
+                pBlockEntity.getLevel().getRandom(),
+                pPackedLight,
+                pPackedOverlay
         );
     }
 

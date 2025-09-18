@@ -1,6 +1,5 @@
 package venomized.mc.mods.swsignals.blockentity;
 
-import com.mojang.authlib.Environment;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockEntityBuilder;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;

@@ -1,6 +1,12 @@
 {
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "minecraft:block/iron_block"
+  "parent": "swsignal:block/signals/se/crossing/3l_crossing_lights_post_1970",
+  "display": {
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ]
+    }
   }
 }

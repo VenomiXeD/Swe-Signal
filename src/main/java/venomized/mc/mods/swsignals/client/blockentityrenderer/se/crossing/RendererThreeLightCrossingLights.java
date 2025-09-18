@@ -21,7 +21,7 @@ public class RendererThreeLightCrossingLights extends BlockEntityRendererBase<Bl
 
         float w = 0;
         if (!pBlockEntity.isRailroadCrossingControllerPowered())
-            w = Math.max(Mth.sin((((pBlockEntity.getLevel().getGameTime() + pPartialTick) % 40f) / 20f) * Mth.PI),0f);
+            w = Math.max(Mth.sin((((pBlockEntity.getLevel().getGameTime() + pPartialTick) % 40f) / 20f) * Mth.PI), 0f);
         renderLight(pBlockEntity, pPoseStack, pBuffer, pPackedOverlay, 0.5f, 2.9f / 16f, 2f / 16f, 1.2f, 1.2f, 0f, w, w, w);
 
         float period = 10f;
@@ -29,8 +29,8 @@ public class RendererThreeLightCrossingLights extends BlockEntityRendererBase<Bl
         float rr = 0;
         float rl = 0;
         if (pBlockEntity.isRailroadCrossingControllerPowered()) {
-            rl = Math.asin(Mth.sin((((pBlockEntity.getLevel().getGameTime() + pPartialTick) % (period*2f)) / period) * Mth.PI));
-            rr = Math.asin(Mth.sin(((((pBlockEntity.getLevel().getGameTime() + period) + pPartialTick) % (period*2f)) / period) * Mth.PI));
+            rl = Math.asin(Mth.sin((((pBlockEntity.getLevel().getGameTime() + pPartialTick) % (period * 2f)) / period) * Mth.PI));
+            rr = Math.asin(Mth.sin(((((pBlockEntity.getLevel().getGameTime() + period) + pPartialTick) % (period * 2f)) / period) * Mth.PI));
         }
 
         renderLight(pBlockEntity, pPoseStack, pBuffer, pPackedOverlay, 8f / 16f - 4f / 16f, 10f / 16f, 2f / 16f, 1.2f, 1.2f, 0f, rl, 0, 0);
