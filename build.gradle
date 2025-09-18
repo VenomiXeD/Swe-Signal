@@ -155,7 +155,7 @@ minecraft {
 sourceSets.main.resources {
     srcDir 'src/generated/resources'
     // Exclude dev modelling resources
-    exclude "**/*.bbmodel"
+    exclude "**/*.bbmodel", "**/*.blend*"
 }
 
 repositories {

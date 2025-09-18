@@ -3,6 +3,7 @@ package venomized.mc.mods.swsignals.client.blockentityrenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
@@ -17,12 +18,16 @@ import org.joml.Quaternionf;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
 import venomized.mc.mods.swsignals.block.se.BlockModernTwoLightSignal;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.se.RendererSignal;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class BlockEntityRendererBase<T extends BlockEntity> implements BlockEntityRenderer<T> {
     private BakedModel cachedModel;
 
     public BlockEntityRendererBase() {
+    }
+    public boolean isObjModel() {
+        return false;
     }
 
     protected ResourceLocation modLoc(String p) {
@@ -34,7 +39,7 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
         return 1024;
     }
 
-    protected ModelBlockRenderer getRenderer() {
+    protected static ModelBlockRenderer getRenderer() {
         return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
     }
 
@@ -53,6 +58,65 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
             }
         }
         return cachedModel;
+    }
+
+    protected void renderSelfBlock(T pBlockEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
+        getRenderer().tesselateWithAO(
+                pBlockEntity.getLevel(),
+                getModel(pBlockEntity.getBlockState()),
+                pBlockEntity.getBlockState(),
+                pBlockEntity.getBlockPos(),
+                pPoseStack,
+                pBuffer.getBuffer(RenderType.solid()),
+                true,
+                pBlockEntity.getLevel().getRandom(),
+                pPackedLight,
+                pPackedOverlay
+        );
+    }
+
+    /**
+     * Renders a single light at the given position with the given scale and color.
+     * @param pMainBlockEntity
+     * @param pPoseStack
+     * @param pBuffer
+     * @param pPackedOverlay
+     * @param x
+     * @param y
+     * @param z
+     * @param sx
+     * @param sy
+     * @param sz
+     * @param r
+     * @param g
+     * @param b
+     */
+    protected static void renderLight(BlockEntity pMainBlockEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedOverlay, float x, float y, float z, float sx, float sy, float sz, float r, float g, float b) {
+        pPoseStack.pushPose();
+        pPoseStack.translate(x, y, z);
+        pPoseStack.scale(sx, sx, sx);
+        getRenderer().renderModel(
+                pPoseStack.last(),
+                pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+                pMainBlockEntity.getBlockState(),
+                RendererSignal.signalLightModel(),
+                r, g, b,
+                0xFFFFFF,
+                pPackedOverlay
+        );
+        pPoseStack.popPose();
+    }
+
+    protected static void renderLight(BlockEntity pMainBlockEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedOverlay, float x, float y, float z, float r, float g, float b) {
+        renderLight(
+                pMainBlockEntity,
+                pPoseStack,
+                pBuffer,
+                pPackedOverlay,
+                x, y, z,
+                1f,1f,1f,
+                r, g, b
+        );
     }
 
     /**

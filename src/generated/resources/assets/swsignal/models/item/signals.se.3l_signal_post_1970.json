@@ -1,0 +1,12 @@
+{
+  "parent": "swsignal:block/signals/se/3l_signal_post_1970",
+  "display": {
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ]
+    }
+  }
+}

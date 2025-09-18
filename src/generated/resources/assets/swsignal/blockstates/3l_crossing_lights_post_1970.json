@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "orientation=0": {
+      "model": "swsignal:block/signals/se/crossing/3l_crossing_lights_post_1970"
+    },
+    "orientation=1": {
+      "model": "swsignal:block/signals/se/crossing/3l_crossing_lights_post_1970"
+    },
+    "orientation=2": {
+      "model": "swsignal:block/signals/se/crossing/3l_crossing_lights_post_1970"
+    },
+    "orientation=3": {
+      "model": "swsignal:block/signals/se/crossing/3l_crossing_lights_post_1970"
+    },
+    "orientation=4": {
+      "model": "swsignal:block/signals/se/crossing/3l_crossing_lights_post_1970"
+    },
+    "orientation=5": {
+      "model": "swsignal:block/signals/se/crossing/3l_crossing_lights_post_1970"
+    },
+    "orientation=6": {
+      "model": "swsignal:block/signals/se/crossing/3l_crossing_lights_post_1970"
+    },
+    "orientation=7": {
+      "model": "swsignal:block/signals/se/crossing/3l_crossing_lights_post_1970"
+    }
+  }
+}

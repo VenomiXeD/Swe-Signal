@@ -8,6 +8,7 @@ import venomized.mc.mods.swsignals.block.BlockATCController;
 import venomized.mc.mods.swsignals.block.BlockRailroadCrossingController;
 import venomized.mc.mods.swsignals.block.SwBlocks;
 import venomized.mc.mods.swsignals.block.se.crossing.BlockCrossingGate;
+import venomized.mc.mods.swsignals.block.se.crossing.BlockThreeLightCrossingSignal;
 
 public class SeBlocks {
     // == SWEDISH CONTENT ==
@@ -47,20 +48,18 @@ public class SeBlocks {
             .register();
     // == RAILROAD CROSSING SIGNALS ==
     public static final BlockEntry<BlockRailroadCrossingSignal> BLOCK_RAILROAD_CROSSING_SIGNAL = SwBlocks.modelledBlock("signals.se.1l_railroad_crossing_signal_2_post_1970", BlockRailroadCrossingSignal::new)
-
             .register();
     public static final BlockEntry<BlockRailroadCrossingDistantSignal> BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL = SwBlocks.modelledBlock("signals.se.3l_distant_railroad_crossing_signal_post_1970", BlockRailroadCrossingDistantSignal::new)
-
             .register();
     public static final BlockEntry<BlockCrossingGate> BLOCK_CROSSING_GATE = SwBlocks.modelledBlock("signals.se.crossing.base", BlockCrossingGate::new)
-
             .register();
     public static final BlockEntry<BlockRailroadCrossingController> BLOCK_RAILROAD_CROSSING_CONTROLLER = SwBlocks.modelledBlock("signals.se.crossing.controller", BlockRailroadCrossingController::new)
-
             .register();
     public static final BlockEntry<BlockATCController> BLOCK_ATC_CONTROLLER = SwSignal.REGISTRATE.get().block("atc_controller", BlockATCController::new)
             .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+            .register();
 
+    public static final BlockEntry<BlockThreeLightCrossingSignal> BLOCK_THREE_LIGHT_CROSSING_SIGNAL = SwBlocks.signalBlock("se/crossing","3l_crossing_lights_post_1970", BlockThreeLightCrossingSignal::new)
             .register();
 
     public static void init() {

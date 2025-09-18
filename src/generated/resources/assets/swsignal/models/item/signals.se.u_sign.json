@@ -1,0 +1,12 @@
+{
+  "parent": "swsignal:block/signals/se/u_sign",
+  "display": {
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ]
+    }
+  }
+}

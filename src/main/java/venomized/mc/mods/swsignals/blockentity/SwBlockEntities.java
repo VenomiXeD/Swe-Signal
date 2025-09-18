@@ -1,5 +1,6 @@
 package venomized.mc.mods.swsignals.blockentity;
 
+import com.mojang.authlib.Environment;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockEntityBuilder;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
@@ -13,12 +14,14 @@ import venomized.mc.mods.swsignals.blockentity.se.BlockEntityThreeLightDistantSi
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntityUSign;
 import venomized.mc.mods.swsignals.blockentity.se.auxilliarysignals.*;
 import venomized.mc.mods.swsignals.blockentity.se.crossing.BlockEntityCrossingGate;
+import venomized.mc.mods.swsignals.blockentity.se.crossing.BlockEntityThreeLightCrossingLights;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityFiveLightSignal;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityFourLightSignal;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityThreeLightSignal;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityTwoLightSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.*;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.crossing.RendererCrossingGate;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.se.crossing.RendererThreeLightCrossingLights;
 
 public final class SwBlockEntities {
     public static final BlockEntityEntry<BlockEntityRailroadCrossingController> BE_SE_RAILROAD_CROSSING_CONTROLLER =
@@ -97,6 +100,10 @@ public final class SwBlockEntities {
     // TESTING AREA
     public static final BlockEntityEntry<BlockEntityATCController> BE_ATC_CONTROLLER =
             simpleBlockEntity("be_se_atc_controller", BlockEntityATCController::new, SeBlocks.BLOCK_ATC_CONTROLLER)
+                    .register();
+    public static BlockEntityEntry<BlockEntityThreeLightCrossingLights> BE_THREE_LIGHT_CROSSING_LIGHT_SIGNAL =
+            simpleBlockEntity("be_se_3l_crossing_signal", BlockEntityThreeLightCrossingLights::new, SeBlocks.BLOCK_THREE_LIGHT_CROSSING_SIGNAL)
+                    .renderer(() -> RendererThreeLightCrossingLights::new)
                     .register();
 
     public static void init() {

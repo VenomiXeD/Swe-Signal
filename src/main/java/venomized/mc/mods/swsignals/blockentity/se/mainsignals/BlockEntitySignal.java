@@ -1,4 +1,4 @@
-package venomized.mc.mods.swsignals.blockentity.se;
+package venomized.mc.mods.swsignals.blockentity.se.mainsignals;
 
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
@@ -20,6 +20,7 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntityBase;
+import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
 import venomized.mc.mods.swsignals.rail.SignalUtilities;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 

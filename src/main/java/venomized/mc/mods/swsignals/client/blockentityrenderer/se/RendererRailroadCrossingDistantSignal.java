@@ -41,9 +41,9 @@ public class RendererRailroadCrossingDistantSignal extends BlockEntityRendererBa
             pBlockEntity.lightLevel = Math.max(0, pBlockEntity.lightLevel - pPartialTick / 20);
         }
 
-        pPoseStack.translate(.5f, 3f / 16f, 1.3f / 16f);
+        pPoseStack.translate(.5f, 3f / 16f, 2f / 16f);
         pPoseStack.pushPose();
-        pPoseStack.scale(1.1f, 1.1f, 0);
+        pPoseStack.scale(1.2f, 1.2f, 0);
         getRenderer().renderModel(
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
@@ -56,8 +56,8 @@ public class RendererRailroadCrossingDistantSignal extends BlockEntityRendererBa
         pPoseStack.popPose();
 
         pPoseStack.pushPose();
-        pPoseStack.translate(3f / 16f, 7f / 16f, 0f);
-        pPoseStack.scale(1.1f, 1.1f, 0);
+        pPoseStack.translate(4f / 16f, 7f / 16f, 0f);
+        pPoseStack.scale(1.2f, 1.2f, 0);
         getRenderer().renderModel(
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
@@ -70,9 +70,9 @@ public class RendererRailroadCrossingDistantSignal extends BlockEntityRendererBa
         pPoseStack.popPose();
 
         pPoseStack.pushPose();
-        pPoseStack.translate(-3f / 16f, 7f / 16f, 0f);
+        pPoseStack.translate(-4f / 16f, 7f / 16f, 0f);
 
-        pPoseStack.scale(1.1f, 1.1f, 0);
+        pPoseStack.scale(1.2f, 1.2f, 0);
         getRenderer().renderModel(
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),

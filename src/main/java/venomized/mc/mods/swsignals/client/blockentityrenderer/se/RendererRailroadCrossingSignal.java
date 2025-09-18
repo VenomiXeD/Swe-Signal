@@ -11,6 +11,11 @@ public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<Bloc
     public RendererRailroadCrossingSignal(BlockEntityRendererProvider.Context context) {
     }
 
+    @Override
+    public boolean isObjModel() {
+        return true;
+    }
+
     /**
      * @param pBlockEntity
      * @param pPartialTick
@@ -36,7 +41,7 @@ public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<Bloc
                         pPackedOverlay
                 );
 
-        pPoseStack.translate(.5f, 1 + 1.5 / 16f, 5.6 / 16f);
+        pPoseStack.translate(.5f, 1 + 1.5 / 16f, 6f / 16f);
 
         pPoseStack.pushPose();
         pPoseStack.scale(1.1f, 1.1f, 0);
@@ -51,7 +56,7 @@ public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<Bloc
         );
         pPoseStack.popPose();
 
-        pPoseStack.translate(0, 0, 9.8 / 16f);
+        pPoseStack.translate(0, 0, 9.8f / 16f);
 
         pPoseStack.pushPose();
         pPoseStack.scale(1.1f, 1.1f, 0);

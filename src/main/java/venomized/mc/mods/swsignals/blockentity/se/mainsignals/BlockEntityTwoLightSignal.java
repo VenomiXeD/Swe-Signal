@@ -3,7 +3,6 @@ package venomized.mc.mods.swsignals.blockentity.se.mainsignals;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignal;
 
 public class BlockEntityTwoLightSignal extends BlockEntitySignal {
 

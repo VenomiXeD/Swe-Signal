@@ -1,0 +1,12 @@
+{
+  "parent": "swsignal:block/signals/se/signal_box",
+  "display": {
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ]
+    }
+  }
+}

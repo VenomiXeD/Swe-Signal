@@ -27,7 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
-import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignal;
+import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntitySignal;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
 public abstract class BlockSignal extends Sw45DegreeBlock implements EntityBlock {

@@ -5,8 +5,8 @@
     32
   ],
   "textures": {
-    "3": "swsignal:block/signals/se/1l_signal_endpoint_post_1920",
-    "particle": "swsignal:block/1l_signal_endpoint_post_1920"
+    "3": "swsignal:block/signals/se/1l_endpoint_post_1970",
+    "particle": "swsignal:block/1l_endpoint_post_1970"
   },
   "elements": [
     {

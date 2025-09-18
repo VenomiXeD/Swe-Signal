@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "swsignal:signals.se.3l_distant_railroad_crossing_signal_post_1970"
+          "name": "swsignal:3l_crossing_lights_post_1970"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "swsignal:blocks/signals.se.3l_distant_railroad_crossing_signal_post_1970"
+  "random_sequence": "swsignal:blocks/3l_crossing_lights_post_1970"
 }
