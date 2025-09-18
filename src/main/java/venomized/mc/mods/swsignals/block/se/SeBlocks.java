@@ -10,6 +10,9 @@ import venomized.mc.mods.swsignals.block.SwBlocks;
 import venomized.mc.mods.swsignals.block.se.crossing.BlockCrossingGate;
 import venomized.mc.mods.swsignals.block.se.crossing.BlockThreeLightCrossingSignal;
 
+/**
+ * Swedish railway content (blocks)
+ */
 public class SeBlocks {
     // == SWEDISH CONTENT ==
     public static final BlockEntry<BlockSignalBox> BLOCK_SIGNAL_BOX = SwBlocks.modelledBlock("signals.se.signal_box", BlockSignalBox::new)
