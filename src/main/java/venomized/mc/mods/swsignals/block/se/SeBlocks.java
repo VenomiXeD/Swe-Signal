@@ -52,7 +52,7 @@ public class SeBlocks {
             .register();
     public static final BlockEntry<BlockATCController> BLOCK_ATC_CONTROLLER = SwSignal.REGISTRATE.get().block("atc_controller", BlockATCController::new)
             .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
-            .item((block,prop)-> new TrackTargetingBlockItem(block, prop, ATCController.ATC))
+            .item((block, prop) -> new TrackTargetingBlockItem(block, prop, ATCController.ATC))
             .build()
             .register();
     public static final BlockEntry<BlockThreeLightCrossingSignal> BLOCK_THREE_LIGHT_CROSSING_SIGNAL = SwBlocks.signalBlock("se/crossing", "3l_crossing_lights_post_1970", BlockThreeLightCrossingSignal::new)

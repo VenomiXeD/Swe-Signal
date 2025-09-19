@@ -100,7 +100,7 @@ public final class SwBlockEntities {
     // TESTING AREA
     public static final BlockEntityEntry<BlockEntityATCController> BE_ATC_CONTROLLER =
             simpleBlockEntity("be_se_atc_controller", BlockEntityATCController::new, SeBlocks.BLOCK_ATC_CONTROLLER)
-                    .renderer(()-> RendererATCController::new)
+                    .renderer(() -> RendererATCController::new)
                     .register();
     public static BlockEntityEntry<BlockEntityThreeLightCrossingLights> BE_THREE_LIGHT_CROSSING_LIGHT_SIGNAL =
             simpleBlockEntity("be_se_3l_crossing_signal", BlockEntityThreeLightCrossingLights::new, SeBlocks.BLOCK_THREE_LIGHT_CROSSING_SIGNAL)

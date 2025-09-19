@@ -17,7 +17,7 @@ public class RendererThreeLightCrossingLights extends BlockEntityRendererBase<Bl
     public void render(BlockEntityThreeLightCrossingLights pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
 
         if (pBlockEntity.getBlockState().getValue(BlockSignal.MOUNTED)) {
-            pPoseStack.translate(0f,8f/16f,0f);
+            pPoseStack.translate(0f, 8f / 16f, 0f);
         }
 
         super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
