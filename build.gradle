@@ -180,6 +180,9 @@ repositories {
     maven {
         url = "https://cursemaven.com"
     }
+    maven {
+        url = "https://modmaven.dev/"
+    }
 
 }
 configurations {

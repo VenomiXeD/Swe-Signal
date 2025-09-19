@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.util.Mth;
 import org.joml.Math;
+import venomized.mc.mods.swsignals.block.se.BlockSignal;
 import venomized.mc.mods.swsignals.blockentity.se.crossing.BlockEntityThreeLightCrossingLights;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 
@@ -14,6 +15,11 @@ public class RendererThreeLightCrossingLights extends BlockEntityRendererBase<Bl
 
     @Override
     public void render(BlockEntityThreeLightCrossingLights pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
+
+        if (pBlockEntity.getBlockState().getValue(BlockSignal.MOUNTED)) {
+            pPoseStack.translate(0f,8f/16f,0f);
+        }
+
         super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
         renderSelfBlock(pBlockEntity, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
 
@@ -29,8 +35,8 @@ public class RendererThreeLightCrossingLights extends BlockEntityRendererBase<Bl
         float rr = 0;
         float rl = 0;
         if (pBlockEntity.isRailroadCrossingControllerPowered()) {
-            rl = Math.asin(Mth.sin((((pBlockEntity.getLevel().getGameTime() + pPartialTick) % (period * 2f)) / period) * Mth.PI));
-            rr = Math.asin(Mth.sin(((((pBlockEntity.getLevel().getGameTime() + period) + pPartialTick) % (period * 2f)) / period) * Mth.PI));
+            rl = Mth.sin((((pBlockEntity.getLevel().getGameTime() + pPartialTick) % (period * 2f)) / period) * Mth.PI);
+            rr = Mth.sin(((((pBlockEntity.getLevel().getGameTime()) + pPartialTick) % (period * 2f)) / period) * Mth.PI + Mth.PI);
         }
 
         renderLight(pBlockEntity, pPoseStack, pBuffer, pPackedOverlay, 8f / 16f - 4f / 16f, 10f / 16f, 2f / 16f, 1.2f, 1.2f, 0f, rl, 0, 0);

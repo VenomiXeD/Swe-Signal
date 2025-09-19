@@ -10,7 +10,7 @@ public class AllSounds {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, SwSignal.MOD_ID);
 
     public static final RegistryObject<SoundEvent> SE_TEST = SOUNDS.register("sw_crossing_bell", () ->
-            SoundEvent.createFixedRangeEvent(ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "se_crossing_bell_a"), 32f)
+            SoundEvent.createFixedRangeEvent(ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID, "se_crossing_bell_a"), 8f)
     );
 
     public static final RegistryObject<SoundEvent> ATC_CONFIRM = SOUNDS.register("atc_confirm", () ->

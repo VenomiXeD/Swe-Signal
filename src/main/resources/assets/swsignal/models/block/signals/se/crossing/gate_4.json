@@ -1,0 +1,9 @@
+{
+  "loader": "forge:obj",
+  "flip_v": true,
+  "ambientocclusion": false,
+  "model": "swsignal:models/block/signals/se/crossing/gate_4.obj",
+  "textures": {
+    "gate": "swsignal:block/signals/se/crossing/gate"
+  }
+}

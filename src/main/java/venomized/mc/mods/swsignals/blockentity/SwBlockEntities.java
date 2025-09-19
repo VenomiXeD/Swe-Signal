@@ -18,6 +18,7 @@ import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityFiveLig
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityFourLightSignal;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityThreeLightSignal;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntityTwoLightSignal;
+import venomized.mc.mods.swsignals.client.blockentityrenderer.RendererATCController;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.*;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.crossing.RendererCrossingGate;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.crossing.RendererThreeLightCrossingLights;
@@ -99,6 +100,7 @@ public final class SwBlockEntities {
     // TESTING AREA
     public static final BlockEntityEntry<BlockEntityATCController> BE_ATC_CONTROLLER =
             simpleBlockEntity("be_se_atc_controller", BlockEntityATCController::new, SeBlocks.BLOCK_ATC_CONTROLLER)
+                    .renderer(()-> RendererATCController::new)
                     .register();
     public static BlockEntityEntry<BlockEntityThreeLightCrossingLights> BE_THREE_LIGHT_CROSSING_LIGHT_SIGNAL =
             simpleBlockEntity("be_se_3l_crossing_signal", BlockEntityThreeLightCrossingLights::new, SeBlocks.BLOCK_THREE_LIGHT_CROSSING_SIGNAL)

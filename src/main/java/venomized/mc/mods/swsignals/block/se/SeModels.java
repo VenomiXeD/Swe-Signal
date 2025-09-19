@@ -7,7 +7,7 @@ import venomized.mc.mods.swsignals.SwSignal;
 
 @OnlyIn(Dist.CLIENT)
 public class SeModels {
-    public static final PartialModel ARM_5 = new PartialModel(SwSignal.modLoc("block/signals/se/crossing/gate_5"));
+    public static final PartialModel ARM_4 = new PartialModel(SwSignal.modLoc("block/signals/se/crossing/gate_4"));
 
     public static void init() {
     }

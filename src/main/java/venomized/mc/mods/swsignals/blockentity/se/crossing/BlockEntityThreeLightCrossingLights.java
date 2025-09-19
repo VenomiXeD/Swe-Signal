@@ -9,4 +9,6 @@ public class BlockEntityThreeLightCrossingLights extends BlockEntityRailroadCros
     public BlockEntityThreeLightCrossingLights(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
+
+
 }

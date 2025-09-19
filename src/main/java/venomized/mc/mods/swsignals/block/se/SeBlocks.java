@@ -1,5 +1,6 @@
 package venomized.mc.mods.swsignals.block.se;
 
+import com.simibubi.create.content.trains.track.TrackTargetingBlockItem;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -9,6 +10,7 @@ import venomized.mc.mods.swsignals.block.BlockRailroadCrossingController;
 import venomized.mc.mods.swsignals.block.SwBlocks;
 import venomized.mc.mods.swsignals.block.se.crossing.BlockCrossingGate;
 import venomized.mc.mods.swsignals.block.se.crossing.BlockThreeLightCrossingSignal;
+import venomized.mc.mods.swsignals.create.tracks.ATCController;
 
 /**
  * Swedish railway content (blocks)
@@ -35,7 +37,7 @@ public class SeBlocks {
     public static final BlockEntry<BlockModernMainDwarfSignal> BLOCK_MODERN_MAIN_DWARF_SIGNAL = SwBlocks.modelledBlock("signals.se.7l_dwarf_main_signal_post_1970", BlockModernMainDwarfSignal::new)
             .register();
     // == MISC SIGNALS ==
-    public static final BlockEntry<BlockModernEndpointSignal> BLOCK_ENDPOINT_SIGNAL = SwBlocks.modelledBlock("signals.se.1l_endpoint_post_1970", BlockModernEndpointSignal::new)
+    public static final BlockEntry<BlockModernEndpointSignal> BLOCK_ENDPOINT_SIGNAL = SwBlocks.modelledBlock("signals.se.1l_endpoint_post_1920", BlockModernEndpointSignal::new)
             .register();
     public static final BlockEntry<BlockGeneric45DegreeBlock> BLOCK_U_SIGN = SwBlocks.modelledBlock("signals.se.u_sign", BlockGeneric45DegreeBlock::new)
             .register();
@@ -50,6 +52,8 @@ public class SeBlocks {
             .register();
     public static final BlockEntry<BlockATCController> BLOCK_ATC_CONTROLLER = SwSignal.REGISTRATE.get().block("atc_controller", BlockATCController::new)
             .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+            .item((block,prop)-> new TrackTargetingBlockItem(block, prop, ATCController.ATC))
+            .build()
             .register();
     public static final BlockEntry<BlockThreeLightCrossingSignal> BLOCK_THREE_LIGHT_CROSSING_SIGNAL = SwBlocks.signalBlock("se/crossing", "3l_crossing_lights_post_1970", BlockThreeLightCrossingSignal::new)
             .register();

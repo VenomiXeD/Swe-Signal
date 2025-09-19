@@ -1,6 +1,8 @@
 package venomized.mc.mods.swsignals.client.blockentityrenderer.se.crossing;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -28,18 +30,25 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
     public void render(BlockEntityCrossingGate pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
 
-        getRenderer().tesselateBlock(
-                pBlockEntity.getLevel(),
-                this.getModel(pBlockEntity.getBlockState()),
-                pBlockEntity.getBlockState(),
-                pBlockEntity.getBlockPos(),
+        renderSelfBlock(
+                pBlockEntity,
                 pPoseStack,
-                pBuffer.getBuffer(RenderType.solid()),
-                true,
-                pBlockEntity.getLevel().getRandom(),
+                pBuffer,
                 pPackedLight,
                 pPackedOverlay
         );
+        // getRenderer().tesselateBlock(
+        //         pBlockEntity.getLevel(),
+        //         this.getModel(pBlockEntity.getBlockState()),
+        //         pBlockEntity.getBlockState(),
+        //         pBlockEntity.getBlockPos(),
+        //         pPoseStack,
+        //         pBuffer.getBuffer(RenderType.solid()),
+        //         true,
+        //         pBlockEntity.getLevel().getRandom(),
+        //         pPackedLight,
+        //         pPackedOverlay
+        // );
 
         pPoseStack.translate(8f / 16f, 17f / 16f, 8f / 16f);
 
@@ -62,16 +71,25 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
         // 		pPackedOverlay
         // );
 
-        getRenderer().tesselateBlock(
+        // getRenderer().renderModel(
+        //         pPoseStack.last(),
+        //         pBuffer.getBuffer(RenderType.solid()),
+        //         pBlockEntity.getBlockState(),
+        //         SeModels.ARM_4.get(),
+        //         1f,1f,1f,
+        //         pPackedLight, pPackedOverlay
+        // );
+
+        getRenderer().tesselateWithoutAO(
                 pBlockEntity.getLevel(),
-                SeModels.ARM_5.get(),
+                SeModels.ARM_4.get(),
                 pBlockEntity.getBlockState(),
-                pBlockEntity.getBlockPos(),
+                pBlockEntity.getBlockPos().above(),
                 pPoseStack,
                 pBuffer.getBuffer(RenderType.solid()),
                 false,
                 pBlockEntity.getLevel().getRandom(),
-                pPackedLight,
+                pPackedLight,// LightTexture.FULL_BRIGHT,// LevelRenderer.getLightColor(pBlockEntity.getLevel(),pBlockEntity.getBlockPos()),
                 pPackedOverlay
         );
     }

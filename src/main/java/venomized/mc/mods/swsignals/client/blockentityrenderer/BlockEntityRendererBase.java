@@ -51,7 +51,7 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
     protected static void renderLight(BlockEntity pMainBlockEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedOverlay, float x, float y, float z, float sx, float sy, float sz, float r, float g, float b) {
         pPoseStack.pushPose();
         pPoseStack.translate(x, y, z);
-        pPoseStack.scale(sx, sx, sx);
+        pPoseStack.scale(sx, sy, sz);
         getRenderer().renderModel(
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
