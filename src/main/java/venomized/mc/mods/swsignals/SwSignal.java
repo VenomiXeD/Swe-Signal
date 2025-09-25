@@ -18,6 +18,7 @@ import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import venomized.mc.mods.swsignals.block.se.SeBlocks;
+import venomized.mc.mods.swsignals.block.se.SeModels;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.client.ClientEvents;
 import venomized.mc.mods.swsignals.client.ForgeClientEvents;
@@ -41,6 +42,8 @@ public class SwSignal {
     private static Networking SW_SIGNAL_NETWORK;
 
     public SwSignal() {
+        initializeContent();
+
         IEventBus eventbus = REGISTRATE.get().getModEventBus();
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -63,8 +66,6 @@ public class SwSignal {
 
         SW_SIGNAL_NETWORK = new Networking();
         Networking.init();
-
-        initializeContent();
     }
 
     private static void initializeContent() {
@@ -72,6 +73,8 @@ public class SwSignal {
     }
 
     private static void swedishContent() {
+        SeModels.init();
+
         SeBlocks.init();
         SwBlockEntities.init();
 

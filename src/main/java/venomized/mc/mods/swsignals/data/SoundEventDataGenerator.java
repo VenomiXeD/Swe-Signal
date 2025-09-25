@@ -28,13 +28,11 @@ public class SoundEventDataGenerator extends SoundDefinitionsProvider {
      */
     @Override
     public void registerSounds() {
-        this.add(AllSounds.SE_TEST.get(), SoundDefinition.definition()
-                .with(SoundDefinition.Sound.sound(modLoc("se_crossing_bell_a"), SoundDefinition.SoundType.SOUND)
-                )
-        );
-
-        // this.add(AllSounds.ATC_CONFIRM.get(), SoundDefinition.definition().with(
-        // 		SoundDefinition.Sound.sound(SoundEvents.NOTE_BLOCK_PLING.get().getLocation(), SoundDefinition.SoundType.SOUND)
-        // ));
+        AllSounds.SOUNDS.getEntries().forEach(sound -> {
+            this.add(
+                    sound.get(),SoundDefinition.definition()
+                            .with(SoundDefinition.Sound.sound(sound.getId(), SoundDefinition.SoundType.SOUND)
+            ));
+        });
     }
 }

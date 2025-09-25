@@ -2,6 +2,7 @@ package venomized.mc.mods.swsignals.mixin;
 
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
+import net.minecraft.client.resources.sounds.BiomeAmbientSoundsHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,6 +29,7 @@ public class MixinTrain {
         };
 
         cir.setReturnValue(modified);
+
     }
 
     @Inject(method = "occupy", at = @At("HEAD"))

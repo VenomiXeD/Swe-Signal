@@ -3,5 +3,10 @@
     "sounds": [
       "swsignal:se_crossing_bell_a"
     ]
+  },
+  "x31k1": {
+    "sounds": [
+      "swsignal:x31k1"
+    ]
   }
 }
