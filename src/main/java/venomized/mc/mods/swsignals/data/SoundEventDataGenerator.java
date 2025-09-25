@@ -30,9 +30,9 @@ public class SoundEventDataGenerator extends SoundDefinitionsProvider {
     public void registerSounds() {
         AllSounds.SOUNDS.getEntries().forEach(sound -> {
             this.add(
-                    sound.get(),SoundDefinition.definition()
+                    sound.get(), SoundDefinition.definition()
                             .with(SoundDefinition.Sound.sound(sound.getId(), SoundDefinition.SoundType.SOUND)
-            ));
+                            ));
         });
     }
 }

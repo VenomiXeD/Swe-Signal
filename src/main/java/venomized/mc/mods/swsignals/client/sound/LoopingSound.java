@@ -10,6 +10,12 @@ public class LoopingSound extends AbstractTickableSoundInstance {
     public int t = 0;
 
 
+    public LoopingSound(SoundEvent p_235076_, SoundSource p_235077_, RandomSource p_235078_) {
+        super(p_235076_, p_235077_, p_235078_);
+        this.looping = true;
+        this.attenuation = Attenuation.NONE;
+    }
+
     /**
      * @return
      */
@@ -18,15 +24,9 @@ public class LoopingSound extends AbstractTickableSoundInstance {
         return super.getVolume();
     }
 
-    public LoopingSound(SoundEvent p_235076_, SoundSource p_235077_, RandomSource p_235078_) {
-        super(p_235076_, p_235077_, p_235078_);
-        this.looping = true;
-        this.attenuation = Attenuation.NONE;
-    }
-
     @Override
     public void tick() {
         t++;
-        this.pitch = 0.5f + Mth.sin(t/20f * 0.01f * Mth.PI)/2f;
+        this.pitch = 0.5f + Mth.sin(t / 20f * 0.01f * Mth.PI) / 2f;
     }
 }

@@ -32,7 +32,9 @@ public class ItemTest extends Item {
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
-        if (!pLevel.isClientSide()) { return; }
+        if (!pLevel.isClientSide()) {
+            return;
+        }
         if (sound == null) {
             sound = new LoopingSound(AllSounds.TRAIN_X31K_1.get(), SoundSource.BLOCKS, pLevel.random);
             Minecraft.getInstance().getSoundManager()

@@ -3,7 +3,6 @@ package venomized.mc.mods.swsignals.blockentity.se;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.foundation.utility.NBTHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
