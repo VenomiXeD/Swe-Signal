@@ -1,5 +1,6 @@
 package venomized.mc.mods.swsignals.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,22 +14,18 @@ import java.util.UUID;
 
 @Mixin(value = Train.class, remap = false)
 public class MixinTrain {
-    @Inject(method = "frontSignalListener", at = @At("RETURN"), cancellable = true)
-    private void frontSignalListener(CallbackInfoReturnable<TravellingPoint.IEdgePointListener> cir) {
-        Train self = (Train) (Object) this;
-        TravellingPoint.IEdgePointListener original = cir.getReturnValue();
-
+    @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"))
+    public TravellingPoint.IEdgePointListener frontSignalListener(TravellingPoint.IEdgePointListener original) {
         TravellingPoint.IEdgePointListener modified = (distance, couple) -> {
             if (couple.getFirst() instanceof ATCController atcController) {
-                atcController.onATCAction(self);
+                atcController.onATCAction(((Train) (Object) this));
                 return false;
             }
 
             return original.test(distance, couple);
         };
 
-        cir.setReturnValue(modified);
-
+        return modified;
     }
 
     @Inject(method = "occupy", at = @At("HEAD"))

@@ -7,10 +7,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.AllSounds;
 import venomized.mc.mods.swsignals.client.sound.LoopingSound;
 
 public class ItemTest extends Item {
+    @OnlyIn(Dist.CLIENT)
     private LoopingSound sound;
 
     public ItemTest(Properties pProperties) {

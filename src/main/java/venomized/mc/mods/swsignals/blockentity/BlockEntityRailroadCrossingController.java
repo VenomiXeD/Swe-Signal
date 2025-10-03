@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class BlockEntityRailroadCrossingController extends SwBlockEntityBase implements ISignalTunerBindable {
+public class BlockEntityRailroadCrossingController extends SwBlockEntity implements ISignalTunerBindable {
     private boolean powered;
 
     public BlockEntityRailroadCrossingController(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {

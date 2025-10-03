@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 
 public class BlockGeneric45DegreeBlock extends Sw45DegreeBlock implements EntityBlock {
     public BlockGeneric45DegreeBlock(Properties properties) {
@@ -20,6 +20,6 @@ public class BlockGeneric45DegreeBlock extends Sw45DegreeBlock implements Entity
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return SwBlockEntities.BE_U_SIGN.create(pPos, pState);
+        return SeBlockEntities.BE_U_SIGN.create(pPos, pState);
     }
 }

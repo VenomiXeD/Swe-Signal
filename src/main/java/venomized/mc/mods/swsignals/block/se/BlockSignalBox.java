@@ -19,8 +19,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
+import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 import venomized.mc.mods.swsignals.client.ui.MenuTest;
 
 public class BlockSignalBox extends Sw45DegreeBlock implements EntityBlock {
@@ -35,7 +35,7 @@ public class BlockSignalBox extends Sw45DegreeBlock implements EntityBlock {
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return SwBlockEntities.BE_SE_SIGNAL_BOX.create(pPos, pState);
+        return SeBlockEntities.BE_SE_SIGNAL_BOX.create(pPos, pState);
     }
 
     /**
@@ -47,7 +47,7 @@ public class BlockSignalBox extends Sw45DegreeBlock implements EntityBlock {
      */
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        if (pBlockEntityType == SwBlockEntities.BE_SE_SIGNAL_BOX.get()) {
+        if (pBlockEntityType == SeBlockEntities.BE_SE_SIGNAL_BOX.get()) {
             return ((pLevel1, pPos, pState1, pBlockEntity) -> ((BlockEntitySignalBox) pBlockEntity).tick(pLevel1, pPos, pState1, (BlockEntitySignalBox) pBlockEntity));
         }
         return null;

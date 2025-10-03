@@ -9,6 +9,7 @@
   ],
   "client": [
     "MixinItemRenderer",
+    "client.MixinCarriageSounds",
     "client.MixinTrainHUD"
   ],
   "minVersion": "0.8"

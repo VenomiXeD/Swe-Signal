@@ -26,7 +26,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntitySignal;
 import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
 
@@ -90,7 +90,7 @@ public abstract class BlockSignal extends Sw45DegreeBlock implements EntityBlock
      */
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        if (pBlockEntityType == SwBlockEntities.BE_TWO_LIGHT_SIGNAL.get() || pBlockEntityType == SwBlockEntities.BE_THREE_LIGHT_SIGNAL.get() || pBlockEntityType == SwBlockEntities.BE_FOUR_LIGHT_SIGNAL.get() || pBlockEntityType == SwBlockEntities.BE_FIVE_LIGHT_SIGNAL.get() || pBlockEntityType == SwBlockEntities.BE_THREE_LIGHT_DISTANT_SIGNAL.get() || pBlockEntityType == SwBlockEntities.BE_DWARF_SIGNAL.get() || pBlockEntityType == SwBlockEntities.BE_MAIN_DWARF_SIGNAL.get()) {
+        if (pBlockEntityType == SeBlockEntities.BE_TWO_LIGHT_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_THREE_LIGHT_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_FOUR_LIGHT_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_FIVE_LIGHT_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_THREE_LIGHT_DISTANT_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_DWARF_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_MAIN_DWARF_SIGNAL.get()) {
             if (pLevel.isClientSide()) {
                 return (level, pos, state, be) -> {
                     if (be instanceof BlockEntitySignal signal) {

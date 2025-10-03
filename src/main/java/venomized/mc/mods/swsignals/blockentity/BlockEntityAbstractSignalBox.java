@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public abstract class BlockEntityAbstractSignalBox extends SwBlockEntityBase implements ISignalTunerBindable {
+public abstract class BlockEntityAbstractSignalBox extends SwBlockEntity implements ISignalTunerBindable {
     /**
      * Absolute state reader (GO / STOP)
      */

@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityRailroadCrossingController;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 
 public class BlockRailroadCrossingController extends SwAbstractBlock implements EntityBlock {
     /**
@@ -27,7 +27,7 @@ public class BlockRailroadCrossingController extends SwAbstractBlock implements 
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return SwBlockEntities.BE_SE_RAILROAD_CROSSING_CONTROLLER.get().create(pPos, pState);
+        return SeBlockEntities.BE_SE_RAILROAD_CROSSING_CONTROLLER.get().create(pPos, pState);
     }
 
     /**

@@ -19,7 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import venomized.mc.mods.swsignals.block.se.SeBlocks;
 import venomized.mc.mods.swsignals.block.se.SeModels;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 import venomized.mc.mods.swsignals.client.ClientEvents;
 import venomized.mc.mods.swsignals.client.ForgeClientEvents;
 import venomized.mc.mods.swsignals.client.SwMenus;
@@ -73,10 +73,10 @@ public class SwSignal {
     }
 
     private static void swedishContent() {
-        SeModels.init();
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> SeModels.init());
 
         SeBlocks.init();
-        SwBlockEntities.init();
+        SeBlockEntities.init();
 
         SwItems.init();
     }

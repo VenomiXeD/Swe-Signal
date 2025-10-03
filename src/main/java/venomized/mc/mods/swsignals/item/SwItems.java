@@ -13,11 +13,11 @@ public class SwItems {
                     .tab(SwSignal.SW_SIGNAL_TAB.getKey())
                     .register();
 
-    public static final ItemEntry<ItemTest> ITEM_TEST = item(
-            "item_test",
-            ItemTest::new
-    )
-            .register();
+    // public static final ItemEntry<ItemTest> ITEM_TEST = item(
+    //         "item_test",
+    //         ItemTest::new
+    // )
+    //         .register();
 
     public static void init() {
     }

@@ -6,7 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityATCController;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 
 public class BlockATCController extends SwAbstractBlock implements IBE {
     /**
@@ -23,7 +23,7 @@ public class BlockATCController extends SwAbstractBlock implements IBE {
 
     @Override
     public BlockEntityType getBlockEntityType() {
-        return SwBlockEntities.BE_ATC_CONTROLLER.get();
+        return SeBlockEntities.BE_ATC_CONTROLLER.get();
     }
 
     /**

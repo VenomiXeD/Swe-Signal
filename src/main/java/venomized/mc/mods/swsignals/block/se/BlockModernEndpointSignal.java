@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 
 public class BlockModernEndpointSignal extends BlockSignal {
     public BlockModernEndpointSignal(Properties properties) {
@@ -18,6 +18,6 @@ public class BlockModernEndpointSignal extends BlockSignal {
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return SwBlockEntities.BE_ENDPOINT_SIGNAL.create(pPos, pState);
+        return SeBlockEntities.BE_ENDPOINT_SIGNAL.create(pPos, pState);
     }
 }

@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityATCController;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntities;
+import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 import venomized.mc.mods.swsignals.network.Networking;
 import venomized.mc.mods.swsignals.network.UpdateATCEvent;
 
@@ -35,7 +35,7 @@ public class ATCController extends SingleBlockEntityEdgePoint {
         Optional<UUID> controllingPlayer = train.carriages.stream().map(e -> e.anyAvailableEntity().getControllingPlayer().orElseGet(() -> null)).filter(e -> !Objects.isNull(e)).findFirst();
         Level level = train.carriages.get(0).anyAvailableEntity().level();
 
-        Optional<BlockEntityATCController> blockEntity = level.getBlockEntity(this.getBlockEntityPos(), SwBlockEntities.BE_ATC_CONTROLLER.get());
+        Optional<BlockEntityATCController> blockEntity = level.getBlockEntity(this.getBlockEntityPos(), SeBlockEntities.BE_ATC_CONTROLLER.get());
         blockEntity.ifPresent(blockEntityATCController -> {
             // if any player is controlling
             if (controllingPlayer.isPresent()) {
