@@ -1,9 +1,7 @@
 package venomized.mc.mods.swsignals.blockentity;
 
-import com.simibubi.create.content.contraptions.actors.trainControls.ControlsInteractionBehaviour;
-import com.simibubi.create.content.contraptions.behaviour.MovingInteractionBehaviour;
+import com.simibubi.create.api.schematic.nbt.PartialSafeNBT;
 import com.simibubi.create.foundation.utility.IInteractionChecker;
-import com.simibubi.create.foundation.utility.IPartialSafeNBT;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
@@ -11,7 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.client.sound.ITrainSound;
 
-public class BlockEntityTrainConfig extends SwBlockEntity implements IPartialSafeNBT, IInteractionChecker {
+public class BlockEntityTrainConfig extends SwBlockEntity implements PartialSafeNBT, IInteractionChecker {
     public BlockEntityTrainConfig(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }

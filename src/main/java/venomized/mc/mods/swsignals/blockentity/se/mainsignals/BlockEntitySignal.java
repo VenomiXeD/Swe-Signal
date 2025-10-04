@@ -1,9 +1,10 @@
 package venomized.mc.mods.swsignals.blockentity.se.mainsignals;
 
-import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
-import com.simibubi.create.foundation.utility.Lang;
+import com.simibubi.create.foundation.utility.CreateLang;
 import it.unimi.dsi.fastutil.Pair;
+import net.createmod.catnip.lang.Lang;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
+import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntity;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
@@ -144,7 +146,7 @@ public abstract class BlockEntitySignal extends SwBlockEntity
      */
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
-        Lang.builder().add(Component.literal("WIP")).forGoggles(tooltip);
+        Lang.builder(SwSignal.MOD_ID).add(Component.literal("WIP")).forGoggles(tooltip);
         // SwedishSignalAspect signalAspect = this.getCurrentAspect();
         // if (signalAspect != null && this.valid()) {
         // 	Lang.builder().add(Component.translatable(signalAspect.getDescription())).forGoggles(tooltip);

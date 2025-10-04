@@ -3,7 +3,6 @@ package venomized.mc.mods.swsignals.mixin.client;
 import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.simibubi.create.content.trains.entity.CarriageSounds;
-import com.simibubi.create.foundation.utility.animation.LerpedFloat;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,7 +18,7 @@ public abstract class MixinCarriageSounds {
     @Unique
     public ITrainSound swe_Signal$trainSound;
     @Shadow
-    private LerpedFloat speedFactor;
+    private net.createmod.catnip.animation.LerpedFloat speedFactor;
     @Shadow
     private CarriageContraptionEntity entity;
 

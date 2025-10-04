@@ -1,10 +1,11 @@
 package venomized.mc.mods.swsignals.client.blockentityrenderer;
 
-import com.jozufozu.flywheel.util.transform.TransformStack;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.content.trains.track.ITrackBlock;
 import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
+import dev.engine_room.flywheel.lib.model.baked.PartialModel;
+import dev.engine_room.flywheel.lib.transform.TransformStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -43,16 +44,17 @@ public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityAT
         // 	return;
 
         ms.pushPose();
-        TransformStack.cast(ms)
+        TransformStack msr = TransformStack.of(ms)
                 .translate(targetPosition.subtract(pos));
 
+        // PartialModel partial = track.prepareTrackOverlay(msr, level, pos, trackState, bezier, direction, type);
         ((ITrackBlock) block).prepareTrackOverlay(
+                msr,
                 level,
                 targetPosition,
                 trackState,
                 target.getTargetBezier(),
                 target.getTargetDirection(),
-                ms,
                 TrackTargetingBehaviour.RenderedTrackOverlayType.SIGNAL
         );
 
