@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": {
+      "item": "create:electron_tube"
+    },
+    "P": {
+      "tag": "forge:plates/iron"
+    },
+    "S": {
+      "item": "swsignal:signals.se.4l_signal_post_1970"
+    }
+  },
+  "pattern": [
+    " P ",
+    " E ",
+    " S "
+  ],
+  "result": {
+    "item": "swsignal:signals.se.5l_signal_post_1970"
+  },
+  "show_notification": true
+}

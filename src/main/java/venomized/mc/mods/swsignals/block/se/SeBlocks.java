@@ -1,9 +1,26 @@
 package venomized.mc.mods.swsignals.block.se;
 
+import com.simibubi.create.AllItems;
+import com.simibubi.create.AllTags;
 import com.simibubi.create.content.trains.track.TrackTargetingBlockItem;
+import com.simibubi.create.infrastructure.data.CreateRegistrateTags;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.CriterionTriggerInstance;
+import net.minecraft.advancements.critereon.*;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ForgeItemTagsProvider;
+import net.minecraftforge.registries.ForgeRegistries;
 import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.AllBlocks;
 import venomized.mc.mods.swsignals.block.BlockATCController;

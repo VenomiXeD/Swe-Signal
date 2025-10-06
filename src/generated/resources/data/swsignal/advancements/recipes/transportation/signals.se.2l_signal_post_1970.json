@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "swsignal:signals.se.2l_signal_post_1970"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_track": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "create:track"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_track",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "swsignal:signals.se.2l_signal_post_1970"
+    ]
+  },
+  "sends_telemetry_event": false
+}

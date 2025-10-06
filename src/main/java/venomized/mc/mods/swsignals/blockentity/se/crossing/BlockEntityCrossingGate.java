@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityRailroadCrossingObject;
 
 public class BlockEntityCrossingGate extends BlockEntityRailroadCrossingObject {
-    public static final int MAX_ARM_MOVEMENT_TICKS = 20 * 20; // 20 seconds to fully raise/lower the arm
+    public static final int MAX_ARM_MOVEMENT_TICKS = 20 * 10; // 20 seconds to fully raise/lower the arm
 
     private int ARM_MOVEMENT_TICKS = 0;
 

@@ -22,7 +22,9 @@ public class UpdateATCEvent {
     }
 
     public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
-        ATCOverlayHUD.setATCLimit(this.atcLimit);
+        contextSupplier.get().enqueueWork(() -> {
+            ATCOverlayHUD.setATCLimit(this.atcLimit);
+        });
         contextSupplier.get().setPacketHandled(true);
     }
 }
