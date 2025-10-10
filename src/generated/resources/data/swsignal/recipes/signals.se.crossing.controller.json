@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "create:andesite_alloy"
+    },
+    "E": {
+      "item": "create:electron_tube"
+    },
+    "L": {
+      "item": "create:redstone_link"
+    },
+    "P": {
+      "tag": "forge:plates/iron"
+    }
+  },
+  "pattern": [
+    "LPE",
+    "PPP",
+    "EA "
+  ],
+  "result": {
+    "item": "swsignal:signals.se.crossing.controller"
+  },
+  "show_notification": true
+}

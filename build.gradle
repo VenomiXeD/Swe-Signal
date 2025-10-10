@@ -172,6 +172,11 @@ repositories {
         url = 'https://maven.tterrag.com/'
     }
     maven {
+        // location of the maven that hosts JEI files before January 2023
+        name = "Progwml6's maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
         url = "https://maven.blamejared.com"
     }
     maven {
@@ -228,6 +233,12 @@ dependencies {
     // implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
     // implementation fg.deobf('com.github.MisterJulsen:Create-Pantographs-and-Wires:1.20.1')
     // implementation fg.deobf("curse.maven:create-railways-navigator-935929:6087014")
+    /* other minecraft dependencies are here */
+
+    // compile against the JEI API but do not include it at runtime
+    compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
+    // at runtime, use the full JEI jar for Forge
+    runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
 
 
     implementation(fg.deobf("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false })

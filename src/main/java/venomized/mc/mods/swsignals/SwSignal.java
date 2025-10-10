@@ -24,6 +24,7 @@ import venomized.mc.mods.swsignals.client.ClientEvents;
 import venomized.mc.mods.swsignals.client.ForgeClientEvents;
 import venomized.mc.mods.swsignals.client.SwMenus;
 import venomized.mc.mods.swsignals.data.BlockStateDataGenerator;
+import venomized.mc.mods.swsignals.data.RecipeDataGenerator;
 import venomized.mc.mods.swsignals.data.SoundEventDataGenerator;
 import venomized.mc.mods.swsignals.item.SwItems;
 import venomized.mc.mods.swsignals.network.Networking;
@@ -95,6 +96,8 @@ public class SwSignal {
         e.getGenerator().addProvider(true, new BlockStateDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
         // e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
         e.getGenerator().addProvider(true, new SoundEventDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+
+        e.getGenerator().addProvider(e.includeServer(), new RecipeDataGenerator(e.getGenerator().getPackOutput()));
     }
 
     @SubscribeEvent

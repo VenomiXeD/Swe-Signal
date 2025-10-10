@@ -13,19 +13,18 @@ import java.util.UUID;
 
 
 @Mixin(value = Train.class, remap = false)
-public class MixinTrain {
+public abstract class MixinTrain {
     @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"))
     public TravellingPoint.IEdgePointListener frontSignalListener(TravellingPoint.IEdgePointListener original) {
-        TravellingPoint.IEdgePointListener modified = (distance, couple) -> {
+        TravellingPoint.IEdgePointListener wrapped = (distance, couple) -> {
             if (couple.getFirst() instanceof ATCController atcController) {
                 atcController.onATCAction(((Train) (Object) this));
                 return false;
             }
-
             return original.test(distance, couple);
         };
 
-        return modified;
+        return wrapped;
     }
 
     @Inject(method = "occupy", at = @At("HEAD"))
@@ -33,3 +32,4 @@ public class MixinTrain {
         // SignalNetwork.onSignalUpdate(groupId, boundaryId);
     }
 }
+

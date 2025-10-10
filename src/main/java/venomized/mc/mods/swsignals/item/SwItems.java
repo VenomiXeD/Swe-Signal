@@ -8,7 +8,7 @@ import net.minecraft.world.item.Item;
 import venomized.mc.mods.swsignals.SwSignal;
 
 public class SwItems {
-    public static final ItemEntry<ItemSignalTuner> ITEM_SIGNAL_TEST =
+    public static final ItemEntry<ItemSignalTuner> SIGNAL_TUNER =
             SwSignal.REGISTRATE.get().item("signalitem", ItemSignalTuner::new)
                     .tab(SwSignal.SW_SIGNAL_TAB.getKey())
                     .register();

@@ -15,6 +15,7 @@
   "block.swsignal.signals.se.crossing.controller": "Signals.se.crossing.controller",
   "block.swsignal.signals.se.signal_box": "Signals.se.signal Box",
   "block.swsignal.signals.se.u_sign": "Signals.se.u Sign",
+  "block.swsignal.train_config": "Train Config",
   "item.swsignal.signalitem": "Signalitem",
   "itemGroup.swsignal.extended_signals": "Extended Signals"
 }

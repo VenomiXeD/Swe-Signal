@@ -20,7 +20,7 @@ public class BlockEntityRailroadCrossingSignal extends BlockEntityRailroadCrossi
             if (level.getGameTime() % 10 == 0) {
                 level.playLocalSound(
                         pos,
-                        AllSounds.SE_TEST.get(),
+                        AllSounds.SE_CROSSING_BELL.get(),
                         SoundSource.BLOCKS,
                         1, 1, false
                 );
@@ -29,7 +29,7 @@ public class BlockEntityRailroadCrossingSignal extends BlockEntityRailroadCrossi
             if (level.getGameTime() % 11 == 0) {
                 level.playLocalSound(
                         pos,
-                        AllSounds.SE_TEST.get(),
+                        AllSounds.SE_CROSSING_BELL.get(),
                         SoundSource.BLOCKS,
                         1, 1.01f, false
                 );
