@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_electron_tube": {
+    "has_iron_ingot": {
       "conditions": {
         "items": [
           {
             "items": [
-              "create:electron_tube"
+              "minecraft:iron_ingot"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_electron_tube",
+      "has_iron_ingot",
       "has_the_recipe"
     ]
   ],

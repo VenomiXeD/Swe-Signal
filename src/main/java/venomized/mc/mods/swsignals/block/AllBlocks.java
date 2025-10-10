@@ -18,8 +18,8 @@ public final class AllBlocks {
     // public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SwSignal.MOD_ID);
 
     public static final BlockEntry<BlockTrainConfig> BLOCK_TRAIN_CONFIG = SwSignal.REGISTRATE.get().block("train_config", BlockTrainConfig::new)
-            .blockstate((ctx,prov)->{
-                prov.simpleBlock(ctx.get(),new ModelFile.UncheckedModelFile("stone"));
+            .blockstate((ctx, prov) -> {
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
             })
             .register();
 

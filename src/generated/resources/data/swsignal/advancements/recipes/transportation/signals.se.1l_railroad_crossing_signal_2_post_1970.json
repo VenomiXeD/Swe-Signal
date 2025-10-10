@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "swsignal:signals.se.4l_signal_post_1970"
+        "recipe": "swsignal:signals.se.1l_railroad_crossing_signal_2_post_1970"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "swsignal:signals.se.4l_signal_post_1970"
+      "swsignal:signals.se.1l_railroad_crossing_signal_2_post_1970"
     ]
   },
   "sends_telemetry_event": false

@@ -1,7 +1,6 @@
 package venomized.mc.mods.swsignals;
 
 import com.tterrag.registrate.Registrate;
-import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.core.registries.Registries;
@@ -98,7 +97,7 @@ public class SwSignal {
         // e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
         e.getGenerator().addProvider(true, new SoundEventDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
 
-        e.getGenerator().addProvider(e.includeServer(),new RecipeDataGenerator(e.getGenerator().getPackOutput()));
+        e.getGenerator().addProvider(e.includeServer(), new RecipeDataGenerator(e.getGenerator().getPackOutput()));
     }
 
     @SubscribeEvent

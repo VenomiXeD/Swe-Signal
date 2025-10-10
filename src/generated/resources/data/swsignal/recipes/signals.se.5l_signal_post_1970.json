@@ -13,9 +13,9 @@
     }
   },
   "pattern": [
-    " P ",
-    " E ",
-    " S "
+    "P  ",
+    "E  ",
+    "S  "
   ],
   "result": {
     "item": "swsignal:signals.se.5l_signal_post_1970"

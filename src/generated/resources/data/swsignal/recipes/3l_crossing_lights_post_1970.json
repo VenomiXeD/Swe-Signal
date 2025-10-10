@@ -2,23 +2,23 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
+    "A": {
+      "item": "create:andesite_alloy"
+    },
     "E": {
       "item": "create:electron_tube"
     },
     "P": {
       "tag": "forge:plates/iron"
-    },
-    "S": {
-      "item": "swsignal:signals.se.2l_signal_post_1970"
     }
   },
   "pattern": [
-    "P  ",
-    "E  ",
-    "S  "
+    "EPE",
+    "PEP",
+    " A "
   ],
   "result": {
-    "item": "swsignal:signals.se.3l_signal_post_1970"
+    "item": "swsignal:3l_crossing_lights_post_1970"
   },
   "show_notification": true
 }

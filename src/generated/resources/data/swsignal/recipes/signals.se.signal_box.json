@@ -2,20 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "e": {
+    "E": {
       "item": "create:electron_tube"
     },
-    "p": {
+    "P": {
       "tag": "forge:plates/iron"
     },
-    "r": {
+    "R": {
       "tag": "forge:dusts/redstone"
     }
   },
   "pattern": [
-    "pep",
-    "pep",
-    "prp"
+    "PEP",
+    "PEP",
+    "PRP"
   ],
   "result": {
     "item": "swsignal:signals.se.signal_box"

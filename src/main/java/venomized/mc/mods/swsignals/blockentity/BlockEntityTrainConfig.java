@@ -1,7 +1,5 @@
 package venomized.mc.mods.swsignals.blockentity;
 
-import com.simibubi.create.content.contraptions.actors.trainControls.ControlsInteractionBehaviour;
-import com.simibubi.create.content.contraptions.behaviour.MovingInteractionBehaviour;
 import com.simibubi.create.foundation.utility.IInteractionChecker;
 import com.simibubi.create.foundation.utility.IPartialSafeNBT;
 import net.minecraft.core.BlockPos;
