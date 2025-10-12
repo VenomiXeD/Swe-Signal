@@ -7,6 +7,6 @@ public class SwAbstractBlock extends Block {
      * @param pProperties
      */
     public SwAbstractBlock(Properties pProperties) {
-        super(pProperties.destroyTime(.5f));
+        super(pProperties);
     }
 }

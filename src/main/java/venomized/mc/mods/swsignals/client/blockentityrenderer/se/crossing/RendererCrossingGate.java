@@ -14,6 +14,8 @@ import venomized.mc.mods.swsignals.blockentity.se.crossing.BlockEntityCrossingGa
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mc.mods.swsignals.util.MathHelp;
 
+import static venomized.mc.mods.swsignals.blockentity.se.crossing.BlockEntityCrossingGate.MAX_ARM_MOVEMENT_TICKS;
+
 @OnlyIn(Dist.CLIENT)
 public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCrossingGate> {
     private static final float ARM_MOVEMENT_TIME = 60f;
@@ -51,7 +53,7 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
         pPoseStack.translate(8f / 16f, 17f / 16f, 8f / 16f);
 
         final float rotationProgress = (pBlockEntity.getArmMovementProgressTicks() +
-                                        (pPartialTick * (pBlockEntity.isRailroadCrossingControllerPowered() ? -1 : 1))) / (20 * 20f);
+                                        (pPartialTick * (pBlockEntity.isRailroadCrossingControllerPowered() ? -1 : 1))) / MAX_ARM_MOVEMENT_TICKS;
 
         pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(
                 MathHelp.easeInOutBack(rotationProgress, 0.6f) * Mth.HALF_PI, 1, 0, 0)
