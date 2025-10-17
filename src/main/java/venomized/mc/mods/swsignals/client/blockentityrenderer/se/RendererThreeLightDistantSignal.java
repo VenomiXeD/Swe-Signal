@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntityThreeLightDistantSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
-import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
+import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 
 public class RendererThreeLightDistantSignal extends BlockEntityRendererBase<BlockEntityThreeLightDistantSignal> {
     public RendererThreeLightDistantSignal(BlockEntityRendererProvider.Context context) {

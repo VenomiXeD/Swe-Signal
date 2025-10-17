@@ -5,8 +5,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
-import venomized.mc.mods.swsignals.rail.SignalUtilities;
-import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
+import venomized.mc.mods.swsignals.rail.se.SignalUtilities;
+import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 
 public class BlockEntityMainDwarfSignal extends BlockEntityDwarfSignal {
     public BlockEntityMainDwarfSignal(BlockPos pPos, BlockState pBlockState) {

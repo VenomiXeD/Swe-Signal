@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "swsignal:item/sw_main_dwarf_signal_modern"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "swsignal:item/sw_main_dwarf_signal_modern"
+  }
 }

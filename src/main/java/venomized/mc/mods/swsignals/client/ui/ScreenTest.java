@@ -11,7 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
+import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 
 import java.util.Arrays;
 

@@ -9,7 +9,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import venomized.mc.mods.swsignals.client.SwMenus;
-import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
+import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 
 import java.util.HashMap;
 

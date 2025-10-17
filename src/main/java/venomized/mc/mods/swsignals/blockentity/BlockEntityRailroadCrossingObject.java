@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -17,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public abstract class BlockEntityRailroadCrossingObject extends SwBlockEntity implements ISignalTunerBindable, ITickingEntity {
+public abstract class BlockEntityRailroadCrossingObject extends SwBlockEntity implements ISignalTunerBindable {
     @Nullable
     public BlockPos railroadCrossingControllerPos;
 
@@ -45,7 +46,7 @@ public abstract class BlockEntityRailroadCrossingObject extends SwBlockEntity im
      * @return
      */
     @Override
-    public Pair<InteractionResult, Component> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+    public Pair<InteractionResult, MutableComponent> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
         if (sourceBlockEntity.isPresent()) {
             IForgeBlockEntity be = sourceBlockEntity.get();
             if (be instanceof BlockEntityRailroadCrossingController c) {

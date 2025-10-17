@@ -1,6 +1,8 @@
 package venomized.mc.mods.swsignals.util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -9,12 +11,14 @@ import java.util.Optional;
 /**
  * Holds a reference to a block entity at a given position
  */
-public final class BEPosRef<T extends BlockEntity> {
+public final class BlockEntityReference<T extends BlockEntity> {
     private final Class<T> compatibleType;
+    private final String saveTag;
 
     private BlockPos posRef;
 
-    public BEPosRef(Class<T> compatibleType) {
+    public BlockEntityReference(Class<T> compatibleType, String saveTag) {
+        this.saveTag = saveTag;
         this.compatibleType = compatibleType;
     }
 
@@ -27,6 +31,11 @@ public final class BEPosRef<T extends BlockEntity> {
             return (T) be;
         }
         return null;
+    }
+
+
+    public T getReference(BlockEntity world) {
+        return getReference(world.getLevel());
     }
 
     public Optional<T> getOptionalReference(BlockGetter world) {
@@ -48,5 +57,13 @@ public final class BEPosRef<T extends BlockEntity> {
 
     public void newTarget(T newBlockEntityTarget) {
         this.posRef = newBlockEntityTarget.getBlockPos();
+    }
+
+    public void toNBT(CompoundTag pTag) {
+        pTag.put(saveTag, NbtUtils.writeBlockPos(this.posRef));
+    }
+
+    public void fromNBT(CompoundTag pTag) {
+        posRef = NbtUtils.readBlockPos(pTag.getCompound(saveTag));
     }
 }

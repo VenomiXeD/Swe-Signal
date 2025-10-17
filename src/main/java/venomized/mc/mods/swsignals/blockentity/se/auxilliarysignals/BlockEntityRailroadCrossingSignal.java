@@ -14,7 +14,7 @@ public class BlockEntityRailroadCrossingSignal extends BlockEntityRailroadCrossi
         super(pType, pPos, pBlockState);
     }
 
-    @Override
+
     public void tick(Level level, BlockPos pos, BlockState state, Object blockEntity) {
         if (isRailroadCrossingControllerPowered()) {
             if (level.getGameTime() % 10 == 0) {

@@ -16,7 +16,7 @@ import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.se.BlockSignal;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntitySignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
-import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
+import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererSignal<T extends BlockEntitySignal>

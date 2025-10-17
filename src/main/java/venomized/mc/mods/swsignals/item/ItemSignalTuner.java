@@ -22,7 +22,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
         super(pProperties);
     }
 
-    private static void sendStatusMessageFromInteraction(UseOnContext pContext, Pair<InteractionResult, Component> result, MutableComponent fullMessage) {
+    private static void sendStatusMessageFromInteraction(UseOnContext pContext, Pair<InteractionResult, ? extends Component> result, MutableComponent fullMessage) {
         if (result.left() != null && result.right() != null) {
             switch (result.left()) {
                 case SUCCESS:
@@ -131,7 +131,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
                 }
 
                 if (source.isPresent()) {
-                    Pair<InteractionResult, Component> result = destination.get().onBindToSource(source, tunerMode);
+                    Pair<InteractionResult, ? extends Component> result = destination.get().onBindToSource(source, tunerMode);
 
                     if (result.right() != null) {
                         MutableComponent fullMessage = Component.literal("[SOURCE] ").append(result.right() != null ? result.right() : Component.empty());
@@ -140,7 +140,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
                 }
 
                 if (destination.isPresent()) {
-                    Pair<InteractionResult, Component> result = source.get().onBindToTarget(destination, tunerMode);
+                    Pair<InteractionResult, ? extends Component> result = source.get().onBindToTarget(destination, tunerMode);
 
                     if (result.right() != null) {
                         MutableComponent fullMessage = Component.literal("[TARGET] ").append(result.right());

@@ -2,13 +2,13 @@ package venomized.mc.mods.swsignals.blockentity.se.mainsignals;
 
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
-import com.simibubi.create.foundation.utility.CreateLang;
 import it.unimi.dsi.fastutil.Pair;
 import net.createmod.catnip.lang.Lang;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -23,8 +23,8 @@ import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntity;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
-import venomized.mc.mods.swsignals.rail.SignalUtilities;
-import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
+import venomized.mc.mods.swsignals.rail.se.SignalUtilities;
+import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 
 import java.util.List;
 import java.util.Optional;
@@ -92,11 +92,12 @@ public abstract class BlockEntitySignal extends SwBlockEntity
     }
 
     public SignalBlockEntity.SignalState getCurrentDisplayingState() {
-        BlockEntitySignalBox connectedSignalBox = this.getConnectedSignalBox();
-        if (connectedSignalBox == null) {
-            return SignalBlockEntity.SignalState.INVALID;
-        }
-        return connectedSignalBox.getCreateSignalState();
+        return SignalBlockEntity.SignalState.GREEN;
+        // BlockEntitySignalBox connectedSignalBox = this.getConnectedSignalBox();
+        // if (connectedSignalBox == null) {
+        //     return SignalBlockEntity.SignalState.INVALID;
+        // }
+        // return connectedSignalBox.getCreateSignalState();
     }
 
     public boolean valid() {
@@ -180,7 +181,7 @@ public abstract class BlockEntitySignal extends SwBlockEntity
      * @return
      */
     @Override
-    public Pair<InteractionResult, Component> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+    public Pair<InteractionResult, MutableComponent> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
         if (sourceBlockEntity.isPresent()) {
             if (sourceBlockEntity.get() instanceof BlockEntitySignalBox sb) {
                 this.setTargetedSignalBoxPosition(sb.getBlockPos());

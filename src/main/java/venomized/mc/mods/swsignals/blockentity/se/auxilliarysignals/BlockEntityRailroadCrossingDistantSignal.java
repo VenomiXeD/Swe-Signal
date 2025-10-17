@@ -18,7 +18,6 @@ public class BlockEntityRailroadCrossingDistantSignal extends BlockEntityRailroa
         return tick > 10;
     }
 
-    @Override
     public void tick(Level level, BlockPos pos, BlockState state, Object blockEntity) {
         this.tick = (this.tick + 1) % 20;
     }

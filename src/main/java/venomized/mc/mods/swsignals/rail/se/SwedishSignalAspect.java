@@ -1,4 +1,4 @@
-package venomized.mc.mods.swsignals.rail;
+package venomized.mc.mods.swsignals.rail.se;
 
 public enum SwedishSignalAspect {
     // Standard signals

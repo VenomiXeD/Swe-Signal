@@ -53,7 +53,7 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
         pPoseStack.translate(8f / 16f, 17f / 16f, 8f / 16f);
 
         final float rotationProgress = (pBlockEntity.getArmMovementProgressTicks() +
-                                        (pPartialTick * (pBlockEntity.isRailroadCrossingControllerPowered() ? -1 : 1))) / MAX_ARM_MOVEMENT_TICKS;
+                (pPartialTick * (pBlockEntity.isRailroadCrossingControllerPowered() ? -1 : 1))) / MAX_ARM_MOVEMENT_TICKS;
 
         pPoseStack.mulPose(new Quaternionf(new AxisAngle4f(
                 MathHelp.easeInOutBack(rotationProgress, 0.6f) * Mth.HALF_PI, 1, 0, 0)

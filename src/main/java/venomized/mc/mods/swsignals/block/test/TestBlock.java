@@ -19,7 +19,7 @@ public class TestBlock extends Block {
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
                                  BlockHitResult pHit) {
         System.out.println("PState: " + pState + " PLevel: " + pLevel + " PPos: " + pPos + " PPlayer: " + pPlayer
-                           + " PHand: " + pHand + " PHit: " + pHit);
+                + " PHand: " + pHand + " PHit: " + pHit);
         pLevel.setBlock(pPos.above(), Blocks.DIAMOND_BLOCK.defaultBlockState(), 3);
 
         System.out.println("Is Client: " + pLevel.isClientSide);

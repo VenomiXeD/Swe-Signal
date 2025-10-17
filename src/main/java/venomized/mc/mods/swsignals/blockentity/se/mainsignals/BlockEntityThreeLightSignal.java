@@ -3,7 +3,7 @@ package venomized.mc.mods.swsignals.blockentity.se.mainsignals;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
+import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 
 public class BlockEntityThreeLightSignal extends BlockEntitySignal {
     public BlockEntityThreeLightSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {

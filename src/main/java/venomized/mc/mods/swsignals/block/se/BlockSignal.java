@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
 import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntitySignal;
-import venomized.mc.mods.swsignals.rail.SwedishSignalAspect;
+import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 
 public abstract class BlockSignal extends Sw45DegreeBlock implements EntityBlock {
     public static BooleanProperty MOUNTED = BooleanProperty.create("mounting");
