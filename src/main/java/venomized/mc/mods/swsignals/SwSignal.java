@@ -1,11 +1,15 @@
 package venomized.mc.mods.swsignals;
 
+import com.simibubi.create.content.trains.schedule.Schedule;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import net.createmod.catnip.data.Pair;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -23,6 +27,7 @@ import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 import venomized.mc.mods.swsignals.client.ClientEvents;
 import venomized.mc.mods.swsignals.client.ForgeClientEvents;
 import venomized.mc.mods.swsignals.client.SwMenus;
+import venomized.mc.mods.swsignals.create.DoorInstruction;
 import venomized.mc.mods.swsignals.data.BlockStateDataGenerator;
 import venomized.mc.mods.swsignals.data.RecipeDataGenerator;
 import venomized.mc.mods.swsignals.data.SoundEventDataGenerator;
@@ -61,6 +66,7 @@ public class SwSignal {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             ClientEvents clientEvents = new ClientEvents();
             ForgeClientEvents forgeClientEvents = new ForgeClientEvents();
+
             eventbus.register(clientEvents);
             MinecraftForge.EVENT_BUS.register(forgeClientEvents);
         });
@@ -70,6 +76,8 @@ public class SwSignal {
     }
 
     private static void initializeContent() {
+        Schedule.INSTRUCTION_TYPES.add(Pair.of(modLoc("door"), DoorInstruction::new));
+
         swedishContent();
     }
 

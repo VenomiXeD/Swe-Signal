@@ -70,7 +70,7 @@ public class ClientEvents {
 
     @SubscribeEvent
     public void onScreenOverlay(RegisterGuiOverlaysEvent e) {
-        e.registerAbove(VanillaGuiOverlay.HOTBAR.id(), "atc_overlay", ATCOverlayHUD::render);
+        e.registerAbove(VanillaGuiOverlay.HOTBAR.id(), "atc_overlay", new ATCOverlayHUD());
     }
 
     @SubscribeEvent

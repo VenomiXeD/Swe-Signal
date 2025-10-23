@@ -87,8 +87,8 @@ public abstract class BlockEntitySignal extends SwBlockEntity
         if (connectedSignalBox == null) {
             return null;
         }
-
-        return connectedSignalBox.getCurrentAspect();
+        return SwedishSignalAspect.STOP;
+        // return connectedSignalBox.getCurrentAspect();
     }
 
     public SignalBlockEntity.SignalState getCurrentDisplayingState() {

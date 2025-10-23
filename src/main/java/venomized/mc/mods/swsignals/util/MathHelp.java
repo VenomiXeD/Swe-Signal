@@ -1,6 +1,6 @@
 package venomized.mc.mods.swsignals.util;
 
-public class MathHelp {
+public final class MathHelp {
     public static float easeInOutBack(float x) {
         float c1 = 1.70158f;
         float c2 = c1 * 1.525f;

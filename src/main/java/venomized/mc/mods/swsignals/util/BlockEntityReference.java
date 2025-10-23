@@ -22,24 +22,17 @@ public final class BlockEntityReference<T extends BlockEntity> {
         this.compatibleType = compatibleType;
     }
 
-    public T getReference(BlockGetter world) {
+    public Optional<T> getReference(BlockGetter world) {
         if (this.posRef == null) {
             return null;
         }
         BlockEntity be = world.getBlockEntity(posRef);
-        if (valid(be)) {
-            return (T) be;
-        }
-        return null;
+        return valid(be) ? Optional.of((T)be) : Optional.empty();
     }
 
 
-    public T getReference(BlockEntity world) {
-        return getReference(world.getLevel());
-    }
-
-    public Optional<T> getOptionalReference(BlockGetter world) {
-        return Optional.ofNullable(getReference(world));
+    public Optional<T> getReference(BlockEntity blockEntity) {
+        return getReference(blockEntity.getLevel());
     }
 
     public boolean referenceValid(BlockGetter world) {
@@ -60,10 +53,12 @@ public final class BlockEntityReference<T extends BlockEntity> {
     }
 
     public void toNBT(CompoundTag pTag) {
-        pTag.put(saveTag, NbtUtils.writeBlockPos(this.posRef));
+        if (this.posRef != null)
+            pTag.put(saveTag, NbtUtils.writeBlockPos(this.posRef));
     }
 
     public void fromNBT(CompoundTag pTag) {
-        posRef = NbtUtils.readBlockPos(pTag.getCompound(saveTag));
+        if (pTag.contains(saveTag))
+            posRef = NbtUtils.readBlockPos(pTag.getCompound(saveTag));
     }
 }

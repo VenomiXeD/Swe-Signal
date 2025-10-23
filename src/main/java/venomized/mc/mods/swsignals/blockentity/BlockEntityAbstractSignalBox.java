@@ -53,10 +53,6 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntity impleme
         refCreateSignalBox.fromNBT(pTag);
     }
 
-    private void validateAndUpdateSignalEdgeGroupReference() {
-        SignalBlockEntity reference = refCreateSignalBox.getReference(this.level);
-    }
-
     /**
      * Get an NBT compound to sync to the client with SPacketChunkData, used for
      * initial loading of the chunk or when
@@ -85,7 +81,6 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntity impleme
                 return sourceBlockEntity.map(blockEntity -> {
                     if (blockEntity instanceof SignalBlockEntity sbe) {
                         refCreateSignalBox.newTarget(sbe);
-                        validateAndUpdateSignalEdgeGroupReference();
                         return Pair.of(
                                 InteractionResult.SUCCESS,
                                 Component.literal("yup")

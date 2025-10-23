@@ -11,6 +11,7 @@ public class AllSounds {
     public static final RegistryObject<SoundEvent> SE_CROSSING_BELL = sound("se_crossing_bell_a");
     public static final RegistryObject<SoundEvent> SE_ATC_TONE = sound("atc");
     public static final RegistryObject<SoundEvent> TRAIN_X31K_1 = sound("x31k1");
+    public static final RegistryObject<SoundEvent> TRAIN_VVVF = sound("vvvf");
     // public static final RegistryObject<SoundEvent> ATC_CONFIRM = sound("atc_confirm");
 
     public static RegistryObject<SoundEvent> sound(String soundName) {

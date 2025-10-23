@@ -8,9 +8,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 @OnlyIn(Dist.CLIENT)
-public class ATCOverlayHUD {
+public class ATCOverlayHUD implements IGuiOverlay {
     // public static IGuiOverlay OVERLAY_RENDER = ATCOverlay::render;
     public static int overspeedBlinkTick = 0;
 
@@ -23,7 +24,8 @@ public class ATCOverlayHUD {
     }
 
     //                 overlay.render(this, guiGraphics, partialTick, screenWidth, screenHeight);
-    public static void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTick, int w, int h) {
+    @Override
+    public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTick, int w, int h) {
 
         Carriage carriage = getCarriage();
         if (carriage == null) {

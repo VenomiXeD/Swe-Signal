@@ -16,22 +16,24 @@ public class BlockEntityRailroadCrossingSignal extends BlockEntityRailroadCrossi
 
 
     public void tick(Level level, BlockPos pos, BlockState state, Object blockEntity) {
+        if (level.isClientSide()) return;
         if (isRailroadCrossingControllerPowered()) {
             if (level.getGameTime() % 10 == 0) {
-                level.playLocalSound(
+                level.playSound(
+                        null,
                         pos,
                         AllSounds.SE_CROSSING_BELL.get(),
                         SoundSource.BLOCKS,
-                        1, 1, false
+                        1, 1
                 );
             }
-
             if (level.getGameTime() % 11 == 0) {
-                level.playLocalSound(
+                level.playSound(
+                        null,
                         pos,
                         AllSounds.SE_CROSSING_BELL.get(),
                         SoundSource.BLOCKS,
-                        1, 1.01f, false
+                        1, 1.01f
                 );
             }
         }

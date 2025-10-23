@@ -28,6 +28,8 @@ public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityAT
     }
 
 
+
+
     @Override
     protected void renderSafe(BlockEntityATCController be, float partialTicks, PoseStack ms, MultiBufferSource bufferSource, int light, int overlay) {
         BlockPos pos = be.getBlockPos();

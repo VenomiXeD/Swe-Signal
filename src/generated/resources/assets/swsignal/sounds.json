@@ -9,6 +9,11 @@
       "swsignal:se_crossing_bell_a"
     ]
   },
+  "vvvf": {
+    "sounds": [
+      "swsignal:vvvf"
+    ]
+  },
   "x31k1": {
     "sounds": [
       "swsignal:x31k1"

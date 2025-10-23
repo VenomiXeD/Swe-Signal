@@ -5,7 +5,9 @@
   "refmap": "sw_signal.refmap.json",
   "mixins": [
     "MixinCreateTrainSignal",
-    "MixinTrain"
+    "MixinScheduleRuntime",
+    "MixinTrain",
+    "SlidingDoorMovementBehavior"
   ],
   "client": [
     "MixinItemRenderer",
