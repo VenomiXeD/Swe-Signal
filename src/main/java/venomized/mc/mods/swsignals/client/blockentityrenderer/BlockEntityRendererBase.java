@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,7 +16,6 @@ import org.joml.AxisAngle4f;
 import org.joml.Math;
 import org.joml.Quaternionf;
 import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
-import venomized.mc.mods.swsignals.block.se.BlockModernTwoLightSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.RendererSignal;
 import venomized.mc.mods.swsignals.core.SwSignal;
 

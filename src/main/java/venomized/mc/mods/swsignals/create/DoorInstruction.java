@@ -9,13 +9,12 @@ import net.createmod.catnip.data.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.data.SwSignalLang;
 import venomized.mc.mods.swsignals.core.SwSignal;
+import venomized.mc.mods.swsignals.data.SwSignalLang;
 import venomized.mc.mods.swsignals.util.ITrainDoorData;
 
 import java.util.List;
@@ -65,7 +64,7 @@ public class DoorInstruction extends ScheduleInstruction {
      */
     @Override
     public Pair<ItemStack, Component> getSummary() {
-        return Pair.of(AllBlocks.TRAIN_DOOR.asStack(), SwSignalLang.schedule("door","summary","Door Control"));
+        return Pair.of(AllBlocks.TRAIN_DOOR.asStack(), SwSignalLang.schedule("door", "summary", "Door Control"));
     }
 
     /**
@@ -82,6 +81,6 @@ public class DoorInstruction extends ScheduleInstruction {
      */
     @Override
     public List<Component> getTitleAs(String type) {
-        return List.of(SwSignalLang.schedule("door","title","Close door").copy().withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)));
+        return List.of(SwSignalLang.schedule("door", "title", "Close door").copy().withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)));
     }
 }

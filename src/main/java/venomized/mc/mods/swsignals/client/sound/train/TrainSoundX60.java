@@ -1,8 +1,6 @@
 package venomized.mc.mods.swsignals.client.sound.train;
 
-import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
-import com.simibubi.create.content.trains.entity.CarriageSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec3;
@@ -11,6 +9,7 @@ import venomized.mc.mods.swsignals.client.sound.LoopingSound;
 
 public class TrainSoundX60 extends TrainSound {
     private LoopingSound vvvfSound;
+
     /**
      * @param location
      * @param volume
@@ -23,7 +22,6 @@ public class TrainSoundX60 extends TrainSound {
 
         vvvfSound.setPitch(1f + TrainSounds.swe_Signal$vvvfSawPitch(getCarriageSounds().getSpeedFactor().getValue(), 10));
         if (vvvfSound == null) {
-            return;
         }
     }
 

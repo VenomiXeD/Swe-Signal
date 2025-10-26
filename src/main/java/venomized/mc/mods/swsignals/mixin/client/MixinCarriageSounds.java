@@ -34,7 +34,8 @@ public abstract class MixinCarriageSounds implements ICarriageSounds {
     @Shadow
     private LerpedFloat approachFactor;
 
-    @Shadow private int prevSharedTick;
+    @Shadow
+    private int prevSharedTick;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init(CarriageContraptionEntity dce, CallbackInfo ci) {

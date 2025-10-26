@@ -11,8 +11,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
-import venomized.mc.mods.swsignals.data.SwSignalLang;
 import venomized.mc.mods.swsignals.core.SwSignal;
+import venomized.mc.mods.swsignals.data.SwSignalLang;
 
 public final class AllBlocks {
     // public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SwSignal.MOD_ID);
@@ -100,7 +100,7 @@ public final class AllBlocks {
                 })
                 .item()
                 .model((ctx, prov) -> {
-                    if (prov.existingFileHelper.exists(prov.modLoc("item/" + "%s.%s".formatted(nation,name)), PackType.CLIENT_RESOURCES, ".json", "models")) {
+                    if (prov.existingFileHelper.exists(prov.modLoc("item/" + "%s.%s".formatted(nation, name)), PackType.CLIENT_RESOURCES, ".json", "models")) {
                         // Custom definition already provided, skip
                         return;
                     }
