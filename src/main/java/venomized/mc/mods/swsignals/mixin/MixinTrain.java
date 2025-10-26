@@ -8,15 +8,17 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import venomized.mc.mods.swsignals.SwSignal;
-import venomized.mc.mods.swsignals.util.ITrainDoorData;
 import venomized.mc.mods.swsignals.create.tracks.ATCController;
+import venomized.mc.mods.swsignals.util.ITrainDoorData;
 
 import java.util.UUID;
 
 
 @Mixin(value = Train.class, remap = false)
 public abstract class MixinTrain implements ITrainDoorData {
+    @Unique
+    private boolean swe_Signal$doorOpen = false;
+
     @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"))
     public TravellingPoint.IEdgePointListener frontSignalListener(TravellingPoint.IEdgePointListener original) {
         return (distance, couple) -> {
@@ -32,9 +34,6 @@ public abstract class MixinTrain implements ITrainDoorData {
     private void onOccupy(UUID groupId, UUID boundaryId, CallbackInfoReturnable<Boolean> cir) {
         // SignalNetwork.onSignalUpdate(groupId, boundaryId);
     }
-
-    @Unique
-    private boolean swe_Signal$doorOpen = false;
 
     /**
      * @return

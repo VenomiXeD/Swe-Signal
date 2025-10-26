@@ -6,7 +6,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.SoundDefinition;
 import net.minecraftforge.common.data.SoundDefinitionsProvider;
 import venomized.mc.mods.swsignals.AllSounds;
-import venomized.mc.mods.swsignals.SwSignal;
+import venomized.mc.mods.swsignals.core.SwSignal;
 
 public class SoundEventDataGenerator extends SoundDefinitionsProvider {
     /**

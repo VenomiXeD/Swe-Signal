@@ -1,0 +1,35 @@
+{
+  "variants": {
+    "orientation=0": {
+      "model": "swsignal:block/signal/se/1l_railroad_crossing_signal_2_post_1970"
+    },
+    "orientation=1": {
+      "model": "swsignal:block/signal/se/1l_railroad_crossing_signal_2_post_1970",
+      "y": 90
+    },
+    "orientation=2": {
+      "model": "swsignal:block/signal/se/1l_railroad_crossing_signal_2_post_1970",
+      "y": 90
+    },
+    "orientation=3": {
+      "model": "swsignal:block/signal/se/1l_railroad_crossing_signal_2_post_1970",
+      "y": 180
+    },
+    "orientation=4": {
+      "model": "swsignal:block/signal/se/1l_railroad_crossing_signal_2_post_1970",
+      "y": 180
+    },
+    "orientation=5": {
+      "model": "swsignal:block/signal/se/1l_railroad_crossing_signal_2_post_1970",
+      "y": 270
+    },
+    "orientation=6": {
+      "model": "swsignal:block/signal/se/1l_railroad_crossing_signal_2_post_1970",
+      "y": 270
+    },
+    "orientation=7": {
+      "model": "swsignal:block/signal/se/1l_railroad_crossing_signal_2_post_1970",
+      "y": 360
+    }
+  }
+}

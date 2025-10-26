@@ -6,8 +6,8 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.AllBlocks;
+import venomized.mc.mods.swsignals.core.SwSignal;
 
 public class AllBlockEntities {
     public static BlockEntityEntry<BlockEntityTrainConfig> be_trainconfig = simpleBlockEntity(

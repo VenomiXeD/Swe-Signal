@@ -12,10 +12,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.se.BlockSignal;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntitySignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
+import venomized.mc.mods.swsignals.core.SwSignal;
 import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 
 @OnlyIn(Dist.CLIENT)

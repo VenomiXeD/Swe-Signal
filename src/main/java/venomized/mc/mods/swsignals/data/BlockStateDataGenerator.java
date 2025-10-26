@@ -6,7 +6,7 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import venomized.mc.mods.swsignals.SwSignal;
+import venomized.mc.mods.swsignals.core.SwSignal;
 
 public class BlockStateDataGenerator extends BlockStateProvider {
     public BlockStateDataGenerator(PackOutput output, ExistingFileHelper exFileHelper) {

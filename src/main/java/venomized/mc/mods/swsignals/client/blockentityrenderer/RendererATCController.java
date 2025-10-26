@@ -13,8 +13,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityATCController;
+import venomized.mc.mods.swsignals.core.SwSignal;
 import venomized.mc.mods.swsignals.create.tracks.ATCController;
 
 public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityATCController> {
@@ -26,8 +26,6 @@ public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityAT
     public boolean shouldRenderOffScreen(BlockEntityATCController pBlockEntity) {
         return true;
     }
-
-
 
 
     @Override
@@ -64,7 +62,7 @@ public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityAT
         Minecraft.getInstance().getBlockRenderer().getModelRenderer()
                 .tesselateWithAO(
                         level,
-                        Minecraft.getInstance().getModelManager().getModel(SwSignal.modLoc("block/tracks/se_balise")),
+                        Minecraft.getInstance().getModelManager().getModel(SwSignal.resource("block/tracks/se_balise")),
                         trackState,
                         targetPosition,
                         ms,

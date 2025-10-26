@@ -8,11 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
-import venomized.mc.mods.swsignals.SwSignal;
+import venomized.mc.mods.swsignals.data.SwSignalLang;
+import venomized.mc.mods.swsignals.core.SwSignal;
 
 public final class AllBlocks {
     // public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SwSignal.MOD_ID);
@@ -21,6 +21,7 @@ public final class AllBlocks {
             .blockstate((ctx, prov) -> {
                 prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
             })
+            .simpleItem()
             .register();
 
     public static <T extends Block> BlockBuilder<T, Registrate> modelledBlock(String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
@@ -36,8 +37,12 @@ public final class AllBlocks {
 
                     registrateBlockstateProvider.getVariantBuilder(blockTDataGenContext.get())
                             .forAllStates(blockState -> ConfiguredModel.builder().modelFile(new ModelFile.UncheckedModelFile(
-                                    loc
-                            )).build());
+                                            loc
+                                    ))
+                                    .rotationY(
+                                            blockState.hasProperty(Sw45DegreeBlock.ORIENTATION) ?
+                                                    blockState.getValue(Sw45DegreeBlock.ORIENTATION) / 4 * 90 : 0)
+                                    .build());
                     //}
                 })
                 .item()
@@ -66,30 +71,40 @@ public final class AllBlocks {
         // .build();
     }
 
-    public static <T extends Block> BlockBuilder<T, Registrate> signalBlock(String subpath, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
+    public static <T extends Block> BlockBuilder<T, Registrate> signalBlock(String assetType, String nation, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
+        String properName = name.replaceAll("(\\d+)l", "$1 Light")
+                .replaceAll("_post_(\\d+)_?", " (Post $1)")
+                .replace('_', ' ');
+
         return SwSignal.REGISTRATE.get()
-                .block(name, blockCreator)
-                .properties(prop -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+                .block("%s.%s".formatted(nation, name), blockCreator)
+                .lang("(%s) %s".formatted(SwSignalLang.fromISO639_1(nation), properName))
+                .properties(prop -> BlockBehaviour.Properties.of().destroyTime(1f))
                 .blockstate((blockTDataGenContext, registrateBlockstateProvider) -> {
                     //if (blockTDataGenContext.get() instanceof Sw45DegreeBlock) {
-                    String path = "block/signals/" + subpath + "/" + name;
+                    String path = "block/%s/%s/%s".formatted(assetType, nation, name);
                     ResourceLocation loc = registrateBlockstateProvider.modLoc(path);
 
                     SwSignal.LOGGER.info("modelled block path: {}", path);
 
+                    if (!registrateBlockstateProvider.models().existingFileHelper.exists(loc, PackType.CLIENT_RESOURCES, ".json", "models")) {
+                        return;
+                    }
+
                     registrateBlockstateProvider.getVariantBuilder(blockTDataGenContext.get())
-                            .forAllStates(blockState -> ConfiguredModel.builder().modelFile(new ModelFile.UncheckedModelFile(
-                                    loc
-                            )).build());
+                            .forAllStates(blockState -> new ConfiguredModel[]{ConfiguredModel.builder().modelFile(registrateBlockstateProvider.models().getExistingFile(loc))
+                                    .rotationY(
+                                            blockState.hasProperty(Sw45DegreeBlock.ORIENTATION) ? (Math.floorDiv(blockState.getValue(Sw45DegreeBlock.ORIENTATION) + 1, 2) % 7) * 90 : 0)
+                                    .buildLast()});
                     //}
                 })
                 .item()
                 .model((ctx, prov) -> {
-                    if (prov.existingFileHelper.exists(prov.modLoc("item/" + name), PackType.CLIENT_RESOURCES, ".json", "models")) {
+                    if (prov.existingFileHelper.exists(prov.modLoc("item/" + "%s.%s".formatted(nation,name)), PackType.CLIENT_RESOURCES, ".json", "models")) {
                         // Custom definition already provided, skip
                         return;
                     }
-                    String path = "block/signals/" + subpath + "/" + name;
+                    String path = "block/" + name.replace(".", "/");
                     ResourceLocation loc = prov.modLoc(path);
                     if (prov.existingFileHelper.exists(loc, PackType.CLIENT_RESOURCES, ".json", "models")) {
                         prov.withExistingParent(name, loc)
@@ -100,11 +115,6 @@ public final class AllBlocks {
                     }
                     prov.cubeAll(ctx.getName(), prov.mcLoc("block/iron_block"));
                 }).build();
-        // .defaultModel()
-        // .simpleItem()
-        // .item()
-        // .tab(SwSignal.SW_SIGNAL_TAB.getKey())
-        // .build();
     }
 
     //For testing purposes

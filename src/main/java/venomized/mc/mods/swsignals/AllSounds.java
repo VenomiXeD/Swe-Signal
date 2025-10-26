@@ -4,6 +4,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import venomized.mc.mods.swsignals.core.SwSignal;
 
 public class AllSounds {
     //public static final RegistryEntry<SoundEvent> SOUNDS = SwSignal.REGISTRATE.get().sim(ForgeRegistries.SOUND_EVENTS.getRegistryKey());
@@ -16,7 +17,7 @@ public class AllSounds {
 
     public static RegistryObject<SoundEvent> sound(String soundName) {
         return SOUNDS.register(soundName, () -> SoundEvent.createVariableRangeEvent(
-                SwSignal.modLoc(soundName)
+                SwSignal.resource(soundName)
         ));
     }
 }

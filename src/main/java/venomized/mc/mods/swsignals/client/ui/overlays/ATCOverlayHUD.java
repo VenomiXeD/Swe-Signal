@@ -23,6 +23,25 @@ public class ATCOverlayHUD implements IGuiOverlay {
         return cce.getCarriage();
     }
 
+    public static void setATCLimit(double limit) {
+        currentATCLimit = Math.max(0, limit);
+    }
+
+    public static void tick() {
+        Carriage c = getCarriage();
+        if (c != null) {
+            double speedPercent =
+                    Math.abs(c.train.speed) / (c.train.maxSpeed() * AllConfigs.server().trains.manualTrainSpeedModifier.getF());
+            if (speedPercent > currentATCLimit) {
+                overspeedBlinkTick = (overspeedBlinkTick + 1) % 20;
+            } else {
+                overspeedBlinkTick = 0;
+            }
+        } else {
+            overspeedBlinkTick = 0;
+        }
+    }
+
     //                 overlay.render(this, guiGraphics, partialTick, screenWidth, screenHeight);
     @Override
     public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTick, int w, int h) {
@@ -50,24 +69,5 @@ public class ATCOverlayHUD implements IGuiOverlay {
                 overspeedBlinkTick > 10 ? 0xFF0000 : 0xFFFFFF
         );
         guiGraphics.pose().popPose();
-    }
-
-    public static void setATCLimit(double limit) {
-        currentATCLimit = Math.max(0, limit);
-    }
-
-    public static void tick() {
-        Carriage c = getCarriage();
-        if (c != null) {
-            double speedPercent =
-                    Math.abs(c.train.speed) / (c.train.maxSpeed() * AllConfigs.server().trains.manualTrainSpeedModifier.getF());
-            if (speedPercent > currentATCLimit) {
-                overspeedBlinkTick = (overspeedBlinkTick + 1) % 20;
-            } else {
-                overspeedBlinkTick = 0;
-            }
-        } else {
-            overspeedBlinkTick = 0;
-        }
     }
 }

@@ -20,7 +20,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
-import venomized.mc.mods.swsignals.SwSignal;
+import venomized.mc.mods.swsignals.core.SwSignal;
 
 import java.util.function.Consumer;
 

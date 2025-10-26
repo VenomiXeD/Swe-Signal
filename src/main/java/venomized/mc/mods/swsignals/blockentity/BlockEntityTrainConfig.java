@@ -7,15 +7,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mc.mods.swsignals.client.sound.ITrainSound;
+import venomized.mc.mods.swsignals.client.sound.train.TrainSound;
+import venomized.mc.mods.swsignals.client.sound.train.TrainSounds;
 
 public class BlockEntityTrainConfig extends SwBlockEntity implements PartialSafeNBT, IInteractionChecker {
     public BlockEntityTrainConfig(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
 
-    public ITrainSound trainSound() {
-        return null;
+    public TrainSound trainSound() {
+        return TrainSounds.TRAIN_X60.get().create();
     }
 
     /**

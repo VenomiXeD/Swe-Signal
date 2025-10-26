@@ -19,10 +19,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
 import venomized.mc.mods.swsignals.blockentity.SwBlockEntity;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
+import venomized.mc.mods.swsignals.core.SwSignal;
 import venomized.mc.mods.swsignals.rail.se.SignalUtilities;
 import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 

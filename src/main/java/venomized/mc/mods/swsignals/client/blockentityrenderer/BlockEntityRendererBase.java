@@ -14,11 +14,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.AxisAngle4f;
+import org.joml.Math;
 import org.joml.Quaternionf;
-import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
 import venomized.mc.mods.swsignals.block.se.BlockModernTwoLightSignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.RendererSignal;
+import venomized.mc.mods.swsignals.core.SwSignal;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class BlockEntityRendererBase<T extends BlockEntity> implements BlockEntityRenderer<T> {
@@ -132,9 +133,24 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
     @Override
     public void render(T pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         if (pBlockEntity.getBlockState().hasProperty(Sw45DegreeBlock.ORIENTATION)) {
+            // pPoseStack.rotateAround(
+            //         new Quaternionf(
+            //                 new AxisAngle4f(pBlockEntity.getBlockState().getValue(BlockModernTwoLightSignal.ORIENTATION) / -4f * Mth.PI, 0, 1, 0)), .5f, 0, .5f
+            // );
+            float angle = -switch (pBlockEntity.getBlockState().getValue(Sw45DegreeBlock.ORIENTATION)) {
+                case 1 -> 45f;
+                case 2 -> 90f;
+                case 3 -> 135f;
+                case 4 -> 180f;
+                case 5 -> 225f;
+                case 6 -> 270f;
+                case 7 -> 315f;
+                default -> 0f;
+            };
+
             pPoseStack.rotateAround(
                     new Quaternionf(
-                            new AxisAngle4f(pBlockEntity.getBlockState().getValue(BlockModernTwoLightSignal.ORIENTATION) / -4f * Mth.PI, 0, 1, 0)), .5f, 0, .5f
+                            new AxisAngle4f(Math.toRadians(angle), 0f, 1f, 0f)), .5f, 0, .5f
             );
         }
     }

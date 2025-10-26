@@ -13,17 +13,20 @@ import venomized.mc.mods.swsignals.util.ITrainDoorData;
 
 @Mixin(value = ScheduleRuntime.class, remap = false)
 public class MixinScheduleRuntime {
-    @Shadow public Train train;
+    @Shadow
+    public Train train;
 
-    @Shadow public Schedule schedule;
+    @Shadow
+    public Schedule schedule;
 
-    @Shadow public int currentEntry;
+    @Shadow
+    public int currentEntry;
 
     @Inject(method = "destinationReached", at = @At(value = "HEAD"))
     public void onDestinationReached(CallbackInfo ci) {
         if (this.schedule.entries.get(this.currentEntry).instruction instanceof DoorInstruction)
             return;
 
-        ((ITrainDoorData)train).swe_Signal$setDoorForcedClosed(false);
+        ((ITrainDoorData) train).swe_Signal$setDoorForcedClosed(false);
     }
 }

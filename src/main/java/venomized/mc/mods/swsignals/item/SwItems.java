@@ -5,7 +5,7 @@ import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.world.item.Item;
-import venomized.mc.mods.swsignals.SwSignal;
+import venomized.mc.mods.swsignals.core.SwSignal;
 
 public class SwItems {
     public static final ItemEntry<ItemSignalTuner> SIGNAL_TUNER =

@@ -10,14 +10,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import venomized.mc.mods.swsignals.SwSignal;
+import venomized.mc.mods.swsignals.core.SwSignal;
 import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 
 import java.util.Arrays;
 
 @OnlyIn(Dist.CLIENT)
 public class ScreenTest extends AbstractContainerScreen<MenuTest> {
-    private static final ResourceLocation UI_TEX = SwSignal.modLoc("textures/ui/se_signalbox.png");
+    private static final ResourceLocation UI_TEX = SwSignal.resource("textures/ui/se_signalbox.png");
 
     private final MenuTest menu;
 

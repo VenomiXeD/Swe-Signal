@@ -3,7 +3,7 @@ package venomized.mc.mods.swsignals.network;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
-import venomized.mc.mods.swsignals.SwSignal;
+import venomized.mc.mods.swsignals.core.SwSignal;
 
 public class Networking {
     private static final String NET_VERSION = "1.0";

@@ -3,8 +3,8 @@ package venomized.mc.mods.swsignals.mixin.client;
 import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.simibubi.create.content.trains.entity.CarriageSounds;
-import net.minecraft.client.Minecraft;
-import net.minecraft.sounds.SoundSource;
+import net.createmod.catnip.animation.LerpedFloat;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,22 +12,29 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import venomized.mc.mods.swsignals.AllSounds;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityTrainConfig;
-import venomized.mc.mods.swsignals.client.sound.ITrainSound;
-import venomized.mc.mods.swsignals.client.sound.LoopingSound;
+import venomized.mc.mods.swsignals.client.sound.train.ICarriageSounds;
+import venomized.mc.mods.swsignals.client.sound.train.TrainSound;
 
 @Mixin(value = CarriageSounds.class, remap = false)
-public abstract class MixinCarriageSounds {
+public abstract class MixinCarriageSounds implements ICarriageSounds {
     @Unique
-    public ITrainSound swe_Signal$trainSound;
+    public TrainSound swe_Signal$trainSound;
     @Shadow
     private net.createmod.catnip.animation.LerpedFloat speedFactor;
     @Shadow
     private CarriageContraptionEntity entity;
 
-    @Unique
-    private LoopingSound swe_Signal$loopingSound;
+    @Shadow
+    private int tick;
+
+    @Shadow
+    private LerpedFloat distanceFactor;
+
+    @Shadow
+    private LerpedFloat approachFactor;
+
+    @Shadow private int prevSharedTick;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init(CarriageContraptionEntity dce, CallbackInfo ci) {
@@ -38,15 +45,8 @@ public abstract class MixinCarriageSounds {
         });
 
         if (swe_Signal$trainSound != null) {
-            swe_Signal$trainSound.init((CarriageSounds)(Object)this);
+            swe_Signal$trainSound.init(this, dce);
         }
-
-        swe_Signal$loopingSound = new LoopingSound(
-                AllSounds.TRAIN_VVVF.get(),
-                SoundSource.NEUTRAL,
-                dce.level().random
-        );
-        Minecraft.getInstance().getSoundManager().play(swe_Signal$loopingSound);
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
@@ -59,34 +59,55 @@ public abstract class MixinCarriageSounds {
 
     @Inject(method = "submitSharedSoundVolume", at = @At("HEAD"))
     public void submitSharedSoundVolume(Vec3 location, float volume, CallbackInfo ci) {
-
-        swe_Signal$loopingSound.setPos(location.toVector3f());
-        swe_Signal$loopingSound.setVolume(speedFactor.getValue());
-
-        swe_Signal$loopingSound.setPitch(1f + swe_Signal$vvvfSawPitch(speedFactor.getValue(),10));
-        if (swe_Signal$trainSound == null) {
-            return;
-        }
-        swe_Signal$trainSound.submitSharedSoundVolume(entity);
+        if (swe_Signal$trainSound != null)
+            swe_Signal$trainSound.submitSharedSoundVolume(location, volume, this.entity);
     }
 
-    @Unique
-    private static float swe_Signal$vvvfSawPitch(float x, int cycles) {
-        if (x < 0) x = 0;
-        if (x > 1) x = 1;
+    /**
+     * @return
+     */
+    @Override
+    public LerpedFloat getSpeedFactor() {
+        return this.speedFactor;
+    }
 
-        double decayPower = 2.0; // higher = faster decay of oscillations
+    /**
+     * @return
+     */
+    @Override
+    public int getTick() {
+        return this.tick;
+    }
 
-        // fractional part of (x * cycles) — generates sawtooth wave
-        double saw = (x * cycles) - Math.floor(x * cycles);
+    /**
+     * @return
+     */
+    @Override
+    public int getPrevTick() {
+        return this.prevSharedTick;
+    }
 
-        // decaying amplitude factor
-        double envelope = Math.pow(1 - x, decayPower);
+    /**
+     * @return
+     */
+    @Override
+    public LerpedFloat getDistanceFactor() {
+        return this.distanceFactor;
+    }
 
-        // combine ramp + decay + base rise
-        double result = (saw * envelope) + (x * (1 - envelope));
+    /**
+     * @return
+     */
+    @Override
+    public Entity getEntity() {
+        return this.entity;
+    }
 
-        // clamp to [0, 1]
-        return (float)Math.max(0, Math.min(1, result));
+    /**
+     * @return
+     */
+    @Override
+    public LerpedFloat getApproachFactor() {
+        return this.approachFactor;
     }
 }

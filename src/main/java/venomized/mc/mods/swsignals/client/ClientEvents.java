@@ -10,11 +10,11 @@ import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import venomized.mc.mods.swsignals.SwSignal;
 import venomized.mc.mods.swsignals.block.se.SeModels;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.RendererSignal;
 import venomized.mc.mods.swsignals.client.ui.ScreenTest;
 import venomized.mc.mods.swsignals.client.ui.overlays.ATCOverlayHUD;
+import venomized.mc.mods.swsignals.core.SwSignal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +78,7 @@ public class ClientEvents {
         SwSignal.LOGGER.info("Registering Additional Models");
         e.register(RendererSignal.SIGNAL_LIGHT_MODEL_LOC);
 
-        e.register(SwSignal.modLoc("block/tracks/se_balise"));
+        e.register(SwSignal.resource("block/tracks/se_balise"));
 
         // e.register(SwSignal.modLoc(BlockEntityRendererCrossingGate.ARM_5));
 

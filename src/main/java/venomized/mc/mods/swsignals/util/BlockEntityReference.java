@@ -27,7 +27,7 @@ public final class BlockEntityReference<T extends BlockEntity> {
             return null;
         }
         BlockEntity be = world.getBlockEntity(posRef);
-        return valid(be) ? Optional.of((T)be) : Optional.empty();
+        return valid(be) ? Optional.of((T) be) : Optional.empty();
     }
 
 

@@ -22,7 +22,7 @@ public abstract class SlidingDoorMovementBehavior {
                     .trains.get(cce.trainId);
 
             if (train != null)
-                isForcedClosed = ((ITrainDoorData)train).swe_Signal$doorForcedClosed();
+                isForcedClosed = ((ITrainDoorData) train).swe_Signal$doorForcedClosed();
 
         }
 
