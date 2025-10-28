@@ -4,6 +4,7 @@ import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.simibubi.create.content.trains.entity.CarriageSounds;
 import net.createmod.catnip.animation.LerpedFloat;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,16 +13,20 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import venomized.mc.mods.swsignals.blockentity.BlockEntityTrainConfig;
 import venomized.mc.mods.swsignals.client.sound.train.ICarriageSounds;
 import venomized.mc.mods.swsignals.client.sound.train.TrainSound;
+import venomized.mc.mods.swsignals.util.IEntityMotionData;
+
+import java.util.Optional;
 
 @Mixin(value = CarriageSounds.class, remap = false)
-public abstract class MixinCarriageSounds implements ICarriageSounds {
+public abstract class MixinCarriageSounds implements ICarriageSounds, IEntityMotionData {
     @Unique
-    public TrainSound swe_Signal$trainSound;
+    public Optional<TrainSound> swe_Signal$trainSound;
     @Shadow
-    private net.createmod.catnip.animation.LerpedFloat speedFactor;
+    private LerpedFloat speedFactor;
     @Shadow
     private CarriageContraptionEntity entity;
 
@@ -37,31 +42,42 @@ public abstract class MixinCarriageSounds implements ICarriageSounds {
     @Shadow
     private int prevSharedTick;
 
+    @Unique
+    private Vec3 contraptionMotion = Vec3.ZERO;
+
+    // @Unique
+    // private Vec3 combinedMotion = Vec3.ZERO;
+
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void init(CarriageContraptionEntity dce, CallbackInfo ci) {
+    public void onInit(CarriageContraptionEntity dce, CallbackInfo ci) {
         dce.getContraption().presentBlockEntities.values().forEach(blockEntities -> {
             if (blockEntities instanceof BlockEntityTrainConfig beTC) {
-                this.swe_Signal$trainSound = beTC.trainSound();
+                this.swe_Signal$trainSound = Optional.of(beTC.trainSound());
             }
         });
 
-        if (swe_Signal$trainSound != null) {
-            swe_Signal$trainSound.init(this, dce);
-        }
+        swe_Signal$trainSound.ifPresent(trainSound -> trainSound.init(this, dce));
+    }
+
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/entity/CarriageContraptionEntity;getCarriage()Lcom/simibubi/create/content/trains/entity/Carriage;", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
+    public void onTick_updateMotion(Carriage.DimensionalCarriageEntity dce, CallbackInfo ci, Minecraft mc, Entity camEntity, Vec3 leadingAnchor, Vec3 trailingAnchor, Vec3 cam, Vec3 contraptionMotion, Vec3 combinedMotion) {
+        this.contraptionMotion = contraptionMotion;
+        // this.combinedMotion = combinedMotion;
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
-    public void tick(Carriage.DimensionalCarriageEntity dce, CallbackInfo ci) {
-        if (swe_Signal$trainSound == null) {
-            return;
-        }
-        swe_Signal$trainSound.tick(dce);
+    public void onTick(Carriage.DimensionalCarriageEntity dce, CallbackInfo ci) {
+        swe_Signal$trainSound.ifPresent(e -> e.tick(dce));
     }
 
     @Inject(method = "submitSharedSoundVolume", at = @At("HEAD"))
-    public void submitSharedSoundVolume(Vec3 location, float volume, CallbackInfo ci) {
-        if (swe_Signal$trainSound != null)
-            swe_Signal$trainSound.submitSharedSoundVolume(location, volume, this.entity);
+    public void onSubmitSharedSoundVolume(Vec3 location, float volume, CallbackInfo ci) {
+        swe_Signal$trainSound.ifPresent(trainSound -> trainSound.submitSharedSoundVolume(location, volume, entity));
+    }
+
+    @Inject(method = "stop", at = @At("HEAD"))
+    public void onStop(CallbackInfo ci) {
+        swe_Signal$trainSound.ifPresent(TrainSound::destroySounds);
     }
 
     /**
@@ -110,5 +126,21 @@ public abstract class MixinCarriageSounds implements ICarriageSounds {
     @Override
     public LerpedFloat getApproachFactor() {
         return this.approachFactor;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Optional<TrainSound> getCustomTrainSound() {
+        return this.swe_Signal$trainSound;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Vec3 getMotion() {
+        return this.contraptionMotion;
     }
 }

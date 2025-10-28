@@ -13,11 +13,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import venomized.mc.mods.swsignals.client.sound.train.ICarriageSounds;
+import venomized.mc.mods.swsignals.client.sound.train.TrainSound;
 import venomized.mc.mods.swsignals.core.SwSignal;
 import venomized.mc.mods.swsignals.data.SwSignalLang;
 import venomized.mc.mods.swsignals.util.ITrainDoorData;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DoorInstruction extends ScheduleInstruction {
     /**
@@ -43,6 +46,16 @@ public class DoorInstruction extends ScheduleInstruction {
      */
     @Override
     public @Nullable DiscoveredPath start(ScheduleRuntime runtime, Level level) {
+        if (level.isClientSide()) {
+            runtime.train.carriages.forEach(carriage -> {
+                carriage.forEachPresentEntity(presentEntity -> {
+                    Optional<TrainSound> customTrainSound = ((ICarriageSounds) presentEntity.sounds).getCustomTrainSound();
+                    customTrainSound.get().closingDoors(presentEntity);
+                });
+            });
+        }
+
+        // Lol disgusting way to do this but it works
         runtime.state = ScheduleRuntime.State.IN_TRANSIT;
         ((ITrainDoorData) runtime.train).swe_Signal$setDoorForcedClosed(true);
         runtime.train.carriages.forEach(carriage -> {

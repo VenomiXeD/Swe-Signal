@@ -16,7 +16,8 @@ public class SwSignalLang {
 
     public static void languageEntries() {
         schedule("door", "summary", "Door Control");
-        SwSignalLang.schedule("door", "title", "Close door");
+        SwSignalLang.schedule("door", "title", "Close doors");
+        SwSignalLang.schedule("instruction", "door", "Close doors");
     }
 
     public static Component schedule(final String name, final String type, final String value) {

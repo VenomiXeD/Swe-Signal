@@ -5,11 +5,10 @@ import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import org.joml.Vector3f;
+import net.minecraft.world.phys.Vec3;
 
 public class LoopingSound extends AbstractTickableSoundInstance {
-    @Setter
-    private float x, y, z;
+    private double x, y, z;
     @Setter
     private float volume;
     @Setter
@@ -19,7 +18,6 @@ public class LoopingSound extends AbstractTickableSoundInstance {
         super(p_235076_, p_235077_, p_235078_);
         this.looping = true;
         this.attenuation = Attenuation.LINEAR;
-        this.relative = true;
 
         volume = 1.0f;
     }
@@ -33,11 +31,10 @@ public class LoopingSound extends AbstractTickableSoundInstance {
     }
 
 
-    public void setPos(Vector3f pos) {
-        this.setX(pos.x);
-        this.setY(pos.x);
-        this.setZ(pos.x);
-
+    public void setLocation(Vec3 pos) {
+        this.x = pos.x();
+        this.y = pos.y();
+        this.z = pos.z();
     }
 
     /**
@@ -78,5 +75,14 @@ public class LoopingSound extends AbstractTickableSoundInstance {
     @Override
     public float getPitch() {
         return pitch;
+    }
+
+    public void cleanup() {
+        this.stop();
+    }
+
+    @Override
+    public boolean isStopped() {
+        return super.isStopped();
     }
 }

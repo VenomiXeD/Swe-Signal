@@ -19,5 +19,6 @@
   "item.swsignal.signalitem": "Signalitem",
   "itemGroup.swsignal.extended_signals": "Extended Signals",
   "swsignal.schedule.door.summary": "Door Control",
-  "swsignal.schedule.door.title": "Close door"
+  "swsignal.schedule.door.title": "Close doors with Delay",
+  "swsignal.schedule.instruction.door": "Close doors"
 }

@@ -44,12 +44,32 @@ public final class BlockEntityReference<T extends BlockEntity> {
         return compatibleType.isInstance(be);
     }
 
+    /**
+     * @param newBlockPosTarget
+     * @apiNote
+     */
     public void newTarget(BlockPos newBlockPosTarget) {
         this.posRef = newBlockPosTarget;
     }
 
-    public void newTarget(T newBlockEntityTarget) {
+    /**
+     * Specifies a new target block entity (with block entity compatibility validation)
+     *
+     * @param newBlockEntityTarget
+     * @return True if successfully applied
+     */
+    public boolean newTarget(T newBlockEntityTarget) {
+        if (newBlockEntityTarget == null) {
+            this.posRef = null;
+            return true;
+        }
+
+        if (!valid(newBlockEntityTarget)) {
+            return false;
+        }
+
         this.posRef = newBlockEntityTarget.getBlockPos();
+        return true;
     }
 
     public void toNBT(CompoundTag pTag) {

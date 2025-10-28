@@ -1,5 +1,7 @@
 package venomized.mc.mods.swsignals.blockentity;
 
+import com.simibubi.create.content.trains.graph.TrackEdge;
+import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.core.BlockPos;
@@ -66,6 +68,21 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntity impleme
         return pTag;
     }
 
+    private boolean connectCreateTrainSignal(SignalBlockEntity pBlockEntity) {
+        boolean success = refCreateSignalBox.newTarget(pBlockEntity);
+
+        if (success) {
+            SignalBlockEntity reference = refCreateSignalBox.getReference(this).orElse(null);
+            TrackGraph graph = reference.edgePoint.determineGraphLocation().graph;
+            TrackEdge connection = graph.getConnection(
+                    reference.edgePoint.getEdgePoint().edgeLocation
+                            .map(reference.edgePoint.determineGraphLocation().graph::locateNode)
+            );
+        }
+
+        return success;
+    }
+
     /**
      * Called on the target block entity;
      * Signal Box A -> Create Signal; Create Signal is the source
@@ -80,11 +97,9 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntity impleme
             case CONNECT:
                 return sourceBlockEntity.map(blockEntity -> {
                     if (blockEntity instanceof SignalBlockEntity sbe) {
-                        refCreateSignalBox.newTarget(sbe);
-                        return Pair.of(
+                        return connectCreateTrainSignal(sbe) ? Pair.of(
                                 InteractionResult.SUCCESS,
-                                Component.literal("yup")
-                        );
+                                Component.literal("yup")) : Pair.of(InteractionResult.FAIL, Component.literal("bruh"));
                     }
                     return null;
                 }).orElse(Pair.of(InteractionResult.PASS, Component.literal("bleh")));
