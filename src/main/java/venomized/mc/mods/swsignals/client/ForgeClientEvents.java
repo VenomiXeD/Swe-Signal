@@ -17,7 +17,7 @@ import venomized.mc.mods.swsignals.network.Networking;
 @Mod.EventBusSubscriber(modid = SwSignal.MOD_ID, value = Dist.CLIENT)
 public class ForgeClientEvents {
     @SubscribeEvent
-    public void onScrollEvent(InputEvent.MouseScrollingEvent e) {
+    public static void onScrollEvent(InputEvent.MouseScrollingEvent e) {
         if (Screen.hasControlDown()) {
             ItemStack mainHandItem = Minecraft.getInstance().player.getMainHandItem();
             if (mainHandItem.getItem() instanceof IScrollableItem scrollableInterface) {

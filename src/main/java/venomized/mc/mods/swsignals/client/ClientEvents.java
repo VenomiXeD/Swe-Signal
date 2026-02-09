@@ -34,7 +34,7 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public void onClientSetup(FMLClientSetupEvent event) {
+    public static void onClientSetup(FMLClientSetupEvent event) {
         SeModels.init();
 
         event.enqueueWork(() -> {
@@ -43,7 +43,7 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public void onEntityRenderRegisterEvent(EntityRenderersEvent.RegisterRenderers event) {
+    public static void onEntityRenderRegisterEvent(EntityRenderersEvent.RegisterRenderers event) {
         SwSignal.LOGGER.info("Registering EntityRenderers");
         //region Swedish block signals
         // event.registerBlockEntityRenderer(SwBlockEntities.BE_TWO_LIGHT_SIGNAL.get(), (ctx) -> new BlockEntityRendererSignal());
@@ -71,12 +71,12 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public void onScreenOverlay(RegisterGuiOverlaysEvent e) {
+    public static void onScreenOverlay(RegisterGuiOverlaysEvent e) {
         e.registerAbove(VanillaGuiOverlay.HOTBAR.id(), "atc_overlay", new ATCOverlayHUD());
     }
 
     @SubscribeEvent
-    public void onRegisterAdditionalModelsEvent(ModelEvent.RegisterAdditional e) {
+    public static void onRegisterAdditionalModelsEvent(ModelEvent.RegisterAdditional e) {
         SwSignal.LOGGER.info("Registering Additional Models");
         e.register(RendererSignal.SIGNAL_LIGHT_MODEL_LOC);
 
