@@ -34,7 +34,7 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public void onClientSetup(FMLClientSetupEvent event) {
+    public static void onClientSetup(FMLClientSetupEvent event) {
         SeModels.init();
 
         event.enqueueWork(() -> {
@@ -43,7 +43,7 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public void onEntityRenderRegisterEvent(EntityRenderersEvent.RegisterRenderers event) {
+    public static void onEntityRenderRegisterEvent(EntityRenderersEvent.RegisterRenderers event) {
         SwSignal.LOGGER.info("Registering EntityRenderers");
         //region Swedish block signals
         // event.registerBlockEntityRenderer(SwBlockEntities.BE_TWO_LIGHT_SIGNAL.get(), (ctx) -> new BlockEntityRendererSignal());
