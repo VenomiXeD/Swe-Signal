@@ -1,4 +1,4 @@
-package venomized.mc.mods.swsignals.network;
+package venomized.mc.mods.swsignals.network.packets;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -9,15 +9,9 @@ import venomized.mc.mods.swsignals.client.ui.overlays.ATCOverlayHUD;
 
 import java.util.function.Supplier;
 
-public class UpdateATCEvent {
-    public double atcLimit;
-
-    public UpdateATCEvent(double atcLimit) {
-        this.atcLimit = atcLimit;
-    }
-
-    public static UpdateATCEvent decode(FriendlyByteBuf buf) {
-        return new UpdateATCEvent(buf.readDouble());
+public record UpdateATCEventPacket(double atcLimit) {
+    public static UpdateATCEventPacket decode(FriendlyByteBuf buf) {
+        return new UpdateATCEventPacket(buf.readDouble());
     }
 
     public void encode(FriendlyByteBuf buf) {

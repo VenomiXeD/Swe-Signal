@@ -11,7 +11,7 @@ import venomized.mc.mods.swsignals.blockentity.BlockEntityATCController;
 import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 import venomized.mc.mods.swsignals.core.SwSignal;
 import venomized.mc.mods.swsignals.network.Networking;
-import venomized.mc.mods.swsignals.network.UpdateATCEvent;
+import venomized.mc.mods.swsignals.network.packets.UpdateATCEventPacket;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -43,7 +43,7 @@ public class ATCController extends SingleBlockEntityEdgePoint {
                 if (controllingPlayer.isPresent()) {
                     Networking.CHANNEL.send(
                             PacketDistributor.PLAYER.with(() -> (ServerPlayer) l.getPlayerByUUID(controllingPlayer.get())),
-                            new UpdateATCEvent(0.5f)
+                            new UpdateATCEventPacket(0.5f)
                     );
                 }
                 // if AI is controlling it

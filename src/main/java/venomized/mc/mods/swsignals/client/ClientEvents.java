@@ -9,6 +9,7 @@ import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import venomized.mc.mods.swsignals.block.se.SeModels;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.RendererSignal;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = SwSignal.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEvents {
     private static final ArrayList<ResourceLocation> externalModelAssetsPaths = new ArrayList<>();
 

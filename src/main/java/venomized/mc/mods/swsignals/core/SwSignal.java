@@ -8,14 +8,13 @@ import net.createmod.catnip.data.Pair;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -24,10 +23,7 @@ import org.apache.logging.log4j.Logger;
 import venomized.mc.mods.swsignals.AllSounds;
 import venomized.mc.mods.swsignals.EventHandler;
 import venomized.mc.mods.swsignals.block.se.SeBlocks;
-import venomized.mc.mods.swsignals.block.se.SeModels;
 import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
-import venomized.mc.mods.swsignals.client.ClientEvents;
-import venomized.mc.mods.swsignals.client.ForgeClientEvents;
 import venomized.mc.mods.swsignals.client.SwMenus;
 import venomized.mc.mods.swsignals.client.sound.train.TrainSound;
 import venomized.mc.mods.swsignals.client.sound.train.TrainSounds;
@@ -52,10 +48,10 @@ public class SwSignal {
 
     private static Networking SW_SIGNAL_NETWORK;
 
-    public SwSignal() {
+    public SwSignal(FMLJavaModLoadingContext context) {
         initializeContent();
 
-        IEventBus eventbus = REGISTRATE.get().getModEventBus();
+        IEventBus eventbus = context.getModEventBus();
 
         MinecraftForge.EVENT_BUS.register(this);
         eventbus.register(this);
@@ -69,13 +65,6 @@ public class SwSignal {
 
         EventHandler eventHandler = new EventHandler();
         MinecraftForge.EVENT_BUS.register(eventHandler);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            ClientEvents clientEvents = new ClientEvents();
-            ForgeClientEvents forgeClientEvents = new ForgeClientEvents();
-
-            eventbus.register(clientEvents);
-            MinecraftForge.EVENT_BUS.register(forgeClientEvents);
-        });
 
         SW_SIGNAL_NETWORK = new Networking();
         Networking.init();
@@ -89,8 +78,6 @@ public class SwSignal {
     }
 
     private static void swedishContent() {
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> SeModels.init());
-
         SeBlocks.init();
         SeBlockEntities.init();
 
