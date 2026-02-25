@@ -4,14 +4,18 @@ import com.simibubi.create.content.contraptions.actors.trainControls.ControlsHan
 import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.simibubi.create.infrastructure.config.AllConfigs;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import venomized.mc.mods.swsignals.core.SwSignal;
 
 @OnlyIn(Dist.CLIENT)
-public class ATCOverlayHUD implements IGuiOverlay {
+public class ATCOverlayHUD implements LayeredDraw.Layer {
+    public static final ResourceLocation ATC_OVERLAY = SwSignal.resource("atc_overlay");
     // public static IGuiOverlay OVERLAY_RENDER = ATCOverlay::render;
     public static int overspeedBlinkTick = 0;
 
@@ -44,8 +48,8 @@ public class ATCOverlayHUD implements IGuiOverlay {
 
     //                 overlay.render(this, guiGraphics, partialTick, screenWidth, screenHeight);
     @Override
-    public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTick, int w, int h) {
-
+    public void render(GuiGraphics guiGraphics, DeltaTracker tracker) {
+        Minecraft mc = Minecraft.getInstance();
         Carriage carriage = getCarriage();
         if (carriage == null) {
             return;
@@ -61,8 +65,11 @@ public class ATCOverlayHUD implements IGuiOverlay {
         // 		0
         // );
 
+        int w = guiGraphics.guiWidth();
+        int h = guiGraphics.guiHeight();
+
         guiGraphics.drawString(
-                forgeGui.getFont(),
+                mc.font,
                 "Current ATC Limit: %.2f".formatted(currentATCLimit * 100d) + "%",
                 w / 2 - 50,
                 h - 55,

@@ -8,8 +8,8 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.core.SwSignal;
 import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 
@@ -65,7 +65,7 @@ public class ScreenTest extends AbstractContainerScreen<MenuTest> {
     }
 
     @Override
-    public void renderBackground(GuiGraphics pGuiGraphics) {
+    public void renderBackground(GuiGraphics pGuiGraphics, int mouseX, int mouseY, float partialTick) {
         System.out.println("render background");
         pGuiGraphics.blit(
                 UI_TEX,
@@ -81,7 +81,7 @@ public class ScreenTest extends AbstractContainerScreen<MenuTest> {
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        renderBackground(pGuiGraphics);
+
     }
 
     /**
@@ -102,7 +102,6 @@ public class ScreenTest extends AbstractContainerScreen<MenuTest> {
 
     @Override
     protected void containerTick() {
-        this.editBox.tick();
         // this.options.ti
         // System.out.println(this.optionsList.getValue());
 

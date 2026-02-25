@@ -1,14 +1,22 @@
 package venomized.mc.mods.swsignals.blockentity;
 
+import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.Pair;
+import net.createmod.catnip.lang.Lang;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.ByIdMap;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
-import net.minecraftforge.common.extensions.IForgeBlockEntity;
+import net.minecraft.world.item.DyeColor;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.Optional;
+import java.util.function.IntFunction;
 
-public interface ISignalTunerBindable extends IForgeBlockEntity {
+public interface ISignalTunerBindable {
     default boolean isSource() {
         return true;
     }
@@ -38,10 +46,23 @@ public interface ISignalTunerBindable extends IForgeBlockEntity {
         return Pair.of(InteractionResult.CONSUME, Component.empty());
     }
 
-    enum SignalTunerMode {
+    enum SignalTunerMode implements StringRepresentable {
         DISCONNECT_ALL,
         DISCONNECT,
         CONNECT,
-        CONFIGURE
+        CONFIGURE;
+
+        private static final IntFunction<SignalTunerMode> BY_ID = ByIdMap.continuous(SignalTunerMode::ordinal, values(), ByIdMap.OutOfBoundsStrategy.WRAP);
+        public static final StringRepresentable.StringRepresentableCodec<SignalTunerMode> CODEC = StringRepresentable.fromEnum(SignalTunerMode::values);
+        public static final StreamCodec<ByteBuf, SignalTunerMode> STREAM_CODEC = ByteBufCodecs.idMapper(BY_ID, SignalTunerMode::ordinal);
+
+        public SignalTunerMode next(boolean up) {
+            return BY_ID.apply(ordinal() + (up ? 1 : -1));
+        }
+
+        @Override
+        public String getSerializedName() {
+            return Lang.asId(this.name());
+        }
     }
 }

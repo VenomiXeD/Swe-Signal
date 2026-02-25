@@ -1,6 +1,7 @@
 package venomized.mc.mods.swsignals.util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.BlockGetter;
@@ -72,13 +73,12 @@ public final class BlockEntityReference<T extends BlockEntity> {
         return true;
     }
 
-    public void toNBT(CompoundTag pTag) {
+    public void toNBT(CompoundTag pTag, HolderLookup.Provider registries) {
         if (this.posRef != null)
             pTag.put(saveTag, NbtUtils.writeBlockPos(this.posRef));
     }
 
     public void fromNBT(CompoundTag pTag) {
-        if (pTag.contains(saveTag))
-            posRef = NbtUtils.readBlockPos(pTag.getCompound(saveTag));
+        NbtUtils.readBlockPos(pTag, saveTag).ifPresent(pos -> posRef = pos);
     }
 }

@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -62,7 +63,7 @@ public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityAT
         Minecraft.getInstance().getBlockRenderer().getModelRenderer()
                 .tesselateWithAO(
                         level,
-                        Minecraft.getInstance().getModelManager().getModel(SwSignal.resource("block/tracks/se_balise")),
+                        Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(SwSignal.resource("block/tracks/se_balise"))),
                         trackState,
                         targetPosition,
                         ms,

@@ -2,6 +2,7 @@ package venomized.mc.mods.swsignals.blockentity;
 
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.Connection;
@@ -13,7 +14,6 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -48,7 +48,7 @@ public abstract class BlockEntityRailroadCrossingObject extends SwBlockEntity im
     @Override
     public Pair<InteractionResult, MutableComponent> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
         if (sourceBlockEntity.isPresent()) {
-            IForgeBlockEntity be = sourceBlockEntity.get();
+            ISignalTunerBindable be = sourceBlockEntity.get();
             if (be instanceof BlockEntityRailroadCrossingController c) {
                 setRailroadCrossingControllerPos(c.getBlockPos());
                 return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully bound to controller"));
@@ -58,19 +58,17 @@ public abstract class BlockEntityRailroadCrossingObject extends SwBlockEntity im
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.saveAdditional(pTag, registries);
         if (railroadCrossingControllerPos != null) {
             pTag.put("railroad_crossing_controller_pos", NbtUtils.writeBlockPos(this.railroadCrossingControllerPos));
         }
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-        if (pTag.contains("railroad_crossing_controller_pos")) {
-            this.railroadCrossingControllerPos = NbtUtils.readBlockPos(pTag.getCompound("railroad_crossing_controller_pos"));
-        }
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.loadAdditional(pTag, registries);
+        NbtUtils.readBlockPos(pTag, "railroad_crossing_controller_pos").ifPresent(pos -> railroadCrossingControllerPos = pos);
     }
 
     @Override
@@ -88,8 +86,8 @@ public abstract class BlockEntityRailroadCrossingObject extends SwBlockEntity im
      * @param pkt The data packet
      */
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        super.onDataPacket(net, pkt);
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider registries) {
+        super.onDataPacket(net, pkt, registries);
     }
 
     /**
@@ -97,9 +95,9 @@ public abstract class BlockEntityRailroadCrossingObject extends SwBlockEntity im
      * many blocks change at once. This compound comes back to you clientside in {@link handleUpdateTag}
      */
     @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag tag = super.getUpdateTag();
-        this.saveAdditional(tag);
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag tag = super.getUpdateTag(registries);
+        this.saveAdditional(tag, registries);
         return tag;
     }
 }

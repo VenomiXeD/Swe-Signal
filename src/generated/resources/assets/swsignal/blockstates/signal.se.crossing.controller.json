@@ -1,7 +1,0 @@
-{
-  "variants": {
-    "": {
-      "model": "swsignal:block/signal/se/crossing/controller"
-    }
-  }
-}

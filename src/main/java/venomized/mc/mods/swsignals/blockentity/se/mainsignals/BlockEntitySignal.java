@@ -5,6 +5,7 @@ import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import it.unimi.dsi.fastutil.Pair;
 import net.createmod.catnip.lang.Lang;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
@@ -34,7 +35,7 @@ public abstract class BlockEntitySignal extends SwBlockEntity
     private static final String SIGNAL_BOX_POS_TAG = "signal_box_pos";
     private final int lightCount;
     public float[] lightLevels;
-    private BlockPos signalBoxPosition;
+    private BlockPos signalBoxPosition = null;
     private int tick;
     private int remainingTicksAspectChangeDelay;
 
@@ -157,22 +158,6 @@ public abstract class BlockEntitySignal extends SwBlockEntity
     }
 
     /**
-     * Return an {@link AABB} that controls the visible scope of a
-     * {@link BlockEntityWithoutLevelRenderer} associated with this
-     * {@link BlockEntity}
-     * Defaults to the collision bounding box
-     * {@link BlockState#getCollisionShape(BlockGetter, BlockPos)} associated with
-     * the block
-     * at this location.
-     *
-     * @return an appropriately size {@link AABB} for the {@link BlockEntity}
-     */
-    @Override
-    public AABB getRenderBoundingBox() {
-        return AABB.ofSize(getBlockPos().getCenter(), 1, 2, 1);
-    }
-
-    /**
      * Called on the target block entity;
      * Signal Box A -> Create Signal; Create Signal is the source
      *
@@ -201,51 +186,27 @@ public abstract class BlockEntitySignal extends SwBlockEntity
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    /**
-     * Get an NBT compound to sync to the client with SPacketChunkData, used for
-     * initial loading of the chunk or when
-     * many blocks change at once. This compound comes back to you clientside in
-     * {@link handleUpdateTag}
-     */
     @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag syncTag = super.getUpdateTag();
-        this.saveAdditional(syncTag);
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag syncTag = super.getUpdateTag(registries);
+        this.saveAdditional(syncTag, registries);
         return syncTag;
     }
 
-    /**
-     * Called when the chunk's TE update tag, gotten from
-     * {@link BlockEntity#getUpdateTag()}, is received on the client.
-     * <p>
-     * Used to handle this tag in a special way. By default this simply calls
-     * {@link BlockEntity#load(CompoundTag)}.
-     *
-     * @param tag The {@link CompoundTag} sent from
-     *            {@link BlockEntity#getUpdateTag()}
-     */
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        if (tag.contains(SIGNAL_BOX_POS_TAG)) {
-            this.signalBoxPosition = NbtUtils.readBlockPos(tag.getCompound(SIGNAL_BOX_POS_TAG));
-        } else {
-            this.signalBoxPosition = null;
-        }
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+        NbtUtils.readBlockPos(tag, SIGNAL_BOX_POS_TAG).ifPresent(pos -> signalBoxPosition = pos);
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-        if (pTag.contains(SIGNAL_BOX_POS_TAG)) {
-            this.signalBoxPosition = NbtUtils.readBlockPos(pTag.getCompound(SIGNAL_BOX_POS_TAG));
-        } else {
-            this.signalBoxPosition = null;
-        }
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.loadAdditional(pTag, registries);
+        NbtUtils.readBlockPos(pTag, SIGNAL_BOX_POS_TAG).ifPresent(pos -> signalBoxPosition = pos);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.saveAdditional(pTag, registries);
         if (signalBoxPosition != null) {
             pTag.put(SIGNAL_BOX_POS_TAG, NbtUtils.writeBlockPos(signalBoxPosition));
         } else {

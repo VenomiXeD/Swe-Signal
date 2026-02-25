@@ -1,8 +1,8 @@
 package venomized.mc.mods.swsignals.block.se;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.core.SwSignal;
 
 @OnlyIn(Dist.CLIENT)

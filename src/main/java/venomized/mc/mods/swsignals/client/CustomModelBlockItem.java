@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -16,7 +17,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
@@ -86,7 +87,7 @@ public class CustomModelBlockItem extends BlockItem {
                         // 				)
                         // 		),.5f,0,-.5f
                         // );
-                        BakedModel signalModel = Minecraft.getInstance().getModelManager().getModel(ResourceLocation.fromNamespaceAndPath("swsignal", "block/sw_5l_signal_post_1970"));
+                        BakedModel signalModel = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath("swsignal", "block/sw_5l_signal_post_1970")));
                         if (pDisplayContext != ItemDisplayContext.GUI) {
                             pPoseStack.translate(-.25f, 0, -0.25f);
                         }

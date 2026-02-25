@@ -7,11 +7,13 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import venomized.mc.mods.swsignals.block.se.BlockSignal;
 import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntitySignal;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
@@ -22,8 +24,8 @@ import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 public class RendererSignal<T extends BlockEntitySignal>
         extends BlockEntityRendererBase<T> {
     protected static final int FULLBRIGHT = 0xFFFFFF;
-    public static ResourceLocation SIGNAL_LIGHT_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,
-            "block/light");
+    public static ModelResourceLocation SIGNAL_LIGHT_MODEL_LOC = ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,
+            "block/light"));
     public static ResourceLocation SIGNAL_LIGHT_TEX_LOC = ResourceLocation.fromNamespaceAndPath(SwSignal.MOD_ID,
             "textures/block/light.png");
     private static BakedModel SIGNAL_LIGHT_MODEL;
@@ -55,6 +57,11 @@ public class RendererSignal<T extends BlockEntitySignal>
 
     public boolean isObjModel() {
         return false;
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(T blockEntity) {
+        return AABB.ofSize(blockEntity.getBlockPos().getCenter(), 1, 2, 1);
     }
 
     @SuppressWarnings("deprecation")

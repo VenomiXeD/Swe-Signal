@@ -51,7 +51,7 @@ public class SeBlocks {
     public static final BlockEntry<BlockRailroadCrossingController> BLOCK_RAILROAD_CROSSING_CONTROLLER = AllBlocks.modelledBlock("signal.se.crossing.controller", BlockRailroadCrossingController::new)
             .register();
     public static final BlockEntry<BlockATCController> BLOCK_ATC_CONTROLLER = SwSignal.REGISTRATE.get().block("atc_controller", BlockATCController::new)
-            .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+            .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
             .item((block, prop) -> new TrackTargetingBlockItem(block, prop, ATCController.ATC))
             .build()
             .register();

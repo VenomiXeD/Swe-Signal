@@ -1,18 +1,16 @@
 package venomized.mc.mods.swsignals.client;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import venomized.mc.mods.swsignals.block.se.SeModels;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import venomized.mc.mods.swsignals.core.SwSignal;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = SwSignal.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = SwSignal.MOD_ID, value = Dist.CLIENT)
 public class SwSignalClient {
-    public void onClientInit(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            SeModels.init();
-        });
+    @SubscribeEvent
+    public static void onClientInit(FMLClientSetupEvent event) {
     }
 }

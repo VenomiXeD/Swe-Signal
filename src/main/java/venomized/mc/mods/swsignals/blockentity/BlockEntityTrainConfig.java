@@ -3,6 +3,7 @@ package venomized.mc.mods.swsignals.blockentity;
 import com.simibubi.create.api.schematic.nbt.PartialSafeNBT;
 import com.simibubi.create.foundation.utility.IInteractionChecker;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -23,15 +24,15 @@ public class BlockEntityTrainConfig extends SwBlockEntity implements PartialSafe
      * @param compound
      */
     @Override
-    public void writeSafe(CompoundTag compound) {
+    public void writeSafe(CompoundTag compound, HolderLookup.Provider registries) {
     }
 
     /**
      * @param pTag
      */
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.loadAdditional(pTag, registries);
     }
 
     /**

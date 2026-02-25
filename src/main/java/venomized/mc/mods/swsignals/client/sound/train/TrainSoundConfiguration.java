@@ -10,7 +10,7 @@ public class TrainSoundConfiguration<T extends TrainSound> {
     }
 
     public static <E extends TrainSound> Supplier<TrainSoundConfiguration<E>> ofTrainSound(Supplier<E> supplier) {
-        return () -> new TrainSoundConfiguration(supplier);
+        return () -> new TrainSoundConfiguration<>(supplier);
     }
 
     public T create() {

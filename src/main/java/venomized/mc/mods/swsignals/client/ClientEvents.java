@@ -1,16 +1,18 @@
 package venomized.mc.mods.swsignals.client;
 
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import venomized.mc.mods.swsignals.block.se.SeModels;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.RendererSignal;
 import venomized.mc.mods.swsignals.client.ui.ScreenTest;
@@ -21,11 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = SwSignal.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = SwSignal.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
-    private static final ArrayList<ResourceLocation> externalModelAssetsPaths = new ArrayList<>();
+    private static final ArrayList<ModelResourceLocation> externalModelAssetsPaths = new ArrayList<>();
 
-    public static void registerModelWithExternalAssets(ResourceLocation... assets) {
+    public static void registerModelWithExternalAssets(ModelResourceLocation... assets) {
         externalModelAssetsPaths.addAll(List.of(assets));
     }
 
@@ -36,10 +38,11 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         SeModels.init();
+    }
 
-        event.enqueueWork(() -> {
-            MenuScreens.register(SwMenus.MENU_TEST.get(), ScreenTest::new);
-        });
+    @SubscribeEvent
+    public static void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
+        event.register(SwMenus.MENU_TEST.get(), ScreenTest::new);
     }
 
     @SubscribeEvent
@@ -71,8 +74,8 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public static void onScreenOverlay(RegisterGuiOverlaysEvent e) {
-        e.registerAbove(VanillaGuiOverlay.HOTBAR.id(), "atc_overlay", new ATCOverlayHUD());
+    public static void onScreenOverlay(RegisterGuiLayersEvent e) {
+        e.registerAbove(VanillaGuiLayers.HOTBAR, ATCOverlayHUD.ATC_OVERLAY, new ATCOverlayHUD());
     }
 
     @SubscribeEvent
@@ -80,12 +83,12 @@ public class ClientEvents {
         SwSignal.LOGGER.info("Registering Additional Models");
         e.register(RendererSignal.SIGNAL_LIGHT_MODEL_LOC);
 
-        e.register(SwSignal.resource("block/tracks/se_balise"));
+        e.register(ModelResourceLocation.standalone(SwSignal.resource("block/tracks/se_balise")));
 
         // e.register(SwSignal.modLoc(BlockEntityRendererCrossingGate.ARM_5));
 
         // what an ugly way to do this
-        for (ResourceLocation loc : externalModelAssetsPaths) {
+        for (ModelResourceLocation loc : externalModelAssetsPaths) {
             e.register(loc);
         }
 

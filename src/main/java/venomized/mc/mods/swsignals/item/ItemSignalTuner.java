@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
+import venomized.mc.mods.swsignals.item.components.SwComponents;
 
 import java.util.Optional;
 
@@ -53,13 +54,10 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
             return;
         }
 
-        ISignalTunerBindable.SignalTunerMode currentScroll = ISignalTunerBindable.SignalTunerMode.CONNECT;
-        CompoundTag tag = itemStack.getOrCreateTag();
-        if (tag.contains("mode")) {
-            currentScroll = ISignalTunerBindable.SignalTunerMode.values()[tag.getInt("mode")];
-        }
-        int newMode = Math.min(ISignalTunerBindable.SignalTunerMode.values().length - 1, Math.max(0, currentScroll.ordinal() + (up ? 1 : -1)));
-        tag.putInt("mode", newMode);
+        ISignalTunerBindable.SignalTunerMode currentScroll = itemStack.getOrDefault(SwComponents.SIGNAL_TUNER_MODE, ISignalTunerBindable.SignalTunerMode.CONNECT);
+
+        itemStack.set(SwComponents.SIGNAL_TUNER_MODE, currentScroll.next(up));
+
         player.displayClientMessage(Component.literal("Mode: %s".formatted(currentScroll.toString())).setStyle(
                         Style.EMPTY.withColor(ChatFormatting.GOLD)),
                 true
@@ -86,20 +84,16 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 
         System.out.println("useOn");
 
-        ISignalTunerBindable.SignalTunerMode mode = ISignalTunerBindable.SignalTunerMode.CONNECT;
-        CompoundTag tag = pContext.getItemInHand().getOrCreateTag();
+        ItemStack heldItem = pContext.getItemInHand();
 
-        if (tag.contains("mode")) {
-            mode = ISignalTunerBindable.SignalTunerMode.values()[tag.getInt("mode")];
-        }
+        final ISignalTunerBindable.SignalTunerMode tunerMode = heldItem.getOrDefault(SwComponents.SIGNAL_TUNER_MODE, ISignalTunerBindable.SignalTunerMode.CONNECT);
 
         BlockEntity blockEntity = pContext.getLevel().getBlockEntity(pContext.getClickedPos());
-        final ISignalTunerBindable.SignalTunerMode tunerMode = mode;
 
         if (blockEntity instanceof ISignalTunerBindable currentTarget) {
 
             // We don't have one so we store the TARGET position
-            if (!tag.contains("bind_location_start")) {
+            if (!heldItem.has(SwComponents.BIND_LOCATION)) {
                 System.out.println("Bind If Case");
 
                 if (!currentTarget.isDestination()) {
@@ -107,7 +101,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
                     return InteractionResult.FAIL;
                 }
 
-                tag.put("bind_location_start", NbtUtils.writeBlockPos(pContext.getClickedPos()));
+                heldItem.set(SwComponents.BIND_LOCATION, pContext.getClickedPos());
 
                 pContext.getPlayer().displayClientMessage(
                         Component.literal(
@@ -119,7 +113,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
             } else {
                 System.out.println("Bind Else Case");
 
-                BlockEntity destinationBlockEntity = pContext.getLevel().getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("bind_location_start")));
+                BlockEntity destinationBlockEntity = pContext.getLevel().getBlockEntity(heldItem.get(SwComponents.BIND_LOCATION));
 
                 Optional<ISignalTunerBindable> source = Optional.ofNullable(currentTarget);
 
@@ -148,7 +142,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
                     }
                 }
 
-                tag.remove("bind_location_start");
+                heldItem.remove(SwComponents.BIND_LOCATION);
             }
         }
 

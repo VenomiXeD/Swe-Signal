@@ -24,7 +24,7 @@ import java.util.Optional;
 @Mixin(value = CarriageSounds.class, remap = false)
 public abstract class MixinCarriageSounds implements ICarriageSounds, IEntityMotionData {
     @Unique
-    public Optional<TrainSound> swe_Signal$trainSound;
+    public Optional<TrainSound> swe_Signal$trainSound = Optional.empty();
     @Shadow
     private LerpedFloat speedFactor;
     @Shadow
@@ -50,11 +50,11 @@ public abstract class MixinCarriageSounds implements ICarriageSounds, IEntityMot
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void onInit(CarriageContraptionEntity dce, CallbackInfo ci) {
-        dce.getContraption().presentBlockEntities.values().forEach(blockEntities -> {
-            if (blockEntities instanceof BlockEntityTrainConfig beTC) {
-                this.swe_Signal$trainSound = Optional.of(beTC.trainSound());
-            }
-        });
+//        dce.getContraption().presentBlockEntities.values().forEach(blockEntities -> {
+//            if (blockEntities instanceof BlockEntityTrainConfig beTC) {
+//                this.swe_Signal$trainSound = Optional.of(beTC.trainSound());
+//            }
+//        });
 
         swe_Signal$trainSound.ifPresent(trainSound -> trainSound.init(this, dce));
     }

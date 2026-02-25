@@ -1,6 +1,7 @@
 package venomized.mc.mods.swsignals.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -17,14 +18,14 @@ public class BlockEntityRailroadCrossingController extends SwBlockEntity impleme
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.saveAdditional(pTag, registries);
         pTag.putBoolean("powered", powered);
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.loadAdditional(pTag, registries);
         this.powered = pTag.getBoolean("powered");
     }
 
@@ -33,27 +34,16 @@ public class BlockEntityRailroadCrossingController extends SwBlockEntity impleme
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    /**
-     * Get an NBT compound to sync to the client with SPacketChunkData, used for initial loading of the chunk or when
-     * many blocks change at once. This compound comes back to you clientside in {@link handleUpdateTag}
-     */
     @Override
-    public CompoundTag getUpdateTag() {
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         CompoundTag t = new CompoundTag();
-        this.saveAdditional(t);
+        this.saveAdditional(t, registries);
         return t;
     }
 
-    /**
-     * Called when the chunk's TE update tag, gotten from {@link BlockEntity#getUpdateTag()}, is received on the client.
-     * <p>
-     * Used to handle this tag in a special way. By default this simply calls {@link BlockEntity#load(CompoundTag)}.
-     *
-     * @param tag The {@link CompoundTag} sent from {@link BlockEntity#getUpdateTag()}
-     */
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        super.handleUpdateTag(tag);
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+        super.handleUpdateTag(tag, registries);
         this.powered = tag.getBoolean("powered");
     }
 

@@ -8,16 +8,14 @@ import net.createmod.catnip.data.Pair;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.RegistryBuilder;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import venomized.mc.mods.swsignals.AllSounds;
@@ -25,7 +23,6 @@ import venomized.mc.mods.swsignals.EventHandler;
 import venomized.mc.mods.swsignals.block.se.SeBlocks;
 import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 import venomized.mc.mods.swsignals.client.SwMenus;
-import venomized.mc.mods.swsignals.client.sound.train.TrainSound;
 import venomized.mc.mods.swsignals.client.sound.train.TrainSounds;
 import venomized.mc.mods.swsignals.create.DoorInstruction;
 import venomized.mc.mods.swsignals.data.BlockStateDataGenerator;
@@ -33,6 +30,7 @@ import venomized.mc.mods.swsignals.data.RecipeDataGenerator;
 import venomized.mc.mods.swsignals.data.SoundEventDataGenerator;
 import venomized.mc.mods.swsignals.data.SwSignalLang;
 import venomized.mc.mods.swsignals.item.SwItems;
+import venomized.mc.mods.swsignals.item.components.SwComponents;
 import venomized.mc.mods.swsignals.network.Networking;
 
 @Mod(SwSignal.MOD_ID)
@@ -42,18 +40,13 @@ public class SwSignal {
 
     public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
 
-    public static final RegistryEntry<CreativeModeTab> SW_SIGNAL_TAB = REGISTRATE.get()
+    public static final RegistryEntry<CreativeModeTab, CreativeModeTab> SW_SIGNAL_TAB = REGISTRATE.get()
             .defaultCreativeTab("extended_signals")
             .register();
 
-    private static Networking SW_SIGNAL_NETWORK;
-
-    public SwSignal(FMLJavaModLoadingContext context) {
+    public SwSignal(IEventBus eventbus, ModContainer modContainer) {
         initializeContent();
 
-        IEventBus eventbus = context.getModEventBus();
-
-        MinecraftForge.EVENT_BUS.register(this);
         eventbus.register(this);
 
         AllSounds.SOUNDS.register(eventbus);
@@ -62,12 +55,12 @@ public class SwSignal {
         // SW_SIGNAL_TAB..register(eventbus);
 
         SwMenus.MENUS.register(eventbus);
+        SwComponents.COMPONENTS.register(eventbus);
 
         EventHandler eventHandler = new EventHandler();
-        MinecraftForge.EVENT_BUS.register(eventHandler);
+        NeoForge.EVENT_BUS.register(eventHandler);
 
-        SW_SIGNAL_NETWORK = new Networking();
-        Networking.init();
+        eventbus.addListener(Networking::registerPayloads);
     }
 
     private static void initializeContent() {
@@ -94,10 +87,6 @@ public class SwSignal {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
-    public static Networking network() {
-        return SW_SIGNAL_NETWORK;
-    }
-
     @SubscribeEvent
     public void onDataGenerator(GatherDataEvent e) {
         SwSignalLang.languageEntries();
@@ -107,7 +96,7 @@ public class SwSignal {
         // e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
         e.getGenerator().addProvider(true, new SoundEventDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
 
-        e.getGenerator().addProvider(e.includeServer(), new RecipeDataGenerator(e.getGenerator().getPackOutput()));
+        e.getGenerator().addProvider(e.includeServer(), new RecipeDataGenerator(e.getGenerator().getPackOutput(), e.getLookupProvider()));
     }
 
     @SubscribeEvent
@@ -116,18 +105,10 @@ public class SwSignal {
     }
 
     @SubscribeEvent
-    public void onNewRegistryEvent(NewRegistryEvent e) {
-        e.create(new RegistryBuilder<TrainSound>()
-                .setName(TrainSounds.TRAIN_SOUNDS_RESOURCE_KEY.location())
-                .disableSaving()
-        );
-    }
-
-    @SubscribeEvent
     public void onCreativeTabBuildContents(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == SW_SIGNAL_TAB.getKey()) {
-            REGISTRATE.get().getAll(Registries.ITEM).forEach(item -> event.accept(item.get()));
+//        if (event.getTabKey() == SW_SIGNAL_TAB.getKey()) {
+//            REGISTRATE.get().getAll(Registries.ITEM).forEach(item -> event.accept(item.get()));
             // REGISTRATE.get().getAll(Registries.BLOCK).forEach(block -> event.accept(new ItemStack(block.get())));
-        }
+//        }
     }
 }

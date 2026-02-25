@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(ItemRenderer.class)
 public abstract class MixinItemRenderer {
-    @Inject(method = "render", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "HEAD"), cancellable = true)
-    public void render(ItemStack pItemStack, ItemDisplayContext pDisplayContext, boolean pLeftHand, PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, int pCombinedOverlay, BakedModel pModel, CallbackInfo ci) {
+//    @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
+//    public void render(ItemStack itemStack, ItemDisplayContext displayContext, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay, BakedModel p_model, CallbackInfo ci) {
         // if (pItemStack.getItem() instanceof CustomModelBlockItem) {
         // 	IClientItemExtensions.of(pItemStack.getItem()).getCustomRenderer()
         // 			.renderByItem(pItemStack, pDisplayContext, pPoseStack, pBuffer, pCombinedLight, pCombinedOverlay);
@@ -23,5 +23,5 @@ public abstract class MixinItemRenderer {
         // 	ci.cancel();
         // }
 
-    }
+//    }
 }

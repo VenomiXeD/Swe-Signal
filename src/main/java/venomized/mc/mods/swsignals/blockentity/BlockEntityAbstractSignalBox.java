@@ -5,6 +5,7 @@ import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -41,17 +42,17 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntity impleme
      * @param pTag
      */
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        refCreateSignalBox.toNBT(pTag);
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.saveAdditional(pTag, registries);
+        refCreateSignalBox.toNBT(pTag, registries);
     }
 
     /**
      * @param pTag
      */
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.loadAdditional(pTag, registries);
         refCreateSignalBox.fromNBT(pTag);
     }
 
@@ -62,9 +63,9 @@ public abstract class BlockEntityAbstractSignalBox extends SwBlockEntity impleme
      * {@link handleUpdateTag}
      */
     @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag pTag = super.getUpdateTag();
-        this.saveAdditional(pTag);
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag pTag = super.getUpdateTag(registries);
+        this.saveAdditional(pTag, registries);
         return pTag;
     }
 

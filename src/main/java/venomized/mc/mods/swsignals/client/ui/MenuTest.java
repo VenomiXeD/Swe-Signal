@@ -21,7 +21,7 @@ public class MenuTest extends AbstractContainerMenu {
     public MenuTest(int containerId, Inventory plrInventory, FriendlyByteBuf extraData) {
         this(containerId, plrInventory, ContainerLevelAccess.NULL);
 
-        CompoundTag overrideTag = extraData.readAnySizeNbt().getCompound("overrides");
+        CompoundTag overrideTag = extraData.readNbt().getCompound("overrides");
         for (String key : overrideTag.getAllKeys()) {
             manualOverrides.put(SwedishSignalAspect.valueOf(key), NBTHelper.readEnum(overrideTag, key, SwedishSignalAspect.class));
         }
