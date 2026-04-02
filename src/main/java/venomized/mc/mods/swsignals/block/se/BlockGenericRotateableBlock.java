@@ -5,11 +5,11 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
+import venomized.mc.mods.swsignals.block.SwRotateableBlock;
 import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 
-public class BlockGeneric45DegreeBlock extends Sw45DegreeBlock implements EntityBlock {
-    public BlockGeneric45DegreeBlock(Properties properties) {
+public class BlockGenericRotateableBlock extends SwRotateableBlock implements EntityBlock {
+    public BlockGenericRotateableBlock(Properties properties) {
         super(properties.noOcclusion().noCollission());
     }
 

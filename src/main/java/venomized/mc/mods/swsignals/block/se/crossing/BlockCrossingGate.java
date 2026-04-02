@@ -8,11 +8,11 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
+import venomized.mc.mods.swsignals.block.SwRotateableBlock;
 import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 import venomized.mc.mods.swsignals.blockentity.se.crossing.BlockEntityCrossingGate;
 
-public class BlockCrossingGate extends Sw45DegreeBlock implements EntityBlock {
+public class BlockCrossingGate extends SwRotateableBlock implements EntityBlock {
     public BlockCrossingGate(Properties properties) {
         super(properties);
     }

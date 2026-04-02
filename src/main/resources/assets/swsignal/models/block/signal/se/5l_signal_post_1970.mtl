@@ -1,3 +1,4 @@
-# Made in Blockbench 4.12.3
-newmtl m_5f9048ef-fd88-b3e2-b42c-bd1d8e2d9295
-map_Kd #texture
+# Made in Blockbench 5.1.1
+newmtl m_3d215661-f591-00a8-53e2-d8d611c756be
+map_Kd #main_signal_post_1970
+newmtl none

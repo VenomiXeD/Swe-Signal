@@ -19,7 +19,7 @@ import venomized.mc.mods.swsignals.util.BlockEntityReference;
 
 import java.util.Optional;
 
-public abstract class BlockEntityAbstractSignalBox extends SwBlockEntity implements ISignalTunerBindable {
+public abstract class BlockEntityAbstractSignalBox extends ExtendedSignalBlockEntity implements ISignalTunerBindable {
     private static final String TAG_CREATE_SIGNAL_LINK = "linked_signal_group";
 
     private final BlockEntityReference<SignalBlockEntity> refCreateSignalBox = new BlockEntityReference<>(SignalBlockEntity.class, TAG_CREATE_SIGNAL_LINK);

@@ -54,7 +54,7 @@ public class RendererSignal<T extends BlockEntitySignal>
     }
 
     public boolean isObjModel() {
-        return false;
+        return true;
     }
 
     @SuppressWarnings("deprecation")
@@ -102,6 +102,8 @@ public class RendererSignal<T extends BlockEntitySignal>
 
         poseStack.translate(0, 0.5d * (lightCount - 1), 0);
 
+        poseStack.translate(0f,10.35/16f,-3.001f/16f);
+
         for (int i = 0; i < lightCount; i++) {
             float r = 0;
             float g = 0;
@@ -124,7 +126,7 @@ public class RendererSignal<T extends BlockEntitySignal>
 
             poseStack.pushPose();
             // Rescale it to fit properly in the spots
-            poseStack.scale(1.1f, 1.1f, 0.1f);
+            poseStack.scale(0.775f, 0.775f, 0f);
             renderer.renderModel(
                     poseStack.last(),
                     // RenderType.debugFilledBox()
@@ -135,7 +137,7 @@ public class RendererSignal<T extends BlockEntitySignal>
             );
             poseStack.popPose();
 
-            poseStack.translate(0, -8 / 16d, 0);
+            poseStack.translate(0, -7f / 16f, 0);
         }
         //poseStack.popPose();
     }

@@ -4,7 +4,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class BlockRailroadCrossingObject extends Sw45DegreeBlock implements EntityBlock {
+public abstract class BlockRailroadCrossingObject extends SwRotateableBlock implements EntityBlock {
     public BlockRailroadCrossingObject(Properties properties) {
         super(properties);
     }

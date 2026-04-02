@@ -1,36 +1,37 @@
 package venomized.mc.mods.swsignals.block;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import org.jetbrains.annotations.Nullable;
+import venomized.mc.mods.swsignals.blockentity.ExtendedSignalBlockEntity;
 
 /**
  * Any object that can have 45 degrees rotation.
  * Needs a Block Entity Renderer
  */
-public class Sw45DegreeBlock extends SwAbstractBlock {
-    public static IntegerProperty ORIENTATION = IntegerProperty.create("orientation", 0, 7);
-
-    public Sw45DegreeBlock(BlockBehaviour.Properties properties) {
+public class SwRotateableBlock extends SwAbstractBlock {
+    public SwRotateableBlock(BlockBehaviour.Properties properties) {
         super(properties.noOcclusion());
     }
 
     public static int get8Direction(float yaw) {
         yaw += 180f;
-        int index = Mth.floor((yaw + 22.5f) / 45.0f) & 7; // Convert to 8 steps
+        int index = Math.floorMod(Mth.floor((yaw * 16.0F / 360.0F) + 0.5D), 16);
         return index;
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder
-                .add(ORIENTATION);
     }
 
     /**
@@ -39,11 +40,30 @@ public class Sw45DegreeBlock extends SwAbstractBlock {
      */
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        int orientation = get8Direction(pContext.getRotation());
-        return this.defaultBlockState()
-                .setValue(ORIENTATION, orientation);
+
+        return this.defaultBlockState();
     }
 
+    /**
+     * @param pLevel
+     * @param pPos
+     * @param pState
+     * @param pPlacer
+     * @param pStack
+     */
+    @Override
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
+        super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
+        if (pPlacer == null) return;
+
+
+        BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+        if (blockEntity instanceof ExtendedSignalBlockEntity esbe) {
+            int orientation = get8Direction(pPlacer.getYRot());
+            esbe.setOrientationIndex(orientation);
+        }
+
+    }
 
     /**
      * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,

@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import venomized.mc.mods.swsignals.client.sound.train.TrainSound;
 import venomized.mc.mods.swsignals.client.sound.train.TrainSounds;
 
-public class BlockEntityTrainConfig extends SwBlockEntity implements PartialSafeNBT, IInteractionChecker {
+public class BlockEntityTrainConfig extends ExtendedSignalBlockEntity implements PartialSafeNBT, IInteractionChecker {
     public BlockEntityTrainConfig(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }

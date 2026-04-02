@@ -39,7 +39,7 @@ public class SeBlocks {
     // == MISC SIGNALS ==
     public static final BlockEntry<BlockModernEndpointSignal> BLOCK_ENDPOINT_SIGNAL = AllBlocks.signalBlock("signal", "se", "1l_endpoint_post_1920", BlockModernEndpointSignal::new)
             .register();
-    public static final BlockEntry<BlockGeneric45DegreeBlock> BLOCK_U_SIGN = AllBlocks.signalBlock("signal", "se", "u_sign", BlockGeneric45DegreeBlock::new)
+    public static final BlockEntry<BlockGenericRotateableBlock> BLOCK_U_SIGN = AllBlocks.signalBlock("signal", "se", "u_sign", BlockGenericRotateableBlock::new)
             .register();
     // == RAILROAD CROSSING SIGNALS ==
     public static final BlockEntry<BlockRailroadCrossingSignal> BLOCK_RAILROAD_CROSSING_SIGNAL = AllBlocks.signalBlock("signal", "se", "1l_railroad_crossing_signal_2_post_1970", BlockRailroadCrossingSignal::new)

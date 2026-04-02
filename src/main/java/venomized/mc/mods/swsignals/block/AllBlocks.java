@@ -39,9 +39,6 @@ public final class AllBlocks {
                             .forAllStates(blockState -> ConfiguredModel.builder().modelFile(new ModelFile.UncheckedModelFile(
                                             loc
                                     ))
-                                    .rotationY(
-                                            blockState.hasProperty(Sw45DegreeBlock.ORIENTATION) ?
-                                                    blockState.getValue(Sw45DegreeBlock.ORIENTATION) / 4 * 90 : 0)
                                     .build());
                     //}
                 })
@@ -93,8 +90,6 @@ public final class AllBlocks {
 
                     registrateBlockstateProvider.getVariantBuilder(blockTDataGenContext.get())
                             .forAllStates(blockState -> new ConfiguredModel[]{ConfiguredModel.builder().modelFile(registrateBlockstateProvider.models().getExistingFile(loc))
-                                    .rotationY(
-                                            blockState.hasProperty(Sw45DegreeBlock.ORIENTATION) ? (Math.floorDiv(blockState.getValue(Sw45DegreeBlock.ORIENTATION) + 1, 2) % 7) * 90 : 0)
                                     .buildLast()});
                     //}
                 })

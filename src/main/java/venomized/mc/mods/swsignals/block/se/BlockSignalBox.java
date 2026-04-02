@@ -18,12 +18,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
+import venomized.mc.mods.swsignals.block.SwRotateableBlock;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
 import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
 import venomized.mc.mods.swsignals.client.ui.MenuTest;
 
-public class BlockSignalBox extends Sw45DegreeBlock implements EntityBlock {
+public class BlockSignalBox extends SwRotateableBlock implements EntityBlock {
     public BlockSignalBox(Properties pProperties) {
         super(pProperties.noOcclusion().noCollission());
     }

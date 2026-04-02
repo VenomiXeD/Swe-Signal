@@ -16,7 +16,8 @@ import net.minecraftforge.client.model.data.ModelData;
 import org.joml.AxisAngle4f;
 import org.joml.Math;
 import org.joml.Quaternionf;
-import venomized.mc.mods.swsignals.block.Sw45DegreeBlock;
+import venomized.mc.mods.swsignals.block.SwRotateableBlock;
+import venomized.mc.mods.swsignals.blockentity.ExtendedSignalBlockEntity;
 import venomized.mc.mods.swsignals.client.blockentityrenderer.se.RendererSignal;
 import venomized.mc.mods.swsignals.core.SwSignal;
 
@@ -133,21 +134,8 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
      */
     @Override
     public void render(T pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
-        if (pBlockEntity.getBlockState().hasProperty(Sw45DegreeBlock.ORIENTATION)) {
-            // pPoseStack.rotateAround(
-            //         new Quaternionf(
-            //                 new AxisAngle4f(pBlockEntity.getBlockState().getValue(BlockModernTwoLightSignal.ORIENTATION) / -4f * Mth.PI, 0, 1, 0)), .5f, 0, .5f
-            // );
-            float angle = -switch (pBlockEntity.getBlockState().getValue(Sw45DegreeBlock.ORIENTATION)) {
-                case 1 -> 45f;
-                case 2 -> 90f;
-                case 3 -> 135f;
-                case 4 -> 180f;
-                case 5 -> 225f;
-                case 6 -> 270f;
-                case 7 -> 315f;
-                default -> 0f;
-            };
+        if (pBlockEntity instanceof ExtendedSignalBlockEntity esbe) {
+            float angle = -esbe.orientationIndexInDegrees();
 
             pPoseStack.rotateAround(
                     new Quaternionf(

@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 import venomized.mc.mods.swsignals.blockentity.ISignalTunerBindable;
-import venomized.mc.mods.swsignals.blockentity.SwBlockEntity;
+import venomized.mc.mods.swsignals.blockentity.ExtendedSignalBlockEntity;
 import venomized.mc.mods.swsignals.blockentity.se.BlockEntitySignalBox;
 import venomized.mc.mods.swsignals.core.SwSignal;
 import venomized.mc.mods.swsignals.rail.se.SignalUtilities;
@@ -29,7 +29,7 @@ import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BlockEntitySignal extends SwBlockEntity
+public abstract class BlockEntitySignal extends ExtendedSignalBlockEntity
         implements IHaveGoggleInformation, ISignalTunerBindable {
     private static final String SIGNAL_BOX_POS_TAG = "signal_box_pos";
     private final int lightCount;
