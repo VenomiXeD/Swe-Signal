@@ -1,0 +1,13 @@
+package venomized.mods.swsignal.se.mainsignals;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class BlockEntityFourLightSignal extends BlockEntitySignal {
+    public static final String NAME = "be_4l_modern";
+
+    public BlockEntityFourLightSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
+        super(t, pPos, pBlockState, 4);
+    }
+}

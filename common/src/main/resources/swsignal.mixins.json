@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "venomized.mc.mods.swsignals.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "sw_signal.refmap.json",
+  "mixins": [
+    "venomized.mods.swsignal.mixin.MixinCreateTrainSignal",
+    "venomized.mods.swsignal.mixin.MixinNavigation",
+    "venomized.mods.swsignal.mixin.MixinScheduleRuntime",
+    "venomized.mods.swsignal.mixin.MixinTrain",
+    "venomized.mods.swsignal.mixin.SlidingDoorMovementBehavior"
+  ],
+  "client": [
+    "venomized.mods.swsignal.mixin.MixinItemRenderer",
+    "venomized.mods.swsignal.mixin.client.MixinCarriageSounds",
+    "venomized.mods.swsignal.mixin.client.MixinTrainHUD"
+  ],
+  "minVersion": "0.8"
+}
