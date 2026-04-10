@@ -1,4 +1,4 @@
-package venomized.mods.swsignal.se.client.sound.train;
+package venomized.mods.extendedsignals.se.client.sound.train;
 
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import net.minecraft.util.Mth;

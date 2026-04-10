@@ -1,4 +1,4 @@
-package venomized.mods.swsignal.se.block.se;
+package venomized.mods.extendedsignals.se.block.se;
 
 import com.simibubi.create.AllTags;
 import net.minecraft.core.BlockPos;
@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -25,15 +26,15 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.block.SwRotateableBlock;
-import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
-import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntitySignal;
-import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
+import venomized.mods.extendedsignals.block.ExtendedSignalBlock;
+import venomized.mods.extendedsignals.se.SEBlockEntities;
+import venomized.mods.extendedsignals.se.SwedishSignalAspect;
+import venomized.mods.extendedsignals.se.blockentity.mainsignals.BlockEntitySignal;
 
-public abstract class BlockSignal extends SwRotateableBlock implements EntityBlock {
+public abstract class BlockSignal extends ExtendedSignalBlock implements EntityBlock {
     public static BooleanProperty MOUNTED = BooleanProperty.create("mounting");
 
-    public BlockSignal(Properties properties) {
+    public BlockSignal(BlockBehaviour.Properties properties) {
         super(properties.noOcclusion().dynamicShape().pushReaction(PushReaction.DESTROY));
     }
 
@@ -90,7 +91,6 @@ public abstract class BlockSignal extends SwRotateableBlock implements EntityBlo
      */
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        if (pBlockEntityType == SeBlockEntities.BE_TWO_LIGHT_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_THREE_LIGHT_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_FOUR_LIGHT_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_FIVE_LIGHT_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_THREE_LIGHT_DISTANT_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_DWARF_SIGNAL.get() || pBlockEntityType == SeBlockEntities.BE_MAIN_DWARF_SIGNAL.get()) {
             if (pLevel.isClientSide()) {
                 return (level, pos, state, be) -> {
                     if (be instanceof BlockEntitySignal signal) {
@@ -152,6 +152,4 @@ public abstract class BlockSignal extends SwRotateableBlock implements EntityBlo
                 AABB.ofSize(pPos.getCenter(), 1, 2, 1)
         );
     }
-
-
 }

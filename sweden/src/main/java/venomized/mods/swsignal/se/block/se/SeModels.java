@@ -1,4 +1,4 @@
-package venomized.mods.swsignal.se.block.se;
+package venomized.mods.extendedsignals.se.block.se;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.minecraftforge.api.distmarker.Dist;

@@ -1,9 +1,8 @@
-package venomized.mods.swsignal.se.block.se;
+package venomized.mods.extendedsignals.se.block.se;
 
-import com.simibubi.create.content.trains.track.TrackTargetingBlockItem;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import net.minecraft.world.level.block.Block;
 import venomized.mc.mods.swsignals.block.AllBlocks;
 import venomized.mc.mods.swsignals.block.BlockATCController;
 import venomized.mc.mods.swsignals.block.BlockRailroadCrossingController;
@@ -26,7 +25,7 @@ public class SeBlocks {
             .register();
     public static final BlockEntry<BlockModernThreeLightSignal> BLOCK_THREE_LIGHT_SIGNAL = AllBlocks.signalBlock("signal", "se", "3l_signal_post_1970", BlockModernThreeLightSignal::new)
             .register();
-    public static final BlockEntry<BlockModernFourLightSignal> BLOCK_FOUR_LIGHT_SIGNAL = AllBlocks.signalBlock("signal", "se", "4l_signal_post_1970", BlockModernFourLightSignal::new)
+    public static final NonNullSupplier<? extends Block> BLOCK_FOUR_LIGHT_SIGNAL = AllBlocks.signalBlock("signal", "se", "4l_signal_post_1970", BlockModernFourLightSignal::new)
             .register();
     public static final BlockEntry<BlockModernFiveLightSignal> BLOCK_FIVE_LIGHT_SIGNAL = AllBlocks.signalBlock("signal", "se", "5l_signal_post_1970", BlockModernFiveLightSignal::new)
             .register();

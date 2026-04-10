@@ -1,4 +1,4 @@
-package venomized.mods.swsignal.se.auxilliarysignals;
+package venomized.mods.extendedsignals.se.auxilliarysignals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

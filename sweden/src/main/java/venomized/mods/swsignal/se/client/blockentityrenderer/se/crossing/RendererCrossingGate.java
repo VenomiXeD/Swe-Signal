@@ -1,4 +1,4 @@
-package venomized.mods.swsignal.se.client.blockentityrenderer.se.crossing;
+package venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -9,12 +9,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
-import venomized.mc.mods.swsignals.block.se.SeModels;
-import venomized.mc.mods.swsignals.blockentity.se.crossing.BlockEntityCrossingGate;
-import venomized.mc.mods.swsignals.client.blockentityrenderer.BlockEntityRendererBase;
-import venomized.mc.mods.swsignals.util.MathHelp;
-
-import static venomized.mc.mods.swsignals.blockentity.se.crossing.BlockEntityCrossingGate.MAX_ARM_MOVEMENT_TICKS;
+import venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase;
+import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
+import venomized.mods.extendedsignals.util.MathHelp;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCrossingGate> {

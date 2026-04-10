@@ -1,13 +1,14 @@
-package venomized.mods.swsignal.se.block.se;
+package venomized.mods.extendedsignals.se.block.se;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mc.mods.swsignals.blockentity.se.SeBlockEntities;
+import venomized.mods.extendedsignals.se.SEBlockEntities;
 
 public class BlockModernEndpointSignal extends BlockSignal {
-    public BlockModernEndpointSignal(Properties properties) {
+    public BlockModernEndpointSignal(BlockBehaviour.Properties properties) {
         super(properties);
     }
 
@@ -18,6 +19,6 @@ public class BlockModernEndpointSignal extends BlockSignal {
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return SeBlockEntities.BE_ENDPOINT_SIGNAL.create(pPos, pState);
+        return SEBlockEntities.BE_ENDPOINT_SIGNAL.create(pPos, pState);
     }
 }

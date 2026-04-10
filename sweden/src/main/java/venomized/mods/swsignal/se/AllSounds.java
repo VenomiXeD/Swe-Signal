@@ -1,4 +1,4 @@
-package venomized.mods.swsignal.se;
+package venomized.mods.extendedsignals.se;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.DeferredRegister;

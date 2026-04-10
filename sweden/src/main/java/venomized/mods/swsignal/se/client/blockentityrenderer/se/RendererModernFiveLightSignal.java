@@ -1,4 +1,4 @@
-package venomized.mods.swsignal.se.client.blockentityrenderer.se;
+package venomized.mods.extendedsignals.se.client.blockentityrenderer.se;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraftforge.api.distmarker.Dist;

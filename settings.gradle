@@ -2,7 +2,6 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         maven {
-            name = 'MinecraftForge'
             url = 'https://maven.minecraftforge.net/'
         }
         maven { url = "https://maven.parchmentmc.org" } // Add this line
@@ -12,5 +11,7 @@ pluginManagement {
 plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
 }
-include 'sweden'
-include 'common'
+
+
+rootProject.name = "swsignal"
+include 'common', 'sweden'

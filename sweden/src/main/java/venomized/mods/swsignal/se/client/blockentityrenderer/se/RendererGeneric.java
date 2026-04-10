@@ -1,4 +1,4 @@
-package venomized.mods.swsignal.se.client.blockentityrenderer.se;
+package venomized.mods.extendedsignals.se.client.blockentityrenderer.se;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;

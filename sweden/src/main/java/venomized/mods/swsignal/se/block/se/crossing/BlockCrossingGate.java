@@ -1,4 +1,4 @@
-package venomized.mods.swsignal.se.block.se.crossing;
+package venomized.mods.extendedsignals.se.block.se.crossing;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

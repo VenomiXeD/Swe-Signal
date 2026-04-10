@@ -1,4 +1,4 @@
-package venomized.mods.swsignal.se.client.blockentityrenderer.se.crossing;
+package venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;

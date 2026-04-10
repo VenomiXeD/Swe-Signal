@@ -1,12 +1,12 @@
-package venomized.mods.swsignal.se.auxilliarysignals;
+package venomized.mods.extendedsignals.se.auxilliarysignals;
 
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mc.mods.swsignals.blockentity.se.mainsignals.BlockEntitySignal;
-import venomized.mc.mods.swsignals.rail.se.SignalUtilities;
-import venomized.mc.mods.swsignals.rail.se.SwedishSignalAspect;
+import venomized.mods.extendedsignals.se.SwedishSignalAspect;
+import venomized.mods.extendedsignals.se.blockentity.mainsignals.BlockEntitySignal;
+import venomized.mods.extendedsignals.util.SignalUtilities;
 
 public class BlockEntityDwarfSignal extends BlockEntitySignal {
     public BlockEntityDwarfSignal(BlockEntityType t, BlockPos pPos, BlockState pBlockState) {

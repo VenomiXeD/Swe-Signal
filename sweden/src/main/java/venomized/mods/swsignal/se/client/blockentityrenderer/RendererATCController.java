@@ -1,4 +1,4 @@
-package venomized.mods.swsignal.se.client.blockentityrenderer;
+package venomized.mods.extendedsignals.se.client.blockentityrenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.content.trains.track.ITrackBlock;
