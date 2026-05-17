@@ -1,4 +1,4 @@
-  {
+{
   "loader": "forge:obj",
   "flip_v": true,
   "model": "swsignal:models/block/signal/de/signal.obj",

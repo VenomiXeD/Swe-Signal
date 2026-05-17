@@ -14,8 +14,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
 import venomized.mods.extendedsignals.se.blockentity.BlockEntitySignalBox;
+import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
 
 public class BlockSignalBox extends BlockGenericRotateableBlock implements EntityBlock {
     public BlockSignalBox(Properties pProperties) {

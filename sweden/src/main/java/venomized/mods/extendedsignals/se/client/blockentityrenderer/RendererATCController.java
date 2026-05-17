@@ -19,7 +19,7 @@ import venomized.mods.extendedsignals.create.tracks.ATCController;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 
 public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityATCController> {
-    private static PartialModel BALISE_MODEL = PartialModel.of(ExtendedSignalsSweden.res("block/tracks/se_balise"));
+    private static final PartialModel BALISE_MODEL = PartialModel.of(ExtendedSignalsSweden.res("block/tracks/se_balise"));
 
     public RendererATCController(BlockEntityRendererProvider.Context context) {
     }

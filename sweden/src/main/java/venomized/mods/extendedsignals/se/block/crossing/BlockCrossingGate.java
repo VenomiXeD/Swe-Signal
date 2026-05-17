@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
 import venomized.mods.extendedsignals.se.block.BlockGenericRotateableBlock;
+import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
 
 public class BlockCrossingGate extends BlockGenericRotateableBlock implements EntityBlock {

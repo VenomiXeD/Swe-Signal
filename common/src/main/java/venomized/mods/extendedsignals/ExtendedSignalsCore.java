@@ -67,14 +67,6 @@ public class ExtendedSignalsCore extends ModTemplate {
         Networking.init();
     }
 
-    @Override
-    protected void initializeContent() {
-        ExtendedSignalsItems.init();
-        ExtendedSignalsAllBlocks.init();
-
-        Schedule.INSTRUCTION_TYPES.add(Pair.of(res("door"), DoorInstruction::new));
-    }
-
     /**
      * Returns a Resource Location for this mod's namespace
      *
@@ -87,6 +79,14 @@ public class ExtendedSignalsCore extends ModTemplate {
 
     public static Networking network() {
         return SW_SIGNAL_NETWORK;
+    }
+
+    @Override
+    protected void initializeContent() {
+        ExtendedSignalsItems.init();
+        ExtendedSignalsAllBlocks.init();
+
+        Schedule.INSTRUCTION_TYPES.add(Pair.of(res("door"), DoorInstruction::new));
     }
 
     @SubscribeEvent

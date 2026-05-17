@@ -14,7 +14,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mods.extendedsignals.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase;
-import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.SwedishSignalAspect;
 import venomized.mods.extendedsignals.se.blockentity.mainsignals.BlockEntitySignal;
 
@@ -96,7 +95,7 @@ public class RendererSignal<T extends BlockEntitySignal>
 
         poseStack.translate(0, 0.5d * (lightCount - 1), 0);
 
-        poseStack.translate(0f,10.35/16f,-3.001f/16f);
+        poseStack.translate(0f, 10.35 / 16f, -3.001f / 16f);
 
         for (int i = 0; i < lightCount; i++) {
             float r = 0;

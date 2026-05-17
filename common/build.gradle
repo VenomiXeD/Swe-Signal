@@ -189,7 +189,6 @@ mixin {
 }
 
 
-
 test {
     useJUnitPlatform()
 }

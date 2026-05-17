@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.block.BlockRailroadCrossingObject;
-import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
 import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityRailroadCrossingSignal;
+import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
 
 public class BlockRailroadCrossingSignal extends BlockRailroadCrossingObject {
     public BlockRailroadCrossingSignal(Properties properties) {
