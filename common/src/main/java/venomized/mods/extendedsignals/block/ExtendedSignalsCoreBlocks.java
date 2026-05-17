@@ -6,11 +6,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.model.generators.ModelFile;
 import venomized.mods.extendedsignals.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.blockentity.ExtendedSignalsAllBlockEntities;
+import venomized.mods.extendedsignals.blockentity.ExtendedSignalsCoreBlockEntities;
 import venomized.mods.extendedsignals.core.RegistrateHelper;
 import venomized.mods.extendedsignals.create.tracks.ATCController;
 
-public final class ExtendedSignalsAllBlocks {
+public final class ExtendedSignalsCoreBlocks {
     // public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SwSignal.MOD_ID);
 
     public static final BlockEntry<BlockTrainConfig> BLOCK_TRAIN_CONFIG = ExtendedSignalsCore.REGISTRATE.get().block("train_config", BlockTrainConfig::new)
@@ -33,7 +33,7 @@ public final class ExtendedSignalsAllBlocks {
             .register();
 
     public static void init() {
-        ExtendedSignalsAllBlockEntities.init();
+        ExtendedSignalsCoreBlockEntities.init();
     }
 
     //For testing purposes

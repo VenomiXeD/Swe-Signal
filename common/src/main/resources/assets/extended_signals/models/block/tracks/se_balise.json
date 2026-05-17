@@ -5,8 +5,8 @@
     32
   ],
   "textures": {
-    "0": "extended_signals_se:block/tracks/se_balise",
-    "particle": "extended_signals_se:block/tracks/se_balise"
+    "0": "extended_signals:block/tracks/se_balise",
+    "particle": "extended_signals:block/tracks/se_balise"
   },
   "elements": [
     {

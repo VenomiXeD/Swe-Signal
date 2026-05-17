@@ -13,6 +13,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mods.extendedsignals.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.client.ExtendedSignalsCoreModels;
 import venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mods.extendedsignals.se.SwedishSignalAspect;
 import venomized.mods.extendedsignals.se.blockentity.mainsignals.BlockEntitySignal;
@@ -21,18 +22,14 @@ import venomized.mods.extendedsignals.se.blockentity.mainsignals.BlockEntitySign
 public class RendererSignal<T extends BlockEntitySignal>
         extends BlockEntityRendererBase<T> {
     protected static final int FULLBRIGHT = 0xFFFFFF;
-    public static ResourceLocation SIGNAL_LIGHT_MODEL_LOC = ExtendedSignalsCore.res("block/light");
-    public static ResourceLocation SIGNAL_LIGHT_TEX_LOC = ExtendedSignalsCore.res("textures/block/light.png");
-    private static BakedModel SIGNAL_LIGHT_MODEL;
+
+    protected static ResourceLocation SIGNAL_LIGHT_TEX_LOC = ExtendedSignalsCore.res("block/light");
 
     public RendererSignal(BlockEntityRendererProvider.Context context) {
     }
 
     public static BakedModel signalLightModel() {
-        if (SIGNAL_LIGHT_MODEL == null) {
-            SIGNAL_LIGHT_MODEL = Minecraft.getInstance().getModelManager().getModel(SIGNAL_LIGHT_MODEL_LOC);
-        }
-        return SIGNAL_LIGHT_MODEL;
+        return ExtendedSignalsCoreModels.LIGHT_MODEL.get();
     }
 
     @Override

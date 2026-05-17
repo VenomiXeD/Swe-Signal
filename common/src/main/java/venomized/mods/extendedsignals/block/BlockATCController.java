@@ -6,7 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.blockentity.BlockEntityATCController;
-import venomized.mods.extendedsignals.blockentity.ExtendedSignalsAllBlockEntities;
+import venomized.mods.extendedsignals.blockentity.ExtendedSignalsCoreBlockEntities;
 
 public class BlockATCController extends ExtendedSignalBlock implements IBE {
     /**
@@ -23,7 +23,7 @@ public class BlockATCController extends ExtendedSignalBlock implements IBE {
 
     @Override
     public BlockEntityType<BlockEntityATCController> getBlockEntityType() {
-        return ExtendedSignalsAllBlockEntities.BE_ATC_CONTROLLER.get();
+        return ExtendedSignalsCoreBlockEntities.BE_ATC_CONTROLLER.get();
     }
 
     /**

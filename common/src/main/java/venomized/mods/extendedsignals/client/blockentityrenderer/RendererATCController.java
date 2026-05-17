@@ -13,12 +13,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mods.extendedsignals.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.blockentity.BlockEntityATCController;
+import venomized.mods.extendedsignals.client.ExtendedSignalsCoreModels;
 import venomized.mods.extendedsignals.create.tracks.ATCController;
 
 public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityATCController> {
-
     public RendererATCController(BlockEntityRendererProvider.Context context) {
     }
 
@@ -62,7 +61,7 @@ public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityAT
         Minecraft.getInstance().getBlockRenderer().getModelRenderer()
                 .tesselateWithAO(
                         level,
-                        Minecraft.getInstance().getModelManager().getModel(ExtendedSignalsCore.res("block/tracks/se_balise")),
+                        ExtendedSignalsCoreModels.BALISE_MODEL.get(),
                         trackState,
                         targetPosition,
                         ms,

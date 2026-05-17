@@ -1,7 +1,9 @@
 package venomized.mods.extendedsignals;
 
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 public abstract class ModTemplate {
@@ -12,7 +14,11 @@ public abstract class ModTemplate {
         eventbus.register(this);
 
         initializeContent();
+
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::initializeClientContent);
     }
 
     protected abstract void initializeContent();
+
+    protected abstract void initializeClientContent();
 }

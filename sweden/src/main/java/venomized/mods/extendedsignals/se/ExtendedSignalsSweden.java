@@ -33,4 +33,12 @@ public class ExtendedSignalsSweden extends ModTemplate {
 
         ExtendedSignalsSwedenSounds.init();
     }
+
+    /**
+     *
+     */
+    @Override
+    protected void initializeClientContent() {
+
+    }
 }

@@ -19,7 +19,9 @@ import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import venomized.mods.extendedsignals.block.ExtendedSignalsAllBlocks;
+import venomized.mods.extendedsignals.block.ExtendedSignalsCoreBlocks;
+import venomized.mods.extendedsignals.blockentity.ExtendedSignalsCoreBlockEntities;
+import venomized.mods.extendedsignals.client.ExtendedSignalsCoreModels;
 import venomized.mods.extendedsignals.client.sound.train.TrainSound;
 import venomized.mods.extendedsignals.client.sound.train.TrainSounds;
 import venomized.mods.extendedsignals.core.EventHandler;
@@ -84,9 +86,18 @@ public class ExtendedSignalsCore extends ModTemplate {
     @Override
     protected void initializeContent() {
         ExtendedSignalsItems.init();
-        ExtendedSignalsAllBlocks.init();
+        ExtendedSignalsCoreBlocks.init();
+        ExtendedSignalsCoreBlockEntities.init();
 
         Schedule.INSTRUCTION_TYPES.add(Pair.of(res("door"), DoorInstruction::new));
+    }
+
+    /**
+     *
+     */
+    @Override
+    protected void initializeClientContent() {
+        ExtendedSignalsCoreModels.init();
     }
 
     @SubscribeEvent
