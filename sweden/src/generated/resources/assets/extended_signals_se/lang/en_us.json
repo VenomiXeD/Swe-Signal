@@ -1,0 +1,16 @@
+{
+  "block.extended_signals_se.se.1l_endpoint_post_1920": "(Swedish) 1 Light endpoint (Post 1920)",
+  "block.extended_signals_se.se.1l_railroad_crossing_signal_2_post_1970": "(Swedish) 1 Light railroad crossing signal 2 (Post 1970)",
+  "block.extended_signals_se.se.2l_signal_post_1970": "(Swedish) 2 Light signal (Post 1970)",
+  "block.extended_signals_se.se.3l_crossing_lights_post_1970": "(Swedish) 3 Light crossing lights (Post 1970)",
+  "block.extended_signals_se.se.3l_distant_railroad_crossing_signal_post_1970": "(Swedish) 3 Light distant railroad crossing signal (Post 1970)",
+  "block.extended_signals_se.se.3l_distant_signal_post_1970": "(Swedish) 3 Light distant signal (Post 1970)",
+  "block.extended_signals_se.se.3l_signal_post_1970": "(Swedish) 3 Light signal (Post 1970)",
+  "block.extended_signals_se.se.4l_dwarf_signal_post_1970": "(Swedish) 4 Light dwarf signal (Post 1970)",
+  "block.extended_signals_se.se.4l_signal_post_1970": "(Swedish) 4 Light signal (Post 1970)",
+  "block.extended_signals_se.se.5l_signal_post_1970": "(Swedish) 5 Light signal (Post 1970)",
+  "block.extended_signals_se.se.7l_dwarf_main_signal_post_1970": "(Swedish) 7 Light dwarf main signal (Post 1970)",
+  "block.extended_signals_se.signal.se.crossing.base": "Signal.se.crossing.base",
+  "block.extended_signals_se.signal.se.crossing.controller": "Signal.se.crossing.controller",
+  "block.extended_signals_se.signal.se.signal_box": "Signal.se.signal Box"
+}

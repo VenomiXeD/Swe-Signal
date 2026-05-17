@@ -85,7 +85,7 @@ public class DoorInstruction extends ScheduleInstruction {
      */
     @Override
     public ResourceLocation getId() {
-        return ExtendedSignalsCore.resource("door");
+        return ExtendedSignalsCore.res("door");
     }
 
     /**

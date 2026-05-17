@@ -11,7 +11,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -33,7 +32,7 @@ import venomized.mods.extendedsignals.item.ExtendedSignalsItems;
 import venomized.mods.extendedsignals.network.Networking;
 
 @Mod(ExtendedSignalsCore.MOD_ID)
-public class ExtendedSignalsCore {
+public class ExtendedSignalsCore extends ModTemplate {
     public static final String MOD_ID = "extended_signals";
     public static final Logger LOGGER = LogManager.getLogger(ExtendedSignalsCore.class);
 
@@ -47,12 +46,13 @@ public class ExtendedSignalsCore {
     private static final Networking SW_SIGNAL_NETWORK = new Networking();
 
     public ExtendedSignalsCore(FMLJavaModLoadingContext context) {
+        super(context);
         initializeContent();
 
-        IEventBus eventbus = context.getModEventBus();
-
-        MinecraftForge.EVENT_BUS.register(this);
-        eventbus.register(this);
+        // IEventBus eventbus = context.getModEventBus();
+//
+        // MinecraftForge.EVENT_BUS.register(this);
+        // eventbus.register(this);
 
         //AllSounds.SOUNDS.register(eventbus);
         //TrainSounds.TRAIN_SOUNDS_REGISTRY.register(eventbus);
@@ -67,11 +67,12 @@ public class ExtendedSignalsCore {
         Networking.init();
     }
 
-    private static void initializeContent() {
+    @Override
+    protected void initializeContent() {
         ExtendedSignalsItems.init();
         ExtendedSignalsAllBlocks.init();
 
-        Schedule.INSTRUCTION_TYPES.add(Pair.of(resource("door"), DoorInstruction::new));
+        Schedule.INSTRUCTION_TYPES.add(Pair.of(res("door"), DoorInstruction::new));
     }
 
     /**
@@ -80,7 +81,7 @@ public class ExtendedSignalsCore {
      * @param path Path to resource
      * @return Resource object for this mod
      */
-    public static final ResourceLocation resource(String path) {
+    public static final ResourceLocation res(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 

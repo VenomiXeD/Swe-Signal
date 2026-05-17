@@ -1,10 +1,10 @@
 {
   "variants": {
     "mounting=false": {
-      "model": "swsignal:block/signal/se/7l_dwarf_main_signal_post_1970"
+      "model": "extended_signals_se:block/signal/se/7l_dwarf_main_signal_post_1970"
     },
     "mounting=true": {
-      "model": "swsignal:block/signal/se/7l_dwarf_main_signal_post_1970"
+      "model": "extended_signals_se:block/signal/se/7l_dwarf_main_signal_post_1970"
     }
   }
 }

@@ -62,7 +62,7 @@ public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityAT
         Minecraft.getInstance().getBlockRenderer().getModelRenderer()
                 .tesselateWithAO(
                         level,
-                        Minecraft.getInstance().getModelManager().getModel(ExtendedSignalsCore.resource("block/tracks/se_balise")),
+                        Minecraft.getInstance().getModelManager().getModel(ExtendedSignalsCore.res("block/tracks/se_balise")),
                         trackState,
                         targetPosition,
                         ms,

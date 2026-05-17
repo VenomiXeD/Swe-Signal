@@ -22,6 +22,7 @@ public final class ExtendedSignalsAllBlocks {
 
     public static final BlockEntry<BlockATCController> BLOCK_ATC_CONTROLLER = ExtendedSignalsCore.REGISTRATE.get().block("atc_controller", BlockATCController::new)
             .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+            .blockstate((ctx, prov) -> {prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));})
             .item((block, prop) -> new TrackTargetingBlockItem(block, prop, ATCController.ATC))
             .build()
             .register();

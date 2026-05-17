@@ -20,7 +20,7 @@ import java.util.UUID;
 public class ATCController extends SingleBlockEntityEdgePoint {
 
     public static final EdgePointType<ATCController> ATC = EdgePointType.register(
-            ExtendedSignalsCore.resource("balise"), ATCController::new
+            ExtendedSignalsCore.res("balise"), ATCController::new
     );
 
     public ATCController() {

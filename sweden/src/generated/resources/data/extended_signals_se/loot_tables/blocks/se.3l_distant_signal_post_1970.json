@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "extended_signals_se:se.3l_distant_signal_post_1970"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "extended_signals_se:blocks/se.3l_distant_signal_post_1970"
+}

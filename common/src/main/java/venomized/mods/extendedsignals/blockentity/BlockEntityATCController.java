@@ -22,8 +22,7 @@ public class BlockEntityATCController extends SmartBlockEntity implements Transf
 
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        atcControllerPoint = new TrackTargetingBehaviour<>(this, ATCController.ATC);
-        behaviours.add(atcControllerPoint);
+        behaviours.add(atcControllerPoint = new TrackTargetingBehaviour<>(this, ATCController.ATC));
     }
 
     /**

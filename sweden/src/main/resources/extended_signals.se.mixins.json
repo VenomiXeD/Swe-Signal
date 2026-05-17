@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "venomized.mods.extendedsignals.se.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "extendedsignals.de.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8"
+}

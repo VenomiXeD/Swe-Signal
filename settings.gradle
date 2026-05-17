@@ -14,4 +14,4 @@ plugins {
 
 
 rootProject.name = "swsignal"
-include 'common', 'sweden'
+include 'common', 'sweden','germany'

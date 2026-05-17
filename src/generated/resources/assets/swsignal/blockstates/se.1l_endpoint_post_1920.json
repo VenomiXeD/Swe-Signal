@@ -1,10 +1,10 @@
 {
   "variants": {
     "mounting=false": {
-      "model": "swsignal:block/signal/se/1l_endpoint_post_1920"
+      "model": "extended_signals_se:block/signal/se/1l_endpoint_post_1920"
     },
     "mounting=true": {
-      "model": "swsignal:block/signal/se/1l_endpoint_post_1920"
+      "model": "extended_signals_se:block/signal/se/1l_endpoint_post_1920"
     }
   }
 }

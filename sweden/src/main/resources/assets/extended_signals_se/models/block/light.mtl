@@ -1,0 +1,12 @@
+# Blender 4.5.3 LTS MTL File: 'light.blend'
+# www.blender.org
+
+newmtl m_c586e5ee-26b2-60d0-3e99-3182e110551a
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd #light
+map_Ke #light
