@@ -1,9 +1,0 @@
-{
-  "loader": "forge:obj",
-  "flip_v": true,
-  "model": "swsignal:models/block/signal/de/signal.obj",
-  "textures": {
-    "main_signal": "swsignal:block/signal/de/main_signal",
-    "metal_exposed": "swsignal:block/signal/de/metal_exposed"
-  }
-}

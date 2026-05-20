@@ -2,25 +2,49 @@ package venomized.mods.extendedsignals.core;
 
 
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
+import venomized.mods.extendedsignals.network.ExtendedSignalsNetworking;
+import venomized.mods.extendedsignals.network.packets.SyncSignalStatesPacket;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid =  ExtendedSignalsCore.MOD_ID)
 public class EventHandler {
-    private SignalBlockEntity firstSignal;
-    private SignalBlockEntity secondSignal;
+    private static SignalBlockEntity firstSignal;
+    private static SignalBlockEntity secondSignal;
 
+    // It's weird but it should work
+    @SubscribeEvent
+    public static void onServerStarting(ServerStartingEvent e) {
+        ExtendedSignalsCore.EXTENDED_SIGNAL_SERVER_CACHE = ServerSignalNetworkCache.get(e.getServer());
+    }
 
     @SubscribeEvent
-    public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
-        if (event.getHand() == InteractionHand.OFF_HAND)
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent e) {
+        if (!(e.getEntity() instanceof ServerPlayer serverPlayer)) return;
+
+        SyncSignalStatesPacket syncPacket = new SyncSignalStatesPacket(
+                ExtendedSignalsCore.serverNetworkCache().signalStates()
+        );
+
+        ExtendedSignalsNetworking.CHANNEL.send(PacketDistributor.PLAYER.with(()->serverPlayer), syncPacket);
+    }
+
+    @SubscribeEvent
+    public static void onRightClick(PlayerInteractEvent.RightClickBlock event) {
+        if (event.getHand().equals(InteractionHand.OFF_HAND))
             return;
         if (!event.getLevel().isClientSide()) {
             if (event.getLevel().getBlockEntity(event.getHitVec().getBlockPos()) instanceof SignalBlockEntity sbe) {
-                if (firstSignal == null) {
-                    System.out.println("First signal selected");
-                    firstSignal = sbe;
-                }
+                // if (firstSignal == null) {
+                //     System.out.println("First signal selected");
+                //     firstSignal = sbe;
+                // }
 
                 // UUID forward = SignalUtilities.getGroupForSignalForwardDirection(firstSignal);
                 // UUID backward = SignalUtilities.getGroupForSignalBackwardDirection(firstSignal);

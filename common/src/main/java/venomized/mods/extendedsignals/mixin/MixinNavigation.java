@@ -1,15 +1,20 @@
 package venomized.mods.extendedsignals.mixin;
 
+import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.TrackNode;
+import com.simibubi.create.content.trains.signal.SignalBoundary;
+import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
+import com.simibubi.create.content.trains.station.GlobalStation;
 import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Pair;
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.apache.commons.lang3.mutable.MutableObject;
+import org.joml.Math;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -17,10 +22,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import venomized.mods.extendedsignals.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.create.IExtendedSignalBoundary;
+
+import java.util.UUID;
 
 @Mixin(value = Navigation.class, remap = false)
 public abstract class MixinNavigation implements TravellingPoint.IEdgePointListener {
+    @Unique
+    private static final double LOOK_AHEAD_DISTANCE = 128;
+
     @Shadow
     public Train train;
     @Unique
@@ -29,8 +40,11 @@ public abstract class MixinNavigation implements TravellingPoint.IEdgePointListe
     @Shadow
     public abstract TravellingPoint.ITrackSelector controlSignalScout();
 
+    @Shadow
+    public boolean announceArrival;
+
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void onConstruct(Train train, CallbackInfo ci) {
+    public void onCtor(Train train, CallbackInfo ci) {
         swe_signal$signalTrigger = new TravellingPoint();
     }
 
@@ -54,14 +68,14 @@ public abstract class MixinNavigation implements TravellingPoint.IEdgePointListe
                        double brakingDistanceNoFlicker,
                        double scanDistance,
                        MutableDouble crossSignalDistanceTracker,
-                       MutableObject trackingCrossSignal
+                       MutableObject<Pair<UUID, Boolean>> trackingCrossSignal
     ) {
         swe_signal$signalTrigger.node1 = leadingPoint.node1;
         swe_signal$signalTrigger.node2 = leadingPoint.node2;
         swe_signal$signalTrigger.edge = leadingPoint.edge;
         swe_signal$signalTrigger.position = leadingPoint.position;
 
-        swe_signal$signalTrigger.travel(train.graph, 1, controlSignalScout(), this);
+        swe_signal$signalTrigger.travel(train.graph, LOOK_AHEAD_DISTANCE * Math.signum(speedMod), controlSignalScout(), this);
     }
 
     /**
@@ -71,10 +85,19 @@ public abstract class MixinNavigation implements TravellingPoint.IEdgePointListe
      */
     @Override
     public boolean test(Double distance, Pair<TrackEdgePoint, Couple<TrackNode>> trackEdgePointCouplePair) {
-        TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
+            TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
 
-        ExtendedSignalsCore.LOGGER.info("Edge point hit: {}", trackEdgePoint.getClass().getName());
+        // ExtendedSignalsCore.LOGGER.info("Edge point hit: {}", trackEdgePoint.getClass().getName());
 
-        return true;
+        if (!(trackEdgePoint instanceof SignalBoundary signalBoundary))
+            return false;
+
+        if(signalBoundary.isPrimary(trackEdgePointCouplePair.getSecond().getSecond()))
+            return true;
+
+        ((IExtendedSignalBoundary)signalBoundary).extendedSignal$onScout(this.train);
+
+
+        return false;
     }
 }

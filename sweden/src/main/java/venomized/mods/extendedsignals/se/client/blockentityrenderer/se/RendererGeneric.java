@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import venomized.mods.extendedsignals.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererGeneric<T extends BlockEntity> extends venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase<T> {

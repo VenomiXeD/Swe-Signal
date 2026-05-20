@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase;
+import venomized.mods.extendedsignals.client.blockentityrenderer.SignalRendererHelper;
 import venomized.mods.extendedsignals.se.SwedishSignalAspect;
 import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityEndpointSignal;
 
@@ -51,11 +52,11 @@ public class RendererEndpointSignal extends BlockEntityRendererBase<BlockEntityE
         final float r = pBlockEntity.lightLevels[0];
         getRenderer().renderModel(
                 pPoseStack.last(),
-                pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+                pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
                 RendererSignal.signalLightModel(),
                 r, 0, 0,
-                RendererSignal.FULLBRIGHT,
+                SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
         );
         pPoseStack.popPose();

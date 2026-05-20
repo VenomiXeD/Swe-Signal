@@ -1,7 +1,7 @@
 package venomized.mods.extendedsignals.data;
 
 import net.minecraft.network.chat.Component;
-import venomized.mods.extendedsignals.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 
 import java.util.Map;
 

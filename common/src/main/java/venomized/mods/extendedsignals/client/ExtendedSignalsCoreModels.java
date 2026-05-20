@@ -1,9 +1,7 @@
 package venomized.mods.extendedsignals.client;
 
-import com.google.common.base.Equivalence;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import venomized.mods.extendedsignals.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 
 public class ExtendedSignalsCoreModels {
     public static final PartialModel BALISE_MODEL = PartialModel.of(ExtendedSignalsCore.res("block/tracks/se_balise"));

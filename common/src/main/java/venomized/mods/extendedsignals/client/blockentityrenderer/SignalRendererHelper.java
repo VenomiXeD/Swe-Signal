@@ -6,16 +6,14 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import venomized.mods.extendedsignals.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 
 @OnlyIn(Dist.CLIENT)
 public class SignalRendererHelper {
-    protected static final int FULLBRIGHT = 0xFFFFFF;
-    public static ResourceLocation SIGNAL_LIGHT_MODEL_LOC = ResourceLocation.fromNamespaceAndPath(ExtendedSignalsCore.MOD_ID,
-            "block/light");
+    public static final int FULLBRIGHT = 0xFFFFFF;
+
     public static ResourceLocation SIGNAL_LIGHT_TEX_LOC = ResourceLocation.fromNamespaceAndPath(ExtendedSignalsCore.MOD_ID,
             "textures/block/light.png");
-    private static BakedModel SIGNAL_LIGHT_MODEL;
 
     @SuppressWarnings("deprecation")
     public static void renderSignalLight(float partialTick, PoseStack poseStack, MultiBufferSource multiBufferSource) {

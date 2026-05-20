@@ -5,7 +5,7 @@ import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.world.item.Item;
-import venomized.mods.extendedsignals.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 
 public class ExtendedSignalsItems {
     public static final ItemEntry<ItemSignalTuner> SIGNAL_TUNER =

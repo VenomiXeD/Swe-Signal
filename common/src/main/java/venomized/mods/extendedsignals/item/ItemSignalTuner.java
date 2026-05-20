@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.item;
 
 import it.unimi.dsi.fastutil.Pair;
+import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -13,11 +14,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.blockentity.ISignalTunerBindable;
 
 import java.util.Optional;
 
 public class ItemSignalTuner extends Item implements IScrollableItem {
+    private static final String TAG_MODE_NAME = "mode";
+
+    private static final String TAG_BLOCKENTITY_READER_NAME = "block_entity_pos_reader";
+
     public ItemSignalTuner(Properties pProperties) {
         super(pProperties);
     }
@@ -53,24 +59,23 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
             return;
         }
 
-        ISignalTunerBindable.SignalTunerMode currentScroll = ISignalTunerBindable.SignalTunerMode.CONNECT;
         CompoundTag tag = itemStack.getOrCreateTag();
-        if (tag.contains("mode")) {
-            currentScroll = ISignalTunerBindable.SignalTunerMode.values()[tag.getInt("mode")];
-        }
-        int newMode = Math.min(ISignalTunerBindable.SignalTunerMode.values().length - 1, Math.max(0, currentScroll.ordinal() + (up ? 1 : -1)));
-        tag.putInt("mode", newMode);
-        player.displayClientMessage(Component.literal("Mode: %s".formatted(currentScroll.toString())).setStyle(
+
+        ISignalTunerBindable.SignalTunerMode currentMode = NBTHelper.readEnum(tag, TAG_MODE_NAME, ISignalTunerBindable.SignalTunerMode.class);
+        ISignalTunerBindable.SignalTunerMode newMode = ISignalTunerBindable
+                .SignalTunerMode.values()[
+                        Math.min(
+                                ISignalTunerBindable.SignalTunerMode.values().length - 1,
+                                Math.max(0, currentMode.ordinal() + (up ? 1 : -1))
+                        )
+                ];
+
+        NBTHelper.writeEnum(tag, TAG_MODE_NAME, newMode);
+
+        player.displayClientMessage(Component.literal("Mode: %s".formatted(newMode.toString())).setStyle(
                         Style.EMPTY.withColor(ChatFormatting.GOLD)),
                 true
         );
-
-        System.out.println("current mode: " + currentScroll);
-        // Minecraft.getInstance().level.playSound(
-        // 		Minecraft.getInstance().player,
-        // 		Minecraft.getInstance().player,
-        // 		AllSoundEvents.SCROLL_VALUE.getMainEvent(), SoundSource.MASTER, 1f, 1f + currentScroll/10f
-        // );
     }
 
     /**
@@ -84,74 +89,76 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
             return InteractionResult.sidedSuccess(pContext.getLevel().isClientSide());
         }
 
-        System.out.println("useOn");
-
-        ISignalTunerBindable.SignalTunerMode mode = ISignalTunerBindable.SignalTunerMode.CONNECT;
         CompoundTag tag = pContext.getItemInHand().getOrCreateTag();
+        ISignalTunerBindable.SignalTunerMode mode = NBTHelper.readEnum(tag, TAG_MODE_NAME, ISignalTunerBindable.SignalTunerMode.class);
 
-        if (tag.contains("mode")) {
-            mode = ISignalTunerBindable.SignalTunerMode.values()[tag.getInt("mode")];
-        }
+        InteractionResult result = InteractionResult.PASS;
+        switch (mode) {
+            case DISCONNECT_ALL:
+                break;
+            case DISCONNECT:
+                break;
+            case CONNECT:
+                final BlockEntity currentRightClickedBlockEntity = pContext.getLevel().getBlockEntity(pContext.getClickedPos());
+                if (!(currentRightClickedBlockEntity instanceof ISignalTunerBindable bindable)) { result = InteractionResult.FAIL; break; }
 
-        BlockEntity blockEntity = pContext.getLevel().getBlockEntity(pContext.getClickedPos());
-        final ISignalTunerBindable.SignalTunerMode tunerMode = mode;
-
-        if (blockEntity instanceof ISignalTunerBindable currentTarget) {
-
-            // We don't have one so we store the TARGET position
-            if (!tag.contains("bind_location_start")) {
-                System.out.println("Bind If Case");
-
-                if (!currentTarget.isDestination()) {
-                    System.out.println("Not a data destination: " + pContext.getClickedPos());
-                    return InteractionResult.FAIL;
+                if(!tag.contains(TAG_BLOCKENTITY_READER_NAME)) {
+                    // Ensure that the reader block entity can only be a reader
+                    if(!bindable.isReader())
+                    {
+                        result = InteractionResult.FAIL;
+                        break;
+                    }
+                    tag.put(TAG_BLOCKENTITY_READER_NAME, NbtUtils.writeBlockPos(currentRightClickedBlockEntity.getBlockPos()));
+                    result = InteractionResult.SUCCESS;
+                    break;
                 }
 
-                tag.put("bind_location_start", NbtUtils.writeBlockPos(pContext.getClickedPos()));
+                // Ensure that data source is only a source
+                if(!bindable.isSource()) {
+                    result =  InteractionResult.FAIL;
+                    break;
+                }
 
-                pContext.getPlayer().displayClientMessage(
-                        Component.literal(
-                                "Bind (Target) start: " + pContext.getClickedPos().toShortString()
-                        ), true
+                final BlockEntity blockEntityReadingEntity = pContext.getLevel().getBlockEntity(
+                        NbtUtils.readBlockPos(tag.getCompound(TAG_BLOCKENTITY_READER_NAME))
+                );
+                if(!(blockEntityReadingEntity instanceof ISignalTunerBindable)) {
+                    // TODO: inform player that the reader has been destroyed
+                    result = InteractionResult.FAIL;
+                    tag.remove(TAG_BLOCKENTITY_READER_NAME);
+                    break;
+                }
+
+                final BlockEntity blockEntitySourceEntity = currentRightClickedBlockEntity;
+
+                final Pair<InteractionResult, ? extends Component> readerBindingResult = ((ISignalTunerBindable)blockEntityReadingEntity).readerBindingToSource(
+                        Optional.of((ISignalTunerBindable)blockEntitySourceEntity), mode
+                );
+                final Pair<InteractionResult, MutableComponent> sourceBindingResult = ((ISignalTunerBindable)blockEntitySourceEntity).sourceBindingToReader(
+                        Optional.of((ISignalTunerBindable)blockEntityReadingEntity), mode
                 );
 
-                return InteractionResult.SUCCESS;
-            } else {
-                System.out.println("Bind Else Case");
+                tag.remove(TAG_BLOCKENTITY_READER_NAME);
 
-                BlockEntity destinationBlockEntity = pContext.getLevel().getBlockEntity(NbtUtils.readBlockPos(tag.getCompound("bind_location_start")));
-
-                Optional<ISignalTunerBindable> source = Optional.ofNullable(currentTarget);
-
-                Optional<ISignalTunerBindable> destination;
-                if (destinationBlockEntity instanceof ISignalTunerBindable) {
-                    destination = Optional.ofNullable((ISignalTunerBindable) destinationBlockEntity);
-                } else {
-                    destination = Optional.empty();
-                }
-
-                if (source.isPresent()) {
-                    Pair<InteractionResult, ? extends Component> result = destination.get().onBindToSource(source, tunerMode);
-
-                    if (result.right() != null) {
-                        MutableComponent fullMessage = Component.literal("[SOURCE] ").append(result.right() != null ? result.right() : Component.empty());
-                        sendStatusMessageFromInteraction(pContext, result, fullMessage);
-                    }
-                }
-
-                if (destination.isPresent()) {
-                    Pair<InteractionResult, ? extends Component> result = source.get().onBindToTarget(destination, tunerMode);
-
-                    if (result.right() != null) {
-                        MutableComponent fullMessage = Component.literal("[TARGET] ").append(result.right());
-                        sendStatusMessageFromInteraction(pContext, result, fullMessage);
-                    }
-                }
-
-                tag.remove("bind_location_start");
-            }
+                break;
+            case CONFIGURE:
+                break;
         }
 
-        return InteractionResult.PASS;
+        return result;
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public @NotNull ItemStack getDefaultInstance() {
+        ItemStack def = super.getDefaultInstance();
+        NBTHelper.writeEnum(def.getOrCreateTag(),TAG_MODE_NAME, ISignalTunerBindable.SignalTunerMode.CONNECT);
+
+        return def;
+    }
+
+
 }

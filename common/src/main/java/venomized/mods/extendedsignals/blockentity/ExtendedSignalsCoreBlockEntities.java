@@ -6,11 +6,11 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import venomized.mods.extendedsignals.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.block.ExtendedSignalsCoreBlocks;
 import venomized.mods.extendedsignals.client.blockentityrenderer.RendererATCController;
 
-public class ExtendedSignalsCoreBlockEntities {
+public final class ExtendedSignalsCoreBlockEntities {
     public static final BlockEntityEntry<BlockEntityRailroadCrossingController> BE_SE_RAILROAD_CROSSING_CONTROLLER =
             ExtendedSignalsCoreBlockEntities.simpleBlockEntity(
                     "be_se_crossing_controller",

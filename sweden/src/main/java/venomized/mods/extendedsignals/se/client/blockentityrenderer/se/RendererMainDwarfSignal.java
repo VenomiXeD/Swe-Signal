@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import venomized.mods.extendedsignals.client.blockentityrenderer.SignalRendererHelper;
 import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityDwarfSignal;
 import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityMainDwarfSignal;
 
@@ -32,11 +33,11 @@ public class RendererMainDwarfSignal extends RendererSeDwarfSignal {
         w = pMainBlockEntity.lightLevels[4];
         getRenderer().renderModel(
                 pPoseStack.last(),
-                pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+                pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pMainBlockEntity.getBlockState(),
                 RendererSignal.signalLightModel(),
                 w, 0, 0,
-                RendererSignal.FULLBRIGHT,
+                SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
         );
         pPoseStack.popPose();
@@ -49,11 +50,11 @@ public class RendererMainDwarfSignal extends RendererSeDwarfSignal {
         w = pMainBlockEntity.lightLevels[6];
         getRenderer().renderModel(
                 pPoseStack.last(),
-                pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+                pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pMainBlockEntity.getBlockState(),
                 RendererSignal.signalLightModel(),
                 0, w, 0,
-                RendererSignal.FULLBRIGHT,
+                SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
         );
         pPoseStack.popPose();
@@ -66,11 +67,11 @@ public class RendererMainDwarfSignal extends RendererSeDwarfSignal {
         w = pMainBlockEntity.lightLevels[5];
         getRenderer().renderModel(
                 pPoseStack.last(),
-                pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+                pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pMainBlockEntity.getBlockState(),
                 RendererSignal.signalLightModel(),
                 0, w, 0,
-                RendererSignal.FULLBRIGHT,
+                SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
         );
         pPoseStack.popPose();

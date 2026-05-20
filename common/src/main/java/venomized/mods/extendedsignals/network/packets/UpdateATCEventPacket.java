@@ -8,7 +8,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public record UpdateATCEventPacket(double atcLimit) {
+public record UpdateATCEventPacket(double atcLimit) implements ISimplePacket {
     public static UpdateATCEventPacket decode(FriendlyByteBuf buf) {
         return new UpdateATCEventPacket(buf.readDouble());
     }

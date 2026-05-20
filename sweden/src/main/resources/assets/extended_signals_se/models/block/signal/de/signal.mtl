@@ -1,6 +1,0 @@
-# Made in Blockbench 5.1.1
-newmtl m_3d215661-f591-00a8-53e2-d8d611c756be
-map_Kd #main_signal
-newmtl m_de520ccc-0234-6a6c-1047-8b7438fb9ffd
-map_Kd #metal_exposed
-newmtl none

@@ -2,7 +2,7 @@ package venomized.mods.extendedsignals.client.sound.train;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import venomized.mods.extendedsignals.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 
 public class TrainSounds {
     public static final ResourceKey<Registry<TrainSoundConfiguration>> TRAIN_SOUNDS_RESOURCE_KEY = ResourceKey.createRegistryKey(ExtendedSignalsCore.res("train_sounds"));

@@ -6,7 +6,6 @@ import it.unimi.dsi.fastutil.Pair;
 import net.createmod.catnip.lang.Lang;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
@@ -19,22 +18,27 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.blockentity.ExtendedSignalBlockEntity;
+import venomized.mods.extendedsignals.blockentity.ExtendedSignalsCoreBlockEntity;
 import venomized.mods.extendedsignals.blockentity.ISignalTunerBindable;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.RawSignalState;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.SwedishSignalAspect;
-import venomized.mods.extendedsignals.se.blockentity.BlockEntitySignalBox;
 import venomized.mods.extendedsignals.util.SignalUtilities;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public abstract class BlockEntitySignal extends ExtendedSignalBlockEntity
+public abstract class BlockEntitySignal extends ExtendedSignalsCoreBlockEntity
         implements IHaveGoggleInformation, ISignalTunerBindable {
-    private static final String SIGNAL_BOX_POS_TAG = "signal_box_pos";
+    private static final String TAG_REFERENCED_SIGNAL_UUID = "linked_signal_uuid";
+
+    private UUID referencedSignalUUID;
+
     private final int lightCount;
     public float[] lightLevels;
-    private BlockPos signalBoxPosition;
+
     private int tick;
     private int remainingTicksAspectChangeDelay;
 
@@ -65,43 +69,27 @@ public abstract class BlockEntitySignal extends ExtendedSignalBlockEntity
         return this.lightCount;
     }
 
-    public void setTargetedSignalBoxPosition(BlockPos signalBoxPosition) {
-        this.signalBoxPosition = signalBoxPosition;
-        this.setChanged();
-        this.updateSelf();
-    }
-
-    private BlockEntitySignalBox getConnectedSignalBox() {
-        if (signalBoxPosition == null) {
-            return null;
-        }
-        BlockEntity blockEntity = this.getLevel().getBlockEntity(signalBoxPosition);
-        if (blockEntity instanceof BlockEntitySignalBox besb) {
-            return besb;
-        }
-        return null;
+    public boolean valid() {
+        return referencedSignalUUID != null;
     }
 
     public SwedishSignalAspect getCurrentDisplayingAspect() {
-        BlockEntitySignalBox connectedSignalBox = this.getConnectedSignalBox();
-        if (connectedSignalBox == null) {
-            return null;
-        }
-        return SwedishSignalAspect.STOP;
+        if (referencedSignalUUID == null)
+            return SwedishSignalAspect.SIGNAL_FAULT_INCORRECT_WIRING;
+
+        RawSignalState rawSignalStateState = ExtendedSignalsCore.clientNetworkCache()
+                .signalStates()
+                .get(referencedSignalUUID);
+
+        if (rawSignalStateState == null)
+            return SwedishSignalAspect.STOP;
+
+        return rawSignalStateState.isProceed() ? SwedishSignalAspect.PROCEED_80 :  SwedishSignalAspect.STOP;
         // return connectedSignalBox.getCurrentAspect();
     }
 
     public SignalBlockEntity.SignalState getCurrentDisplayingState() {
         return SignalBlockEntity.SignalState.GREEN;
-        // BlockEntitySignalBox connectedSignalBox = this.getConnectedSignalBox();
-        // if (connectedSignalBox == null) {
-        //     return SignalBlockEntity.SignalState.INVALID;
-        // }
-        // return connectedSignalBox.getCreateSignalState();
-    }
-
-    public boolean valid() {
-        return this.getConnectedSignalBox() != null;
     }
 
     public boolean blink() {
@@ -181,14 +169,19 @@ public abstract class BlockEntitySignal extends ExtendedSignalBlockEntity
      * @return
      */
     @Override
-    public Pair<InteractionResult, MutableComponent> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+    public Pair<InteractionResult, MutableComponent> readerBindingToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
         if (sourceBlockEntity.isPresent()) {
-            if (sourceBlockEntity.get() instanceof BlockEntitySignalBox sb) {
-                this.setTargetedSignalBoxPosition(sb.getBlockPos());
+            if (sourceBlockEntity.get() instanceof SignalBlockEntity sb) {
+                bindToSignal(sb.getSignal().id);
                 return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully bound to signal box"));
             }
         }
-        return ISignalTunerBindable.super.onBindToSource(sourceBlockEntity, mode);
+        return ISignalTunerBindable.super.sourceBindingToReader(sourceBlockEntity, mode);
+    }
+
+    private void bindToSignal(UUID id) {
+        this.referencedSignalUUID = id;
+        this.updateSelf();
     }
 
     @Override
@@ -226,30 +219,21 @@ public abstract class BlockEntitySignal extends ExtendedSignalBlockEntity
      */
     @Override
     public void handleUpdateTag(CompoundTag tag) {
-        if (tag.contains(SIGNAL_BOX_POS_TAG)) {
-            this.signalBoxPosition = NbtUtils.readBlockPos(tag.getCompound(SIGNAL_BOX_POS_TAG));
-        } else {
-            this.signalBoxPosition = null;
-        }
+        super.handleUpdateTag(tag);
+        this.referencedSignalUUID = tag.hasUUID(TAG_REFERENCED_SIGNAL_UUID) ? tag.getUUID(TAG_REFERENCED_SIGNAL_UUID) : null;
     }
 
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
-        if (pTag.contains(SIGNAL_BOX_POS_TAG)) {
-            this.signalBoxPosition = NbtUtils.readBlockPos(pTag.getCompound(SIGNAL_BOX_POS_TAG));
-        } else {
-            this.signalBoxPosition = null;
-        }
+        referencedSignalUUID = pTag.hasUUID(TAG_REFERENCED_SIGNAL_UUID) ? pTag.getUUID(TAG_REFERENCED_SIGNAL_UUID) : null;
     }
 
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
-        if (signalBoxPosition != null) {
-            pTag.put(SIGNAL_BOX_POS_TAG, NbtUtils.writeBlockPos(signalBoxPosition));
-        } else {
-            pTag.putBoolean(SIGNAL_BOX_POS_TAG + "_missing", true);
-        }
+        if (referencedSignalUUID == null) return;
+
+        pTag.putUUID(TAG_REFERENCED_SIGNAL_UUID, referencedSignalUUID);
     }
 }

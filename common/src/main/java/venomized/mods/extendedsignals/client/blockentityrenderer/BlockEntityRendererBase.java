@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.AxisAngle4f;
 import org.joml.Math;
 import org.joml.Quaternionf;
-import venomized.mods.extendedsignals.blockentity.ExtendedSignalBlockEntity;
+import venomized.mods.extendedsignals.blockentity.ExtendedSignalsCoreBlockEntity;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class BlockEntityRendererBase<T extends BlockEntity> implements BlockEntityRenderer<T> {
@@ -51,7 +51,7 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
         pPoseStack.scale(sx, sy, sz);
         // getRenderer().renderModel(
         //         pPoseStack.last(),
-        //         pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+        //         pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
         //         pMainBlockEntity.getBlockState(),
         //         RendererSignal.signalLightModel(),
         //         r, g, b,
@@ -126,8 +126,8 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
      */
     @Override
     public void render(T pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
-        if (pBlockEntity instanceof ExtendedSignalBlockEntity esbe) {
-            float angle = -esbe.orientationIndexInDegrees();
+        if (pBlockEntity instanceof ExtendedSignalsCoreBlockEntity esbe) {
+            float angle = -esbe.getYOrientation();
 
             pPoseStack.rotateAround(
                     new Quaternionf(

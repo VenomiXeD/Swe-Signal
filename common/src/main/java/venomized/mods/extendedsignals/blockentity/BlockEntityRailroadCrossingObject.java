@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public abstract class BlockEntityRailroadCrossingObject extends ExtendedSignalBlockEntity implements ISignalTunerBindable {
+public abstract class BlockEntityRailroadCrossingObject extends ExtendedSignalsCoreBlockEntity implements ISignalTunerBindable {
     @Nullable
     public BlockPos railroadCrossingControllerPos;
 
@@ -44,7 +44,7 @@ public abstract class BlockEntityRailroadCrossingObject extends ExtendedSignalBl
      * @return
      */
     @Override
-    public Pair<InteractionResult, MutableComponent> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+    public Pair<InteractionResult, MutableComponent> sourceBindingToReader(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
         if (sourceBlockEntity.isPresent()) {
             IForgeBlockEntity be = sourceBlockEntity.get();
             if (be instanceof BlockEntityRailroadCrossingController c) {

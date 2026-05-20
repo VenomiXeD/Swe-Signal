@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase;
+import venomized.mods.extendedsignals.client.blockentityrenderer.SignalRendererHelper;
 import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityRailroadCrossingSignal;
 
 public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<BlockEntityRailroadCrossingSignal> {
@@ -47,11 +48,11 @@ public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<Bloc
         pPoseStack.scale(1.1f, 1.1f, 0);
         getRenderer().renderModel(
                 pPoseStack.last(),
-                pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+                pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
                 RendererSignal.signalLightModel(),
                 1, pBlockEntity.isRailroadCrossingControllerPowered() ? 1 : 0, pBlockEntity.isRailroadCrossingControllerPowered() ? 1 : 0,
-                RendererSignal.FULLBRIGHT,
+                SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
         );
         pPoseStack.popPose();
@@ -62,11 +63,11 @@ public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<Bloc
         pPoseStack.scale(1.1f, 1.1f, 0);
         getRenderer().renderModel(
                 pPoseStack.last(),
-                pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+                pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
                 RendererSignal.signalLightModel(),
                 1, pBlockEntity.isRailroadCrossingControllerPowered() ? 1 : 0, pBlockEntity.isRailroadCrossingControllerPowered() ? 1 : 0,
-                RendererSignal.FULLBRIGHT,
+                SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
         );
         pPoseStack.popPose();

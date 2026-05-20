@@ -7,6 +7,7 @@
     "MixinCreateTrainSignal",
     "MixinNavigation",
     "MixinScheduleRuntime",
+    "MixinSignalBoundary",
     "MixinTrain",
     "SlidingDoorMovementBehavior"
   ],

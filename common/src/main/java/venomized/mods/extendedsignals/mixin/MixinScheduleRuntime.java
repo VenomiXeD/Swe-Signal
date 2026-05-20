@@ -24,6 +24,7 @@ public class MixinScheduleRuntime {
 
     @Inject(method = "destinationReached", at = @At(value = "HEAD"))
     public void onDestinationReached(CallbackInfo ci) {
+        if (this.schedule == null) return;
         if (this.schedule.entries.get(this.currentEntry).instruction instanceof DoorInstruction)
             return;
 

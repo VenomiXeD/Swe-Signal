@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase;
+import venomized.mods.extendedsignals.client.blockentityrenderer.SignalRendererHelper;
 import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityRailroadCrossingDistantSignal;
 
 public class RendererRailroadCrossingDistantSignal extends BlockEntityRendererBase<BlockEntityRailroadCrossingDistantSignal> {
@@ -46,11 +47,11 @@ public class RendererRailroadCrossingDistantSignal extends BlockEntityRendererBa
         pPoseStack.scale(1.2f, 1.2f, 0);
         getRenderer().renderModel(
                 pPoseStack.last(),
-                pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+                pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
                 RendererSignal.signalLightModel(),
                 pBlockEntity.lightLevel, pBlockEntity.lightLevel * .8f, 0,
-                RendererSignal.FULLBRIGHT,
+                SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
         );
         pPoseStack.popPose();
@@ -60,11 +61,11 @@ public class RendererRailroadCrossingDistantSignal extends BlockEntityRendererBa
         pPoseStack.scale(1.2f, 1.2f, 0);
         getRenderer().renderModel(
                 pPoseStack.last(),
-                pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+                pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
                 RendererSignal.signalLightModel(),
                 pBlockEntity.lightLevel, pBlockEntity.lightLevel * .8f, 0,
-                RendererSignal.FULLBRIGHT,
+                SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
         );
         pPoseStack.popPose();
@@ -75,11 +76,11 @@ public class RendererRailroadCrossingDistantSignal extends BlockEntityRendererBa
         pPoseStack.scale(1.2f, 1.2f, 0);
         getRenderer().renderModel(
                 pPoseStack.last(),
-                pBuffer.getBuffer(RenderType.beaconBeam(RendererSignal.SIGNAL_LIGHT_TEX_LOC, true)),
+                pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
                 RendererSignal.signalLightModel(),
                 pBlockEntity.lightLevel, pBlockEntity.lightLevel * .8f, 0,
-                RendererSignal.FULLBRIGHT,
+                SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
         );
         pPoseStack.popPose();

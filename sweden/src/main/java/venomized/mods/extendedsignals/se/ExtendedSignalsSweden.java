@@ -5,7 +5,7 @@ import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import venomized.mods.extendedsignals.ModTemplate;
+import venomized.mods.extendedsignals.core.ModTemplate;
 import venomized.mods.extendedsignals.se.block.ExtendedSignalsSwedenBlocks;
 import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
 
@@ -27,7 +27,7 @@ public class ExtendedSignalsSweden extends ModTemplate {
      *
      */
     @Override
-    protected void initializeContent() {
+    protected void commonInitialization() {
         ExtendedSignalsSwedenBlocks.init();
         ExtendedSignalsSwedenBlockEntities.init();
 
@@ -38,7 +38,7 @@ public class ExtendedSignalsSweden extends ModTemplate {
      *
      */
     @Override
-    protected void initializeClientContent() {
+    protected void clientInitialization() {
 
     }
 }

@@ -19,7 +19,7 @@ import venomized.mods.extendedsignals.util.BlockEntityReference;
 
 import java.util.Optional;
 
-public abstract class BlockEntityAbstractSignalBox extends ExtendedSignalBlockEntity implements ISignalTunerBindable {
+public abstract class BlockEntityAbstractSignalBox extends ExtendedSignalsCoreBlockEntity implements ISignalTunerBindable {
     private static final String TAG_CREATE_SIGNAL_NBT_KEY = "linked_signal_group";
 
     private final BlockEntityReference<SignalBlockEntity> refCreateSignalBox = new BlockEntityReference<>(SignalBlockEntity.class, TAG_CREATE_SIGNAL_NBT_KEY);
@@ -92,7 +92,7 @@ public abstract class BlockEntityAbstractSignalBox extends ExtendedSignalBlockEn
      * @return
      */
     @Override
-    public Pair<InteractionResult, MutableComponent> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+    public Pair<InteractionResult, MutableComponent> sourceBindingToReader(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
         switch (mode) {
             case CONNECT:
                 return sourceBlockEntity.map(blockEntity -> {

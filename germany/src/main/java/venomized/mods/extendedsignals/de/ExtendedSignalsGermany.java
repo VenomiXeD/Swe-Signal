@@ -4,7 +4,7 @@ import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import venomized.mods.extendedsignals.ModTemplate;
+import venomized.mods.extendedsignals.core.ModTemplate;
 
 @Mod(ExtendedSignalsGermany.MOD_ID)
 public class ExtendedSignalsGermany extends ModTemplate {
@@ -23,7 +23,7 @@ public class ExtendedSignalsGermany extends ModTemplate {
      *
      */
     @Override
-    protected void initializeContent() {
+    protected void commonInitialization() {
 
     }
 }

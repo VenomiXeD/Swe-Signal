@@ -13,7 +13,7 @@ public interface ISignalTunerBindable extends IForgeBlockEntity {
         return true;
     }
 
-    default boolean isDestination() {
+    default boolean isReader() {
         return true;
     }
 
@@ -24,7 +24,7 @@ public interface ISignalTunerBindable extends IForgeBlockEntity {
      * @param mode
      * @return
      */
-    default Pair<InteractionResult, MutableComponent> onBindToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+    default Pair<InteractionResult, MutableComponent> sourceBindingToReader(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
         return Pair.of(InteractionResult.FAIL, Component.literal("Invalid Data Source Tile"));
     }
 
@@ -34,7 +34,7 @@ public interface ISignalTunerBindable extends IForgeBlockEntity {
      * @param targetBlockEntity target block destination
      * @param mode
      */
-    default Pair<InteractionResult, ? extends Component> onBindToTarget(Optional<ISignalTunerBindable> targetBlockEntity, SignalTunerMode mode) {
+    default Pair<InteractionResult, ? extends Component> readerBindingToSource(Optional<ISignalTunerBindable> targetBlockEntity, SignalTunerMode mode) {
         return Pair.of(InteractionResult.CONSUME, Component.empty());
     }
 

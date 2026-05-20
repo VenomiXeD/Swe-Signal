@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
-import venomized.mods.extendedsignals.ExtendedSignalsCore;
 
 public class RegistrateHelper {
     public static <T extends Block> BlockBuilder<T, Registrate> modelledBlock(Registrate registrateInstance, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {

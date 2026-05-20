@@ -12,18 +12,17 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import venomized.mods.extendedsignals.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.client.blockentityrenderer.SignalRendererHelper;
 import venomized.mods.extendedsignals.client.ExtendedSignalsCoreModels;
 import venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mods.extendedsignals.se.SwedishSignalAspect;
 import venomized.mods.extendedsignals.se.blockentity.mainsignals.BlockEntitySignal;
 
+import static venomized.mods.extendedsignals.client.blockentityrenderer.SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC;
+
 @OnlyIn(Dist.CLIENT)
 public class RendererSignal<T extends BlockEntitySignal>
         extends BlockEntityRendererBase<T> {
-    protected static final int FULLBRIGHT = 0xFFFFFF;
-
-    protected static ResourceLocation SIGNAL_LIGHT_TEX_LOC = ExtendedSignalsCore.res("block/light");
 
     public RendererSignal(BlockEntityRendererProvider.Context context) {
     }
@@ -78,7 +77,8 @@ public class RendererSignal<T extends BlockEntitySignal>
                 true,
                 t.getLevel().getRandom(),
                 light,
-                overlay);
+                overlay
+        );
 
         if (this.isObjModel()) {
             poseStack.popPose();
@@ -93,6 +93,7 @@ public class RendererSignal<T extends BlockEntitySignal>
         poseStack.translate(0, 0.5d * (lightCount - 1), 0);
 
         poseStack.translate(0f, 10.35 / 16f, -3.001f / 16f);
+
 
         for (int i = 0; i < lightCount; i++) {
             float r = 0;
@@ -122,7 +123,7 @@ public class RendererSignal<T extends BlockEntitySignal>
                     // RenderType.debugFilledBox()
                     // multiBufferSource.getBuffer(RenderType.debugQuads()), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
                     // multiBufferSource.getBuffer(RenderType.solid()), t.getBlockState(), signalLightModel(), r, g, b, FULLBRIGHT, overlay
-                    multiBufferSource.getBuffer(RenderType.beaconBeam(SIGNAL_LIGHT_TEX_LOC, true)), t.getBlockState(), signalLightModel(), r, g, b, FULLBRIGHT, overlay
+                    multiBufferSource.getBuffer(RenderType.beaconBeam(SIGNAL_LIGHT_TEX_LOC, true)), t.getBlockState(), signalLightModel(), r, g, b, SignalRendererHelper.FULLBRIGHT, overlay
                     // multiBufferSource.getBuffer(RenderType.()), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
             );
             poseStack.popPose();

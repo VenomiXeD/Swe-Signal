@@ -3,11 +3,15 @@ package venomized.mods.extendedsignals.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
+import com.simibubi.create.content.trains.signal.SignalBoundary;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.RawSignalState;
+import venomized.mods.extendedsignals.create.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.create.tracks.ATCController;
 import venomized.mods.extendedsignals.util.ITrainDoorData;
 
@@ -26,6 +30,12 @@ public abstract class MixinTrain implements ITrainDoorData {
                 atcController.onATCAction(((Train) (Object) this));
                 return false;
             }
+
+            if (couple.getFirst() instanceof SignalBoundary signalBoundary) {
+                ((IExtendedSignalBoundary)signalBoundary)
+                        .extendedSignal$onCrossed((Train) (Object) this);
+            }
+
             return original.test(distance, couple);
         };
     }
