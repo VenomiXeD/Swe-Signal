@@ -4,8 +4,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.RawSignalState;
 import venomized.mods.extendedsignals.core.ISignalNetwork;
+import venomized.mods.extendedsignals.core.RawSignalState;
 
 import java.util.Map;
 import java.util.Objects;

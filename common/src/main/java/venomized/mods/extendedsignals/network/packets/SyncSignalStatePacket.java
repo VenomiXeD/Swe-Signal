@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public record SyncSignalStatePacket(UUID uuid, RawSignalState rawSignalState) implements ISimplePacket {
     public static SyncSignalStatePacket decode(FriendlyByteBuf buf) {
-        return new  SyncSignalStatePacket(
+        return new SyncSignalStatePacket(
                 buf.readUUID(),
                 RawSignalState.fromNBT(buf.readAnySizeNbt())
         );
@@ -25,7 +25,7 @@ public record SyncSignalStatePacket(UUID uuid, RawSignalState rawSignalState) im
         ExtendedSignalsCore.LOGGER
                 .info("new signal state update: {}, {}", uuid, NbtUtils.prettyPrint(this.rawSignalState().toNBT()));
         ExtendedSignalsCore.clientNetworkCache()
-                        .updateState(this.uuid, this.rawSignalState);
+                .updateState(this.uuid, this.rawSignalState);
         contextSupplier.get().setPacketHandled(true);
     }
 

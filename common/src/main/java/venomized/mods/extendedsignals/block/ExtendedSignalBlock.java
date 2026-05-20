@@ -12,6 +12,13 @@ import venomized.mods.extendedsignals.blockentity.ExtendedSignalsCoreBlockEntity
 
 public class ExtendedSignalBlock extends Block {
 
+    /**
+     * @param pProperties
+     */
+    public ExtendedSignalBlock(Properties pProperties) {
+        super(pProperties);
+    }
+
     private static float getSnappedRotation(BlockPos blockPos, Vec3 targetPos) {
         double dx = targetPos.x - (blockPos.getX() + 0.5);
         double dz = targetPos.z - (blockPos.getZ() + 0.5);
@@ -25,13 +32,6 @@ public class ExtendedSignalBlock extends Block {
     }
 
     /**
-     * @param pProperties
-     */
-    public ExtendedSignalBlock(Properties pProperties) {
-        super(pProperties);
-    }
-
-    /**
      * @param pLevel
      * @param pPos
      * @param pState
@@ -40,14 +40,14 @@ public class ExtendedSignalBlock extends Block {
      */
     @Override
     public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
-       if (pPlacer == null)
-           return;
+        if (pPlacer == null)
+            return;
 
-       if (pLevel.getBlockEntity(pPos) instanceof ExtendedSignalsCoreBlockEntity rotateableBlockEntity) {
-           rotateableBlockEntity.setYOrientation(
-                   getSnappedRotation(pPos, pPlacer.position())
-           );
-           rotateableBlockEntity.updateSelf();
-       }
+        if (pLevel.getBlockEntity(pPos) instanceof ExtendedSignalsCoreBlockEntity rotateableBlockEntity) {
+            rotateableBlockEntity.setYOrientation(
+                    getSnappedRotation(pPos, pPlacer.position())
+            );
+            rotateableBlockEntity.updateSelf();
+        }
     }
 }

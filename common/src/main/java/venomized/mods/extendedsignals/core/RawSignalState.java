@@ -9,6 +9,12 @@ public class RawSignalState {
     @Setter
     private boolean proceed;
 
+    public static RawSignalState fromNBT(final CompoundTag tag) {
+        final RawSignalState rawSignalState = new RawSignalState();
+        rawSignalState.setProceed(tag.getBoolean("proceed"));
+        return rawSignalState;
+    }
+
     public RawSignalState withProceed(final boolean proceed) {
         this.proceed = proceed;
         return this;
@@ -20,24 +26,18 @@ public class RawSignalState {
         return tag;
     }
 
-    public static RawSignalState fromNBT(final CompoundTag tag) {
-        final RawSignalState rawSignalState = new RawSignalState();
-        rawSignalState.setProceed(tag.getBoolean("proceed"));
-        return rawSignalState;
-    }
-
     /**
      * @param obj the reference object with which to compare.
      * @return
      */
     @Override
     public boolean equals(Object obj) {
-       if (this == obj)
-           return true;
+        if (this == obj)
+            return true;
 
-       if(!(obj instanceof RawSignalState other))
-           return false;
+        if (!(obj instanceof RawSignalState other))
+            return false;
 
-       return this.isProceed() == other.isProceed();
+        return this.isProceed() == other.isProceed();
     }
 }

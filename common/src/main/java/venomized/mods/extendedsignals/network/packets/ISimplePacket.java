@@ -7,5 +7,6 @@ import java.util.function.Supplier;
 
 public interface ISimplePacket {
     void handle(Supplier<NetworkEvent.Context> contextSupplier);
+
     void encode(FriendlyByteBuf buf);
 }

@@ -12,8 +12,6 @@ import java.util.UUID;
 public interface ISignalNetwork {
     String TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME = "signal_states";
 
-    Object2ObjectMap<UUID, RawSignalState> signalStates();
-
     static ListTag serializeSignalStatesToNBTList(Map<UUID, RawSignalState> signalStates) {
         final ListTag signalsCollectionTag = new ListTag();
         signalStates.forEach((uuid, signal) -> {
@@ -36,6 +34,8 @@ public interface ISignalNetwork {
 
         return signalStates;
     }
+
+    Object2ObjectMap<UUID, RawSignalState> signalStates();
 
     default void flushAndApplyNewSignalStates(Map<UUID, RawSignalState> newSignalNetwork) {
         this.signalStates().clear();

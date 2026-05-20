@@ -13,7 +13,7 @@ import net.minecraftforge.network.PacketDistributor;
 import venomized.mods.extendedsignals.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.network.packets.SyncSignalStatesPacket;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid =  ExtendedSignalsCore.MOD_ID)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = ExtendedSignalsCore.MOD_ID)
 public class EventHandler {
     private static SignalBlockEntity firstSignal;
     private static SignalBlockEntity secondSignal;
@@ -32,7 +32,7 @@ public class EventHandler {
                 ExtendedSignalsCore.serverNetworkCache().signalStates()
         );
 
-        ExtendedSignalsNetworking.CHANNEL.send(PacketDistributor.PLAYER.with(()->serverPlayer), syncPacket);
+        ExtendedSignalsNetworking.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), syncPacket);
     }
 
     @SubscribeEvent

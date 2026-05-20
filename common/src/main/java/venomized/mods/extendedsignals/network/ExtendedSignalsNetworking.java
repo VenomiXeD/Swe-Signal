@@ -4,7 +4,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.network.packets.*;
+import venomized.mods.extendedsignals.network.packets.ClientScrollNetworkEventPacket;
+import venomized.mods.extendedsignals.network.packets.SyncSignalStatePacket;
+import venomized.mods.extendedsignals.network.packets.SyncSignalStatesPacket;
+import venomized.mods.extendedsignals.network.packets.UpdateATCEventPacket;
 
 public class ExtendedSignalsNetworking {
     private static final String NET_VERSION = "1.0";

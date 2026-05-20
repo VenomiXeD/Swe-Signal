@@ -33,12 +33,9 @@ import java.util.UUID;
 public abstract class BlockEntitySignal extends ExtendedSignalsCoreBlockEntity
         implements IHaveGoggleInformation, ISignalTunerBindable {
     private static final String TAG_REFERENCED_SIGNAL_UUID = "linked_signal_uuid";
-
-    private UUID referencedSignalUUID;
-
     private final int lightCount;
     public float[] lightLevels;
-
+    private UUID referencedSignalUUID;
     private int tick;
     private int remainingTicksAspectChangeDelay;
 
@@ -84,7 +81,7 @@ public abstract class BlockEntitySignal extends ExtendedSignalsCoreBlockEntity
         if (rawSignalStateState == null)
             return SwedishSignalAspect.STOP;
 
-        return rawSignalStateState.isProceed() ? SwedishSignalAspect.PROCEED_80 :  SwedishSignalAspect.STOP;
+        return rawSignalStateState.isProceed() ? SwedishSignalAspect.PROCEED_80 : SwedishSignalAspect.STOP;
         // return connectedSignalBox.getCurrentAspect();
     }
 

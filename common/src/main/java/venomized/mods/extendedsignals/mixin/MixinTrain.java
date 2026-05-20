@@ -9,8 +9,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.RawSignalState;
 import venomized.mods.extendedsignals.create.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.create.tracks.ATCController;
 import venomized.mods.extendedsignals.util.ITrainDoorData;
@@ -32,7 +30,7 @@ public abstract class MixinTrain implements ITrainDoorData {
             }
 
             if (couple.getFirst() instanceof SignalBoundary signalBoundary) {
-                ((IExtendedSignalBoundary)signalBoundary)
+                ((IExtendedSignalBoundary) signalBoundary)
                         .extendedSignal$onCrossed((Train) (Object) this);
             }
 

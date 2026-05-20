@@ -1,6 +1,9 @@
 package venomized.mods.extendedsignals.core;
 
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2LongMap;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.MinecraftServer;
@@ -21,14 +24,6 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
     private final Object2ObjectMap<UUID, RawSignalState> signalStates = new Object2ObjectOpenHashMap<>();
     private final Object2LongMap<UUID> signalStateDebouncecache = new Object2LongOpenHashMap<>();
 
-    /**
-     * @return
-     */
-    @Override
-    public Object2ObjectMap<UUID, RawSignalState> signalStates() {
-       return this.signalStates;
-    }
-
     public static ServerSignalNetworkCache get(final MinecraftServer server) {
         ExtendedSignalsCore.LOGGER.info("Extended Signals is loading signal data...");
         return server.overworld().getDataStorage().computeIfAbsent(
@@ -40,8 +35,8 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
 
     private static ServerSignalNetworkCache create() {
         ServerSignalNetworkCache test = new ServerSignalNetworkCache();
-        test.signalStates().put(UUID.randomUUID(),new RawSignalState().withProceed(true));
-test.setDirty(true);
+        test.signalStates().put(UUID.randomUUID(), new RawSignalState().withProceed(true));
+        test.setDirty(true);
         return test;
     }
 
@@ -52,6 +47,14 @@ test.setDirty(true);
         );
 
         return serverSignalNetworkCache;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Object2ObjectMap<UUID, RawSignalState> signalStates() {
+        return this.signalStates;
     }
 
     /**

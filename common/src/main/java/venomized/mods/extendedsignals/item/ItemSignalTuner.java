@@ -64,10 +64,10 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
         ISignalTunerBindable.SignalTunerMode currentMode = NBTHelper.readEnum(tag, TAG_MODE_NAME, ISignalTunerBindable.SignalTunerMode.class);
         ISignalTunerBindable.SignalTunerMode newMode = ISignalTunerBindable
                 .SignalTunerMode.values()[
-                        Math.min(
-                                ISignalTunerBindable.SignalTunerMode.values().length - 1,
-                                Math.max(0, currentMode.ordinal() + (up ? 1 : -1))
-                        )
+                Math.min(
+                        ISignalTunerBindable.SignalTunerMode.values().length - 1,
+                        Math.max(0, currentMode.ordinal() + (up ? 1 : -1))
+                )
                 ];
 
         NBTHelper.writeEnum(tag, TAG_MODE_NAME, newMode);
@@ -100,12 +100,14 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
                 break;
             case CONNECT:
                 final BlockEntity currentRightClickedBlockEntity = pContext.getLevel().getBlockEntity(pContext.getClickedPos());
-                if (!(currentRightClickedBlockEntity instanceof ISignalTunerBindable bindable)) { result = InteractionResult.FAIL; break; }
+                if (!(currentRightClickedBlockEntity instanceof ISignalTunerBindable bindable)) {
+                    result = InteractionResult.FAIL;
+                    break;
+                }
 
-                if(!tag.contains(TAG_BLOCKENTITY_READER_NAME)) {
+                if (!tag.contains(TAG_BLOCKENTITY_READER_NAME)) {
                     // Ensure that the reader block entity can only be a reader
-                    if(!bindable.isReader())
-                    {
+                    if (!bindable.isReader()) {
                         result = InteractionResult.FAIL;
                         break;
                     }
@@ -115,15 +117,15 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
                 }
 
                 // Ensure that data source is only a source
-                if(!bindable.isSource()) {
-                    result =  InteractionResult.FAIL;
+                if (!bindable.isSource()) {
+                    result = InteractionResult.FAIL;
                     break;
                 }
 
                 final BlockEntity blockEntityReadingEntity = pContext.getLevel().getBlockEntity(
                         NbtUtils.readBlockPos(tag.getCompound(TAG_BLOCKENTITY_READER_NAME))
                 );
-                if(!(blockEntityReadingEntity instanceof ISignalTunerBindable)) {
+                if (!(blockEntityReadingEntity instanceof ISignalTunerBindable)) {
                     // TODO: inform player that the reader has been destroyed
                     result = InteractionResult.FAIL;
                     tag.remove(TAG_BLOCKENTITY_READER_NAME);
@@ -132,11 +134,11 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 
                 final BlockEntity blockEntitySourceEntity = currentRightClickedBlockEntity;
 
-                final Pair<InteractionResult, ? extends Component> readerBindingResult = ((ISignalTunerBindable)blockEntityReadingEntity).readerBindingToSource(
-                        Optional.of((ISignalTunerBindable)blockEntitySourceEntity), mode
+                final Pair<InteractionResult, ? extends Component> readerBindingResult = ((ISignalTunerBindable) blockEntityReadingEntity).readerBindingToSource(
+                        Optional.of((ISignalTunerBindable) blockEntitySourceEntity), mode
                 );
-                final Pair<InteractionResult, MutableComponent> sourceBindingResult = ((ISignalTunerBindable)blockEntitySourceEntity).sourceBindingToReader(
-                        Optional.of((ISignalTunerBindable)blockEntityReadingEntity), mode
+                final Pair<InteractionResult, MutableComponent> sourceBindingResult = ((ISignalTunerBindable) blockEntitySourceEntity).sourceBindingToReader(
+                        Optional.of((ISignalTunerBindable) blockEntityReadingEntity), mode
                 );
 
                 tag.remove(TAG_BLOCKENTITY_READER_NAME);
@@ -155,7 +157,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
     @Override
     public @NotNull ItemStack getDefaultInstance() {
         ItemStack def = super.getDefaultInstance();
-        NBTHelper.writeEnum(def.getOrCreateTag(),TAG_MODE_NAME, ISignalTunerBindable.SignalTunerMode.CONNECT);
+        NBTHelper.writeEnum(def.getOrCreateTag(), TAG_MODE_NAME, ISignalTunerBindable.SignalTunerMode.CONNECT);
 
         return def;
     }

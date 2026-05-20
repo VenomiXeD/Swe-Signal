@@ -11,9 +11,12 @@ public abstract class ModTemplate {
         DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> this::serverInitialization);
     }
 
-    protected void commonInitialization() {}
+    protected void commonInitialization() {
+    }
 
-    protected void clientInitialization() {}
+    protected void clientInitialization() {
+    }
 
-    protected void serverInitialization() {}
+    protected void serverInitialization() {
+    }
 }

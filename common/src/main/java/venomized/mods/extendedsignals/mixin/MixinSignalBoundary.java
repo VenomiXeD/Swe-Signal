@@ -20,7 +20,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
      */
     @Override
     public UUID extendedSignal$getSignalBoundaryID() {
-       return ((SignalBoundary)(Object)this).id;
+        return ((SignalBoundary) (Object) this).id;
     }
 
     /**

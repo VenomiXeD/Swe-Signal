@@ -1,14 +1,11 @@
 package venomized.mods.extendedsignals.mixin;
 
-import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
-import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
-import com.simibubi.create.content.trains.station.GlobalStation;
 import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Pair;
 import net.minecraft.world.level.Level;
@@ -22,7 +19,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.create.IExtendedSignalBoundary;
 
 import java.util.UUID;
@@ -34,14 +30,13 @@ public abstract class MixinNavigation implements TravellingPoint.IEdgePointListe
 
     @Shadow
     public Train train;
+    @Shadow
+    public boolean announceArrival;
     @Unique
     TravellingPoint swe_signal$signalTrigger;
 
     @Shadow
     public abstract TravellingPoint.ITrackSelector controlSignalScout();
-
-    @Shadow
-    public boolean announceArrival;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void onCtor(Train train, CallbackInfo ci) {
@@ -85,17 +80,17 @@ public abstract class MixinNavigation implements TravellingPoint.IEdgePointListe
      */
     @Override
     public boolean test(Double distance, Pair<TrackEdgePoint, Couple<TrackNode>> trackEdgePointCouplePair) {
-            TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
+        TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
 
         // ExtendedSignalsCore.LOGGER.info("Edge point hit: {}", trackEdgePoint.getClass().getName());
 
         if (!(trackEdgePoint instanceof SignalBoundary signalBoundary))
             return false;
 
-        if(signalBoundary.isPrimary(trackEdgePointCouplePair.getSecond().getSecond()))
+        if (signalBoundary.isPrimary(trackEdgePointCouplePair.getSecond().getSecond()))
             return true;
 
-        ((IExtendedSignalBoundary)signalBoundary).extendedSignal$onScout(this.train);
+        ((IExtendedSignalBoundary) signalBoundary).extendedSignal$onScout(this.train);
 
 
         return false;

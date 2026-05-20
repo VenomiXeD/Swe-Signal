@@ -12,9 +12,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import venomized.mods.extendedsignals.client.blockentityrenderer.SignalRendererHelper;
 import venomized.mods.extendedsignals.client.ExtendedSignalsCoreModels;
 import venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase;
+import venomized.mods.extendedsignals.client.blockentityrenderer.SignalRendererHelper;
 import venomized.mods.extendedsignals.se.SwedishSignalAspect;
 import venomized.mods.extendedsignals.se.blockentity.mainsignals.BlockEntitySignal;
 
