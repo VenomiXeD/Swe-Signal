@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core;
 
-import it.unimi.dsi.fastutil.objects.Object2LongMap;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
+import com.simibubi.create.Create;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.nbt.CompoundTag;
@@ -13,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.network.packets.SyncSignalStatePacket;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -21,8 +21,7 @@ import java.util.UUID;
 public class ServerSignalNetworkCache extends SavedData implements ISignalNetwork {
     private static final String NAME = "extended_signal_signal_mapping_data";
 
-    private final Object2ObjectMap<UUID, RawSignalState> signalStates = new Object2ObjectOpenHashMap<>();
-    private final Object2LongMap<UUID> signalStateDebouncecache = new Object2LongOpenHashMap<>();
+    private final Object2ObjectMap<UUID, RawSignalState> signalEdgeStateMapping = new Object2ObjectOpenHashMap<>();
 
     public static ServerSignalNetworkCache get(final MinecraftServer server) {
         ExtendedSignalsCore.LOGGER.info("Extended Signals is loading signal data...");
@@ -45,8 +44,12 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
         serverSignalNetworkCache.flushAndApplyNewSignalStates(
                 ISignalNetwork.deserializeSignalStatesFromNBTList(compoundTag)
         );
-
         return serverSignalNetworkCache;
+    }
+
+    // TODO: Remove signal states that are dead and do not refer to any signal edges in create
+    private void removeInvalidSignalEdgeReferences() {
+
     }
 
     /**
@@ -54,7 +57,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
      */
     @Override
     public Object2ObjectMap<UUID, RawSignalState> signalStates() {
-        return this.signalStates;
+        return this.signalEdgeStateMapping;
     }
 
     /**
@@ -74,7 +77,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
      */
     @Override
     public void updateState(UUID signalUUID, RawSignalState newState) {
-        if (newState.equals(this.signalStates.getOrDefault(signalUUID, null)))
+        if (newState.equals(this.signalEdgeStateMapping.getOrDefault(signalUUID, null)))
             return;
         ISignalNetwork.super.updateState(signalUUID, newState);
 

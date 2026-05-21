@@ -17,7 +17,6 @@ import venomized.mods.extendedsignals.client.sound.train.ICarriageSounds;
 import venomized.mods.extendedsignals.client.sound.train.TrainSound;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.data.SwSignalLang;
-import venomized.mods.extendedsignals.util.ITrainDoorData;
 
 import java.util.List;
 import java.util.Optional;

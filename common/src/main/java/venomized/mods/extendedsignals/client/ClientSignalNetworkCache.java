@@ -10,14 +10,14 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ClientSignalNetworkCache implements ISignalNetwork {
-    private Object2ObjectMap<UUID, RawSignalState> signalStates = new Object2ObjectOpenHashMap<>();
+    private final Object2ObjectMap<UUID, RawSignalState> signalEdgeStateMapping = new Object2ObjectOpenHashMap<>();
 
     /**
      * @return
      */
     @Override
     public Object2ObjectMap<UUID, RawSignalState> signalStates() {
-        return this.signalStates;
+        return this.signalEdgeStateMapping;
     }
 
 

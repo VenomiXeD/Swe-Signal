@@ -3,8 +3,10 @@ package venomized.mods.extendedsignals.se.blockentity.mainsignals;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import it.unimi.dsi.fastutil.Pair;
+import lombok.Getter;
 import net.createmod.catnip.lang.Lang;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -24,6 +26,7 @@ import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.RawSignalState;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.SwedishSignalAspect;
+import venomized.mods.extendedsignals.util.NBTHelp;
 import venomized.mods.extendedsignals.util.SignalUtilities;
 
 import java.util.List;
@@ -32,10 +35,15 @@ import java.util.UUID;
 
 public abstract class BlockEntitySignal extends ExtendedSignalsCoreBlockEntity
         implements IHaveGoggleInformation, ISignalTunerBindable {
-    private static final String TAG_REFERENCED_SIGNAL_UUID = "linked_signal_uuid";
+    private static final String TAG_REFERENCED_SIGNAL_EDGE_UUID = "linked_signal_uuid";
+    private static final String TAG_SIGNAL_DIRECTION = "signal_direction";
+
+    private Direction.AxisDirection signalDirection;
+
+    @Getter
     private final int lightCount;
     public float[] lightLevels;
-    private UUID referencedSignalUUID;
+    private UUID    referencedSignalEdgeID;
     private int tick;
     private int remainingTicksAspectChangeDelay;
 
@@ -50,7 +58,6 @@ public abstract class BlockEntitySignal extends ExtendedSignalsCoreBlockEntity
     public static void commonTick(BlockEntitySignal pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
         pBlockEntity.tick = (pBlockEntity.tick + 1) % 20;
         pBlockEntity.remainingTicksAspectChangeDelay = Math.max(0, pBlockEntity.remainingTicksAspectChangeDelay - 1);
-
     }
 
     public static void serverTick(BlockEntitySignal pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
@@ -62,24 +69,27 @@ public abstract class BlockEntitySignal extends ExtendedSignalsCoreBlockEntity
         be.computeSignalLightValues(aspect, createSignalState, doInvalidBlinking);
     }
 
-    public int getLightCount() {
-        return this.lightCount;
-    }
-
     public boolean valid() {
-        return referencedSignalUUID != null;
+        return referencedSignalEdgeID != null;
     }
 
     public SwedishSignalAspect getCurrentDisplayingAspect() {
-        if (referencedSignalUUID == null)
+        if (referencedSignalEdgeID == null)
+            return SwedishSignalAspect.SIGNAL_FAULT_INCORRECT_WIRING;
+
+        if (this.signalDirection == null)
             return SwedishSignalAspect.SIGNAL_FAULT_INCORRECT_WIRING;
 
         RawSignalState rawSignalStateState = ExtendedSignalsCore.clientNetworkCache()
                 .signalStates()
-                .get(referencedSignalUUID);
+                .get(referencedSignalEdgeID);
 
         if (rawSignalStateState == null)
             return SwedishSignalAspect.STOP;
+
+        if (rawSignalStateState.getAxisDirection() != this.signalDirection) {
+            return SwedishSignalAspect.STOP;
+        }
 
         return rawSignalStateState.isProceed() ? SwedishSignalAspect.PROCEED_80 : SwedishSignalAspect.STOP;
         // return connectedSignalBox.getCurrentAspect();
@@ -169,15 +179,19 @@ public abstract class BlockEntitySignal extends ExtendedSignalsCoreBlockEntity
     public Pair<InteractionResult, MutableComponent> readerBindingToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
         if (sourceBlockEntity.isPresent()) {
             if (sourceBlockEntity.get() instanceof SignalBlockEntity sb) {
-                bindToSignal(sb.getSignal().id);
+                bindToSignal(sb);
                 return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully bound to signal box"));
             }
         }
         return ISignalTunerBindable.super.sourceBindingToReader(sourceBlockEntity, mode);
     }
 
-    private void bindToSignal(UUID id) {
-        this.referencedSignalUUID = id;
+    private void bindToSignal(SignalBlockEntity id) {
+        this.referencedSignalEdgeID = id.getSignal().getId();
+        this.signalDirection = id.edgePoint.getTargetDirection();
+
+        ExtendedSignalsCore.LOGGER.info("Axis direction: {}", this.signalDirection);
+
         this.updateSelf();
     }
 
@@ -217,20 +231,22 @@ public abstract class BlockEntitySignal extends ExtendedSignalsCoreBlockEntity
     @Override
     public void handleUpdateTag(CompoundTag tag) {
         super.handleUpdateTag(tag);
-        this.referencedSignalUUID = tag.hasUUID(TAG_REFERENCED_SIGNAL_UUID) ? tag.getUUID(TAG_REFERENCED_SIGNAL_UUID) : null;
+        this.referencedSignalEdgeID = tag.hasUUID(TAG_REFERENCED_SIGNAL_EDGE_UUID) ? tag.getUUID(TAG_REFERENCED_SIGNAL_EDGE_UUID) : null;
+        this.signalDirection = NBTHelp.safeReadEnum(tag, TAG_SIGNAL_DIRECTION, Direction.AxisDirection.class);
     }
 
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
-        referencedSignalUUID = pTag.hasUUID(TAG_REFERENCED_SIGNAL_UUID) ? pTag.getUUID(TAG_REFERENCED_SIGNAL_UUID) : null;
+        referencedSignalEdgeID = pTag.hasUUID(TAG_REFERENCED_SIGNAL_EDGE_UUID) ? pTag.getUUID(TAG_REFERENCED_SIGNAL_EDGE_UUID) : null;
+        this.signalDirection = NBTHelp.safeReadEnum(pTag, TAG_SIGNAL_DIRECTION, Direction.AxisDirection.class);
     }
 
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
-        if (referencedSignalUUID == null) return;
-
-        pTag.putUUID(TAG_REFERENCED_SIGNAL_UUID, referencedSignalUUID);
+        if (referencedSignalEdgeID != null)
+            pTag.putUUID(TAG_REFERENCED_SIGNAL_EDGE_UUID, referencedSignalEdgeID);
+        NBTHelp.safeWriteEnum(pTag, TAG_SIGNAL_DIRECTION, signalDirection);
     }
 }

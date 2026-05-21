@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.util;
+package venomized.mods.extendedsignals.create;
 
 import org.spongepowered.asm.mixin.Unique;
 
