@@ -1,0 +1,3 @@
+@Test
+public class RawSignalStateUnitTest {
+}

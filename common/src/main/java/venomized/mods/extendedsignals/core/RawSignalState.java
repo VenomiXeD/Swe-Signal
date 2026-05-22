@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core;
 
 import com.simibubi.create.content.trains.entity.TravellingPoint;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,33 +18,37 @@ import javax.annotation.Nullable;
 @EqualsAndHashCode(callSuper = false)
 public class RawSignalState {
     private static final String TAG_PROCEED_NAME = "proceed";
+    private static final String TAG_DISTANCE_NEXT_SIGNAL_NAME = "distance_next_signal";
+    private static final String TAG_UPCOMING_SWITCH_DIRECTION_NAME = "upcoming_switch_direction";
+    private static final String TAG_PROCEED_SPEED_NAME = "proceed_speed";
     private static final String TAG_DIRECTION_NAME = "signal_direction";
+    private static final String TAG_NEXT_SIGNAL_STATE_NAME = "next_state";
 
     public RawSignalState() {
     }
 
     private boolean proceed;
-    private float distanceToNextSignal = -1;
-    private float maxProceedSpeed = -1;
+    private double maxProceedSpeed = -1;
+    private double distanceToNextSignal = -1;
+    @Nullable
+    private RawSignalState nextState;
 
     @Nullable
     private Direction.AxisDirection axisDirection;
-
-
     @Nullable
     private TravellingPoint.SteerDirection upcomingJunctionSteerDirection;
 
-    @Nullable
-    private RawSignalState nextState;
 
     public static RawSignalState fromNBT(final CompoundTag tag) {
         final RawSignalState rawSignalState = new RawSignalState();
         rawSignalState.setProceed(tag.getBoolean(TAG_PROCEED_NAME));
-        rawSignalState.setAxisDirection(
-                tag.contains(TAG_DIRECTION_NAME)
-                        ? NBTHelper.readEnum(tag, TAG_DIRECTION_NAME, Direction.AxisDirection.class)
-                        : null
-        );
+        rawSignalState.setMaxProceedSpeed(tag.getDouble(TAG_PROCEED_SPEED_NAME));
+        rawSignalState.setDistanceToNextSignal(tag.getDouble(TAG_DISTANCE_NEXT_SIGNAL_NAME));
+        if (tag.contains(TAG_NEXT_SIGNAL_STATE_NAME))
+            rawSignalState.setNextState(RawSignalState.fromNBT(tag.getCompound(TAG_NEXT_SIGNAL_STATE_NAME)));
+
+        rawSignalState.setAxisDirection(NBTHelp.safeReadEnum(tag, TAG_DIRECTION_NAME, Direction.AxisDirection.class));
+        rawSignalState.setUpcomingJunctionSteerDirection(NBTHelp.safeReadEnum(tag, TAG_UPCOMING_SWITCH_DIRECTION_NAME, TravellingPoint.SteerDirection.class));
 
         return rawSignalState;
     }
@@ -53,7 +56,13 @@ public class RawSignalState {
     public CompoundTag toNBT() {
         final CompoundTag tag = new CompoundTag();
         tag.putBoolean(TAG_PROCEED_NAME, isProceed());
+        tag.putDouble(TAG_PROCEED_SPEED_NAME, maxProceedSpeed);
+        tag.putDouble(TAG_DISTANCE_NEXT_SIGNAL_NAME, distanceToNextSignal);
+        if (this.nextState != null)
+            tag.put(TAG_NEXT_SIGNAL_STATE_NAME, this.nextState.toNBT());
+
         NBTHelp.safeWriteEnum(tag, TAG_DIRECTION_NAME, axisDirection);
+        NBTHelp.safeWriteEnum(tag, TAG_UPCOMING_SWITCH_DIRECTION_NAME, upcomingJunctionSteerDirection);
         return tag;
     }
 }

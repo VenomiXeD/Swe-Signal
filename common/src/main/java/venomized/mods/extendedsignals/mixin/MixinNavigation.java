@@ -4,11 +4,9 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
-import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
-import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -72,37 +70,41 @@ public abstract class MixinNavigation {
         extendedSignals$signalScoutTriggerCollector.edge = leadingPoint.edge;
         extendedSignals$signalScoutTriggerCollector.position = leadingPoint.position;
 
-        final double lookaheadDistance = Math.min(
+
+        extendedSignals$collectSignalsInPath(speedMod);
+        extendedSignals$distantSignallingLogic();
+    }
+
+    @Unique
+    private void extendedSignals$collectSignalsInPath(double speedMod) {
+        final double lookAheadDistance = Math.min(
                 LOOK_AHEAD_DISTANCE,
                 Math.min(distanceToDestination, distanceToSignal)
         );
 
         this.extendedSignals$collectedSignals.clear();
+        double lastEncounteredSignalDistance = -1;
         extendedSignals$signalScoutTriggerCollector.travel(
                 train.graph,
-                lookaheadDistance * speedMod,
+                lookAheadDistance * speedMod,
                 controlSignalScout(),
-                this::extendedSignals$collectSignalsInPath
+                (distance, trackEdgePointCouplePair) -> {
+                    TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
+                    if (!(trackEdgePoint instanceof SignalBoundary signalBoundary))
+                        return false;
+
+
+                    UUID enteringGroup = signalBoundary.getGroup(
+                            trackEdgePointCouplePair.getSecond().getSecond()
+                    );
+                    boolean side = Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
+                    extendedSignals$collectedSignals.push(
+                            Pair.of(signalBoundary, side ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE)
+                    );
+
+                    return signalBoundary.cachedStates.get(side) == SignalBlockEntity.SignalState.RED;
+                }
         );
-        extendedSignals$distantSignallingLogic();
-    }
-
-    @Unique
-    private boolean extendedSignals$collectSignalsInPath(double distance, Pair<TrackEdgePoint, Couple<TrackNode>> trackEdgePointCouplePair) {
-        TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
-        if (!(trackEdgePoint instanceof SignalBoundary signalBoundary))
-            return false;
-
-
-        UUID enteringGroup = signalBoundary.getGroup(
-                trackEdgePointCouplePair.getSecond().getSecond()
-        );
-        boolean side = Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
-        extendedSignals$collectedSignals.push(
-                Pair.of(signalBoundary, side ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE)
-        );
-
-        return signalBoundary.cachedStates.get(side) == SignalBlockEntity.SignalState.RED;
     }
 
     @Unique
