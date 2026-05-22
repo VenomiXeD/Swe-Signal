@@ -5,6 +5,7 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.world.level.block.Block;
 import venomized.mods.extendedsignals.block.BlockRailroadCrossingController;
+import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityMainDwarfSignal;
 import venomized.mods.extendedsignals.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingGate;
@@ -32,7 +33,15 @@ public class ExtendedSignalsSwedenBlocks {
     // == DWARF SIGNALS ==
     public static final BlockEntry<BlockModernDwarfSignal> BLOCK_MODERN_DWARF_SIGNAL = RegistrateHelper.signalBlock(registrate(), "signals", "se", "4l_dwarf_signal_post_1970", BlockModernDwarfSignal::new)
             .register();
-    public static final BlockEntry<BlockModernMainDwarfSignal> BLOCK_MODERN_MAIN_DWARF_SIGNAL = RegistrateHelper.signalBlock(registrate(), "signals", "se", "7l_dwarf_main_signal_post_1970", BlockModernMainDwarfSignal::new)
+    public static final BlockEntry<BlockModernMainDwarfSignal> BLOCK_MODERN_MAIN_DWARF_SIGNAL =
+            RegistrateHelper
+                    .signalBlock(
+                            registrate(),
+                            "signals",
+                            "se",
+                            "7l_dwarf_main_signal_post_1970",
+                            BlockModernMainDwarfSignal::new
+                    )
             .register();
     // == MISC SIGNALS ==
     public static final BlockEntry<BlockModernEndpointSignal> BLOCK_ENDPOINT_SIGNAL = RegistrateHelper.signalBlock(registrate(), "signals", "se", "1l_endpoint_post_1920", BlockModernEndpointSignal::new)

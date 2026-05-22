@@ -14,8 +14,7 @@ public class RendererModernFiveLightSignal extends RendererSignal {
     /**
      * @return
      */
-    @Override
-    public boolean isObjModel() {
+    private boolean isObjModel() {
         return true;
     }
 }

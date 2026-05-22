@@ -13,8 +13,7 @@ public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<Bloc
     public RendererRailroadCrossingSignal(BlockEntityRendererProvider.Context context) {
     }
 
-    @Override
-    public boolean isObjModel() {
+    private boolean isObjModel() {
         return true;
     }
 
@@ -29,7 +28,7 @@ public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<Bloc
     @Override
     public void render(BlockEntityRailroadCrossingSignal pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
-        getRenderer()
+        renderer()
                 .tesselateWithAO(
                         pBlockEntity.getLevel(),
                         getModel(pBlockEntity.getBlockState()),
@@ -47,7 +46,7 @@ public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<Bloc
 
         pPoseStack.pushPose();
         pPoseStack.scale(1.1f, 1.1f, 0);
-        getRenderer().renderModel(
+        renderer().renderModel(
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
@@ -62,7 +61,7 @@ public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<Bloc
 
         pPoseStack.pushPose();
         pPoseStack.scale(1.1f, 1.1f, 0);
-        getRenderer().renderModel(
+        renderer().renderModel(
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),

@@ -12,11 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class ExtendedSignalsCoreBlockEntity extends BlockEntity {
-    private static final String TAG_ORIENTATION_INDEX_NAME = "orientation_rotation";
-
-    @Getter
-    @Setter
+public abstract class ExtendedSignalsCoreBlockEntity extends BlockEntity implements IOrientedBlockEntity {
     private float yOrientation;
 
     public ExtendedSignalsCoreBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
@@ -72,5 +68,21 @@ public abstract class ExtendedSignalsCoreBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
         pTag.putFloat(TAG_ORIENTATION_INDEX_NAME, this.getYOrientation());
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public float getYOrientation() {
+        return yOrientation;
+    }
+
+    /**
+     * @param pYOrientation
+     */
+    @Override
+    public void setYOrientation(float pYOrientation) {
+        yOrientation = pYOrientation;
     }
 }

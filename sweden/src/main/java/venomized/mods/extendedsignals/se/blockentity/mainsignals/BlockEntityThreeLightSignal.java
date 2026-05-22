@@ -5,7 +5,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.se.SwedishSignalAspect;
 
-public class BlockEntityThreeLightSignal extends BlockEntitySignal {
+public class BlockEntityThreeLightSignal extends BlockEntityMainSignal {
     public BlockEntityThreeLightSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState, 3);
     }

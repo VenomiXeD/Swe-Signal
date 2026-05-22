@@ -1,11 +1,21 @@
 package venomized.mods.extendedsignals.client.blockentityrenderer;
 
-public record SignalLightPlacement(
-        float x,
-        float y,
-        float z,
-        float xScale,
-        float yScale,
-        float zScale
-) {
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
+@RequiredArgsConstructor
+public class SignalLightPlacement {
+    @Getter
+    final private double x;
+    @Getter
+    final private double y;
+    @Getter
+    final private double z;
+    @Getter
+    final private float xScale;
+    @Getter
+    final private float yScale;
+    @Getter
+    final private float zScale;
 }

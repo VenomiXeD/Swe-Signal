@@ -13,8 +13,7 @@ public class RendererModernFourLightSignal extends RendererSignal {
     /**
      * @return
      */
-    @Override
-    public boolean isObjModel() {
+    private boolean isObjModel() {
         return true;
     }
 }

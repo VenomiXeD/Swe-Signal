@@ -24,6 +24,7 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
     // private final BakedModel MODEL_ARM_5 = Minecraft.getInstance().getModelManager().getModel(SwSignal.modLoc(ARM_5));
 //
     public RendererCrossingGate(BlockEntityRendererProvider.Context context) {
+        super(context);
     }
 
     @Override
@@ -32,10 +33,7 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
 
         renderSelfBlock(
                 pBlockEntity,
-                pPoseStack,
-                pBuffer,
-                pPackedLight,
-                pPackedOverlay
+                pPoseStack
         );
         // getRenderer().tesselateBlock(
         //         pBlockEntity.getLevel(),
@@ -80,7 +78,7 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
         //         pPackedLight, pPackedOverlay
         // );
 
-        getRenderer().tesselateWithoutAO(
+        renderer().tesselateWithoutAO(
                 pBlockEntity.getLevel(),
                 SeModels.ARM_4.get(),
                 pBlockEntity.getBlockState(),

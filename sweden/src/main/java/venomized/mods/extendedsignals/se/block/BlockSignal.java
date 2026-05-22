@@ -76,7 +76,7 @@ public abstract class BlockSignal extends ExtendedSignalBlock implements EntityB
                 if (be instanceof BlockEntitySignal signal) {
                     // t.clientTick(partialTick, aspect, t.getCurrentDisplayingState(), !t.valid() || aspect == null);
                     SwedishSignalAspect aspect = signal.getCurrentDisplayingAspect();
-                    BlockEntitySignal.clientTick(signal, aspect, signal.getCurrentDisplayingState(), !signal.valid() || aspect == null);
+                    BlockEntitySignal.clientTick(signal, pLevel, pos, state);
                 }
             };
         } else {

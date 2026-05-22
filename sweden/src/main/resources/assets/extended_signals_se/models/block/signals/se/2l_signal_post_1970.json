@@ -1,4 +1,11 @@
 {
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      1
+    ]
+  },
   "loader": "forge:obj",
   "flip_v": true,
   "model": "extended_signals_se:models/block/signals/se/2l_signal_post_1970.obj",

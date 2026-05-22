@@ -4,8 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BlockEntityTwoLightSignal extends BlockEntitySignal {
-
+public class BlockEntityTwoLightSignal extends BlockEntityMainSignal {
     public BlockEntityTwoLightSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState, 2);
     }

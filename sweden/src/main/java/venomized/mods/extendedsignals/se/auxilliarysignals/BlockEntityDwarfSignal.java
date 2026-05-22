@@ -10,40 +10,6 @@ import venomized.mods.extendedsignals.util.SignalUtilities;
 
 public class BlockEntityDwarfSignal extends BlockEntitySignal {
     public BlockEntityDwarfSignal(BlockEntityType t, BlockPos pPos, BlockState pBlockState) {
-        this(t, pPos, pBlockState, 4);
-    }
-
-    public BlockEntityDwarfSignal(BlockEntityType t, BlockPos pPos, BlockState pBlockState, int lightCount) {
-        super(t, pPos, pBlockState, lightCount);
-    }
-
-    @Override
-    public void computeSignalLightValues(SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
-        switch (aspect) {
-            default -> {
-                SignalUtilities.computeLightValueAt(0, lightLevels, false);
-                SignalUtilities.computeLightValueAt(1, lightLevels, true);
-                SignalUtilities.computeLightValueAt(2, lightLevels, true);
-                SignalUtilities.computeLightValueAt(3, lightLevels, false);
-            }
-            case STOP -> {
-                SignalUtilities.computeLightValueAt(0, lightLevels, false);
-                SignalUtilities.computeLightValueAt(1, lightLevels, false);
-                SignalUtilities.computeLightValueAt(2, lightLevels, true);
-                SignalUtilities.computeLightValueAt(3, lightLevels, true);
-            }
-            case PROCEED_80 -> {
-                SignalUtilities.computeLightValueAt(0, lightLevels, false);
-                SignalUtilities.computeLightValueAt(1, lightLevels, true);
-                SignalUtilities.computeLightValueAt(2, lightLevels, false);
-                SignalUtilities.computeLightValueAt(3, lightLevels, true);
-            }
-            // case YELLOW -> {
-            //     SignalUtilities.computeLightValueAt(0, lightLevels, true);
-            //     SignalUtilities.computeLightValueAt(1, lightLevels, false);
-            //     SignalUtilities.computeLightValueAt(2, lightLevels, false);
-            //     SignalUtilities.computeLightValueAt(3, lightLevels, true);
-            // }
-        }
+        super(t, pPos, pBlockState);
     }
 }

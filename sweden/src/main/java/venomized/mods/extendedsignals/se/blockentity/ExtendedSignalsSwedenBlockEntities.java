@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.se.blockentity;
 
 
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import venomized.mods.extendedsignals.blockentity.ExtendedSignalsCoreBlockEntities;
 import venomized.mods.extendedsignals.se.auxilliarysignals.*;
 import venomized.mods.extendedsignals.se.block.ExtendedSignalsSwedenBlocks;
@@ -51,12 +50,12 @@ public final class ExtendedSignalsSwedenBlockEntities {
                     .renderer(() -> RendererThreeLightDistantSignal::new)
                     .register();
     // == DWARF SIGNALS ==
-    public static final BlockEntityEntry<BlockEntity> BE_DWARF_SIGNAL =
+    public static final BlockEntityEntry<BlockEntityDwarfSignal> BE_DWARF_SIGNAL =
             ExtendedSignalsCoreBlockEntities.simpleBlockEntity("be_se_dwarf_signal", BlockEntityDwarfSignal::new, ExtendedSignalsSwedenBlocks.BLOCK_MODERN_DWARF_SIGNAL)
-                    .renderer(() -> RendererBasicDwarfSignal::new)
+                    .renderer(() -> RendererDwarfSignal::new)
                     .register();
     //
-    public static final BlockEntityEntry<BlockEntity> BE_MAIN_DWARF_SIGNAL =
+    public static final BlockEntityEntry<BlockEntityMainDwarfSignal> BE_MAIN_DWARF_SIGNAL =
             ExtendedSignalsCoreBlockEntities.simpleBlockEntity("be_se_main_dwarf_signal", BlockEntityMainDwarfSignal::new, ExtendedSignalsSwedenBlocks.BLOCK_MODERN_MAIN_DWARF_SIGNAL)
                     .renderer(() -> RendererMainDwarfSignal::new)
                     .register();

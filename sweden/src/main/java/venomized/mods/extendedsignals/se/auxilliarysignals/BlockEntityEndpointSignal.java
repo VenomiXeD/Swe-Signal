@@ -9,23 +9,6 @@ import venomized.mods.extendedsignals.se.blockentity.mainsignals.BlockEntitySign
 
 public class BlockEntityEndpointSignal extends BlockEntitySignal {
     public BlockEntityEndpointSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
-        super(t, pPos, pBlockState, 1);
-    }
-
-    @Override
-    public void computeSignalLightValues(SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
-        float r = 0f;
-        if (doInvalidBlinking || aspect == null) {
-            this.lightLevels[0] = this.blink() ? 1 : 0;
-            return;
-        }
-        switch (aspect) {
-            case STOP:
-                this.lightLevels[0] = Math.min(this.lightLevels[0] + 1, 1);
-                break;
-            default:
-                this.lightLevels[0] = Math.max(this.lightLevels[0] - 1, 0);
-                break;
-        }
+        super(t, pPos, pBlockState);
     }
 }

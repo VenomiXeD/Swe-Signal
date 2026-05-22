@@ -24,7 +24,7 @@ public class RendererRailroadCrossingDistantSignal extends BlockEntityRendererBa
     @Override
     public void render(BlockEntityRailroadCrossingDistantSignal pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
-        getRenderer().tesselateWithAO(
+        renderer().tesselateWithAO(
                 pBlockEntity.getLevel(),
                 getModel(pBlockEntity.getBlockState()),
                 pBlockEntity.getBlockState(),
@@ -46,7 +46,7 @@ public class RendererRailroadCrossingDistantSignal extends BlockEntityRendererBa
         pPoseStack.translate(.5f, 3f / 16f, 2f / 16f);
         pPoseStack.pushPose();
         pPoseStack.scale(1.2f, 1.2f, 0);
-        getRenderer().renderModel(
+        renderer().renderModel(
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
@@ -60,7 +60,7 @@ public class RendererRailroadCrossingDistantSignal extends BlockEntityRendererBa
         pPoseStack.pushPose();
         pPoseStack.translate(4f / 16f, 7f / 16f, 0f);
         pPoseStack.scale(1.2f, 1.2f, 0);
-        getRenderer().renderModel(
+        renderer().renderModel(
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
@@ -75,7 +75,7 @@ public class RendererRailroadCrossingDistantSignal extends BlockEntityRendererBa
         pPoseStack.translate(-4f / 16f, 7f / 16f, 0f);
 
         pPoseStack.scale(1.2f, 1.2f, 0);
-        getRenderer().renderModel(
+        renderer().renderModel(
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),

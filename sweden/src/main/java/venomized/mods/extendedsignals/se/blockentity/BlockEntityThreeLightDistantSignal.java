@@ -8,7 +8,7 @@ import venomized.mods.extendedsignals.se.blockentity.mainsignals.BlockEntitySign
 
 public class BlockEntityThreeLightDistantSignal extends BlockEntitySignal {
     public BlockEntityThreeLightDistantSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
-        super(t, pPos, pBlockState, 5);// Trick it - so it can compute distant signal states
+        super(t, pPos, pBlockState);
     }
 
     @Override

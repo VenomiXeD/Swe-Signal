@@ -13,30 +13,10 @@ import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererGeneric<T extends BlockEntity> extends venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase<T> {
-    protected final ResourceLocation MODEL_LOC;
-
-    public RendererGeneric(String resourceLoc) {
-        this.MODEL_LOC = ResourceLocation.fromNamespaceAndPath(ExtendedSignalsCore.MOD_ID, resourceLoc);
-    }
-
-    /**
-     * A generic renderer - will use the block model supplied by the BlockState model
-     */
-    public RendererGeneric() {
-        this.MODEL_LOC = null;
-    }
-
     public RendererGeneric(BlockEntityRendererProvider.Context context) {
-        this();
+        super(context);
     }
 
-    /**
-     * @return
-     */
-    @Override
-    protected ResourceLocation modelLoc() {
-        return MODEL_LOC;
-    }
 
     /**
      * @param pBlockEntity
@@ -49,6 +29,7 @@ public class RendererGeneric<T extends BlockEntity> extends venomized.mods.exten
     @Override
     public void render(T pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
-        Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateWithAO(pBlockEntity.getLevel(), getModel(pBlockEntity.getBlockState()), pBlockEntity.getBlockState(), pBlockEntity.getBlockPos(), pPoseStack, pBuffer.getBuffer(RenderType.solid()), true, pBlockEntity.getLevel().getRandom(), pPackedLight, pPackedOverlay);
+        renderSelfBlock(pBlockEntity, pPoseStack);
+        // Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateWithAO(pBlockEntity.getLevel(), getModel(pBlockEntity.getBlockState()), pBlockEntity.getBlockState(), pBlockEntity.getBlockPos(), pPoseStack, pBuffer.getBuffer(RenderType.solid()), true, pBlockEntity.getLevel().getRandom(), pPackedLight, pPackedOverlay);
     }
 }

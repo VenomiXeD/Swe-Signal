@@ -1,10 +1,8 @@
 package venomized.mods.extendedsignals.se.blockentity.mainsignals;
 
-import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import it.unimi.dsi.fastutil.Pair;
 import lombok.Getter;
-import net.createmod.catnip.lang.Lang;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -18,55 +16,58 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.blockentity.ExtendedSignalsCoreBlockEntity;
 import venomized.mods.extendedsignals.blockentity.ISignalTunerBindable;
+import venomized.mods.extendedsignals.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.RawSignalState;
-import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.SwedishSignalAspect;
+import venomized.mods.extendedsignals.se.signals.ISignalAspect;
 import venomized.mods.extendedsignals.util.NBTHelp;
 import venomized.mods.extendedsignals.util.SignalUtilities;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public abstract class BlockEntitySignal extends ExtendedSignalsCoreBlockEntity
-        implements IHaveGoggleInformation, ISignalTunerBindable {
+        implements ISignalTunerBindable {
     private static final String TAG_REFERENCED_SIGNAL_EDGE_UUID = "linked_signal_uuid";
     private static final String TAG_SIGNAL_DIRECTION = "signal_direction";
 
     private Direction.AxisDirection signalDirection;
 
-    @Getter
-    private final int lightCount;
-    public float[] lightLevels;
     private UUID referencedSignalEdgeID;
-    private int tick;
-    private int remainingTicksAspectChangeDelay;
+    private long tick;
 
-    public BlockEntitySignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState, int lightCount) {
+    @Getter
+    private final SignalLightPlacement[] lights;
+
+    public BlockEntitySignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
-        this.lightCount = lightCount;
-        if (lightCount != -1) {
-            this.lightLevels = new float[lightCount];
-        }
+
+        this.lights = constructLightPlacements();
+    }
+
+
+    protected SignalLightPlacement[] constructLightPlacements() {
+        return new SignalLightPlacement[]{
+                new SignalLightPlacement(
+                        0, 1, 0, 1, 1, 1
+                )
+        };
     }
 
     public static void commonTick(BlockEntitySignal pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
-        pBlockEntity.tick = (pBlockEntity.tick + 1) % 20;
-        pBlockEntity.remainingTicksAspectChangeDelay = Math.max(0, pBlockEntity.remainingTicksAspectChangeDelay - 1);
+        pBlockEntity.tick++;
     }
 
     public static void serverTick(BlockEntitySignal pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
         commonTick(pBlockEntity, pLevel, pPos, pBlockState);
     }
 
-    public static void clientTick(BlockEntitySignal be, SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
+    public static void clientTick(BlockEntitySignal be, Level pLevel, BlockPos pPos, BlockState pBlockState) {
         commonTick(be, be.getLevel(), be.getBlockPos(), be.getBlockState());
-        be.computeSignalLightValues(aspect, createSignalState, doInvalidBlinking);
     }
 
     public boolean valid() {
@@ -103,68 +104,8 @@ public abstract class BlockEntitySignal extends ExtendedSignalsCoreBlockEntity
         return tick > 10;
     }
 
-    protected void computeSignalLightValues(SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
-        if (doInvalidBlinking || aspect == null) {
-            for (int i = 0; i < lightLevels.length; i++) {
-                lightLevels[i] = blink() ? 1 : 0;
-            }
-            return;
-        }
+    protected void computeSignalLightValues(ISignalAspect aspect) {
 
-        for (int i = 0; i < lightCount; i++) {
-            char s = aspect.getLightPattern().charAt(i);
-            switch (s) {
-                case 'S':
-                    SignalUtilities.computeLightValueAt(i, lightLevels, true);
-                    break;
-                case 'F':
-                    SignalUtilities.computeLightValueAt(i, lightLevels, blink());
-                    break;
-                case 'U':
-                    SignalUtilities.computeLightValueAt(i, lightLevels, false);
-                    break;
-                default:
-                    lightLevels[i] = blink() ? 1 : 0;
-                    break;
-            }
-        }
-    }
-
-    /**
-     * this method will be called when looking at a BlockEntity that implemented
-     * this
-     * interface
-     *
-     * @param tooltip
-     * @param isPlayerSneaking
-     * @return {@code true} if the tooltip creation was successful and should be
-     * displayed, or {@code false} if the overlay should not be displayed
-     */
-    @Override
-    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
-        Lang.builder(ExtendedSignalsSweden.MOD_ID).add(Component.literal("WIP")).forGoggles(tooltip);
-        // SwedishSignalAspect signalAspect = this.getCurrentAspect();
-        // if (signalAspect != null && this.valid()) {
-        // 	Lang.builder().add(Component.translatable(signalAspect.getDescription())).forGoggles(tooltip);
-        // }
-        // return true;
-        return true;
-    }
-
-    /**
-     * Return an {@link AABB} that controls the visible scope of a
-     * {@link BlockEntityWithoutLevelRenderer} associated with this
-     * {@link BlockEntity}
-     * Defaults to the collision bounding box
-     * {@link BlockState#getCollisionShape(BlockGetter, BlockPos)} associated with
-     * the block
-     * at this location.
-     *
-     * @return an appropriately size {@link AABB} for the {@link BlockEntity}
-     */
-    @Override
-    public AABB getRenderBoundingBox() {
-        return AABB.ofSize(getBlockPos().getCenter(), 1, 2, 1);
     }
 
     /**
