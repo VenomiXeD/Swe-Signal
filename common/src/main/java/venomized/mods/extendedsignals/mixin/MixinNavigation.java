@@ -19,7 +19,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import venomized.mods.extendedsignals.create.IExtendedSignalBoundary;
+import venomized.mods.extendedsignals.core.RawSignalState;
+import venomized.mods.extendedsignals.create.tracks.IExtendedSignalBoundary;
+import venomized.mods.extendedsignals.create.tracks.IRawSignalStateEvaluator;
 
 import java.util.Deque;
 import java.util.LinkedList;
@@ -47,7 +49,7 @@ public abstract class MixinNavigation {
     public abstract TravellingPoint.ITrackSelector controlSignalScout();
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void onCtor(Train train, CallbackInfo ci) {
+    public void extendedSignals$onCtor(Train train, CallbackInfo ci) {
         extendedSignals$signalScoutTriggerCollector = new TravellingPoint();
     }
 
@@ -58,10 +60,10 @@ public abstract class MixinNavigation {
                     target = "Lcom/simibubi/create/content/trains/entity/TravellingPoint;travel(Lcom/simibubi/create/content/trains/graph/TrackGraph;DLcom/simibubi/create/content/trains/entity/TravellingPoint$ITrackSelector;Lcom/simibubi/create/content/trains/entity/TravellingPoint$IEdgePointListener;Lcom/simibubi/create/content/trains/entity/TravellingPoint$ITurnListener;)D"
             )
     )
-    public void onTick(Level level,
-                       CallbackInfo ci,
-                       @Local(name = "speedMod") double speedMod,
-                       @Local(name = "leadingPoint") TravellingPoint leadingPoint
+    public void extendedSignals$tick(Level level,
+                                     CallbackInfo ci,
+                                     @Local(name = "speedMod") double speedMod,
+                                     @Local(name = "leadingPoint") TravellingPoint leadingPoint
     ) {
         extendedSignals$randomTickValueForTesting = extendedSignals$randomTickValueForTesting < 0 ? 20 : extendedSignals$randomTickValueForTesting - 1;
 
@@ -96,26 +98,31 @@ public abstract class MixinNavigation {
                 trackEdgePointCouplePair.getSecond().getSecond()
         );
         boolean side = Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
-        if (signalBoundary.cachedStates.get(side) == SignalBlockEntity.SignalState.RED)
-            return true;
-
         extendedSignals$collectedSignals.push(
                 Pair.of(signalBoundary, side ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE)
         );
 
-        return false;
+        return signalBoundary.cachedStates.get(side) == SignalBlockEntity.SignalState.RED;
     }
 
     @Unique
     private void extendedSignals$distantSignallingLogic() {
+        RawSignalState upcoming = null;
+
         while (!extendedSignals$collectedSignals.isEmpty()) {
             Pair<SignalBoundary, Direction.AxisDirection> pair = extendedSignals$collectedSignals.pop();
-            SignalBoundary signalBoundary = pair.getFirst();
-            Direction.AxisDirection direction = pair.getSecond();
+            SignalBoundary current = pair.getFirst();
+            Direction.AxisDirection currentDirection = pair.getSecond();
+            boolean primary = currentDirection == Direction.AxisDirection.POSITIVE;
 
-            ((IExtendedSignalBoundary) signalBoundary).extendedSignal$onScout(
-                    direction, this.train
+            RawSignalState newState = ((IRawSignalStateEvaluator) current).computeRawSignalState(
+                    currentDirection, upcoming, train.reservedSignalBlocks.contains(current.groups.get(primary))
             );
+            ((IExtendedSignalBoundary) current).extendedSignal$onScout(
+                    currentDirection, newState, this.train
+            );
+
+            upcoming = newState;
         }
     }
 }

@@ -2,6 +2,7 @@ package venomized.mods.extendedsignals.core;
 
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -15,18 +16,27 @@ import javax.annotation.Nullable;
 @Setter
 @Getter
 @Accessors(chain = true)
+@EqualsAndHashCode(callSuper = false)
 public class RawSignalState {
     private static final String TAG_PROCEED_NAME = "proceed";
     private static final String TAG_DIRECTION_NAME = "signal_direction";
 
     public RawSignalState() {
-
     }
 
     private boolean proceed;
-    private Direction.AxisDirection axisDirection;
     private float distanceToNextSignal = -1;
+    private float maxProceedSpeed = -1;
+
+    @Nullable
+    private Direction.AxisDirection axisDirection;
+
+
+    @Nullable
     private TravellingPoint.SteerDirection upcomingJunctionSteerDirection;
+
+    @Nullable
+    private RawSignalState nextState;
 
     public static RawSignalState fromNBT(final CompoundTag tag) {
         final RawSignalState rawSignalState = new RawSignalState();
@@ -45,20 +55,5 @@ public class RawSignalState {
         tag.putBoolean(TAG_PROCEED_NAME, isProceed());
         NBTHelp.safeWriteEnum(tag, TAG_DIRECTION_NAME, axisDirection);
         return tag;
-    }
-
-    /**
-     * @param obj the reference object with which to compare.
-     * @return
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-
-        if (!(obj instanceof RawSignalState other))
-            return false;
-
-        return this.isProceed() == other.isProceed();
     }
 }

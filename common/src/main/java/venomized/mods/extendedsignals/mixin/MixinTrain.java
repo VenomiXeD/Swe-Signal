@@ -9,12 +9,13 @@ import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.createmod.catnip.data.Pair;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import venomized.mods.extendedsignals.create.IExtendedSignalBoundary;
+import venomized.mods.extendedsignals.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.create.ITrainDoorData;
 import venomized.mods.extendedsignals.create.tracks.ATCController;
 
