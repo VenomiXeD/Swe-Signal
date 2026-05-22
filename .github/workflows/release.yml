@@ -31,7 +31,7 @@ jobs:
       - name: Collect jars
         run: |
           mkdir -p artifacts
-          find . -path "*/build/libs/*.jar" \
+          find . -path "*/build/libs/*-all.jar" \
             ! -name "*-sources.jar" \
             ! -name "*-javadoc.jar" \
             -exec cp {} artifacts/ \;
