@@ -172,7 +172,7 @@ dependencies {
     compileOnly "org.projectlombok:lombok:1.18.32"
     compileOnly "org.jetbrains:annotations:24.0.0"
 
-
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
     // implementation fg.deobf("curse.maven:oculus-581495:6020952")
 }
 
