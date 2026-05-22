@@ -5,8 +5,8 @@
     32
   ],
   "textures": {
-    "0": "extended_signals_se:block/signal/se/signal_box",
-    "particle": "extended_signals_se:block/signal/se/signal_box"
+    "0": "extended_signals_se:block/signals/se/signal_box",
+    "particle": "extended_signals_se:block/signals/se/signal_box"
   },
   "elements": [
     {

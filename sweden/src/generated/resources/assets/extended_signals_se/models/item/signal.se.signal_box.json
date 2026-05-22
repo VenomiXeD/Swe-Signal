@@ -1,12 +1,6 @@
 {
-  "parent": "extended_signals_se:block/signal/se/signal_box",
-  "display": {
-    "fixed": {
-      "rotation": [
-        0,
-        180,
-        0
-      ]
-    }
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "minecraft:block/iron_block"
   }
 }

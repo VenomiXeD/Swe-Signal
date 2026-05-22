@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import venomized.mods.extendedsignals.client.ExtendedSignalsCoreModels;
 import venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mods.extendedsignals.client.blockentityrenderer.SignalRendererHelper;
 import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityDwarfSignal;
@@ -29,8 +30,11 @@ public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> ex
     @Override
     public void render(T pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
+
         pPoseStack.translate(.5f * (1f - SCALE), 0f, 0f);
         pPoseStack.scale(SCALE, SCALE, SCALE);
+        if (isObjModel())
+            pPoseStack.translate(0.5f, 0, 0.5f);
         getRenderer().tesselateWithAO(
                 pBlockEntity.getLevel(),
                 this.getModel(pBlockEntity.getBlockState()),
@@ -43,6 +47,8 @@ public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> ex
                 pPackedLight,
                 pPackedOverlay
         );
+        if (isObjModel())
+            pPoseStack.translate(-0.5f, 0, -0.5f);
 
         // pBlockEntity.clientTick(null, pBlockEntity.getCurrentDisplayingState(), false);
 
@@ -60,7 +66,7 @@ public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> ex
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
-                RendererSignal.signalLightModel(),
+                ExtendedSignalsCoreModels.signalLightModel(),
                 w, w, w,
                 SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
@@ -77,7 +83,7 @@ public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> ex
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
-                RendererSignal.signalLightModel(),
+                ExtendedSignalsCoreModels.signalLightModel(),
                 w, w, w,
                 SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
@@ -93,7 +99,7 @@ public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> ex
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
-                RendererSignal.signalLightModel(),
+                ExtendedSignalsCoreModels.signalLightModel(),
                 w, w, w,
                 SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay
@@ -109,7 +115,7 @@ public abstract class RendererSeDwarfSignal<T extends BlockEntityDwarfSignal> ex
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
-                RendererSignal.signalLightModel(),
+                ExtendedSignalsCoreModels.signalLightModel(),
                 w, w, w,
                 SignalRendererHelper.FULLBRIGHT,
                 pPackedOverlay

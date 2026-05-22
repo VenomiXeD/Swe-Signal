@@ -1,9 +1,7 @@
 package venomized.mods.extendedsignals.core;
 
 import com.simibubi.create.content.trains.entity.TravellingPoint;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.Direction;
@@ -16,6 +14,10 @@ import javax.annotation.Nullable;
 @Getter
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@With
 public class RawSignalState {
     private static final String TAG_PROCEED_NAME = "proceed";
     private static final String TAG_DISTANCE_NEXT_SIGNAL_NAME = "distance_next_signal";
@@ -23,9 +25,6 @@ public class RawSignalState {
     private static final String TAG_PROCEED_SPEED_NAME = "proceed_speed";
     private static final String TAG_DIRECTION_NAME = "signal_direction";
     private static final String TAG_NEXT_SIGNAL_STATE_NAME = "next_state";
-
-    public RawSignalState() {
-    }
 
     private boolean proceed;
     private double maxProceedSpeed = -1;

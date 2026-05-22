@@ -27,54 +27,6 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
     protected static ModelBlockRenderer getRenderer() {
         return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
     }
-
-    /**
-     * Renders a single light at the given position with the given scale and color.
-     *
-     * @param pMainBlockEntity
-     * @param pPoseStack
-     * @param pBuffer
-     * @param pPackedOverlay
-     * @param x
-     * @param y
-     * @param z
-     * @param sx
-     * @param sy
-     * @param sz
-     * @param r
-     * @param g
-     * @param b
-     */
-    protected static void renderLight(BlockEntity pMainBlockEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedOverlay, float x, float y, float z, float sx, float sy, float sz, float r, float g, float b) {
-        pPoseStack.pushPose();
-        pPoseStack.translate(x, y, z);
-        pPoseStack.scale(sx, sy, sz);
-        // getRenderer().renderModel(
-        //         pPoseStack.last(),
-        //         pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
-        //         pMainBlockEntity.getBlockState(),
-        //         RendererSignal.signalLightModel(),
-        //         r, g, b,
-        //         0xFFFFFF,
-        //         pPackedOverlay,
-        //         ModelData.EMPTY,
-        //         null
-        // );
-        pPoseStack.popPose();
-    }
-
-    protected static void renderLight(BlockEntity pMainBlockEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedOverlay, float x, float y, float z, float r, float g, float b) {
-        renderLight(
-                pMainBlockEntity,
-                pPoseStack,
-                pBuffer,
-                pPackedOverlay,
-                x, y, z,
-                1f, 1f, 1f,
-                r, g, b
-        );
-    }
-
     public boolean isObjModel() {
         return false;
     }

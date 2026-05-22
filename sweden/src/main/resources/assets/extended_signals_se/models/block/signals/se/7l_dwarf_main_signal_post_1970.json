@@ -6,8 +6,8 @@
     64
   ],
   "textures": {
-    "0": "extended_signals_se:block/signal/se/7l_dwarf_main_signal_post_1970",
-    "particle": "extended_signals_se:block/signal/se/7l_dwarf_main_signal_post_1970"
+    "0": "extended_signals_se:block/signals/se/7l_dwarf_main_signal_post_1970",
+    "particle": "extended_signals_se:block/signals/se/7l_dwarf_main_signal_post_1970"
   },
   "elements": [
     {

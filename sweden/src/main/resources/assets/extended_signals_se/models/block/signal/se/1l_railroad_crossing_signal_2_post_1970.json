@@ -1,9 +1,0 @@
-{
-  "loader": "forge:obj",
-  "shadeQuads": true,
-  "model": "extended_signals_se:models/block/signal/se/1l_railroad_crossing_signal_2_post_1970.obj",
-  "textures": {
-    "1l_railroadcrossing_signal_2_post_1970": "extended_signals_se:block/signal/se/1l_railroadcrossing_signal_2_post_1970"
-  },
-  "flip_v": true
-}

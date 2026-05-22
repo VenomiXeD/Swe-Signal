@@ -6,4 +6,12 @@ public class RendererBasicDwarfSignal extends RendererSeDwarfSignal {
     public RendererBasicDwarfSignal(BlockEntityRendererProvider.Context context) {
         super(context);
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean isObjModel() {
+        return true;
+    }
 }

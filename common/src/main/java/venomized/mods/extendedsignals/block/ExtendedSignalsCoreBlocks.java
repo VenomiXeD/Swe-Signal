@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.model.generators.ModelFile;
 import venomized.mods.extendedsignals.blockentity.ExtendedSignalsCoreBlockEntities;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.RegistrateHelper;
+import venomized.mods.extendedsignals.util.RegistrateHelper;
 import venomized.mods.extendedsignals.create.tracks.ATCController;
 
 public final class ExtendedSignalsCoreBlocks {

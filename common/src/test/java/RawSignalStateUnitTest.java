@@ -7,7 +7,6 @@ import venomized.mods.extendedsignals.core.RawSignalState;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RawSignalStateUnitTest {
-
     @Test
     void toNBTAndFromNBTPreservesBasicValues() {
         RawSignalState original = new RawSignalState()

@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -24,11 +23,8 @@ import static venomized.mods.extendedsignals.client.blockentityrenderer.SignalRe
 public class RendererSignal<T extends BlockEntitySignal>
         extends BlockEntityRendererBase<T> {
 
-    public RendererSignal(BlockEntityRendererProvider.Context context) {
-    }
 
-    public static BakedModel signalLightModel() {
-        return ExtendedSignalsCoreModels.LIGHT_MODEL.get();
+    public RendererSignal(BlockEntityRendererProvider.Context context) {
     }
 
     @Override
@@ -125,7 +121,7 @@ public class RendererSignal<T extends BlockEntitySignal>
                     // RenderType.debugFilledBox()
                     // multiBufferSource.getBuffer(RenderType.debugQuads()), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
                     // multiBufferSource.getBuffer(RenderType.solid()), t.getBlockState(), signalLightModel(), r, g, b, FULLBRIGHT, overlay
-                    multiBufferSource.getBuffer(RenderType.beaconBeam(SIGNAL_LIGHT_TEX_LOC, true)), t.getBlockState(), signalLightModel(), r, g, b, SignalRendererHelper.FULLBRIGHT, overlay
+                    multiBufferSource.getBuffer(RenderType.beaconBeam(SIGNAL_LIGHT_TEX_LOC, true)), t.getBlockState(), ExtendedSignalsCoreModels.signalLightModel(), r, g, b, SignalRendererHelper.FULLBRIGHT, overlay
                     // multiBufferSource.getBuffer(RenderType.()), t.getBlockState(), this.signalLightModel(), r,g,b, FULLBRIGHT, overlay
             );
             poseStack.popPose();
