@@ -66,6 +66,7 @@ public class RendererSignal<T extends BlockEntitySignal>
             poseStack.translate(.5, 0, .5);
         }
 
+        poseStack.translate(0,0,9f/16f);
         renderer.tesselateWithAO(
                 t.getLevel(),
                 this.getModel(t.getBlockState()),
@@ -79,12 +80,13 @@ public class RendererSignal<T extends BlockEntitySignal>
                 light,
                 overlay
         );
+        // poseStack.translate(0,0,-9f/16f);
 
         if (this.isObjModel()) {
             poseStack.popPose();
         }
 
-        poseStack.translate(.5d, 0d, .5d);
+        poseStack.translate(.5d, 3.1d/16d, 16.7d/16d);
         poseStack.translate(0, 2.75f / 16d, -5.6d / 16d);
 
         SwedishSignalAspect aspect = t.getCurrentDisplayingAspect();
