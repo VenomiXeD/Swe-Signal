@@ -56,7 +56,7 @@ public class DoorInstruction extends ScheduleInstruction {
 
         // Lol disgusting way to do this but it works
         runtime.state = ScheduleRuntime.State.IN_TRANSIT;
-        ((ITrainDoorData) runtime.train).swe_Signal$setDoorForcedClosed(true);
+        ((ITrainDoorData) runtime.train).extendedSignals$setDoorForcedClosed(true);
         runtime.train.carriages.forEach(carriage -> {
             carriage.forEachPresentEntity(presentEntity -> {
                 presentEntity.getContraption().forEachActor(level, (mb, mc) -> {

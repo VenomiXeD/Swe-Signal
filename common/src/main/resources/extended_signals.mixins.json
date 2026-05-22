@@ -5,11 +5,12 @@
   "refmap": "extendedsignals.refmap.json",
   "mixins": [
     "MixinCreateTrainSignal",
+    "MixinCreateTrainTrack",
     "MixinNavigation",
     "MixinScheduleRuntime",
     "MixinSignalBoundary",
     "MixinTrain",
-    "SlidingDoorMovementBehavior"
+    "MixinSlidingDoorMovementBehavior"
   ],
   "client": [
     "MixinItemRenderer"

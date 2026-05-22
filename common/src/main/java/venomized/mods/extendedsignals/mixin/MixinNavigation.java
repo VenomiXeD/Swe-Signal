@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
-import com.simibubi.create.content.trains.graph.TrackEdge;
 import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
@@ -13,8 +12,6 @@ import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
-import org.apache.commons.lang3.mutable.MutableDouble;
-import org.apache.commons.lang3.mutable.MutableObject;
 import org.joml.Math;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,30 +19,36 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import venomized.mods.extendedsignals.create.IExtendedSignalBoundary;
 
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Objects;
 import java.util.UUID;
 
 @Mixin(value = Navigation.class, remap = false)
-public abstract class MixinNavigation implements TravellingPoint.IEdgePointListener, TravellingPoint.ITurnListener {
+public abstract class MixinNavigation {
     @Unique
     private static final double LOOK_AHEAD_DISTANCE = 128;
-
+    @Unique
+    private final Deque<Pair<SignalBoundary, Direction.AxisDirection>> extendedSignals$collectedSignals = new LinkedList<>();
     @Shadow
     public Train train;
+    @Shadow
+    public double distanceToDestination;
+    @Shadow
+    public double distanceToSignal;
     @Unique
-    private TravellingPoint swe_signal$signalTrigger;
+    private TravellingPoint extendedSignals$signalScoutTriggerCollector;
+    @Unique
+    private int extendedSignals$randomTickValueForTesting = 20;
 
     @Shadow
     public abstract TravellingPoint.ITrackSelector controlSignalScout();
 
-    @Shadow
-    public double distanceToDestination;
-
     @Inject(method = "<init>", at = @At("TAIL"))
     public void onCtor(Train train, CallbackInfo ci) {
-        swe_signal$signalTrigger = new TravellingPoint();
+        extendedSignals$signalScoutTriggerCollector = new TravellingPoint();
     }
 
     @Inject(
@@ -60,30 +63,31 @@ public abstract class MixinNavigation implements TravellingPoint.IEdgePointListe
                        @Local(name = "speedMod") double speedMod,
                        @Local(name = "leadingPoint") TravellingPoint leadingPoint
     ) {
-        swe_signal$signalTrigger.node1 = leadingPoint.node1;
-        swe_signal$signalTrigger.node2 = leadingPoint.node2;
-        swe_signal$signalTrigger.edge = leadingPoint.edge;
-        swe_signal$signalTrigger.position = leadingPoint.position;
+        extendedSignals$randomTickValueForTesting = extendedSignals$randomTickValueForTesting < 0 ? 20 : extendedSignals$randomTickValueForTesting - 1;
 
-        final double lookaheadDistance = Math.min(LOOK_AHEAD_DISTANCE, distanceToDestination);
+        extendedSignals$signalScoutTriggerCollector.node1 = leadingPoint.node1;
+        extendedSignals$signalScoutTriggerCollector.node2 = leadingPoint.node2;
+        extendedSignals$signalScoutTriggerCollector.edge = leadingPoint.edge;
+        extendedSignals$signalScoutTriggerCollector.position = leadingPoint.position;
 
-        swe_signal$signalTrigger.travel(
+        final double lookaheadDistance = Math.min(
+                LOOK_AHEAD_DISTANCE,
+                Math.min(distanceToDestination, distanceToSignal)
+        );
+
+        this.extendedSignals$collectedSignals.clear();
+        extendedSignals$signalScoutTriggerCollector.travel(
                 train.graph,
                 lookaheadDistance * speedMod,
                 controlSignalScout(),
-                this,
-                this
+                this::extendedSignals$collectSignalsInPath
         );
+        extendedSignals$distantSignallingLogic();
     }
 
-    /**
-     * @param distance                 the first input argument
-     * @param trackEdgePointCouplePair the second input argument
-     * @return
-     */
-    @Override
-    public boolean test(Double distance, Pair<TrackEdgePoint, Couple<TrackNode>> trackEdgePointCouplePair) {
-        TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst() ;
+    @Unique
+    private boolean extendedSignals$collectSignalsInPath(double distance, Pair<TrackEdgePoint, Couple<TrackNode>> trackEdgePointCouplePair) {
+        TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
         if (!(trackEdgePoint instanceof SignalBoundary signalBoundary))
             return false;
 
@@ -91,23 +95,27 @@ public abstract class MixinNavigation implements TravellingPoint.IEdgePointListe
         UUID enteringGroup = signalBoundary.getGroup(
                 trackEdgePointCouplePair.getSecond().getSecond()
         );
-        boolean side = enteringGroup.equals(signalBoundary.groups.getFirst());
+        boolean side = Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
         if (signalBoundary.cachedStates.get(side) == SignalBlockEntity.SignalState.RED)
             return true;
 
-        ((IExtendedSignalBoundary) signalBoundary).extendedSignal$onScout(
-                side ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE, this.train
+        extendedSignals$collectedSignals.push(
+                Pair.of(signalBoundary, side ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE)
         );
-
 
         return false;
     }
 
-    /**
-     * @param aDouble   the first input argument
-     * @param trackEdge the second input argument
-     */
-    @Override
-    public void accept(Double aDouble, TrackEdge trackEdge) {
+    @Unique
+    private void extendedSignals$distantSignallingLogic() {
+        while (!extendedSignals$collectedSignals.isEmpty()) {
+            Pair<SignalBoundary, Direction.AxisDirection> pair = extendedSignals$collectedSignals.pop();
+            SignalBoundary signalBoundary = pair.getFirst();
+            Direction.AxisDirection direction = pair.getSecond();
+
+            ((IExtendedSignalBoundary) signalBoundary).extendedSignal$onScout(
+                    direction, this.train
+            );
+        }
     }
 }

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.create.ITrainDoorData;
 
 @Mixin(value = SlidingDoorMovementBehaviour.class, remap = false)
-public abstract class SlidingDoorMovementBehavior {
+public abstract class MixinSlidingDoorMovementBehavior {
     @Inject(method = "shouldOpen", at = @At("RETURN"), cancellable = true)
     public void onShouldOpen(MovementContext context, CallbackInfoReturnable<Boolean> cir) {
         boolean isForcedClosed = false;
@@ -22,7 +22,7 @@ public abstract class SlidingDoorMovementBehavior {
                     .trains.get(cce.trainId);
 
             if (train != null)
-                isForcedClosed = ((ITrainDoorData) train).swe_Signal$doorForcedClosed();
+                isForcedClosed = ((ITrainDoorData) train).extendedSignals$doorForcedClosed();
 
         }
 

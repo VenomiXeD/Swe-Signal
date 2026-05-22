@@ -1,6 +1,5 @@
 package venomized.mods.extendedsignals.core;
 
-import com.simibubi.create.Create;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.nbt.CompoundTag;
@@ -12,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.network.packets.SyncSignalStatePacket;
 
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -34,7 +32,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
 
     private static ServerSignalNetworkCache create() {
         ServerSignalNetworkCache test = new ServerSignalNetworkCache();
-        test.signalStates().put(UUID.randomUUID(), new RawSignalState().withProceed(true));
+        test.signalStates().put(UUID.randomUUID(), new RawSignalState().setProceed(true));
         test.setDirty(true);
         return test;
     }

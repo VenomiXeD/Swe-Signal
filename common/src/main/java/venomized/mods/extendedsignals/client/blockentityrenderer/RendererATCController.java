@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.client.blockentityrenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.simibubi.create.content.trains.track.BezierTrackPointLocation;
 import com.simibubi.create.content.trains.track.ITrackBlock;
 import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
@@ -53,7 +54,7 @@ public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityAT
                 trackState,
                 target.getTargetBezier(),
                 target.getTargetDirection(),
-                TrackTargetingBehaviour.RenderedTrackOverlayType.SIGNAL
+                TrackTargetingBehaviour.RenderedTrackOverlayType.OBSERVER
         );
 
         ms.translate(0f, 2f / 16f, 0f);

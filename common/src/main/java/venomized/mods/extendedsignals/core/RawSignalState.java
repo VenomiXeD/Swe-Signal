@@ -1,27 +1,32 @@
 package venomized.mods.extendedsignals.core;
 
+import com.simibubi.create.content.trains.entity.TravellingPoint;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import venomized.mods.extendedsignals.util.NBTHelp;
 
 import javax.annotation.Nullable;
-import java.util.Objects;
 
+@Setter
+@Getter
+@Accessors(chain = true)
 public class RawSignalState {
     private static final String TAG_PROCEED_NAME = "proceed";
     private static final String TAG_DIRECTION_NAME = "signal_direction";
 
-    @Getter
-    @Setter
-    private boolean proceed;
+    public RawSignalState() {
 
-    @Getter
-    @Setter
-    @Nullable
+    }
+
+    private boolean proceed;
     private Direction.AxisDirection axisDirection;
+    private float distanceToNextSignal = -1;
+    private TravellingPoint.SteerDirection upcomingJunctionSteerDirection;
 
     public static RawSignalState fromNBT(final CompoundTag tag) {
         final RawSignalState rawSignalState = new RawSignalState();
@@ -33,16 +38,6 @@ public class RawSignalState {
         );
 
         return rawSignalState;
-    }
-
-    public RawSignalState withProceed(final boolean proceed) {
-        this.proceed = proceed;
-        return this;
-    }
-
-    public RawSignalState withDirection(final Direction.AxisDirection proceed) {
-        this.axisDirection = proceed;
-        return this;
     }
 
     public CompoundTag toNBT() {

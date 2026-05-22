@@ -18,9 +18,7 @@ import java.util.UUID;
 public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExtendedSignalBoundary {
     @Unique
     private UUID extendedSignals$signalReservedForGroup;
-    /**
-     *
-     */
+
     @Override
     public void extendedSignal$onScout(final Direction.AxisDirection direction, final Train train) {
         Entity entity = train.carriages.get(0).anyAvailableEntity();
@@ -35,13 +33,13 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
         ExtendedSignalsCore.sidedNetwork(level)
                 .updateState(getId(),
                         new RawSignalState()
-                                .withProceed(true)
-                                .withDirection(direction)
+                                .setProceed(true)
+                                .setAxisDirection(direction)
                 );
     }
 
     /**
-     * @param train
+     * @param train Train crossing over
      */
     @Override
     public void extendedSignal$onCrossed(Train train) {
@@ -57,6 +55,6 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
         ExtendedSignalsCore.sidedNetwork(level)
                 .updateState(getId(),
                         new RawSignalState()
-                                .withProceed(false));
+                                .setProceed(false));
     }
 }

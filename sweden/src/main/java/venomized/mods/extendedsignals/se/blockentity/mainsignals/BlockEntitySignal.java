@@ -43,7 +43,7 @@ public abstract class BlockEntitySignal extends ExtendedSignalsCoreBlockEntity
     @Getter
     private final int lightCount;
     public float[] lightLevels;
-    private UUID    referencedSignalEdgeID;
+    private UUID referencedSignalEdgeID;
     private int tick;
     private int remainingTicksAspectChangeDelay;
 

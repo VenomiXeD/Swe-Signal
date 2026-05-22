@@ -14,12 +14,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.create.IExtendedSignalBoundary;
-import venomized.mods.extendedsignals.create.tracks.ATCController;
 import venomized.mods.extendedsignals.create.ITrainDoorData;
+import venomized.mods.extendedsignals.create.tracks.ATCController;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -29,12 +27,10 @@ import java.util.UUID;
 public abstract class MixinTrain implements ITrainDoorData {
     @Unique
     private static final int TICKS_ON_CROSSED_TRIGGERING_DELAY = 20;
-
-    @Unique
-    private boolean extendedSignals$doorOpen = false;
-
     @Unique
     private final List<Pair<Integer, SignalBoundary>> extendedSignals$delayedOnCrossedTriggering = new ReferenceArrayList<>();
+    @Unique
+    private boolean extendedSignals$doorOpen = false;
 
     @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"))
     public TravellingPoint.IEdgePointListener frontSignalListener(TravellingPoint.IEdgePointListener original) {
@@ -58,11 +54,11 @@ public abstract class MixinTrain implements ITrainDoorData {
         Iterator<Pair<Integer, SignalBoundary>> it = extendedSignals$delayedOnCrossedTriggering.iterator();
         while (it.hasNext()) {
             Pair<Integer, SignalBoundary> remainingTicksDelay_signalBoundaryToUpdate = it.next();
-            if(remainingTicksDelay_signalBoundaryToUpdate.getFirst() <= 0) {
-                ((IExtendedSignalBoundary)remainingTicksDelay_signalBoundaryToUpdate.getSecond())
-                        .extendedSignal$onCrossed((Train)(Object)this);
+            if (remainingTicksDelay_signalBoundaryToUpdate.getFirst() <= 0) {
+                ((IExtendedSignalBoundary) remainingTicksDelay_signalBoundaryToUpdate.getSecond())
+                        .extendedSignal$onCrossed((Train) (Object) this);
                 it.remove();
-                ExtendedSignalsCore.LOGGER.info("Removed delayed onCross event trigger from collection");
+                // ExtendedSignalsCore.LOGGER.info("Removed delayed onCross event trigger from collection");
                 continue;
             }
             remainingTicksDelay_signalBoundaryToUpdate.setFirst(
@@ -80,18 +76,16 @@ public abstract class MixinTrain implements ITrainDoorData {
      * @return
      */
     @Override
-    public boolean swe_Signal$doorForcedClosed() {
+    public boolean extendedSignals$doorForcedClosed() {
         return extendedSignals$doorOpen;
     }
 
     /**
      * @param closed
-     * @return
      */
     @Override
-    public boolean swe_Signal$setDoorForcedClosed(boolean closed) {
+    public void extendedSignals$setDoorForcedClosed(boolean closed) {
         this.extendedSignals$doorOpen = closed;
-        return extendedSignals$doorOpen;
     }
 }
 

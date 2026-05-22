@@ -28,6 +28,6 @@ public class MixinScheduleRuntime {
         if (this.schedule.entries.get(this.currentEntry).instruction instanceof DoorInstruction)
             return;
 
-        ((ITrainDoorData) train).swe_Signal$setDoorForcedClosed(false);
+        ((ITrainDoorData) train).extendedSignals$setDoorForcedClosed(false);
     }
 }

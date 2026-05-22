@@ -19,31 +19,31 @@ public class BlockEntityDwarfSignal extends BlockEntitySignal {
 
     @Override
     public void computeSignalLightValues(SwedishSignalAspect aspect, SignalBlockEntity.SignalState createSignalState, boolean doInvalidBlinking) {
-        switch (createSignalState) {
-            case INVALID -> {
+        switch (aspect) {
+            default -> {
                 SignalUtilities.computeLightValueAt(0, lightLevels, false);
                 SignalUtilities.computeLightValueAt(1, lightLevels, true);
                 SignalUtilities.computeLightValueAt(2, lightLevels, true);
                 SignalUtilities.computeLightValueAt(3, lightLevels, false);
             }
-            case RED -> {
+            case STOP -> {
                 SignalUtilities.computeLightValueAt(0, lightLevels, false);
                 SignalUtilities.computeLightValueAt(1, lightLevels, false);
                 SignalUtilities.computeLightValueAt(2, lightLevels, true);
                 SignalUtilities.computeLightValueAt(3, lightLevels, true);
             }
-            case GREEN -> {
+            case PROCEED_80 -> {
                 SignalUtilities.computeLightValueAt(0, lightLevels, false);
                 SignalUtilities.computeLightValueAt(1, lightLevels, true);
                 SignalUtilities.computeLightValueAt(2, lightLevels, false);
                 SignalUtilities.computeLightValueAt(3, lightLevels, true);
             }
-            case YELLOW -> {
-                SignalUtilities.computeLightValueAt(0, lightLevels, true);
-                SignalUtilities.computeLightValueAt(1, lightLevels, false);
-                SignalUtilities.computeLightValueAt(2, lightLevels, false);
-                SignalUtilities.computeLightValueAt(3, lightLevels, true);
-            }
+            // case YELLOW -> {
+            //     SignalUtilities.computeLightValueAt(0, lightLevels, true);
+            //     SignalUtilities.computeLightValueAt(1, lightLevels, false);
+            //     SignalUtilities.computeLightValueAt(2, lightLevels, false);
+            //     SignalUtilities.computeLightValueAt(3, lightLevels, true);
+            // }
         }
     }
 }

@@ -5,8 +5,8 @@ import org.spongepowered.asm.mixin.Unique;
 
 public interface ITrainDoorData {
     @Unique
-    boolean swe_Signal$doorForcedClosed();
+    boolean extendedSignals$doorForcedClosed();
 
     @Unique
-    boolean swe_Signal$setDoorForcedClosed(boolean closed);
+    void extendedSignals$setDoorForcedClosed(boolean closed);
 }
