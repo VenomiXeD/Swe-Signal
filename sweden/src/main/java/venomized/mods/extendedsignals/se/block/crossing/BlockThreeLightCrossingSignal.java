@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.block.BlockRailroadCrossingObject;
+import venomized.mods.extendedsignals.core.block.BlockRailroadCrossingObject;
 import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
 
 public class BlockThreeLightCrossingSignal extends BlockRailroadCrossingObject {
@@ -14,6 +14,6 @@ public class BlockThreeLightCrossingSignal extends BlockRailroadCrossingObject {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return ExtendedSignalsSwedenBlockEntities.BE_THREE_LIGHT_CROSSING_LIGHT_SIGNAL.create(blockPos, blockState);
+        return ExtendedSignalsSwedenBlockEntities.THREE_LIGHT_CROSSING_LIGHT_SIGNAL.create(blockPos, blockState);
     }
 }

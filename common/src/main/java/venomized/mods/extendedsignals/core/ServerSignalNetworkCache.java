@@ -8,8 +8,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.network.ExtendedSignalsNetworking;
-import venomized.mods.extendedsignals.network.packets.SyncSignalStatePacket;
+import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
+import venomized.mods.extendedsignals.core.network.packets.SyncSignalStatePacket;
+import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 
 import java.util.UUID;
 

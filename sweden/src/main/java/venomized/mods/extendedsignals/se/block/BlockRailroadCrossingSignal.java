@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.block.BlockRailroadCrossingObject;
+import venomized.mods.extendedsignals.core.block.BlockRailroadCrossingObject;
 import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityRailroadCrossingSignal;
 import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
 
@@ -18,12 +18,12 @@ public class BlockRailroadCrossingSignal extends BlockRailroadCrossingObject {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return ExtendedSignalsSwedenBlockEntities.BE_RAILROAD_CROSSING_SIGNAL.create(pPos, pState);
+        return ExtendedSignalsSwedenBlockEntities.RAILROAD_CROSSING_SIGNAL.create(pPos, pState);
     }
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pBlockEntityType == ExtendedSignalsSwedenBlockEntities.BE_RAILROAD_CROSSING_SIGNAL.get() ? (level, pos, state, blockEntity) -> {
+        return pBlockEntityType == ExtendedSignalsSwedenBlockEntities.RAILROAD_CROSSING_SIGNAL.get() ? (level, pos, state, blockEntity) -> {
             ((BlockEntityRailroadCrossingSignal) blockEntity).tick(level, pos, state, blockEntity);
         } : null;
     }

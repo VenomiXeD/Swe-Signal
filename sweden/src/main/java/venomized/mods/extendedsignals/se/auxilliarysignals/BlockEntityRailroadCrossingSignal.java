@@ -5,8 +5,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mods.extendedsignals.blockentity.BlockEntityRailroadCrossingObject;
-import venomized.mods.extendedsignals.blockentity.ISignalTunerBindable;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntityRailroadCrossingObject;
+import venomized.mods.extendedsignals.core.blockentity.ISignalTunerBindable;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSwedenSounds;
 
 public class BlockEntityRailroadCrossingSignal extends BlockEntityRailroadCrossingObject implements ISignalTunerBindable {

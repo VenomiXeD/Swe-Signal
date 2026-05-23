@@ -9,10 +9,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
-import venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase;
-import venomized.mods.extendedsignals.se.block.SeModels;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.BlockEntityRendererBase;
+import venomized.mods.extendedsignals.core.util.MathHelp;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
-import venomized.mods.extendedsignals.util.MathHelp;
 
 import static venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate.MAX_ARM_MOVEMENT_TICKS;
 
@@ -78,18 +77,18 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
         //         pPackedLight, pPackedOverlay
         // );
 
-        renderer().tesselateWithoutAO(
-                pBlockEntity.getLevel(),
-                SeModels.ARM_4.get(),
-                pBlockEntity.getBlockState(),
-                pBlockEntity.getBlockPos().above(),
-                pPoseStack,
-                pBuffer.getBuffer(RenderType.solid()),
-                false,
-                pBlockEntity.getLevel().getRandom(),
-                pPackedLight,// LightTexture.FULL_BRIGHT,// LevelRenderer.getLightColor(pBlockEntity.getLevel(),pBlockEntity.getBlockPos()),
-                pPackedOverlay
-        );
+        // renderer().tesselateWithoutAO(
+        //         pBlockEntity.getLevel(),
+        //         SeModels.ARM_4.get(),
+        //         pBlockEntity.getBlockState(),
+        //         pBlockEntity.getBlockPos().above(),
+        //         pPoseStack,
+        //         pBuffer.getBuffer(RenderType.solid()),
+        //         false,
+        //         pBlockEntity.getLevel().getRandom(),
+        //         pPackedLight,// LightTexture.FULL_BRIGHT,// LevelRenderer.getLightColor(pBlockEntity.getLevel(),pBlockEntity.getBlockPos()),
+        //         pPackedOverlay
+        // );
     }
 
     @Override

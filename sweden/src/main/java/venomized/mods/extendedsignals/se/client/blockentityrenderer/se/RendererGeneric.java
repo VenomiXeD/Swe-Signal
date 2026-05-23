@@ -10,9 +10,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.BlockEntityRendererBase;
 
 @OnlyIn(Dist.CLIENT)
-public class RendererGeneric<T extends BlockEntity> extends venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase<T> {
+public class RendererGeneric<T extends BlockEntity> extends BlockEntityRendererBase<T> {
     public RendererGeneric(BlockEntityRendererProvider.Context context) {
         super(context);
     }

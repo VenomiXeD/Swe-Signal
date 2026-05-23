@@ -3,10 +3,10 @@ package venomized.mods.extendedsignals.se.client.sound.train;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import venomized.mods.extendedsignals.client.sound.LoopingSound;
-import venomized.mods.extendedsignals.client.sound.train.ICarriageSounds;
-import venomized.mods.extendedsignals.client.sound.train.TrainSound;
-import venomized.mods.extendedsignals.client.sound.train.TrainSounds;
+import venomized.mods.extendedsignals.core.client.sound.LoopingSound;
+import venomized.mods.extendedsignals.core.client.sound.train.ICarriageSounds;
+import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
+import venomized.mods.extendedsignals.core.client.sound.train.TrainSounds;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSwedenSounds;
 
 public class TrainSoundX60 extends TrainSound {

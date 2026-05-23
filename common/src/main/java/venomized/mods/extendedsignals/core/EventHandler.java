@@ -10,8 +10,8 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
-import venomized.mods.extendedsignals.network.ExtendedSignalsNetworking;
-import venomized.mods.extendedsignals.network.packets.SyncSignalStatesPacket;
+import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
+import venomized.mods.extendedsignals.core.network.packets.SyncSignalStatesPacket;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = ExtendedSignalsCore.MOD_ID)
 public class EventHandler {

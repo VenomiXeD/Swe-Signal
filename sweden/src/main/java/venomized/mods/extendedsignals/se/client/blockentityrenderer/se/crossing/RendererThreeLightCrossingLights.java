@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.util.Mth;
 import org.joml.Math;
-import venomized.mods.extendedsignals.client.blockentityrenderer.BlockEntityRendererBase;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.BlockEntityRendererBase;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityThreeLightCrossingLights;
 
 public class RendererThreeLightCrossingLights extends BlockEntityRendererBase<BlockEntityThreeLightCrossingLights> {

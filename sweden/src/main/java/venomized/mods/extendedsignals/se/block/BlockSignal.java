@@ -16,9 +16,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.block.ExtendedSignalBlock;
-import venomized.mods.extendedsignals.se.SwedishSignalAspect;
-import venomized.mods.extendedsignals.se.blockentity.mainsignals.BlockEntitySignal;
+import venomized.mods.extendedsignals.core.block.ExtendedSignalBlock;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 
 public abstract class BlockSignal extends ExtendedSignalBlock implements EntityBlock {
     public BlockSignal(BlockBehaviour.Properties properties) {
@@ -49,44 +48,7 @@ public abstract class BlockSignal extends ExtendedSignalBlock implements EntityB
         return Shapes.block();
     }
 
-    /**
-     * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
-     * LIQUID for vanilla liquids, INVISIBLE to skip all rendering
-     *
-     * @param pState
-     * @deprecated call via {@link BlockStateBase#getRenderShape}
-     * whenever possible. Implementing/overriding is fine.
-     */
-    @Override
-    public RenderShape getRenderShape(BlockState pState) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
-    }
 
-    /**
-     * @param pLevel
-     * @param pState
-     * @param pBlockEntityType
-     * @param <T>
-     * @return
-     */
-    @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        if (pLevel.isClientSide()) {
-            return (level, pos, state, be) -> {
-                if (be instanceof BlockEntitySignal signal) {
-                    // t.clientTick(partialTick, aspect, t.getCurrentDisplayingState(), !t.valid() || aspect == null);
-                    SwedishSignalAspect aspect = signal.getCurrentDisplayingAspect();
-                    BlockEntitySignal.clientTick(signal, pLevel, pos, state);
-                }
-            };
-        } else {
-            return (level, pos, state, be) -> {
-                if (be instanceof BlockEntitySignal signal) {
-                    BlockEntitySignal.serverTick(signal, level, pos, state);
-                }
-            };
-        }
-    }
 
     /**
      * @param pState

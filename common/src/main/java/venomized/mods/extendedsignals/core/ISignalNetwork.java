@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 
 import java.util.Map;
 import java.util.UUID;

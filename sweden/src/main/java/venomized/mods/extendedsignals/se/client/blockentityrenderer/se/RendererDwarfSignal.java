@@ -1,10 +1,9 @@
 package venomized.mods.extendedsignals.se.client.blockentityrenderer.se;
 
-import com.simibubi.create.content.trains.signal.SignalRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityDwarfSignal;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 
-public class RendererDwarfSignal extends RendererSignal<BlockEntityDwarfSignal> {
+public class RendererDwarfSignal extends RendererSignal {
     public RendererDwarfSignal(BlockEntityRendererProvider.Context context) {
         super();
     }

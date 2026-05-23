@@ -13,6 +13,6 @@ public class BlockModernDwarfSignal extends BlockSignal {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return ExtendedSignalsSwedenBlockEntities.BE_DWARF_SIGNAL.create(pPos, pState);
+        return ExtendedSignalsSwedenBlockEntities.DWARF_SIGNAL.create(pPos, pState);
     }
 }

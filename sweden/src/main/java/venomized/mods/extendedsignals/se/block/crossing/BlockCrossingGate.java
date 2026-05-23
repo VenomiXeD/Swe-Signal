@@ -19,12 +19,12 @@ public class BlockCrossingGate extends BlockGenericRotateableBlock implements En
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return ExtendedSignalsSwedenBlockEntities.BE_CROSSING_GATE.create(blockPos, blockState);
+        return ExtendedSignalsSwedenBlockEntities.CROSSING_GATE.create(blockPos, blockState);
     }
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide() && pBlockEntityType == ExtendedSignalsSwedenBlockEntities.BE_CROSSING_GATE.get() ?
+        return pLevel.isClientSide() && pBlockEntityType == ExtendedSignalsSwedenBlockEntities.CROSSING_GATE.get() ?
                 ((level, blockPos, blockState, t) -> BlockEntityCrossingGate.clientTick(level, blockPos, blockState, (BlockEntityCrossingGate) t))
                 : null;
     }

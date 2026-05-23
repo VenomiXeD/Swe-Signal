@@ -2,7 +2,7 @@ import com.simibubi.create.content.trains.entity.TravellingPoint;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import org.junit.jupiter.api.Test;
-import venomized.mods.extendedsignals.core.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 
 import static org.junit.jupiter.api.Assertions.*;
 

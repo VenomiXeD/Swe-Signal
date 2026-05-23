@@ -19,6 +19,6 @@ public class BlockModernEndpointSignal extends BlockSignal {
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return ExtendedSignalsSwedenBlockEntities.BE_ENDPOINT_SIGNAL.create(pPos, pState);
+        return ExtendedSignalsSwedenBlockEntities.ENDPOINT_SIGNAL.create(pPos, pState);
     }
 }

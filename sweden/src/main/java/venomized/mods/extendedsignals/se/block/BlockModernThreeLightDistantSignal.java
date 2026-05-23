@@ -13,6 +13,6 @@ public class BlockModernThreeLightDistantSignal extends BlockSignal {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return ExtendedSignalsSwedenBlockEntities.BE_THREE_LIGHT_DISTANT_SIGNAL.create(pPos, pState);
+        return ExtendedSignalsSwedenBlockEntities.DISTANT_THREE_LIGHT.create(pPos, pState);
     }
 }

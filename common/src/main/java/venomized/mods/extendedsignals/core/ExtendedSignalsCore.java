@@ -14,24 +14,25 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeDeferredRegistriesSetup;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import venomized.mods.extendedsignals.block.ExtendedSignalsCoreBlocks;
-import venomized.mods.extendedsignals.blockentity.ExtendedSignalsCoreBlockEntities;
-import venomized.mods.extendedsignals.client.ClientSignalNetworkCache;
-import venomized.mods.extendedsignals.client.ExtendedSignalsCoreModels;
-import venomized.mods.extendedsignals.client.sound.train.TrainSound;
-import venomized.mods.extendedsignals.client.sound.train.TrainSounds;
-import venomized.mods.extendedsignals.create.DoorInstruction;
-import venomized.mods.extendedsignals.data.BlockStateDataGenerator;
-import venomized.mods.extendedsignals.data.RecipeDataGenerator;
-import venomized.mods.extendedsignals.data.SoundEventDataGenerator;
-import venomized.mods.extendedsignals.data.SwSignalLang;
-import venomized.mods.extendedsignals.item.ExtendedSignalsItems;
-import venomized.mods.extendedsignals.network.ExtendedSignalsNetworking;
+import venomized.mods.extendedsignals.core.block.ExtendedSignalsCoreBlocks;
+import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntities;
+import venomized.mods.extendedsignals.core.client.ClientSignalNetworkCache;
+import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
+import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
+import venomized.mods.extendedsignals.core.client.sound.train.TrainSounds;
+import venomized.mods.extendedsignals.core.create.DoorInstruction;
+import venomized.mods.extendedsignals.core.data.BlockStateDataGenerator;
+import venomized.mods.extendedsignals.core.data.RecipeDataGenerator;
+import venomized.mods.extendedsignals.core.data.SoundEventDataGenerator;
+import venomized.mods.extendedsignals.core.data.SwSignalLang;
+import venomized.mods.extendedsignals.core.item.ExtendedSignalsItems;
+import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
 
 @Mod(ExtendedSignalsCore.MOD_ID)
 public class ExtendedSignalsCore extends ModTemplate {
@@ -103,7 +104,7 @@ public class ExtendedSignalsCore extends ModTemplate {
     }
 
     @SubscribeEvent
-    public void onDataGenerator(GatherDataEvent e) {
+    public static void onDataGenerator(GatherDataEvent e) {
         SwSignalLang.languageEntries();
 
         // e.getGenerator().addProvider(e.includeClient(), new ModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
@@ -115,12 +116,7 @@ public class ExtendedSignalsCore extends ModTemplate {
     }
 
     @SubscribeEvent
-    public void onRegisterEvent(RegisterEvent e) {
-        // e.register(EdgePointType.SIGNAL
-    }
-
-    @SubscribeEvent
-    public void onNewRegistryEvent(NewRegistryEvent e) {
+    public static void onNewRegistryEvent(NewRegistryEvent e) {
         e.create(new RegistryBuilder<TrainSound>()
                 .setName(TrainSounds.TRAIN_SOUNDS_RESOURCE_KEY.location())
                 .disableSaving()
@@ -128,7 +124,7 @@ public class ExtendedSignalsCore extends ModTemplate {
     }
 
     @SubscribeEvent
-    public void onCreativeTabBuildContents(BuildCreativeModeTabContentsEvent event) {
+    public static void onCreativeTabBuildContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == SW_SIGNAL_TAB.getKey()) {
             REGISTRATE.get().getAll(Registries.ITEM).forEach(item -> event.accept(item.get()));
             // REGISTRATE.get().getAll(Registries.BLOCK).forEach(block -> event.accept(new ItemStack(block.get())));

@@ -2,9 +2,6 @@
   "block.extended_signals.atc_controller": "Atc Controller",
   "block.extended_signals.crossing_controller": "Crossing Controller",
   "block.extended_signals.train_config": "Train Config",
-  "extended_signals.schedule.door.summary": "Door Control",
-  "extended_signals.schedule.door.title": "Close doors",
-  "extended_signals.schedule.instruction.door": "Close doors",
   "item.extended_signals.signalitem": "Signalitem",
   "itemGroup.extended_signals.extended_signals": "Extended Signals"
 }
