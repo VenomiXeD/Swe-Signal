@@ -174,9 +174,9 @@ public class RegistrateHelper {
         };
     }
 
-    public static <T extends BlockEntity> BlockEntityBuilder<T, Registrate> simpleBlockEntity(Registrate registrateInstance, String beName, BlockEntityBuilder.BlockEntityFactory<T> beFactory, NonNullSupplier<? extends Block> validBlock) {
+    public static <T extends BlockEntity> BlockEntityBuilder<T, Registrate> simpleBlockEntity(Registrate registrateInstance, String beName, BlockEntityBuilder.BlockEntityFactory<T> beFactory, NonNullSupplier<? extends Block>... validBlocks) {
         return registrateInstance
                 .blockEntity(beName, beFactory)
-                .validBlock(validBlock);
+                .validBlocks(validBlocks);
     }
 }

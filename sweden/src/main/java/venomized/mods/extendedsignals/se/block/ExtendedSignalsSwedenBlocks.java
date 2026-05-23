@@ -8,6 +8,8 @@ import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingGate;
 import venomized.mods.extendedsignals.se.block.crossing.BlockThreeLightCrossingSignal;
+import venomized.mods.extendedsignals.se.block.se.BlockCombinedSignal;
+import venomized.mods.extendedsignals.se.block.se.BlockMainSignal;
 
 /**
  * Swedish railway content (blocks)
@@ -17,22 +19,22 @@ public class ExtendedSignalsSwedenBlocks {
     public static final BlockEntry<BlockSignalBox> BLOCK_SIGNAL_BOX = RegistrateHelper.modelledBlock(registrate(), "signal.se.signal_box", BlockSignalBox::new)
             .register();
     // == SIGNALS FROM 2-5 LIGHTS ==
-    public static final BlockEntry<BlockSignal> BLOCK_TWO_LIGHT_SIGNAL = RegistrateHelper.genericMainSignalBlock(
+    public static final BlockEntry<BlockMainSignal> BLOCK_TWO_LIGHT_SIGNAL = RegistrateHelper.genericMainSignalBlock(
                     registrate(), "signals", "se", "2l_signal_post_1970",
-                    BlockSignal.generic(2, BlockSignal.SignalType.MAIN)
+                    (p) -> new BlockMainSignal(p, 2)
             )
             .register();
-    public static final BlockEntry<BlockSignal> BLOCK_THREE_LIGHT_SIGNAL = RegistrateHelper.genericMainSignalBlock(
-                    registrate(), "signals", "se", "3l_signal_post_1970", BlockSignal.generic(3, BlockSignal.SignalType.MAIN))
+    public static final BlockEntry<BlockMainSignal> BLOCK_THREE_LIGHT_SIGNAL = RegistrateHelper.genericMainSignalBlock(
+                    registrate(), "signals", "se", "3l_signal_post_1970", (p) -> new BlockMainSignal(p, 3))
             .register();
-    public static final BlockEntry<BlockSignal> BLOCK_FOUR_LIGHT_SIGNAL = RegistrateHelper.genericCombinedSignalBlock(
+    public static final BlockEntry<BlockCombinedSignal> BLOCK_FOUR_LIGHT_SIGNAL = RegistrateHelper.genericCombinedSignalBlock(
                     registrate(), "signals", "se", "4l_signal_post_1970",
-                    BlockSignal.generic(4, BlockSignal.SignalType.COMBINED)
+                    (p) -> new BlockCombinedSignal(p, 4)
             )
             .register();
-    public static final BlockEntry<BlockSignal> BLOCK_FIVE_LIGHT_SIGNAL = RegistrateHelper.genericCombinedSignalBlock(
+    public static final BlockEntry<BlockCombinedSignal> BLOCK_FIVE_LIGHT_SIGNAL = RegistrateHelper.genericCombinedSignalBlock(
                     registrate(), "signals", "se", "5l_signal_post_1970",
-                    BlockSignal.generic(5, BlockSignal.SignalType.COMBINED)
+                    (p) -> new BlockCombinedSignal(p, 5)
             )
             .register();
     // == DISTANT SIGNALS ==
@@ -52,7 +54,7 @@ public class ExtendedSignalsSwedenBlocks {
                             "7l_dwarf_main_signal_post_1970",
                             BlockModernMainDwarfSignal::new
                     )
-            .register();
+                    .register();
     // == MISC SIGNALS ==
     public static final BlockEntry<BlockModernEndpointSignal> BLOCK_ENDPOINT_SIGNAL = RegistrateHelper.genericMainSignalBlock(
                     registrate(), "signals", "se", "1l_endpoint_post_1920", BlockModernEndpointSignal::new)

@@ -1,18 +1,19 @@
-package venomized.mods.extendedsignals.se.block;
+package venomized.mods.extendedsignals.se.block.se;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.block.BlockSignal;
-import venomized.mods.extendedsignals.core.block.ExtendedSignalBlock;
 import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
 
-public class BlockModernEndpointSignal extends ExtendedSignalBlock implements EntityBlock {
-    public BlockModernEndpointSignal(BlockBehaviour.Properties properties) {
-        super(properties);
+public class BlockCombinedSignal extends BlockSwedenSignal {
+    /**
+     * @param pProperties
+     * @param signalLightCount
+     */
+    public BlockCombinedSignal(Properties pProperties, int signalLightCount) {
+        super(pProperties, signalLightCount);
     }
 
     /**
@@ -22,6 +23,7 @@ public class BlockModernEndpointSignal extends ExtendedSignalBlock implements En
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return ExtendedSignalsSwedenBlockEntities.ENDPOINT_SIGNAL.create(pPos, pState);
+        return ExtendedSignalsSwedenBlockEntities.COMBINED_SIGNAL.get()
+                .create(pPos, pState);
     }
 }

@@ -12,15 +12,6 @@ public class BlockEntityThreeLightDistantSignal extends BlockEntitySignal {
     public BlockEntityThreeLightDistantSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
-
-    /**
-     * @return
-     */
-    @Override
-    protected SignalLightPlacement[] constructLightPlacements() {
-        return new SignalLightPlacement[0];
-    }
-
     /**
      * @param rawState
      * @return

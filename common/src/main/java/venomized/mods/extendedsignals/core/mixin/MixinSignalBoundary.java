@@ -41,10 +41,11 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
     }
 
     /**
-     * @param train Train crossing over
+     * @param direction
+     * @param train     Train crossing over
      */
     @Override
-    public void extendedSignal$onCrossed(Train train) {
+    public void extendedSignal$onCrossed(Direction.AxisDirection direction, Train train) {
         Entity entity = train.carriages.get(0).anyAvailableEntity();
         if (entity == null)
             return;
@@ -57,7 +58,9 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
         ExtendedSignalsCore.sidedNetwork(level)
                 .updateState(getId(),
                         new RawSignalState()
-                                .setProceed(false));
+                                .setProceed(false)
+                                .setAxisDirection(direction)
+                );
     }
 
     /**

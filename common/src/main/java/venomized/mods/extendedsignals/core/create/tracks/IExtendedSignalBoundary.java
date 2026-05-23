@@ -22,5 +22,5 @@ public interface IExtendedSignalBoundary {
 
     void extendedSignal$onScout(Direction.AxisDirection direction, RawSignalState newState, Train train);
 
-    void extendedSignal$onCrossed(Train train);
+    void extendedSignal$onCrossed(Direction.AxisDirection direction, Train train);
 }

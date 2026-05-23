@@ -17,11 +17,11 @@ public final class ExtendedSignalsCoreBlockEntities {
     }
 
     public static void validMainSignalBlock(NonNullSupplier<? extends Block> blockSupplier) {
-        MAIN_SIGNAL_BUILDER.validBlock(blockSupplier);
+        // MAIN_SIGNAL_BUILDER.validBlock(blockSupplier);
     }
 
     public static void validCombinedSignalBlock(NonNullSupplier<? extends Block> blockSupplier) {
-        COMBINED_SIGNAL_BUILDER.validBlock(blockSupplier);
+        // COMBINED_SIGNAL_BUILDER.validBlock(blockSupplier);
     }
 
     public static final BlockEntityEntry<BlockEntityRailroadCrossingController> BE_SE_RAILROAD_CROSSING_CONTROLLER =
@@ -45,17 +45,17 @@ public final class ExtendedSignalsCoreBlockEntities {
             ExtendedSignalsCoreBlocks.BLOCK_TRAIN_CONFIG
     ).register();
 
-    private static final BlockEntityBuilder<BlockEntityMainSignal, ?> MAIN_SIGNAL_BUILDER = registrate()
-            .blockEntity("main_signal", BlockEntityMainSignal::new)
-            .renderer(() -> RendererSignal::new);
-    public static BlockEntityEntry<BlockEntityMainSignal> MAIN_SIGNAL =
-            MAIN_SIGNAL_BUILDER.register();
+    // private static final BlockEntityBuilder<BlockEntityMainSignal, ?> MAIN_SIGNAL_BUILDER = registrate()
+    //         .blockEntity("main_signal", BlockEntityMainSignal::new)
+    //         .renderer(() -> RendererSignal::new);
+    // public static BlockEntityEntry<BlockEntityMainSignal> MAIN_SIGNAL =
+    //         MAIN_SIGNAL_BUILDER.register();
 
-    private static final BlockEntityBuilder<BlockEntityCombinedSignal, ?> COMBINED_SIGNAL_BUILDER = registrate()
-            .blockEntity("combined_signal", BlockEntityCombinedSignal::new)
-            .renderer(() -> RendererSignal::new);
-    public static final BlockEntityEntry<BlockEntityCombinedSignal> COMBINED_SIGNAL =
-            COMBINED_SIGNAL_BUILDER.register();
+    // private static final BlockEntityBuilder<BlockEntityCombinedSignal, ?> COMBINED_SIGNAL_BUILDER = registrate()
+    //         .blockEntity("combined_signal", BlockEntityCombinedSignal::new)
+    //         .renderer(() -> RendererSignal::new);
+    // public static final BlockEntityEntry<BlockEntityCombinedSignal> COMBINED_SIGNAL =
+    //         COMBINED_SIGNAL_BUILDER.register();
 
     // private static BlockEntityBuilder<BlockEntityCombinedSignal, ?> COMBINED_SIGNAL_BUILDER = registrate()
     //         .blockEntity("main_signal",BlockEntityCombinedSignal::new)

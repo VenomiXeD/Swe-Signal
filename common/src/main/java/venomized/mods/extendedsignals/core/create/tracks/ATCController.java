@@ -33,7 +33,15 @@ public class ATCController extends SingleBlockEntityEdgePoint {
      * @param train
      */
     public void onATCAction(Train train) {
-        Optional<UUID> controllingPlayer = train.carriages.stream().map(e -> e.anyAvailableEntity().getControllingPlayer().orElseGet(() -> null)).filter(e -> !Objects.isNull(e)).findFirst();
+        Optional<UUID> controllingPlayer = train
+                .carriages
+                .stream()
+                .filter(carriage -> Objects.nonNull(carriage.anyAvailableEntity()))
+                .map(c -> c.anyAvailableEntity()
+                        .getControllingPlayer())
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
         Optional<Level> level = Optional.ofNullable(train.carriages.get(0).anyAvailableEntity()).map(Entity::level);
 
         level.ifPresent(l -> {

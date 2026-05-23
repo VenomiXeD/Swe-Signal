@@ -22,17 +22,14 @@ import venomized.mods.extendedsignals.core.create.tracks.CollectedSignal;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.core.create.tracks.IRawSignalStateEvaluator;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Mixin(value = Navigation.class, remap = false)
 public abstract class MixinNavigation {
     @Unique
     private static final double LOOK_AHEAD_DISTANCE = 128;
     @Unique
-    private final Deque<CollectedSignal> extendedSignals$collectedSignals = new LinkedList<>();
+    private final Deque<CollectedSignal> extendedSignals$collectedSignals = new ArrayDeque<>();
     @Shadow
     public Train train;
     @Shadow

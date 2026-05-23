@@ -1,8 +1,6 @@
 package venomized.mods.extendedsignals.core.block;
 
-import com.tterrag.registrate.util.nullness.NonNullFunction;
 import lombok.Getter;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -12,56 +10,35 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
-import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntities;
-
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * General purpose, generic signal block intended to cover most basic signals
  */
-public class BlockSignal extends ExtendedSignalBlock implements EntityBlock {
-    private final SignalType signalType;
-
-    public enum SignalType {
-        MAIN,
-        DISTANT,
-        COMBINED
-    }
-
+public abstract class BlockSignal extends ExtendedSignalBlock implements EntityBlock {
     @Getter
     private final int signalLightCount;
 
     /**
      * @param pProperties
      */
-    private BlockSignal(Properties pProperties, int signalLightCount, SignalType signalType) {
+    public BlockSignal(Properties pProperties, int signalLightCount) {
         super(pProperties);
         this.signalLightCount = signalLightCount;
-        this.signalType = signalType;
     }
 
-    public static NonNullFunction<Properties, BlockSignal> generic(int lightCount, SignalType signalType) {
-        return (properties) -> new BlockSignal(
-                properties, lightCount, signalType
-        );
-    }
+    public abstract double lightXPosition();
 
-    /**
-     * @param pPos
-     * @param pState
-     * @return
-     */
-    @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return switch (signalType) {
-            case MAIN -> ExtendedSignalsCoreBlockEntities.MAIN_SIGNAL.create(pPos, pState);
-            case DISTANT -> throw new UnsupportedOperationException("Not implemented yet");
-            case COMBINED -> ExtendedSignalsCoreBlockEntities.COMBINED_SIGNAL.create(pPos, pState);
-            default -> throw new UnsupportedOperationException("Not implemented yet");
-        };
-    }
+    public abstract double lightYPosition();
+
+    public abstract double lightZPosition();
+
+    public abstract double lightSeparationDistance();
+
+    public abstract float lightXScale();
+
+    public abstract float lightYScale();
+
+    public abstract float lightZScale();
 
     /**
      * @param pLevel

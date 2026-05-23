@@ -3,7 +3,6 @@ package venomized.mods.extendedsignals.se.blockentity;
 
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
-import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntities;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
@@ -11,8 +10,6 @@ import venomized.mods.extendedsignals.se.auxilliarysignals.*;
 import venomized.mods.extendedsignals.se.block.ExtendedSignalsSwedenBlocks;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityThreeLightCrossingLights;
-import venomized.mods.extendedsignals.core.blockentity.BlockEntityCombinedSignal;
-import venomized.mods.extendedsignals.core.blockentity.BlockEntityMainSignal;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.*;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingGate;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererThreeLightCrossingLights;
@@ -31,23 +28,29 @@ public final class ExtendedSignalsSwedenBlockEntities {
                     .register();
 
     // == SIGNALS FROM 2-5 LIGHTS ==
-    // public static final BlockEntityEntry<BlockEntityMainSignal> MAIN_SIGNAL =
-    //         RegistrateHelper.simpleBlocksEntity(registrate(),"se_main_signal", BlockEntityMainSignal::new,
-    //                         ExtendedSignalsSwedenBlocks.BLOCK_TWO_LIGHT_SIGNAL,
-    //                         ExtendedSignalsSwedenBlocks.BLOCK_THREE_LIGHT_SIGNAL
-    //                 )
-    //                 .renderer(() -> RendererSignal::new)
-    //            //          .register();
+    public static final BlockEntityEntry<BlockEntityMainSignal> MAIN_SIGNAL =
+            RegistrateHelper.simpleBlockEntity(
+                            registrate(), "main_signal", BlockEntityMainSignal::new,
+                            ExtendedSignalsSwedenBlocks.BLOCK_TWO_LIGHT_SIGNAL,
+                            ExtendedSignalsSwedenBlocks.BLOCK_THREE_LIGHT_SIGNAL
+                    )
+                    .renderer(() -> RendererSignal::new)
+                    .register();
+    //          .register();
     //
     // // public static final BlockEntityEntry<BlockEntityMainSignal> MAIN_THREE_SIGNAL =
     // //         RegistrateHelper.simpleBlockEntity(registrate(),"se_3l_signal", BlockEntityMainSignal::new, ExtendedSignalsSwedenBlocks.BLOCK_THREE_LIGHT_SIGNAL)
     // //                 .renderer(() -> RendererSignal::new)
     // //                 .register();
     //
-    // public static final BlockEntityEntry<BlockEntityCombinedSignal> COMBINED_SIGNAL =
-    //         RegistrateHelper.simpleBlockEntity(registrate(),"se_combined_signal", BlockEntityCombinedSignal::new, ExtendedSignalsSwedenBlocks.BLOCK_FOUR_LIGHT_SIGNAL)
-    //                 .renderer(() -> RendererSignal::new)
-    //                 .register();
+    public static final BlockEntityEntry<BlockEntityCombinedSignal> COMBINED_SIGNAL =
+            RegistrateHelper.simpleBlockEntity(
+                            registrate(), "se_combined_signal", BlockEntityCombinedSignal::new,
+                            ExtendedSignalsSwedenBlocks.BLOCK_FOUR_LIGHT_SIGNAL,
+                            ExtendedSignalsSwedenBlocks.BLOCK_FIVE_LIGHT_SIGNAL
+                    )
+                    .renderer(() -> RendererSignal::new)
+                    .register();
     //
     // public static final BlockEntityEntry<BlockEntityCombinedSignal> COMBINED_FIVE_SIGNAL =
     //        RegistrateHelper.simpleBlockEntity(registrate(),"se_5l_signal", BlockEntityCombinedSignal::new, ExtendedSignalsSwedenBlocks.BLOCK_FIVE_LIGHT_SIGNAL)

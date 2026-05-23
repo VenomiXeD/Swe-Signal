@@ -9,6 +9,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
 import org.jetbrains.annotations.NotNull;
+import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.BlockEntityRendererBase;
@@ -58,7 +59,8 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
 
     private void renderSignalLights(T signalBlockEntity, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int light,
                                     int overlay) {
-        for (SignalLightPlacement lightPlacement : signalBlockEntity.getLights()) {
+        for (int i = 0; i < signalBlockEntity.getLights().length; i++) {
+            SignalLightPlacement lightPlacement = signalBlockEntity.getLights()[i];
             poseStack.pushPose();
             poseStack.translate(
                     lightPlacement.getX() + 0.5d,
@@ -72,13 +74,15 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
                     lightPlacement.getZScale() / 2f
             );
 
+            SignalLightState state = signalBlockEntity.getLightStates()[i];
             renderer().renderModel(
                     poseStack.last(),
                     multiBufferSource.getBuffer(
                             RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                     signalBlockEntity.getBlockState(),
                     ExtendedSignalsCoreModels.LIGHT_MODEL.get(),
-                    1, 1, 1, 0xFFFFFF, overlay, ModelData.EMPTY, RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)
+                    state.r(partialTick), state.g(partialTick), state.b(partialTick), 0xFFFFFF, overlay,
+                    ModelData.EMPTY, RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)
             );
 
             poseStack.popPose();

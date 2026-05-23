@@ -13,12 +13,13 @@ public class BlockEntityDwarfSignal extends BlockEntitySignal<IDwarfSignalAspect
         super(t, pPos, pBlockState);
     }
 
+
     /**
      * @return
      */
     @Override
-    protected SignalLightPlacement[] constructLightPlacements() {
-        return new SignalLightPlacement[0];
+    public SignalLightPlacement[] constructLightPlacements() {
+        return new SignalLightPlacement[]{};
     }
 
     /**

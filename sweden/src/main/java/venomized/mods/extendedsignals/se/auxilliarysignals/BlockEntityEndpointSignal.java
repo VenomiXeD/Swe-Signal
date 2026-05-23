@@ -14,14 +14,6 @@ public class BlockEntityEndpointSignal extends BlockEntitySignal {
     }
 
     /**
-     * @return
-     */
-    @Override
-    protected SignalLightPlacement[] constructLightPlacements() {
-        return new SignalLightPlacement[0];
-    }
-
-    /**
      * @param rawState
      * @return
      */

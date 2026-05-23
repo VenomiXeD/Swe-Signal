@@ -11,6 +11,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.*;
+import venomized.mods.extendedsignals.core.block.BlockSignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
@@ -39,6 +41,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
 
     @Getter
     protected final SignalLightPlacement[] lights;
+    @Getter
     protected final SignalLightState[] lightStates;
 
     public BlockEntitySignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
@@ -46,6 +49,9 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
 
         this.lights = constructLightPlacements();
         this.lightStates = new SignalLightState[lights.length];
+        for (int i = 0; i < lightStates.length; i++) {
+            lightStates[i] = new SignalLightState();
+        }
     }
 
     @NotNull
@@ -64,7 +70,19 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
         return signalLights;
     }
 
-    protected abstract SignalLightPlacement[] constructLightPlacements();
+
+    public SignalLightPlacement[] constructLightPlacements() {
+        if (!(this.getBlockState()
+                .getBlock() instanceof BlockSignal bs))
+            throw new UnsupportedOperationException(
+                    "Cannot construct signal placement since the underlying block is not a uniform light  BlockSignal; Requires overriding constructLightPlacements()");
+
+        return getSignalLightPlacements(
+                bs.lightXPosition(), bs.lightZPosition(), bs.lightXScale(), bs.lightYScale(), bs.lightZScale(),
+                bs.lightYPosition(), bs.lightSeparationDistance(),
+                bs.getSignalLightCount()
+        );
+    }
 
     public static void commonTick(BlockEntitySignal<?> pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
         pBlockEntity.tick++;
@@ -76,14 +94,32 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
 
     public static void clientTick(BlockEntitySignal<?> be, Level pLevel, BlockPos pPos, BlockState pBlockState) {
         commonTick(be, pLevel, pPos, pBlockState);
+
+        if (!be.valid() && be.tick % 20 == 0) {
+            for (SignalLightState lightState : be.lightStates) {
+                lightState.setColorDirect(
+                        pLevel.random.nextFloat(), pLevel.random.nextFloat(), pLevel.random.nextFloat()
+                );
+            }
+            return;
+        }
+        RawSignalState rawSignalState = be.currentSignalState();
+        if (rawSignalState.getAxisDirection() != be.signalDirection)
+            return;
+        ISignalAspect aspect = be.interpret(rawSignalState);
+        if (aspect == null) {
+            return;
+        }
+        aspect.applyAspect(be.tick, be.lightStates);
     }
+
 
     public RawSignalState currentSignalState() {
         if (this.getLevel() == null)
             return RawSignalState.INVALID;
         return ExtendedSignalsCore.sidedNetwork(this.getLevel())
                 .signalStates()
-                .get(this.referencedSignalEdgeID);
+                .getOrDefault(this.referencedSignalEdgeID, RawSignalState.INVALID);
     }
 
     public boolean valid() {
@@ -94,11 +130,6 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
                 .signalStates()
                 .containsKey(referencedSignalEdgeID);
     }
-
-    public boolean blink() {
-        return tick > 10;
-    }
-
 
 
     /**
