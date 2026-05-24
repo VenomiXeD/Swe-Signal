@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.se.block.BlockGenericRotateableBlock;
-import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
+import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
 
 public class BlockCrossingGate extends BlockGenericRotateableBlock implements EntityBlock {
@@ -19,12 +19,12 @@ public class BlockCrossingGate extends BlockGenericRotateableBlock implements En
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return ExtendedSignalsSwedenBlockEntities.CROSSING_GATE.create(blockPos, blockState);
+        return SwedenBlockEntities.CROSSING_GATE.create(blockPos, blockState);
     }
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide() && pBlockEntityType == ExtendedSignalsSwedenBlockEntities.CROSSING_GATE.get() ?
+        return pLevel.isClientSide() && pBlockEntityType == SwedenBlockEntities.CROSSING_GATE.get() ?
                 ((level, blockPos, blockState, t) -> BlockEntityCrossingGate.clientTick(level, blockPos, blockState, (BlockEntityCrossingGate) t))
                 : null;
     }

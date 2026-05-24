@@ -88,14 +88,17 @@ public abstract class MixinNavigation {
                 controlSignalScout(),
                 (distance, trackEdgePointCouplePair) -> {
                     TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
-                    if (!(trackEdgePoint instanceof SignalBoundary signalBoundary))
+
+                    if (!(trackEdgePoint instanceof IExtendedSignalBoundary signalBoundary))
                         return false;
 
-
-                    UUID enteringGroup = signalBoundary.getGroup(
-                            trackEdgePointCouplePair.getSecond().getSecond()
+                    // UUID enteringGroup = signalBoundary.getGroup(
+                    //         trackEdgePointCouplePair.getSecond().getSecond()
+                    // );
+                    boolean side = trackEdgePoint.isPrimary(trackEdgePointCouplePair.getSecond()
+                            .getSecond()
                     );
-                    boolean side = Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
+                    //Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
 
                     double deltaSignalDistance = previousSignalDistance.getValue() < 0
                             ? -1.0 : distance - previousSignalDistance.getValue();
@@ -110,30 +113,37 @@ public abstract class MixinNavigation {
                             )
                     );
 
-                    return signalBoundary.cachedStates.get(side) == SignalBlockEntity.SignalState.RED;
+                    if (signalBoundary instanceof SignalBoundary createTrueSignalBoundary)
+                        return createTrueSignalBoundary.cachedStates.get(side) == SignalBlockEntity.SignalState.RED;
+
+                    return false;
                 }
         );
     }
 
     @Unique
     private void extendedSignals$distantSignallingLogic() {
-        RawSignalState upcoming = null;
+        RawSignalState upcomingSignalState = null;
+        RawSignalState currentSignalState = RawSignalState.INVALID;
 
         while (!extendedSignals$collectedSignals.isEmpty()) {
             CollectedSignal current = extendedSignals$collectedSignals.pop();
             boolean primary = current.direction() == Direction.AxisDirection.POSITIVE;
 
-            RawSignalState newState = ((IRawSignalStateEvaluator) current.boundary()).computeRawSignalState(
-                    current.direction(),
-                    upcoming,
-                    train.reservedSignalBlocks.contains(current.boundary().groups.get(primary))
+            if (current.boundary() instanceof IRawSignalStateEvaluator signalStateEvaluator) {
+                currentSignalState = signalStateEvaluator.computeRawSignalState(
+                        current.direction(),
+                        upcomingSignalState,
+                        train
+                ).setNextState(upcomingSignalState).setAxisDirection(current.direction());
+            }
+
+            current.boundary().onSignalScout(
+                    current.direction(), currentSignalState, this.train
             );
 
-            ((IExtendedSignalBoundary) current.boundary()).extendedSignal$onScout(
-                    current.direction(), newState, this.train
-            );
-
-            upcoming = newState;
+            if (!current.boundary().skipChaining())
+                upcomingSignalState = currentSignalState;
         }
     }
 }

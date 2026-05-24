@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityATCController;
 import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntities;
 
-public class BlockATCController extends ExtendedSignalBlock implements IBE {
+public class BlockATCController extends ExtendedSignalsBlock implements IBE {
     /**
      * @param properties
      */

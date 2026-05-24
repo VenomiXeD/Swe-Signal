@@ -31,10 +31,6 @@ minecraft {
             property 'forge.logging.console.level', 'info'
 
             mods {
-                "${mod_id}" {
-                    source project(":common").sourceSets.main
-                }
-
                 "extended_signals_de" {
                     source sourceSets.main
                 }
@@ -78,7 +74,7 @@ minecraft {
             property 'mixin.debug.export', 'true'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', "${mod_id}_de", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
         }
     }
 }

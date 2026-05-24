@@ -5,7 +5,7 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class BlockRailroadCrossingObject extends ExtendedSignalBlock implements EntityBlock {
+public abstract class BlockRailroadCrossingObject extends ExtendedSignalsBlock implements EntityBlock {
     public BlockRailroadCrossingObject(BlockBehaviour.Properties properties) {
         super(properties);
     }

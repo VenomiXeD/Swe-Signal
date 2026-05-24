@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import venomized.mods.extendedsignals.core.ModTemplate;
 import venomized.mods.extendedsignals.se.block.ExtendedSignalsSwedenBlocks;
-import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
+import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 
 @Mod(ExtendedSignalsSweden.MOD_ID)
 public class ExtendedSignalsSweden extends ModTemplate {
@@ -29,7 +29,7 @@ public class ExtendedSignalsSweden extends ModTemplate {
     @Override
     protected void commonInitialization() {
         ExtendedSignalsSwedenBlocks.init();
-        ExtendedSignalsSwedenBlockEntities.init();
+        SwedenBlockEntities.init();
 
         ExtendedSignalsSwedenSounds.init();
     }

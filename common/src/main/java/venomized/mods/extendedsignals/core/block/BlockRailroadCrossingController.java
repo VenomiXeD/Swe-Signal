@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityRailroadCrossingController;
 import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntities;
 
-public class BlockRailroadCrossingController extends ExtendedSignalBlock implements EntityBlock {
+public class BlockRailroadCrossingController extends ExtendedSignalsBlock implements EntityBlock {
     /**
      * @param pProperties
      */

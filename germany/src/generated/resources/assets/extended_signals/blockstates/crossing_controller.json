@@ -1,7 +1,0 @@
-{
-  "variants": {
-    "": {
-      "model": "extended_signals:block/crossing_controller"
-    }
-  }
-}

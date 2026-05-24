@@ -6,11 +6,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.core.block.BlockSignal;
-import venomized.mods.extendedsignals.core.block.ExtendedSignalBlock;
-import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
+import venomized.mods.extendedsignals.core.block.ExtendedSignalsBlock;
+import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 
-public class BlockModernEndpointSignal extends ExtendedSignalBlock implements EntityBlock {
+public class BlockModernEndpointSignal extends ExtendedSignalsBlock implements EntityBlock {
     public BlockModernEndpointSignal(BlockBehaviour.Properties properties) {
         super(properties);
     }
@@ -22,6 +21,6 @@ public class BlockModernEndpointSignal extends ExtendedSignalBlock implements En
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return ExtendedSignalsSwedenBlockEntities.ENDPOINT_SIGNAL.create(pPos, pState);
+        return SwedenBlockEntities.ENDPOINT_SIGNAL.create(pPos, pState);
     }
 }

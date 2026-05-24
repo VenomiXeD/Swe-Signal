@@ -1,14 +1,12 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
 import com.tterrag.registrate.Registrate;
-import com.tterrag.registrate.builders.BlockEntityBuilder;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.world.level.block.Block;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.block.ExtendedSignalsCoreBlocks;
+import venomized.mods.extendedsignals.core.block.SignalCoreBlocks;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererATCController;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 
 public final class ExtendedSignalsCoreBlockEntities {
@@ -29,20 +27,26 @@ public final class ExtendedSignalsCoreBlockEntities {
                     registrate(),
                     "be_se_crossing_controller",
                     BlockEntityRailroadCrossingController::new,
-                    ExtendedSignalsCoreBlocks.BLOCK_RAILROAD_CROSSING_CONTROLLER
+                    SignalCoreBlocks.BLOCK_RAILROAD_CROSSING_CONTROLLER
             ).register();
     public static final BlockEntityEntry<BlockEntityATCController> BE_ATC_CONTROLLER =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "be_se_atc_controller", BlockEntityATCController::new,
-                            ExtendedSignalsCoreBlocks.BLOCK_ATC_CONTROLLER
+                            SignalCoreBlocks.BLOCK_ATC_CONTROLLER
                     )
                     .renderer(() -> RendererATCController::new)
                     .register();
+
+    public static final BlockEntityEntry<BlockEntityRepeaterCreateSignal> SIGNAL_REPEATER =
+            RegistrateHelper.simpleBlockEntity(registrate(),
+                    "repeater_signal", BlockEntityRepeaterCreateSignal::new, SignalCoreBlocks.REPEATER_SIGNAL
+            ).register();
+
     public static BlockEntityEntry<BlockEntityTrainConfig> TRAIN_CONFIG = RegistrateHelper.simpleBlockEntity(
             registrate(),
             "be_trainconfig",
             BlockEntityTrainConfig::new,
-            ExtendedSignalsCoreBlocks.BLOCK_TRAIN_CONFIG
+            SignalCoreBlocks.BLOCK_TRAIN_CONFIG
     ).register();
 
     // private static final BlockEntityBuilder<BlockEntityMainSignal, ?> MAIN_SIGNAL_BUILDER = registrate()

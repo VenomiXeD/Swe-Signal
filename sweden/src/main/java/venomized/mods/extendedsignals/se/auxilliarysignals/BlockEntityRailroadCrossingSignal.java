@@ -6,10 +6,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityRailroadCrossingObject;
-import venomized.mods.extendedsignals.core.blockentity.ISignalTunerBindable;
+import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSwedenSounds;
 
-public class BlockEntityRailroadCrossingSignal extends BlockEntityRailroadCrossingObject implements ISignalTunerBindable {
+public class BlockEntityRailroadCrossingSignal extends BlockEntityRailroadCrossingObject implements ISignalTunerToolable {
     public BlockEntityRailroadCrossingSignal(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }

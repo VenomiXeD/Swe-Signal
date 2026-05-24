@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.obj.ObjModel;
 import org.joml.AxisAngle4f;
 import org.joml.Math;
@@ -75,12 +76,13 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
                 pBlockEntity.getBlockState(),
                 pBlockEntity.getBlockPos(),
                 pPoseStack,
-                bufferSource.getBuffer(RenderType.solid()),
-                true,
+                bufferSource.getBuffer(RenderType.cutoutMipped()),
+                false,
                 pBlockEntity.getLevel().getRandom(),
                 packedLight,
-                packedOverlay
+                packedOverlay, ModelData.EMPTY, RenderType.cutoutMipped()
         );
+
         pPoseStack.popPose();
     }
 
@@ -107,4 +109,6 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
             );
         }
     }
+
+
 }

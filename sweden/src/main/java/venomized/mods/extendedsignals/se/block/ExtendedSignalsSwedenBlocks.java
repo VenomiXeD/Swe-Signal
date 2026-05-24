@@ -3,13 +3,10 @@ package venomized.mods.extendedsignals.se.block;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import venomized.mods.extendedsignals.core.block.BlockRailroadCrossingController;
-import venomized.mods.extendedsignals.core.block.BlockSignal;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingGate;
 import venomized.mods.extendedsignals.se.block.crossing.BlockThreeLightCrossingSignal;
-import venomized.mods.extendedsignals.se.block.se.BlockCombinedSignal;
-import venomized.mods.extendedsignals.se.block.se.BlockMainSignal;
 
 /**
  * Swedish railway content (blocks)

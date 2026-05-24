@@ -14,13 +14,11 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeDeferredRegistriesSetup;
 import net.minecraftforge.registries.NewRegistryEvent;
-import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import venomized.mods.extendedsignals.core.block.ExtendedSignalsCoreBlocks;
+import venomized.mods.extendedsignals.core.block.SignalCoreBlocks;
 import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntities;
 import venomized.mods.extendedsignals.core.client.ClientSignalNetworkCache;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
@@ -88,7 +86,7 @@ public class ExtendedSignalsCore extends ModTemplate {
     @Override
     protected void commonInitialization() {
         ExtendedSignalsItems.init();
-        ExtendedSignalsCoreBlocks.init();
+        SignalCoreBlocks.init();
         ExtendedSignalsCoreBlockEntities.init();
 
         Schedule.INSTRUCTION_TYPES.add(Pair.of(res("door"), DoorInstruction::new));

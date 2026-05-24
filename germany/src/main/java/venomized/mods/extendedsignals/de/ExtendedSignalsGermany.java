@@ -5,6 +5,8 @@ import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import venomized.mods.extendedsignals.core.ModTemplate;
+import venomized.mods.extendedsignals.de.block.GermanyBlocks;
+import venomized.mods.extendedsignals.de.blockentity.GermanyBlockEntities;
 
 @Mod(ExtendedSignalsGermany.MOD_ID)
 public class ExtendedSignalsGermany extends ModTemplate {
@@ -24,6 +26,7 @@ public class ExtendedSignalsGermany extends ModTemplate {
      */
     @Override
     protected void commonInitialization() {
-
+        GermanyBlocks.init();
+        GermanyBlockEntities.init();
     }
 }

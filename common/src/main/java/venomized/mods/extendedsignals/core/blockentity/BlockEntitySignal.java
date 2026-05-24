@@ -1,6 +1,5 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
-import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import it.unimi.dsi.fastutil.Pair;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
@@ -11,7 +10,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -30,7 +28,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public abstract class BlockEntitySignal<T extends ISignalAspect> extends ExtendedSignalsCoreBlockEntity
-        implements ISignalTunerBindable, ISignalBlockEntity, ISignalInterpreter<T> {
+        implements ISignalTunerToolable, ISignalBlockEntity, ISignalInterpreter<T> {
     private static final String TAG_REFERENCED_SIGNAL_EDGE_UUID = "linked_signal_uuid";
     private static final String TAG_SIGNAL_DIRECTION = "signal_direction";
 
@@ -95,11 +93,19 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
     public static void clientTick(BlockEntitySignal<?> be, Level pLevel, BlockPos pPos, BlockState pBlockState) {
         commonTick(be, pLevel, pPos, pBlockState);
 
-        if (!be.valid() && be.tick % 20 == 0) {
-            for (SignalLightState lightState : be.lightStates) {
-                lightState.setColorDirect(
-                        pLevel.random.nextFloat(), pLevel.random.nextFloat(), pLevel.random.nextFloat()
-                );
+        if (!be.valid()) {
+            if (be.tick % 20 == 0) {
+                for (SignalLightState lightState : be.lightStates) {
+                    lightState.setColorDirect(
+                            1, 0, 0
+                    );
+                }
+            } else {
+                for (SignalLightState lightState : be.lightStates) {
+                    lightState.setColorDirect(
+                            0, 0, 0
+                    );
+                }
             }
             return;
         }
@@ -141,21 +147,22 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
      * @return
      */
     @Override
-    public Pair<InteractionResult, MutableComponent> readerBindingToSource(Optional<ISignalTunerBindable> sourceBlockEntity, SignalTunerMode mode) {
+    public Pair<InteractionResult, MutableComponent> readerBindingToSource(Optional<ISignalTunerToolable> sourceBlockEntity, SignalTunerMode mode) {
         if (sourceBlockEntity.isPresent()) {
-            if (sourceBlockEntity.get() instanceof SignalBlockEntity sb) {
+            if (sourceBlockEntity.get() instanceof ISignalBoundaryReferenceProvider sb) {
                 bindToSignal(sb);
                 return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully bound to signal box"));
             }
         }
-        return ISignalTunerBindable.super.sourceBindingToReader(sourceBlockEntity, mode);
+        return ISignalTunerToolable.super.sourceBindingToReader(sourceBlockEntity, mode);
     }
 
-    private void bindToSignal(SignalBlockEntity id) {
-        this.referencedSignalEdgeID = id.getSignal().getId();
-        this.signalDirection = id.edgePoint.getTargetDirection();
+    private void bindToSignal(ISignalBoundaryReferenceProvider referenceProvider) {
+        this.referencedSignalEdgeID = referenceProvider.id();
+        this.signalDirection = referenceProvider.direction();
 
-        ExtendedSignalsCore.LOGGER.info("Axis direction: {}", this.signalDirection);
+        ExtendedSignalsCore.LOGGER.info("Linked to boundary: {}", referencedSignalEdgeID);
+        ExtendedSignalsCore.LOGGER.info("Axis direction: {}", signalDirection);
 
         this.updateSelf();
     }

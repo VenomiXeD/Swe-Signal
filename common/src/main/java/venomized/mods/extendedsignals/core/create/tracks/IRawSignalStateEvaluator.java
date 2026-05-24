@@ -1,5 +1,6 @@
 package venomized.mods.extendedsignals.core.create.tracks;
 
+import com.simibubi.create.content.trains.entity.Train;
 import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 
@@ -9,5 +10,5 @@ public interface IRawSignalStateEvaluator {
     RawSignalState computeRawSignalState(
             Direction.AxisDirection axisDirection,
             @Nullable RawSignalState upcomingSignal,
-            boolean reserved);
+            Train train);
 }

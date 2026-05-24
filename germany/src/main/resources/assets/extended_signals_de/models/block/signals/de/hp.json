@@ -1,0 +1,18 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "parent": "forge:block/default",
+  "loader": "forge:obj",
+  "flip_v": true,
+  "model": "extended_signals_de:models/block/signals/de/hp.obj",
+  "textures": {
+    "signal": "extended_signals_de:block/signals/de/signal",
+    "out": "extended_signals_de:block/signals/de/out",
+    "metal_exposed": "extended_signals_de:block/signals/de/metal_exposed"
+  }
+}

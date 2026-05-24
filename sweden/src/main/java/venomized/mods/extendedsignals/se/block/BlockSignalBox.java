@@ -15,7 +15,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.se.blockentity.BlockEntitySignalBox;
-import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
+import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 
 public class BlockSignalBox extends BlockGenericRotateableBlock implements EntityBlock {
     public BlockSignalBox(Properties pProperties) {
@@ -29,7 +29,7 @@ public class BlockSignalBox extends BlockGenericRotateableBlock implements Entit
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return ExtendedSignalsSwedenBlockEntities.SE_SIGNAL_BOX.create(pPos, pState);
+        return SwedenBlockEntities.SE_SIGNAL_BOX.create(pPos, pState);
     }
 
     /**
@@ -41,7 +41,7 @@ public class BlockSignalBox extends BlockGenericRotateableBlock implements Entit
      */
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        if (pBlockEntityType == ExtendedSignalsSwedenBlockEntities.SE_SIGNAL_BOX.get()) {
+        if (pBlockEntityType == SwedenBlockEntities.SE_SIGNAL_BOX.get()) {
             // return ((pLevel1, pPos, pState1, pBlockEntity) -> ((BlockEntitySignalBox) pBlockEntity).tick(pLevel1, pPos, pState1, (BlockEntitySignalBox) pBlockEntity));
         }
         return null;

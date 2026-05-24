@@ -85,7 +85,10 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
                     ModelData.EMPTY, RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)
             );
 
+
             poseStack.popPose();
         }
     }
+
+
 }

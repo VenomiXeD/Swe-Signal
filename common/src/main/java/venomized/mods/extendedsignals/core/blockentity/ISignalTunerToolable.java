@@ -1,0 +1,47 @@
+package venomized.mods.extendedsignals.core.blockentity;
+
+import it.unimi.dsi.fastutil.Pair;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.InteractionResult;
+import net.minecraftforge.common.extensions.IForgeBlockEntity;
+
+import java.util.Optional;
+
+public interface ISignalTunerToolable extends IForgeBlockEntity {
+    default boolean isSource() {
+        return true;
+    }
+
+    default boolean isReader() {
+        return true;
+    }
+
+    /**
+     * Signal Box A -> Create Signal; Create Signal is the source
+     *
+     * @param sourceBlockEntity source block destination
+     * @param mode
+     * @return
+     */
+    default Pair<InteractionResult, MutableComponent> sourceBindingToReader(Optional<ISignalTunerToolable> sourceBlockEntity, SignalTunerMode mode) {
+        return Pair.of(InteractionResult.FAIL, Component.literal("Invalid Data Source Tile"));
+    }
+
+    /**
+     * Signal Box A -> Create Signal; Signal Box A is the target
+     *
+     * @param targetBlockEntity target block destination
+     * @param mode
+     */
+    default Pair<InteractionResult, ? extends Component> readerBindingToSource(Optional<ISignalTunerToolable> targetBlockEntity, SignalTunerMode mode) {
+        return Pair.of(InteractionResult.CONSUME, Component.empty());
+    }
+
+    enum SignalTunerMode {
+        DISCONNECT_ALL,
+        DISCONNECT,
+        CONNECT,
+        CONFIGURE
+    }
+}

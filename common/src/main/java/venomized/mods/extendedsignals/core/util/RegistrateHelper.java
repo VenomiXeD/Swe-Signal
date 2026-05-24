@@ -68,6 +68,25 @@ public class RegistrateHelper {
         // .build();
     }
 
+    public static <T extends Block> BlockBuilder<T, Registrate> genericCustomSignalBlock(Registrate registrateInstance, String assetType, String nation, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
+        String properName = name.replaceAll("(\\d+)l", "$1 Light")
+                .replaceAll("_post_(\\d+)_?", " (Post $1)")
+                .replace('_', ' ');
+
+        BlockBuilder<T, Registrate> block = registrateInstance
+                .block("%s.%s".formatted(nation, name), blockCreator)
+                .lang("(%s) %s".formatted(SwSignalLang.fromISO639_1(nation), properName))
+                .properties(prop -> BlockBehaviour.Properties.of()
+                        .destroyTime(1f))
+                .blockstate(signalBlockStateModelProvider(assetType, nation, name))
+                .item()
+                .model(signalItemModelLocator(nation, name))
+                .build();
+
+        return block;
+
+    }
+
     /**
      * Creates and attaches a generic {@link venomized.mods.extendedsignals.core.blockentity.BlockEntityMainSignal} block entity
      *

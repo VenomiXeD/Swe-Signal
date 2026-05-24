@@ -6,7 +6,6 @@ import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
-import net.createmod.catnip.data.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -43,12 +42,9 @@ public abstract class MixinTrain implements ITrainDoorData {
                 atcController.onATCAction(((Train) (Object) this));
             }
 
-            if (trackEdgePoint instanceof SignalBoundary signalBoundary) {
-                UUID enteringGroup = signalBoundary.getGroup(
-                        couple.getSecond()
-                                .getSecond()
-                );
-                boolean side = Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
+            if (trackEdgePoint instanceof IExtendedSignalBoundary<?> signalBoundary) {
+                boolean side = trackEdgePoint.isPrimary(couple.getSecond()
+                        .getSecond());// Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
                 extendedSignals$delayedOnCrossedTriggering
                         .add(
                                 new DelayedSignalCrossTrigger(
@@ -69,8 +65,8 @@ public abstract class MixinTrain implements ITrainDoorData {
         while (it.hasNext()) {
             DelayedSignalCrossTrigger delayedSignalCrossTrigger = it.next();
             if (delayedSignalCrossTrigger.getRemainingDelayTicks() <= 0) {
-                ((IExtendedSignalBoundary) delayedSignalCrossTrigger.getSignalBoundary())
-                        .extendedSignal$onCrossed(delayedSignalCrossTrigger.getDirection(), (Train) (Object) this);
+                delayedSignalCrossTrigger.getSignalBoundary()
+                        .onSignalCrossed(delayedSignalCrossTrigger.getDirection(), (Train) (Object) this);
                 it.remove();
                 continue;
             }

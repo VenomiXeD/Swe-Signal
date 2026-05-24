@@ -17,57 +17,21 @@ import venomized.mods.extendedsignals.core.create.tracks.IRawSignalStateEvaluato
 import venomized.mods.extendedsignals.core.create.tracks.SignalBoundaryConfiguration;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Mixin(value = SignalBoundary.class, remap = false)
 public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExtendedSignalBoundary, IRawSignalStateEvaluator {
     @Shadow
     public Couple<SignalBlockEntity.SignalState> cachedStates;
 
-    @Override
-    public void extendedSignal$onScout(final Direction.AxisDirection direction, RawSignalState newState, final Train train) {
-        Entity entity = train.carriages.get(0).anyAvailableEntity();
-        if (entity == null)
-            return;
-
-        Level level = entity.level();
-        if (level.isClientSide()) {
-            return;
-        }
-
-        ExtendedSignalsCore.sidedNetwork(level).updateState(getId(), Objects.requireNonNullElse(
-                newState,
-                new RawSignalState().setAxisDirection(direction)
-        ));
-    }
-
-    /**
-     * @param direction
-     * @param train     Train crossing over
-     */
-    @Override
-    public void extendedSignal$onCrossed(Direction.AxisDirection direction, Train train) {
-        Entity entity = train.carriages.get(0).anyAvailableEntity();
-        if (entity == null)
-            return;
-
-        Level level = entity.level();
-        if (level.isClientSide()) {
-            return;
-        }
-
-        ExtendedSignalsCore.sidedNetwork(level)
-                .updateState(getId(),
-                        new RawSignalState()
-                                .setProceed(false)
-                                .setAxisDirection(direction)
-                );
-    }
+    @Shadow
+    public Couple<UUID> groups;
 
     /**
      * @return
      */
     @Override
-    public SignalBoundaryConfiguration extendedSignals$getPositiveSignalBoundaryConfiguration() {
+    public SignalBoundaryConfiguration getPositiveSignalBoundaryConfiguration() {
         return null;
     }
 
@@ -75,25 +39,30 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
      * @return
      */
     @Override
-    public SignalBoundaryConfiguration extendedSignals$getNegativeSignalBoundaryConfiguration() {
+    public SignalBoundaryConfiguration getNegativeSignalBoundaryConfiguration() {
         return null;
     }
 
     /**
      * @param upcomingSignal
-     * @param reserved
      * @return
      */
     @Override
-    public RawSignalState computeRawSignalState(Direction.AxisDirection axisDirection, RawSignalState upcomingSignal, boolean reserved) {
-        if (this.cachedStates.get(axisDirection == Direction.AxisDirection.POSITIVE) == SignalBlockEntity.SignalState.RED && !reserved)
-            return new RawSignalState()
-                    .setAxisDirection(axisDirection)
-                    .setNextState(upcomingSignal);
+    public RawSignalState computeRawSignalState(Direction.AxisDirection axisDirection, RawSignalState upcomingSignal, Train train) {
+        if (this.cachedStates.get(axisDirection == Direction.AxisDirection.POSITIVE) == SignalBlockEntity.SignalState.RED &&
+                train.reservedSignalBlocks.contains(this.groups.get(axisDirection == Direction.AxisDirection.POSITIVE)))
+            return new RawSignalState().setReserved(false);
 
         return new RawSignalState()
                 .setProceed(true)
-                .setAxisDirection(axisDirection)
-                .setNextState(upcomingSignal);
+                .setReserved(true);
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean skipChaining() {
+        return false;
     }
 }

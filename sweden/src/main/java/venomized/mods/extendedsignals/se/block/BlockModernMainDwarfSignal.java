@@ -5,7 +5,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.se.blockentity.ExtendedSignalsSwedenBlockEntities;
+import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 
 public class BlockModernMainDwarfSignal extends BlockModernDwarfSignal {
 
@@ -15,7 +15,7 @@ public class BlockModernMainDwarfSignal extends BlockModernDwarfSignal {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return ExtendedSignalsSwedenBlockEntities.MAIN_DWARF_SIGNAL.get()
+        return SwedenBlockEntities.MAIN_DWARF_SIGNAL.get()
                 .create(pPos, pState);
     }
 }
