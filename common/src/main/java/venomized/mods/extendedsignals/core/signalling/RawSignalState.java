@@ -55,7 +55,7 @@ public class RawSignalState {
         rawSignalState.setProceed(tag.getBoolean(TAG_PROCEED_NAME));
         rawSignalState.setMaxProceedSpeed(tag.getDouble(TAG_PROCEED_SPEED_NAME));
         rawSignalState.setDistanceToNextSignal(tag.getDouble(TAG_DISTANCE_NEXT_SIGNAL_NAME));
-        rawSignalState.setValid(tag.getBoolean(TAG_NEXT_SIGNAL_STATE_NAME));
+        rawSignalState.setValid(tag.getBoolean(TAG_STATE_VALID));
         if (tag.contains(TAG_NEXT_SIGNAL_STATE_NAME))
             rawSignalState.setNextState(RawSignalState.fromNBT(tag.getCompound(TAG_NEXT_SIGNAL_STATE_NAME)));
 

@@ -9,7 +9,7 @@ import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
 import java.util.UUID;
 
 @Mixin(value = SignalBlockEntity.class, remap = false)
-public abstract class MixinCreateTrainSignal implements ISignalTu   nerToolable,ISignalBoundaryReferenceProvider {
+public abstract class MixinCreateTrainSignal implements ISignalTunerToolable, ISignalBoundaryReferenceProvider {
     @Override
     public boolean isReader() {
         return false;
