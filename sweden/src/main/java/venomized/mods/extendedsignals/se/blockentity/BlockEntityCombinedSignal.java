@@ -19,4 +19,5 @@ public class BlockEntityCombinedSignal extends venomized.mods.extendedsignals.co
     public ICombinedSignalAspect interpret(RawSignalState rawState) {
         return null;
     }
+
 }

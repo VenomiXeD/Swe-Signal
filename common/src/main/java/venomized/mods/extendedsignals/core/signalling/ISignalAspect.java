@@ -5,20 +5,14 @@ import venomized.mods.extendedsignals.core.SignalLightState;
 public interface ISignalAspect {
     void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states);
 
-    final class RGB {
+    record RGB(int color) {
         public static final RGB RED = new RGB(0xFF0000);
-        public static final RGB YELLOW = new RGB(0xFFFF00);
+        public static final RGB YELLOW = new RGB(0xEDB508);
         public static final RGB GREEN = new RGB(0x00FF00);
         public static final RGB BLUE = new RGB(0x0000FF);
 
         public static final RGB WHITE = new RGB(0xFFFFFF);
         public static final RGB BLACK = new RGB(0x000000);
-
-        private final int color;
-
-        public RGB(int hex) {
-            color = hex;
-        }
 
         public void apply(SignalLightState state) {
             int r = (color >> 16) & 0xFF;

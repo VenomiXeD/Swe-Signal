@@ -68,7 +68,7 @@ public class BlockEntityDistantSignal extends venomized.mods.extendedsignals.cor
     @Override
     public IDistantSignalAspect interpret(RawSignalState rawState) {
         RawSignalState distant = rawState.getNextState();
-        if (rawState == null || !rawState.isReserved())
+        if (distant == null || !rawState.isReserved())
             return DistantSignalAspect.EXPECT_STOP;
 
         return distant.isProceed()

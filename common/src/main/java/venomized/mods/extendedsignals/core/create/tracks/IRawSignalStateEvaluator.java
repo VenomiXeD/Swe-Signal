@@ -10,5 +10,6 @@ public interface IRawSignalStateEvaluator {
     RawSignalState computeRawSignalState(
             Direction.AxisDirection axisDirection,
             @Nullable RawSignalState upcomingSignal,
-            Train train);
+            Train train
+    );
 }

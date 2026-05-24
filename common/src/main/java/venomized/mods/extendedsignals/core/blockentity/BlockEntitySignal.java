@@ -229,4 +229,6 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
     public void deserializeNBT(CompoundTag nbt) {
         super.deserializeNBT(nbt);
     }
+
+
 }
