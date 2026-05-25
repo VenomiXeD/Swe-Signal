@@ -13,9 +13,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.client.sound.train.ICarriageSounds;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.data.SwSignalLang;
 
 import java.util.List;

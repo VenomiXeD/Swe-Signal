@@ -7,9 +7,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityATCController;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.core.network.packets.UpdateATCEventPacket;
 

@@ -6,17 +6,13 @@ import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import net.createmod.catnip.data.Couple;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.core.create.tracks.IRawSignalStateEvaluator;
 import venomized.mods.extendedsignals.core.create.tracks.SignalBoundaryConfiguration;
+import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Mixin(value = SignalBoundary.class, remap = false)

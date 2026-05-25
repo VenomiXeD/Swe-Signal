@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntitySignalSpeedModifier;
-import venomized.mods.extendedsignals.core.create.tracks.SpeedModifier;
 
 import java.util.Optional;
 

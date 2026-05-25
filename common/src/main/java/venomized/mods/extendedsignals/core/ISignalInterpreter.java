@@ -1,6 +1,5 @@
 package venomized.mods.extendedsignals.core;
 
-import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 

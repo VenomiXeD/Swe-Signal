@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @RequiredArgsConstructor
 public class SignalLightPlacement {

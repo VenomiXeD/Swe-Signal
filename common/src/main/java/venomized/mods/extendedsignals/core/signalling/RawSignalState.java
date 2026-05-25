@@ -8,7 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import venomized.mods.extendedsignals.core.util.NBTHelp;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 @Setter
 @Getter

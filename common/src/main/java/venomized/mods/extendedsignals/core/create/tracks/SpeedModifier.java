@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.create.tracks;
 
 import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.graph.EdgePointType;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
@@ -15,15 +14,6 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
     );
 
     private boolean discard;
-
-    /**
-     * @param blockEntityPos
-     * @param front
-     */
-    @Override
-    public void blockEntityRemoved(BlockPos blockEntityPos, boolean front) {
-        removeFromAllGraphs();
-    }
 
     /**
      * @return

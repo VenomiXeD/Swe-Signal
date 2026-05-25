@@ -25,7 +25,9 @@ import venomized.mods.extendedsignals.core.create.tracks.*;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigationAccessor;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Map;
 
 @Mixin(value = Navigation.class, remap = false)
 public abstract class MixinNavigation implements INavigationAccessor {
@@ -109,7 +111,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
         extendedSignals$predictedModifiers.putAll(
                 extendedSignals$activeModifiers
         );
-        
+
         final MutableDouble previousSignalDistance = new MutableDouble(-1);
         extendedSignals$signalScoutTriggerCollector.travel(
                 train.graph,

@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -14,12 +13,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.model.obj.ObjModel;
 import org.joml.AxisAngle4f;
 import org.joml.Math;
 import org.joml.Quaternionf;
 import org.joml.Vector3d;
-import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntity;
 import venomized.mods.extendedsignals.core.blockentity.IOrientedBlockEntity;
 
 @SuppressWarnings("deprecation")

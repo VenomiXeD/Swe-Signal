@@ -9,8 +9,8 @@
     "MixinNavigation",
     "MixinScheduleRuntime",
     "MixinSignalBoundary",
-    "MixinTrain",
-    "MixinSlidingDoorMovementBehavior"
+    "MixinSlidingDoorMovementBehavior",
+    "MixinTrain"
   ],
   "client": [
     "MixinItemRenderer"

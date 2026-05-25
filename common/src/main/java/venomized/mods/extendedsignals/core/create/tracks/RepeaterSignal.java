@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.create.tracks;
 
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.EdgePointType;
-import com.simibubi.create.content.trains.signal.SingleBlockEntityEdgePoint;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
