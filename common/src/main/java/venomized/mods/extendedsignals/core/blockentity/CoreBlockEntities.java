@@ -6,10 +6,11 @@ import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.world.level.block.Block;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.block.SignalCoreBlocks;
+import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntitySignalSpeedModifier;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererATCController;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 
-public final class ExtendedSignalsCoreBlockEntities {
+public final class CoreBlockEntities {
     private static Registrate registrate() {
         return ExtendedSignalsCore.REGISTRATE.get();
     }
@@ -40,6 +41,11 @@ public final class ExtendedSignalsCoreBlockEntities {
     public static final BlockEntityEntry<BlockEntityRepeaterCreateSignal> SIGNAL_REPEATER =
             RegistrateHelper.simpleBlockEntity(registrate(),
                     "repeater_signal", BlockEntityRepeaterCreateSignal::new, SignalCoreBlocks.REPEATER_SIGNAL
+            ).register();
+
+    public static final BlockEntityEntry<BlockEntitySignalSpeedModifier> MODIFIER_SPEED =
+            RegistrateHelper.simpleBlockEntity(registrate(),
+                    "modifier_speed", BlockEntitySignalSpeedModifier::new, SignalCoreBlocks.SPEED_MODIFIER
             ).register();
 
     public static BlockEntityEntry<BlockEntityTrainConfig> TRAIN_CONFIG = RegistrateHelper.simpleBlockEntity(

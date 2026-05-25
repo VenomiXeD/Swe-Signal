@@ -1,14 +1,16 @@
 package venomized.mods.extendedsignals.core.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
-import com.simibubi.create.content.trains.signal.SignalBoundary;
+import com.simibubi.create.content.trains.schedule.ScheduleRuntime;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,15 +20,20 @@ import venomized.mods.extendedsignals.core.create.tracks.DelayedSignalCrossTrigg
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.core.create.ITrainDoorData;
 import venomized.mods.extendedsignals.core.create.tracks.ATCController;
+import venomized.mods.extendedsignals.core.create.tracks.TrackEdgePointSignalModifier;
+import venomized.mods.extendedsignals.core.mixin_interfaces.INavigationAccessor;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 
 @Mixin(value = Train.class, remap = false)
 public abstract class MixinTrain implements ITrainDoorData {
+    @Shadow
+    public ScheduleRuntime runtime;
+    @Shadow
+    public Navigation navigation;
     @Unique
     private static final int TICKS_ON_CROSSED_TRIGGERING_DELAY = 20;
     @Unique
@@ -42,6 +49,7 @@ public abstract class MixinTrain implements ITrainDoorData {
                 atcController.onATCAction(((Train) (Object) this));
             }
 
+
             if (trackEdgePoint instanceof IExtendedSignalBoundary<?> signalBoundary) {
                 boolean side = trackEdgePoint.isPrimary(couple.getSecond()
                         .getSecond());// Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
@@ -53,6 +61,18 @@ public abstract class MixinTrain implements ITrainDoorData {
                                         signalBoundary
                                 )
                         );
+
+                if (trackEdgePoint instanceof TrackEdgePointSignalModifier<?> modifier && navigation != null) {
+                    if (modifier.isAligned(modifier.isPrimary(couple.getSecond().getSecond()))) {
+                        if (modifier.shouldApply()) {
+                            ((INavigationAccessor) navigation).extendedSignals$activeModifiers()
+                                    .put(modifier.getType().getId(), modifier);
+                        } else {
+                            ((INavigationAccessor) navigation).extendedSignals$activeModifiers()
+                                    .remove(modifier.getType().getId());
+                        }
+                    }
+                }
             }
 
             return original.test(distance, couple);

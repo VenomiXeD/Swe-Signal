@@ -39,6 +39,9 @@ public class RawSignalState {
     private double distanceToNextSignal = -1;
     private boolean valid = true;
 
+    @EqualsAndHashCode.Exclude
+    private long lastAspectChangeTick = -1;
+
 
     @Nullable
     private RawSignalState nextState;

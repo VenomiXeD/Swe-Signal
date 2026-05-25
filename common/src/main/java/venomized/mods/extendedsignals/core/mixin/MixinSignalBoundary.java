@@ -50,7 +50,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
     @Override
     public RawSignalState computeRawSignalState(Direction.AxisDirection axisDirection, RawSignalState upcomingSignal, Train train) {
         if (this.cachedStates.get(axisDirection == Direction.AxisDirection.POSITIVE) == SignalBlockEntity.SignalState.RED &&
-                train.reservedSignalBlocks.contains(this.groups.get(axisDirection == Direction.AxisDirection.POSITIVE)))
+                !train.reservedSignalBlocks.contains(this.groups.get(axisDirection == Direction.AxisDirection.POSITIVE)))
             return new RawSignalState().setReserved(false);
 
         return new RawSignalState()

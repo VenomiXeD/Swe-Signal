@@ -1,14 +1,16 @@
 package venomized.mods.extendedsignals.core.block;
 
-import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.track.TrackTargetingBlockItem;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.model.generators.ModelFile;
-import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntities;
+import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.create.tracks.RepeaterSignal;
+import venomized.mods.extendedsignals.core.create.tracks.SpeedModifier;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.core.create.tracks.ATCController;
 
@@ -41,9 +43,18 @@ public final class SignalCoreBlocks {
             .item(TrackTargetingBlockItem.ofType(RepeaterSignal.REPEATER))
             .build()
             .register();
+    public static final BlockEntry<BlockSpeedModifier> SPEED_MODIFIER = ExtendedSignalsCore.REGISTRATE.get().block("speed_modifier", BlockSpeedModifier::new)
+            .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+            .blockstate((ctx, prov) -> {
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron"));
+            })
+            .item(TrackTargetingBlockItem.ofType(SpeedModifier.SPEED_MODIFIER))
+            .build()
+            .register();
+
 
     public static void init() {
-        ExtendedSignalsCoreBlockEntities.init();
+        CoreBlockEntities.init();
     }
 
     //For testing purposes

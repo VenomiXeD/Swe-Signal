@@ -32,6 +32,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
     private static final String TAG_REFERENCED_SIGNAL_EDGE_UUID = "linked_signal_uuid";
     private static final String TAG_SIGNAL_DIRECTION = "signal_direction";
 
+    @Getter
     private Direction.AxisDirection signalDirection;
 
     private UUID referencedSignalEdgeID;
@@ -107,16 +108,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
                     );
                 }
             }
-            return;
         }
-        RawSignalState rawSignalState = be.currentSignalState();
-        if (rawSignalState.getAxisDirection() != be.signalDirection)
-            return;
-        ISignalAspect aspect = be.interpret(rawSignalState);
-        if (aspect == null) {
-            return;
-        }
-        aspect.applyAspect(be.tick, be.lightStates);
     }
 
 

@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.joml.Vector3d;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import venomized.mods.extendedsignals.core.SignalLightState;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 
 public class BlockEntityMainSignal extends venomized.mods.extendedsignals.core.blockentity.BlockEntityMainSignal {
     public BlockEntityMainSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
@@ -16,11 +16,11 @@ public class BlockEntityMainSignal extends venomized.mods.extendedsignals.core.b
     }
 
     /**
-     * @param rawState
+     * @param signalBlockEntity
      * @return
      */
     @Override
-    public IMainSignalAspect interpret(RawSignalState rawState) {
+    public IMainSignalAspect interpret(@Nullable BlockEntitySignal<?> signalBlockEntity) {
         if (rawState.isProceed()) {
             return MainSignalAspects.PROCEED_80;
         }

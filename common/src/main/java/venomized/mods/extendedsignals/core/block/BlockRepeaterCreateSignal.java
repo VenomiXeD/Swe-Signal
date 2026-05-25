@@ -6,7 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityRepeaterCreateSignal;
-import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntities;
+import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 
 public class BlockRepeaterCreateSignal extends ExtendedSignalsBlock implements IBE {
     /**
@@ -29,7 +29,7 @@ public class BlockRepeaterCreateSignal extends ExtendedSignalsBlock implements I
      */
     @Override
     public BlockEntityType getBlockEntityType() {
-        return ExtendedSignalsCoreBlockEntities.SIGNAL_REPEATER.get();
+        return CoreBlockEntities.SIGNAL_REPEATER.get();
     }
 
     /**

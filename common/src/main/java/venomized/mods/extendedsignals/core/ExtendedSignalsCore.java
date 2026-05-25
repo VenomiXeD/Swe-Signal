@@ -19,7 +19,7 @@ import net.minecraftforge.registries.RegistryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import venomized.mods.extendedsignals.core.block.SignalCoreBlocks;
-import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntities;
+import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.client.ClientSignalNetworkCache;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
@@ -87,7 +87,7 @@ public class ExtendedSignalsCore extends ModTemplate {
     protected void commonInitialization() {
         ExtendedSignalsItems.init();
         SignalCoreBlocks.init();
-        ExtendedSignalsCoreBlockEntities.init();
+        CoreBlockEntities.init();
 
         Schedule.INSTRUCTION_TYPES.add(Pair.of(res("door"), DoorInstruction::new));
     }

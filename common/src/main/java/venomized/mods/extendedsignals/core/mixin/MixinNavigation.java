@@ -4,10 +4,13 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
+import com.simibubi.create.content.trains.graph.DiscoveredPath;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.joml.Math;
@@ -17,19 +20,26 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import venomized.mods.extendedsignals.core.create.tracks.*;
+import venomized.mods.extendedsignals.core.mixin_interfaces.INavigationAccessor;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
-import venomized.mods.extendedsignals.core.create.tracks.CollectedSignal;
-import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
-import venomized.mods.extendedsignals.core.create.tracks.IRawSignalStateEvaluator;
 
 import java.util.*;
 
 @Mixin(value = Navigation.class, remap = false)
-public abstract class MixinNavigation {
+public abstract class MixinNavigation implements INavigationAccessor {
     @Unique
-    private static final double LOOK_AHEAD_DISTANCE = 128;
+    private static final double LOOK_AHEAD_DISTANCE = 256;
     @Unique
     private final Deque<CollectedSignal> extendedSignals$collectedSignals = new ArrayDeque<>();
+
+    @Unique
+    private final Map<ResourceLocation, ISignalModifier> extendedSignals$activeModifiers = new Object2ObjectLinkedOpenHashMap<>();
+
+    @Unique
+    private final Map<ResourceLocation, ISignalModifier> extendedSignals$predictedModifiers = new Object2ObjectLinkedOpenHashMap<>();
+
     @Shadow
     public Train train;
     @Shadow
@@ -43,6 +53,11 @@ public abstract class MixinNavigation {
 
     @Shadow
     public abstract TravellingPoint.ITrackSelector controlSignalScout();
+
+    @Inject(method = "startNavigation", at = @At("HEAD"))
+    public void extendedSignals$onStartNavigation(DiscoveredPath pathTo, CallbackInfoReturnable<Double> cir) {
+        extendedSignals$activeModifiers.clear();
+    }
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void extendedSignals$onCtor(Train train, CallbackInfo ci) {
@@ -70,7 +85,15 @@ public abstract class MixinNavigation {
 
 
         extendedSignals$collectSignalsInPath(speedMod);
-        extendedSignals$distantSignallingLogic();
+        extendedSignals$resolveSignallingLogic();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Map<ResourceLocation, ISignalModifier> extendedSignals$activeModifiers() {
+        return this.extendedSignals$activeModifiers;
     }
 
     @Unique
@@ -80,7 +103,13 @@ public abstract class MixinNavigation {
                 Math.min(distanceToDestination, distanceToSignal)
         );
 
-        this.extendedSignals$collectedSignals.clear();
+        extendedSignals$collectedSignals.clear();
+        extendedSignals$predictedModifiers.clear();
+
+        extendedSignals$predictedModifiers.putAll(
+                extendedSignals$activeModifiers
+        );
+        
         final MutableDouble previousSignalDistance = new MutableDouble(-1);
         extendedSignals$signalScoutTriggerCollector.travel(
                 train.graph,
@@ -89,16 +118,24 @@ public abstract class MixinNavigation {
                 (distance, trackEdgePointCouplePair) -> {
                     TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
 
-                    if (!(trackEdgePoint instanceof IExtendedSignalBoundary signalBoundary))
+                    if (!(trackEdgePoint instanceof IExtendedSignalBoundary<?> signalBoundary))
                         return false;
 
-                    // UUID enteringGroup = signalBoundary.getGroup(
-                    //         trackEdgePointCouplePair.getSecond().getSecond()
-                    // );
-                    boolean side = trackEdgePoint.isPrimary(trackEdgePointCouplePair.getSecond()
+                    boolean primary = trackEdgePoint.isPrimary(trackEdgePointCouplePair.getSecond()
                             .getSecond()
                     );
-                    //Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
+
+                    if (signalBoundary instanceof TrackEdgePointSignalModifier<?> modifierPoint && modifierPoint.isAligned(primary)) {
+                        if (modifierPoint.shouldApply()) {
+                            extendedSignals$predictedModifiers
+                                    .put(trackEdgePoint.getType().getId(), modifierPoint);
+                        } else {
+                            extendedSignals$predictedModifiers
+                                    .remove(trackEdgePoint.getType().getId());
+                        }
+
+                        return false;
+                    }
 
                     double deltaSignalDistance = previousSignalDistance.getValue() < 0
                             ? -1.0 : distance - previousSignalDistance.getValue();
@@ -107,14 +144,15 @@ public abstract class MixinNavigation {
                     extendedSignals$collectedSignals.push(
                             new CollectedSignal(
                                     signalBoundary,
-                                    side ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
+                                    primary ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
                                     distance,
-                                    deltaSignalDistance
+                                    deltaSignalDistance,
+                                    extendedSignals$predictedModifiers.values().toArray(ISignalModifier[]::new)
                             )
                     );
 
                     if (signalBoundary instanceof SignalBoundary createTrueSignalBoundary)
-                        return createTrueSignalBoundary.cachedStates.get(side) == SignalBlockEntity.SignalState.RED;
+                        return createTrueSignalBoundary.cachedStates.get(primary) == SignalBlockEntity.SignalState.RED;
 
                     return false;
                 }
@@ -122,13 +160,12 @@ public abstract class MixinNavigation {
     }
 
     @Unique
-    private void extendedSignals$distantSignallingLogic() {
+    private void extendedSignals$resolveSignallingLogic() {
         RawSignalState upcomingSignalState = null;
         RawSignalState currentSignalState = RawSignalState.INVALID;
 
         while (!extendedSignals$collectedSignals.isEmpty()) {
             CollectedSignal current = extendedSignals$collectedSignals.pop();
-            boolean primary = current.direction() == Direction.AxisDirection.POSITIVE;
 
             if (current.boundary() instanceof IRawSignalStateEvaluator signalStateEvaluator) {
                 currentSignalState = signalStateEvaluator.computeRawSignalState(
@@ -136,6 +173,10 @@ public abstract class MixinNavigation {
                         upcomingSignalState,
                         train
                 ).setNextState(upcomingSignalState).setAxisDirection(current.direction());
+            }
+
+            for (ISignalModifier modifier : current.signalModifiers()) {
+                modifier.applyModifier(currentSignalState);
             }
 
             current.boundary().onSignalScout(

@@ -3,78 +3,29 @@ package venomized.mods.extendedsignals.de.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mods.extendedsignals.core.SignalLightState;
+import org.jetbrains.annotations.Nullable;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.de.signalling.DistantSignalAspect;
 
 public class BlockEntityDistantSignal extends venomized.mods.extendedsignals.core.blockentity.BlockEntityDistantSignal {
     public BlockEntityDistantSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
 
-    public enum DistantSignalAspect implements IDistantSignalAspect {
-        EXPECT_STOP(
-                false,
-                false,
-                false
-        ),
-        EXPECT_PROCEED(
-                false,
-                true,
-                true
-        ),
-        EXPECT_PROCEED_REDUCED_SPEED(
-                false,
-                true,
-                false
-        );
-
-
-        DistantSignalAspect(
-                boolean shortBrakingDistance,
-                boolean upperGreen,
-                boolean bottomGreen
-        ) {
-            this.shortBrakingDistance = shortBrakingDistance;
-            this.upperGreen = upperGreen;
-            this.bottomGreen = bottomGreen;
-        }
-
-        final boolean shortBrakingDistance;
-        final boolean upperGreen;
-        final boolean bottomGreen;
-
-        /**
-         * @param totalTicksForBlockEntity
-         * @param states
-         */
-        @Override
-        public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-            (shortBrakingDistance ? RGB.WHITE : RGB.BLACK).apply(states[0]);
-
-            (upperGreen ? RGB.BLACK : RGB.YELLOW).apply(states[1]);
-            (upperGreen ? RGB.GREEN : RGB.BLACK).apply(states[2]);
-
-            (bottomGreen ? RGB.BLACK : RGB.YELLOW).apply(states[3]);
-            (bottomGreen ? RGB.GREEN : RGB.BLACK).apply(states[4]);
-        }
-    }
-
     /**
-     * @param rawState
+     * @param signalBlockEntity
      * @return
      */
     @Override
-    public IDistantSignalAspect interpret(RawSignalState rawState) {
-        RawSignalState distant = rawState.getNextState();
-        if (distant == null || !rawState.isReserved())
+    public IDistantSignalAspect interpret(BlockEntitySignal<?> signalBlockEntity) {
+        RawSignalState distant = signalBlockEntity.currentSignalState().getNextState();
+        if (distant == null || !distant.isReserved())
             return DistantSignalAspect.EXPECT_STOP;
 
-        return distant.isProceed()
-                ? distant.getMaxProceedSpeed() <= 40
-                  ? DistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED : DistantSignalAspect.EXPECT_PROCEED
-                : DistantSignalAspect.EXPECT_STOP;
+        return DistantSignalAspect.interpret(signalBlockEntity.currentSignalState());
     }
 
     /**

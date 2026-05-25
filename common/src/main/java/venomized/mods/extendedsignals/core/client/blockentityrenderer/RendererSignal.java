@@ -12,9 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.BlockEntityRendererBase;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalRendererHelper;
+import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
+import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererSignal<T extends BlockEntitySignal<?>>
@@ -59,8 +58,21 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
 
     private void renderSignalLights(T signalBlockEntity, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int light,
                                     int overlay) {
-        for (int i = 0; i < signalBlockEntity.getLights().length; i++) {
-            SignalLightPlacement lightPlacement = signalBlockEntity.getLights()[i];
+
+        RawSignalState rawSignalState = signalBlockEntity.currentSignalState();
+
+
+        SignalLightPlacement[] lights = signalBlockEntity.getLights();
+        if (signalBlockEntity.getSignalDirection() == rawSignalState.getAxisDirection()) {
+            ISignalAspect aspect = signalBlockEntity.interpret(signalBlockEntity);
+            aspect.applyAspect(signalBlockEntity.getLevel().getGameTime(), signalBlockEntity.getLightStates());
+        }
+
+        for (int i = 0; i < lights.length; i++) {
+            if (lights[i] == null)
+                continue;
+
+            SignalLightPlacement lightPlacement = lights[i];
             poseStack.pushPose();
             poseStack.translate(
                     lightPlacement.getX() + 0.5d,
@@ -73,7 +85,6 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
                     lightPlacement.getYScale() / 2f,
                     lightPlacement.getZScale() / 2f
             );
-
             SignalLightState state = signalBlockEntity.getLightStates()[i];
             renderer().renderModel(
                     poseStack.last(),

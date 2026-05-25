@@ -3,7 +3,7 @@ package venomized.mods.extendedsignals.se.auxilliarysignals;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.IDwarfSignalAspect;
@@ -23,11 +23,11 @@ public class BlockEntityDwarfSignal extends BlockEntitySignal<IDwarfSignalAspect
     }
 
     /**
-     * @param rawState
+     * @param signalBlockEntity
      * @return
      */
     @Override
-    public IDwarfSignalAspect interpret(RawSignalState rawState) {
+    public IDwarfSignalAspect interpret(@Nullable BlockEntitySignal<?> signalBlockEntity) {
         return null;
     }
 }

@@ -2,6 +2,7 @@ package venomized.mods.extendedsignals.core.signalling;
 
 import venomized.mods.extendedsignals.core.SignalLightState;
 
+@FunctionalInterface
 public interface ISignalAspect {
     void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states);
 

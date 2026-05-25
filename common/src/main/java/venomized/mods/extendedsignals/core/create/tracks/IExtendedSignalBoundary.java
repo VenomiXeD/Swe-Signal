@@ -49,6 +49,9 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
     }
 
     default void onSignalCrossed(Direction.AxisDirection direction, Train train) {
+        if (train.speed == 0)
+            return;
+
         Entity entity = train.carriages.get(0).anyAvailableEntity();
         if (entity == null)
             return;

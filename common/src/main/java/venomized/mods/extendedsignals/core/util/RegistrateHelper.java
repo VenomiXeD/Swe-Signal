@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntities;
+import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.data.SwSignalLang;
 
 public class RegistrateHelper {
@@ -113,7 +113,7 @@ public class RegistrateHelper {
                 .model(signalItemModelLocator(nation, name))
                 .build();
 
-        ExtendedSignalsCoreBlockEntities.validMainSignalBlock(block.asSupplier());
+        CoreBlockEntities.validMainSignalBlock(block.asSupplier());
 
         return block;
 
@@ -145,7 +145,7 @@ public class RegistrateHelper {
                 .model(signalItemModelLocator(nation, name))
                 .build();
 
-        ExtendedSignalsCoreBlockEntities.validCombinedSignalBlock(block.asSupplier());
+        CoreBlockEntities.validCombinedSignalBlock(block.asSupplier());
 
         return block;
 

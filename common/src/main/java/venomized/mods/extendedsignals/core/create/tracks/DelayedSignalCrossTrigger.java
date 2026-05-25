@@ -8,7 +8,7 @@ import net.minecraft.core.Direction;
 @AllArgsConstructor
 @Getter
 @Setter
-public class DelayedSignalCrossTrigger {
+public final class DelayedSignalCrossTrigger {
     int remainingDelayTicks;
     Direction.AxisDirection direction;
     IExtendedSignalBoundary<?> signalBoundary;

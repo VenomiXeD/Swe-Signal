@@ -74,7 +74,7 @@ public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBou
      */
     @Override
     public void blockEntityRemoved(BlockPos blockEntityPos, boolean front) {
-
+        removeFromAllGraphs();
     }
 
 
