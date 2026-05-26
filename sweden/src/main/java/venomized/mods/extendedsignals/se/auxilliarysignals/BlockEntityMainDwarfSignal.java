@@ -20,7 +20,7 @@ public class BlockEntityMainDwarfSignal extends BlockEntitySignal<IMainDwarfSign
      */
     @Override
     public @NotNull IMainDwarfSignalAspect interpret(RawSignalState state) {
-        return null;
+        return (A,B) -> {};
     }
 
     /**
