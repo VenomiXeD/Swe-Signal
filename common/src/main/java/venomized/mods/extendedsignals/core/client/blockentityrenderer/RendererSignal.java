@@ -59,12 +59,30 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
     private void renderSignalLights(T signalBlockEntity, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int light,
                                     int overlay) {
 
-        RawSignalState rawSignalState = signalBlockEntity.currentSignalState();
-
         SignalLightPlacement[] lights = signalBlockEntity.getLights();
-        if (signalBlockEntity.getSignalDirection() == rawSignalState.getAxisDirection()) {
-            ISignalAspect aspect = signalBlockEntity.interpret(rawSignalState);
-            aspect.applyAspect(signalBlockEntity.getLevel().getGameTime(), signalBlockEntity.getLightStates());
+
+        if (!signalBlockEntity.valid()) {
+            if (signalBlockEntity.getLevel().getGameTime() % 20 == 0) {
+                for (SignalLightState lightState : signalBlockEntity.getLightStates()) {
+                    lightState.setColorDirect(
+                            1, 0, 0
+                    );
+                }
+            } else {
+                for (SignalLightState lightState : signalBlockEntity.getLightStates()) {
+                    lightState.setColorDirect(
+                            0, 0, 0
+                    );
+                }
+            }
+        } else {
+            RawSignalState rawSignalState = signalBlockEntity.currentSignalState();
+
+
+            if (signalBlockEntity.getSignalDirection() == rawSignalState.getAxisDirection()) {
+                ISignalAspect aspect = signalBlockEntity.interpret(rawSignalState);
+                aspect.applyAspect(signalBlockEntity.getLevel().getGameTime(), signalBlockEntity.getLightStates());
+            }
         }
 
         for (int i = 0; i < lights.length; i++) {

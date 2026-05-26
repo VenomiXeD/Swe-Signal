@@ -22,7 +22,6 @@ public enum MainSignalAspect implements IMainSignalAspect {
             RGB.RED,
             RGB.BLACK
     );
-
     private final RGB l0;
     private final RGB l1;
     private final RGB l2;

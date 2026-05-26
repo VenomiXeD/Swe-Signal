@@ -1,8 +1,14 @@
 package venomized.mods.extendedsignals.core;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.util.Mth;
 
 public class SignalLightState {
+    @Setter
+    @Getter
+    private long tick;
+
     private float previousRed;
     private float previousGreen;
     private float previousBlue;
@@ -60,4 +66,5 @@ public class SignalLightState {
         this.lit = lit;
         return this;
     }
+
 }

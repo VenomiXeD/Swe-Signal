@@ -17,7 +17,6 @@ import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.ISignalInterpreter;
 import venomized.mods.extendedsignals.core.ISignalNetwork;
 import venomized.mods.extendedsignals.core.SignalLightState;
-import venomized.mods.extendedsignals.core.block.BlockSignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
@@ -81,22 +80,6 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
 
     public static void clientTick(BlockEntitySignal<?> be, Level pLevel, BlockPos pPos, BlockState pBlockState) {
         commonTick(be, pLevel, pPos, pBlockState);
-
-        if (!be.valid()) {
-            if (be.tick % 20 == 0) {
-                for (SignalLightState lightState : be.lightStates) {
-                    lightState.setColorDirect(
-                            1, 0, 0
-                    );
-                }
-            } else {
-                for (SignalLightState lightState : be.lightStates) {
-                    lightState.setColorDirect(
-                            0, 0, 0
-                    );
-                }
-            }
-        }
     }
 
 
@@ -130,15 +113,15 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
     public Pair<InteractionResult, MutableComponent> readerBindingToSource(Optional<ISignalTunerToolable> sourceBlockEntity, SignalTunerMode mode) {
         if (sourceBlockEntity.isPresent()) {
             if (sourceBlockEntity.get() instanceof ISignalBoundaryReferenceProvider sb) {
-                bindToSignal(sb);
+                bindToCreateSignal(sb);
             }
         }
         return ISignalTunerToolable.super.sourceBindingToReader(sourceBlockEntity, mode);
     }
 
-    private void bindToSignal(ISignalBoundaryReferenceProvider referenceProvider) {
-        this.referencedSignalEdgeID = referenceProvider.id();
-        this.signalDirection = referenceProvider.direction();
+    public void bindToCreateSignal(ISignalBoundaryReferenceProvider referenceProvider) {
+        this.referencedSignalEdgeID = referenceProvider.getTrackTargetingBehavior().getEdgePoint().getId();
+        this.signalDirection = referenceProvider.getTrackTargetingBehavior().getTargetDirection();
 
         ExtendedSignalsCore.LOGGER.info("Linked to boundary: {}", referencedSignalEdgeID);
         ExtendedSignalsCore.LOGGER.info("Axis direction: {}", signalDirection);
@@ -153,6 +136,8 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
             if (!state.isReserved())
                 network.updateState(this.referencedSignalEdgeID, new RawSignalState());
 
+        } else {
+            network.updateState(this.referencedSignalEdgeID, new RawSignalState());
         }
 
         this.updateSelf();
