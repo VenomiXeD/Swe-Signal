@@ -16,16 +16,15 @@ public class BlockEntityDistantSignal extends BlockEntitySignal<IDistantSignalAs
     }
 
     /**
-     * @param signalBlockEntity
      * @return
      */
     @Override
-    public @NotNull IDistantSignalAspect interpret(BlockEntitySignal<?> signalBlockEntity) {
-        RawSignalState distant = signalBlockEntity.currentSignalState().getNextState();
+    public @NotNull IDistantSignalAspect interpret(RawSignalState state) {
+        RawSignalState distant = state.getNextState();
         if (distant == null || !distant.isReserved())
             return DistantSignalAspect.EXPECT_STOP;
 
-        return DistantSignalAspect.interpret(signalBlockEntity.currentSignalState());
+        return DistantSignalAspect.interpret(state);
     }
 
     /**

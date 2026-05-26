@@ -9,7 +9,7 @@ public class BlockMainSignal extends BlockGermanySignal implements IBE {
      * @param pProperties
      **/
     public BlockMainSignal(Properties pProperties) {
-        super(pProperties, -1);
+        super(pProperties);
     }
 
     /**
@@ -26,61 +26,5 @@ public class BlockMainSignal extends BlockGermanySignal implements IBE {
     @Override
     public BlockEntityType getBlockEntityType() {
         return GermanyBlockEntities.MAIN_SIGNAL.get();
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public double lightXPosition() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public double lightYPosition() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public double lightZPosition() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public double lightSeparationDistance() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public float lightXScale() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public float lightYScale() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public float lightZScale() {
-        return 0;
     }
 }

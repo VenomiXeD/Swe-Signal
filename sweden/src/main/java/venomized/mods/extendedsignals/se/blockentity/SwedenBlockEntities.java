@@ -31,29 +31,30 @@ public final class SwedenBlockEntities {
     public static final BlockEntityEntry<BlockEntity2MainSignal> MAIN_2_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "2l_main_signal", BlockEntity2MainSignal::new,
-                            SwedenBlocks.BLOCK_TWO_LIGHT_SIGNAL
+                            SwedenBlocks.MAIN_2_SIGNAL
                     )
                     .renderer(() -> RendererSignal::new)
                     .register();
     //          .register();
     //
-    // // public static final BlockEntityEntry<BlockEntityMainSignal> MAIN_THREE_SIGNAL =
-    // //         RegistrateHelper.simpleBlockEntity(registrate(),"se_3l_signal", BlockEntityMainSignal::new, ExtendedSignalsSwedenBlocks.BLOCK_THREE_LIGHT_SIGNAL)
-    // //                 .renderer(() -> RendererSignal::new)
-    // //                 .register();
-    //
+    public static final BlockEntityEntry<BlockEntity3MainSignal> MAIN_3_SIGNAL =
+            RegistrateHelper.simpleBlockEntity(registrate(), "se_3l_signal", BlockEntity3MainSignal::new, SwedenBlocks.MAIN_3_SIGNAL)
+                    .renderer(() -> RendererSignal::new)
+                    .register();
+
     public static final BlockEntityEntry<BlockEntity4CombinedSignal> COMBINED_4_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "4_combined_signal", BlockEntity4CombinedSignal::new,
-                            SwedenBlocks.BLOCK_FOUR_LIGHT_SIGNAL
+                            SwedenBlocks.COMBINED_4_SIGNAL
                     )
                     .renderer(() -> RendererSignal::new)
                     .register();
-    //
-    // public static final BlockEntityEntry<BlockEntityCombinedSignal> COMBINED_FIVE_SIGNAL =
-    //        RegistrateHelper.simpleBlockEntity(registrate(),"se_5l_signal", BlockEntityCombinedSignal::new, ExtendedSignalsSwedenBlocks.BLOCK_FIVE_LIGHT_SIGNAL)
-    //                .renderer(() -> RendererSignal::new)
-    //                .register();
+
+    public static final BlockEntityEntry<BlockEntity5CombinedSignal> COMBINED_5_SIGNAL =
+            RegistrateHelper.simpleBlockEntity(registrate(), "se_5l_signal", BlockEntity5CombinedSignal::new, SwedenBlocks.COMBINED_5_SIGNAL)
+                    .renderer(() -> RendererSignal::new)
+                    .register();
+
     // == DISTANT SIGNALS ==
     public static final BlockEntityEntry<BlockEntityThreeLightDistantSignal> DISTANT_THREE_LIGHT =
             RegistrateHelper.simpleBlockEntity(

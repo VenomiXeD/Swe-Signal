@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
+import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 import venomized.mods.extendedsignals.de.signalling.MainSignalAspect;
 
 public class BlockEntityMainSignal extends BlockEntitySignal<IMainSignalAspect> {
@@ -14,18 +15,11 @@ public class BlockEntityMainSignal extends BlockEntitySignal<IMainSignalAspect> 
         super(t, pPos, pBlockState);
     }
 
-    /**
-     * @param signalBlockEntity
-     * @return
-     */
     @Override
-    public @NotNull IMainSignalAspect interpret(BlockEntitySignal<?> signalBlockEntity) {
-        return MainSignalAspect.interpret(signalBlockEntity.currentSignalState());
+    public @NotNull IMainSignalAspect interpret(RawSignalState state) {
+        return MainSignalAspect.interpret(state);
     }
-
-    /**
-     * @return
-     */
+    
     @Override
     public SignalLightPlacement[] constructLightPlacements() {
         return new SignalLightPlacement[]{

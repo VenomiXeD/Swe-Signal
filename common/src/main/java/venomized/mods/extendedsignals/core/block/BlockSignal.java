@@ -69,19 +69,6 @@ public abstract class BlockSignal extends ExtendedSignalsBlock implements Entity
      * @param pState
      * @param pLevel
      * @param pPos
-     * @param pContext
-     * @return
-     */
-    @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Shapes.create(super.getShape(pState, pLevel, pPos, pContext)
-                .bounds().inflate(0, 8, 0));
-    }
-
-    /**
-     * @param pState
-     * @param pLevel
-     * @param pPos
      * @return
      */
     @Override
@@ -118,19 +105,5 @@ public abstract class BlockSignal extends ExtendedSignalsBlock implements Entity
     @Override
     public boolean useShapeForLightOcclusion(BlockState pState) {
         return false;
-    }
-
-    /**
-     * @param pState
-     * @param pLevel
-     * @param pPos
-     * @param pContext
-     * @return
-     */
-    @Override
-    public VoxelShape getVisualShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Shapes.create(
-                AABB.ofSize(pPos.getCenter(), 1, 1, 1).inflate(5)
-        );
     }
 }
