@@ -84,6 +84,11 @@ public abstract class BlockSignal extends ExtendedSignalsBlock implements Entity
         return Shapes.empty();
     }
 
+    @Override
+    public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return Shapes.empty();
+    }
+
     /**
      * @param pState
      * @param pLevel
