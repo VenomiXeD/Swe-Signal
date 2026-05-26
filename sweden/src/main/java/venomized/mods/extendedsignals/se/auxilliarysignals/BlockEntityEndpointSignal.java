@@ -19,7 +19,9 @@ public class BlockEntityEndpointSignal extends BlockEntitySignal<ISignalAspect> 
      */
     @Override
     public SignalLightPlacement[] constructLightPlacements() {
-        return new SignalLightPlacement[0];
+        return new SignalLightPlacement[] {
+                new SignalLightPlacement(0d, 1.17188d,0.005d, 3.25f, 3.25f,0f)
+        };
     }
 
     /**

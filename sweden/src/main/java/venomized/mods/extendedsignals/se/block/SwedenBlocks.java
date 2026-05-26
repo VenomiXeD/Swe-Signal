@@ -42,7 +42,7 @@ public class SwedenBlocks {
             .register();
     // == DWARF SIGNALS ==
     public static final BlockEntry<BlockModernDwarfSignal> BLOCK_MODERN_DWARF_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
-                    registrate(), "signals", "se", "4l_dwarf_signal_post_1970", BlockModernDwarfSignal::new)
+                    registrate(), "signals", "se", "4l_dwarf_signal_modern", BlockModernDwarfSignal::new)
             .register();
     public static final BlockEntry<BlockModernMainDwarfSignal> BLOCK_MODERN_MAIN_DWARF_SIGNAL =
             RegistrateHelper
@@ -56,7 +56,7 @@ public class SwedenBlocks {
                     .register();
     // == MISC SIGNALS ==
     public static final BlockEntry<BlockModernEndpointSignal> BLOCK_ENDPOINT_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
-                    registrate(), "signals", "se", "1l_endpoint_post_1920", BlockModernEndpointSignal::new)
+                    registrate(), "signals", "se", "1l_endpoint_signal_modern", BlockModernEndpointSignal::new)
             .register();
     // public static final BlockEntry<BlockGenericRotateableBlock> BLOCK_U_SIGN = RegistrateHelper.signalBlock(registrate(),"signals", "se", "u_sign", BlockGenericRotateableBlock::new)
     //         .register();

@@ -1,0 +1,15 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "loader": "forge:obj",
+  "flip_v": true,
+  "model": "extended_signals_se:models/block/signals/se/1l_endpoint_signal_modern.obj",
+  "textures": {
+    "distant_signal": "extended_signals_se:block/signals/se/distant_signal"
+  }
+}

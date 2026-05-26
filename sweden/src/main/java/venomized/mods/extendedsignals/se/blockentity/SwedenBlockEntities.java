@@ -76,7 +76,7 @@ public final class SwedenBlockEntities {
                             registrate(), "se_1l_endpoint_signal", BlockEntityEndpointSignal::new,
                             SwedenBlocks.BLOCK_ENDPOINT_SIGNAL
                     )
-                    .renderer(() -> RendererEndpointSignal::new)
+                    .renderer(() -> RendererSignal::new)
                     .register();
     // == MISC SIGNALS ==
     public static final BlockEntityEntry<BlockEntityRailroadCrossingSignal> RAILROAD_CROSSING_SIGNAL =
