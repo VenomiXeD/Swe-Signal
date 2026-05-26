@@ -27,7 +27,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Mixin(value = SignalBoundary.class, remap = false)
-public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExtendedSignalBoundary, IRawSignalStateEvaluator, ISignalStateBoundaryTransformer {
+public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExtendedSignalBoundary<SignalBoundary>, IRawSignalStateEvaluator, ISignalStateBoundaryTransformer {
     @Shadow
     public Couple<SignalBlockEntity.SignalState> cachedStates;
 

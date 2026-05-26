@@ -43,7 +43,6 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
     @Getter
     protected final SignalLightState[] lightStates;
     protected UUID pointID;
-    protected EdgePointType<?> pointType;
     @Getter
     private Direction.AxisDirection signalDirection;
 
@@ -85,19 +84,19 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         commonTick(be, pLevel, pPos, pBlockState);
     }
 
-    public IExtendedSignalBoundary<?> getReferencedEdgePoint() {
-        // boundary.setMapper(this.getSignalDirection() == Direction.AxisDirection.POSITIVE, null);
-        IExtendedSignalBoundary<?> result = null;
-        for (TrackGraph graph : Create.RAILWAYS.trackNetworks.values()) {
-            TrackEdgePoint p = graph.getPoint(pointType, pointID);
-            if (p instanceof IExtendedSignalBoundary<?> boundary) {
-                result = boundary;
-                break;
-            }
-        }
-
-        return result;
-    }
+    // public IExtendedSignalBoundary<?> getReferencedEdgePoint() {
+    //     // boundary.setMapper(this.getSignalDirection() == Direction.AxisDirection.POSITIVE, null);
+    //     IExtendedSignalBoundary<?> result = null;
+    //     for (TrackGraph graph : Create.RAILWAYS.trackNetworks.values()) {
+    //         TrackEdgePoint p = graph.getPoint(pointType, pointID);
+    //         if (p instanceof IExtendedSignalBoundary<?> boundary) {
+    //             result = boundary;
+    //             break;
+    //         }
+    //     }
+//
+    //     return result;
+    // }
 
     public abstract SignalLightPlacement[] constructLightPlacements();
 
@@ -139,7 +138,6 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
 
     public void bindToCreateSignal(ISignalBoundaryReferenceProvider referenceProvider) {
         this.pointID = referenceProvider.getTrackTargetingBehavior().getEdgePoint().getId();
-        this.pointType = referenceProvider.getTrackTargetingBehavior().getEdgePoint().getType();
         this.signalDirection = referenceProvider.getTrackTargetingBehavior().getTargetDirection();
 
         ExtendedSignalsCore.LOGGER.info("Linked to boundary: {}", pointID);
@@ -168,15 +166,15 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
     @Override
     public void onBlockDestroyed(Player player) {
         super.onBlockDestroyed(player);
-        this.unbindFromCreateSignal();
+        // this.unbindFromCreateSignal();
     }
 
-    public void unbindFromCreateSignal() {
-        if (getReferencedEdgePoint() != null && getSignalDirection() != null) {
-            ExtendedSignalsCore.LOGGER.info("Removed mapper for boundary: {}", pointID);
-            getReferencedEdgePoint().setMapper(getSignalDirection() == Direction.AxisDirection.POSITIVE, null);
-        }
-    }
+    // public void unbindFromCreateSignal() {
+    //     if (getReferencedEdgePoint() != null && getSignalDirection() != null) {
+    //         ExtendedSignalsCore.LOGGER.info("Removed mapper for boundary: {}", pointID);
+    //         getReferencedEdgePoint().setMapper(getSignalDirection() == Direction.AxisDirection.POSITIVE, null);
+    //     }
+    // }
 
     @Override
     public boolean isSource() {
@@ -219,8 +217,8 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         pointID = pTag.hasUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) ? pTag.getUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) : null;
         signalDirection = NBTHelp.safeReadEnum(pTag, TAG_SIGNAL_DIRECTION, Direction.AxisDirection.class);
 
-        if (pTag.contains(TAG_REFERENCED_SIGNAL_POINT_TYPE))
-            this.pointType = EdgePointType.TYPES.get(NBTHelper.readResourceLocation(pTag, TAG_REFERENCED_SIGNAL_POINT_TYPE));
+        // if (pTag.contains(TAG_REFERENCED_SIGNAL_POINT_TYPE))
+        //     this.pointType = EdgePointType.TYPES.get(NBTHelper.readResourceLocation(pTag, TAG_REFERENCED_SIGNAL_POINT_TYPE));
     }
 
     @Override
@@ -230,8 +228,8 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
             pTag.putUUID(TAG_REFERENCED_SIGNAL_POINT_UUID, pointID);
         NBTHelp.safeWriteEnum(pTag, TAG_SIGNAL_DIRECTION, signalDirection);
 
-        if (pointType != null)
-            NBTHelper.writeResourceLocation(pTag, TAG_REFERENCED_SIGNAL_POINT_TYPE, pointType.getId());
+        // if (pointType != null)
+        //     NBTHelper.writeResourceLocation(pTag, TAG_REFERENCED_SIGNAL_POINT_TYPE, pointType.getId());
     }
 
     /**
