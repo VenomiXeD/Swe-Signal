@@ -30,17 +30,10 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
             false
     );
 
-    public static DistantSignalAspect interpret(RawSignalState state) {
-        RawSignalState distant = state.getNextState();
-        if (distant == null || !state.isReserved())
-            return DistantSignalAspect.OFF;
-
-        return distant.isProceed()
-                ? distant.getMaxProceedSpeed() <= 40
-                  ? DistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED : DistantSignalAspect.EXPECT_PROCEED
-                : DistantSignalAspect.EXPECT_STOP;
-    }
-
+    final boolean off;
+    final boolean shortBrakingDistance;
+    final boolean upperGreen;
+    final boolean bottomGreen;
     DistantSignalAspect(
             boolean shortBrakingDistance,
             boolean upperGreen,
@@ -53,10 +46,16 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
         this.off = off;
     }
 
-    final boolean off;
-    final boolean shortBrakingDistance;
-    final boolean upperGreen;
-    final boolean bottomGreen;
+    public static DistantSignalAspect interpret(RawSignalState state) {
+        RawSignalState distant = state.getNextState();
+        if (distant == null || !state.isReserved())
+            return DistantSignalAspect.OFF;
+
+        return distant.isProceed()
+                ? distant.getMaxProceedSpeed() <= 40
+                  ? DistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED : DistantSignalAspect.EXPECT_PROCEED
+                : DistantSignalAspect.EXPECT_STOP;
+    }
 
     /**
      * @param totalTicksForBlockEntity

@@ -19,7 +19,7 @@ public class BlockEntityMainSignal extends BlockEntitySignal<IMainSignalAspect> 
     public @NotNull IMainSignalAspect interpret(RawSignalState state) {
         return MainSignalAspect.interpret(state);
     }
-    
+
     @Override
     public SignalLightPlacement[] constructLightPlacements() {
         return new SignalLightPlacement[]{

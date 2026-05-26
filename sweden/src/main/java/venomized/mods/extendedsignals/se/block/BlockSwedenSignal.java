@@ -8,5 +8,5 @@ public abstract class BlockSwedenSignal extends BlockSignal {
      */
     public BlockSwedenSignal(Properties pProperties) {
         super(pProperties);
-    }   
+    }
 }

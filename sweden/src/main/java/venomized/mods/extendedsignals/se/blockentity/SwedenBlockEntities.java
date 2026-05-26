@@ -15,10 +15,6 @@ import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererThreeLightCrossingLights;
 
 public final class SwedenBlockEntities {
-    private static Registrate registrate() {
-        return ExtendedSignalsSweden.REGISTRATE.get();
-    }
-
     public static final BlockEntityEntry<BlockEntitySignalBox> SE_SIGNAL_BOX =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "se_signal_box", BlockEntitySignalBox::new,
@@ -26,7 +22,6 @@ public final class SwedenBlockEntities {
                     )
                     .renderer(() -> RendererGeneric::new)
                     .register();
-
     // == SIGNALS FROM 2-5 LIGHTS ==
     public static final BlockEntityEntry<BlockEntity2MainSignal> MAIN_2_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
@@ -41,7 +36,6 @@ public final class SwedenBlockEntities {
             RegistrateHelper.simpleBlockEntity(registrate(), "se_3l_signal", BlockEntity3MainSignal::new, SwedenBlocks.MAIN_3_SIGNAL)
                     .renderer(() -> RendererSignal::new)
                     .register();
-
     public static final BlockEntityEntry<BlockEntity4CombinedSignal> COMBINED_4_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "4_combined_signal", BlockEntity4CombinedSignal::new,
@@ -49,12 +43,10 @@ public final class SwedenBlockEntities {
                     )
                     .renderer(() -> RendererSignal::new)
                     .register();
-
     public static final BlockEntityEntry<BlockEntity5CombinedSignal> COMBINED_5_SIGNAL =
             RegistrateHelper.simpleBlockEntity(registrate(), "se_5l_signal", BlockEntity5CombinedSignal::new, SwedenBlocks.COMBINED_5_SIGNAL)
                     .renderer(() -> RendererSignal::new)
                     .register();
-
     // == DISTANT SIGNALS ==
     public static final BlockEntityEntry<BlockEntityThreeLightDistantSignal> DISTANT_THREE_LIGHT =
             RegistrateHelper.simpleBlockEntity(
@@ -86,11 +78,6 @@ public final class SwedenBlockEntities {
                     )
                     .renderer(() -> RendererEndpointSignal::new)
                     .register();
-    // public static final BlockEntityEntry<BlockEntityUSign> U_SIGN =
-    //         ExtendedSignalsAllBlockEntities.simpleBlockEntity("se_u_sign", BlockEntityUSign::new, SeBlocks.BLOCK_U_SIGN)
-    //                 .renderer(() -> RendererGeneric::new)
-    //                 .register();
-
     // == MISC SIGNALS ==
     public static final BlockEntityEntry<BlockEntityRailroadCrossingSignal> RAILROAD_CROSSING_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
@@ -99,6 +86,10 @@ public final class SwedenBlockEntities {
                     )
                     .renderer(() -> RendererRailroadCrossingSignal::new)
                     .register();
+    // public static final BlockEntityEntry<BlockEntityUSign> U_SIGN =
+    //         ExtendedSignalsAllBlockEntities.simpleBlockEntity("se_u_sign", BlockEntityUSign::new, SeBlocks.BLOCK_U_SIGN)
+    //                 .renderer(() -> RendererGeneric::new)
+    //                 .register();
     public static final BlockEntityEntry<BlockEntityRailroadCrossingDistantSignal> RAILROAD_CROSSING_DISTANT_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "se_railroad_crossing_distant_signal", BlockEntityRailroadCrossingDistantSignal::new,
@@ -106,7 +97,6 @@ public final class SwedenBlockEntities {
                     )
                     .renderer(() -> RendererRailroadCrossingDistantSignal::new)
                     .register();
-
     // == RAILROAD CROSSING SIGNALS ==
     public static final BlockEntityEntry<BlockEntityCrossingGate> CROSSING_GATE =
             RegistrateHelper.simpleBlockEntity(
@@ -123,6 +113,10 @@ public final class SwedenBlockEntities {
                     )
                     .renderer(() -> RendererThreeLightCrossingLights::new)
                     .register();
+
+    private static Registrate registrate() {
+        return ExtendedSignalsSweden.REGISTRATE.get();
+    }
 
     public static void init() {
     }

@@ -26,6 +26,13 @@ public enum MainSignalAspect implements IMainSignalAspect {
     private final RGB l1;
     private final RGB l2;
 
+    public static MainSignalAspect interpret(RawSignalState state) {
+        if (!state.isProceed())
+            return MainSignalAspect.STOP;
+
+        return state.getMaxProceedSpeed() > 40 ? PROCEED_80 : PROCEED_40;
+    }
+
     /**
      * @param totalTicksForBlockEntity
      * @param states
@@ -36,12 +43,5 @@ public enum MainSignalAspect implements IMainSignalAspect {
         l1.apply(states[1]);
         if (states.length == 3)
             l2.apply(states[2]);
-    }
-
-    public static MainSignalAspect interpret(RawSignalState state) {
-        if (!state.isProceed())
-            return MainSignalAspect.STOP;
-
-        return state.getMaxProceedSpeed() > 40 ? PROCEED_80 : PROCEED_40;
     }
 }

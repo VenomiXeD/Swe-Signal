@@ -4,7 +4,6 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
@@ -40,7 +39,7 @@ public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBou
      * @return
      */
     @Override
-    public RawSignalState computeRawSignalState(Direction.AxisDirection axisDirection, @Nullable RawSignalState upcomingSignal, Train train) {
+    public RawSignalState computeRawSignalState(boolean primary, @Nullable RawSignalState upcomingSignal, Train train) {
         return new RawSignalState()
                 .setNextState(upcomingSignal)
                 .setReserved(true);
@@ -52,11 +51,6 @@ public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBou
     @Override
     public boolean canMerge() {
         return false;
-    }
-
-    @Override
-    public boolean canCoexistWith(EdgePointType<?> otherType, boolean front) {
-        return otherType == getType();
     }
 
     /**

@@ -33,13 +33,7 @@ public enum MainSignalAspect implements IMainSignalAspect {
             RGB.BLACK
     );
 
-    public static MainSignalAspect interpret(RawSignalState state) {
-        return state.isProceed()
-                ? state.getMaxProceedSpeed() > 40
-                  ? MainSignalAspect.PROCEED
-                  : MainSignalAspect.PROCEED_40
-                : MainSignalAspect.STOP;
-    }
+    private RGB[] colors;
 
     MainSignalAspect(
             RGB top,
@@ -52,7 +46,13 @@ public enum MainSignalAspect implements IMainSignalAspect {
         colors = new RGB[]{top, topleft, topright, rightshunt, leftshunt, bottom};
     }
 
-    private RGB[] colors;
+    public static MainSignalAspect interpret(RawSignalState state) {
+        return state.isProceed()
+                ? state.getMaxProceedSpeed() > 40
+                  ? MainSignalAspect.PROCEED
+                  : MainSignalAspect.PROCEED_40
+                : MainSignalAspect.STOP;
+    }
 
     /**
      * @param totalTicksForBlockEntity

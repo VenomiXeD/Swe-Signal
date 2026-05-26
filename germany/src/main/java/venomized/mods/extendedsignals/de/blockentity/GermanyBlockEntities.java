@@ -10,24 +10,22 @@ import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
 import venomized.mods.extendedsignals.de.block.GermanyBlocks;
 
 public final class GermanyBlockEntities {
-    public static Registrate registrate() {
-        return ExtendedSignalsGermany.REGISTRATE.get();
-    }
-
     public static BlockEntityEntry<BlockEntityMainSignal> MAIN_SIGNAL = RegistrateHelper
             .simpleBlockEntity(registrate(), "main_signal", BlockEntityMainSignal::new, GermanyBlocks.MAIN_SIGNAL)
             .renderer(() -> RendererSignal::new)
             .register();
-
     public static BlockEntityEntry<BlockEntityDistantSignal> DISTANT_SIGNAL = RegistrateHelper
             .simpleBlockEntity(registrate(), "distant_signal", BlockEntityDistantSignal::new, GermanyBlocks.DISTANT_SIGNAL)
             .renderer(() -> RendererSignal::new)
             .register();
-
     public static BlockEntityEntry<BlockEntityCombinedSignal> COMBINED_SIGNAL = RegistrateHelper
             .simpleBlockEntity(registrate(), "combined_signal", BlockEntityCombinedSignal::new, GermanyBlocks.COMBINED_SIGNAL)
             .renderer(() -> RendererSignal::new)
             .register();
+
+    public static Registrate registrate() {
+        return ExtendedSignalsGermany.REGISTRATE.get();
+    }
 
     public static void init() {
     }

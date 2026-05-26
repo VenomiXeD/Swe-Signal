@@ -21,25 +21,6 @@ import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
     public static Combined4SignalStateMapper COMBINED_4_SIGNAL_MAPPER = SignalStateRemapper.register(new Combined4SignalStateMapper(ExtendedSignalsSweden.res("4_combined_signal")));
 
-    public static class Combined4SignalStateMapper extends SignalStateRemapper {
-        public Combined4SignalStateMapper(ResourceLocation id) {
-            super(id);
-        }
-
-        @Override
-        public RawSignalState remap(RawSignalState old) {
-            // Since a 4 light signal cannot display expect proceed 40, we'll remap it to proceed 40
-            RawSignalState distant = old.getNextState();
-            if (distant == null)
-                return old;
-
-            if (distant.getMaxProceedSpeed() <= 40)
-                old.setMaxProceedSpeed(distant.getMaxProceedSpeed());
-
-            return old;
-        }
-    }
-
     public BlockEntity4CombinedSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
@@ -51,10 +32,11 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
     public void bindToCreateSignal(ISignalBoundaryReferenceProvider referenceProvider) {
         super.bindToCreateSignal(referenceProvider);
         TrackEdgePoint point = referenceProvider.getTrackTargetingBehavior().getEdgePoint();
-        if (point instanceof IExtendedSignalBoundary boundary) {
+        if (point instanceof IExtendedSignalBoundary<?> boundary) {
             boundary.setMapper(referenceProvider.getTrackTargetingBehavior().getTargetDirection() == Direction.AxisDirection.POSITIVE,
                     COMBINED_4_SIGNAL_MAPPER
             );
+            point.invalidate(getLevel());
         }
     }
 
@@ -115,6 +97,25 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
             (blink ? ISignalAspect.RGB.BLACK : ISignalAspect.RGB.WHITE).apply(lights[3]);
         };
         // return CombinedSignalAspectCompositor.interpret(state);
+    }
+
+    public static class Combined4SignalStateMapper extends SignalStateRemapper {
+        public Combined4SignalStateMapper(ResourceLocation id) {
+            super(id);
+        }
+
+        @Override
+        public RawSignalState remap(RawSignalState old) {
+            // Since a 4 light signal cannot display expect proceed 40, we'll remap it to proceed 40
+            RawSignalState distant = old.getNextState();
+            if (distant == null)
+                return old;
+
+            if (distant.getMaxProceedSpeed() <= 40)
+                old.setMaxProceedSpeed(distant.getMaxProceedSpeed());
+
+            return old;
+        }
     }
 
 }

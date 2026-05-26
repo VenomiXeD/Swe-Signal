@@ -6,7 +6,6 @@ import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,7 +14,6 @@ import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
 import venomized.mods.extendedsignals.core.create.tracks.RepeaterSignal;
 
 import java.util.List;
-import java.util.UUID;
 
 public class BlockEntityRepeaterCreateSignal extends SmartBlockEntity implements TransformableBlockEntity, ISignalTunerToolable, ISignalBoundaryReferenceProvider {
     public TrackTargetingBehaviour<RepeaterSignal> repeaterSignal;

@@ -30,14 +30,14 @@ import java.util.UUID;
 
 @Mixin(value = Train.class, remap = false)
 public abstract class MixinTrain implements ITrainDoorData {
-    @Shadow
-    public ScheduleRuntime runtime;
-    @Shadow
-    public Navigation navigation;
     @Unique
     private static final int TICKS_ON_CROSSED_TRIGGERING_DELAY = 20;
     @Unique
     private final List<DelayedSignalCrossTrigger> extendedSignals$delayedOnCrossedTriggering = new ReferenceArrayList<>();
+    @Shadow
+    public ScheduleRuntime runtime;
+    @Shadow
+    public Navigation navigation;
     @Unique
     private boolean extendedSignals$doorOpen = false;
 

@@ -8,12 +8,10 @@ import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 
 public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
-    private final static String TAG_WRENCHED_NAME = "wrenched";
-
     public static final EdgePointType<SpeedModifier> SPEED_MODIFIER = EdgePointType.register(
             ExtendedSignalsCore.res("speed_modifier"), SpeedModifier::new
     );
-
+    private final static String TAG_WRENCHED_NAME = "wrenched";
     private boolean discard;
 
     /**

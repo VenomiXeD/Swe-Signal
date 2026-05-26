@@ -10,24 +10,22 @@ import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
 
 public class GermanyBlocks {
 
-    public static Registrate registrate() {
-        return ExtendedSignalsGermany.REGISTRATE.get();
-    }
-
+    // VR, Vorsignal
+    public static final BlockEntry<? extends Block> DISTANT_SIGNAL = RegistrateHelper
+            .genericCustomSignalBlock(registrate(), "signals", "de", "vr", BlockDistantSignal::new)
+            .register();
+    // HP + VR
+    public static final BlockEntry<BlockCombinedSignal> COMBINED_SIGNAL = RegistrateHelper
+            .genericCustomSignalBlock(registrate(), "signals", "de", "hp_vr", BlockCombinedSignal::new)
+            .register();
     // HP, Hauptsignal
     public static BlockEntry<BlockMainSignal> MAIN_SIGNAL = RegistrateHelper
             .genericCustomSignalBlock(registrate(), "signals", "de", "hp", BlockMainSignal::new)
             .register();
 
-    // VR, Vorsignal
-    public static final BlockEntry<? extends Block> DISTANT_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "de", "vr", BlockDistantSignal::new)
-            .register();
-
-    // HP + VR
-    public static final BlockEntry<BlockCombinedSignal> COMBINED_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "de", "hp_vr", BlockCombinedSignal::new)
-            .register();
+    public static Registrate registrate() {
+        return ExtendedSignalsGermany.REGISTRATE.get();
+    }
 
     public static void init() {
     }

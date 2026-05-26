@@ -22,17 +22,12 @@ import venomized.mods.extendedsignals.core.blockentity.IOrientedBlockEntity;
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
 public abstract class BlockEntityRendererBase<T extends BlockEntity> implements BlockEntityRenderer<T> {
-    protected static ModelBlockRenderer renderer() {
-        return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
-    }
-
+    protected final Vector3d baseModelOffset;
     protected int packedLight;
     protected int packedOverlay;
     protected MultiBufferSource bufferSource;
 
     private BakedModel cachedModel;
-
-    protected final Vector3d baseModelOffset;
 
     public BlockEntityRendererBase(BlockEntityRendererProvider.Context context) {
         this();
@@ -42,6 +37,9 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
         baseModelOffset = configureModelOffset();
     }
 
+    protected static ModelBlockRenderer renderer() {
+        return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
+    }
 
     protected Vector3d configureModelOffset() {
         return new Vector3d(0d, 0d, 0d);

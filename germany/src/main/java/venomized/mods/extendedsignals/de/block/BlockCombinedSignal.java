@@ -16,6 +16,7 @@ public class BlockCombinedSignal extends BlockGermanySignal implements IBE {
     public BlockCombinedSignal(Properties pProperties) {
         super(pProperties);
     }
+
     /**
      * @return
      */

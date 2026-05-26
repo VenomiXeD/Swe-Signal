@@ -1,7 +1,5 @@
 package venomized.mods.extendedsignals.se.signalling;
 
-import lombok.RequiredArgsConstructor;
-import net.minecraftforge.api.distmarker.Dist;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
@@ -12,6 +10,13 @@ public record CombinedSignalAspectCompositor(
         MainSignalAspect main,
         DistantSignalAspect distant
 ) implements ICombinedSignalAspect {
+
+    public static CombinedSignalAspectCompositor interpret(RawSignalState state) {
+        return new CombinedSignalAspectCompositor(
+                MainSignalAspect.interpret(state),
+                DistantSignalAspect.interpret(state)
+        );
+    }
 
     /**
      * @param totalTicksForBlockEntity
@@ -29,13 +34,6 @@ public record CombinedSignalAspectCompositor(
         distant.applyAspect(
                 totalTicksForBlockEntity,
                 Arrays.copyOfRange(states, 2, 5)
-        );
-    }
-
-    public static CombinedSignalAspectCompositor interpret(RawSignalState state) {
-        return new CombinedSignalAspectCompositor(
-                MainSignalAspect.interpret(state),
-                DistantSignalAspect.interpret(state)
         );
     }
 }

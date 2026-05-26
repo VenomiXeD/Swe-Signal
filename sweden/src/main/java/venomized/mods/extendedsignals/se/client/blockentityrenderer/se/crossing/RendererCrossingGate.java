@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;

@@ -23,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.create.tracks.*;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigationAccessor;
+import venomized.mods.extendedsignals.core.signalling.ISignalStateBoundaryTransformer;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 
 import java.util.ArrayDeque;
@@ -168,16 +169,21 @@ public abstract class MixinNavigation implements INavigationAccessor {
 
         while (!extendedSignals$collectedSignals.isEmpty()) {
             CollectedSignal current = extendedSignals$collectedSignals.pop();
+            boolean primary = current.direction() == Direction.AxisDirection.POSITIVE;
 
             if (current.boundary() instanceof IRawSignalStateEvaluator signalStateEvaluator) {
                 currentSignalState = signalStateEvaluator.computeRawSignalState(
-                        current.direction(),
-                        upcomingSignalState,
-                        train
+                                primary,
+                                upcomingSignalState,
+                                train
                         )
                         .setNextState(upcomingSignalState)
                         .setAxisDirection(current.direction())
                         .setDistanceToNextSignal(current.distanceFromPreviousSignal());
+
+                if (signalStateEvaluator instanceof ISignalStateBoundaryTransformer transformer) {
+                    currentSignalState = transformer.transformSignalState(primary, currentSignalState);
+                }
             }
 
             for (ISignalModifier modifier : current.signalModifierSnapshot()) {

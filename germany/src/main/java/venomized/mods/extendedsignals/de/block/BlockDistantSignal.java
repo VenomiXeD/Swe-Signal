@@ -16,6 +16,7 @@ public class BlockDistantSignal extends BlockGermanySignal implements IBE {
     public BlockDistantSignal(Properties pProperties) {
         super(pProperties);
     }
+
     /**
      * @return
      */

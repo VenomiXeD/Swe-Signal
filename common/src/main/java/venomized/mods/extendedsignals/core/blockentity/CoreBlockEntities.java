@@ -12,18 +12,6 @@ import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererAT
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 
 public final class CoreBlockEntities {
-    private static Registrate registrate() {
-        return ExtendedSignalsCore.REGISTRATE.get();
-    }
-
-    public static void validMainSignalBlock(NonNullSupplier<? extends Block> blockSupplier) {
-        // MAIN_SIGNAL_BUILDER.validBlock(blockSupplier);
-    }
-
-    public static void validCombinedSignalBlock(NonNullSupplier<? extends Block> blockSupplier) {
-        // COMBINED_SIGNAL_BUILDER.validBlock(blockSupplier);
-    }
-
     public static final BlockEntityEntry<BlockEntityRailroadCrossingController> BE_SE_RAILROAD_CROSSING_CONTROLLER =
             RegistrateHelper.simpleBlockEntity(
                     registrate(),
@@ -38,23 +26,32 @@ public final class CoreBlockEntities {
                     )
                     .renderer(() -> RendererATCController::new)
                     .register();
-
     public static final BlockEntityEntry<BlockEntityRepeaterCreateSignal> SIGNAL_REPEATER =
             RegistrateHelper.simpleBlockEntity(registrate(),
                     "repeater_signal", BlockEntityRepeaterCreateSignal::new, SignalCoreBlocks.REPEATER_SIGNAL
             ).register();
-
     public static final BlockEntityEntry<BlockEntitySignalSpeedModifier> MODIFIER_SPEED =
             RegistrateHelper.simpleBlockEntity(registrate(),
                     "modifier_speed", BlockEntitySignalSpeedModifier::new, SignalCoreBlocks.SPEED_MODIFIER
             ).register();
-
     public static BlockEntityEntry<BlockEntityTrainConfig> TRAIN_CONFIG = RegistrateHelper.simpleBlockEntity(
             registrate(),
             "be_trainconfig",
             BlockEntityTrainConfig::new,
             SignalCoreBlocks.BLOCK_TRAIN_CONFIG
     ).register();
+
+    private static Registrate registrate() {
+        return ExtendedSignalsCore.REGISTRATE.get();
+    }
+
+    public static void validMainSignalBlock(NonNullSupplier<? extends Block> blockSupplier) {
+        // MAIN_SIGNAL_BUILDER.validBlock(blockSupplier);
+    }
+
+    public static void validCombinedSignalBlock(NonNullSupplier<? extends Block> blockSupplier) {
+        // COMBINED_SIGNAL_BUILDER.validBlock(blockSupplier);
+    }
 
     // private static final BlockEntityBuilder<BlockEntityMainSignal, ?> MAIN_SIGNAL_BUILDER = registrate()
     //         .blockEntity("main_signal", BlockEntityMainSignal::new)

@@ -2,11 +2,15 @@ package venomized.mods.extendedsignals.core;
 
 
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
+import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.core.network.packets.SyncSignalStatesPacket;
 
@@ -27,5 +31,16 @@ public class EventHandler {
         );
 
         ExtendedSignalsNetworking.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), syncPacket);
+    }
+
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent e) {
+        if (e.getLevel().isClientSide())
+            return;
+
+        BlockEntity blockEntity = e.getLevel().getBlockEntity(e.getPos());
+        if (blockEntity instanceof CoreBlockEntity blockEntitySignal) {
+            blockEntitySignal.onBlockDestroyed(e.getPlayer());
+        }
     }
 }

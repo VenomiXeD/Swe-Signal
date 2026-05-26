@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.se.signalling;
 
 import lombok.RequiredArgsConstructor;
-import net.minecraftforge.api.distmarker.Dist;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
@@ -38,18 +37,6 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
     private final LightEntry l1;
     private final LightEntry l2;
 
-    /**
-     * @param totalTicksForBlockEntity
-     * @param states
-     */
-    @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-        l0.apply(totalTicksForBlockEntity, states[0]);
-        l1.apply(totalTicksForBlockEntity, states[1]);
-        if (states.length == 3 && states[2] != null)
-            l2.apply(totalTicksForBlockEntity, states[2]);
-    }
-
     public static DistantSignalAspect interpret(RawSignalState state) {
         RawSignalState distant = state.getNextState();
         if (!state.isReserved())
@@ -60,5 +47,17 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
 
         return distant.getMaxProceedSpeed() > 40 ? EXPECT_80 :
                 state.getDistanceToNextSignal() > 450 ? EXPECT_40 : EXPECT_40_SHORT;
+    }
+
+    /**
+     * @param totalTicksForBlockEntity
+     * @param states
+     */
+    @Override
+    public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
+        l0.apply(totalTicksForBlockEntity, states[0]);
+        l1.apply(totalTicksForBlockEntity, states[1]);
+        if (states.length == 3 && states[2] != null)
+            l2.apply(totalTicksForBlockEntity, states[2]);
     }
 }
