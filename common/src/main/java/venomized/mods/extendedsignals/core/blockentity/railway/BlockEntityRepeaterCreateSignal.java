@@ -45,17 +45,7 @@ public class BlockEntityRepeaterCreateSignal extends SmartBlockEntity implements
      * @return
      */
     @Override
-    public UUID id() {
-        return repeaterSignal.getEdgePoint().getId();
+    public TrackTargetingBehaviour<?> getTrackTargetingBehavior() {
+        return repeaterSignal;
     }
-
-    /**
-     * @return
-     */
-    @Override
-    public Direction.AxisDirection direction() {
-        return this.repeaterSignal.getTargetDirection();
-    }
-
-
 }

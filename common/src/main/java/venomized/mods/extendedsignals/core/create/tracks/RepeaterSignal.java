@@ -10,11 +10,20 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 
 public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBoundary<RepeaterSignal>, IRawSignalStateEvaluator {
     public static final EdgePointType<RepeaterSignal> REPEATER = EdgePointType.register(
             ExtendedSignalsCore.res("repeater"), RepeaterSignal::new
     );
+
+    /**
+     * @param front
+     * @param mapper
+     */
+    @Override
+    public void setMapper(boolean front, SignalStateRemapper mapper) {
+    }
 
     /**
      * @return

@@ -5,6 +5,7 @@ import com.simibubi.create.content.trains.graph.EdgePointType;
 import net.minecraft.nbt.CompoundTag;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 
 public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
     private final static String TAG_WRENCHED_NAME = "wrenched";
@@ -21,6 +22,15 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
     @Override
     public boolean canMerge() {
         return false;
+    }
+
+    /**
+     * @param front
+     * @param mapper
+     */
+    @Override
+    public void setMapper(boolean front, SignalStateRemapper mapper) {
+
     }
 
     /**

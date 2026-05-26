@@ -8,6 +8,7 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.se.signalling.CombinedSignalAspectCompositor;
 
 public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
     public BlockEntity5CombinedSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
@@ -20,6 +21,7 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
     @Override
     public SignalLightPlacement[] constructLightPlacements() {
         return new SignalLightPlacement[]{
+                new SignalLightPlacement(0, 47.75d / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
                 new SignalLightPlacement(0, 40.75d / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
                 new SignalLightPlacement(0, 33.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
                 new SignalLightPlacement(0, 26.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
@@ -33,8 +35,7 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
      */
     @Override
     public @NotNull ICombinedSignalAspect interpret(RawSignalState state) {
-        return (a, b) -> {
-        };
+        return CombinedSignalAspectCompositor.interpret(state);
     }
 
 }

@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 
 import java.util.Objects;
 
@@ -29,6 +30,8 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
     default SignalBoundaryConfiguration getNegativeSignalBoundaryConfiguration() {
         return new SignalBoundaryConfiguration();
     }
+
+    void setMapper(boolean front, SignalStateRemapper mapper);
 
     boolean skipChaining();
 
