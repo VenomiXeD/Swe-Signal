@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BlockEntityTrainConfig extends ExtendedSignalsCoreBlockEntity implements PartialSafeNBT, IInteractionChecker {
+public class BlockEntityTrainConfig extends CoreBlockEntity implements PartialSafeNBT, IInteractionChecker {
     public BlockEntityTrainConfig(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }

@@ -3,14 +3,14 @@ package venomized.mods.extendedsignals.de.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 import venomized.mods.extendedsignals.de.signalling.DistantSignalAspect;
 
-public class BlockEntityDistantSignal extends venomized.mods.extendedsignals.core.blockentity.BlockEntityDistantSignal {
+public class BlockEntityDistantSignal extends BlockEntitySignal<IDistantSignalAspect> {
     public BlockEntityDistantSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
@@ -20,7 +20,7 @@ public class BlockEntityDistantSignal extends venomized.mods.extendedsignals.cor
      * @return
      */
     @Override
-    public IDistantSignalAspect interpret(BlockEntitySignal<?> signalBlockEntity) {
+    public @NotNull IDistantSignalAspect interpret(BlockEntitySignal<?> signalBlockEntity) {
         RawSignalState distant = signalBlockEntity.currentSignalState().getNextState();
         if (distant == null || !distant.isReserved())
             return DistantSignalAspect.EXPECT_STOP;

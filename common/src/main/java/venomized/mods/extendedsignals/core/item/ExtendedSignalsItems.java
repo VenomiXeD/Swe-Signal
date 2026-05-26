@@ -10,7 +10,7 @@ import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 public class ExtendedSignalsItems {
     public static final ItemEntry<ItemSignalTuner> SIGNAL_TUNER =
             ExtendedSignalsCore.REGISTRATE.get().item("signalitem", ItemSignalTuner::new)
-                    .tab(ExtendedSignalsCore.SW_SIGNAL_TAB.getKey())
+                    .tab(ExtendedSignalsCore.CREATIVE_TAB.getKey())
                     .register();
 
     // public static final ItemEntry<ItemTest> ITEM_TEST = item(

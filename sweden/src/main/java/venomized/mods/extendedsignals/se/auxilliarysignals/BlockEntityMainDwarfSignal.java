@@ -3,9 +3,11 @@ package venomized.mods.extendedsignals.se.auxilliarysignals;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.IMainDwarfSignalAspect;
+import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 
 public class BlockEntityMainDwarfSignal extends BlockEntitySignal<IMainDwarfSignalAspect> {
     public BlockEntityMainDwarfSignal(BlockEntityType t, BlockPos pPos, BlockState pBlockState) {
@@ -13,11 +15,19 @@ public class BlockEntityMainDwarfSignal extends BlockEntitySignal<IMainDwarfSign
     }
 
     /**
-     * @param signalBlockEntity
+     * @param state
      * @return
      */
     @Override
-    public IMainDwarfSignalAspect interpret(@Nullable BlockEntitySignal<?> signalBlockEntity) {
+    public @NotNull IMainDwarfSignalAspect interpret(RawSignalState state) {
         return null;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public SignalLightPlacement[] constructLightPlacements() {
+        return new SignalLightPlacement[0];
     }
 }

@@ -11,8 +11,11 @@ import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 public class SignalRendererHelper {
     public static final int FULLBRIGHT = 0xFFFFFF;
 
-    public static ResourceLocation SIGNAL_LIGHT_TEX_LOC = ResourceLocation.fromNamespaceAndPath(ExtendedSignalsCore.MOD_ID,
-            "textures/block/light.png");
+    public static ResourceLocation SIGNAL_LIGHT_TEX_LOC =
+            ResourceLocation.fromNamespaceAndPath(
+                    ExtendedSignalsCore.MOD_ID,
+                    "textures/block/light.png"
+            );
 
     @SuppressWarnings("deprecation")
     public static void renderSignalLight(float partialTick, PoseStack poseStack, MultiBufferSource multiBufferSource) {

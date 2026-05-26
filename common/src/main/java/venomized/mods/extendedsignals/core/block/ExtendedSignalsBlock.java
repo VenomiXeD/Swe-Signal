@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.core.blockentity.ExtendedSignalsCoreBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
 
 public class ExtendedSignalsBlock extends Block {
 
@@ -43,7 +43,7 @@ public class ExtendedSignalsBlock extends Block {
         if (pPlacer == null)
             return;
 
-        if (pLevel.getBlockEntity(pPos) instanceof ExtendedSignalsCoreBlockEntity rotateableBlockEntity) {
+        if (pLevel.getBlockEntity(pPos) instanceof CoreBlockEntity rotateableBlockEntity) {
             rotateableBlockEntity.setYOrientation(
                     getSnappedRotation(pPos, pPlacer.position())
             );

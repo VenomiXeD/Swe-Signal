@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public abstract class BlockEntityRailroadCrossingObject extends ExtendedSignalsCoreBlockEntity implements ISignalTunerToolable {
+public abstract class BlockEntityRailroadCrossingObject extends CoreBlockEntity implements ISignalTunerToolable {
     @Nullable
     public BlockPos railroadCrossingControllerPos;
 

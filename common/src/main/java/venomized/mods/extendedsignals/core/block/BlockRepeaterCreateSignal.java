@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mods.extendedsignals.core.blockentity.BlockEntityRepeaterCreateSignal;
+import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityRepeaterCreateSignal;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 
 public class BlockRepeaterCreateSignal extends ExtendedSignalsBlock implements IBE {

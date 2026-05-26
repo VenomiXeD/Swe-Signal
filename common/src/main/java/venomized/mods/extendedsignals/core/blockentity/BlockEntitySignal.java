@@ -5,20 +5,17 @@ import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.ISignalInterpreter;
+import venomized.mods.extendedsignals.core.ISignalNetwork;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.block.BlockSignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
@@ -29,7 +26,7 @@ import venomized.mods.extendedsignals.core.util.NBTHelp;
 import java.util.Optional;
 import java.util.UUID;
 
-public abstract class BlockEntitySignal<T extends ISignalAspect> extends ExtendedSignalsCoreBlockEntity
+public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlockEntity
         implements ISignalTunerToolable, ISignalBlockEntity, ISignalInterpreter<T> {
     private static final String TAG_REFERENCED_SIGNAL_EDGE_UUID = "linked_signal_uuid";
     private static final String TAG_SIGNAL_DIRECTION = "signal_direction";
@@ -72,18 +69,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
     }
 
 
-    public SignalLightPlacement[] constructLightPlacements() {
-        if (!(this.getBlockState()
-                .getBlock() instanceof BlockSignal bs))
-            throw new UnsupportedOperationException(
-                    "Cannot construct signal placement since the underlying block is not a uniform light  BlockSignal; Requires overriding constructLightPlacements()");
-
-        return getSignalLightPlacements(
-                bs.lightXPosition(), bs.lightZPosition(), bs.lightXScale(), bs.lightYScale(), bs.lightZScale(),
-                bs.lightYPosition(), bs.lightSeparationDistance(),
-                bs.getSignalLightCount()
-        );
-    }
+    public abstract SignalLightPlacement[] constructLightPlacements();
 
     public static void commonTick(BlockEntitySignal<?> pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
         pBlockEntity.tick++;
@@ -145,7 +131,6 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
         if (sourceBlockEntity.isPresent()) {
             if (sourceBlockEntity.get() instanceof ISignalBoundaryReferenceProvider sb) {
                 bindToSignal(sb);
-                return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully bound to signal box"));
             }
         }
         return ISignalTunerToolable.super.sourceBindingToReader(sourceBlockEntity, mode);
@@ -158,17 +143,24 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
         ExtendedSignalsCore.LOGGER.info("Linked to boundary: {}", referencedSignalEdgeID);
         ExtendedSignalsCore.LOGGER.info("Axis direction: {}", signalDirection);
 
+        if (this.level == null)
+            return;
+
+        // If the linked signal has no entry yet, push a new empty dummy raw signal state
+        ISignalNetwork network = ExtendedSignalsCore.sidedNetwork(this.level);
+        if (network.signalStates().containsKey(referencedSignalEdgeID)) {
+            RawSignalState state = ExtendedSignalsCore.sidedNetwork(this.level).signalStates().get(referencedSignalEdgeID);
+            if (!state.isReserved())
+                network.updateState(this.referencedSignalEdgeID, new RawSignalState());
+
+        }
+
         this.updateSelf();
     }
 
     @Override
     public boolean isSource() {
         return false;
-    }
-
-    @Override
-    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     /**
@@ -178,7 +170,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
      * {@link handleUpdateTag}
      */
     @Override
-    public CompoundTag getUpdateTag() {
+    public @NotNull CompoundTag getUpdateTag() {
         CompoundTag syncTag = super.getUpdateTag();
         this.saveAdditional(syncTag);
         return syncTag;
@@ -224,5 +216,11 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends Extende
         super.deserializeNBT(nbt);
     }
 
-
+    /**
+     * @return
+     */
+    @Override
+    public AABB getRenderBoundingBox() {
+        return super.getRenderBoundingBox().inflate(5);
+    }
 }

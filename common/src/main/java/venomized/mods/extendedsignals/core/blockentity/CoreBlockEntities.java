@@ -6,6 +6,7 @@ import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.world.level.block.Block;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.block.SignalCoreBlocks;
+import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityRepeaterCreateSignal;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntitySignalSpeedModifier;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererATCController;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;

@@ -61,10 +61,9 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
 
         RawSignalState rawSignalState = signalBlockEntity.currentSignalState();
 
-
         SignalLightPlacement[] lights = signalBlockEntity.getLights();
         if (signalBlockEntity.getSignalDirection() == rawSignalState.getAxisDirection()) {
-            ISignalAspect aspect = signalBlockEntity.interpret(signalBlockEntity);
+            ISignalAspect aspect = signalBlockEntity.interpret(rawSignalState);
             aspect.applyAspect(signalBlockEntity.getLevel().getGameTime(), signalBlockEntity.getLightStates());
         }
 

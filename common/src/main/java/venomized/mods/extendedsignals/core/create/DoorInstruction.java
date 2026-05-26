@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.client.sound.train.ICarriageSounds;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
-import venomized.mods.extendedsignals.core.data.SwSignalLang;
+import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 
 import java.util.List;
 import java.util.Optional;
@@ -76,7 +76,7 @@ public class DoorInstruction extends ScheduleInstruction {
      */
     @Override
     public Pair<ItemStack, Component> getSummary() {
-        return Pair.of(AllBlocks.TRAIN_DOOR.asStack(), SwSignalLang.schedule("door", "summary", "Door Control"));
+        return Pair.of(AllBlocks.TRAIN_DOOR.asStack(), ExtendedSignalsLang.schedule("door", "summary", "Door Control"));
     }
 
     /**
@@ -93,6 +93,6 @@ public class DoorInstruction extends ScheduleInstruction {
      */
     @Override
     public List<Component> getTitleAs(String type) {
-        return List.of(SwSignalLang.schedule("door", "title", "Close door").copy().withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)));
+        return List.of(ExtendedSignalsLang.schedule("door", "title", "Close door").copy().withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)));
     }
 }

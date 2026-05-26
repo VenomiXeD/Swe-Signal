@@ -19,11 +19,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
-import venomized.mods.extendedsignals.core.data.SwSignalLang;
+import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 
 public class RegistrateHelper {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegistrateHelper.class);
+
     public static <T extends Block> BlockBuilder<T, Registrate> modelledBlock(Registrate registrateInstance, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
         return registrateInstance
                 .block(name, blockCreator)
@@ -73,81 +76,15 @@ public class RegistrateHelper {
                 .replaceAll("_post_(\\d+)_?", " (Post $1)")
                 .replace('_', ' ');
 
-        BlockBuilder<T, Registrate> block = registrateInstance
+        return registrateInstance
                 .block("%s.%s".formatted(nation, name), blockCreator)
-                .lang("(%s) %s".formatted(SwSignalLang.fromISO639_1(nation), properName))
+                .lang("(%s) %s".formatted(ExtendedSignalsLang.fromISO639_1(nation), properName))
                 .properties(prop -> BlockBehaviour.Properties.of()
                         .destroyTime(1f))
                 .blockstate(signalBlockStateModelProvider(assetType, nation, name))
                 .item()
                 .model(signalItemModelLocator(nation, name))
                 .build();
-
-        return block;
-
-    }
-
-    /**
-     * Creates and attaches a generic {@link venomized.mods.extendedsignals.core.blockentity.BlockEntityMainSignal} block entity
-     *
-     * @param registrateInstance
-     * @param assetType
-     * @param nation
-     * @param name
-     * @param blockCreator
-     * @param <T>
-     * @return
-     */
-    public static <T extends Block> BlockBuilder<T, Registrate> genericMainSignalBlock(Registrate registrateInstance, String assetType, String nation, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
-        String properName = name.replaceAll("(\\d+)l", "$1 Light")
-                .replaceAll("_post_(\\d+)_?", " (Post $1)")
-                .replace('_', ' ');
-
-        BlockBuilder<T, Registrate> block = registrateInstance
-                .block("%s.%s".formatted(nation, name), blockCreator)
-                .lang("(%s) %s".formatted(SwSignalLang.fromISO639_1(nation), properName))
-                .properties(prop -> BlockBehaviour.Properties.of()
-                        .destroyTime(1f))
-                .blockstate(signalBlockStateModelProvider(assetType, nation, name))
-                .item()
-                .model(signalItemModelLocator(nation, name))
-                .build();
-
-        CoreBlockEntities.validMainSignalBlock(block.asSupplier());
-
-        return block;
-
-    }
-
-    /**
-     * Creates and attaches a generic {@link venomized.mods.extendedsignals.core.blockentity.BlockEntityCombinedSignal} block entity
-     *
-     * @param registrateInstance
-     * @param assetType
-     * @param nation
-     * @param name
-     * @param blockCreator
-     * @param <T>
-     * @return
-     */
-    public static <T extends Block> BlockBuilder<T, Registrate> genericCombinedSignalBlock(Registrate registrateInstance, String assetType, String nation, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
-        String properName = name.replaceAll("(\\d+)l", "$1 Light")
-                .replaceAll("_post_(\\d+)_?", " (Post $1)")
-                .replace('_', ' ');
-
-        BlockBuilder<T, Registrate> block = registrateInstance
-                .block("%s.%s".formatted(nation, name), blockCreator)
-                .lang("(%s) %s".formatted(SwSignalLang.fromISO639_1(nation), properName))
-                .properties(prop -> BlockBehaviour.Properties.of()
-                        .destroyTime(1f))
-                .blockstate(signalBlockStateModelProvider(assetType, nation, name))
-                .item()
-                .model(signalItemModelLocator(nation, name))
-                .build();
-
-        CoreBlockEntities.validCombinedSignalBlock(block.asSupplier());
-
-        return block;
 
     }
 
@@ -180,15 +117,16 @@ public class RegistrateHelper {
                 // Custom definition already provided, skip
                 return;
             }
-            String path = "block/" + name.replace(".", "/");
+
+            // PLACEMENT: <root>/textures/item/signals/<nation>/<signalblockname>.png
+            String path = "item/signals/" + "%s/%s".formatted(nation, name);
             ResourceLocation loc = prov.modLoc(path);
-            if (prov.existingFileHelper.exists(loc, PackType.CLIENT_RESOURCES, ".json", "models")) {
-                prov.withExistingParent(name, loc)
-                        .transforms()
-                        .transform(ItemDisplayContext.FIXED)
-                        .rotation(0, 180, 0);
+            LOGGER.info("Looking for item texture: {}", loc);
+            if (prov.existingFileHelper.exists(loc, PackType.CLIENT_RESOURCES, ".png", "textures")) {
+                prov.handheld(ctx::get, loc);
                 return;
             }
+            LOGGER.info("Not found");
             prov.cubeAll(ctx.getName(), prov.mcLoc("block/iron_block"));
         };
     }

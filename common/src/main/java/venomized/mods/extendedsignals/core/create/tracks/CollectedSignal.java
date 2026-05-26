@@ -7,7 +7,7 @@ public record CollectedSignal(
         Direction.AxisDirection direction,
         double distance,
         double distanceFromPreviousSignal,
-        ISignalModifier[] signalModifiers
+        ISignalModifier[] signalModifierSnapshot
 ) {
 
 }

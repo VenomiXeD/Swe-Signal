@@ -3,13 +3,13 @@ package venomized.mods.extendedsignals.de.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.de.signalling.CombinedSignalAspectCompositor;
 
-public class BlockEntityCombinedSignal extends venomized.mods.extendedsignals.core.blockentity.BlockEntityCombinedSignal {
+public class BlockEntityCombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
     public BlockEntityCombinedSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
@@ -19,7 +19,7 @@ public class BlockEntityCombinedSignal extends venomized.mods.extendedsignals.co
      * @return
      */
     @Override
-    public ICombinedSignalAspect interpret(BlockEntitySignal<?> signalBlockEntity) {
+    public @NotNull ICombinedSignalAspect interpret(BlockEntitySignal<?> signalBlockEntity) {
         return new CombinedSignalAspectCompositor(signalBlockEntity.currentSignalState());
     }
 

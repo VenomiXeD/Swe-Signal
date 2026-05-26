@@ -3,10 +3,11 @@ package venomized.mods.extendedsignals.se.auxilliarysignals;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
+import venomized.mods.extendedsignals.core.signalling.RawSignalState;
 
 public class BlockEntityEndpointSignal extends BlockEntitySignal {
     public BlockEntityEndpointSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
@@ -14,12 +15,20 @@ public class BlockEntityEndpointSignal extends BlockEntitySignal {
     }
 
     /**
-     * @param rawState
-     * @param signalBlockEntity
      * @return
      */
     @Override
-    public ISignalAspect interpret(RawSignalState rawState, @Nullable BlockEntitySignal<?> signalBlockEntity) {
-        return null;
+    public SignalLightPlacement[] constructLightPlacements() {
+        return new SignalLightPlacement[0];
+    }
+
+    /**
+     * @param state
+     * @return
+     */
+    @Override
+    public @NotNull ISignalAspect interpret(RawSignalState state) {
+        return (a, b) -> {
+        };
     }
 }

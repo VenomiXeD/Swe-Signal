@@ -7,7 +7,7 @@ import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSi
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.auxilliarysignals.*;
-import venomized.mods.extendedsignals.se.block.ExtendedSignalsSwedenBlocks;
+import venomized.mods.extendedsignals.se.block.SwedenBlocks;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityThreeLightCrossingLights;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.*;
@@ -22,17 +22,16 @@ public final class SwedenBlockEntities {
     public static final BlockEntityEntry<BlockEntitySignalBox> SE_SIGNAL_BOX =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "se_signal_box", BlockEntitySignalBox::new,
-                            ExtendedSignalsSwedenBlocks.BLOCK_SIGNAL_BOX
+                            SwedenBlocks.BLOCK_SIGNAL_BOX
                     )
                     .renderer(() -> RendererGeneric::new)
                     .register();
 
     // == SIGNALS FROM 2-5 LIGHTS ==
-    public static final BlockEntityEntry<BlockEntityMainSignal> MAIN_SIGNAL =
+    public static final BlockEntityEntry<BlockEntity2MainSignal> MAIN_2_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
-                            registrate(), "main_signal", BlockEntityMainSignal::new,
-                            ExtendedSignalsSwedenBlocks.BLOCK_TWO_LIGHT_SIGNAL,
-                            ExtendedSignalsSwedenBlocks.BLOCK_THREE_LIGHT_SIGNAL
+                            registrate(), "2l_main_signal", BlockEntity2MainSignal::new,
+                            SwedenBlocks.BLOCK_TWO_LIGHT_SIGNAL
                     )
                     .renderer(() -> RendererSignal::new)
                     .register();
@@ -43,11 +42,10 @@ public final class SwedenBlockEntities {
     // //                 .renderer(() -> RendererSignal::new)
     // //                 .register();
     //
-    public static final BlockEntityEntry<BlockEntityCombinedSignal> COMBINED_SIGNAL =
+    public static final BlockEntityEntry<BlockEntity4CombinedSignal> COMBINED_4_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
-                            registrate(), "se_combined_signal", BlockEntityCombinedSignal::new,
-                            ExtendedSignalsSwedenBlocks.BLOCK_FOUR_LIGHT_SIGNAL,
-                            ExtendedSignalsSwedenBlocks.BLOCK_FIVE_LIGHT_SIGNAL
+                            registrate(), "4_combined_signal", BlockEntity4CombinedSignal::new,
+                            SwedenBlocks.BLOCK_FOUR_LIGHT_SIGNAL
                     )
                     .renderer(() -> RendererSignal::new)
                     .register();
@@ -60,7 +58,7 @@ public final class SwedenBlockEntities {
     public static final BlockEntityEntry<BlockEntityThreeLightDistantSignal> DISTANT_THREE_LIGHT =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "se_3l_distant_signal", BlockEntityThreeLightDistantSignal::new,
-                            ExtendedSignalsSwedenBlocks.BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL
+                            SwedenBlocks.BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL
                     )
                     .renderer(() -> RendererThreeLightDistantSignal::new)
                     .register();
@@ -68,7 +66,7 @@ public final class SwedenBlockEntities {
     public static final BlockEntityEntry<BlockEntityDwarfSignal> DWARF_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "se_dwarf_signal", BlockEntityDwarfSignal::new,
-                            ExtendedSignalsSwedenBlocks.BLOCK_MODERN_DWARF_SIGNAL
+                            SwedenBlocks.BLOCK_MODERN_DWARF_SIGNAL
                     )
                     .renderer(() -> RendererDwarfSignal::new)
                     .register();
@@ -76,14 +74,14 @@ public final class SwedenBlockEntities {
     public static final BlockEntityEntry<BlockEntityMainDwarfSignal> MAIN_DWARF_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "se_main_dwarf_signal", BlockEntityMainDwarfSignal::new,
-                            ExtendedSignalsSwedenBlocks.BLOCK_MODERN_MAIN_DWARF_SIGNAL
+                            SwedenBlocks.BLOCK_MODERN_MAIN_DWARF_SIGNAL
                     )
                     .renderer(() -> RendererMainDwarfSignal::new)
                     .register();
     public static final BlockEntityEntry<BlockEntityEndpointSignal> ENDPOINT_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "se_1l_endpoint_signal", BlockEntityEndpointSignal::new,
-                            ExtendedSignalsSwedenBlocks.BLOCK_ENDPOINT_SIGNAL
+                            SwedenBlocks.BLOCK_ENDPOINT_SIGNAL
                     )
                     .renderer(() -> RendererEndpointSignal::new)
                     .register();
@@ -96,14 +94,14 @@ public final class SwedenBlockEntities {
     public static final BlockEntityEntry<BlockEntityRailroadCrossingSignal> RAILROAD_CROSSING_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "se_railroad_crossing_signal", BlockEntityRailroadCrossingSignal::new,
-                            ExtendedSignalsSwedenBlocks.BLOCK_RAILROAD_CROSSING_SIGNAL
+                            SwedenBlocks.BLOCK_RAILROAD_CROSSING_SIGNAL
                     )
                     .renderer(() -> RendererRailroadCrossingSignal::new)
                     .register();
     public static final BlockEntityEntry<BlockEntityRailroadCrossingDistantSignal> RAILROAD_CROSSING_DISTANT_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "se_railroad_crossing_distant_signal", BlockEntityRailroadCrossingDistantSignal::new,
-                            ExtendedSignalsSwedenBlocks.BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL
+                            SwedenBlocks.BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL
                     )
                     .renderer(() -> RendererRailroadCrossingDistantSignal::new)
                     .register();
@@ -112,7 +110,7 @@ public final class SwedenBlockEntities {
     public static final BlockEntityEntry<BlockEntityCrossingGate> CROSSING_GATE =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "se_crossing_gate", BlockEntityCrossingGate::new,
-                            ExtendedSignalsSwedenBlocks.BLOCK_CROSSING_GATE
+                            SwedenBlocks.BLOCK_CROSSING_GATE
                     )
                     .renderer(() -> RendererCrossingGate::new)
                     .register();
@@ -120,7 +118,7 @@ public final class SwedenBlockEntities {
     public static BlockEntityEntry<BlockEntityThreeLightCrossingLights> THREE_LIGHT_CROSSING_LIGHT_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "se_3l_crossing_signal", BlockEntityThreeLightCrossingLights::new,
-                            ExtendedSignalsSwedenBlocks.BLOCK_THREE_LIGHT_CROSSING_SIGNAL
+                            SwedenBlocks.BLOCK_THREE_LIGHT_CROSSING_SIGNAL
                     )
                     .renderer(() -> RendererThreeLightCrossingLights::new)
                     .register();

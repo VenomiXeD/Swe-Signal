@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BlockEntityRailroadCrossingController extends ExtendedSignalsCoreBlockEntity implements ISignalTunerToolable {
+public class BlockEntityRailroadCrossingController extends CoreBlockEntity implements ISignalTunerToolable {
     private boolean powered;
 
     public BlockEntityRailroadCrossingController(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {

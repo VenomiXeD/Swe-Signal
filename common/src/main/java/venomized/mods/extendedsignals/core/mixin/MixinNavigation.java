@@ -177,7 +177,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
                 ).setNextState(upcomingSignalState).setAxisDirection(current.direction());
             }
 
-            for (ISignalModifier modifier : current.signalModifiers()) {
+            for (ISignalModifier modifier : current.signalModifierSnapshot()) {
                 modifier.applyModifier(currentSignalState);
             }
 

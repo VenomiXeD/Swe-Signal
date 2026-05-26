@@ -19,7 +19,7 @@ import venomized.mods.extendedsignals.core.util.BlockEntityReference;
 
 import java.util.Optional;
 
-public abstract class BlockEntityAbstractSignalBox extends ExtendedSignalsCoreBlockEntity implements ISignalTunerToolable {
+public abstract class BlockEntityAbstractSignalBox extends CoreBlockEntity implements ISignalTunerToolable {
     private static final String TAG_CREATE_SIGNAL_NBT_KEY = "linked_signal_group";
 
     private final BlockEntityReference<SignalBlockEntity> refCreateSignalBox = new BlockEntityReference<>(SignalBlockEntity.class, TAG_CREATE_SIGNAL_NBT_KEY);

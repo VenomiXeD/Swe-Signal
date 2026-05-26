@@ -21,30 +21,12 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
  * General purpose, generic signal block intended to cover most basic signals
  */
 public abstract class BlockSignal extends ExtendedSignalsBlock implements EntityBlock {
-    @Getter
-    private final int signalLightCount;
-
     /**
      * @param pProperties
      */
-    public BlockSignal(Properties pProperties, int signalLightCount) {
+    public BlockSignal(Properties pProperties) {
         super(pProperties);
-        this.signalLightCount = signalLightCount;
     }
-
-    public abstract double lightXPosition();
-
-    public abstract double lightYPosition();
-
-    public abstract double lightZPosition();
-
-    public abstract double lightSeparationDistance();
-
-    public abstract float lightXScale();
-
-    public abstract float lightYScale();
-
-    public abstract float lightZScale();
 
     /**
      * @param pLevel

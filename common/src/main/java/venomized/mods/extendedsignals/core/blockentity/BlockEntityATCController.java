@@ -31,6 +31,6 @@ public class BlockEntityATCController extends SmartBlockEntity implements Transf
      */
     @Override
     public void transform(BlockEntity blockEntity, StructureTransform structureTransform) {
-
+        atcControllerPoint.transform(blockEntity, structureTransform);
     }
 }
