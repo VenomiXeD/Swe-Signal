@@ -16,24 +16,26 @@ public class SwedenBlocks {
     public static final BlockEntry<BlockSignalBox> BLOCK_SIGNAL_BOX = RegistrateHelper.modelledBlock(registrate(), "signal.se.signal_box", BlockSignalBox::new)
             .register();
     // == SIGNALS FROM 2-5 LIGHTS ==
-    public static final BlockEntry<Block2SignalModern> BLOCK_TWO_LIGHT_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
+    public static final BlockEntry<Block2SignalModern> MAIN_2_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
                     registrate(), "signals", "se", "2l_signal_modern", Block2SignalModern::new
             )
             .register();
-    // public static final BlockEntry<BlockMainSignal> BLOCK_THREE_LIGHT_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
-    //                 registrate(), "signals", "se", "3l_signal_modern", (p) -> new BlockMainSignal(p, 3))
-    //         .register();
+    public static final BlockEntry<Block3SignalModern> MAIN_3_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
+                    registrate(), "signals", "se", "3l_signal_modern", Block3SignalModern::new)
+            .register();
 
-    public static final BlockEntry<Block4CombinedSignal> BLOCK_FOUR_LIGHT_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
+    public static final BlockEntry<Block4CombinedSignal> COMBINED_4_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
                     registrate(), "signals", "se", "4l_signal_modern",
                     Block4CombinedSignal::new
             )
             .register();
-    // public static final BlockEntry<Block4CombinedSignal> BLOCK_FIVE_LIGHT_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
-    //                 registrate(), "signals", "se", "5l_signal_modern",
-    //                 (p) -> new Block4CombinedSignal(p, 5)
-    //         )
-    //         .register();
+
+    public static final BlockEntry<Block5CombinedSignal> COMBINED_5_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
+                    registrate(), "signals", "se", "5l_signal_modern",
+                    Block5CombinedSignal::new
+            )
+            .register();
+
     // == DISTANT SIGNALS ==
     public static final BlockEntry<BlockModernThreeLightDistantSignal> BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
                     registrate(), "signals", "se", "3l_distant_signal_post_1970", BlockModernThreeLightDistantSignal::new)

@@ -7,7 +7,7 @@ public abstract class BlockGermanySignal extends BlockSignal {
      * @param pProperties
      * @param signalLightCount
      */
-    public BlockGermanySignal(Properties pProperties, int signalLightCount) {
-        super(pProperties, signalLightCount);
+    public BlockGermanySignal(Properties pProperties) {
+        super(pProperties);
     }
 }

@@ -12,68 +12,10 @@ import venomized.mods.extendedsignals.de.blockentity.GermanyBlockEntities;
 public class BlockCombinedSignal extends BlockGermanySignal implements IBE {
     /**
      * @param pProperties
-     * @param signalLightCount
      */
     public BlockCombinedSignal(Properties pProperties) {
-        super(pProperties, -1);
+        super(pProperties);
     }
-
-    /**
-     * @return
-     */
-    @Override
-    public double lightXPosition() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public double lightYPosition() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public double lightZPosition() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public double lightSeparationDistance() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public float lightXScale() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public float lightYScale() {
-        return 0;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public float lightZScale() {
-        return 0;
-    }
-
     /**
      * @return
      */
