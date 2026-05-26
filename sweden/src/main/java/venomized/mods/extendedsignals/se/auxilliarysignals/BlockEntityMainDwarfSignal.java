@@ -28,6 +28,14 @@ public class BlockEntityMainDwarfSignal extends BlockEntitySignal<IMainDwarfSign
      */
     @Override
     public SignalLightPlacement[] constructLightPlacements() {
-        return new SignalLightPlacement[0];
+        return new SignalLightPlacement[] {
+                new SignalLightPlacement(-0.411157d,1.36563d,-0.185d, 3.25f, 3.25f, 0f),
+                new SignalLightPlacement(0.16966d,1.20938d, -0.175d, 3.25f, 3.25f, 0f),
+                new SignalLightPlacement(-0.118182d, 1.08029d, -0.175d, 3.25f, 3.25f, 0f),
+                new SignalLightPlacement(0.18611,0.773161d, -0.175d, 3.25f, 3.25f, 0f),
+                new SignalLightPlacement(-0.186197d, 0.773161d, -0.175d, 3.25f, 3.25f, 0f),
+                new SignalLightPlacement(0.18611,0.466614d, -0.175d, 3.25f, 3.25f, 0f),
+                new SignalLightPlacement(-0.186197d, 0.466614d, -0.175d, 3.25f, 3.25f, 0f)
+        };
     }
 }

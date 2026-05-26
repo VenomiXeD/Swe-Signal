@@ -1,0 +1,15 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "loader": "forge:obj",
+  "flip_v": true,
+  "model": "extended_signals_se:models/block/signals/se/7l_dwarf_main_signal_modern.obj",
+  "textures": {
+    "dwarf_signal": "extended_signals_se:block/signals/se/dwarf_signal_modern"
+  }
+}

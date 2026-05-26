@@ -38,7 +38,7 @@ public class SwedenBlocks {
 
     // == DISTANT SIGNALS ==
     public static final BlockEntry<BlockModernThreeLightDistantSignal> BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
-                    registrate(), "signals", "se", "3l_distant_signal_post_1970", BlockModernThreeLightDistantSignal::new)
+                    registrate(), "signals", "se", "3l_distant_signal_modern", BlockModernThreeLightDistantSignal::new)
             .register();
     // == DWARF SIGNALS ==
     public static final BlockEntry<BlockModernDwarfSignal> BLOCK_MODERN_DWARF_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
@@ -50,7 +50,7 @@ public class SwedenBlocks {
                             registrate(),
                             "signals",
                             "se",
-                            "7l_dwarf_main_signal_post_1970",
+                            "7l_dwarf_main_signal_modern",
                             BlockModernMainDwarfSignal::new
                     )
                     .register();
