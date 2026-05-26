@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.block.ExtendedSignalsBlock;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 
-public class BlockModernDwarfSignal extends ExtendedSignalsBlock implements EntityBlock {
+public class BlockModernDwarfSignal extends BlockSwedenSignal implements EntityBlock {
     public BlockModernDwarfSignal(Properties properties) {
         super(properties);
     }

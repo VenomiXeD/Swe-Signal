@@ -29,6 +29,6 @@ public class BlockEntityDwarfSignal extends BlockEntitySignal<IDwarfSignalAspect
      */
     @Override
     public @NotNull IDwarfSignalAspect interpret(RawSignalState state) {
-        return null;
+        return (A,B) -> {};
     }
 }
