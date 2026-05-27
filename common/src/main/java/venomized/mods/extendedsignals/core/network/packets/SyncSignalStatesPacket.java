@@ -5,14 +5,14 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.ISignalNetwork;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public record SyncSignalStatesPacket(Map<UUID, RawSignalState> fullNetworkMapping) implements ISimplePacket {
+public record SyncSignalStatesPacket(Map<UUID, SignalStateNode> fullNetworkMapping) implements ISimplePacket {
     public static SyncSignalStatesPacket decode(FriendlyByteBuf buf) {
         return new SyncSignalStatesPacket(
                 ISignalNetwork.deserializeSignalStatesFromNBTList(

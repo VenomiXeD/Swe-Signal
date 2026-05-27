@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.LevelAccessor;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class SignalStateRemapper {
         return mapper;
     }
 
-    public static RawSignalState transform(ResourceLocation id, RawSignalState state) {
+    public static SignalStateNode transform(ResourceLocation id, SignalStateNode state) {
         if (mappers.containsKey(id))
             return mappers.get(id).remap(state);
 
@@ -33,7 +34,7 @@ public class SignalStateRemapper {
     }
 
 
-    public RawSignalState remap(RawSignalState old) {
+    public SignalStateNode remap(SignalStateNode old) {
         return old;
     }
 }

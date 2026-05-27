@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "extended_signals_se:item/signals/se/4l_dwarf_signal_modern"
+  }
+}

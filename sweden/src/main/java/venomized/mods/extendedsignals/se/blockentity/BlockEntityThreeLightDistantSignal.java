@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public class BlockEntityThreeLightDistantSignal extends BlockEntitySignal<ISignalAspect> {
     public BlockEntityThreeLightDistantSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
@@ -31,7 +31,7 @@ public class BlockEntityThreeLightDistantSignal extends BlockEntitySignal<ISigna
      * @return
      */
     @Override
-    public @NotNull ISignalAspect interpret(RawSignalState state) {
+    public @NotNull ISignalAspect interpret(SignalStateNode state) {
         return (a, b) -> {
         };
     }

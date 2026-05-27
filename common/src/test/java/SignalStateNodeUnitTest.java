@@ -2,43 +2,43 @@ import com.simibubi.create.content.trains.entity.TravellingPoint;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import org.junit.jupiter.api.Test;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RawSignalStateUnitTest {
+class SignalStateNodeUnitTest {
     @Test
     void toNBTAndFromNBTPreservesBasicValues() {
-        RawSignalState original = new RawSignalState()
+        SignalStateNode original = new SignalStateNode()
                 .setProceed(true)
                 .setMaxProceedSpeed(42.5)
                 .setDistanceToNextSignal(128.75)
-                .setAxisDirection(Direction.AxisDirection.POSITIVE)
+                .setAxisDirection(true)
                 .setUpcomingJunctionSteerDirection(TravellingPoint.SteerDirection.LEFT);
 
-        RawSignalState deserialized = RawSignalState.fromNBT(original.toNBT());
+        SignalStateNode deserialized = SignalStateNode.fromNBT(original.toNBT());
 
         assertEquals(original, deserialized);
     }
 
     @Test
     void toNBTAndFromNBTPreservesNestedNextState() {
-        RawSignalState nextState = new RawSignalState()
+        SignalStateNode nextState = new SignalStateNode()
                 .setProceed(false)
                 .setMaxProceedSpeed(12.0)
                 .setDistanceToNextSignal(64.0)
-                .setAxisDirection(Direction.AxisDirection.NEGATIVE)
+                .setAxisDirection(false)
                 .setUpcomingJunctionSteerDirection(TravellingPoint.SteerDirection.RIGHT);
 
-        RawSignalState original = new RawSignalState()
+        SignalStateNode original = new SignalStateNode()
                 .setProceed(true)
                 .setMaxProceedSpeed(30.0)
                 .setDistanceToNextSignal(100.0)
-                .setAxisDirection(Direction.AxisDirection.POSITIVE)
+                .setAxisDirection(true)
                 .setUpcomingJunctionSteerDirection(TravellingPoint.SteerDirection.LEFT)
                 .setNextState(nextState);
 
-        RawSignalState deserialized = RawSignalState.fromNBT(original.toNBT());
+        SignalStateNode deserialized = SignalStateNode.fromNBT(original.toNBT());
 
         assertEquals(original, deserialized);
         assertNotNull(deserialized.getNextState());
@@ -47,7 +47,7 @@ class RawSignalStateUnitTest {
 
     @Test
     void toNBTDoesNotWriteNullableFieldsWhenNull() {
-        RawSignalState state = new RawSignalState()
+        SignalStateNode state = new SignalStateNode()
                 .setProceed(true)
                 .setMaxProceedSpeed(20.0)
                 .setDistanceToNextSignal(50.0)
@@ -69,7 +69,7 @@ class RawSignalStateUnitTest {
         tag.putDouble("proceed_speed", 15.5);
         tag.putDouble("distance_next_signal", 80.0);
 
-        RawSignalState state = RawSignalState.fromNBT(tag);
+        SignalStateNode state = SignalStateNode.fromNBT(tag);
 
         assertTrue(state.isProceed());
         assertEquals(15.5, state.getMaxProceedSpeed());

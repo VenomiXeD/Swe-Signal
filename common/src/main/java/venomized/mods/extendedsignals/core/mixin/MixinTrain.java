@@ -4,11 +4,13 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
+import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.schedule.ScheduleRuntime;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -38,6 +40,8 @@ public abstract class MixinTrain implements ITrainDoorData {
     public ScheduleRuntime runtime;
     @Shadow
     public Navigation navigation;
+    @Shadow
+    public TrackGraph graph;
     @Unique
     private boolean extendedSignals$doorOpen = false;
 
@@ -45,22 +49,20 @@ public abstract class MixinTrain implements ITrainDoorData {
     public TravellingPoint.IEdgePointListener frontSignalListener(TravellingPoint.IEdgePointListener original) {
         return (distance, couple) -> {
             TrackEdgePoint trackEdgePoint = couple.getFirst();
+            boolean front = trackEdgePoint.isPrimary(couple.getSecond()
+                    .getSecond());// Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
+
+
             if (trackEdgePoint instanceof ATCController atcController) {
                 atcController.onATCAction(((Train) (Object) this));
+                return false;
             }
 
-
             if (trackEdgePoint instanceof IExtendedSignalBoundary<?> signalBoundary) {
-                boolean side = trackEdgePoint.isPrimary(couple.getSecond()
-                        .getSecond());// Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
-                extendedSignals$delayedOnCrossedTriggering
-                        .add(
-                                new DelayedSignalCrossTrigger(
-                                        20,
-                                        side ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
-                                        signalBoundary
-                                )
+                extendedSignals$delayedOnCrossedTriggering.add(
+                        new DelayedSignalCrossTrigger(TICKS_ON_CROSSED_TRIGGERING_DELAY, front, signalBoundary)
                         );
+
 
                 if (trackEdgePoint instanceof TrackEdgePointSignalModifier<?> modifier && navigation != null) {
                     if (modifier.isAligned(modifier.isPrimary(couple.getSecond().getSecond()))) {
@@ -86,7 +88,7 @@ public abstract class MixinTrain implements ITrainDoorData {
             DelayedSignalCrossTrigger delayedSignalCrossTrigger = it.next();
             if (delayedSignalCrossTrigger.getRemainingDelayTicks() <= 0) {
                 delayedSignalCrossTrigger.getSignalBoundary()
-                        .onSignalCrossed(delayedSignalCrossTrigger.getDirection(), (Train) (Object) this);
+                        .onSignalCrossed(delayedSignalCrossTrigger.isPrimary(), (Train) (Object) this);
                 it.remove();
                 continue;
             }
@@ -95,11 +97,6 @@ public abstract class MixinTrain implements ITrainDoorData {
                     delayedSignalCrossTrigger.getRemainingDelayTicks() - 1
             );
         }
-    }
-
-    @Inject(method = "occupy", at = @At("HEAD"))
-    private void onOccupy(UUID groupId, UUID boundaryId, CallbackInfoReturnable<Boolean> cir) {
-        // SignalNetwork.onSignalUpdate(groupId, boundaryId);
     }
 
     /**

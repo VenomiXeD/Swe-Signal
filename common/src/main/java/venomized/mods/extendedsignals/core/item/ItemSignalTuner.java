@@ -85,26 +85,26 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
      */
     @Override
     public InteractionResult useOn(UseOnContext pContext) {
-        if (pContext.getLevel().isClientSide()) {
-            return InteractionResult.sidedSuccess(pContext.getLevel().isClientSide());
+        final BlockEntity currentRightClickedBlockEntity = pContext.getLevel().getBlockEntity(pContext.getClickedPos());
+        if (!(currentRightClickedBlockEntity instanceof ISignalTunerToolable bindable)) {
+            return InteractionResult.PASS;
         }
 
         CompoundTag tag = pContext.getItemInHand().getOrCreateTag();
         ISignalTunerToolable.SignalTunerMode mode = NBTHelper.readEnum(tag, TAG_MODE_NAME, ISignalTunerToolable.SignalTunerMode.class);
 
-        InteractionResult result = InteractionResult.PASS;
+        InteractionResult result = bindable.onSignalToolInteract(mode, pContext);
+
+        if (pContext.getLevel().isClientSide()) {
+            return result;
+        }
+
         switch (mode) {
             case DISCONNECT_ALL:
                 break;
             case DISCONNECT:
                 break;
             case CONNECT:
-                final BlockEntity currentRightClickedBlockEntity = pContext.getLevel().getBlockEntity(pContext.getClickedPos());
-                if (!(currentRightClickedBlockEntity instanceof ISignalTunerToolable bindable)) {
-                    result = InteractionResult.FAIL;
-                    break;
-                }
-
                 if (!tag.contains(TAG_BLOCKENTITY_READER_NAME)) {
                     // Ensure that the reader block entity can only be a reader
                     if (!bindable.isReader()) {

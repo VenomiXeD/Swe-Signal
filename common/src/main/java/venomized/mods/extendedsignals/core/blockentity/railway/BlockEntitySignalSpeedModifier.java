@@ -31,6 +31,4 @@ public class BlockEntitySignalSpeedModifier extends SmartBlockEntity {
         edgePoint.getEdgePoint().onWrenched();
         return InteractionResult.SUCCESS;
     }
-
-
 }

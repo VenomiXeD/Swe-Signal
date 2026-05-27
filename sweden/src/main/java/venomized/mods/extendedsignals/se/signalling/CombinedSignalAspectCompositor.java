@@ -2,7 +2,7 @@ package venomized.mods.extendedsignals.se.signalling;
 
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.Arrays;
 
@@ -11,7 +11,7 @@ public record CombinedSignalAspectCompositor(
         DistantSignalAspect distant
 ) implements ICombinedSignalAspect {
 
-    public static CombinedSignalAspectCompositor interpret(RawSignalState state) {
+    public static CombinedSignalAspectCompositor interpret(SignalStateNode state) {
         return new CombinedSignalAspectCompositor(
                 MainSignalAspect.interpret(state),
                 DistantSignalAspect.interpret(state)

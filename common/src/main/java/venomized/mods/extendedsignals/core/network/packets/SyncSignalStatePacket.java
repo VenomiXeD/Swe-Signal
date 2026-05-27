@@ -4,16 +4,16 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public record SyncSignalStatePacket(UUID uuid, RawSignalState rawSignalState) implements ISimplePacket {
+public record SyncSignalStatePacket(UUID uuid, SignalStateNode signalStateNode) implements ISimplePacket {
     public static SyncSignalStatePacket decode(FriendlyByteBuf buf) {
         return new SyncSignalStatePacket(
                 buf.readUUID(),
-                RawSignalState.fromNBT(buf.readAnySizeNbt())
+                SignalStateNode.fromNBT(buf.readAnySizeNbt())
         );
     }
 
@@ -22,10 +22,9 @@ public record SyncSignalStatePacket(UUID uuid, RawSignalState rawSignalState) im
      */
     @Override
     public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
-        ExtendedSignalsCore.LOGGER
-                .info("new signal state update: {}, {}", uuid, NbtUtils.prettyPrint(this.rawSignalState().toNBT()));
-        ExtendedSignalsCore.clientNetworkCache()
-                .updateState(this.uuid, this.rawSignalState);
+        // ExtendedSignalsCore.LOGGER
+        //         .info("new signal state update: {}, {}", uuid, NbtUtils.prettyPrint(this.signalStateNode().toNBT()));
+        ExtendedSignalsCore.clientNetworkCache().updateState(this.uuid, this.signalStateNode);
         contextSupplier.get().setPacketHandled(true);
     }
 
@@ -35,6 +34,6 @@ public record SyncSignalStatePacket(UUID uuid, RawSignalState rawSignalState) im
     @Override
     public void encode(FriendlyByteBuf buf) {
         buf.writeUUID(this.uuid);
-        buf.writeNbt(this.rawSignalState.toNBT());
+        buf.writeNbt(this.signalStateNode.toNBT());
     }
 }

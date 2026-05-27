@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import venomized.mods.extendedsignals.core.block.SignalCoreBlocks;
@@ -47,6 +46,7 @@ public class ExtendedSignalsCore extends ModTemplate {
     @SuppressWarnings("InstantiationOfUtilityClass")
     static ServerSignalNetworkCache EXTENDED_SIGNAL_SERVER_CACHE;
     static ClientSignalNetworkCache EXTENDED_SIGNAL_CLIENT_CACHE;
+    public static ISignalNetwork EXTENDED_SIGNAL_CACHE_PROXY;
 
     public ExtendedSignalsCore(FMLJavaModLoadingContext context) {
         super(context);
@@ -125,6 +125,8 @@ public class ExtendedSignalsCore extends ModTemplate {
     @Override
     protected void clientInitialization() {
         EXTENDED_SIGNAL_CLIENT_CACHE = new ClientSignalNetworkCache();
+        EXTENDED_SIGNAL_CACHE_PROXY = EXTENDED_SIGNAL_CLIENT_CACHE;
+
         ExtendedSignalsCoreModels.init();
     }
 }

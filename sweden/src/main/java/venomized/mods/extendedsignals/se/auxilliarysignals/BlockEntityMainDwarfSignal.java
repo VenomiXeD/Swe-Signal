@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.IMainDwarfSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public class BlockEntityMainDwarfSignal extends BlockEntitySignal<IMainDwarfSignalAspect> {
     public BlockEntityMainDwarfSignal(BlockEntityType t, BlockPos pPos, BlockState pBlockState) {
@@ -19,7 +19,7 @@ public class BlockEntityMainDwarfSignal extends BlockEntitySignal<IMainDwarfSign
      * @return
      */
     @Override
-    public @NotNull IMainDwarfSignalAspect interpret(RawSignalState state) {
+    public @NotNull IMainDwarfSignalAspect interpret(SignalStateNode state) {
         return (A, B) -> {
         };
     }

@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.de.signalling.CombinedSignalAspectCompositor;
 
 public class BlockEntityCombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
@@ -46,7 +46,7 @@ public class BlockEntityCombinedSignal extends BlockEntitySignal<ICombinedSignal
      * @return
      */
     @Override
-    public @NotNull ICombinedSignalAspect interpret(RawSignalState state) {
+    public @NotNull ICombinedSignalAspect interpret(SignalStateNode state) {
         return new CombinedSignalAspectCompositor(state);
     }
 }

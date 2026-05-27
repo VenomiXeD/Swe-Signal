@@ -1,11 +1,14 @@
 package venomized.mods.extendedsignals.core.create.tracks;
 
+import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.graph.EdgePointType;
 import net.minecraft.nbt.CompoundTag;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
+
+import java.util.UUID;
 
 public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
     public static final EdgePointType<SpeedModifier> SPEED_MODIFIER = EdgePointType.register(
@@ -35,8 +38,16 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
      * @return
      */
     @Override
-    public boolean skipChaining() {
+    public boolean doSkipChaining(boolean front, Train train) {
         return false;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public UUID boundaryId() {
+        return null;
     }
 
     /**
@@ -44,7 +55,7 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
      * @return
      */
     @Override
-    public void applyModifier(RawSignalState stateToBeModified) {
+    public void applyModifier(SignalStateNode stateToBeModified) {
         stateToBeModified.setMaxProceedSpeed(40);
     }
 

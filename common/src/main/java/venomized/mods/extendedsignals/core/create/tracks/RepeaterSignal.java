@@ -8,8 +8,10 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
+
+import java.util.UUID;
 
 public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBoundary<RepeaterSignal>, IRawSignalStateEvaluator {
     public static final EdgePointType<RepeaterSignal> REPEATER = EdgePointType.register(
@@ -28,21 +30,27 @@ public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBou
      * @return
      */
     @Override
-    public boolean skipChaining() {
+    public boolean doSkipChaining(boolean front, Train train) {
         return true;
     }
 
     /**
-     * @param axisDirection
+     * @return
+     */
+    @Override
+    public UUID boundaryId() {
+        return null;
+    }
+
+    /**
      * @param upcomingSignal
      * @param train
      * @return
      */
     @Override
-    public RawSignalState computeRawSignalState(boolean primary, @Nullable RawSignalState upcomingSignal, Train train) {
-        return new RawSignalState()
-                .setNextState(upcomingSignal)
-                .setReserved(true);
+    public SignalStateNode computeRawSignalState(boolean primary, @Nullable SignalStateNode upcomingSignal, Train train) {
+        return new SignalStateNode()
+                .setProceed(true);
     }
 
     /**

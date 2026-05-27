@@ -1,3 +1,5 @@
+import java.time.Instant
+
 plugins {
     id 'base'
 }
@@ -25,7 +27,7 @@ subprojects {
         // A missing property will result in an error. Properties are expanded using ${} Groovy notation.
         // When "copyIdeResources" is enabled, this will also run before the game launches in IDE environments.
         // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
-        tasks.named('processResources', ProcessResources).configure {
+        tasks.named("processResources", ProcessResources).configure {
             var replaceProperties = [
                     minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
                     forge_version       : forge_version, forge_version_range: forge_version_range,
@@ -40,6 +42,7 @@ subprojects {
             }
         }
 
+
         sourceSets {
             main {
                 resources {
@@ -51,5 +54,32 @@ subprojects {
         tasks.withType(ProcessResources).configureEach {
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }
+
+
     }
+
+    tasks.matching { it.name.contains("jarJar") }.configureEach {
+        version += "-git-" + 'git rev-parse --short HEAD'.execute().text.trim() +
+                "-t" + Instant.now().toString().replace(':', '-')
+
+        archiveBaseName = "extended-signals-${project.name}"
+    }
+}
+
+tasks.register("copyAllJars", Copy) {
+    dependsOn subprojects.collect { sub ->
+        sub.tasks.matching { task ->
+            task.name.toLowerCase().contains("jarjar")
+        }
+    }
+
+    from(subprojects.collect { it.layout.buildDirectory.dir("libs") }) {
+        include "*-all.jar"
+    }
+
+    into layout.projectDirectory.dir("output")
+}
+
+tasks.named("build") {
+    finalizedBy("copyAllJars")
 }

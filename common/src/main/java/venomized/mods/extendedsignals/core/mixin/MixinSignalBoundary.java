@@ -6,6 +6,7 @@ import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import net.createmod.catnip.data.Couple;
+import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +21,7 @@ import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary
 import venomized.mods.extendedsignals.core.create.tracks.IRawSignalStateEvaluator;
 import venomized.mods.extendedsignals.core.create.tracks.SignalBoundaryConfiguration;
 import venomized.mods.extendedsignals.core.signalling.ISignalStateBoundaryTransformer;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 
 import java.util.Objects;
@@ -28,20 +29,27 @@ import java.util.UUID;
 
 @Mixin(value = SignalBoundary.class, remap = false)
 public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExtendedSignalBoundary<SignalBoundary>, IRawSignalStateEvaluator, ISignalStateBoundaryTransformer {
+    private static final String TAG_MAPPER_NAME = "mapper";
+    private static final String TAG_SKIP_CHAIN_CONFIG_NAME = "chaining";
+
     @Shadow
     public Couple<SignalBlockEntity.SignalState> cachedStates;
 
     @Shadow
     public Couple<UUID> groups;
+    @Unique
+    private Couple<ResourceLocation> extendedSignals$stateRemapperIDs;
+    @Unique
+    private Couple<Boolean> extendedSignals$skipChainingConfiguration;
 
     @Shadow
     public abstract void invalidate(LevelAccessor level);
 
-    @Unique
-    public Couple<ResourceLocation> extendedSignals$stateRemapperIDs = Couple.create(
-            SignalStateRemapper.NONE.getId(),
-            SignalStateRemapper.NONE.getId()
-    );
+    @Inject(method = "<init>", at = @At("RETURN"))
+    private void extendedSignals$Ctor(CallbackInfo ci) {
+        extendedSignals$skipChainingConfiguration = Couple.create(false, false);
+        extendedSignals$stateRemapperIDs = Couple.create(SignalStateRemapper.NONE.getId(), SignalStateRemapper.NONE.getId());
+    }
 
     /**
      * @return
@@ -64,12 +72,12 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
      * @return
      */
     @Override
-    public RawSignalState computeRawSignalState(boolean primary, RawSignalState upcomingSignal, Train train) {
+    public SignalStateNode computeRawSignalState(boolean primary, SignalStateNode upcomingSignal, Train train) {
         boolean isRed = this.cachedStates.get(primary) == SignalBlockEntity.SignalState.RED;
         if (isRed && !train.reservedSignalBlocks.contains(this.groups.get(primary)))
-            return new RawSignalState().setReserved(false);
+            return new SignalStateNode().setReserved(false);
 
-        RawSignalState state = new RawSignalState()
+        SignalStateNode state = new SignalStateNode()
                 .setProceed(true)
                 .setReserved(true);
 
@@ -86,9 +94,9 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
     }
 
     @Override
-    public RawSignalState transformSignalState(boolean front, RawSignalState state) {
+    public SignalStateNode transformSignalState(boolean front, SignalStateNode state) {
         ResourceLocation mapperId = extendedSignals$stateRemapperIDs.get(front);
-        return SignalStateRemapper.getMappers().get(mapperId).remap(state);
+        return SignalStateRemapper.getMappers().getOrDefault(mapperId, SignalStateRemapper.NONE).remap(state);
     }
 
     @Inject(method = "read(Lnet/minecraft/nbt/CompoundTag;ZLcom/simibubi/create/content/trains/graph/DimensionPalette;)V",
@@ -99,21 +107,57 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
             )
     )
     public void extendedSignals$read(CompoundTag nbt, boolean migration, DimensionPalette dimensions, CallbackInfo ci) {
-        extendedSignals$stateRemapperIDs.setFirst(NBTHelper.readResourceLocation(nbt, "mapper0"));
-        extendedSignals$stateRemapperIDs.setSecond(NBTHelper.readResourceLocation(nbt, "mapper1"));
+        extendedSignals$stateRemapperIDs.setFirst(NBTHelper.readResourceLocation(nbt, TAG_MAPPER_NAME + "0"));
+        extendedSignals$stateRemapperIDs.setSecond(NBTHelper.readResourceLocation(nbt, TAG_MAPPER_NAME + "1"));
+        for (boolean side : Iterate.trueAndFalse) {
+            extendedSignals$skipChainingConfiguration.set(
+                    side, nbt.getBoolean(TAG_SKIP_CHAIN_CONFIG_NAME + (side ? "0" : "1"))
+            );
+        }
     }
 
 
     @Inject(method = "write(Lnet/minecraft/nbt/CompoundTag;Lcom/simibubi/create/content/trains/graph/DimensionPalette;)V", at = @At("HEAD"))
     public void write(CompoundTag nbt, DimensionPalette dimensions, CallbackInfo ci) {
-        NBTHelper.writeResourceLocation(nbt, "mapper0", extendedSignals$stateRemapperIDs.getFirst());
-        NBTHelper.writeResourceLocation(nbt, "mapper1", extendedSignals$stateRemapperIDs.getSecond());
+        NBTHelper.writeResourceLocation(nbt, TAG_MAPPER_NAME + "0", extendedSignals$stateRemapperIDs.get(false));
+        NBTHelper.writeResourceLocation(nbt, TAG_MAPPER_NAME + "1", extendedSignals$stateRemapperIDs.get(true));
+
+        for (boolean side : Iterate.trueAndFalse) {
+            nbt.putBoolean(TAG_SKIP_CHAIN_CONFIG_NAME + (side ? "0" : "1"), extendedSignals$skipChainingConfiguration.get(side));
+        }
     }
+
     /**
      * @return
      */
     @Override
-    public boolean skipChaining() {
-        return false;
+    public boolean doSkipChaining(boolean front, Train train) {
+        return extendedSignals$skipChainingConfiguration.get(front);
+    }
+
+    /**
+     * @param front
+     * @param skipChaining
+     */
+    @Override
+    public void setChainingSkipped(boolean front, boolean skipChaining) {
+        extendedSignals$skipChainingConfiguration.set(front, skipChaining);
+    }
+
+    /**
+     * @param front
+     * @return
+     */
+    @Override
+    public boolean getChainingSkipped(boolean front) {
+        return extendedSignals$skipChainingConfiguration.get(front);
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public UUID boundaryId() {
+        return this.getId();
     }
 }

@@ -10,6 +10,6 @@ import net.minecraft.core.Direction;
 @Setter
 public final class DelayedSignalCrossTrigger {
     int remainingDelayTicks;
-    Direction.AxisDirection direction;
+    boolean primary;
     IExtendedSignalBoundary<?> signalBoundary;
 }

@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraftforge.common.extensions.IForgeBlockEntity;
 
 import java.util.Optional;
@@ -36,6 +37,10 @@ public interface ISignalTunerToolable extends IForgeBlockEntity {
      */
     default Pair<InteractionResult, ? extends Component> readerBindingToSource(Optional<ISignalTunerToolable> targetBlockEntity, SignalTunerMode mode) {
         return Pair.of(InteractionResult.CONSUME, Component.empty());
+    }
+
+    default InteractionResult onSignalToolInteract(SignalTunerMode mode, UseOnContext context) {
+        return InteractionResult.PASS;
     }
 
     enum SignalTunerMode {

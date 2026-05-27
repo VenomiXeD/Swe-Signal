@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.core.Direction;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,7 +14,7 @@ import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererSignal<T extends BlockEntitySignal<?>>
@@ -64,23 +65,19 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
         if (!signalBlockEntity.valid()) {
             if (signalBlockEntity.getLevel().getGameTime() % 20 == 0) {
                 for (SignalLightState lightState : signalBlockEntity.getLightStates()) {
-                    lightState.setColorDirect(
-                            1, 0, 0
-                    );
+                    lightState.setColorDirect(1, 0, 0);
                 }
             } else {
                 for (SignalLightState lightState : signalBlockEntity.getLightStates()) {
-                    lightState.setColorDirect(
-                            0, 0, 0
-                    );
+                    lightState.setColorDirect(0, 0, 0);
                 }
             }
         } else {
-            RawSignalState rawSignalState = signalBlockEntity.currentSignalState();
+            SignalStateNode signalStateNode = signalBlockEntity.currentSignalState();
 
 
-            if (signalBlockEntity.getSignalDirection() == rawSignalState.getAxisDirection()) {
-                ISignalAspect aspect = signalBlockEntity.interpret(rawSignalState);
+            if (signalBlockEntity.getFront() == signalStateNode.getAxisDirection()) {
+                ISignalAspect aspect = signalBlockEntity.interpret(signalStateNode);
                 aspect.applyAspect(signalBlockEntity.getLevel().getGameTime(), signalBlockEntity.getLightStates());
             }
         }

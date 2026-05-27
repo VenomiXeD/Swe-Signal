@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "extended_signals_se:item/signals/se/1l_endpoint_signal_modern"
+  }
+}

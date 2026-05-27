@@ -3,7 +3,7 @@ package venomized.mods.extendedsignals.se.signalling;
 import lombok.RequiredArgsConstructor;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 @RequiredArgsConstructor
 public enum MainSignalAspect implements IMainSignalAspect {
@@ -26,7 +26,7 @@ public enum MainSignalAspect implements IMainSignalAspect {
     private final RGB l1;
     private final RGB l2;
 
-    public static MainSignalAspect interpret(RawSignalState state) {
+    public static MainSignalAspect interpret(SignalStateNode state) {
         if (!state.isProceed())
             return MainSignalAspect.STOP;
 

@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.de.signalling.DistantSignalAspect;
 
 public class BlockEntityDistantSignal extends BlockEntitySignal<IDistantSignalAspect> {
@@ -19,9 +19,9 @@ public class BlockEntityDistantSignal extends BlockEntitySignal<IDistantSignalAs
      * @return
      */
     @Override
-    public @NotNull IDistantSignalAspect interpret(RawSignalState state) {
-        RawSignalState distant = state.getNextState();
-        if (distant == null || !distant.isReserved())
+    public @NotNull IDistantSignalAspect interpret(SignalStateNode state) {
+        SignalStateNode distant = state.getNextState();
+        if (distant == null || distant.isStop())
             return DistantSignalAspect.EXPECT_STOP;
 
         return DistantSignalAspect.interpret(state);

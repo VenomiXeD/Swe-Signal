@@ -1,14 +1,22 @@
 package venomized.mods.extendedsignals.se.blockentity;
 
+import net.createmod.catnip.nbt.NBTHelper;
+import net.minecraft.CrashReport;
 import net.minecraft.core.BlockPos;
+import net.minecraft.data.Main;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.core.util.NBTHelp;
 import venomized.mods.extendedsignals.se.signalling.CombinedSignalAspectCompositor;
+import venomized.mods.extendedsignals.se.signalling.DistantSignalAspect;
+import venomized.mods.extendedsignals.se.signalling.MainSignalAspect;
 
 public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
     public BlockEntity5CombinedSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
@@ -34,8 +42,92 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
      * @return
      */
     @Override
-    public @NotNull ICombinedSignalAspect interpret(RawSignalState state) {
-        return CombinedSignalAspectCompositor.interpret(state);
+    public @NotNull ICombinedSignalAspect interpret(final SignalStateNode state) {
+        return (ticks, lights) -> {
+            final boolean blink = ticks % 20 > 10;
+            SignalStateNode distant = state.getNextState();
+
+            if (state.isStop()) {
+                ISignalAspect.RGB.BLACK.apply(lights[0]);
+                ISignalAspect.RGB.RED.apply(lights[1]);
+                ISignalAspect.RGB.BLACK.apply(lights[2]);
+                ISignalAspect.RGB.BLACK.apply(lights[3]);
+                ISignalAspect.RGB.BLACK.apply(lights[4]);
+
+                return;
+            }
+
+            if (distant == null) {
+                ISignalAspect.RGB.GREEN.apply(lights[0]);
+                if (state.getMaxProceedSpeed() >= 80) {
+                    // PROCEED 80
+                    ISignalAspect.RGB.BLACK.apply(lights[1]);
+                    ISignalAspect.RGB.BLACK.apply(lights[2]);
+                    ISignalAspect.RGB.BLACK.apply(lights[3]);
+                    ISignalAspect.RGB.BLACK.apply(lights[4]);
+                } else {
+                    // PROCEED 40
+                    ISignalAspect.RGB.BLACK.apply(lights[1]);
+                    ISignalAspect.RGB.GREEN.apply(lights[2]);
+                    ISignalAspect.RGB.BLACK.apply(lights[3]);
+                    ISignalAspect.RGB.BLACK.apply(lights[4]);
+                }
+
+                return;
+            }
+
+            if (distant.isStop()) {
+                if (state.getMaxProceedSpeed() < 80) {
+                    if (state.getDistanceToNextSignal() <= 450) {
+                        // PROCEED 40, SHORT ROUTE
+                        ISignalAspect.RGB.GREEN.apply(lights[1]);
+                        ISignalAspect.RGB.BLACK.apply(lights[1]);
+                        ISignalAspect.RGB.GREEN.apply(lights[2]);
+                        ISignalAspect.RGB.BLACK.apply(lights[3]);
+                        ISignalAspect.RGB.GREEN.apply(lights[4]);
+
+                        return;
+                    } else {
+                        //
+                        ISignalAspect.RGB.GREEN.apply(lights[1]);
+                        ISignalAspect.RGB.BLACK.apply(lights[1]);
+                        ISignalAspect.RGB.GREEN.apply(lights[2]);
+                        ISignalAspect.RGB.BLACK.apply(lights[3]);
+                        ISignalAspect.RGB.BLACK.apply(lights[4]);
+
+                        return;
+                    }
+
+                } else {
+                    // PROCEED 80, EXPECT STOP
+                    ISignalAspect.RGB.GREEN.apply(lights[0]);
+                    ISignalAspect.RGB.BLACK.apply(lights[1]);
+                    (blink ? ISignalAspect.RGB.BLACK : ISignalAspect.RGB.GREEN).apply(lights[2]);
+                    ISignalAspect.RGB.BLACK.apply(lights[3]);
+                    ISignalAspect.RGB.BLACK.apply(lights[4]);
+
+                    return;
+                }
+            }
+
+            if (state.getMaxProceedSpeed() >= 80 && distant.getMaxProceedSpeed() >= 80) {
+                // PROCEED 80, EXPECT PROCEED 80
+                ISignalAspect.RGB.GREEN.apply(lights[0]);
+                ISignalAspect.RGB.BLACK.apply(lights[1]);
+                ISignalAspect.RGB.BLACK.apply(lights[2]);
+                (blink ? ISignalAspect.RGB.BLACK : ISignalAspect.RGB.WHITE).apply(lights[3]);
+                ISignalAspect.RGB.BLACK.apply(lights[4]);
+
+                return;
+            }
+
+            ISignalAspect.RGB.GREEN.apply(lights[2]);
+            ISignalAspect.RGB.BLACK.apply(lights[1]);
+            ISignalAspect.RGB.GREEN.apply(lights[2]);
+            ISignalAspect.RGB.BLACK.apply(lights[3]);
+            ISignalAspect.RGB.BLACK.apply(lights[4]);
+            //throw new UnsupportedOperationException("An invalid state has been provided and this part should not be reached, report to developers\nState: " + NbtUtils.prettyPrint(state.toNBT()));
+        };
     }
 
 }

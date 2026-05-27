@@ -6,16 +6,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.blockentity.ISignalBoundaryReferenceProvider;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
-import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
-import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
+import venomized.mods.extendedsignals.core.signalling.*;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 
 public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
@@ -36,7 +35,6 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
             boundary.setMapper(referenceProvider.getTrackTargetingBehavior().getTargetDirection() == Direction.AxisDirection.POSITIVE,
                     COMBINED_4_SIGNAL_MAPPER
             );
-            point.invalidate(getLevel());
         }
     }
 
@@ -58,9 +56,9 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
      * @return
      */
     @Override
-    public @NotNull ICombinedSignalAspect interpret(RawSignalState state) {
+    public @NotNull ICombinedSignalAspect interpret(SignalStateNode state) {
         return (ticks, lights) -> {
-            if (!state.isProceed()) {
+            if (state.isStop()) {
                 ISignalAspect.RGB.BLACK.apply(lights[0]);
                 ISignalAspect.RGB.RED.apply(lights[1]);
                 ISignalAspect.RGB.BLACK.apply(lights[2]);
@@ -78,12 +76,12 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
                 ISignalAspect.RGB.GREEN.apply(lights[2]);
             }
 
-            RawSignalState distant = state.getNextState();
+            SignalStateNode distant = state.getNextState();
             boolean blink = ticks % 20 > 10;
             if (distant == null)
                 return;
 
-            if (!distant.isProceed()) {
+            if (distant.isStop()) {
                 (blink ? ISignalAspect.RGB.BLACK : ISignalAspect.RGB.GREEN).apply(lights[2]);
                 return;
             }
@@ -105,9 +103,9 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
         }
 
         @Override
-        public RawSignalState remap(RawSignalState old) {
+        public SignalStateNode remap(SignalStateNode old) {
             // Since a 4 light signal cannot display expect proceed 40, we'll remap it to proceed 40
-            RawSignalState distant = old.getNextState();
+            SignalStateNode distant = old.getNextState();
             if (distant == null)
                 return old;
 

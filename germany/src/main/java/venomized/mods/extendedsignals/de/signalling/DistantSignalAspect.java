@@ -2,7 +2,7 @@ package venomized.mods.extendedsignals.de.signalling;
 
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public enum DistantSignalAspect implements IDistantSignalAspect {
     OFF(
@@ -46,12 +46,12 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
         this.off = off;
     }
 
-    public static DistantSignalAspect interpret(RawSignalState state) {
-        RawSignalState distant = state.getNextState();
+    public static DistantSignalAspect interpret(SignalStateNode state) {
+        SignalStateNode distant = state.getNextState();
         if (distant == null || !state.isReserved())
             return DistantSignalAspect.OFF;
 
-        return distant.isProceed()
+        return !distant.isStop()
                 ? distant.getMaxProceedSpeed() <= 40
                   ? DistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED : DistantSignalAspect.EXPECT_PROCEED
                 : DistantSignalAspect.EXPECT_STOP;

@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "${mod_group_id}.se"
-version = '1.0.0'
+version = '1.0.1'
 
 minecraft {
     mappings channel: mapping_channel, version: mapping_version

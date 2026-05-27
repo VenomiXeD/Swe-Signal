@@ -3,7 +3,7 @@ package venomized.mods.extendedsignals.se.signalling;
 import lombok.RequiredArgsConstructor;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 @RequiredArgsConstructor
 public enum DistantSignalAspect implements IDistantSignalAspect {
@@ -37,11 +37,9 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
     private final LightEntry l1;
     private final LightEntry l2;
 
-    public static DistantSignalAspect interpret(RawSignalState state) {
-        RawSignalState distant = state.getNextState();
-        if (!state.isReserved())
-            return DistantSignalAspect.NONE;
-        if (distant == null || !distant.isProceed()) {
+    public static DistantSignalAspect interpret(SignalStateNode state) {
+        SignalStateNode distant = state.getNextState();
+        if (distant == null || distant.isStop()) {
             return DistantSignalAspect.EXPECT_STOP;
         }
 

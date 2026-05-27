@@ -27,7 +27,7 @@ plugins {
 }
 
 group = "${mod_group_id}.core"
-version = '1.0.0'
+version = '1.0.2'
 
 repositories {
     mavenCentral()
@@ -174,10 +174,6 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
     // implementation fg.deobf("curse.maven:oculus-581495:6020952")
-}
-
-jar {
-    archiveBaseName = "${mod_id}"
 }
 
 mixin {

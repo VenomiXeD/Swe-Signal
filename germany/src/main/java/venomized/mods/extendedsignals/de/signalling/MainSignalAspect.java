@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 @RequiredArgsConstructor
 public enum MainSignalAspect implements IMainSignalAspect {
@@ -46,7 +46,7 @@ public enum MainSignalAspect implements IMainSignalAspect {
         colors = new RGB[]{top, topleft, topright, rightshunt, leftshunt, bottom};
     }
 
-    public static MainSignalAspect interpret(RawSignalState state) {
+    public static MainSignalAspect interpret(SignalStateNode state) {
         return state.isProceed()
                 ? state.getMaxProceedSpeed() > 40
                   ? MainSignalAspect.PROCEED

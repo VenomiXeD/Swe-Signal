@@ -1,14 +1,14 @@
 package venomized.mods.extendedsignals.core.create.tracks;
 
 import com.simibubi.create.content.trains.entity.Train;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import javax.annotation.Nullable;
 
 public interface IRawSignalStateEvaluator {
-    RawSignalState computeRawSignalState(
+    SignalStateNode computeRawSignalState(
             boolean primary,
-            @Nullable RawSignalState upcomingSignal,
+            @Nullable SignalStateNode upcomingSignal,
             Train train
     );
 }

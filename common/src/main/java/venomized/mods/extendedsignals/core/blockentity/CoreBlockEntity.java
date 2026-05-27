@@ -20,7 +20,8 @@ public abstract class CoreBlockEntity extends BlockEntity implements IOrientedBl
 
     public void updateSelf() {
         this.setChanged();
-        this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
+        this.getLevel()
+                .sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
     }
 
     public void onBlockDestroyed(Player player) {

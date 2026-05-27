@@ -9,12 +9,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> extends TrackEdgePoint implements IExtendedSignalBoundary<T>, ISignalModifier {
     private final static String TAG_MODIFIER_DIRECTION = "direction";
 
     @Getter
+    // Direction must be stored in the edgepoint itself, since otherwise it's stored in the block entity
     private Direction.AxisDirection direction;
 
     public boolean isAligned(boolean primary) {
@@ -36,14 +37,6 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
     public void read(CompoundTag nbt, boolean migration, DimensionPalette dimensions) {
         super.read(nbt, migration, dimensions);
         direction = NBTHelper.readEnum(nbt, TAG_MODIFIER_DIRECTION, Direction.AxisDirection.class);
-    }
-
-    /**
-     * @param stateToBeModified
-     */
-    @Override
-    public void applyModifier(RawSignalState stateToBeModified) {
-        stateToBeModified.setMaxProceedSpeed(40);
     }
 
     /**

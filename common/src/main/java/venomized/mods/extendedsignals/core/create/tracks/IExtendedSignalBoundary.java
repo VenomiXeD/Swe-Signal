@@ -3,14 +3,14 @@ package venomized.mods.extendedsignals.core.create.tracks;
 
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.signalling.RawSignalState;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
     /**
@@ -33,9 +33,17 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
 
     void setMapper(boolean front, SignalStateRemapper mapper);
 
-    boolean skipChaining();
+    boolean doSkipChaining(boolean front, Train train);
 
-    default void onSignalScout(final Direction.AxisDirection direction, RawSignalState newState, final Train train) {
+    default void setChainingSkipped(boolean front, boolean skipChaining) {
+        throw new UnsupportedOperationException("Missing implementation for setting chaining");
+    }
+
+    default boolean getChainingSkipped(boolean front) {
+        throw new UnsupportedOperationException("Missing implementation for getting chaining");
+    }
+
+    default void onSignalScout(final boolean primary, SignalStateNode newState, final Train train) {
         Entity entity = train.carriages.get(0).anyAvailableEntity();
         if (entity == null)
             return;
@@ -45,13 +53,13 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
             return;
         }
 
-        ExtendedSignalsCore.sidedNetwork(level).updateState(((TrackEdgePoint) this).getId(), Objects.requireNonNullElse(
-                newState,
-                new RawSignalState().setAxisDirection(direction)
+        ExtendedSignalsCore.sidedNetwork(level).updateState(((T) this).getId(), Objects.requireNonNullElse(
+                newState.setAxisDirection(primary),
+                new SignalStateNode().setAxisDirection(primary)
         ));
     }
 
-    default void onSignalCrossed(Direction.AxisDirection direction, Train train) {
+    default void onSignalCrossed(final boolean primary, Train train) {
         if (train.speed == 0)
             return;
 
@@ -66,10 +74,12 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
 
         ExtendedSignalsCore.sidedNetwork(level)
                 .updateState(((T) this).getId(),
-                        new RawSignalState()
+                        new SignalStateNode()
                                 .setProceed(false)
                                 .setReserved(false)
-                                .setAxisDirection(direction)
+                                .setAxisDirection(primary)
                 );
     }
+
+    UUID boundaryId();
 }
