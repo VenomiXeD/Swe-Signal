@@ -84,7 +84,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
     public TravellingPoint.ITrackSelector extenededSignals$signalScoutProxy(TravellingPoint.ITrackSelector original) {
         return (a, b) -> {
             Map.Entry<TrackNode, TrackEdge> result = original.apply(a, b);
-            System.out.println(result);
+            // System.out.println(result);
             return result;
         };
     }
