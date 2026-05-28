@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "${mod_group_id}.de"
-version = '1.0.2-hotfix0-beta'
+version = '1.0.2-hotfix1-beta'
 
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
