@@ -8,6 +8,8 @@ import net.createmod.catnip.data.Pair;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -106,6 +108,7 @@ public class ExtendedSignalsCore extends ModTemplate {
         );
     }
 
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onRegisterKeyMappingsEvent(RegisterKeyMappingsEvent e) {
         e.register(KeyMappings.REQUEST_SHUNT);
