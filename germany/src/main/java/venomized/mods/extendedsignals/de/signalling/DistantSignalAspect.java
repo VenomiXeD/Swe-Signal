@@ -1,5 +1,6 @@
 package venomized.mods.extendedsignals.de.signalling;
 
+import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -46,12 +47,12 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
         this.off = off;
     }
 
-    public static DistantSignalAspect interpret(SignalStateNode state, boolean side) {
+    public static DistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         SignalStateNode distant = state.getNextState();
-        if (distant == null || !state.isReserved())
+        if (distant == null || state.isStop(direction))
             return DistantSignalAspect.OFF;
 
-        return !distant.isStop(side)
+        return !distant.isStop(direction)
                 ? distant.getMaxProceedSpeed() <= 40
                   ? DistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED : DistantSignalAspect.EXPECT_PROCEED
                 : DistantSignalAspect.EXPECT_STOP;

@@ -89,13 +89,12 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
         if (isForcedRed(primary))
             return SignalStateNode.STOP;
 
-        if (
-                entering.isOccupiedUnless((SignalBoundary) (Object) this) &&
+        if (entering.isOccupiedUnless((SignalBoundary) (Object) this) &&
                         entering.isOccupiedUnless(train)) {
             return SignalStateNode.STOP;
         }
 
-        return new SignalStateNode().setProceed(true);
+        return new SignalStateNode().setProceed(true).setReserved(true);
     }
 
     /**

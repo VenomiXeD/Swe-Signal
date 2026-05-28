@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.de.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -19,12 +20,12 @@ public class BlockEntityDistantSignal extends BlockEntitySignal<IDistantSignalAs
      * @return
      */
     @Override
-    public @NotNull IDistantSignalAspect interpret(SignalStateNode state, boolean side) {
+    public @NotNull IDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         SignalStateNode distant = state.getNextState();
-        if (distant == null || distant.isStop(side))
+        if (distant == null || distant.isStop(direction))
             return DistantSignalAspect.EXPECT_STOP;
 
-        return DistantSignalAspect.interpret(state, side);
+        return DistantSignalAspect.interpret(state, direction);
     }
 
     /**

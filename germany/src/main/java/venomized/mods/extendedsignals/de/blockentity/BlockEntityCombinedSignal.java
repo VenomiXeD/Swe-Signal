@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.de.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -47,7 +48,7 @@ public class BlockEntityCombinedSignal extends BlockEntitySignal<ICombinedSignal
      * @return
      */
     @Override
-    public @NotNull ICombinedSignalAspect interpret(SignalStateNode state, boolean side) {
-        return new CombinedSignalAspectCompositor(state, side);
+    public @NotNull ICombinedSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
+        return new CombinedSignalAspectCompositor(state, direction);
     }
 }

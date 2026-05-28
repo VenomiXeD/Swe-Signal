@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.de.signalling;
 
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
@@ -46,12 +47,13 @@ public enum MainSignalAspect implements IMainSignalAspect {
         colors = new RGB[]{top, topleft, topright, rightshunt, leftshunt, bottom};
     }
 
-    public static MainSignalAspect interpret(SignalStateNode state, boolean side) {
-        return state.isProceed()
-                ? state.getMaxProceedSpeed() > 40
+    public static MainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
+        if (state.isStop(direction))
+            return MainSignalAspect.STOP;
+
+        return state.getMaxProceedSpeed() > 40
                   ? MainSignalAspect.PROCEED
-                  : MainSignalAspect.PROCEED_40
-                : MainSignalAspect.STOP;
+                : MainSignalAspect.PROCEED_40;
     }
 
     /**

@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.de.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -16,8 +17,8 @@ public class BlockEntityMainSignal extends BlockEntitySignal<IMainSignalAspect> 
     }
 
     @Override
-    public @NotNull IMainSignalAspect interpret(SignalStateNode state, boolean side) {
-        return MainSignalAspect.interpret(state, side);
+    public @NotNull IMainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
+        return MainSignalAspect.interpret(state, direction);
     }
 
     @Override

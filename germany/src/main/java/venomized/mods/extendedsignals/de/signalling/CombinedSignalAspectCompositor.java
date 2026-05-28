@@ -1,5 +1,6 @@
 package venomized.mods.extendedsignals.de.signalling;
 
+import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
@@ -7,19 +8,20 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.Arrays;
 
-public record CombinedSignalAspectCompositor(SignalStateNode rawState, boolean side) implements ICombinedSignalAspect {
+public record CombinedSignalAspectCompositor(SignalStateNode rawState,
+                                             Direction.AxisDirection direction) implements ICombinedSignalAspect {
     /**
      * @param totalTicksForBlockEntity
      * @param states
      */
     @Override
     public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-        MainSignalAspect.interpret(rawState, side)
+        MainSignalAspect.interpret(rawState, direction)
                 .applyAspect(totalTicksForBlockEntity,
                         Arrays.copyOfRange(states, 0, 6)
                 );
 
-        DistantSignalAspect.interpret(rawState, side)
+        DistantSignalAspect.interpret(rawState, direction)
                 .applyAspect(totalTicksForBlockEntity, new SignalLightState[]{
                         null, // Real Distant signal has an additional light, combined doesn't. Perhaps an abstraction for this in the future
                         states[6],
