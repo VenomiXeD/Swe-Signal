@@ -13,7 +13,7 @@ class SignalStateNodeUnitTest {
                 .setProceed(true)
                 .setMaxProceedSpeed(42.5)
                 .setDistanceToNextSignal(128.75)
-                .setAxisDirection(true)
+                .setAxisDirection(Direction.AxisDirection.POSITIVE)
                 .setUpcomingJunctionSteerDirection(TravellingPoint.SteerDirection.LEFT);
 
         SignalStateNode deserialized = SignalStateNode.fromNBT(original.toNBT());
@@ -27,14 +27,14 @@ class SignalStateNodeUnitTest {
                 .setProceed(false)
                 .setMaxProceedSpeed(12.0)
                 .setDistanceToNextSignal(64.0)
-                .setAxisDirection(false)
+                .setAxisDirection(Direction.AxisDirection.POSITIVE)
                 .setUpcomingJunctionSteerDirection(TravellingPoint.SteerDirection.RIGHT);
 
         SignalStateNode original = new SignalStateNode()
                 .setProceed(true)
                 .setMaxProceedSpeed(30.0)
                 .setDistanceToNextSignal(100.0)
-                .setAxisDirection(true)
+                .setAxisDirection(Direction.AxisDirection.NEGATIVE)
                 .setUpcomingJunctionSteerDirection(TravellingPoint.SteerDirection.LEFT)
                 .setNextState(nextState);
 
