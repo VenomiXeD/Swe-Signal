@@ -2,8 +2,8 @@
   "format_version": "1.9.0",
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "block/signal connectror",
-    "particle": "block/signal connectror"
+    "0": "extended_signals:item/signalitem",
+    "particle": "extended_signals:item/signalitem"
   },
   "elements": [
     {
