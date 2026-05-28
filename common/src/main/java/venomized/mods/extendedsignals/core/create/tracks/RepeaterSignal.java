@@ -4,6 +4,7 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +31,7 @@ public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBou
      * @return
      */
     @Override
-    public boolean doSkipChaining(boolean front, Train train) {
+    public boolean doSkipChaining(Direction.AxisDirection direction, Train train) {
         return true;
     }
 
@@ -38,7 +39,7 @@ public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBou
      * @return
      */
     @Override
-    public UUID boundaryId() {
+    public UUID pointId() {
         return null;
     }
 
@@ -48,7 +49,7 @@ public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBou
      * @return
      */
     @Override
-    public SignalStateNode computeRawSignalState(boolean primary, @Nullable SignalStateNode upcomingSignal, Train train) {
+    public SignalStateNode computeRawSignalState(Direction.AxisDirection direction, @Nullable SignalStateNode upcomingSignal, Train train) {
         return new SignalStateNode()
                 .setProceed(true);
     }
@@ -86,6 +87,5 @@ public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBou
     public void blockEntityRemoved(BlockPos blockEntityPos, boolean front) {
         removeFromAllGraphs();
     }
-
 
 }

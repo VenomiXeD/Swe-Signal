@@ -47,7 +47,7 @@ public class ExtendedSignalsBlock extends Block {
             rotateableBlockEntity.setYOrientation(
                     getSnappedRotation(pPos, pPlacer.position())
             );
-            rotateableBlockEntity.updateSelf();
+            rotateableBlockEntity.sync();
         }
     }
 }

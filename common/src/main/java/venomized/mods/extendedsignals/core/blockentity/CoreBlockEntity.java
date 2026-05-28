@@ -18,7 +18,7 @@ public abstract class CoreBlockEntity extends BlockEntity implements IOrientedBl
         super(pType, pPos, pBlockState);
     }
 
-    public void updateSelf() {
+    public void sync() {
         this.setChanged();
         this.getLevel()
                 .sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);

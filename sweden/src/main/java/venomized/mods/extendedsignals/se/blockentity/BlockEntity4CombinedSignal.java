@@ -6,8 +6,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
@@ -53,12 +51,13 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
 
     /**
      * @param state
+     * @param direction
      * @return
      */
     @Override
-    public @NotNull ICombinedSignalAspect interpret(SignalStateNode state) {
+    public @NotNull ICombinedSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         return (ticks, lights) -> {
-            if (state.isStop()) {
+            if (state.isStop(direction)) {
                 ISignalAspect.RGB.BLACK.apply(lights[0]);
                 ISignalAspect.RGB.RED.apply(lights[1]);
                 ISignalAspect.RGB.BLACK.apply(lights[2]);
@@ -81,7 +80,7 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
             if (distant == null)
                 return;
 
-            if (distant.isStop()) {
+            if (distant.isStop(direction)) {
                 (blink ? ISignalAspect.RGB.BLACK : ISignalAspect.RGB.GREEN).apply(lights[2]);
                 return;
             }

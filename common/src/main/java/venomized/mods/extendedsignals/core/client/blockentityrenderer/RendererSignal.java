@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.core.Direction;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -75,11 +74,8 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
         } else {
             SignalStateNode signalStateNode = signalBlockEntity.currentSignalState();
 
-
-            if (signalBlockEntity.getFront() == signalStateNode.getAxisDirection()) {
-                ISignalAspect aspect = signalBlockEntity.interpret(signalStateNode);
-                aspect.applyAspect(signalBlockEntity.getLevel().getGameTime(), signalBlockEntity.getLightStates());
-            }
+            ISignalAspect aspect = signalBlockEntity.interpret(signalStateNode, signalBlockEntity.getSignallingDirection());
+            aspect.applyAspect(signalBlockEntity.getLevel().getGameTime(), signalBlockEntity.getLightStates());
         }
 
         for (int i = 0; i < lights.length; i++) {

@@ -1,10 +1,7 @@
 package venomized.mods.extendedsignals.se.blockentity;
 
-import net.createmod.catnip.nbt.NBTHelper;
-import net.minecraft.CrashReport;
 import net.minecraft.core.BlockPos;
-import net.minecraft.data.Main;
-import net.minecraft.nbt.NbtUtils;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -13,10 +10,6 @@ import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLigh
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-import venomized.mods.extendedsignals.core.util.NBTHelp;
-import venomized.mods.extendedsignals.se.signalling.CombinedSignalAspectCompositor;
-import venomized.mods.extendedsignals.se.signalling.DistantSignalAspect;
-import venomized.mods.extendedsignals.se.signalling.MainSignalAspect;
 
 public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
     public BlockEntity5CombinedSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
@@ -39,15 +32,16 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
 
     /**
      * @param state
+     * @param direction
      * @return
      */
     @Override
-    public @NotNull ICombinedSignalAspect interpret(final SignalStateNode state) {
+    public @NotNull ICombinedSignalAspect interpret(final SignalStateNode state, Direction.AxisDirection direction) {
         return (ticks, lights) -> {
             final boolean blink = ticks % 20 > 10;
             SignalStateNode distant = state.getNextState();
 
-            if (state.isStop()) {
+            if (state.isStop(direction)) {
                 ISignalAspect.RGB.BLACK.apply(lights[0]);
                 ISignalAspect.RGB.RED.apply(lights[1]);
                 ISignalAspect.RGB.BLACK.apply(lights[2]);
@@ -76,7 +70,7 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
                 return;
             }
 
-            if (distant.isStop()) {
+            if (distant.isStop(direction)) {
                 if (state.getMaxProceedSpeed() < 80) {
                     if (state.getDistanceToNextSignal() <= 450) {
                         // PROCEED 40, SHORT ROUTE

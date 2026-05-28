@@ -12,9 +12,10 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public record SyncSignalStatesPacket(Map<UUID, SignalStateNode> fullNetworkMapping) implements ISimplePacket {
-    public static SyncSignalStatesPacket decode(FriendlyByteBuf buf) {
-        return new SyncSignalStatesPacket(
+public record ClientBoundSyncSignalStatesPacket(
+        Map<UUID, SignalStateNode> fullNetworkMapping) implements ISimplePacket {
+    public static ClientBoundSyncSignalStatesPacket decode(FriendlyByteBuf buf) {
+        return new ClientBoundSyncSignalStatesPacket(
                 ISignalNetwork.deserializeSignalStatesFromNBTList(
                         Objects.requireNonNull(buf.readAnySizeNbt())
                 ));

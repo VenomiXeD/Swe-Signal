@@ -15,13 +15,6 @@ import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererThreeLightCrossingLights;
 
 public final class SwedenBlockEntities {
-    public static final BlockEntityEntry<BlockEntitySignalBox> SE_SIGNAL_BOX =
-            RegistrateHelper.simpleBlockEntity(
-                            registrate(), "se_signal_box", BlockEntitySignalBox::new,
-                            SwedenBlocks.BLOCK_SIGNAL_BOX
-                    )
-                    .renderer(() -> RendererGeneric::new)
-                    .register();
     // == SIGNALS FROM 2-5 LIGHTS ==
     public static final BlockEntityEntry<BlockEntity2MainSignal> MAIN_2_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
@@ -61,7 +54,7 @@ public final class SwedenBlockEntities {
                             registrate(), "se_dwarf_signal", BlockEntityDwarfSignal::new,
                             SwedenBlocks.BLOCK_MODERN_DWARF_SIGNAL
                     )
-                    .renderer(() -> RendererDwarfSignal::new)
+                    .renderer(() -> RendererSignal::new)
                     .register();
     //
     public static final BlockEntityEntry<BlockEntityMainDwarfSignal> MAIN_DWARF_SIGNAL =
@@ -69,7 +62,7 @@ public final class SwedenBlockEntities {
                             registrate(), "se_main_dwarf_signal", BlockEntityMainDwarfSignal::new,
                             SwedenBlocks.BLOCK_MODERN_MAIN_DWARF_SIGNAL
                     )
-                    .renderer(() -> RendererMainDwarfSignal::new)
+                    .renderer(() -> RendererSignal::new)
                     .register();
     public static final BlockEntityEntry<BlockEntityEndpointSignal> ENDPOINT_SIGNAL =
             RegistrateHelper.simpleBlockEntity(

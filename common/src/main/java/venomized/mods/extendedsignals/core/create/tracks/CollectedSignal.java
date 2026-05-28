@@ -4,7 +4,7 @@ import net.minecraft.core.Direction;
 
 public record CollectedSignal(
         IExtendedSignalBoundary<?> boundary,
-        boolean primary,
+        Direction.AxisDirection signalDirection,
         double distance,
         double distanceFromPreviousSignal,
         ISignalModifier[] signalModifierSnapshot

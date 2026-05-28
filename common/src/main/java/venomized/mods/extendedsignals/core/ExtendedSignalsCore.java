@@ -8,6 +8,7 @@ import net.createmod.catnip.data.Pair;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,6 +21,7 @@ import venomized.mods.extendedsignals.core.block.SignalCoreBlocks;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.client.ClientSignalNetworkCache;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
+import venomized.mods.extendedsignals.core.client.KeyMappings;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSounds;
 import venomized.mods.extendedsignals.core.create.DoorInstruction;
@@ -29,6 +31,8 @@ import venomized.mods.extendedsignals.core.data.RecipeDataGenerator;
 import venomized.mods.extendedsignals.core.data.SoundEventDataGenerator;
 import venomized.mods.extendedsignals.core.item.ExtendedSignalsItems;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
+
+import java.security.Key;
 
 @Mod(ExtendedSignalsCore.MOD_ID)
 public class ExtendedSignalsCore extends ModTemplate {
@@ -50,6 +54,8 @@ public class ExtendedSignalsCore extends ModTemplate {
 
     public ExtendedSignalsCore(FMLJavaModLoadingContext context) {
         super(context);
+
+        context.getModEventBus().register(ExtendedSignalsCore.class);
 
         ExtendedSignalsNetworking.init();
     }
@@ -98,6 +104,11 @@ public class ExtendedSignalsCore extends ModTemplate {
                 .setName(TrainSounds.TRAIN_SOUNDS_RESOURCE_KEY.location())
                 .disableSaving()
         );
+    }
+
+    @SubscribeEvent
+    public static void onRegisterKeyMappingsEvent(RegisterKeyMappingsEvent e) {
+        e.register(KeyMappings.REQUEST_SHUNT);
     }
 
     /**

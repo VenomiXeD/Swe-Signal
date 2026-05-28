@@ -11,9 +11,9 @@ import java.util.function.Supplier;
  * CLIENT -> SERVER
  * Packet for handling when client scrolled
  */
-public record ClientScrollNetworkEventPacket(boolean up) implements ISimplePacket {
-    public static ClientScrollNetworkEventPacket decode(FriendlyByteBuf buf) {
-        return new ClientScrollNetworkEventPacket(buf.readBoolean());
+public record ServerBoundScrollItemPacket(boolean up) implements ISimplePacket {
+    public static ServerBoundScrollItemPacket decode(FriendlyByteBuf buf) {
+        return new ServerBoundScrollItemPacket(buf.readBoolean());
     }
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {

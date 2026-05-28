@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.core.create.tracks;
 
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
@@ -33,7 +34,7 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
 
     void setMapper(boolean front, SignalStateRemapper mapper);
 
-    boolean doSkipChaining(boolean front, Train train);
+    boolean doSkipChaining(Direction.AxisDirection direction, Train train);
 
     default void setChainingSkipped(boolean front, boolean skipChaining) {
         throw new UnsupportedOperationException("Missing implementation for setting chaining");
@@ -43,7 +44,7 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
         throw new UnsupportedOperationException("Missing implementation for getting chaining");
     }
 
-    default void onSignalScout(final boolean primary, SignalStateNode newState, final Train train) {
+    default void onSignalScout(Direction.AxisDirection direction, SignalStateNode newState, final Train train) {
         Entity entity = train.carriages.get(0).anyAvailableEntity();
         if (entity == null)
             return;
@@ -54,12 +55,12 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
         }
 
         ExtendedSignalsCore.sidedNetwork(level).updateState(((T) this).getId(), Objects.requireNonNullElse(
-                newState.setAxisDirection(primary),
-                new SignalStateNode().setAxisDirection(primary)
+                newState.setAxisDirection(direction),
+                new SignalStateNode().setAxisDirection(direction)
         ));
     }
 
-    default void onSignalCrossed(final boolean primary, Train train) {
+    default void onSignalCrossed(Direction.AxisDirection direction, Train train) {
         if (train.speed == 0)
             return;
 
@@ -74,12 +75,9 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
 
         ExtendedSignalsCore.sidedNetwork(level)
                 .updateState(((T) this).getId(),
-                        new SignalStateNode()
-                                .setProceed(false)
-                                .setReserved(false)
-                                .setAxisDirection(primary)
+                        SignalStateNode.STOP
                 );
     }
 
-    UUID boundaryId();
+    UUID pointId();
 }

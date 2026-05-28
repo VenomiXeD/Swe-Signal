@@ -1,17 +1,17 @@
 package venomized.mods.extendedsignals.core.network.packets;
 
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ISignalNetwork;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public record SyncSignalStatePacket(UUID uuid, SignalStateNode signalStateNode) implements ISimplePacket {
-    public static SyncSignalStatePacket decode(FriendlyByteBuf buf) {
-        return new SyncSignalStatePacket(
+public record ClientBoundSyncSignalStatePacket(UUID uuid, SignalStateNode signalStateNode) implements ISimplePacket {
+    public static ClientBoundSyncSignalStatePacket decode(FriendlyByteBuf buf) {
+        return new ClientBoundSyncSignalStatePacket(
                 buf.readUUID(),
                 SignalStateNode.fromNBT(buf.readAnySizeNbt())
         );

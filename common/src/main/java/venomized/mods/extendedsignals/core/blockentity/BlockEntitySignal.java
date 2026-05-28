@@ -1,16 +1,18 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
-import it.unimi.dsi.fastutil.Pair;
 import lombok.Getter;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.ISignalInterpreter;
 import venomized.mods.extendedsignals.core.ISignalNetwork;
@@ -27,7 +30,6 @@ import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.NBTHelp;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlockEntity
@@ -44,7 +46,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
 
     @Getter
     @Nullable
-    private Boolean front;
+    private Direction.AxisDirection signallingDirection;
 
     public BlockEntitySignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
@@ -98,7 +100,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         if (this.getLevel() == null)
             return false;
 
-        if (front == null)
+        if (signallingDirection == null)
             return false;
 
         if (pointID == null)
@@ -116,24 +118,63 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
      *
      * @param sourceBlockEntity
      * @param mode
+     * @param useContext
      * @return
      */
     @Override
-    public Pair<InteractionResult, MutableComponent> readerBindingToSource(Optional<ISignalTunerToolable> sourceBlockEntity, SignalTunerMode mode) {
-        if (sourceBlockEntity.isPresent()) {
-            if (sourceBlockEntity.get() instanceof ISignalBoundaryReferenceProvider sb) {
+    public InteractionResult readerBindingToSource(@UnknownNullability ISignalTunerToolable sourceBlockEntity, SignalTunerMode mode, UseOnContext useContext) {
+        if (sourceBlockEntity != null) {
+            if (sourceBlockEntity instanceof ISignalBoundaryReferenceProvider sb) {
                 bindToCreateSignal(sb);
+                if (this.pointID == null)
+                    return InteractionResult.PASS;
+
+                useContext.getPlayer().sendSystemMessage(
+                        Component.translatable("message.extendedsignals.blockentitysignal.bind.success", pointID)
+                                .withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)
+                                )
+                );
+
+                return InteractionResult.SUCCESS;
             }
         }
-        return ISignalTunerToolable.super.sourceBindingToReader(sourceBlockEntity, mode);
+        return ISignalTunerToolable.super.sourceBindingToReader(sourceBlockEntity, mode, useContext);
+    }
+
+    /**
+     * @param mode
+     * @param context
+     * @return
+     */
+    @Override
+    public InteractionResult onSignalToolInteract(SignalTunerMode mode, UseOnContext context) {
+        if (context.getLevel().isClientSide()) {
+            return InteractionResult.PASS;
+        }
+
+        switch (mode) {
+            case DISCONNECT_ALL:
+                this.pointID = null;
+                this.signallingDirection = null;
+                context.getPlayer().sendSystemMessage(
+                        Component.translatable("message.extendedsignals.blockentitysignal.disconnect.success")
+                );
+                sync();
+                return InteractionResult.SUCCESS;
+            case CONNECT:
+                return InteractionResult.PASS;
+        }
+
+        context.getPlayer().sendSystemMessage(
+                Component.translatable("message.extendedsignals.blockentitysignal.tool.unknown")
+        );
+
+        return InteractionResult.PASS;
     }
 
     public void bindToCreateSignal(ISignalBoundaryReferenceProvider referenceProvider) {
         pointID = referenceProvider.getTrackTargetingBehavior().getEdgePoint().getId();
-        front = referenceProvider.getTrackTargetingBehavior().getTargetDirection() == Direction.AxisDirection.POSITIVE;
-
-        ExtendedSignalsCore.LOGGER.info("Linked to boundary: {}", pointID);
-        ExtendedSignalsCore.LOGGER.info("Axis direction: {}", front);
+        signallingDirection = referenceProvider.getTrackTargetingBehavior().getTargetDirection();
 
         if (this.level == null)
             return;
@@ -149,7 +190,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
             network.updateState(this.pointID, new SignalStateNode());
         }
 
-        this.updateSelf();
+        this.sync();
     }
 
     /**
@@ -208,16 +249,14 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
     public void handleUpdateTag(CompoundTag tag) {
         super.handleUpdateTag(tag);
         pointID = tag.hasUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) ? tag.getUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) : null;
-        if (tag.contains(TAG_SIGNAL_DIRECTION))
-            front = tag.getBoolean(TAG_SIGNAL_DIRECTION);
+        signallingDirection = NBTHelp.safeReadEnum(tag, TAG_SIGNAL_DIRECTION, Direction.AxisDirection.class);
     }
 
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
         pointID = pTag.hasUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) ? pTag.getUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) : null;
-        if (pTag.contains(TAG_SIGNAL_DIRECTION))
-            front = pTag.getBoolean(TAG_SIGNAL_DIRECTION);
+        signallingDirection = NBTHelp.safeReadEnum(pTag, TAG_SIGNAL_DIRECTION, Direction.AxisDirection.class);
 
         // if (pTag.contains(TAG_REFERENCED_SIGNAL_POINT_TYPE))
         //     this.pointType = EdgePointType.TYPES.get(NBTHelper.readResourceLocation(pTag, TAG_REFERENCED_SIGNAL_POINT_TYPE));
@@ -229,8 +268,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         if (pointID != null)
             pTag.putUUID(TAG_REFERENCED_SIGNAL_POINT_UUID, pointID);
 
-        if (front != null)
-            pTag.putBoolean(TAG_SIGNAL_DIRECTION, front);
+        NBTHelp.safeWriteEnum(pTag, TAG_SIGNAL_DIRECTION, signallingDirection);
 
         // if (pointType != null)
         //     NBTHelper.writeResourceLocation(pTag, TAG_REFERENCED_SIGNAL_POINT_TYPE, pointType.getId());

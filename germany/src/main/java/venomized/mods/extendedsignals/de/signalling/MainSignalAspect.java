@@ -46,7 +46,7 @@ public enum MainSignalAspect implements IMainSignalAspect {
         colors = new RGB[]{top, topleft, topright, rightshunt, leftshunt, bottom};
     }
 
-    public static MainSignalAspect interpret(SignalStateNode state) {
+    public static MainSignalAspect interpret(SignalStateNode state, boolean side) {
         return state.isProceed()
                 ? state.getMaxProceedSpeed() > 40
                   ? MainSignalAspect.PROCEED

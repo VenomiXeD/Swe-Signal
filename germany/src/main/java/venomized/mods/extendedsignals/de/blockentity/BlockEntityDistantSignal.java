@@ -19,12 +19,12 @@ public class BlockEntityDistantSignal extends BlockEntitySignal<IDistantSignalAs
      * @return
      */
     @Override
-    public @NotNull IDistantSignalAspect interpret(SignalStateNode state) {
+    public @NotNull IDistantSignalAspect interpret(SignalStateNode state, boolean side) {
         SignalStateNode distant = state.getNextState();
-        if (distant == null || distant.isStop())
+        if (distant == null || distant.isStop(side))
             return DistantSignalAspect.EXPECT_STOP;
 
-        return DistantSignalAspect.interpret(state);
+        return DistantSignalAspect.interpret(state, side);
     }
 
     /**

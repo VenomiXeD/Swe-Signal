@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.se.signalling;
 
 import lombok.RequiredArgsConstructor;
+import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -37,9 +38,9 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
     private final LightEntry l1;
     private final LightEntry l2;
 
-    public static DistantSignalAspect interpret(SignalStateNode state) {
+    public static DistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         SignalStateNode distant = state.getNextState();
-        if (distant == null || distant.isStop()) {
+        if (distant == null || distant.isStop(direction)) {
             return DistantSignalAspect.EXPECT_STOP;
         }
 

@@ -1,13 +1,17 @@
 package venomized.mods.extendedsignals.core.mixin;
 
+import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
+import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
+import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.nbt.NBTHelper;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelAccessor;
@@ -45,6 +49,12 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
     @Shadow
     public abstract void invalidate(LevelAccessor level);
 
+    @Shadow
+    public abstract boolean isForcedRed(boolean primary);
+
+    @Shadow
+    public abstract boolean isForcedRed(TrackNode side);
+
     @Inject(method = "<init>", at = @At("RETURN"))
     private void extendedSignals$Ctor(CallbackInfo ci) {
         extendedSignals$skipChainingConfiguration = Couple.create(false, false);
@@ -72,16 +82,20 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
      * @return
      */
     @Override
-    public SignalStateNode computeRawSignalState(boolean primary, SignalStateNode upcomingSignal, Train train) {
-        boolean isRed = this.cachedStates.get(primary) == SignalBlockEntity.SignalState.RED;
-        if (isRed && !train.reservedSignalBlocks.contains(this.groups.get(primary)))
-            return new SignalStateNode().setReserved(false);
+    public SignalStateNode computeRawSignalState(Direction.AxisDirection direction, SignalStateNode upcomingSignal, Train train) {
+        boolean primary = direction == Direction.AxisDirection.POSITIVE;
+        SignalEdgeGroup entering = Create.RAILWAYS.signalEdgeGroups.get(groups.get(primary));
 
-        SignalStateNode state = new SignalStateNode()
-                .setProceed(true)
-                .setReserved(true);
+        if (isForcedRed(primary))
+            return SignalStateNode.STOP;
 
-        return state;
+        if (
+                entering.isOccupiedUnless((SignalBoundary) (Object) this) &&
+                        entering.isOccupiedUnless(train)) {
+            return SignalStateNode.STOP;
+        }
+
+        return new SignalStateNode().setProceed(true);
     }
 
     /**
@@ -94,8 +108,8 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
     }
 
     @Override
-    public SignalStateNode transformSignalState(boolean front, SignalStateNode state) {
-        ResourceLocation mapperId = extendedSignals$stateRemapperIDs.get(front);
+    public SignalStateNode transformSignalState(Direction.AxisDirection direction, SignalStateNode state) {
+        ResourceLocation mapperId = extendedSignals$stateRemapperIDs.get(direction == Direction.AxisDirection.POSITIVE);
         return SignalStateRemapper.getMappers().getOrDefault(mapperId, SignalStateRemapper.NONE).remap(state);
     }
 
@@ -131,8 +145,8 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
      * @return
      */
     @Override
-    public boolean doSkipChaining(boolean front, Train train) {
-        return extendedSignals$skipChainingConfiguration.get(front);
+    public boolean doSkipChaining(Direction.AxisDirection direction, Train train) {
+        return extendedSignals$skipChainingConfiguration.get(direction == Direction.AxisDirection.POSITIVE);
     }
 
     /**
@@ -157,7 +171,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
      * @return
      */
     @Override
-    public UUID boundaryId() {
+    public UUID pointId() {
         return this.getId();
     }
 }

@@ -4,6 +4,7 @@ import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,7 +46,12 @@ public abstract class MixinCreateTrainSignal implements ISignalTunerToolable, IS
             boolean primary = edgePoint.getTargetDirection() == Direction.AxisDirection.POSITIVE;
             boolean old = boundary.getChainingSkipped(primary);
             boundary.setChainingSkipped(primary, !old);
-            System.out.println("chaining disabled:" + !old);
+
+            context.getPlayer()
+                    .sendSystemMessage(Component.translatable(
+                            "message.extendedsignals.createsignal.interact.chaining", !old
+                    ));
+
             return InteractionResult.SUCCESS;
         }
 

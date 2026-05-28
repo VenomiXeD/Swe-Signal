@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.core.create.tracks;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.graph.EdgePointType;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -38,7 +39,7 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
      * @return
      */
     @Override
-    public boolean doSkipChaining(boolean front, Train train) {
+    public boolean doSkipChaining(Direction.AxisDirection direction, Train train) {
         return false;
     }
 
@@ -46,7 +47,7 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
      * @return
      */
     @Override
-    public UUID boundaryId() {
+    public UUID pointId() {
         return null;
     }
 

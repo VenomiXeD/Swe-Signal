@@ -1,26 +1,34 @@
 package venomized.mods.extendedsignals.core.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.DiscoveredPath;
+import com.simibubi.create.content.trains.graph.TrackEdge;
+import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
+import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import net.createmod.catnip.data.Pair;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.apache.commons.lang3.mutable.MutableObject;
 import org.joml.Math;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.create.tracks.*;
@@ -31,6 +39,7 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
+import java.util.UUID;
 
 @Mixin(value = Navigation.class, remap = false)
 public abstract class MixinNavigation implements INavigationAccessor {
@@ -51,15 +60,34 @@ public abstract class MixinNavigation implements INavigationAccessor {
     public double distanceToDestination;
     @Shadow
     public double distanceToSignal;
-
-    @Shadow
-    public abstract TravellingPoint.ITrackSelector controlSignalScout();
-
     @Unique
     private TravellingPoint extendedSignals$signalScoutTriggerCollector;
     @Unique
     private int extendedSignals$randomTickValueForTesting = 20;
 
+    @Shadow
+    public abstract TravellingPoint.ITrackSelector controlSignalScout();
+
+    @Shadow
+    public Pair<UUID, Boolean> waitingForSignal;
+
+    @Redirect(
+            method = "tick",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(DDD)D")
+    )
+    public double extendedSignals$increaseReservationScanDistance(double pValue, double pMin, double pMax) {
+        double reservationDistance = Math.max(pValue, LOOK_AHEAD_DISTANCE);
+        return Mth.clamp(reservationDistance, pMin, pMax);
+    }
+
+    @ModifyReturnValue(method = "controlSignalScout", at = @At("RETURN"))
+    public TravellingPoint.ITrackSelector extenededSignals$signalScoutProxy(TravellingPoint.ITrackSelector original) {
+        return (a, b) -> {
+            Map.Entry<TrackNode, TrackEdge> result = original.apply(a, b);
+            System.out.println(result);
+            return result;
+        };
+    }
 
     @Inject(method = "startNavigation", at = @At("HEAD"))
     public void extendedSignals$onStartNavigation(DiscoveredPath pathTo, CallbackInfoReturnable<Double> cir) {
@@ -83,15 +111,13 @@ public abstract class MixinNavigation implements INavigationAccessor {
             method = "tick",
             at = @At(
                     value = "INVOKE",
-                    target = "Lcom/simibubi/create/content/trains/entity/TravellingPoint;travel(Lcom/simibubi/create/content/trains/graph/TrackGraph;DLcom/simibubi/create/content/trains/entity/TravellingPoint$ITrackSelector;Lcom/simibubi/create/content/trains/entity/TravellingPoint$IEdgePointListener;Lcom/simibubi/create/content/trains/entity/TravellingPoint$ITurnListener;)D",
-                    shift = At.Shift.AFTER
+                    target = "Lcom/simibubi/create/content/trains/entity/TravellingPoint;travel(Lcom/simibubi/create/content/trains/graph/TrackGraph;DLcom/simibubi/create/content/trains/entity/TravellingPoint$ITrackSelector;Lcom/simibubi/create/content/trains/entity/TravellingPoint$IEdgePointListener;Lcom/simibubi/create/content/trains/entity/TravellingPoint$ITurnListener;)D"
             )
     )
     public void extendedSignals$tick(Level level,
                                      CallbackInfo ci,
                                      @Local(name = "speedMod") double speedMod,
-                                     @Local(name = "leadingPoint") TravellingPoint leadingPoint,
-                                     @Local(name = "scanDistance") double scanDistance
+                                     @Local(name = "leadingPoint") TravellingPoint leadingPoint
     ) {
         extendedSignals$randomTickValueForTesting = extendedSignals$randomTickValueForTesting < 0 ? 20 : extendedSignals$randomTickValueForTesting - 1;
 
@@ -115,6 +141,9 @@ public abstract class MixinNavigation implements INavigationAccessor {
 
     @Unique
     private void extendedSignals$collectSignalsInPath(double speedMod) {
+        if (train.speed == 0)
+            return;
+
         final double lookAheadDistance = Math.min(
                 LOOK_AHEAD_DISTANCE,
                 Math.min(distanceToDestination, distanceToSignal)
@@ -162,7 +191,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
                     extendedSignals$collectedSignals.push(
                             new CollectedSignal(
                                     signalBoundary,
-                                    primary,
+                                    primary ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
                                     distance,
                                     deltaSignalDistance,
                                     extendedSignals$predictedModifiers.values().toArray(ISignalModifier[]::new)
@@ -171,15 +200,10 @@ public abstract class MixinNavigation implements INavigationAccessor {
 
 
                     if (signalBoundary instanceof SignalBoundary createTrueSignalBoundary) {
-                        boolean isSignalRed = createTrueSignalBoundary.cachedStates.get(primary) == SignalBlockEntity.SignalState.RED;
-                        // boolean weHaveReservedTheBlock = train.reservedSignalBlocks.contains(createTrueSignalBoundary.id);
-                        // boolean weHaveOccupiedTheBlock = train.occupiedSignalBlocks.containsKey(createTrueSignalBoundary.id);
-                        // boolean boundaryBelongsToUs = weHaveReservedTheBlock || weHaveOccupiedTheBlock;
-
-                        return isSignalRed && !Create.RAILWAYS.signalEdgeGroups.get(createTrueSignalBoundary.groups.get(primary))
-                                .isOccupiedUnless(train);
+                        SignalEdgeGroup signalEdgeGroup = Create.RAILWAYS.signalEdgeGroups.get(createTrueSignalBoundary.groups.get(primary));
+                        return signalEdgeGroup.isOccupiedUnless(createTrueSignalBoundary)
+                                && signalEdgeGroup.isOccupiedUnless(train);
                     }
-
 
 
                     return false;
@@ -197,16 +221,16 @@ public abstract class MixinNavigation implements INavigationAccessor {
 
             if (current.boundary() instanceof IRawSignalStateEvaluator signalStateEvaluator) {
                 currentSignalState = signalStateEvaluator.computeRawSignalState(
-                                current.primary(),
+                                current.signalDirection(),
                                 upcomingSignalState,
                                 train
                         )
                         .setNextState(upcomingSignalState)
-                        .setAxisDirection(current.primary())
+                        .setAxisDirection(current.signalDirection())
                         .setDistanceToNextSignal(current.distanceFromPreviousSignal());
 
                 if (signalStateEvaluator instanceof ISignalStateBoundaryTransformer transformer) {
-                    currentSignalState = transformer.transformSignalState(current.primary(), currentSignalState);
+                    currentSignalState = transformer.transformSignalState(current.signalDirection(), currentSignalState);
                 }
 
                 // if (current.boundary() instanceof SignalBoundary sb) {
@@ -219,10 +243,10 @@ public abstract class MixinNavigation implements INavigationAccessor {
             }
 
             current.boundary().onSignalScout(
-                    current.primary(), currentSignalState, this.train
+                    current.signalDirection(), currentSignalState, this.train
             );
 
-            if (!current.boundary().doSkipChaining(current.primary(), train))
+            if (!current.boundary().doSkipChaining(current.signalDirection(), train))
                 upcomingSignalState = currentSignalState;
         }
     }

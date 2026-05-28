@@ -56,7 +56,7 @@ public class BlockEntityRailroadCrossingController extends CoreBlockEntity imple
     public void setPowered(boolean powered) {
         if (this.powered != powered) {
             this.powered = powered;
-            this.updateSelf();
+            this.sync();
         }
     }
 }

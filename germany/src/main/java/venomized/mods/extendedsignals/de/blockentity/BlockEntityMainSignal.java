@@ -16,8 +16,8 @@ public class BlockEntityMainSignal extends BlockEntitySignal<IMainSignalAspect> 
     }
 
     @Override
-    public @NotNull IMainSignalAspect interpret(SignalStateNode state) {
-        return MainSignalAspect.interpret(state);
+    public @NotNull IMainSignalAspect interpret(SignalStateNode state, boolean side) {
+        return MainSignalAspect.interpret(state, side);
     }
 
     @Override

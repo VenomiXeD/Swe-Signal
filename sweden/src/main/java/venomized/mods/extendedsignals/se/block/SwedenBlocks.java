@@ -13,8 +13,6 @@ import venomized.mods.extendedsignals.se.block.crossing.BlockThreeLightCrossingS
  */
 public class SwedenBlocks {
     // == SWEDISH CONTENT ==
-    public static final BlockEntry<BlockSignalBox> BLOCK_SIGNAL_BOX = RegistrateHelper.modelledBlock(registrate(), "signal.se.signal_box", BlockSignalBox::new)
-            .register();
     // == SIGNALS FROM 2-5 LIGHTS ==
     public static final BlockEntry<Block2SignalModern> MAIN_2_SIGNAL = RegistrateHelper.genericCustomSignalBlock(
                     registrate(), "signals", "se", "2l_signal_modern", Block2SignalModern::new

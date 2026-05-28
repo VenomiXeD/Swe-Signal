@@ -7,19 +7,19 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.Arrays;
 
-public record CombinedSignalAspectCompositor(SignalStateNode rawState) implements ICombinedSignalAspect {
+public record CombinedSignalAspectCompositor(SignalStateNode rawState, boolean side) implements ICombinedSignalAspect {
     /**
      * @param totalTicksForBlockEntity
      * @param states
      */
     @Override
     public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-        MainSignalAspect.interpret(rawState)
+        MainSignalAspect.interpret(rawState, side)
                 .applyAspect(totalTicksForBlockEntity,
                         Arrays.copyOfRange(states, 0, 6)
                 );
 
-        DistantSignalAspect.interpret(rawState)
+        DistantSignalAspect.interpret(rawState, side)
                 .applyAspect(totalTicksForBlockEntity, new SignalLightState[]{
                         null, // Real Distant signal has an additional light, combined doesn't. Perhaps an abstraction for this in the future
                         states[6],

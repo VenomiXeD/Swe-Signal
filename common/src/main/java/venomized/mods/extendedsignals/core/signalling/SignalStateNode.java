@@ -3,14 +3,11 @@ package venomized.mods.extendedsignals.core.signalling;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import lombok.*;
 import lombok.experimental.Accessors;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.world.level.LevelAccessor;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.util.NBTHelp;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
@@ -20,7 +17,10 @@ import java.util.UUID;
 @With
 @Builder
 public class SignalStateNode {
+    private static final int MAX_SIGNAL_RECURSION_STATE_DEPTH = 20;
+
     public static final SignalStateNode INVALID = new SignalStateNode().setValid(false);
+    public static final SignalStateNode STOP = new SignalStateNode();
 
     private static final String TAG_RESERVED_NAME = "reserved";
 
@@ -34,10 +34,9 @@ public class SignalStateNode {
     private static final String TAG_DIRECTION_NAME = "signal_direction";
     private static final String TAG_UPCOMING_SWITCH_DIRECTION_NAME = "upcoming_switch_direction";
 
-    @Setter
     @Getter
-    private boolean reserved;
-
+    @Setter
+    public boolean reserved;
     @Setter
     @Getter
     private boolean proceed;
@@ -65,7 +64,7 @@ public class SignalStateNode {
     @Nullable
     @Setter
     @Getter
-    private Boolean axisDirection;
+    private Direction.AxisDirection axisDirection;
     @Nullable
     @Setter
     @Getter
@@ -74,7 +73,6 @@ public class SignalStateNode {
 
     public static SignalStateNode fromNBT(final CompoundTag tag) {
         final SignalStateNode signalStateNode = new SignalStateNode();
-        signalStateNode.setReserved(tag.getBoolean(TAG_RESERVED_NAME));
         signalStateNode.setProceed(tag.getBoolean(TAG_PROCEED_NAME));
         signalStateNode.setMaxProceedSpeed(tag.getDouble(TAG_PROCEED_SPEED_NAME));
         signalStateNode.setDistanceToNextSignal(tag.getDouble(TAG_DISTANCE_NEXT_SIGNAL_NAME));
@@ -84,17 +82,21 @@ public class SignalStateNode {
             signalStateNode.setNextState(SignalStateNode.fromNBT(tag.getCompound(TAG_NEXT_SIGNAL_STATE_NAME)));
         }
 
-        if (tag.contains(TAG_DIRECTION_NAME)) {
-            signalStateNode.setAxisDirection(tag.getBoolean(TAG_DIRECTION_NAME));
-        }
+        signalStateNode.setAxisDirection(NBTHelp.safeReadEnum(tag, TAG_DIRECTION_NAME, Direction.AxisDirection.class));
         signalStateNode.setUpcomingJunctionSteerDirection(NBTHelp.safeReadEnum(tag, TAG_UPCOMING_SWITCH_DIRECTION_NAME, TravellingPoint.SteerDirection.class));
 
         return signalStateNode;
     }
 
     public CompoundTag toNBT() {
+        return toNBT(0);
+    }
+
+    private CompoundTag toNBT(final int currentRecursionDepth) {
+        if (currentRecursionDepth > MAX_SIGNAL_RECURSION_STATE_DEPTH)
+            return null;
+
         final CompoundTag tag = new CompoundTag();
-        tag.putBoolean(TAG_RESERVED_NAME, isReserved());
         tag.putBoolean(TAG_PROCEED_NAME, isProceed());
         tag.putDouble(TAG_PROCEED_SPEED_NAME, getMaxProceedSpeed());
         tag.putDouble(TAG_DISTANCE_NEXT_SIGNAL_NAME, getDistanceToNextSignal());
@@ -102,18 +104,24 @@ public class SignalStateNode {
 
         tag.putBoolean(TAG_HAS_NEXT_SIGNAL_STATE_NAME, hasDistant);
         if (nextState != null) {
-            tag.put(TAG_NEXT_SIGNAL_STATE_NAME, nextState.toNBT());
+            CompoundTag nestedNextSignalState = nextState.toNBT(currentRecursionDepth + 1);
+            if (nestedNextSignalState != null)
+                tag.put(TAG_NEXT_SIGNAL_STATE_NAME, nestedNextSignalState);
         }
 
-        if (axisDirection != null) {
-            tag.putBoolean(TAG_DIRECTION_NAME, axisDirection);
-        }
+        NBTHelp.safeWriteEnum(tag, TAG_DIRECTION_NAME, axisDirection);
         NBTHelp.safeWriteEnum(tag, TAG_UPCOMING_SWITCH_DIRECTION_NAME, upcomingJunctionSteerDirection);
         return tag;
     }
 
-    public boolean isStop() {
-        return !this.proceed || this.axisDirection == null;
+    public boolean isStop(Direction.AxisDirection signalDirection) {
+        if (axisDirection == null)
+            return true;
+
+        // Either if the signal is not aligned to the current signaling state - stop
+        // OR
+        // If the signal is not displaying a proceed aspect - stop
+        return signalDirection != axisDirection || !this.proceed;
     }
 
     public SignalStateNode setNextState(SignalStateNode next) {

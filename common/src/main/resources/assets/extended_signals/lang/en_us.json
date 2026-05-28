@@ -5,7 +5,7 @@
   "item.extended_signals.signalitem": "Signalitem",
   "itemGroup.extended_signals.extended_signals": "Extended Signals",
   "message.extendedsignals.createsignal.interact.chaining": "Chaining disabled: %s",
-  "message.extendedsignals.blockentitysignal.bind.success": "Signal successfully binded to boundary %s",
+  "message.extendedsignals.blockentitysignal.bind.success": "Signal successfully bound: %s",
   "message.extendedsignals.blockentitysignal.disconnect.success": "Signal successfully disconnected",
   "key.categories.extendedsignals": "Extended Signals",
   "key.extendedsignals.train.shunt": "Request Shunt",

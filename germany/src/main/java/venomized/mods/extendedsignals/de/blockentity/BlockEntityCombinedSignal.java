@@ -43,10 +43,11 @@ public class BlockEntityCombinedSignal extends BlockEntitySignal<ICombinedSignal
 
     /**
      * @param state
+     * @param side
      * @return
      */
     @Override
-    public @NotNull ICombinedSignalAspect interpret(SignalStateNode state) {
-        return new CombinedSignalAspectCompositor(state);
+    public @NotNull ICombinedSignalAspect interpret(SignalStateNode state, boolean side) {
+        return new CombinedSignalAspectCompositor(state, side);
     }
 }

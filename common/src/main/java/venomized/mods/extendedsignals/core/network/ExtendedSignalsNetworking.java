@@ -4,10 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.network.packets.ClientScrollNetworkEventPacket;
-import venomized.mods.extendedsignals.core.network.packets.SyncSignalStatePacket;
-import venomized.mods.extendedsignals.core.network.packets.SyncSignalStatesPacket;
-import venomized.mods.extendedsignals.core.network.packets.UpdateATCEventPacket;
+import venomized.mods.extendedsignals.core.network.packets.*;
 
 public class ExtendedSignalsNetworking {
     private static final String NET_VERSION = "1.0";
@@ -21,10 +18,10 @@ public class ExtendedSignalsNetworking {
 
     public static void init() {
         CHANNEL.registerMessage(MSG_ID++,
-                ClientScrollNetworkEventPacket.class,
-                ClientScrollNetworkEventPacket::encode,
-                ClientScrollNetworkEventPacket::decode,
-                ClientScrollNetworkEventPacket::handle
+                ServerBoundScrollItemPacket.class,
+                ServerBoundScrollItemPacket::encode,
+                ServerBoundScrollItemPacket::decode,
+                ServerBoundScrollItemPacket::handle
         );
 
         CHANNEL.registerMessage(MSG_ID++,
@@ -35,17 +32,24 @@ public class ExtendedSignalsNetworking {
         );
 
         CHANNEL.registerMessage(MSG_ID++,
-                SyncSignalStatesPacket.class,
-                SyncSignalStatesPacket::encode,
-                SyncSignalStatesPacket::decode,
-                SyncSignalStatesPacket::handle
+                ClientBoundSyncSignalStatesPacket.class,
+                ClientBoundSyncSignalStatesPacket::encode,
+                ClientBoundSyncSignalStatesPacket::decode,
+                ClientBoundSyncSignalStatesPacket::handle
         );
 
         CHANNEL.registerMessage(MSG_ID++,
-                SyncSignalStatePacket.class,
-                SyncSignalStatePacket::encode,
-                SyncSignalStatePacket::decode,
-                SyncSignalStatePacket::handle
+                ClientBoundSyncSignalStatePacket.class,
+                ClientBoundSyncSignalStatePacket::encode,
+                ClientBoundSyncSignalStatePacket::decode,
+                ClientBoundSyncSignalStatePacket::handle
+        );
+
+        CHANNEL.registerMessage(MSG_ID++,
+                ServerBoundRequestShuntPacket.class,
+                ServerBoundRequestShuntPacket::encode,
+                ServerBoundRequestShuntPacket::decode,
+                ServerBoundRequestShuntPacket::handle
         );
     }
 }

@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.se.auxilliarysignals;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -30,10 +31,11 @@ public class BlockEntityDwarfSignal extends BlockEntitySignal<IDwarfSignalAspect
 
     /**
      * @param state
+     * @param side
      * @return
      */
     @Override
-    public @NotNull IDwarfSignalAspect interpret(SignalStateNode state) {
+    public @NotNull IDwarfSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
         return (A, B) -> {
         };
     }

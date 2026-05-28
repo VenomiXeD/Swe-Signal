@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.se.auxilliarysignals;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -26,10 +27,11 @@ public class BlockEntityEndpointSignal extends BlockEntitySignal<ISignalAspect> 
 
     /**
      * @param state
+     * @param side
      * @return
      */
     @Override
-    public @NotNull ISignalAspect interpret(SignalStateNode state) {
+    public @NotNull ISignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDIrection) {
         return (a, b) -> {
         };
     }

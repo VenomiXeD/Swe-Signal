@@ -1,5 +1,6 @@
 package venomized.mods.extendedsignals.se.signalling;
 
+import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -11,10 +12,10 @@ public record CombinedSignalAspectCompositor(
         DistantSignalAspect distant
 ) implements ICombinedSignalAspect {
 
-    public static CombinedSignalAspectCompositor interpret(SignalStateNode state) {
+    public static CombinedSignalAspectCompositor interpret(SignalStateNode state, Direction.AxisDirection direction) {
         return new CombinedSignalAspectCompositor(
-                MainSignalAspect.interpret(state),
-                DistantSignalAspect.interpret(state)
+                MainSignalAspect.interpret(state, direction),
+                DistantSignalAspect.interpret(state, direction)
         );
     }
 

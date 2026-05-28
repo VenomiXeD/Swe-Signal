@@ -17,8 +17,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
 
-import java.util.Optional;
-
 public class ItemSignalTuner extends Item implements IScrollableItem {
     private static final String TAG_MODE_NAME = "mode";
 
@@ -134,11 +132,11 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 
                 final BlockEntity blockEntitySourceEntity = currentRightClickedBlockEntity;
 
-                final Pair<InteractionResult, ? extends Component> readerBindingResult = ((ISignalTunerToolable) blockEntityReadingEntity).readerBindingToSource(
-                        Optional.of((ISignalTunerToolable) blockEntitySourceEntity), mode
+                final InteractionResult readerBindingResult = ((ISignalTunerToolable) blockEntityReadingEntity).readerBindingToSource(
+                        (ISignalTunerToolable) blockEntitySourceEntity, mode, pContext
                 );
-                final Pair<InteractionResult, MutableComponent> sourceBindingResult = ((ISignalTunerToolable) blockEntitySourceEntity).sourceBindingToReader(
-                        Optional.of((ISignalTunerToolable) blockEntityReadingEntity), mode
+                final InteractionResult sourceBindingResult = ((ISignalTunerToolable) blockEntitySourceEntity).sourceBindingToReader(
+                        (ISignalTunerToolable) blockEntityReadingEntity, mode, pContext
                 );
 
                 tag.remove(TAG_BLOCKENTITY_READER_NAME);

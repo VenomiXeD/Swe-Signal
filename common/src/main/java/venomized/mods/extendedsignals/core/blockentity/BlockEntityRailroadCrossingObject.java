@@ -1,20 +1,16 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
-import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.Connection;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
+import org.jetbrains.annotations.UnknownNullability;
 
 public abstract class BlockEntityRailroadCrossingObject extends CoreBlockEntity implements ISignalTunerToolable {
     @Nullable
@@ -33,7 +29,7 @@ public abstract class BlockEntityRailroadCrossingObject extends CoreBlockEntity 
 
     public void setRailroadCrossingControllerPos(BlockPos p) {
         railroadCrossingControllerPos = p;
-        this.updateSelf();
+        this.sync();
     }
 
     /**
@@ -41,18 +37,18 @@ public abstract class BlockEntityRailroadCrossingObject extends CoreBlockEntity 
      *
      * @param sourceBlockEntity source block destination
      * @param mode
+     * @param useContext
      * @return
      */
     @Override
-    public Pair<InteractionResult, MutableComponent> sourceBindingToReader(Optional<ISignalTunerToolable> sourceBlockEntity, SignalTunerMode mode) {
-        if (sourceBlockEntity.isPresent()) {
-            IForgeBlockEntity be = sourceBlockEntity.get();
-            if (be instanceof BlockEntityRailroadCrossingController c) {
+    public InteractionResult sourceBindingToReader(@UnknownNullability ISignalTunerToolable sourceBlockEntity, SignalTunerMode mode, UseOnContext useContext) {
+        if (sourceBlockEntity != null) {
+            if (sourceBlockEntity instanceof BlockEntityRailroadCrossingController c) {
                 setRailroadCrossingControllerPos(c.getBlockPos());
-                return Pair.of(InteractionResult.SUCCESS, Component.literal("Successfully bound to controller"));
+                return InteractionResult.SUCCESS;
             }
         }
-        return Pair.of(InteractionResult.PASS, null);
+        return InteractionResult.PASS;
     }
 
     @Override

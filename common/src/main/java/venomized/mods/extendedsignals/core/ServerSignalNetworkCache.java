@@ -1,5 +1,9 @@
 package venomized.mods.extendedsignals.core;
 
+import com.simibubi.create.Create;
+import com.simibubi.create.content.trains.graph.EdgePointType;
+import com.simibubi.create.content.trains.graph.TrackGraph;
+import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.nbt.CompoundTag;
@@ -9,9 +13,12 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
-import venomized.mods.extendedsignals.core.network.packets.SyncSignalStatePacket;
+import venomized.mods.extendedsignals.core.network.packets.ClientBoundSyncSignalStatePacket;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
+import java.io.Console;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -51,8 +58,26 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
     }
 
     // TODO: Remove signal states that are dead and do not refer to any signal edges in create
-    private void removeInvalidSignalEdgeReferences() {
+    private void removeInvalidSignalEdgePointReferences() {
+        List<UUID> statesToRemove = new ArrayList<>();
+        for (Object2ObjectMap.Entry<UUID, SignalStateNode> uuidSignalStateNodeEntry : signalEdgeStateMapping.object2ObjectEntrySet()) {
+            boolean doesNotExist = true;
+            for (TrackGraph graph : Create.RAILWAYS.trackNetworks.values()) {
+                for (EdgePointType<?> pointTypes : EdgePointType.TYPES.values()) {
+                    if (graph.getPoint(pointTypes, uuidSignalStateNodeEntry.getKey()) != null) {
+                        doesNotExist = false;
+                        break;
+                    }
+                }
+            }
 
+            if (doesNotExist) {
+                statesToRemove.add(uuidSignalStateNodeEntry.getKey());
+                ExtendedSignalsCore.LOGGER.info("Cleaned up dead reference {}", uuidSignalStateNodeEntry.getKey());
+            }
+        }
+
+        statesToRemove.forEach(signalEdgeStateMapping::remove);
     }
 
     /**
@@ -69,6 +94,8 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
      */
     @Override
     public @NotNull CompoundTag save(final CompoundTag pCompoundTag) {
+        this.removeInvalidSignalEdgePointReferences();
+
         final ListTag signalsCollectionTag = ISignalNetwork.serializeSignalStatesToNBTList(signalStates());
         pCompoundTag.put(ISignalNetwork.TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME, signalsCollectionTag);
         return pCompoundTag;
@@ -87,7 +114,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
 
         ExtendedSignalsNetworking.CHANNEL.send(
                 PacketDistributor.ALL.noArg(),
-                new SyncSignalStatePacket(signalUUID, newState)
+                new ClientBoundSyncSignalStatePacket(signalUUID, newState)
         );
 
         this.setDirty(true);

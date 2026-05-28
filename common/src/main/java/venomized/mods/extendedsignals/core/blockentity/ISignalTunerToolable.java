@@ -2,14 +2,18 @@ package venomized.mods.extendedsignals.core.blockentity;
 
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraftforge.common.extensions.IForgeBlockEntity;
 
-import java.util.Optional;
-
 public interface ISignalTunerToolable extends IForgeBlockEntity {
+    enum SignalTunerMode {
+        DISCONNECT_ALL,
+        DISCONNECT,
+        CONNECT,
+        CONFIGURE
+    }
+
     default boolean isSource() {
         return true;
     }
@@ -23,10 +27,11 @@ public interface ISignalTunerToolable extends IForgeBlockEntity {
      *
      * @param sourceBlockEntity source block destination
      * @param mode
+     * @param useContext
      * @return
      */
-    default Pair<InteractionResult, MutableComponent> sourceBindingToReader(Optional<ISignalTunerToolable> sourceBlockEntity, SignalTunerMode mode) {
-        return Pair.of(InteractionResult.FAIL, Component.literal("Invalid Data Source Tile"));
+    default InteractionResult sourceBindingToReader(ISignalTunerToolable sourceBlockEntity, SignalTunerMode mode, UseOnContext useContext) {
+        return InteractionResult.PASS;
     }
 
     /**
@@ -34,19 +39,13 @@ public interface ISignalTunerToolable extends IForgeBlockEntity {
      *
      * @param targetBlockEntity target block destination
      * @param mode
+     * @param useContext
      */
-    default Pair<InteractionResult, ? extends Component> readerBindingToSource(Optional<ISignalTunerToolable> targetBlockEntity, SignalTunerMode mode) {
-        return Pair.of(InteractionResult.CONSUME, Component.empty());
+    default InteractionResult readerBindingToSource(ISignalTunerToolable targetBlockEntity, SignalTunerMode mode, UseOnContext useContext) {
+        return InteractionResult.PASS;
     }
 
     default InteractionResult onSignalToolInteract(SignalTunerMode mode, UseOnContext context) {
         return InteractionResult.PASS;
-    }
-
-    enum SignalTunerMode {
-        DISCONNECT_ALL,
-        DISCONNECT,
-        CONNECT,
-        CONFIGURE
     }
 }
