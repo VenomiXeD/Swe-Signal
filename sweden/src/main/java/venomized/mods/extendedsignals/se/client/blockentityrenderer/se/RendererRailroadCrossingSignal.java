@@ -11,6 +11,7 @@ import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityRailroadCr
 
 public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<BlockEntityRailroadCrossingSignal> {
     public RendererRailroadCrossingSignal(BlockEntityRendererProvider.Context context) {
+        super(context);
     }
 
     private boolean isObjModel() {
@@ -28,25 +29,13 @@ public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<Bloc
     @Override
     public void render(BlockEntityRailroadCrossingSignal pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
-        renderer()
-                .tesselateWithAO(
-                        pBlockEntity.getLevel(),
-                        getModel(pBlockEntity.getBlockState()),
-                        pBlockEntity.getBlockState(),
-                        pBlockEntity.getBlockPos(),
-                        pPoseStack,
-                        pBuffer.getBuffer(RenderType.solid()),
-                        true,
-                        pBlockEntity.getLevel().getRandom(),
-                        pPackedLight,
-                        pPackedOverlay
-                );
+        renderSelfBlock();
 
         pPoseStack.translate(.5f, 1 + 1.5 / 16f, 6f / 16f);
 
         pPoseStack.pushPose();
         pPoseStack.scale(1.1f, 1.1f, 0);
-        renderer().renderModel(
+        renderer.renderModel(
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),
@@ -61,7 +50,7 @@ public class RendererRailroadCrossingSignal extends BlockEntityRendererBase<Bloc
 
         pPoseStack.pushPose();
         pPoseStack.scale(1.1f, 1.1f, 0);
-        renderer().renderModel(
+        renderer.renderModel(
                 pPoseStack.last(),
                 pBuffer.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
                 pBlockEntity.getBlockState(),

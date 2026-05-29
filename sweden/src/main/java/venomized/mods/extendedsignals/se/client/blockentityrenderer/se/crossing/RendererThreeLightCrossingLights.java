@@ -6,6 +6,7 @@ import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityThreeLi
 
 public class RendererThreeLightCrossingLights extends BlockEntityRendererBase<BlockEntityThreeLightCrossingLights> {
     public RendererThreeLightCrossingLights(BlockEntityRendererProvider.Context context) {
+        super(context);
     }
 
     // @Override

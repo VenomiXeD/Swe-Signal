@@ -29,10 +29,7 @@ public class RendererCrossingGate extends BlockEntityRendererBase<BlockEntityCro
     public void render(BlockEntityCrossingGate pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
         super.render(pBlockEntity, pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay);
 
-        renderSelfBlock(
-                pBlockEntity,
-                pPoseStack
-        );
+        renderSelfBlock();
         // getRenderer().tesselateBlock(
         //         pBlockEntity.getLevel(),
         //         this.getModel(pBlockEntity.getBlockState()),
