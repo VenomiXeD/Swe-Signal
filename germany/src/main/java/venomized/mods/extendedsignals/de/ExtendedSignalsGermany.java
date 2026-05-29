@@ -3,15 +3,14 @@ package venomized.mods.extendedsignals.de;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import venomized.mods.extendedsignals.core.ModTemplate;
 import venomized.mods.extendedsignals.de.block.GermanyBlocks;
 import venomized.mods.extendedsignals.de.blockentity.GermanyBlockEntities;
+import venomized.mods.extendedsignals.de.client.GermanyModels;
 
 @Mod(ExtendedSignalsGermany.MOD_ID)
 public class ExtendedSignalsGermany extends ModTemplate {
@@ -30,6 +29,10 @@ public class ExtendedSignalsGermany extends ModTemplate {
         super(context);
     }
 
+    public static ResourceLocation res(String location) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, location);
+    }
+
     /**
      *
      */
@@ -37,6 +40,14 @@ public class ExtendedSignalsGermany extends ModTemplate {
     protected void commonInitialization() {
         GermanyBlocks.init();
         GermanyBlockEntities.init();
+    }
+
+    /**
+     *
+     */
+    @Override
+    protected void clientInitialization() {
+        GermanyModels.init();
     }
 
     /**

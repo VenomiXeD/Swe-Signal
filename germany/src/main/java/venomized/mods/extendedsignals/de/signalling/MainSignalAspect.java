@@ -51,9 +51,9 @@ public enum MainSignalAspect implements IMainSignalAspect {
         if (state.isStop(direction))
             return MainSignalAspect.STOP;
 
-        return state.getMaxProceedSpeed() > 40
-                  ? MainSignalAspect.PROCEED
-                : MainSignalAspect.PROCEED_40;
+        return state.getMaxProceedSpeed() <= 40
+                ? MainSignalAspect.PROCEED_40
+                : MainSignalAspect.PROCEED;
     }
 
     /**

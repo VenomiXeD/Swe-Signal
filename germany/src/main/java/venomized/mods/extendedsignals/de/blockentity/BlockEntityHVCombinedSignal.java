@@ -11,8 +11,8 @@ import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.de.signalling.CombinedSignalAspectCompositor;
 
-public class BlockEntityCombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
-    public BlockEntityCombinedSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
+public class BlockEntityHVCombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
+    public BlockEntityHVCombinedSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
 
@@ -38,7 +38,6 @@ public class BlockEntityCombinedSignal extends BlockEntitySignal<ICombinedSignal
 
                 new SignalLightPlacement(6 / 16d, 67.5d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f),
                 new SignalLightPlacement(2 / 16d, 67.5d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f),
-
         };
     }
 

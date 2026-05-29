@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -22,34 +23,24 @@ import venomized.mods.extendedsignals.core.blockentity.IOrientedBlockEntity;
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
 public abstract class BlockEntityRendererBase<T extends BlockEntity> implements BlockEntityRenderer<T> {
-    protected final Vector3d baseModelOffset;
+    protected T blockEntity;
+
+    protected float partialTick;
     protected int packedLight;
     protected int packedOverlay;
     protected MultiBufferSource bufferSource;
-
-    private BakedModel cachedModel;
+    protected PoseStack poseStack;
+    protected ModelBlockRenderer renderer;
 
     public BlockEntityRendererBase(BlockEntityRendererProvider.Context context) {
-        this();
+        renderer = context.getBlockRenderDispatcher().getModelRenderer();
     }
-
-    public BlockEntityRendererBase() {
-        baseModelOffset = configureModelOffset();
-    }
-
-    protected static ModelBlockRenderer renderer() {
-        return Minecraft.getInstance().getBlockRenderer().getModelRenderer();
-    }
-
-    protected Vector3d configureModelOffset() {
-        return new Vector3d(0d, 0d, 0d);
-    }
-
     @Override
     public int getViewDistance() {
         return 1024;
     }
 
+    private BakedModel cachedModel;
     protected BakedModel getModel(BlockState currentBlockState) {
         if (cachedModel == null) {
             cachedModel = Minecraft.getInstance().getBlockRenderer()
@@ -58,27 +49,24 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
         return cachedModel;
     }
 
-    protected void renderSelfBlock(T pBlockEntity, PoseStack pPoseStack) {
-        pPoseStack.pushPose();
-        pPoseStack.translate(
-                baseModelOffset.x,
-                baseModelOffset.y,
-                baseModelOffset.z
-        );
-        renderer().tesselateWithAO(
-                pBlockEntity.getLevel(),
-                getModel(pBlockEntity.getBlockState()),
-                pBlockEntity.getBlockState(),
-                pBlockEntity.getBlockPos(),
-                pPoseStack,
-                bufferSource.getBuffer(RenderType.cutoutMipped()),
-                false,
-                pBlockEntity.getLevel().getRandom(),
-                packedLight,
-                packedOverlay, ModelData.EMPTY, RenderType.cutoutMipped()
-        );
+    protected void renderSelfBlock() {
 
-        pPoseStack.popPose();
+        CachedBuffers.block(CachedBuffers.GENERIC_BLOCK, blockEntity.getBlockState())
+                .light(packedLight)
+                .overlay(packedOverlay)
+                .renderInto(poseStack, bufferSource.getBuffer(RenderType.cutoutMipped()));
+        // renderer.tesselateBlock(
+        //         pBlockEntity.getLevel(),
+        //         getModel(pBlockEntity.getBlockState()),
+        //         pBlockEntity.getBlockState(),
+        //         pBlockEntity.getBlockPos(),
+        //         pPoseStack,
+        //         bufferSource.getBuffer(RenderType.cutoutMipped()),
+        //         false,
+        //         pBlockEntity.getLevel().getRandom(),
+        //         packedLight,
+        //         packedOverlay, ModelData.EMPTY, RenderType.cutoutMipped()
+        // );
     }
 
     /**
@@ -91,11 +79,14 @@ public abstract class BlockEntityRendererBase<T extends BlockEntity> implements 
      */
     @Override
     public void render(T pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
+        blockEntity = pBlockEntity;
+        poseStack = pPoseStack;
         bufferSource = pBuffer;
         packedLight = pPackedLight;
         packedOverlay = pPackedOverlay;
+        partialTick = pPartialTick;
 
-        if (pBlockEntity instanceof IOrientedBlockEntity orientableBlock) {
+        if (blockEntity instanceof IOrientedBlockEntity orientableBlock) {
             float angle = -orientableBlock.getYOrientation();
 
             pPoseStack.rotateAround(

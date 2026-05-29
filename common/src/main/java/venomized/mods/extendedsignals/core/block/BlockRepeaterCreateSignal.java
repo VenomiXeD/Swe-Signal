@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityRepeaterCreateSignal;
 
-public class BlockRepeaterCreateSignal extends ExtendedSignalsBlock implements IBE {
+public class BlockRepeaterCreateSignal extends EdgePointBlock<BlockEntityRepeaterCreateSignal> {
     /**
      * @param pProperties
      */
@@ -20,7 +20,7 @@ public class BlockRepeaterCreateSignal extends ExtendedSignalsBlock implements I
      * @return
      */
     @Override
-    public Class getBlockEntityClass() {
+    public Class<BlockEntityRepeaterCreateSignal> getBlockEntityClass() {
         return BlockEntityRepeaterCreateSignal.class;
     }
 
@@ -28,19 +28,7 @@ public class BlockRepeaterCreateSignal extends ExtendedSignalsBlock implements I
      * @return
      */
     @Override
-    public BlockEntityType getBlockEntityType() {
+    public BlockEntityType<BlockEntityRepeaterCreateSignal> getBlockEntityType() {
         return CoreBlockEntities.SIGNAL_REPEATER.get();
-    }
-
-    /**
-     * @param pState
-     * @param pLevel
-     * @param pPos
-     * @param pNewState
-     * @param pMovedByPiston
-     */
-    @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
-        IBE.onRemove(pState, pLevel, pPos, pNewState);
     }
 }

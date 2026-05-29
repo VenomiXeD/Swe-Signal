@@ -39,6 +39,7 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
         direction = NBTHelper.readEnum(nbt, TAG_MODIFIER_DIRECTION, Direction.AxisDirection.class);
     }
 
+
     /**
      * @return
      */
@@ -56,14 +57,6 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
     }
 
     /**
-     * @param level
-     */
-    @Override
-    public void invalidate(LevelAccessor level) {
-
-    }
-
-    /**
      * @param blockEntity
      * @param front
      */
@@ -78,6 +71,6 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
      */
     @Override
     public void blockEntityRemoved(BlockPos blockEntityPos, boolean front) {
-        this.removeFromAllGraphs();
+        removeFromAllGraphs();
     }
 }

@@ -11,8 +11,8 @@ import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.de.signalling.MainSignalAspect;
 
-public class BlockEntityMainSignal extends BlockEntitySignal<IMainSignalAspect> {
-    public BlockEntityMainSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
+public class BlockEntityHVMainSignal extends BlockEntitySignal<IMainSignalAspect> {
+    public BlockEntityHVMainSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
 

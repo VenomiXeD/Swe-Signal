@@ -11,8 +11,8 @@ import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.de.signalling.DistantSignalAspect;
 
-public class BlockEntityDistantSignal extends BlockEntitySignal<IDistantSignalAspect> {
-    public BlockEntityDistantSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
+public class BlockEntityHVDistantSignal extends BlockEntitySignal<IDistantSignalAspect> {
+    public BlockEntityHVDistantSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
 

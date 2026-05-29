@@ -3,8 +3,11 @@ package venomized.mods.extendedsignals.core.create.tracks;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.graph.EdgePointType;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.LevelAccessor;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
@@ -16,7 +19,11 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
             ExtendedSignalsCore.res("speed_modifier"), SpeedModifier::new
     );
     private final static String TAG_WRENCHED_NAME = "wrenched";
+    private final static String TAG_SPEED_NAME = "speed_setting";
     private boolean discard;
+    @Getter
+    @Setter
+    private int speedModifierKph;
 
     /**
      * @return
@@ -24,6 +31,14 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
     @Override
     public boolean canMerge() {
         return false;
+    }
+
+    /**
+     * @param level
+     */
+    @Override
+    public void invalidate(LevelAccessor level) {
+
     }
 
     /**
@@ -48,7 +63,7 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
      */
     @Override
     public UUID pointId() {
-        return null;
+        return this.getId();
     }
 
     /**
@@ -57,7 +72,7 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
      */
     @Override
     public void applyModifier(SignalStateNode stateToBeModified) {
-        stateToBeModified.setMaxProceedSpeed(40);
+        stateToBeModified.setMaxProceedSpeed(speedModifierKph);
     }
 
     /**
@@ -76,6 +91,7 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
     public void write(CompoundTag nbt, DimensionPalette dimensions) {
         super.write(nbt, dimensions);
         nbt.putBoolean(TAG_WRENCHED_NAME, discard);
+        nbt.putInt(TAG_SPEED_NAME, speedModifierKph);
     }
 
     /**
@@ -87,6 +103,7 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
     public void read(CompoundTag nbt, boolean migration, DimensionPalette dimensions) {
         super.read(nbt, migration, dimensions);
         discard = nbt.getBoolean(TAG_WRENCHED_NAME);
+        speedModifierKph = nbt.getInt(TAG_SPEED_NAME);
     }
 
 

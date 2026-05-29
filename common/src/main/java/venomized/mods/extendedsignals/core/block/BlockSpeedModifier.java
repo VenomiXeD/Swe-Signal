@@ -2,8 +2,10 @@ package venomized.mods.extendedsignals.core.block;
 
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.IBE;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
@@ -11,7 +13,7 @@ import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntitySignal
 
 import java.util.Optional;
 
-public class BlockSpeedModifier extends ExtendedSignalsBlock implements IBE<BlockEntitySignalSpeedModifier>, IWrenchable {
+public class BlockSpeedModifier extends EdgePointBlock<BlockEntitySignalSpeedModifier> implements IWrenchable {
     /**
      * @param pProperties
      */

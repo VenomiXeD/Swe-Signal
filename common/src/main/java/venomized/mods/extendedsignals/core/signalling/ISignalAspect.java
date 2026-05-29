@@ -28,5 +28,9 @@ public interface ISignalAspect {
                     rf, gf, bf
             );
         }
+
+        public int argb() {
+            return 0xFF000000 | color;
+        }
     }
 }

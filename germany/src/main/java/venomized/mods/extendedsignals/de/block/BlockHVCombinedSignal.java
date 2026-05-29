@@ -1,19 +1,15 @@
 package venomized.mods.extendedsignals.de.block;
 
 import com.simibubi.create.foundation.block.IBE;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.de.blockentity.BlockEntityCombinedSignal;
+import venomized.mods.extendedsignals.de.blockentity.BlockEntityHVCombinedSignal;
 import venomized.mods.extendedsignals.de.blockentity.GermanyBlockEntities;
 
-public class BlockCombinedSignal extends BlockGermanySignal implements IBE {
+public class BlockHVCombinedSignal extends BlockGermanySignal implements IBE {
     /**
      * @param pProperties
      */
-    public BlockCombinedSignal(Properties pProperties) {
+    public BlockHVCombinedSignal(Properties pProperties) {
         super(pProperties);
     }
 
@@ -22,7 +18,7 @@ public class BlockCombinedSignal extends BlockGermanySignal implements IBE {
      */
     @Override
     public Class getBlockEntityClass() {
-        return BlockEntityCombinedSignal.class;
+        return BlockEntityHVCombinedSignal.class;
     }
 
     /**
