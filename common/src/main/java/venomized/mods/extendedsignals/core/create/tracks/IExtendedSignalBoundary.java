@@ -54,7 +54,7 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
             return;
         }
 
-        ExtendedSignalsCore.sidedNetwork(level).updateState(((T) this).getId(), Objects.requireNonNullElse(
+        ExtendedSignalsCore.sidedNetwork(level).updateState(((T) this).getId(), direction == Direction.AxisDirection.POSITIVE, Objects.requireNonNullElse(
                 newState.setAxisDirection(direction),
                 new SignalStateNode().setAxisDirection(direction)
         ));
@@ -75,6 +75,7 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
 
         ExtendedSignalsCore.sidedNetwork(level)
                 .updateState(((T) this).getId(),
+                        direction == Direction.AxisDirection.POSITIVE,
                         SignalStateNode.STOP
                 );
     }

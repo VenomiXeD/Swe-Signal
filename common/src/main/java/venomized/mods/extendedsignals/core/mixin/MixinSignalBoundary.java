@@ -178,27 +178,27 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
         return extendedSignals$skipChainingConfiguration.get(front);
     }
 
-    @WrapOperation(
-            method = "tickState",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/createmod/catnip/data/Couple;set(ZLjava/lang/Object;)V"
-            )
-    )
-    public <T> void extendedSignals$tickStateCachedStatesUpdated(Couple<T> instance, boolean first, T value, Operation<Void> original) {
-        original.call(instance, first, value);
-
-        SignalStateNode node = ExtendedSignalsCore.serverNetworkCache().getSignalState(pointId());
-        if (!node.isValid())
-            return;
-
-        if (extendedSignals$lastCachedState.get(first) == value)
-            return;
-
-        SignalBlockEntity.SignalState state = (SignalBlockEntity.SignalState) value;
-        extendedSignals$lastCachedState.set(first, state);
-        node.setCreateSignalState(first, state);
-    }
+    // @WrapOperation(
+    //         method = "tickState",
+    //         at = @At(
+    //                 value = "INVOKE",
+    //                 target = "Lnet/createmod/catnip/data/Couple;set(ZLjava/lang/Object;)V"
+    //         )
+    // )
+    // public <T> void extendedSignals$tickStateCachedStatesUpdated(Couple<T> instance, boolean first, T value, Operation<Void> original) {
+    //     original.call(instance, first, value);
+//
+    //     SignalStateNode node = ExtendedSignalsCore.serverNetworkCache().getSignalState(pointId());
+    //     if (!node.isValid())
+    //         return;
+//
+    //     if (extendedSignals$lastCachedState.get(first) == value)
+    //         return;
+//
+    //     SignalBlockEntity.SignalState state = (SignalBlockEntity.SignalState) value;
+    //     extendedSignals$lastCachedState.set(first, state);
+    //     node.setCreateSignalState(first, state);
+    // }
     /**
      * @return
      */

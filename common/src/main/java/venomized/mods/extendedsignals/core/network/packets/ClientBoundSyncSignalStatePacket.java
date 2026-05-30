@@ -9,10 +9,12 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public record ClientBoundSyncSignalStatePacket(UUID uuid, SignalStateNode signalStateNode) implements ISimplePacket {
+public record ClientBoundSyncSignalStatePacket(UUID uuid, boolean side,
+                                               SignalStateNode signalStateNode) implements ISimplePacket {
     public static ClientBoundSyncSignalStatePacket decode(FriendlyByteBuf buf) {
         return new ClientBoundSyncSignalStatePacket(
                 buf.readUUID(),
+                buf.readBoolean(),
                 SignalStateNode.fromNBT(buf.readAnySizeNbt())
         );
     }
@@ -24,7 +26,7 @@ public record ClientBoundSyncSignalStatePacket(UUID uuid, SignalStateNode signal
     public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
         // ExtendedSignalsCore.LOGGER
         //         .info("new signal state update: {}, {}", uuid, NbtUtils.prettyPrint(this.signalStateNode().toNBT()));
-        ExtendedSignalsCore.clientNetworkCache().updateState(this.uuid, this.signalStateNode);
+        ExtendedSignalsCore.clientNetworkCache().updateState(this.uuid, side, this.signalStateNode);
         contextSupplier.get().setPacketHandled(true);
     }
 
@@ -33,7 +35,8 @@ public record ClientBoundSyncSignalStatePacket(UUID uuid, SignalStateNode signal
      */
     @Override
     public void encode(FriendlyByteBuf buf) {
-        buf.writeUUID(this.uuid);
-        buf.writeNbt(this.signalStateNode.toNBT());
+        buf.writeUUID(uuid);
+        buf.writeBoolean(side);
+        buf.writeNbt(signalStateNode.toNBT());
     }
 }

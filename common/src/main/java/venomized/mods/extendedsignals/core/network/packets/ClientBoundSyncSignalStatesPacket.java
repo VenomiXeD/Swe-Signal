@@ -1,5 +1,6 @@
 package venomized.mods.extendedsignals.core.network.packets;
 
+import net.createmod.catnip.data.Couple;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
@@ -13,7 +14,7 @@ import java.util.UUID;
 import java.util.function.Supplier;
 
 public record ClientBoundSyncSignalStatesPacket(
-        Map<UUID, SignalStateNode> fullNetworkMapping) implements ISimplePacket {
+        Map<UUID, Couple<SignalStateNode>> fullNetworkMapping) implements ISimplePacket {
     public static ClientBoundSyncSignalStatesPacket decode(FriendlyByteBuf buf) {
         return new ClientBoundSyncSignalStatesPacket(
                 ISignalNetwork.deserializeSignalStatesFromNBTList(

@@ -92,8 +92,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         if (this.getLevel() == null)
             return SignalStateNode.INVALID;
         return ExtendedSignalsCore.sidedNetwork(this.getLevel())
-                .signalStates()
-                .getOrDefault(this.pointID, SignalStateNode.INVALID);
+                .getSignalState(pointID, signallingDirection == Direction.AxisDirection.POSITIVE);
     }
 
     public boolean valid() {
@@ -181,14 +180,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
 
         // If the linked signal has no entry yet, push a new empty dummy raw signal state
         ISignalNetwork network = ExtendedSignalsCore.sidedNetwork(this.level);
-        if (network.signalStates().containsKey(pointID)) {
-            SignalStateNode state = ExtendedSignalsCore.sidedNetwork(this.level).signalStates().get(pointID);
-            if (!state.isReserved())
-                network.updateState(this.pointID, new SignalStateNode());
-
-        } else {
-            network.updateState(this.pointID, new SignalStateNode());
-        }
+        network.updateState(this.pointID, signallingDirection == Direction.AxisDirection.POSITIVE, new SignalStateNode());
 
         this.sync();
     }
