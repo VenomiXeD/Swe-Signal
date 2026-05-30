@@ -2,6 +2,7 @@ package venomized.mods.extendedsignals.core;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.createmod.catnip.data.Iterate;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -44,6 +45,11 @@ public interface ISignalNetwork {
     }
 
     default void updateState(UUID signalUUID, SignalStateNode newState) {
+        // Need to copy over create signal states
+        SignalStateNode old = signalStates().get(signalUUID);
+        if (old != null)
+            for (boolean side : Iterate.trueAndFalse)
+                newState.setCreateSignalState(side, old.getCreateSignalState(side));
         signalStates()
                 .put(signalUUID, newState);
     }

@@ -33,11 +33,12 @@ public class BlockEntityHVCombinedSignal extends BlockEntitySignal<ICombinedSign
                 new SignalLightPlacement(2.75d / 16d, 96.25 / 16d, -7.65 / 16d, 2.75f, 2.75f, 0.1f),
 
                 // Distant signal parts
-                new SignalLightPlacement(-2.25 / 16d, 77d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f),
-                new SignalLightPlacement(-6.25 / 16d, 77d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f),
+                new SignalLightPlacement(5.25 / 16d, 78.5d / 16d, -6.65d / 16d, 1.5f, 1.5f, 0.5f),
 
-                new SignalLightPlacement(6 / 16d, 67.5d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f),
-                new SignalLightPlacement(2 / 16d, 67.5d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f),
+                new SignalLightPlacement(-2.25 / 16d, 78d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f),
+                new SignalLightPlacement(-6.25 / 16d, 78d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f),
+                new SignalLightPlacement(6 / 16d, 68.5d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f),
+                new SignalLightPlacement(2 / 16d, 68.5d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f),
         };
     }
 

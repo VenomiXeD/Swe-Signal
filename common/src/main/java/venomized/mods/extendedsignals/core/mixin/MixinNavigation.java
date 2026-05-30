@@ -9,7 +9,6 @@ import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.DiscoveredPath;
 import com.simibubi.create.content.trains.graph.TrackEdge;
 import com.simibubi.create.content.trains.graph.TrackNode;
-import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
@@ -22,7 +21,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.joml.Math;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -45,6 +43,10 @@ import java.util.UUID;
 public abstract class MixinNavigation implements INavigationAccessor {
     @Unique
     private static final double LOOK_AHEAD_DISTANCE = 256;
+
+    @Unique
+    private static final int SIGNAL_SCOUT_INTERVAL = 10;
+
     @Unique
     private final Deque<CollectedSignal> extendedSignals$collectedSignals = new ArrayDeque<>();
 
@@ -63,7 +65,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
     @Unique
     private TravellingPoint extendedSignals$signalScoutTriggerCollector;
     @Unique
-    private int extendedSignals$randomTickValueForTesting = 20;
+    private long extendedSignals$signalScoutCooldown = 0;
 
     @Shadow
     public abstract TravellingPoint.ITrackSelector controlSignalScout();
@@ -92,6 +94,9 @@ public abstract class MixinNavigation implements INavigationAccessor {
     @Inject(method = "startNavigation", at = @At("HEAD"))
     public void extendedSignals$onStartNavigation(DiscoveredPath pathTo, CallbackInfoReturnable<Double> cir) {
         extendedSignals$activeModifiers.clear();
+
+        // Force scout on departure
+        extendedSignals$signalScoutCooldown = 0;
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
@@ -119,7 +124,11 @@ public abstract class MixinNavigation implements INavigationAccessor {
                                      @Local(name = "speedMod") double speedMod,
                                      @Local(name = "leadingPoint") TravellingPoint leadingPoint
     ) {
-        extendedSignals$randomTickValueForTesting = extendedSignals$randomTickValueForTesting < 0 ? 20 : extendedSignals$randomTickValueForTesting - 1;
+        if (extendedSignals$signalScoutCooldown-- > 0)
+            return;
+        extendedSignals$signalScoutCooldown = SIGNAL_SCOUT_INTERVAL;
+
+        extendedSignals$signalScoutCooldown = extendedSignals$signalScoutCooldown < 0 ? 20 : extendedSignals$signalScoutCooldown - 1;
 
         extendedSignals$signalScoutTriggerCollector.node1 = leadingPoint.node1;
         extendedSignals$signalScoutTriggerCollector.node2 = leadingPoint.node2;

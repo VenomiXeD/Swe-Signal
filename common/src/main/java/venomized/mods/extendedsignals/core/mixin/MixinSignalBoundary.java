@@ -1,8 +1,12 @@
 package venomized.mods.extendedsignals.core.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
+import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
@@ -20,7 +24,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.core.create.tracks.IRawSignalStateEvaluator;
 import venomized.mods.extendedsignals.core.create.tracks.SignalBoundaryConfiguration;
@@ -35,6 +41,9 @@ import java.util.UUID;
 public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExtendedSignalBoundary<SignalBoundary>, IRawSignalStateEvaluator, ISignalStateBoundaryTransformer {
     private static final String TAG_MAPPER_NAME = "mapper";
     private static final String TAG_SKIP_CHAIN_CONFIG_NAME = "chaining";
+
+    @Unique
+    public Couple<SignalBlockEntity.SignalState> extendedSignals$lastCachedState;
 
     @Shadow
     public Couple<SignalBlockEntity.SignalState> cachedStates;
@@ -57,8 +66,11 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void extendedSignals$Ctor(CallbackInfo ci) {
+        extendedSignals$lastCachedState = Couple.create(() -> SignalBlockEntity.SignalState.INVALID);
         extendedSignals$skipChainingConfiguration = Couple.create(false, false);
         extendedSignals$stateRemapperIDs = Couple.create(SignalStateRemapper.NONE.getId(), SignalStateRemapper.NONE.getId());
+
+
     }
 
     /**
@@ -166,6 +178,27 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
         return extendedSignals$skipChainingConfiguration.get(front);
     }
 
+    @WrapOperation(
+            method = "tickState",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/createmod/catnip/data/Couple;set(ZLjava/lang/Object;)V"
+            )
+    )
+    public <T> void extendedSignals$tickStateCachedStatesUpdated(Couple<T> instance, boolean first, T value, Operation<Void> original) {
+        original.call(instance, first, value);
+
+        SignalStateNode node = ExtendedSignalsCore.serverNetworkCache().getSignalState(pointId());
+        if (!node.isValid())
+            return;
+
+        if (extendedSignals$lastCachedState.get(first) == value)
+            return;
+
+        SignalBlockEntity.SignalState state = (SignalBlockEntity.SignalState) value;
+        extendedSignals$lastCachedState.set(first, state);
+        node.setCreateSignalState(first, state);
+    }
     /**
      * @return
      */

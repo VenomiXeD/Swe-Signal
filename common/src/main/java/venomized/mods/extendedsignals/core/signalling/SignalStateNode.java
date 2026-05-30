@@ -1,8 +1,13 @@
 package venomized.mods.extendedsignals.core.signalling;
 
 import com.simibubi.create.content.trains.entity.TravellingPoint;
+import com.simibubi.create.content.trains.signal.SignalBlockEntity;
+import com.simibubi.create.content.trains.signal.SignalBoundary;
 import lombok.*;
 import lombok.experimental.Accessors;
+import net.createmod.catnip.data.Couple;
+import net.createmod.catnip.data.Iterate;
+import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import venomized.mods.extendedsignals.core.util.NBTHelp;
@@ -34,6 +39,8 @@ public class SignalStateNode {
     private static final String TAG_DIRECTION_NAME = "signal_direction";
     private static final String TAG_UPCOMING_SWITCH_DIRECTION_NAME = "upcoming_switch_direction";
 
+    private static final String TAG_CREATE_STATE_NAME = "create_state";
+
     @Getter
     @Setter
     public boolean reserved;
@@ -49,6 +56,8 @@ public class SignalStateNode {
     @Setter
     @Getter
     private boolean valid = true;
+
+    private Couple<SignalBlockEntity.SignalState> createSignalState = Couple.create(() -> SignalBlockEntity.SignalState.INVALID);
 
     @EqualsAndHashCode.Exclude
     @Setter
@@ -82,6 +91,15 @@ public class SignalStateNode {
             signalStateNode.setNextState(SignalStateNode.fromNBT(tag.getCompound(TAG_NEXT_SIGNAL_STATE_NAME)));
         }
 
+        for (boolean side : Iterate.trueAndFalse)
+            signalStateNode.setCreateSignalState(side,
+                    NBTHelper.readEnum(
+                            tag,
+                            "%s%d".formatted(TAG_CREATE_STATE_NAME, side ? 0 : 1),
+                            SignalBlockEntity.SignalState.class
+                    )
+            );
+
         signalStateNode.setAxisDirection(NBTHelp.safeReadEnum(tag, TAG_DIRECTION_NAME, Direction.AxisDirection.class));
         signalStateNode.setUpcomingJunctionSteerDirection(NBTHelp.safeReadEnum(tag, TAG_UPCOMING_SWITCH_DIRECTION_NAME, TravellingPoint.SteerDirection.class));
 
@@ -109,9 +127,29 @@ public class SignalStateNode {
                 tag.put(TAG_NEXT_SIGNAL_STATE_NAME, nestedNextSignalState);
         }
 
+        for (boolean side : Iterate.trueAndFalse)
+            NBTHelper.writeEnum(
+                    tag,
+                    "%s%d".formatted(TAG_CREATE_STATE_NAME, side ? 0 : 1),
+                    getCreateSignalState(side)
+            );
+
         NBTHelp.safeWriteEnum(tag, TAG_DIRECTION_NAME, axisDirection);
         NBTHelp.safeWriteEnum(tag, TAG_UPCOMING_SWITCH_DIRECTION_NAME, upcomingJunctionSteerDirection);
         return tag;
+    }
+
+    public SignalBlockEntity.SignalState getCreateSignalState(Direction.AxisDirection direction) {
+        return getCreateSignalState(direction == Direction.AxisDirection.POSITIVE);
+    }
+
+    public SignalBlockEntity.SignalState getCreateSignalState(boolean side) {
+        return this.createSignalState.get(side);
+    }
+
+    public SignalStateNode setCreateSignalState(boolean side, SignalBlockEntity.SignalState createSignalState) {
+        this.createSignalState.set(side, createSignalState);
+        return this;
     }
 
     public boolean isStop(Direction.AxisDirection signalDirection) {

@@ -53,41 +53,43 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
 
         double kph = signalAspect.rawState().getMaxProceedSpeed();
 
-        final Matrix4f pos = poseStack.last().pose();
-        final Matrix3f normal = poseStack.last().normal();
-
         final int displayKph = Mth.clamp(
-                Mth.floor(kph / 10), 1, 16
+                Mth.floor(kph / 10), 1, 17
         );
+
+        if (displayKph >= 17)
+            return;
 
         final float[] uv = speedToUVCoordinates(displayKph);
 
+        final Matrix4f pos = poseStack.last().pose();
+        final Matrix3f normal = poseStack.last().normal();
         VertexConsumer zs3vertexConsumer = bufferSource.getBuffer(RenderType.beaconBeam(
                 ExtendedSignalsGermany.res("textures/block/signals/de/numbers.png"), true
         ));
         zs3vertexConsumer
-                .vertex(pos, -2.75f / 16f, 122.5f / 16f, -7.06f / 16f)
+                .vertex(pos, -2.75f / 16f, 121.5f / 16f, -7.06f / 16f)
                 .color(255, 255, 255, 255)
                 .uv(uv[1], uv[3])
                 .uv2(0xFFFFFF)
                 .normal(normal, 0, 1, 0)
                 .endVertex();
         zs3vertexConsumer
-                .vertex(pos, -2.75f / 16f, 129.75f / 16f, -7.06f / 16f)
+                .vertex(pos, -2.75f / 16f, 128.75f / 16f, -7.06f / 16f)
                 .color(255, 255, 255, 255)
                 .uv(uv[1], uv[2])
                 .uv2(0xFFFFFF)
                 .normal(normal, 0, 1, 0)
                 .endVertex();
         zs3vertexConsumer
-                .vertex(pos, 2.75f / 16f, 129.75f / 16f, -7.06f / 16f)
+                .vertex(pos, 2.75f / 16f, 128.75f / 16f, -7.06f / 16f)
                 .color(255, 255, 255, 255)
                 .uv(uv[0], uv[2])
                 .uv2(0xFFFFFF)
                 .normal(normal, 0, 1, 0)
                 .endVertex();
         zs3vertexConsumer
-                .vertex(pos, 2.75f / 16f, 122.5f / 16f, -7.06f / 16f)
+                .vertex(pos, 2.75f / 16f, 121.5f / 16f, -7.06f / 16f)
                 .color(255, 255, 255, 255)
                 .uv(uv[0], uv[3])
                 .uv2(0xFFFFFF)
@@ -110,15 +112,17 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
 
         double kph = signalAspect.rawState().getNextState().getMaxProceedSpeed();
 
-        final Matrix4f pos = poseStack.last().pose();
-        final Matrix3f normal = poseStack.last().normal();
-
         final int displayKph = Mth.clamp(
-                Mth.floor(kph / 10), 1, 16
+                Mth.floor(kph / 10), 1, 17
         );
+
+        if (displayKph >= 17)
+            return false;
 
         final float[] uv = speedToUVCoordinates(displayKph);
 
+        final Matrix4f pos = poseStack.last().pose();
+        final Matrix3f normal = poseStack.last().normal();
         VertexConsumer zs3vertexConsumer = bufferSource.getBuffer(RenderType.beaconBeam(
                 ExtendedSignalsGermany.res("textures/block/signals/de/numbers.png"), true
         ));

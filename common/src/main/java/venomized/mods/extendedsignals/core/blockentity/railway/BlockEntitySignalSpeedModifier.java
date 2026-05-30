@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.create.tracks.SpeedModifier;
+import venomized.mods.extendedsignals.core.util.TrainHelp;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class BlockEntitySignalSpeedModifier extends SmartBlockEntity implements 
                 this,
                 new CenteredSideValueBoxTransform()
         );
-        speedConfigure.between(1, 160);
+        speedConfigure.between(1, (int) TrainHelp.absoluteTopSpeedForTrainsKph());
         speedConfigure.withCallback(this::speedConfigured);
         behaviours.add(speedConfigure);
     }

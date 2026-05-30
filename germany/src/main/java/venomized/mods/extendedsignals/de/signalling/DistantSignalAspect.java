@@ -64,9 +64,6 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
      */
     @Override
     public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-        if (states[0] != null) // Index 0 may be empty due to
-            (shortBrakingDistance ? RGB.WHITE : RGB.BLACK).apply(states[0]);
-
         if (off) {
             for (int i = 1; i < states.length; i++)
                 RGB.BLACK.apply(states[i]);

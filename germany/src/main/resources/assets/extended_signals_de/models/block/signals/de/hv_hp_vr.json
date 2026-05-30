@@ -9,7 +9,7 @@
   "parent": "forge:block/default",
   "loader": "forge:obj",
   "flip_v": true,
-  "model": "extended_signals_de:models/block/signals/de/hp_vr.obj",
+  "model": "extended_signals_de:models/block/signals/de/hv_hp_vr.obj",
   "textures": {
     "signal": "extended_signals_de:block/signals/de/signal",
     "out": "extended_signals_de:block/signals/de/out",

@@ -17,17 +17,9 @@ public record CombinedSignalAspectCompositor(SignalStateNode rawState,
     @Override
     public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
         MainSignalAspect.interpret(rawState, direction)
-                .applyAspect(totalTicksForBlockEntity,
-                        Arrays.copyOfRange(states, 0, 6)
-                );
+                .applyAspect(totalTicksForBlockEntity, Arrays.copyOfRange(states, 0, 6));
 
         DistantSignalAspect.interpret(rawState, direction)
-                .applyAspect(totalTicksForBlockEntity, new SignalLightState[]{
-                        null, // Real Distant signal has an additional light, combined doesn't. Perhaps an abstraction for this in the future
-                        states[6],
-                        states[7],
-                        states[8],
-                        states[9]
-                });
+                .applyAspect(totalTicksForBlockEntity, Arrays.copyOfRange(states, 6, 11));
     }
 }
