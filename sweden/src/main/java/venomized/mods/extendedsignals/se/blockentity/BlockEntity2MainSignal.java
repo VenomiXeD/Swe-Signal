@@ -9,7 +9,7 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-import venomized.mods.extendedsignals.se.signalling.MainSignalAspect;
+import venomized.mods.extendedsignals.se.signaling.MainSignalAspect;
 
 public class BlockEntity2MainSignal extends BlockEntitySignal<IMainSignalAspect> {
     public BlockEntity2MainSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {

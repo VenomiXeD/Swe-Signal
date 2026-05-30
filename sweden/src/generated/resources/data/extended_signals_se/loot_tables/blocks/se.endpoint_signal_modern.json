@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "extended_signals_se:se.4l_dwarf_signal_modern"
+          "name": "extended_signals_se:se.endpoint_signal_modern"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "extended_signals_se:blocks/se.4l_dwarf_signal_modern"
+  "random_sequence": "extended_signals_se:blocks/se.endpoint_signal_modern"
 }

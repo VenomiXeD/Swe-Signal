@@ -1,15 +1,15 @@
 {
-  "block.extended_signals_se.se.1l_endpoint_signal_modern": "(Swedish) 1 Light endpoint signal modern",
   "block.extended_signals_se.se.1l_railroad_crossing_signal_2_post_1970": "(Swedish) 1 Light railroad crossing signal 2 (Post 1970)",
   "block.extended_signals_se.se.2l_signal_modern": "(Swedish) 2 Light signal modern",
   "block.extended_signals_se.se.3l_crossing_lights_post_1970": "(Swedish) 3 Light crossing lights (Post 1970)",
   "block.extended_signals_se.se.3l_distant_railroad_crossing_signal_post_1970": "(Swedish) 3 Light distant railroad crossing signal (Post 1970)",
   "block.extended_signals_se.se.3l_distant_signal_modern": "(Swedish) 3 Light distant signal modern",
   "block.extended_signals_se.se.3l_signal_modern": "(Swedish) 3 Light signal modern",
-  "block.extended_signals_se.se.4l_dwarf_signal_modern": "(Swedish) 4 Light dwarf signal modern",
   "block.extended_signals_se.se.4l_signal_modern": "(Swedish) 4 Light signal modern",
   "block.extended_signals_se.se.5l_signal_modern": "(Swedish) 5 Light signal modern",
-  "block.extended_signals_se.se.7l_dwarf_main_signal_modern": "(Swedish) 7 Light dwarf main signal modern",
+  "block.extended_signals_se.se.dwarf_main_signal_modern": "(Swedish) dwarf main signal modern",
+  "block.extended_signals_se.se.dwarf_signal_modern": "(Swedish) dwarf signal modern",
+  "block.extended_signals_se.se.endpoint_signal_modern": "(Swedish) endpoint signal modern",
   "block.extended_signals_se.signal.se.crossing.base": "Signal.se.crossing.base",
   "block.extended_signals_se.signal.se.crossing.controller": "Signal.se.crossing.controller",
   "itemGroup.extended_signals_se.extended_signals_se": "Extended Signals Se"

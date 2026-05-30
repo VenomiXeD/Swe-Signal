@@ -1,9 +1,12 @@
 package venomized.mods.extendedsignals.core;
 
+import com.simibubi.create.Create;
 import com.simibubi.create.content.contraptions.actors.trainControls.ControlsHandler;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
+import com.simibubi.create.content.trains.entity.Train;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -41,8 +44,17 @@ public class ClientEvents {
                 if (ControlsHandler.getContraption() instanceof CarriageContraptionEntity trainCarriage) {
                     System.out.println("train: " + trainCarriage.getCarriage().train.id);
 
+                    float carriageYRot = trainCarriage.getYRot() - (trainCarriage.yaw + 90);
+                    float playerYRot = e.player.getYRot();
+
+                    float rotDiff = Mth.wrapDegrees(playerYRot - carriageYRot);
+
+                    boolean front = Mth.abs(rotDiff) >= 90f;
+                    if (trainCarriage.checkConductors().getSecond().booleanValue())
+                        front = !front;
+
                     ExtendedSignalsNetworking.CHANNEL.sendToServer(
-                            new ServerBoundRequestShuntPacket(trainCarriage.getCarriage().train.id, false, 64)
+                            new ServerBoundRequestShuntPacket(trainCarriage.getCarriage().train.id, front, 64)
                     );
                 } else {
                     System.out.println("none");

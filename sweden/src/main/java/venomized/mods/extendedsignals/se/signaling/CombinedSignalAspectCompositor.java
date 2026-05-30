@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.se.signalling;
+package venomized.mods.extendedsignals.se.signaling;
 
 import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.SignalLightState;

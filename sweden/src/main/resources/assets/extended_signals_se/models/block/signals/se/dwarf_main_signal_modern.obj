@@ -1,6 +1,6 @@
 # Blender 5.1.2
 # www.blender.org
-mtllib 7l_dwarf_main_signal_modern.mtl
+mtllib dwarf_main_signal_modern.mtl
 o Dvarg_7l_ny
 v -0.125000 0.218750 0.115625
 v -0.125000 0.218750 -0.115625

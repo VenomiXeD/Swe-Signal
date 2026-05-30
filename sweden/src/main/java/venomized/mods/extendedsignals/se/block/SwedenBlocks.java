@@ -45,7 +45,7 @@ public class SwedenBlocks {
 
     // == MISC SIGNALS ==
     public static final BlockEntry<BlockModernEndpointSignal> BLOCK_ENDPOINT_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "se", "1l_endpoint_signal_modern", BlockModernEndpointSignal::new)
+            .genericCustomSignalBlock(registrate(), "signals", "se", "endpoint_signal_modern", BlockModernEndpointSignal::new)
             .register();
 
     // public static final BlockEntry<BlockGenericRotateableBlock> BLOCK_U_SIGN = RegistrateHelper.signalBlock(registrate(),"signals", "se", "u_sign", BlockGenericRotateableBlock::new)

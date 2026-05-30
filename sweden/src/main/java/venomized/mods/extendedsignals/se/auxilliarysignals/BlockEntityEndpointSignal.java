@@ -31,8 +31,7 @@ public class BlockEntityEndpointSignal extends BlockEntitySignal<ISignalAspect> 
      * @return
      */
     @Override
-    public @NotNull ISignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDIrection) {
-        return (a, b) -> {
-        };
+    public @NotNull ISignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
+        return (totalTicksForBlockEntity, states) -> (state.isStop(incomingDirection) ? ISignalAspect.RGB.RED : ISignalAspect.RGB.BLACK).apply(states[0]);
     }
 }

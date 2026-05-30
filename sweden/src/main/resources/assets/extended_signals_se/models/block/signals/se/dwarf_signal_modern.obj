@@ -1,6 +1,6 @@
 # Blender 5.1.2
 # www.blender.org
-mtllib 4l_dwarf_signal_post_1970.mtl
+mtllib dwarf_signal_modern.mtl
 o cube.005
 v -0.337500 0.650000 0.159375
 v -0.337500 0.650000 -0.168813
