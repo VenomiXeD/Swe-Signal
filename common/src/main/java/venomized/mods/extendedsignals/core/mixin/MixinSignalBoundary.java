@@ -5,7 +5,9 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Train;
+import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
+import com.simibubi.create.content.trains.graph.TrackEdge;
 import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
@@ -19,6 +21,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -43,7 +46,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
     private static final String TAG_SKIP_CHAIN_CONFIG_NAME = "chaining";
 
     @Unique
-    public Couple<SignalBlockEntity.SignalState> extendedSignals$lastCachedState;
+    public Couple<UUID> extendedSignals$nextBlockSignalID;
 
     @Shadow
     public Couple<SignalBlockEntity.SignalState> cachedStates;
@@ -62,15 +65,13 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
     public abstract boolean isForcedRed(boolean primary);
 
     @Shadow
-    public abstract boolean isForcedRed(TrackNode side);
+    public Couple<Boolean> sidesToUpdate;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void extendedSignals$Ctor(CallbackInfo ci) {
-        extendedSignals$lastCachedState = Couple.create(() -> SignalBlockEntity.SignalState.INVALID);
+        extendedSignals$nextBlockSignalID = Couple.create(() -> null);
         extendedSignals$skipChainingConfiguration = Couple.create(false, false);
         extendedSignals$stateRemapperIDs = Couple.create(SignalStateRemapper.NONE.getId(), SignalStateRemapper.NONE.getId());
-
-
     }
 
     /**
@@ -178,32 +179,45 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
         return extendedSignals$skipChainingConfiguration.get(front);
     }
 
-    // @WrapOperation(
-    //         method = "tickState",
-    //         at = @At(
-    //                 value = "INVOKE",
-    //                 target = "Lnet/createmod/catnip/data/Couple;set(ZLjava/lang/Object;)V"
-    //         )
-    // )
-    // public <T> void extendedSignals$tickStateCachedStatesUpdated(Couple<T> instance, boolean first, T value, Operation<Void> original) {
-    //     original.call(instance, first, value);
-//
-    //     SignalStateNode node = ExtendedSignalsCore.serverNetworkCache().getSignalState(pointId());
-    //     if (!node.isValid())
-    //         return;
-//
-    //     if (extendedSignals$lastCachedState.get(first) == value)
-    //         return;
-//
-    //     SignalBlockEntity.SignalState state = (SignalBlockEntity.SignalState) value;
-    //     extendedSignals$lastCachedState.set(first, state);
-    //     node.setCreateSignalState(first, state);
-    // }
+    @Inject(method = "setGroupAndUpdate", at = @At("TAIL"))
+    public void extendedSignals$setGroupAndUpdateScoutForwardForNextBlock(TrackNode side, UUID groupId, CallbackInfo ci) {
+        TrackGraph currentGraph = Create.RAILWAYS.getGraph(null, side.getLocation());
+        if (currentGraph == null)
+            return;
+        Couple<TrackNode> nodes = edgeLocation.map(
+                currentGraph::locateNode
+        );
+        TrackEdge connection = currentGraph.getConnection(nodes);
+        TravellingPoint nextBlockSignalScout = new TravellingPoint(
+                nodes.getSecond(),
+                nodes.getFirst(),
+                connection,
+                position,
+                false
+        );
+
+        boolean front = isPrimary(side);
+        nextBlockSignalScout.travel(
+                currentGraph,
+                256 * (front ? 1 : -1),
+                nextBlockSignalScout.steer(
+                        TravellingPoint.SteerDirection.NONE,
+                        new Vec3(0, 1, 0)
+                ),
+                (distance, detected) -> {
+                    if (detected.getFirst() instanceof SignalBoundary signalBoundary) {
+                        extendedSignals$nextBlockSignalID.set(front, signalBoundary.getId());
+                        return true;
+                    }
+                    return false;
+                }
+        );
+    }
     /**
      * @return
      */
     @Override
     public UUID pointId() {
-        return this.getId();
+        return getId();
     }
 }

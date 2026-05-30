@@ -24,7 +24,7 @@ import java.util.UUID;
  * A class that represents the signal network for both the client and server.
  */
 public class ServerSignalNetworkCache extends SavedData implements ISignalNetwork {
-    private static final String NAME = "extended_signal_signal_mapping_data";
+    private static final String NAME = "extended_signals_signal_mapping_data";
 
     private final Object2ObjectMap<UUID, Couple<SignalStateNode>> signalEdgeStateMapping = new Object2ObjectOpenHashMap<>();
 
@@ -55,9 +55,8 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
         return serverSignalNetworkCache;
     }
 
-    // TODO: Remove signal states that are dead and do not refer to any signal edges in create
-    private void removeInvalidSignalEdgePointReferences() {
-        List<UUID> statesToRemove = new ArrayList<>();
+    private void removeDeadEdgePointReferences() {
+        List<UUID> pointsToRemove = new ArrayList<>();
         for (UUID uuidSignalStateNodeEntry : signalEdgeStateMapping.keySet()) {
             boolean doesNotExist = true;
             for (TrackGraph graph : Create.RAILWAYS.trackNetworks.values()) {
@@ -70,12 +69,12 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
             }
 
             if (doesNotExist) {
-                statesToRemove.add(uuidSignalStateNodeEntry);
+                pointsToRemove.add(uuidSignalStateNodeEntry);
                 ExtendedSignalsCore.LOGGER.info("Cleaned up dead reference {}", uuidSignalStateNodeEntry);
             }
         }
 
-        statesToRemove.forEach(signalEdgeStateMapping::remove);
+        pointsToRemove.forEach(signalEdgeStateMapping::remove);
     }
 
     /**
@@ -92,7 +91,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
      */
     @Override
     public @NotNull CompoundTag save(final CompoundTag pCompoundTag) {
-        this.removeInvalidSignalEdgePointReferences();
+        this.removeDeadEdgePointReferences();
 
         final ListTag signalsCollectionTag = ISignalNetwork.serializeSignalStatesToNBTList(signalStates());
         pCompoundTag.put(ISignalNetwork.TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME, signalsCollectionTag);
@@ -105,8 +104,9 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
      */
     @Override
     public void updateState(UUID id, boolean side, SignalStateNode newState) {
-        if (newState.equals(this.signalEdgeStateMapping.getOrDefault(id, null)))
+        if (newState.equals(this.signalEdgeStateMapping.computeIfAbsent(id, uuid -> Couple.create(() -> SignalStateNode.INVALID))))
             return;
+
         ISignalNetwork.super.updateState(id, side, newState);
 
 

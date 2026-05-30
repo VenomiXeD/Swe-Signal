@@ -93,6 +93,6 @@ public class DoorInstruction extends ScheduleInstruction {
      */
     @Override
     public List<Component> getTitleAs(String type) {
-        return List.of(ExtendedSignalsLang.schedule("door", "title", "Close door").copy().withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)));
+        return List.of(Component.translatable("instruction.extendedsignals.door"));
     }
 }

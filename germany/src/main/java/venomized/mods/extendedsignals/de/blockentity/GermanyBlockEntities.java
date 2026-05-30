@@ -29,6 +29,11 @@ public final class GermanyBlockEntities {
             .renderer(() -> RendererZs3CombinedSignal::new)
             .register();
 
+    public static BlockEntityEntry<BlockEntityHVMainBlockSignal> BLOCK_SIGNAL = RegistrateHelper.simpleBlockEntity(
+                    registrate(), "hv_block_main_signal", BlockEntityHVMainBlockSignal::new, GermanyBlocks.BLOCK_SIGNAL)
+            .renderer(() -> RendererSignal::new)
+            .register();
+
     public static Registrate registrate() {
         return ExtendedSignalsGermany.REGISTRATE.get();
     }
