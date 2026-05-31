@@ -54,10 +54,11 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
             return;
         }
 
-        ExtendedSignalsCore.sidedNetwork(level).updateState(((T) this).getId(), direction == Direction.AxisDirection.POSITIVE, Objects.requireNonNullElse(
-                newState.setAxisDirection(direction),
-                new SignalStateNode().setAxisDirection(direction)
-        ));
+        ExtendedSignalsCore.sidedNetwork(level).updateState(
+                ((T) this).getId(),
+                direction == Direction.AxisDirection.POSITIVE,
+                newState.setAxisDirection(direction)
+        );
     }
 
     default void onSignalCrossed(Direction.AxisDirection direction, Train train) {

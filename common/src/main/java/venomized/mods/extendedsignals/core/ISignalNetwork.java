@@ -45,7 +45,7 @@ public interface ISignalNetwork {
         return signalStates;
     }
 
-    Object2ObjectMap<UUID, Couple<SignalStateNode>> signalStates();
+    Map<UUID, Couple<SignalStateNode>> signalStates();
 
     default void flushAndApplyNewSignalStates(Map<UUID, Couple<SignalStateNode>> newSignalNetwork) {
         this.signalStates().clear();
@@ -60,6 +60,9 @@ public interface ISignalNetwork {
 
 
     default SignalStateNode getSignalState(UUID id, boolean side) {
+        if (id == null)
+            return SignalStateNode.INVALID;
+
         return signalStates()
                 .computeIfAbsent(id, uuid -> Couple.create(() -> SignalStateNode.INVALID))
                 .get(side);

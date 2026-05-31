@@ -26,7 +26,7 @@ public record ClientBoundSyncSignalStatePacket(UUID uuid, boolean side,
     public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
         // ExtendedSignalsCore.LOGGER
         //         .info("new signal state update: {}, {}", uuid, NbtUtils.prettyPrint(this.signalStateNode().toNBT()));
-        ExtendedSignalsCore.clientNetworkCache().updateState(this.uuid, side, this.signalStateNode);
+        ExtendedSignalsCore.clientNetworkCache().updateState(uuid, side, signalStateNode);
         contextSupplier.get().setPacketHandled(true);
     }
 
