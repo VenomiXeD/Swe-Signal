@@ -34,10 +34,7 @@ import venomized.mods.extendedsignals.core.mixin_interfaces.INavigationAccessor;
 import venomized.mods.extendedsignals.core.signalling.ISignalStateBoundaryTransformer;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Mixin(value = Navigation.class, remap = false)
 public abstract class MixinNavigation implements INavigationAccessor {
@@ -72,6 +69,9 @@ public abstract class MixinNavigation implements INavigationAccessor {
 
     @Shadow
     public Pair<UUID, Boolean> waitingForSignal;
+
+    @Shadow
+    private Map<UUID, Pair<SignalBoundary, Boolean>> waitingForChainedGroups;
 
     @Redirect(
             method = "tick",
@@ -194,6 +194,8 @@ public abstract class MixinNavigation implements INavigationAccessor {
                             ? -1.0 : distance - previousSignalDistance.getValue();
                     previousSignalDistance.setValue(distance);
 
+                    boolean trainIsGoingtoWaitHere;
+
                     extendedSignals$collectedSignals.push(
                             new CollectedSignal(
                                     signalBoundary,
@@ -206,13 +208,9 @@ public abstract class MixinNavigation implements INavigationAccessor {
 
 
                     if (signalBoundary instanceof SignalBoundary createTrueSignalBoundary) {
-                        boolean signalWeWaitingFor = false;
-                        if (waitingForSignal != null)
-                            signalWeWaitingFor = waitingForSignal.getFirst() == createTrueSignalBoundary.getId();
-
                         SignalEdgeGroup signalEdgeGroup = Create.RAILWAYS.signalEdgeGroups.get(createTrueSignalBoundary.groups.get(primary));
-                        return (signalEdgeGroup.isOccupiedUnless(createTrueSignalBoundary)
-                                && signalEdgeGroup.isOccupiedUnless(train)) || signalWeWaitingFor;
+                        if (waitingForSignal != null)
+                            return Objects.equals(waitingForSignal.getFirst(), createTrueSignalBoundary.id);
                     }
 
 
@@ -242,6 +240,9 @@ public abstract class MixinNavigation implements INavigationAccessor {
                 if (signalStateEvaluator instanceof ISignalStateBoundaryTransformer transformer) {
                     currentSignalState = transformer.transformSignalState(current.signalDirection(), currentSignalState);
                 }
+
+                if (waitingForSignal != null && waitingForSignal.getFirst() == current.boundary().pointId())
+                    currentSignalState.setProceed(false);
 
                 // if (current.boundary() instanceof SignalBoundary sb) {
                 //     train.reservedSignalBlocks.add(sb.getId());
