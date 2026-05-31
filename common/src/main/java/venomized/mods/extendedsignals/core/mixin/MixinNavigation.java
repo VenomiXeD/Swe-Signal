@@ -216,7 +216,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
 
     @Unique
     private void extendedSignals$resolveSignallingLogic() {
-        SignalStateNode upcomingSignalState = null;
+        SignalStateNode upcomingSignalState = SignalStateNode.INVALID;
         SignalStateNode currentSignalState = SignalStateNode.INVALID;
 
         while (!extendedSignals$collectedSignals.isEmpty()) {
