@@ -27,7 +27,7 @@ plugins {
 }
 
 group = "${mod_group_id}.core"
-version = '1.4.1-hotfix1-beta'
+version = '1.4.2-hotfix0-beta'
 
 repositories {
     mavenCentral()
