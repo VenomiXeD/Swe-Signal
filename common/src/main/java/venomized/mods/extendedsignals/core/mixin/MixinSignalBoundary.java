@@ -95,7 +95,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
      * @return
      */
     @Override
-    public SignalStateNode computeRawSignalState(Direction.AxisDirection direction, SignalStateNode upcomingSignal, Train train) {
+    public SignalStateNode computeSignalState(Direction.AxisDirection direction, SignalStateNode upcomingSignal, Train train) {
         boolean primary = direction == Direction.AxisDirection.POSITIVE;
         SignalEdgeGroup entering = Create.RAILWAYS.signalEdgeGroups.get(groups.get(primary));
 

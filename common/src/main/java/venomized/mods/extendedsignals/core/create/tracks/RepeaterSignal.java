@@ -49,7 +49,7 @@ public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBou
      * @return
      */
     @Override
-    public SignalStateNode computeRawSignalState(Direction.AxisDirection direction, @Nullable SignalStateNode upcomingSignal, Train train) {
+    public SignalStateNode computeSignalState(Direction.AxisDirection direction, @Nullable SignalStateNode upcomingSignal, Train train) {
         return new SignalStateNode()
                 .setProceed(true);
     }

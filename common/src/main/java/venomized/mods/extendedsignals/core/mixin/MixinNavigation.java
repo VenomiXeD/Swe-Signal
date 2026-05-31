@@ -206,9 +206,13 @@ public abstract class MixinNavigation implements INavigationAccessor {
 
 
                     if (signalBoundary instanceof SignalBoundary createTrueSignalBoundary) {
+                        boolean signalWeWaitingFor = false;
+                        if (waitingForSignal != null)
+                            signalWeWaitingFor = waitingForSignal.getFirst() == createTrueSignalBoundary.getId();
+
                         SignalEdgeGroup signalEdgeGroup = Create.RAILWAYS.signalEdgeGroups.get(createTrueSignalBoundary.groups.get(primary));
-                        return signalEdgeGroup.isOccupiedUnless(createTrueSignalBoundary)
-                                && signalEdgeGroup.isOccupiedUnless(train);
+                        return (signalEdgeGroup.isOccupiedUnless(createTrueSignalBoundary)
+                                && signalEdgeGroup.isOccupiedUnless(train)) || signalWeWaitingFor;
                     }
 
 
@@ -219,14 +223,14 @@ public abstract class MixinNavigation implements INavigationAccessor {
 
     @Unique
     private void extendedSignals$resolveSignallingLogic() {
-        SignalStateNode upcomingSignalState = null;
+        SignalStateNode upcomingSignalState = SignalStateNode.INVALID;
         SignalStateNode currentSignalState = SignalStateNode.INVALID;
 
         while (!extendedSignals$collectedSignals.isEmpty()) {
             CollectedSignal current = extendedSignals$collectedSignals.pop();
 
             if (current.boundary() instanceof IRawSignalStateEvaluator signalStateEvaluator) {
-                currentSignalState = signalStateEvaluator.computeRawSignalState(
+                currentSignalState = signalStateEvaluator.computeSignalState(
                                 current.signalDirection(),
                                 upcomingSignalState,
                                 train

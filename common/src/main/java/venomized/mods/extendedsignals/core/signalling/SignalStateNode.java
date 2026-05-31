@@ -153,6 +153,9 @@ public class SignalStateNode {
     }
 
     public boolean isStop(Direction.AxisDirection signalDirection) {
+        if (!valid)
+            return true;
+
         if (axisDirection == null)
             return true;
 

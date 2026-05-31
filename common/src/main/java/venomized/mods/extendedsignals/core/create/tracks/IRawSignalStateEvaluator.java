@@ -7,7 +7,7 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import javax.annotation.Nullable;
 
 public interface IRawSignalStateEvaluator {
-    SignalStateNode computeRawSignalState(
+    SignalStateNode computeSignalState(
             Direction.AxisDirection direction,
             @Nullable SignalStateNode upcomingSignal,
             Train train
