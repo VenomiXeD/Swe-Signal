@@ -137,8 +137,6 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void onTick(Level level, CallbackInfo ci) {
-
-
         Iterator<DelayedSignalCrossTrigger> it = extendedSignals$delayedOnCrossedTriggering.iterator();
         while (it.hasNext()) {
             DelayedSignalCrossTrigger delayedSignalCrossTrigger = it.next();

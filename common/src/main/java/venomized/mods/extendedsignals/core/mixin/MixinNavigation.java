@@ -150,9 +150,6 @@ public abstract class MixinNavigation implements INavigationAccessor {
 
     @Unique
     private void extendedSignals$collectSignalsInPath(double speedMod) {
-        if (train.speed == 0)
-            return;
-
         final double lookAheadDistance = Math.min(
                 LOOK_AHEAD_DISTANCE,
                 Math.min(distanceToDestination, distanceToSignal)
