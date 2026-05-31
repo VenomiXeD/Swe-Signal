@@ -5,7 +5,7 @@ import net.minecraft.core.Direction;
 public record CollectedSignal(
         IExtendedSignalBoundary<?> boundary,
         Direction.AxisDirection signalDirection,
-        double distance,
+        boolean isStoppingAtThisNode, double distance,
         double distanceFromPreviousSignal,
         ISignalModifier[] signalModifierSnapshot
 ) {

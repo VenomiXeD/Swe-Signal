@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
@@ -10,7 +9,6 @@ import com.simibubi.create.content.trains.graph.DiscoveredPath;
 import com.simibubi.create.content.trains.graph.TrackEdge;
 import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
-import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.createmod.catnip.data.Pair;
@@ -116,7 +114,8 @@ public abstract class MixinNavigation implements INavigationAccessor {
             method = "tick",
             at = @At(
                     value = "INVOKE",
-                    target = "Lcom/simibubi/create/content/trains/entity/TravellingPoint;travel(Lcom/simibubi/create/content/trains/graph/TrackGraph;DLcom/simibubi/create/content/trains/entity/TravellingPoint$ITrackSelector;Lcom/simibubi/create/content/trains/entity/TravellingPoint$IEdgePointListener;Lcom/simibubi/create/content/trains/entity/TravellingPoint$ITurnListener;)D"
+                    target = "Lcom/simibubi/create/content/trains/entity/TravellingPoint;travel(Lcom/simibubi/create/content/trains/graph/TrackGraph;DLcom/simibubi/create/content/trains/entity/TravellingPoint$ITrackSelector;Lcom/simibubi/create/content/trains/entity/TravellingPoint$IEdgePointListener;Lcom/simibubi/create/content/trains/entity/TravellingPoint$ITurnListener;)D",
+                    shift = At.Shift.AFTER
             )
     )
     public void extendedSignals$tick(Level level,
@@ -194,34 +193,30 @@ public abstract class MixinNavigation implements INavigationAccessor {
                             ? -1.0 : distance - previousSignalDistance.getValue();
                     previousSignalDistance.setValue(distance);
 
-                    boolean trainIsGoingtoWaitHere;
+                    boolean trainIsGoingtoWaitHere = false;
+                    if (waitingForSignal != null) {
+                        trainIsGoingtoWaitHere = Objects.equals(waitingForSignal.getFirst(), signalBoundary.pointId());
+                    }
+
 
                     extendedSignals$collectedSignals.push(
                             new CollectedSignal(
                                     signalBoundary,
                                     primary ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
+                                    trainIsGoingtoWaitHere,
                                     distance,
                                     deltaSignalDistance,
-                                    extendedSignals$predictedModifiers.values().toArray(ISignalModifier[]::new)
-                            )
+                                    extendedSignals$predictedModifiers.values().toArray(ISignalModifier[]::new))
                     );
 
-
-                    if (signalBoundary instanceof SignalBoundary createTrueSignalBoundary) {
-                        SignalEdgeGroup signalEdgeGroup = Create.RAILWAYS.signalEdgeGroups.get(createTrueSignalBoundary.groups.get(primary));
-                        if (waitingForSignal != null)
-                            return Objects.equals(waitingForSignal.getFirst(), createTrueSignalBoundary.id);
-                    }
-
-
-                    return false;
+                    return trainIsGoingtoWaitHere;
                 }
         );
     }
 
     @Unique
     private void extendedSignals$resolveSignallingLogic() {
-        SignalStateNode upcomingSignalState = SignalStateNode.INVALID;
+        SignalStateNode upcomingSignalState = null;
         SignalStateNode currentSignalState = SignalStateNode.INVALID;
 
         while (!extendedSignals$collectedSignals.isEmpty()) {
@@ -241,7 +236,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
                     currentSignalState = transformer.transformSignalState(current.signalDirection(), currentSignalState);
                 }
 
-                if (waitingForSignal != null && waitingForSignal.getFirst() == current.boundary().pointId())
+                if (current.isStoppingAtThisNode())
                     currentSignalState.setProceed(false);
 
                 // if (current.boundary() instanceof SignalBoundary sb) {
