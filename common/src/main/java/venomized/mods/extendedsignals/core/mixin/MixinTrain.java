@@ -1,14 +1,12 @@
 package venomized.mods.extendedsignals.core.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.schedule.ScheduleRuntime;
-import com.simibubi.create.content.trains.signal.SignalBlock;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
@@ -41,7 +39,10 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     @Unique
     private static final int TICKS_ON_CROSSED_TRIGGERING_DELAY = 20;
     @Unique
-    private final List<DelayedSignalCrossTrigger> extendedSignals$delayedOnCrossedTriggering = new ReferenceArrayList<>();
+    private final List<DelayedSignalCrossTrigger> extendedSignals$frontDelayedOnCrossedTriggering = new ReferenceArrayList<>();
+    @Unique
+    private final List<DelayedSignalCrossTrigger> extendedSignals$backDelayedOnCrossedTriggering = new ReferenceArrayList<>();
+
     @Shadow
     public ScheduleRuntime runtime;
     @Shadow
@@ -56,7 +57,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     private final int extendedSignals$shuntRequestCooldown = 0;
 
     @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"))
-    public TravellingPoint.IEdgePointListener frontSignalListener(TravellingPoint.IEdgePointListener original) {
+    public TravellingPoint.IEdgePointListener extendedSignals$hookFrontSignalListener(TravellingPoint.IEdgePointListener original) {
         return (distance, couple) -> {
             TrackEdgePoint trackEdgePoint = couple.getFirst();
             boolean front = trackEdgePoint.isPrimary(couple.getSecond()
@@ -69,7 +70,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
             }
 
             if (trackEdgePoint instanceof IExtendedSignalBoundary<?> signalBoundary) {
-                extendedSignals$delayedOnCrossedTriggering.add(
+                extendedSignals$frontDelayedOnCrossedTriggering.add(
                         new DelayedSignalCrossTrigger(TICKS_ON_CROSSED_TRIGGERING_DELAY, front, signalBoundary)
                 );
 
@@ -85,6 +86,23 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                         }
                     }
                 }
+            }
+
+            return original.test(distance, couple);
+        };
+    }
+
+    @ModifyReturnValue(method = "backSignalListener", at = @At("RETURN"))
+    public TravellingPoint.IEdgePointListener extendedSignals$hookBackSignalListener(TravellingPoint.IEdgePointListener original) {
+        return (distance, couple) -> {
+            TrackEdgePoint trackEdgePoint = couple.getFirst();
+            boolean front = trackEdgePoint.isPrimary(couple.getSecond()
+                    .getSecond());// Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
+
+            if (trackEdgePoint instanceof IExtendedSignalBoundary<?> signalBoundary) {
+                extendedSignals$backDelayedOnCrossedTriggering.add(
+                        new DelayedSignalCrossTrigger(TICKS_ON_CROSSED_TRIGGERING_DELAY, front, signalBoundary)
+                );
             }
 
             return original.test(distance, couple);
@@ -110,21 +128,21 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                 this.graph,
                 shuntRequest.shuntRequestDistance() * (shuntRequest.front() ? 1 : -1),
                 shuntScout.steer(TravellingPoint.SteerDirection.NONE, new Vec3(0, 1, 0)),
-                (a, b) -> {
-                    TrackEdgePoint point = b.getFirst();
+                (distance, edgePointCouplePair) -> {
+                    TrackEdgePoint point = edgePointCouplePair.getFirst();
 
-                    boolean primary = point.isPrimary(b.getSecond().getSecond());
+                    boolean primary = point.isPrimary(edgePointCouplePair.getSecond().getSecond());
 
                     if (point instanceof SignalBoundary signalBoundary) {
                         @SuppressWarnings("unchecked")
                         IExtendedSignalBoundary<SignalBoundary> boundary = (IExtendedSignalBoundary<SignalBoundary>) signalBoundary;
                         boundary.onSignalScout(
                                 primary ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
-                                new SignalStateNode().setProceed(true), ((Train) (Object) this)
+                                new SignalStateNode().setProceed(true), ((Train) (Object) this), distance
                         );
 
                         shuntRequest.requester().sendSystemMessage(
-                                Component.translatable("")
+                                Component.translatable("message.extendedsignals.train.shunt.ok")
                         );
 
                         return true;
@@ -136,13 +154,42 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
-    public void onTick(Level level, CallbackInfo ci) {
-        Iterator<DelayedSignalCrossTrigger> it = extendedSignals$delayedOnCrossedTriggering.iterator();
+    public void extendedSignals$onTick(Level level, CallbackInfo ci) {
+        extendedSignals$processFrontDelayedCrossCallbacks();
+        extendedSignals$processBackDelayedCrossCallbacks();
+    }
+
+
+    @Unique
+    private void extendedSignals$processFrontDelayedCrossCallbacks() {
+        Iterator<DelayedSignalCrossTrigger> it = extendedSignals$frontDelayedOnCrossedTriggering.iterator();
         while (it.hasNext()) {
             DelayedSignalCrossTrigger delayedSignalCrossTrigger = it.next();
             if (delayedSignalCrossTrigger.getRemainingDelayTicks() <= 0) {
                 delayedSignalCrossTrigger.getSignalBoundary()
-                        .onSignalCrossed(
+                        .onSignalCrossedEarly(
+                                delayedSignalCrossTrigger.isPrimary() ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
+                                (Train) (Object) this
+                        );
+                it.remove();
+                continue;
+            }
+
+            delayedSignalCrossTrigger.setRemainingDelayTicks(
+                    delayedSignalCrossTrigger.getRemainingDelayTicks() - 1
+            );
+        }
+    }
+
+
+    @Unique
+    private void extendedSignals$processBackDelayedCrossCallbacks() {
+        Iterator<DelayedSignalCrossTrigger> it = extendedSignals$backDelayedOnCrossedTriggering.iterator();
+        while (it.hasNext()) {
+            DelayedSignalCrossTrigger delayedSignalCrossTrigger = it.next();
+            if (delayedSignalCrossTrigger.getRemainingDelayTicks() <= 0) {
+                delayedSignalCrossTrigger.getSignalBoundary()
+                        .onSignalCrossedLate(
                                 delayedSignalCrossTrigger.isPrimary() ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
                                 (Train) (Object) this
                         );

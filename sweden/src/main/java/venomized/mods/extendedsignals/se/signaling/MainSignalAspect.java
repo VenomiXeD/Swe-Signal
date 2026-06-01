@@ -28,7 +28,7 @@ public enum MainSignalAspect implements IMainSignalAspect {
     private final RGB l2;
 
     public static MainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
-        if (state.isStop(direction))
+        if (state.isStop())
             return MainSignalAspect.STOP;
 
         return state.getMaxProceedSpeed() > 40 ? PROCEED_80 : PROCEED_40;

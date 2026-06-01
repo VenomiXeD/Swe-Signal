@@ -44,7 +44,7 @@ public class ATCController extends SingleBlockEntityEdgePoint {
         Optional<Level> level = Optional.ofNullable(train.carriages.get(0).anyAvailableEntity()).map(Entity::level);
 
         level.ifPresent(l -> {
-            Optional<BlockEntityATCController> blockEntity = l.getBlockEntity(this.getBlockEntityPos(), CoreBlockEntities.BE_ATC_CONTROLLER.get());
+            Optional<BlockEntityATCController> blockEntity = l.getBlockEntity(this.getBlockEntityPos(), CoreBlockEntities.ATC_CONTROLLER.get());
             blockEntity.ifPresent(blockEntityATCController -> {
                 // if any player is controlling
                 if (controllingPlayer.isPresent()) {

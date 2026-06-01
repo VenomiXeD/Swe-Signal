@@ -6,6 +6,7 @@ import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.simibubi.create.content.trains.entity.Train;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -38,7 +39,7 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public static void onClientTickEvent(TickEvent.ClientTickEvent.PlayerTickEvent e) {
+    public static void onClientPlayerTickEvent(TickEvent.ClientTickEvent.PlayerTickEvent e) {
         if (e.phase == TickEvent.Phase.END) {
             if (KeyMappings.REQUEST_SHUNT.consumeClick()) {
                 if (ControlsHandler.getContraption() instanceof CarriageContraptionEntity trainCarriage) {

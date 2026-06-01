@@ -9,8 +9,9 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.IMainDwarfSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.se.signaling.MainDwarfSignalAspect;
 
-public class BlockEntityMainDwarfSignal extends BlockEntitySignal<IMainDwarfSignalAspect> {
+public class BlockEntityMainDwarfSignal extends BlockEntitySignal<MainDwarfSignalAspect> {
     public BlockEntityMainDwarfSignal(BlockEntityType t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
@@ -21,9 +22,8 @@ public class BlockEntityMainDwarfSignal extends BlockEntitySignal<IMainDwarfSign
      * @return
      */
     @Override
-    public @NotNull IMainDwarfSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
-        return (A, B) -> {
-        };
+    public @NotNull MainDwarfSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
+        return new MainDwarfSignalAspect(state);
     }
 
     /**

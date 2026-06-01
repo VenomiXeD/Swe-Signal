@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.signalling;
 
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
-import com.simibubi.create.content.trains.signal.SignalBoundary;
 import lombok.*;
 import lombok.experimental.Accessors;
 import net.createmod.catnip.data.Couple;
@@ -152,17 +151,17 @@ public class SignalStateNode {
         return this;
     }
 
-    public boolean isStop(Direction.AxisDirection signalDirection) {
+    public boolean isStop() {
         if (!valid)
             return true;
-
         if (axisDirection == null)
             return true;
+
 
         // Either if the signal is not aligned to the current signaling state - stop
         // OR
         // If the signal is not displaying a proceed aspect - stop
-        return signalDirection != axisDirection || !this.proceed;
+        return !this.proceed;
     }
 
     public SignalStateNode setNextState(SignalStateNode next) {

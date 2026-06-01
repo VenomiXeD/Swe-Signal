@@ -9,5 +9,7 @@
   "message.extendedsignals.blockentitysignal.disconnect.success": "Signal successfully disconnected",
   "key.categories.extendedsignals": "Extended Signals",
   "key.extendedsignals.train.shunt": "Request Shunt",
-  "message.extendedsignals.blockentitysignal.tool.unknown": "Signal linking is done with the \"CONNECT\" mode."
+  "message.extendedsignals.blockentitysignal.tool.unknown": "Signal linking is done with the \"CONNECT\" mode.",
+  "setting.extendedsignals.pathtraindetector.distance": "Trigger Distance",
+  "setting.extendedsignals.pathtraindetector.timer": "Delay set to %d"
 }

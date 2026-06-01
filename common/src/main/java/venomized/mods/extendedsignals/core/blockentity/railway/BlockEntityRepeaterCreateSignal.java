@@ -1,21 +1,14 @@
 package venomized.mods.extendedsignals.core.blockentity.railway;
 
-import com.simibubi.create.Create;
 import com.simibubi.create.api.contraption.transformable.TransformableBlockEntity;
 import com.simibubi.create.content.contraptions.StructureTransform;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.TrackEdge;
-import com.simibubi.create.content.trains.graph.TrackGraph;
-import com.simibubi.create.content.trains.graph.TrackNode;
-import com.simibubi.create.content.trains.graph.TrackNodeLocation;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
-import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
-import net.createmod.catnip.data.Couple;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
@@ -25,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import venomized.mods.extendedsignals.core.blockentity.ISignalBoundaryReferenceProvider;
 import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
+import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.create.tracks.RepeaterSignal;
 
 import java.util.List;
@@ -50,7 +44,7 @@ public class BlockEntityRepeaterCreateSignal extends SmartBlockEntity implements
      */
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        behaviours.add(repeaterSignal = new TrackTargetingBehaviour<>(this, RepeaterSignal.REPEATER));
+        behaviours.add(repeaterSignal = new TrackTargetingBehaviour<>(this, CoreEdgePoints.REPEATER));
     }
 
     /**

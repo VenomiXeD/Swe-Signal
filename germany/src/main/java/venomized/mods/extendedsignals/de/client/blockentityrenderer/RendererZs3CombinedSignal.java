@@ -48,7 +48,7 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
     }
 
     public void renderZs3(CombinedSignalAspectCompositor signalAspect) {
-        if (signalAspect.rawState().isStop(signalAspect.direction()))
+        if (signalAspect.rawState().isStop())
             return;
 
         double kph = signalAspect.rawState().getMaxProceedSpeed();
@@ -98,12 +98,12 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
     }
 
     public boolean renderZs3v(CombinedSignalAspectCompositor signalAspect) {
-        if (signalAspect.rawState().isStop(signalAspect.direction()))
+        if (signalAspect.rawState().isStop())
             return false;
         if (signalAspect.rawState().getNextState() == null) {
             return false;
         }
-        if (signalAspect.rawState().getNextState().isStop(signalAspect.direction())) {
+        if (signalAspect.rawState().getNextState().isStop()) {
             return false;
         }
         if (signalAspect.rawState().getNextState().getMaxProceedSpeed() >= signalAspect.rawState().getMaxProceedSpeed()) {

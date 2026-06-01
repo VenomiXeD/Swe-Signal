@@ -26,6 +26,6 @@ public enum BlockSignalAspect implements ISignalAspect {
     }
 
     public static BlockSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
-        return state.isStop(direction) ? STOP : PROCEED;
+        return state.isStop() ? STOP : PROCEED;
     }
 }

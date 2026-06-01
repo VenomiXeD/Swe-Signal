@@ -7,17 +7,15 @@ import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.CenteredSideValueBoxTransform;
-import com.simibubi.create.foundation.blockEntity.behaviour.ValueBox;
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollValueBehaviour;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
+import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.create.tracks.SpeedModifier;
 import venomized.mods.extendedsignals.core.util.TrainHelp;
 
@@ -38,7 +36,7 @@ public class BlockEntitySignalSpeedModifier extends SmartBlockEntity implements 
      */
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        behaviours.add(edgePoint = new TrackTargetingBehaviour<>(this, SpeedModifier.SPEED_MODIFIER));
+        behaviours.add(edgePoint = new TrackTargetingBehaviour<>(this, CoreEdgePoints.SPEED_MODIFIER));
         speedConfigure = new ScrollValueBehaviour(
                 Component.translatable("tracks.extended_signals.speedmodifier.value"),
                 this,

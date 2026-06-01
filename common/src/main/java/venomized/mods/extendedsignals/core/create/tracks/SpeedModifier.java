@@ -2,22 +2,17 @@ package venomized.mods.extendedsignals.core.create.tracks;
 
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
-import com.simibubi.create.content.trains.graph.EdgePointType;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.LevelAccessor;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 
 import java.util.UUID;
 
 public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
-    public static final EdgePointType<SpeedModifier> SPEED_MODIFIER = EdgePointType.register(
-            ExtendedSignalsCore.res("speed_modifier"), SpeedModifier::new
-    );
     private final static String TAG_WRENCHED_NAME = "wrenched";
     private final static String TAG_SPEED_NAME = "speed_setting";
     private boolean discard;

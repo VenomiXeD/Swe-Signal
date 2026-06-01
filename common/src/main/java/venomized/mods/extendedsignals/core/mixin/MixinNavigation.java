@@ -8,7 +8,6 @@ import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.DiscoveredPath;
 import com.simibubi.create.content.trains.graph.TrackEdge;
 import com.simibubi.create.content.trains.graph.TrackNode;
-import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.createmod.catnip.data.Pair;
@@ -27,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import venomized.mods.extendedsignals.core.Global;
 import venomized.mods.extendedsignals.core.create.tracks.*;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigationAccessor;
 import venomized.mods.extendedsignals.core.signalling.ISignalStateBoundaryTransformer;
@@ -37,20 +37,13 @@ import java.util.*;
 @Mixin(value = Navigation.class, remap = false)
 public abstract class MixinNavigation implements INavigationAccessor {
     @Unique
-    private static final double LOOK_AHEAD_DISTANCE = 256;
-
-    @Unique
     private static final int SIGNAL_SCOUT_INTERVAL = 10;
-
     @Unique
     private final Deque<CollectedSignal> extendedSignals$collectedSignals = new ArrayDeque<>();
-
     @Unique
     private final Map<ResourceLocation, ISignalModifier> extendedSignals$activeModifiers = new Object2ObjectLinkedOpenHashMap<>();
-
     @Unique
     private final Map<ResourceLocation, ISignalModifier> extendedSignals$predictedModifiers = new Object2ObjectLinkedOpenHashMap<>();
-
     @Shadow
     public Train train;
     @Shadow
@@ -61,22 +54,17 @@ public abstract class MixinNavigation implements INavigationAccessor {
     private TravellingPoint extendedSignals$signalScoutTriggerCollector;
     @Unique
     private long extendedSignals$signalScoutCooldown = 0;
-
     @Shadow
     public abstract TravellingPoint.ITrackSelector controlSignalScout();
-
     @Shadow
     public Pair<UUID, Boolean> waitingForSignal;
-
-    @Shadow
-    private Map<UUID, Pair<SignalBoundary, Boolean>> waitingForChainedGroups;
 
     @Redirect(
             method = "tick",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(DDD)D")
     )
     public double extendedSignals$increaseReservationScanDistance(double pValue, double pMin, double pMax) {
-        double reservationDistance = Math.max(pValue, LOOK_AHEAD_DISTANCE);
+        double reservationDistance = Math.max(pValue, Global.SCAN_DISTANCE);
         return Mth.clamp(reservationDistance, pMin, pMax);
     }
 
@@ -150,7 +138,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
     @Unique
     private void extendedSignals$collectSignalsInPath(double speedMod) {
         final double lookAheadDistance = Math.min(
-                LOOK_AHEAD_DISTANCE,
+                Global.SCAN_DISTANCE,
                 Math.min(distanceToDestination, distanceToSignal)
         );
 
@@ -165,7 +153,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
         final Vec3[] previousTrackVector = {null};
         extendedSignals$signalScoutTriggerCollector.travel(
                 train.graph,
-                lookAheadDistance * speedMod,
+                (lookAheadDistance + 3 - (lookAheadDistance % 3)) * speedMod,
                 controlSignalScout(),
                 (distance, trackEdgePointCouplePair) -> {
                     TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
@@ -216,7 +204,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
 
     @Unique
     private void extendedSignals$resolveSignallingLogic() {
-        SignalStateNode upcomingSignalState = SignalStateNode.INVALID;
+        SignalStateNode upcomingSignalState = null;
         SignalStateNode currentSignalState = SignalStateNode.INVALID;
 
         while (!extendedSignals$collectedSignals.isEmpty()) {
@@ -249,7 +237,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
             }
 
             current.boundary().onSignalScout(
-                    current.signalDirection(), currentSignalState, this.train
+                    current.signalDirection(), currentSignalState, this.train, current.distance()
             );
 
             if (!current.boundary().doSkipChaining(current.signalDirection(), train))

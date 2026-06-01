@@ -19,7 +19,7 @@ import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import venomized.mods.extendedsignals.core.block.SignalCoreBlocks;
+import venomized.mods.extendedsignals.core.block.CoreBlocks;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.client.ClientSignalNetworkCache;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
@@ -27,14 +27,13 @@ import venomized.mods.extendedsignals.core.client.KeyMappings;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSounds;
 import venomized.mods.extendedsignals.core.create.DoorInstruction;
+import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.data.BlockStateDataGenerator;
 import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 import venomized.mods.extendedsignals.core.data.RecipeDataGenerator;
 import venomized.mods.extendedsignals.core.data.SoundEventDataGenerator;
 import venomized.mods.extendedsignals.core.item.ExtendedSignalsItems;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
-
-import java.security.Key;
 
 @Mod(ExtendedSignalsCore.MOD_ID)
 public class ExtendedSignalsCore extends ModTemplate {
@@ -95,7 +94,7 @@ public class ExtendedSignalsCore extends ModTemplate {
         // e.getGenerator().addProvider(e.includeClient(), new ModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
         e.getGenerator().addProvider(true, new BlockStateDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
         // e.getGenerator().addProvider(e.includeClient(), new ItemModelDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
-        e.getGenerator().addProvider(true, new SoundEventDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
+        // e.getGenerator().addProvider(true, new SoundEventDataGenerator(e.getGenerator().getPackOutput(), e.getExistingFileHelper()));
 
         e.getGenerator().addProvider(e.includeServer(), new RecipeDataGenerator(e.getGenerator().getPackOutput()));
     }
@@ -130,8 +129,11 @@ public class ExtendedSignalsCore extends ModTemplate {
     @Override
     protected void commonInitialization() {
         ExtendedSignalsItems.init();
-        SignalCoreBlocks.init();
+
+        CoreBlocks.init();
         CoreBlockEntities.init();
+
+        CoreEdgePoints.init();
 
         Schedule.INSTRUCTION_TYPES.add(Pair.of(res("door"), DoorInstruction::new));
     }

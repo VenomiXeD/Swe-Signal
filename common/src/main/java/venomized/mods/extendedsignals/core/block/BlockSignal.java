@@ -18,7 +18,7 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 /**
  * General purpose, generic signal block intended to cover most basic signals
  */
-public abstract class BlockSignal extends ExtendedSignalsBlock implements EntityBlock {
+public abstract class BlockSignal extends BlockModelled implements EntityBlock {
     /**
      * @param pProperties
      */
@@ -48,72 +48,5 @@ public abstract class BlockSignal extends ExtendedSignalsBlock implements Entity
                 }
             };
         }
-    }
-
-    /**
-     * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
-     * LIQUID for vanilla liquids, INVISIBLE to skip all rendering
-     *
-     * @param pState
-     * @deprecated call via {@link BlockStateBase#getRenderShape}
-     * whenever possible. Implementing/overriding is fine.
-     */
-    @Override
-    public RenderShape getRenderShape(BlockState pState) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
-    }
-
-    /**
-     * @param pState
-     * @param pLevel
-     * @param pPos
-     * @return
-     */
-    @Override
-    public boolean isOcclusionShapeFullBlock(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return false;
-    }
-
-    /**
-     * @param pState
-     * @param pLevel
-     * @param pPos
-     * @return
-     */
-    @Override
-    public VoxelShape getOcclusionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return Shapes.empty();
-    }
-
-    /**
-     * @param pState
-     * @param pLevel
-     * @param pPos
-     * @param pContext
-     * @return
-     */
-    @Override
-    public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Shapes.empty();
-    }
-
-    /**
-     * @param pState
-     * @param pLevel
-     * @param pPos
-     * @return
-     */
-    @Override
-    public boolean isCollisionShapeFullBlock(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return false;
-    }
-
-    /**
-     * @param pState
-     * @return
-     */
-    @Override
-    public boolean useShapeForLightOcclusion(BlockState pState) {
-        return false;
     }
 }

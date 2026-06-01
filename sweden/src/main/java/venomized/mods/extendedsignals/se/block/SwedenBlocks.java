@@ -2,11 +2,10 @@ package venomized.mods.extendedsignals.se.block;
 
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import venomized.mods.extendedsignals.core.block.BlockRailroadCrossingController;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingGate;
-import venomized.mods.extendedsignals.se.block.crossing.BlockThreeLightCrossingSignal;
+import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingLights;
 
 /**
  * Swedish railway content (blocks)
@@ -15,60 +14,56 @@ public class SwedenBlocks {
     // == SWEDISH CONTENT ==
     // == SIGNALS FROM 2-5 LIGHTS ==
     public static final BlockEntry<Block2SignalModern> MAIN_2_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "se", "2l_signal_modern", Block2SignalModern::new)
+            .genericCustomModelledBlock(registrate(), "se", "signals", "2l_signal_modern", Block2SignalModern::new)
             .register();
     public static final BlockEntry<Block3SignalModern> MAIN_3_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "se", "3l_signal_modern", Block3SignalModern::new)
+            .genericCustomModelledBlock(registrate(), "se", "signals", "3l_signal_modern", Block3SignalModern::new)
             .register();
 
     public static final BlockEntry<Block4CombinedSignal> COMBINED_4_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "se", "4l_signal_modern", Block4CombinedSignal::new)
+            .genericCustomModelledBlock(registrate(), "se", "signals", "4l_signal_modern", Block4CombinedSignal::new)
             .register();
 
     public static final BlockEntry<Block5CombinedSignal> COMBINED_5_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "se", "5l_signal_modern", Block5CombinedSignal::new)
+            .genericCustomModelledBlock(registrate(), "se", "signals", "5l_signal_modern", Block5CombinedSignal::new)
             .register();
 
     // == DISTANT SIGNALS ==
     public static final BlockEntry<BlockModernThreeLightDistantSignal> BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "se", "3l_distant_signal_modern", BlockModernThreeLightDistantSignal::new)
+            .genericCustomModelledBlock(registrate(), "se", "signals", "3l_distant_signal_modern", BlockModernThreeLightDistantSignal::new)
             .register();
 
     // == DWARF SIGNALS ==
     public static final BlockEntry<BlockModernDwarfSignal> BLOCK_MODERN_DWARF_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "se", "dwarf_signal_modern", BlockModernDwarfSignal::new)
+            .genericCustomModelledBlock(registrate(), "se", "signals", "dwarf_signal_modern", BlockModernDwarfSignal::new)
             .register();
 
     public static final BlockEntry<BlockModernMainDwarfSignal> BLOCK_MODERN_MAIN_DWARF_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "se", "dwarf_main_signal_modern", BlockModernMainDwarfSignal::new)
+            .genericCustomModelledBlock(registrate(), "se", "signals", "dwarf_main_signal_modern", BlockModernMainDwarfSignal::new)
             .register();
 
     // == MISC SIGNALS ==
     public static final BlockEntry<BlockModernEndpointSignal> BLOCK_ENDPOINT_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "se", "endpoint_signal_modern", BlockModernEndpointSignal::new)
+            .genericCustomModelledBlock(registrate(), "se", "signals", "endpoint_signal_modern", BlockModernEndpointSignal::new)
             .register();
 
     // public static final BlockEntry<BlockGenericRotateableBlock> BLOCK_U_SIGN = RegistrateHelper.signalBlock(registrate(),"signals", "se", "u_sign", BlockGenericRotateableBlock::new)
     //         .register();
     // == RAILROAD CROSSING SIGNALS ==
-    public static final BlockEntry<BlockRailroadCrossingSignal> BLOCK_RAILROAD_CROSSING_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "se", "1l_railroad_crossing_signal_2_post_1970", BlockRailroadCrossingSignal::new)
+    public static final BlockEntry<BlockCrossingSignal> CROSSING_SIGNAL = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "se", "crossings", "crossing_signal_modern", BlockCrossingSignal::new)
             .register();
 
-    public static final BlockEntry<BlockRailroadCrossingDistantSignal> BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "signals", "se", "3l_distant_railroad_crossing_signal_post_1970", BlockRailroadCrossingDistantSignal::new)
+    public static final BlockEntry<BlockCrossingDistantSignal> BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "se", "crossings", "crossing_distant_signal_modern", BlockCrossingDistantSignal::new)
             .register();
 
     public static final BlockEntry<BlockCrossingGate> BLOCK_CROSSING_GATE = RegistrateHelper
-            .modelledBlock(registrate(), "signal.se.crossing.base", BlockCrossingGate::new)
+            .genericCustomModelledBlock(registrate(), "se", "crossings", "base", BlockCrossingGate::new)
             .register();
 
-    public static final BlockEntry<BlockRailroadCrossingController> BLOCK_RAILROAD_CROSSING_CONTROLLER = RegistrateHelper
-            .modelledBlock(registrate(), "signal.se.crossing.controller", BlockRailroadCrossingController::new)
-            .register();
-
-    public static final BlockEntry<BlockThreeLightCrossingSignal> BLOCK_THREE_LIGHT_CROSSING_SIGNAL = RegistrateHelper
-            .genericCustomSignalBlock(registrate(), "crossing", "se", "3l_crossing_lights_post_1970", BlockThreeLightCrossingSignal::new)
+    public static final BlockEntry<BlockCrossingLights> BLOCK_THREE_LIGHT_CROSSING_SIGNAL = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "se", "crossings", "crossing_lights_modern", BlockCrossingLights::new)
             .register();
 
     private static Registrate registrate() {

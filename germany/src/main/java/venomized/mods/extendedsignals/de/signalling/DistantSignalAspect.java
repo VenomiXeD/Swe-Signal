@@ -49,10 +49,10 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
 
     public static DistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         SignalStateNode distant = state.getNextState();
-        if (distant == null || state.isStop(direction))
+        if (distant == null || state.isStop())
             return DistantSignalAspect.OFF;
 
-        return !distant.isStop(direction)
+        return !distant.isStop()
                 ? distant.getMaxProceedSpeed() <= 40
                   ? DistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED : DistantSignalAspect.EXPECT_PROCEED
                 : DistantSignalAspect.EXPECT_STOP;

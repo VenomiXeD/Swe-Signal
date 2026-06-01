@@ -56,7 +56,7 @@ public enum DwarfSignalAspect implements ISignalAspect {
     }
 
     public static DwarfSignalAspect interpret(SignalStateNode node, Direction.AxisDirection direction) {
-        if (node.isStop(direction)) {
+        if (node.isStop()) {
             return STOP;
         }
 

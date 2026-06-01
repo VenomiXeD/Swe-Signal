@@ -41,7 +41,7 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
             final boolean blink = ticks % 20 > 10;
             SignalStateNode distant = state.getNextState();
 
-            if (state.isStop(direction)) {
+            if (state.isStop()) {
                 ISignalAspect.RGB.BLACK.apply(lights[0]);
                 ISignalAspect.RGB.RED.apply(lights[1]);
                 ISignalAspect.RGB.BLACK.apply(lights[2]);
@@ -70,11 +70,11 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
                 return;
             }
 
-            if (distant.isStop(direction)) {
+            if (distant.isStop()) {
                 if (state.getMaxProceedSpeed() < 80) {
                     if (state.getDistanceToNextSignal() <= 450) {
                         // PROCEED 40, SHORT ROUTE
-                        ISignalAspect.RGB.GREEN.apply(lights[1]);
+                        ISignalAspect.RGB.GREEN.apply(lights[0]);
                         ISignalAspect.RGB.BLACK.apply(lights[1]);
                         ISignalAspect.RGB.GREEN.apply(lights[2]);
                         ISignalAspect.RGB.BLACK.apply(lights[3]);
@@ -83,7 +83,7 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
                         return;
                     } else {
                         //
-                        ISignalAspect.RGB.GREEN.apply(lights[1]);
+                        ISignalAspect.RGB.GREEN.apply(lights[0]);
                         ISignalAspect.RGB.BLACK.apply(lights[1]);
                         ISignalAspect.RGB.GREEN.apply(lights[2]);
                         ISignalAspect.RGB.BLACK.apply(lights[3]);
@@ -115,7 +115,7 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
                 return;
             }
 
-            ISignalAspect.RGB.GREEN.apply(lights[2]);
+            ISignalAspect.RGB.GREEN.apply(lights[0]);
             ISignalAspect.RGB.BLACK.apply(lights[1]);
             ISignalAspect.RGB.GREEN.apply(lights[2]);
             ISignalAspect.RGB.BLACK.apply(lights[3]);

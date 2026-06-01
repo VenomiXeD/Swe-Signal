@@ -22,7 +22,7 @@ public class BlockEntityHVDistantSignal extends BlockEntitySignal<IDistantSignal
     @Override
     public @NotNull IDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         SignalStateNode distant = state.getNextState();
-        if (distant == null || distant.isStop(direction))
+        if (distant == null || distant.isStop())
             return DistantSignalAspect.EXPECT_STOP;
 
         return DistantSignalAspect.interpret(state, direction);

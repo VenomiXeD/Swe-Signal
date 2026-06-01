@@ -1,16 +1,15 @@
 {
-  "block.extended_signals_se.se.1l_railroad_crossing_signal_2_post_1970": ")0ㄥ6Ɩ ʇsoԀ( ᄅ ןɐubıs buıssoɹɔ pɐoɹןıɐɹ ʇɥbıꞀ Ɩ )ɥsıpǝʍS(",
   "block.extended_signals_se.se.2l_signal_modern": "uɹǝpoɯ ןɐubıs ʇɥbıꞀ ᄅ )ɥsıpǝʍS(",
-  "block.extended_signals_se.se.3l_crossing_lights_post_1970": ")0ㄥ6Ɩ ʇsoԀ( sʇɥbıן buıssoɹɔ ʇɥbıꞀ Ɛ )ɥsıpǝʍS(",
-  "block.extended_signals_se.se.3l_distant_railroad_crossing_signal_post_1970": ")0ㄥ6Ɩ ʇsoԀ( ןɐubıs buıssoɹɔ pɐoɹןıɐɹ ʇuɐʇsıp ʇɥbıꞀ Ɛ )ɥsıpǝʍS(",
   "block.extended_signals_se.se.3l_distant_signal_modern": "uɹǝpoɯ ןɐubıs ʇuɐʇsıp ʇɥbıꞀ Ɛ )ɥsıpǝʍS(",
   "block.extended_signals_se.se.3l_signal_modern": "uɹǝpoɯ ןɐubıs ʇɥbıꞀ Ɛ )ɥsıpǝʍS(",
   "block.extended_signals_se.se.4l_signal_modern": "uɹǝpoɯ ןɐubıs ʇɥbıꞀ ㄣ )ɥsıpǝʍS(",
   "block.extended_signals_se.se.5l_signal_modern": "uɹǝpoɯ ןɐubıs ʇɥbıꞀ ϛ )ɥsıpǝʍS(",
+  "block.extended_signals_se.se.base": "ǝsɐq )ɥsıpǝʍS(",
+  "block.extended_signals_se.se.crossing_distant_signal_modern": "uɹǝpoɯ ןɐubıs ʇuɐʇsıp buıssoɹɔ )ɥsıpǝʍS(",
+  "block.extended_signals_se.se.crossing_lights_modern": "uɹǝpoɯ sʇɥbıן buıssoɹɔ )ɥsıpǝʍS(",
+  "block.extended_signals_se.se.crossing_signal_modern": "uɹǝpoɯ ןɐubıs buıssoɹɔ )ɥsıpǝʍS(",
   "block.extended_signals_se.se.dwarf_main_signal_modern": "uɹǝpoɯ ןɐubıs uıɐɯ ɟɹɐʍp )ɥsıpǝʍS(",
   "block.extended_signals_se.se.dwarf_signal_modern": "uɹǝpoɯ ןɐubıs ɟɹɐʍp )ɥsıpǝʍS(",
   "block.extended_signals_se.se.endpoint_signal_modern": "uɹǝpoɯ ןɐubıs ʇuıodpuǝ )ɥsıpǝʍS(",
-  "block.extended_signals_se.signal.se.crossing.base": "ǝsɐq˙buıssoɹɔ˙ǝs˙ןɐubıS",
-  "block.extended_signals_se.signal.se.crossing.controller": "ɹǝןןoɹʇuoɔ˙buıssoɹɔ˙ǝs˙ןɐubıS",
   "itemGroup.extended_signals_se.extended_signals_se": "ǝS sןɐubıS pǝpuǝʇxƎ"
 }

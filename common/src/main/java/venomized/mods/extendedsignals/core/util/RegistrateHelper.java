@@ -71,7 +71,7 @@ public class RegistrateHelper {
         // .build();
     }
 
-    public static <T extends Block> BlockBuilder<T, Registrate> genericCustomSignalBlock(Registrate registrateInstance, String assetType, String nation, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
+    public static <T extends Block> BlockBuilder<T, Registrate> genericCustomModelledBlock(Registrate registrateInstance, String nation, String assetType, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
         String properName = name.replaceAll("(\\d+)l", "$1 Light")
                 .replaceAll("_post_(\\d+)_?", " (Post $1)")
                 .replace('_', ' ');

@@ -57,7 +57,7 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
     @Override
     public @NotNull ICombinedSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         return (ticks, lights) -> {
-            if (state.isStop(direction)) {
+            if (state.isStop()) {
                 ISignalAspect.RGB.BLACK.apply(lights[0]);
                 ISignalAspect.RGB.RED.apply(lights[1]);
                 ISignalAspect.RGB.BLACK.apply(lights[2]);
@@ -80,7 +80,7 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
             if (distant == null)
                 return;
 
-            if (distant.isStop(direction)) {
+            if (distant.isStop()) {
                 (blink ? ISignalAspect.RGB.BLACK : ISignalAspect.RGB.GREEN).apply(lights[2]);
                 return;
             }
