@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -14,6 +15,7 @@ import org.joml.AxisAngle4f;
 import org.joml.Math;
 import org.joml.Quaternionf;
 import venomized.mods.extendedsignals.core.blockentity.IOrientedBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.ITranslatableBlockEntity;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
 
 @SuppressWarnings("deprecation")
@@ -86,12 +88,18 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
         packedOverlay = pPackedOverlay;
         partialTick = pPartialTick;
 
+        if (blockEntity instanceof ITranslatableBlockEntity translatableBlock) {
+            poseStack.translate(
+                    translatableBlock.getXOffset(),
+                    translatableBlock.getYOffset(),
+                    translatableBlock.getZOffset()
+            );
+        }
         if (blockEntity instanceof IOrientedBlockEntity orientableBlock) {
             float angle = -orientableBlock.getYOrientation();
-
             pPoseStack.rotateAround(
                     new Quaternionf(
-                            new AxisAngle4f(Math.toRadians(angle), 0f, 1f, 0f)), .5f, 0, .5f
+                            new AxisAngle4f(Mth.DEG_TO_RAD * angle, 0f, 1f, 0f)), .5f, 0, .5f
             );
         }
 

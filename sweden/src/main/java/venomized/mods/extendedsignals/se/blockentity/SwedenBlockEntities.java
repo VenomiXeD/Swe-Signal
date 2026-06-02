@@ -44,8 +44,8 @@ public final class SwedenBlockEntities {
                     .renderer(() -> RendererSignal::new)
                     .register();
     // == DISTANT SIGNALS ==
-    public static final BlockEntityEntry<BlockEntityThreeLightDistantSignal> DISTANT_THREE_LIGHT =
-            RegistrateHelper.simpleBlockEntity(registrate(), "3l_distant_signal", BlockEntityThreeLightDistantSignal::new, SwedenBlocks.BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL)
+    public static final BlockEntityEntry<BlockEntity3DistantSignal> DISTANT_THREE_LIGHT =
+            RegistrateHelper.simpleBlockEntity(registrate(), "3l_distant_signal", BlockEntity3DistantSignal::new, SwedenBlocks.BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL)
                     .renderer(() -> RendererSignal::new)
                     .register();
     // == DWARF SIGNALS ==

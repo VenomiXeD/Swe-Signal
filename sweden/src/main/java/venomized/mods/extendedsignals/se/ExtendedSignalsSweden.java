@@ -5,20 +5,18 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.common.data.SoundDefinitionsProvider;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import venomized.mods.extendedsignals.core.ModTemplate;
+import venomized.mods.extendedsignals.core.Mod;
 import venomized.mods.extendedsignals.core.data.SoundEventDataGenerator;
 import venomized.mods.extendedsignals.se.block.SwedenBlocks;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
 
-@Mod(ExtendedSignalsSweden.MOD_ID)
-public class ExtendedSignalsSweden extends ModTemplate {
+@net.minecraftforge.fml.common.Mod(ExtendedSignalsSweden.MOD_ID)
+public class ExtendedSignalsSweden extends Mod {
     public static final String MOD_ID = "extended_signals_se";
     public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
 

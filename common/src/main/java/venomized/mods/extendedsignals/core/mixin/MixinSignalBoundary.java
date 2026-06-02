@@ -1,8 +1,5 @@
 package venomized.mods.extendedsignals.core.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
@@ -27,11 +24,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
-import venomized.mods.extendedsignals.core.create.tracks.IRawSignalStateEvaluator;
+import venomized.mods.extendedsignals.core.create.tracks.ISignalStateCompute;
 import venomized.mods.extendedsignals.core.create.tracks.SignalBoundaryConfiguration;
 import venomized.mods.extendedsignals.core.signalling.ISignalStateBoundaryTransformer;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -41,7 +36,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Mixin(value = SignalBoundary.class, remap = false)
-public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExtendedSignalBoundary<SignalBoundary>, IRawSignalStateEvaluator, ISignalStateBoundaryTransformer {
+public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExtendedSignalBoundary<SignalBoundary>, ISignalStateCompute, ISignalStateBoundaryTransformer {
     private static final String TAG_MAPPER_NAME = "mapper";
     private static final String TAG_SKIP_CHAIN_CONFIG_NAME = "chaining";
 

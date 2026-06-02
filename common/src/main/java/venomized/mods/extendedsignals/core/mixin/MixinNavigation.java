@@ -10,6 +10,7 @@ import com.simibubi.create.content.trains.graph.TrackEdge;
 import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.createmod.catnip.data.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -39,7 +40,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
     @Unique
     private static final int SIGNAL_SCOUT_INTERVAL = 10;
     @Unique
-    private final Deque<CollectedSignal> extendedSignals$collectedSignals = new ArrayDeque<>();
+    private final ObjectArrayList<CollectedSignal> extendedSignals$collectedSignals = new ObjectArrayList<>();
     @Unique
     private final Map<ResourceLocation, ISignalModifier> extendedSignals$activeModifiers = new Object2ObjectLinkedOpenHashMap<>();
     @Unique
@@ -153,7 +154,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
         final Vec3[] previousTrackVector = {null};
         extendedSignals$signalScoutTriggerCollector.travel(
                 train.graph,
-                (lookAheadDistance + 3 - (lookAheadDistance % 3)) * speedMod,
+                (lookAheadDistance + 5) * speedMod,
                 controlSignalScout(),
                 (distance, trackEdgePointCouplePair) -> {
                     TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
@@ -181,23 +182,19 @@ public abstract class MixinNavigation implements INavigationAccessor {
                             ? -1.0 : distance - previousSignalDistance.getValue();
                     previousSignalDistance.setValue(distance);
 
-                    boolean trainIsGoingtoWaitHere = false;
-                    if (waitingForSignal != null) {
-                        trainIsGoingtoWaitHere = Objects.equals(waitingForSignal.getFirst(), signalBoundary.pointId());
-                    }
-
+                    boolean waiting = waitingForSignal != null &&
+                            Objects.equals(waitingForSignal.getFirst(), signalBoundary.pointId());
 
                     extendedSignals$collectedSignals.push(
                             new CollectedSignal(
                                     signalBoundary,
                                     primary ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
-                                    trainIsGoingtoWaitHere,
+                                    waiting,
                                     distance,
                                     deltaSignalDistance,
                                     extendedSignals$predictedModifiers.values().toArray(ISignalModifier[]::new))
                     );
-
-                    return trainIsGoingtoWaitHere;
+                    return waiting;
                 }
         );
     }
@@ -210,7 +207,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
         while (!extendedSignals$collectedSignals.isEmpty()) {
             CollectedSignal current = extendedSignals$collectedSignals.pop();
 
-            if (current.boundary() instanceof IRawSignalStateEvaluator signalStateEvaluator) {
+            if (current.boundary() instanceof ISignalStateCompute signalStateEvaluator) {
                 currentSignalState = signalStateEvaluator.computeSignalState(
                                 current.signalDirection(),
                                 upcomingSignalState,

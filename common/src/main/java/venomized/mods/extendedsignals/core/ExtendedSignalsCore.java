@@ -13,7 +13,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -31,12 +30,11 @@ import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.data.BlockStateDataGenerator;
 import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 import venomized.mods.extendedsignals.core.data.RecipeDataGenerator;
-import venomized.mods.extendedsignals.core.data.SoundEventDataGenerator;
 import venomized.mods.extendedsignals.core.item.ExtendedSignalsItems;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
 
-@Mod(ExtendedSignalsCore.MOD_ID)
-public class ExtendedSignalsCore extends ModTemplate {
+@net.minecraftforge.fml.common.Mod(ExtendedSignalsCore.MOD_ID)
+public class ExtendedSignalsCore extends Mod {
     public static final String MOD_ID = "extended_signals";
     public static final Logger LOGGER = LogManager.getLogger(ExtendedSignalsCore.class);
 

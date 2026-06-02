@@ -9,8 +9,8 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-public abstract class ModTemplate {
-    public ModTemplate(FMLJavaModLoadingContext context) {
+public abstract class Mod {
+    public Mod(FMLJavaModLoadingContext context) {
         commonInitialization();
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::clientInitialization);
         DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> this::serverInitialization);

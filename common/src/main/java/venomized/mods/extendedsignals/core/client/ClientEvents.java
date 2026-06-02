@@ -1,25 +1,28 @@
-package venomized.mods.extendedsignals.core;
+package venomized.mods.extendedsignals.core.client;
 
-import com.simibubi.create.Create;
+import com.simibubi.create.AllTags;
 import com.simibubi.create.content.contraptions.actors.trainControls.ControlsHandler;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
-import com.simibubi.create.content.trains.entity.Train;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import venomized.mods.extendedsignals.core.client.KeyMappings;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.blockentity.ITranslatableBlockEntity;
 import venomized.mods.extendedsignals.core.item.IScrollableItem;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.core.network.packets.ServerBoundRequestShuntPacket;
 import venomized.mods.extendedsignals.core.network.packets.ServerBoundScrollItemPacket;
+import venomized.mods.extendedsignals.core.network.packets.ServerBoundTranslateBlockPacket;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = ExtendedSignalsCore.MOD_ID, value = Dist.CLIENT)
@@ -62,5 +65,24 @@ public class ClientEvents {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onClientInteractOnBlock(PlayerInteractEvent.RightClickBlock e) {
+        if (!e.getItemStack().is(AllTags.AllItemTags.WRENCH.tag))
+            return;
+
+        if (!(e.getLevel().getBlockEntity(e.getPos()) instanceof ITranslatableBlockEntity))
+            return;
+
+        Direction dir = e.getHitVec().getDirection().getOpposite();
+        if (Screen.hasControlDown())
+            dir = dir.getOpposite();
+
+        ExtendedSignalsNetworking.CHANNEL
+                .sendToServer(new ServerBoundTranslateBlockPacket(e.getPos(), dir));
+
+        e.setCanceled(true);
+        e.setCancellationResult(InteractionResult.SUCCESS);
     }
 }

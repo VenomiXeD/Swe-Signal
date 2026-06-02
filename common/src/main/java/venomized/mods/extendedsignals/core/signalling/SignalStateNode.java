@@ -48,7 +48,7 @@ public class SignalStateNode {
     private boolean proceed;
     @Setter
     @Getter
-    private double maxProceedSpeed = 200; // TODO: Dummy value
+    private double maxProceedSpeed = Double.MAX_VALUE;
     @Setter
     @Getter
     private double distanceToNextSignal = -1;

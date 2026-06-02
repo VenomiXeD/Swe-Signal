@@ -12,7 +12,7 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 
 import java.util.UUID;
 
-public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBoundary<RepeaterSignal>, IRawSignalStateEvaluator {
+public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBoundary<RepeaterSignal>, ISignalStateCompute {
     /**
      * @param front
      * @param mapper

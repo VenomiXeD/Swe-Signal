@@ -1,16 +1,22 @@
 package venomized.mods.extendedsignals.core.block;
 
+import com.simibubi.create.AllTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.ITranslatableBlockEntity;
 
-public class ExtendedSignalsBlock extends Block {
+public abstract class ExtendedSignalsBlock extends Block {
 
     /**
      * @param pProperties
@@ -50,4 +56,29 @@ public class ExtendedSignalsBlock extends Block {
             rotateableBlockEntity.sync();
         }
     }
+
+    // /**
+    //  * @param pState
+    //  * @param pLevel
+    //  * @param pPos
+    //  * @param pPlayer
+    //  * @param pHand
+    //  * @param pHit
+    //  * @return
+    //  */
+    // @Override
+    // public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    //     if (pLevel.isClientSide())
+    //         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+//
+    //     if (!pPlayer.getItemInHand(pHand).is(AllTags.AllItemTags.WRENCH.tag))
+    //         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+//
+    //     if (!(pLevel.getBlockEntity(pPos) instanceof ITranslatableBlockEntity translatableBlock))
+    //         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+//
+//
+//
+    //     return InteractionResult.SUCCESS;
+    // }
 }

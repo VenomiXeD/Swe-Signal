@@ -9,9 +9,10 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.se.signaling.DistantSignalAspect;
 
-public class BlockEntityThreeLightDistantSignal extends BlockEntitySignal<ISignalAspect> {
-    public BlockEntityThreeLightDistantSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
+public class BlockEntity3DistantSignal extends BlockEntitySignal<ISignalAspect> {
+    public BlockEntity3DistantSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
 
@@ -34,7 +35,6 @@ public class BlockEntityThreeLightDistantSignal extends BlockEntitySignal<ISigna
      */
     @Override
     public @NotNull ISignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
-        return (a, b) -> {
-        };
+        return DistantSignalAspect.interpret(state, direction);
     }
 }
