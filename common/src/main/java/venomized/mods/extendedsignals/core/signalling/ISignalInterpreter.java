@@ -1,9 +1,7 @@
-package venomized.mods.extendedsignals.core;
+package venomized.mods.extendedsignals.core.signalling;
 
 import net.minecraft.core.Direction;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
-import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public interface ISignalInterpreter<T extends ISignalAspect> {
     @NotNull

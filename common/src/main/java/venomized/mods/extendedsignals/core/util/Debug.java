@@ -9,7 +9,6 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.Global;
 
 @Mod.EventBusSubscriber(modid = ExtendedSignalsCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class Debug {
@@ -28,10 +27,10 @@ public class Debug {
                                                         .executes(ctx -> {
                                                             int value = IntegerArgumentType.getInteger(ctx, "value");
 
-                                                            Global.SCAN_DISTANCE = value;
+                                                            // Global.SCAN_DISTANCE = value;
 
                                                             ctx.getSource().sendSuccess(
-                                                                    () -> Component.literal("Scan distance set to " + value),
+                                                                    () -> Component.literal("Scan distance command replaced with a server config value"),
                                                                     false
                                                             );
 

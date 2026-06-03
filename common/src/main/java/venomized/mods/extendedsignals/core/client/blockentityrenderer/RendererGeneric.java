@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -12,10 +13,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.AxisAngle4f;
-import org.joml.Math;
 import org.joml.Quaternionf;
-import venomized.mods.extendedsignals.core.blockentity.IOrientedBlockEntity;
-import venomized.mods.extendedsignals.core.blockentity.ITranslatableBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
 
 @SuppressWarnings("deprecation")
@@ -88,18 +87,26 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
         packedOverlay = pPackedOverlay;
         partialTick = pPartialTick;
 
-        if (blockEntity instanceof ITranslatableBlockEntity translatableBlock) {
+        if (blockEntity instanceof IConfigurableModelBlockEntity configurableModel) {
+            poseStack.translate(0.5f, 0.5f, 0.5f);
             poseStack.translate(
-                    translatableBlock.getXOffset(),
-                    translatableBlock.getYOffset(),
-                    translatableBlock.getZOffset()
+                    configurableModel.getXGblOffset(),
+                    configurableModel.getYGblOffset(),
+                    configurableModel.getZGblOffset()
             );
-        }
-        if (blockEntity instanceof IOrientedBlockEntity orientableBlock) {
-            float angle = -orientableBlock.getYOrientation();
-            pPoseStack.rotateAround(
-                    new Quaternionf(
-                            new AxisAngle4f(Mth.DEG_TO_RAD * angle, 0f, 1f, 0f)), .5f, 0, .5f
+            pPoseStack.mulPose(
+                    new Quaternionf()
+                            .rotateXYZ(
+                                    Mth.DEG_TO_RAD * configurableModel.getXOrientation(),
+                                    Mth.DEG_TO_RAD * -configurableModel.getYOrientation(),
+                                    Mth.DEG_TO_RAD * configurableModel.getZOrientation()
+                            )
+            );
+            poseStack.translate(-0.5f, -0.5f, -0.5f);
+            poseStack.translate(
+                    configurableModel.getXLocOffset(),
+                    configurableModel.getYLocOffset(),
+                    configurableModel.getZLocOffset()
             );
         }
 

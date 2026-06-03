@@ -1,9 +1,11 @@
 package venomized.mods.extendedsignals.core.block;
 
-import com.simibubi.create.AllTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -12,9 +14,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+import venomized.mods.extendedsignals.core.CoreMenus;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
-import venomized.mods.extendedsignals.core.blockentity.ITranslatableBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
+import venomized.mods.extendedsignals.core.menu.MenuModelConfig;
 
 public abstract class ExtendedSignalsBlock extends Block {
 
@@ -55,6 +60,35 @@ public abstract class ExtendedSignalsBlock extends Block {
             );
             rotateableBlockEntity.sync();
         }
+    }
+
+
+    /**
+     * @param pState
+     * @param pLevel
+     * @param pPos
+     * @param pPlayer
+     * @param pHand
+     * @param pHit
+     * @return
+     */
+    @Override
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        if (!pLevel.isClientSide() && pPlayer instanceof ServerPlayer p && pLevel.getBlockEntity(pPos) instanceof IConfigurableModelBlockEntity configurableModelBlockEntity && configurableModelBlockEntity.supportsConfiguration()) {
+            NetworkHooks.openScreen(
+                    p,
+                    new SimpleMenuProvider(
+                            ((pContainerId, pPlayerInventory, pPlayer1) -> new MenuModelConfig(
+                                    CoreMenus.MODEL_CONFIG.get(),
+                                    pContainerId,
+                                    pPlayerInventory,
+                                    pPos
+                            )),
+                            Component.literal("TEST")
+                    ), pPos
+            );
+        }
+        return InteractionResult.sidedSuccess(pLevel.isClientSide);
     }
 
     // /**

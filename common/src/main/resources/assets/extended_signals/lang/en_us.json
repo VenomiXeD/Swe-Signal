@@ -11,5 +11,19 @@
   "key.extendedsignals.train.shunt": "Request Shunt",
   "message.extendedsignals.blockentitysignal.tool.unknown": "Signal linking is done with the \"CONNECT\" mode.",
   "setting.extendedsignals.pathtraindetector.distance": "Trigger Distance",
-  "setting.extendedsignals.pathtraindetector.timer": "Delay set to %d"
+  "setting.extendedsignals.pathtraindetector.timer": "Delay set to %d",
+  "screens.extended_signals.modelconfig.slider.locx": "Local X:",
+  "screens.extended_signals.modelconfig.box.locx": "Local X:",
+  "screens.extended_signals.modelconfig.slider.gblx": "Global X:",
+  "screens.extended_signals.modelconfig.box.gblx": "Global X:",
+  "screens.extended_signals.modelconfig.slider.gbly": "Global Y:",
+  "screens.extended_signals.modelconfig.box.gbly": "Global Y:",
+  "screens.extended_signals.modelconfig.slider.gblz": "Global Z:",
+  "screens.extended_signals.modelconfig.box.gblz": "Global Z:",
+  "screens.extended_signals.modelconfig.slider.rotx": "Rotation X:",
+  "screens.extended_signals.modelconfig.box.rotx": "Rotation X:",
+  "screens.extended_signals.modelconfig.slider.roty": "Rotation Y:",
+  "screens.extended_signals.modelconfig.box.roty": "Rotation Y:",
+  "screens.extended_signals.modelconfig.slider.rotz": "Rotation Z:",
+  "screens.extended_signals.modelconfig.box.rotz": "Rotation Z:"
 }

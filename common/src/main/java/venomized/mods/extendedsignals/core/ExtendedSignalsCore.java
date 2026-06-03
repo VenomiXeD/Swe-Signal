@@ -13,6 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -32,6 +33,7 @@ import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 import venomized.mods.extendedsignals.core.data.RecipeDataGenerator;
 import venomized.mods.extendedsignals.core.item.ExtendedSignalsItems;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
+import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 
 @net.minecraftforge.fml.common.Mod(ExtendedSignalsCore.MOD_ID)
 public class ExtendedSignalsCore extends Mod {
@@ -55,6 +57,12 @@ public class ExtendedSignalsCore extends Mod {
         super(context);
 
         context.getModEventBus().register(ExtendedSignalsCore.class);
+
+        CoreMenus.register(context.getModEventBus());
+
+        context.registerConfig(
+                ModConfig.Type.SERVER, ExtendedSignalsConfig.SERVER_SPEC, MOD_ID + "-server.toml"
+        );
 
         ExtendedSignalsNetworking.init();
     }

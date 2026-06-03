@@ -3,7 +3,6 @@ package venomized.mods.extendedsignals.core.network.packets;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.ISignalNetwork;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.UUID;

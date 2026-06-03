@@ -9,17 +9,20 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class CoreBlockEntity extends BlockEntity implements IOrientedBlockEntity, ITranslatableBlockEntity {
-    private float yOrientation;
-    private final double[] offsets;
+public abstract class CoreBlockEntity extends BlockEntity implements IConfigurableModelBlockEntity {
+    private final float[] orientation;
+    private final double[] locOffsets;
+    private final double[] gblOffsets;
 
     public CoreBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
 
-        yOrientation = 0;
-        offsets = new double[3];
+        orientation = new float[3];
+        locOffsets = new double[3];
+        gblOffsets = new double[3];
     }
 
     public void sync() {
@@ -39,10 +42,24 @@ public abstract class CoreBlockEntity extends BlockEntity implements IOrientedBl
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
-        this.setYOrientation(pTag.getFloat(TAG_ORIENTATION_INDEX_NAME));
-        this.setXOffset(pTag.getDouble("x_offset"));
-        this.setYOffset(pTag.getDouble("y_offset"));
-        this.setZOffset(pTag.getDouble("z_offset"));
+        setXOrientation(pTag.getFloat("x_orientation"));
+
+        // Migration
+        if (pTag.contains("orientation_rotation"))
+            setYOrientation(pTag.getFloat("orientation_rotation"));
+        else
+            setYOrientation(pTag.getFloat("y_orientation"));
+
+        setZOrientation(pTag.getFloat("z_orientation"));
+
+
+        setXLocOffset(pTag.getDouble("x_loc_offset"));
+        setYLocOffset(pTag.getDouble("y_loc_offset"));
+        setZLocOffset(pTag.getDouble("z_loc_offset"));
+
+        setXGblOffset(pTag.getDouble("x_gbl_offset"));
+        setYGblOffset(pTag.getDouble("y_gbl_offset"));
+        setZGblOffset(pTag.getDouble("z_gbl_offset"));
     }
 
     /**
@@ -70,7 +87,6 @@ public abstract class CoreBlockEntity extends BlockEntity implements IOrientedBl
     public void handleUpdateTag(CompoundTag tag) {
         super.handleUpdateTag(tag);
         this.load(tag);
-
     }
 
 
@@ -80,10 +96,24 @@ public abstract class CoreBlockEntity extends BlockEntity implements IOrientedBl
     @Override
     protected void saveAdditional(CompoundTag pTag) {
         super.saveAdditional(pTag);
-        pTag.putDouble(TAG_ORIENTATION_INDEX_NAME, this.getYOrientation());
-        pTag.putDouble("x_offset", getXOffset());
-        pTag.putDouble("y_offset", getYOffset());
-        pTag.putDouble("z_offset", getZOffset());
+        pTag.putDouble("x_orientation", this.getXOrientation());
+        pTag.putDouble("y_orientation", this.getYOrientation());
+        pTag.putDouble("z_orientation", this.getZOrientation());
+        pTag.putDouble("x_loc_offset", getXLocOffset());
+        pTag.putDouble("y_loc_offset", getYLocOffset());
+        pTag.putDouble("z_loc_offset", getZLocOffset());
+
+        pTag.putDouble("x_gbl_offset", getXGblOffset());
+        pTag.putDouble("y_gbl_offset", getYGblOffset());
+        pTag.putDouble("z_gbl_offset", getZGblOffset());
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public float getXOrientation() {
+        return orientation[0];
     }
 
     /**
@@ -91,40 +121,76 @@ public abstract class CoreBlockEntity extends BlockEntity implements IOrientedBl
      */
     @Override
     public float getYOrientation() {
-        return yOrientation;
+        return orientation[1];
     }
 
     /**
-     * @param pYOrientation
+     * @return
      */
     @Override
-    public void setYOrientation(float pYOrientation) {
-        yOrientation = pYOrientation;
+    public float getZOrientation() {
+        return orientation[2];
+    }
+
+    /**
+     * @param rotInDeg
+     */
+    @Override
+    public void setXOrientation(float rotInDeg) {
+        orientation[0] = rotInDeg;
         sync();
     }
 
     /**
-     * @return
+     * @param rotInDeg
      */
     @Override
-    public double getXOffset() {
-        return offsets[0];
+    public void setYOrientation(float rotInDeg) {
+        orientation[1] = rotInDeg;
+        sync();
+    }
+
+    /**
+     * @param rotInDeg
+     */
+    @Override
+    public void setZOrientation(float rotInDeg) {
+        orientation[2] = rotInDeg;
+        sync();
+    }
+
+    /**
+     * @param orientationInDeg
+     */
+    @Override
+    public void setOrientation(Vec3 orientationInDeg) {
+        orientation[0] = (float) orientationInDeg.x();
+        orientation[1] = (float) orientationInDeg.y();
+        orientation[2] = (float) orientationInDeg.z();
     }
 
     /**
      * @return
      */
     @Override
-    public double getYOffset() {
-        return offsets[1];
+    public double getXLocOffset() {
+        return locOffsets[0];
     }
 
     /**
      * @return
      */
     @Override
-    public double getZOffset() {
-        return offsets[2];
+    public double getYLocOffset() {
+        return locOffsets[1];
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public double getZLocOffset() {
+        return locOffsets[2];
     }
 
     /**
@@ -132,8 +198,8 @@ public abstract class CoreBlockEntity extends BlockEntity implements IOrientedBl
      * @return
      */
     @Override
-    public void setXOffset(double offset) {
-        offsets[0] = offset;
+    public void setXLocOffset(double offset) {
+        locOffsets[0] = offset;
         sync();
     }
 
@@ -142,8 +208,8 @@ public abstract class CoreBlockEntity extends BlockEntity implements IOrientedBl
      * @return
      */
     @Override
-    public void setYOffset(double offset) {
-        offsets[1] = offset;
+    public void setYLocOffset(double offset) {
+        locOffsets[1] = offset;
         sync();
     }
 
@@ -152,8 +218,81 @@ public abstract class CoreBlockEntity extends BlockEntity implements IOrientedBl
      * @return
      */
     @Override
-    public void setZOffset(double offset) {
-        offsets[2] = offset;
+    public void setZLocOffset(double offset) {
+        locOffsets[2] = offset;
+        sync();
+    }
+
+    /**
+     * @param offset
+     */
+    @Override
+    public void setLocOffset(Vec3 offset) {
+        locOffsets[0] = offset.x();
+        locOffsets[1] = offset.y();
+        locOffsets[2] = offset.z();
+        sync();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public double getXGblOffset() {
+        return this.gblOffsets[0];
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public double getYGblOffset() {
+        return this.gblOffsets[1];
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public double getZGblOffset() {
+        return this.gblOffsets[2];
+    }
+
+    /**
+     * @param offset
+     */
+    @Override
+    public void setXGblOffset(double offset) {
+        this.gblOffsets[0] = offset;
+        sync();
+    }
+
+    /**
+     * @param offset
+     */
+    @Override
+    public void setYGblOffset(double offset) {
+        this.gblOffsets[1] = offset;
+        sync();
+    }
+
+    /**
+     * @param offset
+     */
+    @Override
+    public void setZGblOffset(double offset) {
+        this.gblOffsets[2] = offset;
+        sync();
+    }
+
+    /**
+     * @param offset
+     */
+    @Override
+    public void setGblOffset(Vec3 offset) {
+        gblOffsets[0] = offset.x();
+        gblOffsets[1] = offset.y();
+        gblOffsets[2] = offset.z();
         sync();
     }
 }

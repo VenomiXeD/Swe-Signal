@@ -14,6 +14,7 @@ import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundSyncSignalStatePacket;
+import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.ArrayList;

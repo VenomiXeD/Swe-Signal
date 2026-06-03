@@ -11,8 +11,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
-import venomized.mods.extendedsignals.core.Global;
 import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.create.tracks.PathTrainDetector;
 
@@ -41,7 +41,7 @@ public class BlockEntityPathTrainDetector extends SmartBlockEntity implements IS
                     default -> false;
                 })
         );
-        pathDistanceScrollValue.between(1, Global.SCAN_DISTANCE);
+        pathDistanceScrollValue.between(1, (int) ExtendedSignalsConfig.SERVER.defaultScanDistance.get().doubleValue());
         pathDistanceScrollValue.withCallback(this::pathDetectionRangeChanged);
         behaviours.add(pathDistanceScrollValue);
 

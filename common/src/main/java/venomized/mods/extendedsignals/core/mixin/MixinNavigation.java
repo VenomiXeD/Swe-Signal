@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import venomized.mods.extendedsignals.core.Global;
+import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.create.tracks.*;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigationAccessor;
 import venomized.mods.extendedsignals.core.signalling.ISignalStateBoundaryTransformer;
@@ -65,7 +65,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(DDD)D")
     )
     public double extendedSignals$increaseReservationScanDistance(double pValue, double pMin, double pMax) {
-        double reservationDistance = Math.max(pValue, Global.SCAN_DISTANCE);
+        double reservationDistance = Mth.absMax(pValue, ExtendedSignalsConfig.SERVER.defaultScanDistance.get());
         return Mth.clamp(reservationDistance, pMin, pMax);
     }
 
@@ -139,7 +139,7 @@ public abstract class MixinNavigation implements INavigationAccessor {
     @Unique
     private void extendedSignals$collectSignalsInPath(double speedMod) {
         final double lookAheadDistance = Math.min(
-                Global.SCAN_DISTANCE,
+                ExtendedSignalsConfig.SERVER.defaultScanDistance.get(),
                 Math.min(distanceToDestination, distanceToSignal)
         );
 

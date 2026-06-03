@@ -58,5 +58,12 @@ public class ExtendedSignalsNetworking {
                 ServerBoundTranslateBlockPacket::decode,
                 ServerBoundTranslateBlockPacket::handle
         );
+
+        CHANNEL.registerMessage(MSG_ID++,
+                ServerBoundModelConfigurePacket.class,
+                ServerBoundModelConfigurePacket::encode,
+                ServerBoundModelConfigurePacket::decode,
+                ServerBoundModelConfigurePacket::handle
+        );
     }
 }

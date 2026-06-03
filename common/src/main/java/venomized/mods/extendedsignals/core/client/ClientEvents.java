@@ -17,7 +17,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.blockentity.ITranslatableBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 import venomized.mods.extendedsignals.core.item.IScrollableItem;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.core.network.packets.ServerBoundRequestShuntPacket;
@@ -72,7 +72,7 @@ public class ClientEvents {
         if (!e.getItemStack().is(AllTags.AllItemTags.WRENCH.tag))
             return;
 
-        if (!(e.getLevel().getBlockEntity(e.getPos()) instanceof ITranslatableBlockEntity))
+        if (!(e.getLevel().getBlockEntity(e.getPos()) instanceof IConfigurableModelBlockEntity))
             return;
 
         Direction dir = e.getHitVec().getDirection().getOpposite();

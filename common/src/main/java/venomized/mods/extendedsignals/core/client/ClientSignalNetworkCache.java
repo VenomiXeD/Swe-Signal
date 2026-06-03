@@ -4,7 +4,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.createmod.catnip.data.Couple;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.ISignalNetwork;
+import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.Map;

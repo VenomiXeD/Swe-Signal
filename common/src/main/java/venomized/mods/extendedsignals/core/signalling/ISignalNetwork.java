@@ -1,13 +1,11 @@
-package venomized.mods.extendedsignals.core;
+package venomized.mods.extendedsignals.core.signalling;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.createmod.catnip.data.Couple;
-import net.createmod.catnip.data.Iterate;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.Map;
 import java.util.UUID;
