@@ -8,7 +8,7 @@ import net.minecraftforge.common.extensions.IForgeBlockEntity;
 
 public interface ISignalTunerToolable extends IForgeBlockEntity {
     enum SignalTunerMode {
-        DISCONNECT_ALL,
+        INFO,
         DISCONNECT,
         CONNECT,
         CONFIGURE

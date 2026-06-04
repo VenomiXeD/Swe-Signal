@@ -235,15 +235,37 @@ public abstract class MixinNavigation implements INavigation {
     // }
 //
     @WrapOperation(method = "reserveChain", at = @At(value = "INVOKE", target = "Ljava/util/Map;forEach(Ljava/util/function/BiConsumer;)V"))
-    private void extendedSignals$setSignalOwnershipWhenReservingChain(Map<UUID, Pair<SignalBoundary, Boolean>> instance, BiConsumer<?, ?> action, Operation<Void> original) {
+    private void extendedSignals$setSignalOwnershipWhenReservingChain(
+            Map<UUID, Pair<SignalBoundary, Boolean>> instance,
+            BiConsumer<UUID, Pair<SignalBoundary, Boolean>> action,
+            Operation<Void> original
+    ) {
+
+        // First pass: check conflict
+        for (UUID groupId : instance.keySet()) {
+            SignalEdgeGroup group = Create.RAILWAYS.signalEdgeGroups.get(groupId);
+
+            if (group == null)
+                continue;
+
+            if (extendedSignals$isReservedByOtherTrainOrIntersecting(group)) {
+                // Another train already owns part of this chain.
+                // Do NOT overwrite.
+                return;
+            }
+        }
+
+        // Second pass: reserve atomically
         instance.forEach((groupId, boundary) -> {
-            SignalEdgeGroup signalEdgeGroup = Create.RAILWAYS.signalEdgeGroups.get(groupId);
-            if (signalEdgeGroup != null) {
-                signalEdgeGroup.reserved = boundary.getFirst();
-                ((ISignalEdgeGroup) signalEdgeGroup)
+            SignalEdgeGroup group = Create.RAILWAYS.signalEdgeGroups.get(groupId);
+
+            if (group != null) {
+                group.reserved = boundary.getFirst();
+
+                ((ISignalEdgeGroup) group)
                         .extendedSignals$setReservedByTrain(this.train);
-//
-                this.extendedSignals$ownedSignalGroups.add(signalEdgeGroup.id);
+
+                this.extendedSignals$ownedSignalGroups.add(group.id);
             }
         });
     }

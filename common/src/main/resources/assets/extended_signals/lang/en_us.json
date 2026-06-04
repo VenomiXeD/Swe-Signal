@@ -29,5 +29,10 @@
   "screens.extended_signals.modelconfig.slider.locy": "Local Y:",
   "screens.extended_signals.modelconfig.box.locy": "Local Y:",
   "screens.extended_signals.modelconfig.slider.locz": "Local Z:",
-  "screens.extended_signals.modelconfig.box.locz": "Local Z:"
+  "screens.extended_signals.modelconfig.box.locz": "Local Z:",
+  "message.extended_signals.createsignal.tool.info.no_group": "This create signal is missing a signal group.",
+  "message.extended_signals.createsignal.tool.config.chaining": "Distant Signal chaining disabled: %s",
+  "message.extended_signals.createsignal.tool.info.owning_train_nonexistent": "This signal has a group ownership, but the owning train does not exist.",
+  "message.extended_signals.createsignal.tool.info.owning_train": "Train with ID %s (%s) has reserved this block, it is roughly %.2f meters away",
+  "message.extended_signals.createsignal.tool.info.no_owning_train": "This signal edge group currently has no reservation"
 }

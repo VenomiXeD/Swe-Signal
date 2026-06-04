@@ -152,7 +152,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         }
 
         switch (mode) {
-            case DISCONNECT_ALL:
+            case DISCONNECT:
                 this.pointID = null;
                 this.signallingDirection = null;
                 context.getPlayer().sendSystemMessage(

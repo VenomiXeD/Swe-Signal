@@ -98,8 +98,6 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
         }
 
         switch (mode) {
-            case DISCONNECT_ALL:
-                break;
             case DISCONNECT:
                 break;
             case CONNECT:
