@@ -25,5 +25,9 @@
   "screens.extended_signals.modelconfig.slider.roty": "Rotation Y:",
   "screens.extended_signals.modelconfig.box.roty": "Rotation Y:",
   "screens.extended_signals.modelconfig.slider.rotz": "Rotation Z:",
-  "screens.extended_signals.modelconfig.box.rotz": "Rotation Z:"
+  "screens.extended_signals.modelconfig.box.rotz": "Rotation Z:",
+  "screens.extended_signals.modelconfig.slider.locy": "Local Y:",
+  "screens.extended_signals.modelconfig.box.locy": "Local Y:",
+  "screens.extended_signals.modelconfig.slider.locz": "Local Z:",
+  "screens.extended_signals.modelconfig.box.locz": "Local Z:"
 }

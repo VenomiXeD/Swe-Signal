@@ -386,19 +386,18 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
 
     private void editBoxChanged(String s) {
         for (int i = 0; i < 3; i++) {
-            final int idx = i;
             if (locOffsetEditBoxes[i].getNumericValue().isPresent() && locOffsetEditBoxes[i].isFocused()) {
-                locOffsetValues[idx] = locOffsetEditBoxes[i].getNumericValue().getAsDouble();
+                locOffsetValues[i] = locOffsetEditBoxes[i].getNumericValue().getAsDouble();
                 updateModelTranslation();
                 updateSliderValues();
             }
             if (gloOffsetEditBoxes[i].getNumericValue().isPresent() && gloOffsetEditBoxes[i].isFocused()) {
-                gloOffsetValues[idx] = gloOffsetEditBoxes[i].getNumericValue().getAsDouble();
+                gloOffsetValues[i] = gloOffsetEditBoxes[i].getNumericValue().getAsDouble();
                 updateModelTranslation();
                 updateSliderValues();
             }
             if (orientationEditBoxes[i].getNumericValue().isPresent() && orientationEditBoxes[i].isFocused()) {
-                orientationValues[idx] = orientationEditBoxes[i].getNumericValue().getAsDouble();
+                orientationValues[i] = orientationEditBoxes[i].getNumericValue().getAsDouble();
                 updateModelTranslation();
                 updateSliderValues();
             }

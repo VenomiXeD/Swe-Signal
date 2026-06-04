@@ -1,13 +1,19 @@
 package venomized.mods.extendedsignals.core.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.graph.DiscoveredPath;
 import com.simibubi.create.content.trains.graph.TrackEdge;
 import com.simibubi.create.content.trains.graph.TrackNode;
+import com.simibubi.create.content.trains.signal.SignalBoundary;
+import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -29,36 +35,41 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.create.tracks.*;
-import venomized.mods.extendedsignals.core.mixin_interfaces.INavigationAccessor;
+import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
+import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
 import venomized.mods.extendedsignals.core.signalling.ISignalStateBoundaryTransformer;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 
 @Mixin(value = Navigation.class, remap = false)
-public abstract class MixinNavigation implements INavigationAccessor {
-    @Unique
-    private static final int SIGNAL_SCOUT_INTERVAL = 10;
-    @Unique
-    private final ObjectArrayList<CollectedSignal> extendedSignals$collectedSignals = new ObjectArrayList<>();
-    @Unique
-    private final Map<ResourceLocation, ISignalModifier> extendedSignals$activeModifiers = new Object2ObjectLinkedOpenHashMap<>();
-    @Unique
-    private final Map<ResourceLocation, ISignalModifier> extendedSignals$predictedModifiers = new Object2ObjectLinkedOpenHashMap<>();
+public abstract class MixinNavigation implements INavigation {
+    @Shadow
+    public abstract TravellingPoint.ITrackSelector controlSignalScout();
+
     @Shadow
     public Train train;
     @Shadow
     public double distanceToDestination;
     @Shadow
     public double distanceToSignal;
-    @Unique
-    private TravellingPoint extendedSignals$signalScoutTriggerCollector;
-    @Unique
-    private long extendedSignals$signalScoutCooldown = 0;
-    @Shadow
-    public abstract TravellingPoint.ITrackSelector controlSignalScout();
     @Shadow
     public Pair<UUID, Boolean> waitingForSignal;
+    @Unique
+    private final Set<UUID> extendedSignals$ownedSignalGroups = new HashSet<>();
+    @Unique
+    private static final int SIGNAL_SCOUT_INTERVAL = 10;
+    @Unique
+    private long extendedSignals$signalScoutCooldown = 0;
+    @Unique
+    private final ObjectArrayList<CollectedSignal> extendedSignals$collectedSignals = new ObjectArrayList<>();
+    @Unique
+    private final Map<ResourceLocation, ISignalModifier> extendedSignals$activeModifiers = new Object2ObjectLinkedOpenHashMap<>();
+    @Unique
+    private final Map<ResourceLocation, ISignalModifier> extendedSignals$predictedModifiers = new Object2ObjectLinkedOpenHashMap<>();
+    @Unique
+    private TravellingPoint extendedSignals$signalScoutTriggerCollector;
 
     @Redirect(
             method = "tick",
@@ -197,6 +208,84 @@ public abstract class MixinNavigation implements INavigationAccessor {
                     return waiting;
                 }
         );
+    }
+
+
+    @Inject(method = "cancelNavigation", at = @At("RETURN"))
+    public void extendedSignals$navigationCancelled(CallbackInfo ci) {
+        extendedSignals$flushReservations();
+    }
+
+    @Unique
+    private void extendedSignals$flushReservations() {
+        Create.RAILWAYS.signalEdgeGroups.values().forEach(g -> {
+            if (((ISignalEdgeGroup) g).extendedSignals$reservedByTrain() == train.id) {
+                ((ISignalEdgeGroup) g).extendedSignals$setReservedByTrain(null);
+            }
+        });
+        extendedSignals$ownedReservedSignals().clear();
+    }
+
+    // @Redirect(method = "lambda$tick$0", at = @At(value = "FIELD", target = "Lcom/simibubi/create/content/trains/signal/SignalEdgeGroup;reserved:Lcom/simibubi/create/content/trains/signal/SignalBoundary;", opcode = Opcodes.PUTFIELD))
+    // private void extendedSignals$setSignalOwnership(SignalEdgeGroup instance, SignalBoundary value) {
+    //     instance.reserved = value;
+    //     ((ISignalEdgeGroup)instance).extendedSignals$setReservedByTrain(train);
+//
+    //     this.extendedSignals$ownedSignalGroups.add(instance.id);
+    // }
+//
+    @WrapOperation(method = "reserveChain", at = @At(value = "INVOKE", target = "Ljava/util/Map;forEach(Ljava/util/function/BiConsumer;)V"))
+    private void extendedSignals$setSignalOwnershipWhenReservingChain(Map<UUID, Pair<SignalBoundary, Boolean>> instance, BiConsumer<?, ?> action, Operation<Void> original) {
+        instance.forEach((groupId, boundary) -> {
+            SignalEdgeGroup signalEdgeGroup = Create.RAILWAYS.signalEdgeGroups.get(groupId);
+            if (signalEdgeGroup != null) {
+                signalEdgeGroup.reserved = boundary.getFirst();
+                ((ISignalEdgeGroup) signalEdgeGroup)
+                        .extendedSignals$setReservedByTrain(this.train);
+//
+                this.extendedSignals$ownedSignalGroups.add(signalEdgeGroup.id);
+            }
+        });
+    }
+
+    @ModifyExpressionValue(method = "lambda$tick$0", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/signal/SignalEdgeGroup;isOccupiedUnless(Lcom/simibubi/create/content/trains/entity/Train;)Z"))
+    public boolean extendedSignals$includeSignalOwnershipInOccupancyCheck(boolean original, @Local(name = "signalEdgeGroup") SignalEdgeGroup signalEdgeGroup) {
+        return original || extendedSignals$isReservedByOtherTrainOrIntersecting(signalEdgeGroup);
+    }
+
+    @Unique
+    private boolean extendedSignals$isReservedByOtherTrain(SignalEdgeGroup group) {
+        UUID reservedBy = ((ISignalEdgeGroup) group)
+                .extendedSignals$reservedByTrain();
+
+        return reservedBy != null && !reservedBy.equals(this.train.id);
+    }
+
+    @Unique
+    private boolean extendedSignals$isReservedByOtherTrainOrIntersecting(SignalEdgeGroup group) {
+        if (extendedSignals$isReservedByOtherTrain(group)) {
+            return true;
+        }
+
+        if (group.intersectingResolved.isEmpty()) {
+            ((MixinSignalEdgeGroupAccessor) group).extendedSignals$walkIntersecting(group.intersectingResolved::add);
+        }
+
+        for (SignalEdgeGroup intersecting : group.intersectingResolved) {
+            if (extendedSignals$isReservedByOtherTrain(intersecting)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Set<UUID> extendedSignals$ownedReservedSignals() {
+        return extendedSignals$ownedSignalGroups;
     }
 
     @Unique

@@ -1,8 +1,11 @@
 package venomized.mods.extendedsignals.core.util;
 
 import com.simibubi.create.content.trains.entity.Train;
+import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import net.minecraft.util.Mth;
+import venomized.mods.extendedsignals.core.mixin.MixinSignalEdgeGroupAccessor;
+import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
 
 public class TrainHelp {
     public static double trainSpeedPercentFromKph(final double speedInKph, Train train, boolean manual) {
@@ -35,5 +38,21 @@ public class TrainHelp {
 
     public static double absoluteTopSpeedForTrainsKph() {
         return MathHelp.KphFromMs(absoluteTopSpeedForTrainsMs());
+    }
+
+
+    public static boolean isReservedUnless(SignalEdgeGroup group, Train train) {
+        if (group.intersectingResolved.isEmpty()) {
+            ((MixinSignalEdgeGroupAccessor) group).extendedSignals$walkIntersecting(group.intersectingResolved::add);
+        }
+
+        for (SignalEdgeGroup intersecting : group.intersectingResolved) {
+            if (((ISignalEdgeGroup) intersecting)
+                    .extendedSignals$isReservedByOtherTrain(train)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
