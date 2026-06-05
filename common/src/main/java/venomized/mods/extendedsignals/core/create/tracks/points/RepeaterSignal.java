@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.core.create.tracks;
+package venomized.mods.extendedsignals.core.create.tracks.points;
 
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
@@ -7,6 +7,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
+import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
+import venomized.mods.extendedsignals.core.create.tracks.ISignalStateCompute;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 

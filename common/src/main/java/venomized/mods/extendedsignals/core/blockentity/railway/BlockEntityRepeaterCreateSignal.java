@@ -19,7 +19,7 @@ import net.minecraft.world.phys.Vec3;
 import venomized.mods.extendedsignals.core.blockentity.ISignalBoundaryReferenceProvider;
 import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
 import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
-import venomized.mods.extendedsignals.core.create.tracks.RepeaterSignal;
+import venomized.mods.extendedsignals.core.create.tracks.points.RepeaterSignal;
 
 import java.util.List;
 

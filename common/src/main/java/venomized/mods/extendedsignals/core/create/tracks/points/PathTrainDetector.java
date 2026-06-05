@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.core.create.tracks;
+package venomized.mods.extendedsignals.core.create.tracks.points;
 
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
@@ -10,6 +10,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityPathTrainDetector;
+import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.UUID;

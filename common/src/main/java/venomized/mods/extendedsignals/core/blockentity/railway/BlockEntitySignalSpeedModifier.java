@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
-import venomized.mods.extendedsignals.core.create.tracks.SpeedModifier;
+import venomized.mods.extendedsignals.core.create.tracks.points.SpeedModifier;
 import venomized.mods.extendedsignals.core.util.TrainHelp;
 
 import java.util.List;

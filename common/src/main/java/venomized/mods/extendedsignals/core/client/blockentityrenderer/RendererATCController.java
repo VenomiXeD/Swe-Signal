@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityATCController;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
-import venomized.mods.extendedsignals.core.create.tracks.ATCController;
+import venomized.mods.extendedsignals.core.create.tracks.points.ATCController;
 
 public class RendererATCController extends SafeBlockEntityRenderer<BlockEntityATCController> {
     public RendererATCController(BlockEntityRendererProvider.Context context) {

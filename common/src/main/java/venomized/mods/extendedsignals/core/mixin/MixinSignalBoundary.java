@@ -139,7 +139,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
 
 
     @Inject(method = "write(Lnet/minecraft/nbt/CompoundTag;Lcom/simibubi/create/content/trains/graph/DimensionPalette;)V", at = @At("HEAD"))
-    public void write(CompoundTag nbt, DimensionPalette dimensions, CallbackInfo ci) {
+    public void extendedSignals$write(CompoundTag nbt, DimensionPalette dimensions, CallbackInfo ci) {
         NBTHelper.writeResourceLocation(nbt, TAG_MAPPER_NAME + "0", extendedSignals$stateRemapperIDs.get(false));
         NBTHelper.writeResourceLocation(nbt, TAG_MAPPER_NAME + "1", extendedSignals$stateRemapperIDs.get(true));
 

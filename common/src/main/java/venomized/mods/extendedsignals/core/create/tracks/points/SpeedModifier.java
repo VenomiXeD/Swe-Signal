@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.core.create.tracks;
+package venomized.mods.extendedsignals.core.create.tracks.points;
 
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;

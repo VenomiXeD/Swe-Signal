@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.core.create.tracks;
+package venomized.mods.extendedsignals.core.create.tracks.points;
 
 import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
@@ -7,9 +7,9 @@ import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
+import venomized.mods.extendedsignals.core.create.tracks.ISignalModifier;
 
 public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> extends TrackEdgePoint implements IExtendedSignalBoundary<T>, ISignalModifier {
     private final static String TAG_MODIFIER_DIRECTION = "direction";

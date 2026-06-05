@@ -9,6 +9,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.create.tracks.*;
+import venomized.mods.extendedsignals.core.create.tracks.points.ATCController;
 
 public final class CoreBlocks {
     public static Registrate registrate() {

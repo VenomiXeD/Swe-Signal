@@ -14,6 +14,7 @@ import com.simibubi.create.content.trains.schedule.ScheduleRuntime;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
+import com.simibubi.create.content.trains.station.GlobalStation;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Pair;
@@ -29,15 +30,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.create.ITrainDoorData;
-import venomized.mods.extendedsignals.core.create.tracks.ATCController;
-import venomized.mods.extendedsignals.core.create.tracks.DelayedSignalCrossTrigger;
-import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
-import venomized.mods.extendedsignals.core.create.tracks.TrackEdgePointSignalModifier;
+import venomized.mods.extendedsignals.core.create.tracks.*;
+import venomized.mods.extendedsignals.core.create.tracks.points.ATCController;
+import venomized.mods.extendedsignals.core.create.tracks.points.TrackEdgePointSignalModifier;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
-import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalBoundaryAccessor;
-import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
 import venomized.mods.extendedsignals.core.signalling.ShuntRequest;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -65,11 +62,6 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     public TrackGraph graph;
     @Shadow
     public List<Carriage> carriages;
-
-    @Shadow
-    public static Train read(CompoundTag tag, Map<UUID, TrackGraph> trackNetworks, DimensionPalette dimensions) {
-        throw new UnsupportedOperationException("Implemented via mixin");
-    }
 
     @Shadow
     public UUID id;
@@ -114,6 +106,16 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
         };
     }
 
+    @Inject(method = "arriveAt", at = @At("RETURN"))
+    public void extendedSignals$flushReservationsOnArrival(GlobalStation station, CallbackInfo ci) {
+        InterlockingManager.clearReservationsForTrain((Train) (Object) this);
+    }
+
+    @Inject(method = "crash", at = @At("RETURN"))
+    public void extendedSignals$flushReservationsOnCrash(CallbackInfo ci) {
+        InterlockingManager.clearReservationsForTrain((Train) (Object) this);
+    }
+
     @ModifyReturnValue(method = "backSignalListener", at = @At("RETURN"))
     public TravellingPoint.IEdgePointListener extendedSignals$hookBackSignalListener(TravellingPoint.IEdgePointListener original) {
         return (distance, couple) -> {
@@ -131,30 +133,9 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
         };
     }
 
-    @Inject(method = "lambda$backSignalListener$10", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/signal/SignalBoundary;getGroup(Lcom/simibubi/create/content/trains/graph/TrackNode;)Ljava/util/UUID;"))
-    public void extendedSignals$releaseOwnedSignalGroups(Double distance, Pair<TrackEdgePoint, Couple<TrackNode>> couple, CallbackInfoReturnable<Boolean> cir, @Local(name = "signal") SignalBoundary signalBoundary) {
-        boolean primary = couple.getFirst().isPrimary(couple.getSecond().getSecond());
-
-        UUID front = signalBoundary.groups.get(primary);
-        UUID back = signalBoundary.groups.get(!primary);
-
-        INavigation nav = (INavigation) navigation;
-        if (!nav.extendedSignals$ownedReservedSignals().contains(back))
-            return;
-
-        SignalEdgeGroup group = Create.RAILWAYS.signalEdgeGroups.get(back);
-        if (group == null)
-            return;
-
-        if (((ISignalEdgeGroup) group).extendedSignals$isReservedByOtherTrain((Train) (Object) this)) {
-            ExtendedSignalsCore.LOGGER.warn(
-                    "Train {} was willing to clear a reservation made by another train for group {}, " +
-                            "this should not happen!", id, group.id
-            );
-        }
-
-        ((ISignalEdgeGroup) group).extendedSignals$setReservedByTrain(null);
-        nav.extendedSignals$ownedReservedSignals().remove(back);
+    @Inject(method = "occupy", at = @At("HEAD"))
+    public void extendedSignals$removeReservatioOnOccupy(UUID groupId, UUID boundaryId, CallbackInfoReturnable<Boolean> cir) {
+        InterlockingManager.clearReservationForTrain((Train) (Object) this, groupId);
     }
 
     /**

@@ -6,6 +6,7 @@
   "mixins": [
     "MixinCreateTrainSignal",
     "MixinCreateTrainTrack",
+    "MixinGlobalRailwayManager",
     "MixinNavigation",
     "MixinScheduleRuntime",
     "MixinSignalBoundary",

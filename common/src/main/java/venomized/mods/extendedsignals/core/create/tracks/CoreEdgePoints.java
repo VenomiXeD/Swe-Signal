@@ -2,6 +2,9 @@ package venomized.mods.extendedsignals.core.create.tracks;
 
 import com.simibubi.create.content.trains.graph.EdgePointType;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.create.tracks.points.PathTrainDetector;
+import venomized.mods.extendedsignals.core.create.tracks.points.RepeaterSignal;
+import venomized.mods.extendedsignals.core.create.tracks.points.SpeedModifier;
 
 public final class CoreEdgePoints {
     public static final EdgePointType<RepeaterSignal> REPEATER = EdgePointType.register(

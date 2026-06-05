@@ -27,7 +27,7 @@ plugins {
 }
 
 group = "${mod_group_id}.core"
-version = '1.4.6-beta'
+version = '1.5.0-beta'
 
 repositories {
     mavenCentral()
@@ -90,7 +90,7 @@ minecraft {
             // Recommended logging level for the console
             // You can set various levels here.
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
-            property 'forge.logging.console.level', 'info'
+            property 'forge.logging.console.level', 'debug'
 
             mods {
                 "${mod_id}" {
