@@ -47,9 +47,9 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
         MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();
         ServerLevel level = currentServer.getLevel(getBlockEntityDimension());
         if (level.getBlockEntity(blockEntityPos) instanceof BlockEntityPathTrainDetector detector) {
-            detector.trainInbound();
             active = true;
             remainingDeactivationTicks = deactivationDelay;
+            detector.trainInbound();
         }
     }
 
