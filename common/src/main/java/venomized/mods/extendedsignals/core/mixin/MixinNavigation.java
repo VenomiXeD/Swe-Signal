@@ -188,14 +188,14 @@ public abstract class MixinNavigation implements INavigation {
                 (distance, trackEdgePointCouplePair) -> {
                     TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
 
-                    if (!(trackEdgePoint instanceof IExtendedSignalBoundary<?> signalBoundary))
-                        return false;
-
                     boolean primary = trackEdgePoint.isPrimary(trackEdgePointCouplePair.getSecond()
                             .getSecond()
                     );
 
-                    if (signalBoundary instanceof TrackEdgePointSignalModifier<?> modifierPoint && modifierPoint.isAligned(primary)) {
+                    if (!(trackEdgePoint instanceof IExtendedSignalBoundary<?> extendedSignalPoint))
+                        return false;
+
+                    if (trackEdgePoint instanceof TrackEdgePointSignalModifier<?> modifierPoint && modifierPoint.isAligned(primary)) {
                         if (modifierPoint.shouldApply()) {
                             extendedSignals$predictedModifiers
                                     .put(trackEdgePoint.getType().getId(), modifierPoint);
@@ -211,12 +211,11 @@ public abstract class MixinNavigation implements INavigation {
                             ? -1.0 : distance - previousSignalDistance.getValue();
                     previousSignalDistance.setValue(distance);
 
-                    boolean waiting = (waitingForSignal != null &&
-                            Objects.equals(waitingForSignal.getFirst(), signalBoundary.pointId()));
 
+                    boolean waiting = extendedSignals$isSignalWaiting(trackEdgePoint, primary);
                     extendedSignals$collectedSignals.push(
                             new CollectedSignal(
-                                    signalBoundary,
+                                    extendedSignalPoint,
                                     primary ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
                                     waiting,
                                     distance,
@@ -226,6 +225,20 @@ public abstract class MixinNavigation implements INavigation {
                     return waiting;
                 }
         );
+    }
+
+    @Unique
+    private boolean extendedSignals$isSignalWaiting(TrackEdgePoint trackEdgePoint, boolean primary) {
+        boolean blockOccupied = false;
+        if (trackEdgePoint instanceof SignalBoundary createSignalBoundary) {
+            UUID entering = createSignalBoundary.groups.get(primary);
+            SignalEdgeGroup signalEdgeGroup = Create.RAILWAYS.signalEdgeGroups.get(entering);
+            if (signalEdgeGroup != null)
+                blockOccupied = (!signalEdgeGroup.trains.contains(train) && !signalEdgeGroup.trains.isEmpty()) ||
+                        createSignalBoundary.isForcedRed(primary) ||
+                        InterlockingManager.trainOwnsGroupIntersecting(train, signalEdgeGroup) == InterlockingManager.ReservationResult.CONFLICT;
+        }
+        return blockOccupied || ((waitingForSignal != null) && trackEdgePoint.id.equals(waitingForSignal.getFirst())) && primary == waitingForSignal.getSecond();
     }
 
     @Inject(
