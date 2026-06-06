@@ -9,9 +9,6 @@ import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
-import net.minecraft.data.recipes.CraftingRecipeBuilder;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.BlockItem;
@@ -86,7 +83,7 @@ public class RegistrateHelper {
                         .destroyTime(1f))
                 .blockstate(signalBlockStateModelProvider(assetType, nation, name))
                 .item()
-                .model(signalItemModelLocator(nation, name))
+                .model(modelLocator(assetType, nation, name))
                 .build();
 
     }
@@ -111,7 +108,7 @@ public class RegistrateHelper {
         };
     }
 
-    private static NonNullBiConsumer<DataGenContext<Item, BlockItem>, RegistrateItemModelProvider> signalItemModelLocator(String nation, String name) {
+    private static NonNullBiConsumer<DataGenContext<Item, BlockItem>, RegistrateItemModelProvider> modelLocator(String assetType, String nation, String name) {
         return (ctx, prov) -> {
             if (prov.existingFileHelper.exists(
                     prov.modLoc("item/" + "%s.%s".formatted(nation, name)), PackType.CLIENT_RESOURCES, ".json",
@@ -122,7 +119,7 @@ public class RegistrateHelper {
             }
 
             // PLACEMENT: <root>/textures/item/signals/<nation>/<signalblockname>.png
-            String path = "item/signals/" + "%s/%s".formatted(nation, name);
+            String path = "item/" + assetType + "/" + "%s/%s".formatted(nation, name);
             ResourceLocation loc = prov.modLoc(path);
             LOGGER.info("Looking for item texture: {}", loc);
             if (prov.existingFileHelper.exists(loc, PackType.CLIENT_RESOURCES, ".png", "textures")) {
