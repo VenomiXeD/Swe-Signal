@@ -1,5 +1,7 @@
 package venomized.mods.extendedsignals.core.blockentity.railway;
 
+import com.simibubi.create.api.contraption.transformable.TransformableBlockEntity;
+import com.simibubi.create.content.contraptions.StructureTransform;
 import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
@@ -9,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
@@ -18,7 +21,7 @@ import venomized.mods.extendedsignals.core.create.tracks.points.PathTrainDetecto
 
 import java.util.List;
 
-public class BlockEntityPathTrainDetector extends SmartBlockEntity implements ISignalTunerToolable {
+public class BlockEntityPathTrainDetector extends SmartBlockEntity implements ISignalTunerToolable, TransformableBlockEntity {
     private TrackTargetingBehaviour<PathTrainDetector> pathTrainDetector;
     private ScrollValueBehaviour pathDistanceScrollValue;
 
@@ -36,25 +39,11 @@ public class BlockEntityPathTrainDetector extends SmartBlockEntity implements IS
         behaviours.add(pathTrainDetector = new TrackTargetingBehaviour<>(this, CoreEdgePoints.PATH_TRAIN_DETECTOR));
         pathDistanceScrollValue = new ScrollValueBehaviour(
                 Component.translatable("setting.extendedsignals.pathtraindetector.distance"), this,
-                new CenteredSideValueBoxTransform((s, d) -> switch (d) {
-                    case NORTH, WEST, SOUTH, EAST -> true;
-                    default -> false;
-                })
+                new CenteredSideValueBoxTransform((s, d) -> true)
         );
         pathDistanceScrollValue.between(1, (int) ExtendedSignalsConfig.SERVER.defaultScanDistance.get().doubleValue());
         pathDistanceScrollValue.withCallback(this::pathDetectionRangeChanged);
         behaviours.add(pathDistanceScrollValue);
-
-        // timerDistanceScrollValue = new ScrollValueBehaviour(
-        //         Component.translatable("setting.extendedsignals.pathtraindetector.timer"), this,
-        //         new CenteredSideValueBoxTransform((s,d)-> switch (d) {
-        //             case UP, DOWN -> true;
-        //             default -> false;
-        //         })
-        // );
-        // timerDistanceScrollValue.between(0, 10);
-        // timerDistanceScrollValue.withCallback(this::timerCountdownChanged);
-        //behaviours.add(timerDistanceScrollValue);
     }
 
     /**
@@ -98,5 +87,14 @@ public class BlockEntityPathTrainDetector extends SmartBlockEntity implements IS
     public void trainOutbound() {
         redstoneOutput = 0;
         level.updateNeighborsAt(worldPosition, getBlockState().getBlock());
+    }
+
+    /**
+     * @param blockEntity
+     * @param transform
+     */
+    @Override
+    public void transform(BlockEntity blockEntity, StructureTransform transform) {
+        pathTrainDetector.transform(blockEntity, transform);
     }
 }

@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.server.ServerLifecycleHooks;
+import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityPathTrainDetector;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -50,6 +51,8 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
             active = true;
             remainingDeactivationTicks = deactivationDelay;
             detector.trainInbound();
+        } else {
+            ExtendedSignalsCore.LOGGER.warn("PathTrainDetector is missing a block entity, this should not happen. Point ID: {}", id);
         }
     }
 
