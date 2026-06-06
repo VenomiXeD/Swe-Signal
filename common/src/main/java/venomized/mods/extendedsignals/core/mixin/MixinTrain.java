@@ -88,7 +88,6 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                         new DelayedSignalCrossTrigger(TICKS_ON_CROSSED_TRIGGERING_DELAY, front, signalBoundary)
                 );
 
-
                 if (trackEdgePoint instanceof TrackEdgePointSignalModifier<?> modifier && navigation != null) {
                     if (modifier.isAligned(modifier.isPrimary(couple.getSecond().getSecond()))) {
                         if (modifier.shouldApply()) {
@@ -100,6 +99,8 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                         }
                     }
                 }
+
+                return false;
             }
 
             return original.test(distance, couple);
@@ -134,7 +135,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     }
 
     @Inject(method = "occupy", at = @At("HEAD"))
-    public void extendedSignals$removeReservatioOnOccupy(UUID groupId, UUID boundaryId, CallbackInfoReturnable<Boolean> cir) {
+    public void extendedSignals$removeReservationOnOccupy(UUID groupId, UUID boundaryId, CallbackInfoReturnable<Boolean> cir) {
         InterlockingManager.clearReservationForTrain((Train) (Object) this, groupId);
     }
 
