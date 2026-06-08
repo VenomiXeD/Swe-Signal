@@ -132,8 +132,11 @@ subprojects {
         exclude("src/generated/**/.cache") // datagen cache files
     }
 
-    version += "-git-" + providers.exec { commandLine("git", "rev-parse", "--short", "HEAD") }.standardOutput.asText.get().trim() +
-            "-t" + Instant.now().toString().replace(':', '-') + "-" + minecraft_version
+    def gitHash = providers.exec {
+        commandLine("git", "rev-parse", "--short", "HEAD")
+    }.standardOutput.asText.map { it.trim() }
+
+    version = "${project.version}-git-${gitHash.get()}-t${Instant.now().toString().replace(':', '-')}-${minecraft_version}"
 
     base.archivesName = "extended-signals-${project.name}"
 }
