@@ -3,26 +3,23 @@ package venomized.mods.extendedsignals.core.util;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.simibubi.create.Create;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.apache.commons.lang3.mutable.MutableInt;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
-import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
 
-@Mod.EventBusSubscriber(modid = ExtendedSignalsCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class Debug {
 
     @SubscribeEvent
     public static void onRegisterCommandsEvent(RegisterCommandsEvent e) {
         CommandDispatcher<CommandSourceStack> dispatcher = e.getDispatcher();
 
-        dispatcher.register(Commands.literal(ExtendedSignalsCore.MOD_ID)
+        dispatcher.register(Commands.literal(ExtendedSignals.MOD_ID)
                 .requires(source -> source.hasPermission(4))
                 .then(
                         Commands.literal("scandistance")
@@ -42,7 +39,7 @@ public class Debug {
                         )
         );
 
-        dispatcher.register(Commands.literal(ExtendedSignalsCore.MOD_ID)
+        dispatcher.register(Commands.literal(ExtendedSignals.MOD_ID)
                 .requires(commandSourceStack -> commandSourceStack.hasPermission(4))
                 .then(Commands.literal("flush_reservations")
                         .executes(ctx -> {

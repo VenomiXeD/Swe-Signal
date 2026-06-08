@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.InteractionResult;
@@ -47,30 +48,37 @@ public abstract class BlockEntityCrossingObject extends CoreBlockEntity implemen
         return InteractionResult.PASS;
     }
 
+    /**
+     * @param tag
+     * @param registries
+     */
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         if (railroadCrossingControllerPos != null) {
-            pTag.put("railroad_crossing_controller_pos", NbtUtils.writeBlockPos(this.railroadCrossingControllerPos));
-        }
-    }
-
-    @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-        if (pTag.contains("railroad_crossing_controller_pos")) {
-            this.railroadCrossingControllerPos = NbtUtils.readBlockPos(pTag.getCompound("railroad_crossing_controller_pos"));
+            tag.put("railroad_crossing_controller_pos", NbtUtils.writeBlockPos(this.railroadCrossingControllerPos));
         }
     }
 
     /**
-     * Get an NBT compound to sync to the client with SPacketChunkData, used for initial loading of the chunk or when
-     * many blocks change at once. This compound comes back to you clientside in {@link handleUpdateTag}
+     * @param tag
+     * @param registries
      */
     @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag tag = super.getUpdateTag();
-        this.saveAdditional(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        if (tag.contains("railroad_crossing_controller_pos")) {
+            this.railroadCrossingControllerPos = NbtUtils.readBlockPos(tag, "controller_pos").orElse(null);
+        }
+    }
+    /**
+     * @param registries
+     * @return
+     */
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag tag = super.getUpdateTag(registries);
+        this.saveAdditional(tag, registries);
         return tag;
     }
 }

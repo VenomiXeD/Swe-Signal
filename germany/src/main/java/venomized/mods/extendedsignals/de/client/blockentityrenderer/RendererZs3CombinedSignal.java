@@ -1,10 +1,12 @@
 package venomized.mods.extendedsignals.de.client.blockentityrenderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Pose;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
@@ -63,38 +65,34 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
         final float[] uv = speedToUVCoordinates(displayKph);
 
         final Matrix4f pos = poseStack.last().pose();
-        final Matrix3f normal = poseStack.last().normal();
+        final PoseStack.Pose normal = poseStack.last();
         VertexConsumer zs3vertexConsumer = bufferSource.getBuffer(RenderType.beaconBeam(
                 ExtendedSignalsGermany.res("textures/block/signals/de/numbers.png"), true
         ));
         zs3vertexConsumer
-                .vertex(pos, -2.75f / 16f, 121.5f / 16f, -7.06f / 16f)
-                .color(255, 255, 255, 255)
-                .uv(uv[1], uv[3])
-                .uv2(0xFFFFFF)
-                .normal(normal, 0, 1, 0)
-                .endVertex();
+                .addVertex(pos, -2.75f / 16f, 121.5f / 16f, -7.06f / 16f)
+                .setColor(255, 255, 255, 255)
+                .setUv(uv[1], uv[3])
+                .setLight(0xFFFFFF)
+                .setNormal(normal, 0, 1, 0);
         zs3vertexConsumer
-                .vertex(pos, -2.75f / 16f, 128.75f / 16f, -7.06f / 16f)
-                .color(255, 255, 255, 255)
-                .uv(uv[1], uv[2])
-                .uv2(0xFFFFFF)
-                .normal(normal, 0, 1, 0)
-                .endVertex();
+                .addVertex(pos, -2.75f / 16f, 128.75f / 16f, -7.06f / 16f)
+                .setColor(255, 255, 255, 255)
+                .setUv(uv[1], uv[2])
+                .setLight(0xFFFFFF)
+                .setNormal(normal, 0, 1, 0);
         zs3vertexConsumer
-                .vertex(pos, 2.75f / 16f, 128.75f / 16f, -7.06f / 16f)
-                .color(255, 255, 255, 255)
-                .uv(uv[0], uv[2])
-                .uv2(0xFFFFFF)
-                .normal(normal, 0, 1, 0)
-                .endVertex();
+                .addVertex(pos, 2.75f / 16f, 128.75f / 16f, -7.06f / 16f)
+                .setColor(255, 255, 255, 255)
+                .setUv(uv[0], uv[2])
+                .setLight(0xFFFFFF)
+                .setNormal(normal, 0, 1, 0);
         zs3vertexConsumer
-                .vertex(pos, 2.75f / 16f, 121.5f / 16f, -7.06f / 16f)
-                .color(255, 255, 255, 255)
-                .uv(uv[0], uv[3])
-                .uv2(0xFFFFFF)
-                .normal(normal, 0, 1, 0)
-                .endVertex();
+                .addVertex(pos, 2.75f / 16f, 121.5f / 16f, -7.06f / 16f)
+                .setColor(255, 255, 255, 255)
+                .setUv(uv[0], uv[3])
+                .setLight(0xFFFFFF)
+                .setNormal(normal, 0, 1, 0);
     }
 
     public boolean renderZs3v(CombinedSignalAspectCompositor signalAspect) {
@@ -122,38 +120,34 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
         final float[] uv = speedToUVCoordinates(displayKph);
 
         final Matrix4f pos = poseStack.last().pose();
-        final Matrix3f normal = poseStack.last().normal();
+        final PoseStack.Pose normal = poseStack.last();
         VertexConsumer zs3vertexConsumer = bufferSource.getBuffer(RenderType.beaconBeam(
                 ExtendedSignalsGermany.res("textures/block/signals/de/numbers.png"), true
         ));
         zs3vertexConsumer
-                .vertex(pos, -2.75f / 16f, 53.5f / 16f, -10.51f / 16f)
-                .color(ISignalAspect.RGB.YELLOW.argb())
-                .uv(uv[1], uv[3])
-                .uv2(0xFFFFFF)
-                .normal(normal, 0, 1, 0)
-                .endVertex();
+                .addVertex(pos, -2.75f / 16f, 53.5f / 16f, -10.51f / 16f)
+                .setColor(ISignalAspect.RGB.YELLOW.argb())
+                .setUv(uv[1], uv[3])
+                .setLight(0xFFFFFF)
+                .setNormal(normal, 0, 1, 0);
         zs3vertexConsumer
-                .vertex(pos, -2.75f / 16f, 60.75f / 16f, -10.51f / 16f)
-                .color(ISignalAspect.RGB.YELLOW.argb())
-                .uv(uv[1], uv[2])
-                .uv2(0xFFFFFF)
-                .normal(normal, 0, 1, 0)
-                .endVertex();
+                .addVertex(pos, -2.75f / 16f, 60.75f / 16f, -10.51f / 16f)
+                .setColor(ISignalAspect.RGB.YELLOW.argb())
+                .setUv(uv[1], uv[2])
+                .setLight(0xFFFFFF)
+                .setNormal(normal, 0, 1, 0);
         zs3vertexConsumer
-                .vertex(pos, 2.75f / 16f, 60.75f / 16f, -10.51f / 16f)
-                .color(ISignalAspect.RGB.YELLOW.argb())
-                .uv(uv[0], uv[2])
-                .uv2(0xFFFFFF)
-                .normal(normal, 0, 1, 0)
-                .endVertex();
+                .addVertex(pos, 2.75f / 16f, 60.75f / 16f, -10.51f / 16f)
+                .setColor(ISignalAspect.RGB.YELLOW.argb())
+                .setUv(uv[0], uv[2])
+                .setLight(0xFFFFFF)
+                .setNormal(normal, 0, 1, 0);
         zs3vertexConsumer
-                .vertex(pos, 2.75f / 16f, 53.5f / 16f, -10.51f / 16f)
-                .color(ISignalAspect.RGB.YELLOW.argb())
-                .uv(uv[0], uv[3])
-                .uv2(0xFFFFFF)
-                .normal(normal, 0, 1, 0)
-                .endVertex();
+                .addVertex(pos, 2.75f / 16f, 53.5f / 16f, -10.51f / 16f)
+                .setColor(ISignalAspect.RGB.YELLOW.argb())
+                .setUv(uv[0], uv[3])
+                .setLight(0xFFFFFF)
+                .setNormal(normal, 0, 1, 0);
 
         return true;
     }

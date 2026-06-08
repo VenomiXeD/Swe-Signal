@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -21,7 +22,7 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.signalling.ISignalInterpreter;
 import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 import venomized.mods.extendedsignals.core.SignalLightState;
@@ -91,7 +92,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
     public SignalStateNode currentSignalState() {
         if (this.getLevel() == null)
             return SignalStateNode.INVALID;
-        return ExtendedSignalsCore.sidedNetwork(this.getLevel())
+        return ExtendedSignals.sidedNetwork(this.getLevel())
                 .getSignalState(pointID, signallingDirection == Direction.AxisDirection.POSITIVE);
     }
 
@@ -105,7 +106,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         if (pointID == null)
             return false;
 
-        return ExtendedSignalsCore.sidedNetwork(this.getLevel())
+        return ExtendedSignals.sidedNetwork(this.getLevel())
                 .signalStates()
                 .containsKey(pointID);
     }
@@ -179,7 +180,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
             return;
 
         // If the linked signal has no entry yet, push a new empty dummy raw signal state
-        ISignalNetwork network = ExtendedSignalsCore.sidedNetwork(this.level);
+        ISignalNetwork network = ExtendedSignals.sidedNetwork(this.level);
         network.updateState(this.pointID, signallingDirection == Direction.AxisDirection.POSITIVE, new SignalStateNode());
 
         this.sync();
@@ -206,17 +207,26 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         return false;
     }
 
+
     /**
-     * Get an NBT compound to sync to the client with SPacketChunkData, used for
-     * initial loading of the chunk or when
-     * many blocks change at once. This compound comes back to you clientside in
-     * {@link handleUpdateTag}
+     * @param registries
+     * @return
      */
     @Override
-    public @NotNull CompoundTag getUpdateTag() {
-        CompoundTag syncTag = super.getUpdateTag();
-        this.saveAdditional(syncTag);
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag syncTag = super.getUpdateTag(registries);
+        this.saveAdditional(syncTag, registries);
         return syncTag;
+    }
+
+    /**
+     * @param tag            The {@link CompoundTag} sent from {@link BlockEntity#getUpdateTag(HolderLookup.Provider)}
+     * @param lookupProvider
+     */
+    @Override
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        super.handleUpdateTag(tag, lookupProvider);
+        this.loadAdditional(tag, lookupProvider);
     }
 
     /**
@@ -228,49 +238,34 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
     }
 
     /**
-     * Called when the chunk's TE update tag, gotten from
-     * {@link BlockEntity#getUpdateTag()}, is received on the client.
-     * <p>
-     * Used to handle this tag in a special way. By default this simply calls
-     * {@link BlockEntity#load(CompoundTag)}.
-     *
-     * @param tag The {@link CompoundTag} sent from
-     *            {@link BlockEntity#getUpdateTag()}
+     * @param tag
+     * @param registries
      */
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        super.handleUpdateTag(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        if (pointID != null)
+            tag.putUUID(TAG_REFERENCED_SIGNAL_POINT_UUID, pointID);
+
+        NBTHelp.safeWriteEnum(tag, TAG_SIGNAL_DIRECTION, signallingDirection);
+    }
+
+    /**
+     * @param tag
+     * @param registries
+     */
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         pointID = tag.hasUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) ? tag.getUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) : null;
         signallingDirection = NBTHelp.safeReadEnum(tag, TAG_SIGNAL_DIRECTION, Direction.AxisDirection.class);
     }
 
-    @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-        pointID = pTag.hasUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) ? pTag.getUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) : null;
-        signallingDirection = NBTHelp.safeReadEnum(pTag, TAG_SIGNAL_DIRECTION, Direction.AxisDirection.class);
-
-        // if (pTag.contains(TAG_REFERENCED_SIGNAL_POINT_TYPE))
-        //     this.pointType = EdgePointType.TYPES.get(NBTHelper.readResourceLocation(pTag, TAG_REFERENCED_SIGNAL_POINT_TYPE));
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        if (pointID != null)
-            pTag.putUUID(TAG_REFERENCED_SIGNAL_POINT_UUID, pointID);
-
-        NBTHelp.safeWriteEnum(pTag, TAG_SIGNAL_DIRECTION, signallingDirection);
-
-        // if (pointType != null)
-        //     NBTHelper.writeResourceLocation(pTag, TAG_REFERENCED_SIGNAL_POINT_TYPE, pointType.getId());
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public AABB getRenderBoundingBox() {
-        return super.getRenderBoundingBox().inflate(5);
-    }
+//    /**
+//     * @return
+//     */
+//    @Override
+//    public AABB getRenderBoundingBox() {
+//        return super.getRenderBoundingBox().inflate(5);
+//    }
 }

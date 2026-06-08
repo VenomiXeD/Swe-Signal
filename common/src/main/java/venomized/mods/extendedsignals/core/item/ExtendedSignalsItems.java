@@ -5,12 +5,12 @@ import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.world.item.Item;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 
 public class ExtendedSignalsItems {
     public static final ItemEntry<ItemSignalTuner> SIGNAL_TUNER =
-            ExtendedSignalsCore.REGISTRATE.get().item("signalitem", ItemSignalTuner::new)
-                    .tab(ExtendedSignalsCore.CREATIVE_TAB.getKey())
+            ExtendedSignals.REGISTRATE.get().item("signalitem", ItemSignalTuner::new)
+                    .tab(ExtendedSignals.CREATIVE_TAB.getKey())
                     .register();
 
     // public static final ItemEntry<ItemTest> ITEM_TEST = item(
@@ -23,7 +23,7 @@ public class ExtendedSignalsItems {
     }
 
     public static <T extends Item> ItemBuilder<T, Registrate> item(String iName, NonNullFunction<Item.Properties, T> iFactory) {
-        return ExtendedSignalsCore.REGISTRATE.get().item(iName, iFactory);
+        return ExtendedSignals.REGISTRATE.get().item(iName, iFactory);
     }
 //
     // public static final RegistryObject<Item> LIGHT_BULB = ITEMS.register("light_bulb",

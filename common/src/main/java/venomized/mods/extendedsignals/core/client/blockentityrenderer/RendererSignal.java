@@ -5,9 +5,10 @@ import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
@@ -20,6 +21,15 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
         extends RendererGeneric<T> {
     public RendererSignal(BlockEntityRendererProvider.Context context) {
         super(context);
+    }
+
+    /**
+     * @param blockEntity
+     * @return
+     */
+    @Override
+    public AABB getRenderBoundingBox(T blockEntity) {
+        return super.getRenderBoundingBox(blockEntity).inflate(5f);
     }
 
     @SuppressWarnings("deprecation")

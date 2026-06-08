@@ -7,7 +7,7 @@
     ]
   },
   "parent": "forge:block/default",
-  "loader": "forge:obj",
+  "loader": "neoforge:obj",
   "flip_v": true,
   "model": "extended_signals_de:models/block/signals/de/hv_hp_vr.obj",
   "textures": {

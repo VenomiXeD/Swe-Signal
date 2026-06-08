@@ -5,11 +5,12 @@ import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.signal.SingleBlockEntityEdgePoint;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.server.ServerLifecycleHooks;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityPathTrainDetector;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -52,7 +53,7 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
             remainingDeactivationTicks = deactivationDelay;
             detector.trainInbound();
         } else {
-            ExtendedSignalsCore.LOGGER.warn("PathTrainDetector is missing a block entity, this should not happen. Point ID: {}", id);
+            ExtendedSignals.LOGGER.warn("PathTrainDetector is missing a block entity, this should not happen. Point ID: {}", id);
         }
     }
 
@@ -86,23 +87,25 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
 
     /**
      * @param nbt
+     * @param registries
      * @param dimensions
      */
     @Override
-    public void write(CompoundTag nbt, DimensionPalette dimensions) {
-        super.write(nbt, dimensions);
+    public void write(CompoundTag nbt, HolderLookup.Provider registries, DimensionPalette dimensions) {
+        super.write(nbt, registries, dimensions);
         nbt.putInt("trigger_distance", triggerDistance);
         nbt.putInt("delay_timer", deactivationDelay);
     }
 
     /**
      * @param nbt
+     * @param registries
      * @param migration
      * @param dimensions
      */
     @Override
-    public void read(CompoundTag nbt, boolean migration, DimensionPalette dimensions) {
-        super.read(nbt, migration, dimensions);
+    public void read(CompoundTag nbt, HolderLookup.Provider registries, boolean migration, DimensionPalette dimensions) {
+        super.read(nbt, registries, migration, dimensions);
         triggerDistance = nbt.getInt("trigger_distance");
         deactivationDelay = nbt.getInt("delay_timer");
     }

@@ -5,19 +5,19 @@ import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.client.model.generators.ModelFile;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.create.tracks.*;
 import venomized.mods.extendedsignals.core.create.tracks.points.ATCController;
 
 public final class CoreBlocks {
     public static Registrate registrate() {
-        return ExtendedSignalsCore.REGISTRATE.get();
+        return ExtendedSignals.REGISTRATE.get();
     }
     // public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SwSignal.MOD_ID);
 
-    public static final BlockEntry<BlockTrainConfig> BLOCK_TRAIN_CONFIG = ExtendedSignalsCore.REGISTRATE.get()
+    public static final BlockEntry<BlockTrainConfig> BLOCK_TRAIN_CONFIG = ExtendedSignals.REGISTRATE.get()
             .block("train_config", BlockTrainConfig::new)
             .blockstate((ctx, prov) -> {
                 prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
@@ -25,9 +25,9 @@ public final class CoreBlocks {
             .simpleItem()
             .register();
 
-    public static final BlockEntry<BlockATCController> ATC_CONTROLLER = ExtendedSignalsCore.REGISTRATE.get()
+    public static final BlockEntry<BlockATCController> ATC_CONTROLLER = ExtendedSignals.REGISTRATE.get()
             .block("atc_controller", BlockATCController::new)
-            .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+            .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
             .blockstate((ctx, prov) -> {
                 prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
             })
@@ -35,14 +35,17 @@ public final class CoreBlocks {
             .build()
             .register();
 
-    public static final BlockEntry<BlockCrossingController> CROSSING_CONTROLLER = ExtendedSignalsCore.REGISTRATE.get()
+    public static final BlockEntry<BlockCrossingController> CROSSING_CONTROLLER = ExtendedSignals.REGISTRATE.get()
             .block("crossing_controller", BlockCrossingController::new)
+            .blockstate((ctx, prov) -> {
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
+            })
             .simpleItem()
             .register();
 
-    public static final BlockEntry<BlockRepeaterCreateSignal> REPEATER_SIGNAL = ExtendedSignalsCore.REGISTRATE.get()
+    public static final BlockEntry<BlockRepeaterCreateSignal> REPEATER_SIGNAL = ExtendedSignals.REGISTRATE.get()
             .block("repeater_signal", BlockRepeaterCreateSignal::new)
-            .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+            .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
             .blockstate((ctx, prov) -> {
                 prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
             })
@@ -50,9 +53,9 @@ public final class CoreBlocks {
             .build()
             .register();
 
-    public static final BlockEntry<BlockSpeedModifier> SPEED_MODIFIER = ExtendedSignalsCore.REGISTRATE.get()
+    public static final BlockEntry<BlockSpeedModifier> SPEED_MODIFIER = ExtendedSignals.REGISTRATE.get()
             .block("speed_modifier", BlockSpeedModifier::new)
-            .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+            .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
             .blockstate((ctx, prov) -> {
                 prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron"));
             })
@@ -61,7 +64,10 @@ public final class CoreBlocks {
             .register();
     public static final BlockEntry<BlockPathTrainDetector> PATH_TRAIN_DETECTOR = registrate()
             .block("train_path_detector", BlockPathTrainDetector::new)
-            .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+            .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
+            .blockstate((ctx, prov) -> {
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
+            })
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.PATH_TRAIN_DETECTOR))
             .build()
             .register();
@@ -73,7 +79,7 @@ public final class CoreBlocks {
 
     //For testing purposes
     // public static final BlockEntry<TestBlock> BLOCK_TEST = SwSignal.REGISTRATE.get().block("test_test", TestBlock::new)
-    // 		.properties(p-> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+    // 		.properties(p-> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
     // 		.register();
 //
 }

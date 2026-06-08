@@ -5,7 +5,7 @@
       "y": 180
     }
   },
-  "loader": "forge:obj",
+  "loader": "neoforge:obj",
   "shadeQuads": true,
   "model": "extended_signals_se:models/block/crossings/se/crossing_signal_modern.obj",
   "textures": {

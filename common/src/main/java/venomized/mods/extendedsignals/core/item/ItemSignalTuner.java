@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.core.item;
 import it.unimi.dsi.fastutil.Pair;
 import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
@@ -12,6 +13,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
@@ -57,15 +59,13 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
             return;
         }
 
-        CompoundTag tag = itemStack.getOrCreateTag();
+        CompoundTag tag = itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
 
         ISignalTunerToolable.SignalTunerMode currentMode = NBTHelper.readEnum(tag, TAG_MODE_NAME, ISignalTunerToolable.SignalTunerMode.class);
         ISignalTunerToolable.SignalTunerMode newMode = ISignalTunerToolable
                 .SignalTunerMode.values()[
-                Math.min(
-                        ISignalTunerToolable.SignalTunerMode.values().length - 1,
-                        Math.max(0, currentMode.ordinal() + (up ? 1 : -1))
-                )
+                Math.clamp(currentMode.ordinal() + (up ? 1 : -1), 0,
+                        ISignalTunerToolable.SignalTunerMode.values().length - 1)
                 ];
 
         NBTHelper.writeEnum(tag, TAG_MODE_NAME, newMode);
@@ -74,7 +74,10 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
                         Style.EMPTY.withColor(ChatFormatting.GOLD)),
                 true
         );
+
+        itemStack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
     }
+
 
     /**
      * Called when this item is used when targeting a Block
@@ -82,13 +85,13 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
      * @param pContext
      */
     @Override
-    public InteractionResult useOn(UseOnContext pContext) {
+    public @NotNull InteractionResult useOn(UseOnContext pContext) {
         final BlockEntity currentRightClickedBlockEntity = pContext.getLevel().getBlockEntity(pContext.getClickedPos());
         if (!(currentRightClickedBlockEntity instanceof ISignalTunerToolable bindable)) {
             return InteractionResult.PASS;
         }
 
-        CompoundTag tag = pContext.getItemInHand().getOrCreateTag();
+        CompoundTag tag = pContext.getItemInHand().getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
         ISignalTunerToolable.SignalTunerMode mode = NBTHelper.readEnum(tag, TAG_MODE_NAME, ISignalTunerToolable.SignalTunerMode.class);
 
         InteractionResult result = bindable.onSignalToolInteract(mode, pContext);
@@ -118,9 +121,9 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
                     break;
                 }
 
-                final BlockEntity blockEntityReadingEntity = pContext.getLevel().getBlockEntity(
-                        NbtUtils.readBlockPos(tag.getCompound(TAG_BLOCKENTITY_READER_NAME))
-                );
+                final BlockEntity blockEntityReadingEntity =
+                        NbtUtils.readBlockPos(tag, TAG_BLOCKENTITY_READER_NAME).map(pContext.getLevel()::getBlockEntity).orElse(null);
+
                 if (!(blockEntityReadingEntity instanceof ISignalTunerToolable)) {
                     // TODO: inform player that the reader has been destroyed
                     result = InteractionResult.FAIL;
@@ -144,6 +147,8 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
                 break;
         }
 
+        pContext.getItemInHand().set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+
         return result;
     }
 
@@ -152,8 +157,12 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
      */
     @Override
     public @NotNull ItemStack getDefaultInstance() {
-        ItemStack def = super.getDefaultInstance();
-        NBTHelper.writeEnum(def.getOrCreateTag(), TAG_MODE_NAME, ISignalTunerToolable.SignalTunerMode.CONNECT);
+        final ItemStack def = super.getDefaultInstance();
+
+        final CompoundTag defaultTags = new CompoundTag();
+        NBTHelper.writeEnum(defaultTags, TAG_MODE_NAME, ISignalTunerToolable.SignalTunerMode.CONNECT);
+
+        def.set(DataComponents.CUSTOM_DATA, CustomData.of(defaultTags));
 
         return def;
     }

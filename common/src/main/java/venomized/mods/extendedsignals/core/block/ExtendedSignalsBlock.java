@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +15,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.CoreMenus;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
@@ -62,33 +62,32 @@ public abstract class ExtendedSignalsBlock extends Block {
         }
     }
 
-
     /**
-     * @param pState
-     * @param pLevel
-     * @param pPos
-     * @param pPlayer
-     * @param pHand
-     * @param pHit
+     * @param stack
+     * @param state
+     * @param level
+     * @param pos
+     * @param player
+     * @param hand
+     * @param hitResult
      * @return
      */
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide() && pPlayer instanceof ServerPlayer p && pLevel.getBlockEntity(pPos) instanceof IConfigurableModelBlockEntity configurableModelBlockEntity && configurableModelBlockEntity.supportsConfiguration()) {
-            NetworkHooks.openScreen(
-                    p,
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (!level.isClientSide() && player instanceof ServerPlayer p && level.getBlockEntity(pos) instanceof IConfigurableModelBlockEntity configurableModelBlockEntity && configurableModelBlockEntity.supportsConfiguration()) {
+            p.openMenu(
                     new SimpleMenuProvider(
                             ((pContainerId, pPlayerInventory, pPlayer1) -> new MenuModelConfig(
                                     CoreMenus.MODEL_CONFIG.get(),
                                     pContainerId,
                                     pPlayerInventory,
-                                    pPos
+                                    pos
                             )),
                             Component.literal("TEST")
-                    ), pPos
+                    ), pos
             );
         }
-        return InteractionResult.sidedSuccess(pLevel.isClientSide);
+        return ItemInteractionResult.sidedSuccess(level.isClientSide);
     }
 
     // /**

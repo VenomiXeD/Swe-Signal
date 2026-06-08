@@ -22,17 +22,17 @@ public final class NBTHelp {
         NBTHelper.writeEnum(tag, name, value);
     }
 
-    public static BlockPos safeReadBlockPos(CompoundTag tag, @NotNull String name) {
-        if (!tag.contains(name, Tag.TAG_COMPOUND))
-            return null;
-
-        return NbtUtils.readBlockPos(tag.getCompound(name));
-    }
-
-    public static void safeWriteBlockPos(CompoundTag tag, @NotNull String name, @Nullable BlockPos value) {
-        if (value == null)
-            return;
-
-        tag.put(name, NbtUtils.writeBlockPos(value));
-    }
+    // public static BlockPos safeReadBlockPos(CompoundTag tag, @NotNull String name) {
+    //     if (!tag.contains(name, Tag.TAG_COMPOUND))
+    //         return null;
+//
+    //     return NbtUtils.readBlockPos(tag.getCompound(name));
+    // }
+//
+    // public static void safeWriteBlockPos(CompoundTag tag, @NotNull String name, @Nullable BlockPos value) {
+    //     if (value == null)
+    //         return;
+//
+    //     tag.put(name, NbtUtils.writeBlockPos(value));
+    // }
 }

@@ -6,11 +6,12 @@ import com.simibubi.create.content.trains.graph.TrackGraph;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.createmod.catnip.data.Couple;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundSyncSignalStatePacket;
@@ -30,16 +31,26 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
     private final Object2ObjectMap<UUID, Couple<SignalStateNode>> signalEdgeStateMapping = new Object2ObjectOpenHashMap<>();
 
     public static ServerSignalNetworkCache get(final MinecraftServer server) {
-        ExtendedSignalsCore.LOGGER.info("Extended Signals is loading signal data...");
+        ExtendedSignals.LOGGER.info("Extended Signals is loading signal data...");
         ServerSignalNetworkCache data = server.overworld().getDataStorage().computeIfAbsent(
-                ServerSignalNetworkCache::load,
-                ServerSignalNetworkCache::create,
+                new Factory<>(
+                        ServerSignalNetworkCache::create,
+                        ServerSignalNetworkCache::load
+                ),
                 NAME
         );
 
-        ExtendedSignalsCore.EXTENDED_SIGNAL_CACHE_PROXY = data;
+        ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY = data;
 
         return data;
+    }
+
+    private static ServerSignalNetworkCache load(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        ServerSignalNetworkCache serverSignalNetworkCache = new ServerSignalNetworkCache();
+        serverSignalNetworkCache.flushAndApplyNewSignalStates(
+                ISignalNetwork.deserializeSignalStatesFromNBTList(compoundTag)
+        );
+        return serverSignalNetworkCache;
     }
 
     private static ServerSignalNetworkCache create() {
@@ -48,13 +59,6 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
         return test;
     }
 
-    private static ServerSignalNetworkCache load(final CompoundTag compoundTag) {
-        ServerSignalNetworkCache serverSignalNetworkCache = new ServerSignalNetworkCache();
-        serverSignalNetworkCache.flushAndApplyNewSignalStates(
-                ISignalNetwork.deserializeSignalStatesFromNBTList(compoundTag)
-        );
-        return serverSignalNetworkCache;
-    }
 
     private void removeDeadEdgePointReferences() {
         List<UUID> pointsToRemove = new ArrayList<>();
@@ -71,7 +75,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
 
             if (doesNotExist) {
                 pointsToRemove.add(uuidSignalStateNodeEntry);
-                ExtendedSignalsCore.LOGGER.info("Cleaned up dead reference {}", uuidSignalStateNodeEntry);
+                ExtendedSignals.LOGGER.info("Cleaned up dead reference {}", uuidSignalStateNodeEntry);
             }
         }
 
@@ -87,16 +91,17 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
     }
 
     /**
-     * @param pCompoundTag the {@code CompoundTag} to save the {@code SavedData} to
+     * @param tag
+     * @param registries
      * @return
      */
     @Override
-    public @NotNull CompoundTag save(final CompoundTag pCompoundTag) {
+    public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
         this.removeDeadEdgePointReferences();
 
         final ListTag signalsCollectionTag = ISignalNetwork.serializeSignalStatesToNBTList(signalStates());
-        pCompoundTag.put(ISignalNetwork.TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME, signalsCollectionTag);
-        return pCompoundTag;
+        tag.put(ISignalNetwork.TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME, signalsCollectionTag);
+        return tag;
     }
 
     /**
@@ -111,11 +116,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
         ISignalNetwork.super.updateState(id, side, newState);
 
 
-        ExtendedSignalsNetworking.CHANNEL.send(
-                PacketDistributor.ALL.noArg(),
-                new ClientBoundSyncSignalStatePacket(id, side, newState)
-        );
-
+        PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(id, side, newState));
         this.setDirty(true);
     }
 }

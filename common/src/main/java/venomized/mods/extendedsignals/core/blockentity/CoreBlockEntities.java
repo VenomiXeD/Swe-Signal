@@ -2,7 +2,7 @@ package venomized.mods.extendedsignals.core.blockentity;
 
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.block.CoreBlocks;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityPathTrainDetector;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityRepeaterCreateSignal;
@@ -12,7 +12,7 @@ import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 
 public final class CoreBlockEntities {
     private static Registrate registrate() {
-        return ExtendedSignalsCore.REGISTRATE.get();
+        return ExtendedSignals.REGISTRATE.get();
     }
 
     public static final BlockEntityEntry<BlockEntityCrossingController> CROSSING_CONTROLLER = RegistrateHelper

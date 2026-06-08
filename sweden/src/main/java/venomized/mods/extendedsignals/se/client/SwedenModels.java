@@ -1,8 +1,8 @@
 package venomized.mods.extendedsignals.se.client;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 
 @OnlyIn(Dist.CLIENT)

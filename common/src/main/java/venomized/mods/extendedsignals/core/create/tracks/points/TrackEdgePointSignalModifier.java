@@ -6,6 +6,7 @@ import lombok.Getter;
 import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
@@ -22,20 +23,26 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
         return (primary ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE) == direction;
     }
 
+    /**
+     * @param nbt
+     * @param registries
+     * @param dimensions
+     */
     @Override
-    public void write(CompoundTag nbt, DimensionPalette dimensions) {
-        super.write(nbt, dimensions);
+    public void write(CompoundTag nbt, HolderLookup.Provider registries, DimensionPalette dimensions) {
+        super.write(nbt, registries, dimensions);
         NBTHelper.writeEnum(nbt, TAG_MODIFIER_DIRECTION, getDirection());
     }
 
     /**
      * @param nbt
+     * @param registries
      * @param migration
      * @param dimensions
      */
     @Override
-    public void read(CompoundTag nbt, boolean migration, DimensionPalette dimensions) {
-        super.read(nbt, migration, dimensions);
+    public void read(CompoundTag nbt, HolderLookup.Provider registries, boolean migration, DimensionPalette dimensions) {
+        super.read(nbt, registries, migration, dimensions);
         direction = NBTHelper.readEnum(nbt, TAG_MODIFIER_DIRECTION, Direction.AxisDirection.class);
     }
 

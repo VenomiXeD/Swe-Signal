@@ -1,10 +1,15 @@
 package venomized.mods.extendedsignals.core.network.packets;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.createmod.catnip.data.Couple;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -14,30 +19,29 @@ import java.util.UUID;
 import java.util.function.Supplier;
 
 public record ClientBoundSyncSignalStatesPacket(
-        Map<UUID, Couple<SignalStateNode>> fullNetworkMapping) implements ISimplePacket {
-    public static ClientBoundSyncSignalStatesPacket decode(FriendlyByteBuf buf) {
-        return new ClientBoundSyncSignalStatesPacket(
-                ISignalNetwork.deserializeSignalStatesFromNBTList(
-                        Objects.requireNonNull(buf.readAnySizeNbt())
-                ));
+        Map<UUID, Couple<SignalStateNode>> fullNetworkMapping) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<ClientBoundSyncSignalStatesPacket> TYPE =
+            new Type<>(ExtendedSignals.res(ClientBoundSyncSignalStatesPacket.class.getSimpleName().toLowerCase()));
+
+    public static final StreamCodec<FriendlyByteBuf, ClientBoundSyncSignalStatesPacket> CODEC = StreamCodec.composite(
+            ByteBufCodecs.map(
+                    Object2ObjectArrayMap::new,
+                    UUIDUtil.STREAM_CODEC,
+                    Couple.streamCodec(SignalStateNode.STREAM_CODEC)
+            ),
+            ClientBoundSyncSignalStatesPacket::fullNetworkMapping,
+            ClientBoundSyncSignalStatesPacket::new
+    );
+
+    public static void handle(ClientBoundSyncSignalStatesPacket packet, IPayloadContext context) {
+        ExtendedSignals.clientNetworkCache().fromSync(packet.fullNetworkMapping());
     }
 
     /**
-     * @param contextSupplier
+     * @return
      */
     @Override
-    public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
-        ExtendedSignalsCore.clientNetworkCache().fromSync(fullNetworkMapping());
-        contextSupplier.get().setPacketHandled(true);
-    }
-
-    /**
-     * @param buf
-     */
-    @Override
-    public void encode(FriendlyByteBuf buf) {
-        final CompoundTag tag = new CompoundTag();
-        tag.put(ISignalNetwork.TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME, ISignalNetwork.serializeSignalStatesToNBTList(fullNetworkMapping()));
-        buf.writeNbt(tag);
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 }

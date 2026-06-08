@@ -5,27 +5,27 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import venomized.mods.extendedsignals.core.Mod;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import venomized.mods.extendedsignals.core.data.SoundEventDataGenerator;
 import venomized.mods.extendedsignals.se.block.SwedenBlocks;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
 
-@net.minecraftforge.fml.common.Mod(ExtendedSignalsSweden.MOD_ID)
-public class ExtendedSignalsSweden extends Mod {
+@Mod(ExtendedSignalsSweden.MOD_ID)
+public class ExtendedSignalsSweden {
     public static final String MOD_ID = "extended_signals_se";
     public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
 
-    public static final RegistryEntry<CreativeModeTab> CREATIVE_TAB = REGISTRATE.get().defaultCreativeTab(MOD_ID).register();
+    public static final RegistryEntry<CreativeModeTab, ?> CREATIVE_TAB = REGISTRATE.get().defaultCreativeTab(MOD_ID).register();
 
-    public ExtendedSignalsSweden(FMLJavaModLoadingContext context) {
-        super(context);
-        IEventBus bus = context.getModEventBus();
-        bus.register(this);
+    public ExtendedSignalsSweden(IEventBus bus) {
+        bus.register(ExtendedSignalsSweden.class);
+
+        SwedenBlocks.init();
+        SwedenBlockEntities.init();
 
         ExtendedSignalsSwedenSounds.init(bus);
     }
@@ -34,44 +34,8 @@ public class ExtendedSignalsSweden extends Mod {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
-
-    /**
-     *
-     */
-    @Override
-    protected void commonInitialization() {
-        SwedenBlocks.init();
-        SwedenBlockEntities.init();
-
-
-    }
-
-    /**
-     *
-     */
-    @Override
-    protected void clientInitialization() {
-        SwedenModels.init();
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    protected RegistryEntry<CreativeModeTab> TAB_ENTRY() {
-        return CREATIVE_TAB;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    protected Registrate REGISTRATE() {
-        return REGISTRATE.get();
-    }
-
     @SubscribeEvent
-    public void onDataGeneration(GatherDataEvent e) {
+    public static void onDataGeneration(GatherDataEvent e) {
         e.getGenerator().addProvider(true, new SoundEventDataGenerator(
                 ExtendedSignalsSweden.MOD_ID,
                 e.getGenerator().getPackOutput(),

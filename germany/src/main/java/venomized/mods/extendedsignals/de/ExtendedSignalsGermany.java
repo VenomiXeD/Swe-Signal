@@ -5,63 +5,32 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import venomized.mods.extendedsignals.core.Mod;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
 import venomized.mods.extendedsignals.de.block.GermanyBlocks;
 import venomized.mods.extendedsignals.de.blockentity.GermanyBlockEntities;
 import venomized.mods.extendedsignals.de.client.GermanyModels;
 
-@net.minecraftforge.fml.common.Mod(ExtendedSignalsGermany.MOD_ID)
-public class ExtendedSignalsGermany extends Mod {
+@Mod(ExtendedSignalsGermany.MOD_ID)
+public class ExtendedSignalsGermany {
     public static final String MOD_ID = "extended_signals_de";
 
     public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
 
-    public static final RegistryEntry<CreativeModeTab> CREATIVE_TAB = REGISTRATE.get()
+    public static final RegistryEntry<CreativeModeTab, ?> CREATIVE_TAB = REGISTRATE.get()
             .defaultCreativeTab(MOD_ID)
             .register();
 
     /**
      * @param context
      */
-    public ExtendedSignalsGermany(FMLJavaModLoadingContext context) {
-        super(context);
-    }
-
-    public static ResourceLocation res(String location) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, location);
-    }
-
-    /**
-     *
-     */
-    @Override
-    protected void commonInitialization() {
+    public ExtendedSignalsGermany(IEventBus context) {
         GermanyBlocks.init();
         GermanyBlockEntities.init();
     }
 
-    /**
-     *
-     */
-    @Override
-    protected void clientInitialization() {
-        GermanyModels.init();
-    }
 
-    /**
-     * @return
-     */
-    @Override
-    protected RegistryEntry<CreativeModeTab> TAB_ENTRY() {
-        return CREATIVE_TAB;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    protected Registrate REGISTRATE() {
-        return REGISTRATE.get();
+    public static ResourceLocation res(String location) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, location);
     }
 }

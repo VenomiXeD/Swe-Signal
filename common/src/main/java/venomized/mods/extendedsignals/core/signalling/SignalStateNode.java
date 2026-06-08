@@ -1,7 +1,9 @@
 package venomized.mods.extendedsignals.core.signalling;
 
+import com.mojang.serialization.Codec;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
+import io.netty.buffer.ByteBuf;
 import lombok.*;
 import lombok.experimental.Accessors;
 import net.createmod.catnip.data.Couple;
@@ -9,6 +11,10 @@ import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import venomized.mods.extendedsignals.core.util.NBTHelp;
 
 import javax.annotation.Nullable;
@@ -21,6 +27,20 @@ import javax.annotation.Nullable;
 @With
 @Builder
 public class SignalStateNode {
+    public static final StreamCodec<FriendlyByteBuf, SignalStateNode> STREAM_CODEC = StreamCodec.of(
+            SignalStateNode::encode,
+            SignalStateNode::decode
+    );
+
+    private static SignalStateNode decode(FriendlyByteBuf friendlyByteBuf) {
+        return SignalStateNode.fromNBT(friendlyByteBuf.readNbt());
+    }
+
+    private static void encode(FriendlyByteBuf buf, SignalStateNode state) {
+        buf.writeNbt(state.toNBT());
+    }
+
+
     private static final int MAX_SIGNAL_RECURSION_STATE_DEPTH = 20;
 
     public static final SignalStateNode INVALID = new SignalStateNode().setValid(false);

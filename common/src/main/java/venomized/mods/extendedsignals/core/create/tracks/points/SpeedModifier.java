@@ -5,6 +5,7 @@ import com.simibubi.create.content.trains.graph.DimensionPalette;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.LevelAccessor;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -80,27 +81,28 @@ public class SpeedModifier extends TrackEdgePointSignalModifier<SpeedModifier> {
 
     /**
      * @param nbt
+     * @param registries
      * @param dimensions
      */
     @Override
-    public void write(CompoundTag nbt, DimensionPalette dimensions) {
-        super.write(nbt, dimensions);
+    public void write(CompoundTag nbt, HolderLookup.Provider registries, DimensionPalette dimensions) {
+        super.write(nbt, registries, dimensions);
         nbt.putBoolean(TAG_WRENCHED_NAME, discard);
         nbt.putInt(TAG_SPEED_NAME, speedModifierKph);
     }
 
     /**
      * @param nbt
+     * @param registries
      * @param migration
      * @param dimensions
      */
     @Override
-    public void read(CompoundTag nbt, boolean migration, DimensionPalette dimensions) {
-        super.read(nbt, migration, dimensions);
+    public void read(CompoundTag nbt, HolderLookup.Provider registries, boolean migration, DimensionPalette dimensions) {
+        super.read(nbt, registries, migration, dimensions);
         discard = nbt.getBoolean(TAG_WRENCHED_NAME);
         speedModifierKph = nbt.getInt(TAG_SPEED_NAME);
     }
-
 
     public void onWrenched() {
         discard = !discard;

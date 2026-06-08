@@ -6,8 +6,8 @@ import com.simibubi.create.content.trains.signal.SingleBlockEntityEdgePoint;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PacketDistributor;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import net.neoforged.neoforge.network.PacketDistributor;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityATCController;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public class ATCController extends SingleBlockEntityEdgePoint {
     public static final EdgePointType<ATCController> ATC = EdgePointType.register(
-            ExtendedSignalsCore.res("balise"), ATCController::new
+            ExtendedSignals.res("balise"), ATCController::new
     );
 
     public ATCController() {
@@ -48,10 +48,9 @@ public class ATCController extends SingleBlockEntityEdgePoint {
             blockEntity.ifPresent(blockEntityATCController -> {
                 // if any player is controlling
                 if (controllingPlayer.isPresent()) {
-                    ExtendedSignalsNetworking.CHANNEL.send(
-                            PacketDistributor.PLAYER.with(() -> (ServerPlayer) l.getPlayerByUUID(controllingPlayer.get())),
-                            new UpdateATCEventPacket(0.5f)
-                    );
+                    PacketDistributor.sendToPlayer((ServerPlayer) l.getPlayerByUUID(controllingPlayer.get()), new UpdateATCEventPacket(
+                            0.5d
+                    ));
                 }
                 // if AI is controlling it
                 else {

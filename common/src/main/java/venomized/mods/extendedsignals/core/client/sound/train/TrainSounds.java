@@ -2,10 +2,10 @@ package venomized.mods.extendedsignals.core.client.sound.train;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 
 public class TrainSounds {
-    public static final ResourceKey<Registry<TrainSoundConfiguration>> TRAIN_SOUNDS_RESOURCE_KEY = ResourceKey.createRegistryKey(ExtendedSignalsCore.res("train_sounds"));
+    public static final ResourceKey<Registry<TrainSoundConfiguration>> TRAIN_SOUNDS_RESOURCE_KEY = ResourceKey.createRegistryKey(ExtendedSignals.res("train_sounds"));
     // public static final DeferredRegister<TrainSoundConfiguration> TRAIN_SOUNDS_REGISTRY = DeferredRegister.create(TRAIN_SOUNDS_RESOURCE_KEY, SwSignal.MOD_ID);
     // public static final RegistryObject<TrainSoundConfiguration> TRAIN_X60 = TRAIN_SOUNDS_REGISTRY.register("x60", TrainSoundConfiguration.ofTrainSound(TrainSoundX60::new));
 

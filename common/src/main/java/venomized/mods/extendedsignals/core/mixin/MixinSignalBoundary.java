@@ -15,6 +15,7 @@ import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Iterate;
 import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelAccessor;
@@ -117,17 +118,15 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
     @Override
     public SignalStateNode transformSignalState(Direction.AxisDirection direction, SignalStateNode state) {
         ResourceLocation mapperId = extendedSignals$stateRemapperIDs.get(direction == Direction.AxisDirection.POSITIVE);
-        return SignalStateRemapper.getMappers().getOrDefault(mapperId, SignalStateRemapper.NONE).remap(state);
+        return SignalStateRemapper.MAPPERS.getOrDefault(mapperId, SignalStateRemapper.NONE).remap(state);
     }
 
-    @Inject(method = "read(Lnet/minecraft/nbt/CompoundTag;ZLcom/simibubi/create/content/trains/graph/DimensionPalette;)V",
+    @Inject(method = "read(Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/core/HolderLookup$Provider;ZLcom/simibubi/create/content/trains/graph/DimensionPalette;)V",
             at = @At(
-                    value = "INVOKE",
-                    target = "Lcom/simibubi/create/content/trains/signal/TrackEdgePoint;read(Lnet/minecraft/nbt/CompoundTag;ZLcom/simibubi/create/content/trains/graph/DimensionPalette;)V",
-                    shift = At.Shift.AFTER
+                    value = "TAIL"
             )
     )
-    public void extendedSignals$read(CompoundTag nbt, boolean migration, DimensionPalette dimensions, CallbackInfo ci) {
+    public void extendedSignals$read(CompoundTag nbt, HolderLookup.Provider registries, boolean migration, DimensionPalette dimensions, CallbackInfo ci) {
         extendedSignals$stateRemapperIDs.setFirst(NBTHelper.readResourceLocation(nbt, TAG_MAPPER_NAME + "0"));
         extendedSignals$stateRemapperIDs.setSecond(NBTHelper.readResourceLocation(nbt, TAG_MAPPER_NAME + "1"));
         for (boolean side : Iterate.trueAndFalse) {
@@ -138,8 +137,8 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
     }
 
 
-    @Inject(method = "write(Lnet/minecraft/nbt/CompoundTag;Lcom/simibubi/create/content/trains/graph/DimensionPalette;)V", at = @At("HEAD"))
-    public void extendedSignals$write(CompoundTag nbt, DimensionPalette dimensions, CallbackInfo ci) {
+    @Inject(method = "write(Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/core/HolderLookup$Provider;Lcom/simibubi/create/content/trains/graph/DimensionPalette;)V", at = @At("HEAD"))
+    public void extendedSignals$write(CompoundTag nbt, HolderLookup.Provider registries, DimensionPalette dimensions, CallbackInfo ci) {
         NBTHelper.writeResourceLocation(nbt, TAG_MAPPER_NAME + "0", extendedSignals$stateRemapperIDs.get(false));
         NBTHelper.writeResourceLocation(nbt, TAG_MAPPER_NAME + "1", extendedSignals$stateRemapperIDs.get(true));
 

@@ -17,11 +17,11 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 
 public class RegistrateHelper {
@@ -36,7 +36,7 @@ public class RegistrateHelper {
                     String path = "block/" + name.replace(".", "/");
                     ResourceLocation loc = registrateBlockstateProvider.modLoc(path);
 
-                    ExtendedSignalsCore.LOGGER.info("modelled block path: {}", path);
+                    ExtendedSignals.LOGGER.info("modelled block path: {}", path);
 
                     registrateBlockstateProvider.getVariantBuilder(blockTDataGenContext.get())
                             .forAllStates(blockState -> ConfiguredModel.builder().modelFile(new ModelFile.UncheckedModelFile(

@@ -4,7 +4,7 @@ package venomized.mods.extendedsignals.core.create.tracks;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import net.minecraft.core.Direction;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 
@@ -52,7 +52,7 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
         //     return;
         // }
 
-        ExtendedSignalsCore.serverNetworkCache().updateState(
+        ExtendedSignals.serverNetworkCache().updateState(
                 ((T) this).getId(),
                 direction == Direction.AxisDirection.POSITIVE,
                 newState.setAxisDirection(direction)
@@ -72,7 +72,7 @@ public interface IExtendedSignalBoundary<T extends TrackEdgePoint> {
         //     return;
         // }
 
-        ExtendedSignalsCore.serverNetworkCache()
+        ExtendedSignals.serverNetworkCache()
                 .updateState(((T) this).getId(),
                         direction == Direction.AxisDirection.POSITIVE,
                         SignalStateNode.STOP

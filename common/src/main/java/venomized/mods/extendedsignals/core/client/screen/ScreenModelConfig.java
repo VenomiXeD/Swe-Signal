@@ -5,7 +5,8 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.gui.widget.ForgeSlider;
+import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
+import net.neoforged.neoforge.network.PacketDistributor;
 import venomized.mods.extendedsignals.core.client.screen.widget.NumericEditBox;
 import venomized.mods.extendedsignals.core.menu.MenuModelConfig;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
@@ -18,22 +19,22 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
 
 
     private final NumericEditBox[] locOffsetEditBoxes;
-    private final ForgeSlider[] locOffsetSliders;
+    private final ExtendedSlider[] locOffsetSliders;
     private final double[] locOffsetValues;
 
     private final NumericEditBox[] gloOffsetEditBoxes;
-    private final ForgeSlider[] gloOffsetSliders;
+    private final ExtendedSlider[] gloOffsetSliders;
     private final double[] gloOffsetValues;
 
     private final NumericEditBox[] orientationEditBoxes;
-    private final ForgeSlider[] orientationSliders;
+    private final ExtendedSlider[] orientationSliders;
     private final double[] orientationValues;
 
     public ScreenModelConfig(MenuModelConfig pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
 
         locOffsetEditBoxes = new NumericEditBox[3];
-        locOffsetSliders = new ForgeSlider[3];
+        locOffsetSliders = new ExtendedSlider[3];
         locOffsetValues = new double[]{
                 pMenu.getReferenceBlockEntity().getXLocOffset() * 16d,
                 pMenu.getReferenceBlockEntity().getYLocOffset() * 16d,
@@ -41,7 +42,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
         };
 
         gloOffsetEditBoxes = new NumericEditBox[3];
-        gloOffsetSliders = new ForgeSlider[3];
+        gloOffsetSliders = new ExtendedSlider[3];
         gloOffsetValues = new double[]{
                 pMenu.getReferenceBlockEntity().getXGblOffset() * 16d,
                 pMenu.getReferenceBlockEntity().getYGblOffset() * 16d,
@@ -49,7 +50,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
         };
 
         orientationEditBoxes = new NumericEditBox[3];
-        orientationSliders = new ForgeSlider[3];
+        orientationSliders = new ExtendedSlider[3];
         orientationValues = new double[]{
                 pMenu.getReferenceBlockEntity().getXOrientation(),
                 pMenu.getReferenceBlockEntity().getYOrientation(),
@@ -95,7 +96,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 .offset(10, -WIDGET_PADDING * 2 + TOP_OFFSET)
                 .build(this);
 
-        this.addRenderableWidget(gloOffsetSliders[0] = new ForgeSlider(
+        this.addRenderableWidget(gloOffsetSliders[0] = new ExtendedSlider(
                         pos.x(), pos.y(), pos.w(), pos.h(),
                         Component.translatable("screens.extended_signals.modelconfig.slider.gblx"), Component.empty(),
                         -32, 32, gloOffsetValues[0], 1d / 2d, 2,
@@ -126,7 +127,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 .scale(0, 3f / 6f)
                 .offset(10, TOP_OFFSET)
                 .build(this);
-        this.addRenderableWidget(gloOffsetSliders[1] = new ForgeSlider(
+        this.addRenderableWidget(gloOffsetSliders[1] = new ExtendedSlider(
                         pos.x(), pos.y(), pos.w(), pos.h(),
                         Component.translatable("screens.extended_signals.modelconfig.slider.gbly"), Component.empty(),
                         -32, 32, gloOffsetValues[1], 1d / 2d, 2,
@@ -157,7 +158,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 .scale(0, 3f / 6f)
                 .offset(10, WIDGET_PADDING * 2 + TOP_OFFSET)
                 .build(this);
-        this.addRenderableWidget(gloOffsetSliders[2] = new ForgeSlider(
+        this.addRenderableWidget(gloOffsetSliders[2] = new ExtendedSlider(
                         pos.x(), pos.y(), pos.w(), pos.h(),
                         Component.translatable("screens.extended_signals.modelconfig.slider.gblz"), Component.empty(),
                         -32, 32, gloOffsetValues[2], 1d / 2d, 2,
@@ -195,7 +196,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 .offset(10, -WIDGET_PADDING * 2 + TOP_OFFSET)
                 .build(this);
 
-        this.addRenderableWidget(locOffsetSliders[0] = new ForgeSlider(
+        this.addRenderableWidget(locOffsetSliders[0] = new ExtendedSlider(
                         pos.x(), pos.y(), pos.w(), pos.h(),
                         Component.translatable("screens.extended_signals.modelconfig.slider.locx"), Component.empty(),
                         -32, 32, locOffsetValues[0], 1d / 2d, 2,
@@ -227,7 +228,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 .scale(0, 1f / 6f)
                 .offset(10, TOP_OFFSET)
                 .build(this);
-        this.addRenderableWidget(locOffsetSliders[1] = new ForgeSlider(
+        this.addRenderableWidget(locOffsetSliders[1] = new ExtendedSlider(
                         pos.x(), pos.y(), pos.w(), pos.h(),
                         Component.translatable("screens.extended_signals.modelconfig.slider.locy"), Component.empty(),
                         -32, 32, locOffsetValues[1], 1d / 2d, 2,
@@ -258,7 +259,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 .scale(0, 1f / 6f)
                 .offset(10, WIDGET_PADDING * 2 + TOP_OFFSET)
                 .build(this);
-        this.addRenderableWidget(locOffsetSliders[2] = new ForgeSlider(
+        this.addRenderableWidget(locOffsetSliders[2] = new ExtendedSlider(
                         pos.x(), pos.y(), pos.w(), pos.h(),
                         Component.translatable("screens.extended_signals.modelconfig.slider.locz"), Component.empty(),
                         -32, 32, locOffsetValues[2], 1d / 2d, 2,
@@ -296,7 +297,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 .offset(10, -WIDGET_PADDING * 2 + TOP_OFFSET)
                 .build(this);
 
-        this.addRenderableWidget(orientationSliders[0] = new ForgeSlider(
+        this.addRenderableWidget(orientationSliders[0] = new ExtendedSlider(
                         pos.x(), pos.y(), pos.w(), pos.h(),
                         Component.translatable("screens.extended_signals.modelconfig.slider.rotx"), Component.empty(),
                         0, 360, orientationValues[0], 1d / 2d, 2,
@@ -328,7 +329,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 .scale(0, 5f / 6f)
                 .offset(10, TOP_OFFSET)
                 .build(this);
-        this.addRenderableWidget(orientationSliders[1] = new ForgeSlider(
+        this.addRenderableWidget(orientationSliders[1] = new ExtendedSlider(
                         pos.x(), pos.y(), pos.w(), pos.h(),
                         Component.translatable("screens.extended_signals.modelconfig.slider.roty"), Component.empty(),
                         0, 360, orientationValues[1], 1d / 2d, 2,
@@ -359,7 +360,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 .scale(0, 5f / 6f)
                 .offset(10, WIDGET_PADDING * 2 + TOP_OFFSET)
                 .build(this);
-        this.addRenderableWidget(orientationSliders[2] = new ForgeSlider(
+        this.addRenderableWidget(orientationSliders[2] = new ExtendedSlider(
                         pos.x(), pos.y(), pos.w(), pos.h(),
                         Component.translatable("screens.extended_signals.modelconfig.slider.rotz"), Component.empty(),
                         -180, 180, orientationValues[2], 1d / 2d, 2,
@@ -518,8 +519,9 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
     }
 
     private void updateModelTranslation() {
-        ExtendedSignalsNetworking.CHANNEL
-                .sendToServer(new ServerBoundModelConfigurePacket(
+        // TODO: Networking
+        PacketDistributor.sendToServer(
+                new ServerBoundModelConfigurePacket(
                         menu.getBlockEntityPosition(),
                         new Vec3(
                                 locOffsetValues[0] / 16d,
@@ -536,8 +538,10 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                                 orientationValues[1],
                                 orientationValues[2]
                         )
-                ));
-        // locOffsetEditBoxes[0].setValue(String.valueOf(locOffsetValues[0]));
+                )
+        );
+
+        locOffsetEditBoxes[0].setValue(String.valueOf(locOffsetValues[0]));
     }
 
     /**

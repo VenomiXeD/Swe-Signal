@@ -6,7 +6,7 @@
       0
     ]
   },
-  "loader": "forge:obj",
+  "loader": "neoforge:obj",
   "shadeQuads": false,
   "model": "extended_signals:models/block/light.obj",
   "textures": {

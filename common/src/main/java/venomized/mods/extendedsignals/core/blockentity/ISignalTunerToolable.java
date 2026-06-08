@@ -4,9 +4,8 @@ import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraftforge.common.extensions.IForgeBlockEntity;
 
-public interface ISignalTunerToolable extends IForgeBlockEntity {
+public interface ISignalTunerToolable {
     enum SignalTunerMode {
         INFO,
         DISCONNECT,

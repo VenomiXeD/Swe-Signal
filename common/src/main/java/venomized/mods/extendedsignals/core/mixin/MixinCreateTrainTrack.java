@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 
 @Mixin(TrackBlock.class)
 public abstract class MixinCreateTrainTrack extends Block
@@ -37,7 +37,7 @@ public abstract class MixinCreateTrainTrack extends Block
         Item item = player.getItemInHand(hand).getItem();
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof TrackBlockEntity tbe) {// && item instanceof TrackDecorationItem tdi) {
-            ExtendedSignalsCore.LOGGER.info("adding decoration item");
+            ExtendedSignals.LOGGER.info("adding decoration item");
         }
     }
 }

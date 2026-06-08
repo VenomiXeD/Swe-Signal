@@ -1,7 +1,7 @@
 package venomized.mods.extendedsignals.core.data;
 
 import net.minecraft.network.chat.Component;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 
 import java.util.Map;
 
@@ -21,8 +21,8 @@ public class ExtendedSignalsLang {
     }
 
     public static Component schedule(final String name, final String type, final String value) {
-        final String key = "%s.schedule.%s.%s".formatted(ExtendedSignalsCore.MOD_ID, name, type);
-        return ExtendedSignalsCore.REGISTRATE.get().addRawLang(key, value);
+        final String key = "%s.schedule.%s.%s".formatted(ExtendedSignals.MOD_ID, name, type);
+        return ExtendedSignals.REGISTRATE.get().addRawLang(key, value);
     }
 
     public static String fromISO639_1(String iso639_1_code) {

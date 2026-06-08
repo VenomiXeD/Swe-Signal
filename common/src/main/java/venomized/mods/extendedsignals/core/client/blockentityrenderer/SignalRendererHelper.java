@@ -3,9 +3,9 @@ package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 
 @OnlyIn(Dist.CLIENT)
 public class SignalRendererHelper {
@@ -13,7 +13,7 @@ public class SignalRendererHelper {
 
     public static ResourceLocation SIGNAL_LIGHT_TEX_LOC =
             ResourceLocation.fromNamespaceAndPath(
-                    ExtendedSignalsCore.MOD_ID,
+                    ExtendedSignals.MOD_ID,
                     "textures/block/light.png"
             );
 

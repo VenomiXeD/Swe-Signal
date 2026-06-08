@@ -6,7 +6,7 @@
       0.5
     ]
   },
-  "loader": "forge:obj",
+  "loader": "neoforge:obj",
   "flip_v": true,
   "model": "extended_signals_de:models/block/signals/de/zs3.obj",
   "textures": {

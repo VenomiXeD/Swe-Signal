@@ -10,7 +10,6 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.IContainerFactory;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.CoreMenus;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
