@@ -132,7 +132,7 @@ subprojects {
         exclude("src/generated/**/.cache") // datagen cache files
     }
 
-    version += "-git-" + providers.exec { commandLine("git", "rev-parse", "--short", "HEAD") }.standardOutput.asText.get().replace("\n", "") +
+    version += "-git-" + providers.exec { commandLine("git", "rev-parse", "--short", "HEAD") }.standardOutput.asText.get().trim() +
             "-t" + Instant.now().toString().replace(':', '-')
 
     base.archivesName = "extended-signals-${project.name}"
