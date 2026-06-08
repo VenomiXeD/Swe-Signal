@@ -1,0 +1,15 @@
+{
+  "block.extended_signals_se.se.2l_signal_modern": "(Swedish) 2 Light signal modern",
+  "block.extended_signals_se.se.3l_distant_signal_modern": "(Swedish) 3 Light distant signal modern",
+  "block.extended_signals_se.se.3l_signal_modern": "(Swedish) 3 Light signal modern",
+  "block.extended_signals_se.se.4l_signal_modern": "(Swedish) 4 Light signal modern",
+  "block.extended_signals_se.se.5l_signal_modern": "(Swedish) 5 Light signal modern",
+  "block.extended_signals_se.se.base": "(Swedish) base",
+  "block.extended_signals_se.se.crossing_distant_signal_modern": "(Swedish) crossing distant signal modern",
+  "block.extended_signals_se.se.crossing_lights_modern": "(Swedish) crossing lights modern",
+  "block.extended_signals_se.se.crossing_signal_modern": "(Swedish) crossing signal modern",
+  "block.extended_signals_se.se.dwarf_main_signal_modern": "(Swedish) dwarf main signal modern",
+  "block.extended_signals_se.se.dwarf_signal_modern": "(Swedish) dwarf signal modern",
+  "block.extended_signals_se.se.endpoint_signal_modern": "(Swedish) endpoint signal modern",
+  "itemGroup.extended_signals_se.extended_signals_se": "Extended Signals Se"
+}

@@ -1,0 +1,15 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "loader": "forge:obj",
+  "flip_v": true,
+  "model": "extended_signals_se:models/block/crossings/se/base.obj",
+  "textures": {
+    "crossing": "extended_signals_se:block/crossings/se/crossing"
+  }
+}

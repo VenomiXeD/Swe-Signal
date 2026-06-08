@@ -1,0 +1,20 @@
+{
+  "creativetab.sw_tab": "Sweden signals",
+  "block.extended_signals_se.signal.se.signal_box": "Signal box",
+  "block.swsignal.railroad_crossing_controller": "Railroad crossing controller",
+  "block.extended_signals_se.se.2l_signal_modern": "2L Main signal",
+  "block.extended_signals_se.se.3l_signal_modern": "3L Main signal",
+  "block.extended_signals_se.se.4l_signal_modern": "4L Main/Distant signal",
+  "block.extended_signals_se.se.5l_signal_modern": "5L Main/Distant signal",
+  "block.extended_signals_se.se.3l_distant_signal_modern": "3L Distant Signal",
+  "block.extended_signals_se.se.4l_dwarf_signal_modern": "Shunting Dwarf Signal",
+  "block.extended_signals_se.se.7l_dwarf_main_signal_modern": "Main Dwarf Signal ",
+  "block.extended_signals_se.se.1l_signal_endpoint_post_1920": "Repeat Signal",
+  "block.extended_signals_se.se.u_sign": "U sign",
+  "block.extended_signals_se.se.1l_railroad_crossing_signal_2": "1L Railroad Crossing Signal",
+  "block.extended_signals_se.se.3l_distant_railroad_crossing_signal": "3L Distant Railroad Crossing Signal",
+  "item.swsignal.signalitem": "Signal connection tool",
+  "item.swsignal.light_bulb": "Light bulb"
+}
+
+

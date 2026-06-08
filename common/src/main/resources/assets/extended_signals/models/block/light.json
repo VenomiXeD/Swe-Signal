@@ -1,0 +1,16 @@
+{
+  "transform": {
+    "origin": [
+      0,
+      0,
+      0
+    ]
+  },
+  "loader": "forge:obj",
+  "shadeQuads": false,
+  "model": "extended_signals:models/block/light.obj",
+  "textures": {
+    "light": "extended_signals:block/light"
+  },
+  "emissive_ambient": true
+}

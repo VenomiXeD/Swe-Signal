@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "extended_signals_se:block/crossings/se/base"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "crossing_bell": {
+    "sounds": [
+      "extended_signals_se:crossing_bell"
+    ]
+  },
+  "vvvf": {
+    "sounds": [
+      "extended_signals_se:vvvf"
+    ]
+  }
+}

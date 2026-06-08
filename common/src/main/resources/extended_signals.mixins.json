@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "package": "venomized.mods.extendedsignals.core.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "extendedsignals.refmap.json",
+  "mixins": [
+    "MixinCreateTrainSignal",
+    "MixinCreateTrainTrack",
+    "MixinGlobalRailwayManager",
+    "MixinNavigation",
+    "MixinScheduleRuntime",
+    "MixinSignalBoundary",
+    "MixinSignalEdgeGroup",
+    "MixinSignalEdgeGroupAccessor",
+    "MixinSlidingDoorMovementBehavior",
+    "MixinTrain"
+  ],
+  "client": [
+    "MixinItemRenderer"
+  ],
+  "minVersion": "0.8"
+}

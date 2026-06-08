@@ -1,0 +1,17 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "loader": "forge:obj",
+  "flip_v": true,
+  "model": "extended_signals_de:models/block/signals/de/zs3.obj",
+  "textures": {
+    "signal": "extended_signals_de:block/signals/de/signal",
+    "metal_exposed": "extended_signals_de:block/signals/de/metal_exposed",
+    "display": "extended_signals_de:block/signals/de/display"
+  }
+}

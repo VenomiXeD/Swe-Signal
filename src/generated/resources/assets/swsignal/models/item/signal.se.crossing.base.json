@@ -1,0 +1,12 @@
+{
+  "parent": "extended_signals_se:block/signal/se/crossing/base",
+  "display": {
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "mounting=false": {
+      "model": "extended_signals_se:block/signal/se/1l_endpoint_post_1920"
+    },
+    "mounting=true": {
+      "model": "extended_signals_se:block/signal/se/1l_endpoint_post_1920"
+    }
+  }
+}

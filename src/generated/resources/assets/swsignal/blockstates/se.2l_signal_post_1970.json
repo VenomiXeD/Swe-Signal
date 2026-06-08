@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "mounting=false": {
+      "model": "extended_signals_se:block/signal/se/2l_signal_post_1970"
+    },
+    "mounting=true": {
+      "model": "extended_signals_se:block/signal/se/2l_signal_post_1970"
+    }
+  }
+}
