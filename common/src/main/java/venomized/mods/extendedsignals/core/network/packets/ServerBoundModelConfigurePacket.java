@@ -59,6 +59,6 @@ public record ServerBoundModelConfigurePacket(BlockPos pos, Vec3 loc, Vec3 gbl,
      */
     @Override
     public Type<? extends CustomPacketPayload> type() {
-        return null;
+        return TYPE;
     }
 }

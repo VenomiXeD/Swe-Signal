@@ -136,7 +136,9 @@ subprojects {
         commandLine("git", "rev-parse", "--short", "HEAD")
     }.standardOutput.asText.map { it.trim() }
 
-    version = "${project.version}-git-${gitHash.get()}-t${Instant.now().toString().replace(':', '-')}-${minecraft_version}"
+    tasks.withType(Jar).configureEach {
+        archiveVersion.set("${project.version}-git-${gitHash.get()}-t${Instant.now().toString().replace(':', '-')}-${minecraft_version}")
+    }
 
     base.archivesName = "extended-signals-${project.name}"
 }
