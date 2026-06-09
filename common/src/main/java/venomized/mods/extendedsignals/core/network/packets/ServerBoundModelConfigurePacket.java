@@ -1,58 +1,32 @@
 package venomized.mods.extendedsignals.core.network.packets;
 
+import net.createmod.catnip.codecs.stream.CatnipStreamCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 
-import java.util.function.Supplier;
-
-public record ServerBoundModelConfigurePacket(BlockPos pos, Vec3 loc, Vec3 gbl,
+public record ServerBoundModelConfigurePacket(BlockPos pos, Vec3 loc, Vec3 glo,
                                               Vec3 orientation) implements CustomPacketPayload {
     public static final Type<ServerBoundModelConfigurePacket> TYPE =
             new Type<>(ExtendedSignals.res(ServerBoundModelConfigurePacket.class.getSimpleName().toLowerCase()));
-
-    public static ServerBoundModelConfigurePacket decode(FriendlyByteBuf buf) {
-        return new ServerBoundModelConfigurePacket(
-                buf.readBlockPos(),
-                new Vec3(buf.readVector3f()),
-                new Vec3(buf.readVector3f()),
-                new Vec3(buf.readVector3f())
-        );
-    }
-
-    // /**
-    //  * @param contextSupplier
-    //  */
-    // @Override
-    // public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
-    //     contextSupplier.get().enqueueWork(() -> {
-    //         BlockEntity blockEntity = contextSupplier.get().getSender().serverLevel()
-    //                 .getBlockEntity(pos);
-
-    //         if (blockEntity instanceof IConfigurableModelBlockEntity configurableModel) {
-    //             configurableModel.setLocOffset(this.loc);
-    //             configurableModel.setGblOffset(this.gbl);
-    //             configurableModel.setOrientation(this.orientation);
-    //         }
-    //     });
-
-    //     contextSupplier.get().setPacketHandled(true);
-    // }
-
-    /**
-     * @param buf
-     */
-    // @Override
-    // public void encode(FriendlyByteBuf buf) {
-    //     buf.writeBlockPos(pos);
-    //     buf.writeVector3f(loc.toVector3f());
-    //     buf.writeVector3f(gbl.toVector3f());
-    //     buf.writeVector3f(orientation.toVector3f());
-    // }
+    public static final StreamCodec<? super RegistryFriendlyByteBuf, ServerBoundModelConfigurePacket> CODEC = StreamCodec.composite(
+            BlockPos.STREAM_CODEC,
+            ServerBoundModelConfigurePacket::pos,
+            CatnipStreamCodecs.VEC3,
+            ServerBoundModelConfigurePacket::loc,
+            CatnipStreamCodecs.VEC3,
+            ServerBoundModelConfigurePacket::glo,
+            CatnipStreamCodecs.VEC3,
+            ServerBoundModelConfigurePacket::orientation,
+            ServerBoundModelConfigurePacket::new
+    );
 
     /**
      * @return
@@ -60,5 +34,18 @@ public record ServerBoundModelConfigurePacket(BlockPos pos, Vec3 loc, Vec3 gbl,
     @Override
     public Type<? extends CustomPacketPayload> type() {
         return TYPE;
+    }
+
+    public void handle(IPayloadContext iPayloadContext) {
+        iPayloadContext.enqueueWork(() -> {
+            BlockEntity blockEntity = iPayloadContext.player().level()
+                    .getBlockEntity(pos);
+
+            if (blockEntity instanceof IConfigurableModelBlockEntity configurableModel) {
+                configurableModel.setLocOffset(this.loc);
+                configurableModel.setGblOffset(this.glo);
+                configurableModel.setOrientation(this.orientation);
+            }
+        });
     }
 }

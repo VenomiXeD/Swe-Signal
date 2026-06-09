@@ -10,8 +10,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityATCController;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
-import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
-import venomized.mods.extendedsignals.core.network.packets.UpdateATCEventPacket;
+import venomized.mods.extendedsignals.core.network.packets.ClientBoundATCEventPacket;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -48,7 +47,7 @@ public class ATCController extends SingleBlockEntityEdgePoint {
             blockEntity.ifPresent(blockEntityATCController -> {
                 // if any player is controlling
                 if (controllingPlayer.isPresent()) {
-                    PacketDistributor.sendToPlayer((ServerPlayer) l.getPlayerByUUID(controllingPlayer.get()), new UpdateATCEventPacket(
+                    PacketDistributor.sendToPlayer((ServerPlayer) l.getPlayerByUUID(controllingPlayer.get()), new ClientBoundATCEventPacket(
                             0.5d
                     ));
                 }

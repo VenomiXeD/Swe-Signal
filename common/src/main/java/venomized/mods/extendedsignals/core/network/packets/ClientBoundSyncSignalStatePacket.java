@@ -2,6 +2,7 @@ package venomized.mods.extendedsignals.core.network.packets;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.UUIDUtil;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -29,16 +30,6 @@ public record ClientBoundSyncSignalStatePacket(UUID uuid, boolean side,
             ClientBoundSyncSignalStatePacket::new
     );
 
-    // /**
-    //  * @param contextSupplier
-    //  */
-    // @Override
-    // public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
-    //     // ExtendedSignalsCore.LOGGER
-    //     //         .info("new signal state update: {}, {}", uuid, NbtUtils.prettyPrint(this.signalStateNode().toNBT()));
-    //     ExtendedSignals.clientNetworkCache().updateState(uuid, side, signalStateNode);
-    //     contextSupplier.get().setPacketHandled(true);
-    // }
     /**
      * @return
      */
@@ -47,11 +38,13 @@ public record ClientBoundSyncSignalStatePacket(UUID uuid, boolean side,
         return TYPE;
     }
 
-    public static void handle(ClientBoundSyncSignalStatePacket packet, IPayloadContext iPayloadContext) {
+    public void handle(IPayloadContext iPayloadContext) {
+        ExtendedSignals.LOGGER
+                .info("new signal state update: {}, {}", uuid(), NbtUtils.prettyPrint(this.signalStateNode().toNBT()));
         ExtendedSignals.clientNetworkCache().updateState(
-                packet.uuid(),
-                packet.side(),
-                packet.signalStateNode()
+                uuid(),
+                side(),
+                signalStateNode()
         );
     }
 }

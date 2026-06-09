@@ -33,8 +33,8 @@ public record ClientBoundSyncSignalStatesPacket(
             ClientBoundSyncSignalStatesPacket::new
     );
 
-    public static void handle(ClientBoundSyncSignalStatesPacket packet, IPayloadContext context) {
-        ExtendedSignals.clientNetworkCache().fromSync(packet.fullNetworkMapping());
+    public void handle(IPayloadContext context) {
+        ExtendedSignals.clientNetworkCache().fromSync(fullNetworkMapping());
     }
 
     /**

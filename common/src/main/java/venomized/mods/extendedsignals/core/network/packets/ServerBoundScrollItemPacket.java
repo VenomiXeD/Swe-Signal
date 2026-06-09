@@ -28,24 +28,6 @@ public record ServerBoundScrollItemPacket(boolean up) implements CustomPacketPay
             ServerBoundScrollItemPacket::new
     );
 
-    public static ServerBoundScrollItemPacket decode(FriendlyByteBuf buf) {
-        return new ServerBoundScrollItemPacket(buf.readBoolean());
-    }
-
-    // public void handle(Supplier<NetworkEvent.Context> ctx) {
-    //     ctx.get().enqueueWork(() -> {
-    //         ItemStack mainHandItem = ctx.get().getSender().getMainHandItem();
-    //         if (mainHandItem.getItem() instanceof IScrollableItem scrollableItem) {
-    //             scrollableItem.onItemScroll(ctx.get().getSender(), mainHandItem, up);
-    //         }
-    //     });
-    //     ctx.get().setPacketHandled(true);
-    // }
-
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeBoolean(up);
-    }
-
     /**
      * @return
      */

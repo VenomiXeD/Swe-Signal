@@ -88,7 +88,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
 
         final int TOP_OFFSET = 0;
         final int WIDGET_PADDING = 15;
-        //region gbl x
+        //region glo x
         pos = new LayoutBuilder()
                 .anchor(0, .5)
                 .size(WIDGET_WIDTH, WIDGET_HEIGHT)
@@ -118,9 +118,9 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 )
         );
         gloOffsetEditBoxes[0].setResponder(this::editBoxChanged);
-        //endregion gbl x
+        //endregion glo x
 
-        //region gbl y
+        //region glo y
         pos = new LayoutBuilder()
                 .anchor(0, .5)
                 .size(WIDGET_WIDTH, WIDGET_HEIGHT)
@@ -149,9 +149,9 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 )
         );
         gloOffsetEditBoxes[1].setResponder(this::editBoxChanged);
-        //endregion gbl y
+        //endregion glo y
 
-        //region gbl z
+        //region glo z
         pos = new LayoutBuilder()
                 .anchor(0, .5)
                 .size(WIDGET_WIDTH, WIDGET_HEIGHT)
@@ -180,7 +180,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 )
         );
         gloOffsetEditBoxes[2].setResponder(this::editBoxChanged);
-        //endregion gbl z
+        //endregion glo z
     }
 
     private void configureLocalOffsetWidgets() {

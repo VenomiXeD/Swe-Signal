@@ -1,13 +1,8 @@
 package venomized.mods.extendedsignals.core.network;
 
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
-import net.neoforged.neoforge.network.handling.MainThreadPayloadHandler;
-import net.neoforged.neoforge.network.registration.NetworkRegistry;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.network.packets.*;
 
 public class ExtendedSignalsNetworking {
@@ -69,23 +64,51 @@ public class ExtendedSignalsNetworking {
     @SubscribeEvent
     public static void registerNetworking(final RegisterPayloadHandlersEvent event) {
         CHANNEL = event.registrar(NET_VERSION);
+        registerClientBoundPackets();
+        registerServerBoundPackets();
+    }
 
+    private static void registerServerBoundPackets() {
+        CHANNEL.playToServer(
+                ServerBoundScrollItemPacket.TYPE,
+                ServerBoundScrollItemPacket.CODEC,
+                ServerBoundScrollItemPacket::handle
+        );
+
+        CHANNEL.playToServer(
+                ServerBoundTranslateBlockPacket.TYPE,
+                ServerBoundTranslateBlockPacket.CODEC,
+                ServerBoundTranslateBlockPacket::handle
+        );
+
+        CHANNEL.playToServer(
+                ServerBoundRequestShuntPacket.TYPE,
+                ServerBoundRequestShuntPacket.CODEC,
+                ServerBoundRequestShuntPacket::handle
+        );
+
+        CHANNEL.playToServer(
+                ServerBoundModelConfigurePacket.TYPE,
+                ServerBoundModelConfigurePacket.CODEC,
+                ServerBoundModelConfigurePacket::handle
+        );
+    }
+
+    private static void registerClientBoundPackets() {
+        CHANNEL.playToClient(
+                ClientBoundATCEventPacket.TYPE,
+                ClientBoundATCEventPacket.CODEC,
+                ClientBoundATCEventPacket::handle
+        );
         CHANNEL.playToClient(
                 ClientBoundSyncSignalStatePacket.TYPE,
                 ClientBoundSyncSignalStatePacket.CODEC,
                 ClientBoundSyncSignalStatePacket::handle
         );
-
         CHANNEL.playToClient(
                 ClientBoundSyncSignalStatesPacket.TYPE,
                 ClientBoundSyncSignalStatesPacket.CODEC,
                 ClientBoundSyncSignalStatesPacket::handle
-        );
-
-        CHANNEL.playToServer(
-                ServerBoundScrollItemPacket.TYPE,
-                ServerBoundScrollItemPacket.CODEC,
-                ServerBoundScrollItemPacket::handle
         );
     }
 }
