@@ -1,26 +1,19 @@
 package venomized.mods.extendedsignals.core.network.packets;
 
 import com.simibubi.create.Create;
-import com.simibubi.create.content.trains.entity.Train;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.vehicle.Minecart;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
 import venomized.mods.extendedsignals.core.signalling.ShuntRequest;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
 public record ServerBoundRequestShuntPacket(UUID trainUUID, boolean front,
                                             float shuntRequestDistance) implements CustomPacketPayload {
@@ -71,7 +64,7 @@ public record ServerBoundRequestShuntPacket(UUID trainUUID, boolean front,
 
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<ServerBoundRequestShuntPacket> type() {
         return TYPE;
     }
 

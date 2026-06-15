@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core.network.packets;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -9,6 +8,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 
 public record ClientBoundATCEventPacket(double atcLimit) implements CustomPacketPayload {
@@ -24,7 +24,7 @@ public record ClientBoundATCEventPacket(double atcLimit) implements CustomPacket
      * @return
      */
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 

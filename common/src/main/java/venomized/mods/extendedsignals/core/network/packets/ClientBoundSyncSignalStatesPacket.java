@@ -3,20 +3,17 @@ package venomized.mods.extendedsignals.core.network.packets;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.createmod.catnip.data.Couple;
 import net.minecraft.core.UUIDUtil;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
-import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 public record ClientBoundSyncSignalStatesPacket(
         Map<UUID, Couple<SignalStateNode>> fullNetworkMapping) implements CustomPacketPayload {
@@ -41,7 +38,7 @@ public record ClientBoundSyncSignalStatesPacket(
      * @return
      */
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<ClientBoundSyncSignalStatesPacket> type() {
         return TYPE;
     }
 }

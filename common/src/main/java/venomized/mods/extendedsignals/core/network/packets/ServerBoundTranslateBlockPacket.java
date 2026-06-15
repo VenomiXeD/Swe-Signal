@@ -1,20 +1,15 @@
 package venomized.mods.extendedsignals.core.network.packets;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import org.apache.commons.lang3.EnumUtils;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
-
-import java.util.function.Supplier;
 
 public record ServerBoundTranslateBlockPacket(BlockPos blockEntityPos,
                                               Direction direction) implements CustomPacketPayload {
@@ -33,7 +28,7 @@ public record ServerBoundTranslateBlockPacket(BlockPos blockEntityPos,
      * @return
      */
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<ServerBoundTranslateBlockPacket> type() {
         return TYPE;
     }
 

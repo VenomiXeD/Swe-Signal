@@ -1,19 +1,15 @@
 package venomized.mods.extendedsignals.core.network.packets;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.item.IScrollableItem;
-
-import java.util.function.Supplier;
 
 /**
  * CLIENT -> SERVER
@@ -32,7 +28,7 @@ public record ServerBoundScrollItemPacket(boolean up) implements CustomPacketPay
      * @return
      */
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<ServerBoundScrollItemPacket> type() {
         return TYPE;
     }
 

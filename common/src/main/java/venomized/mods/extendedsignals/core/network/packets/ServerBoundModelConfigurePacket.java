@@ -2,13 +2,13 @@ package venomized.mods.extendedsignals.core.network.packets;
 
 import net.createmod.catnip.codecs.stream.CatnipStreamCodecs;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 
@@ -32,7 +32,7 @@ public record ServerBoundModelConfigurePacket(BlockPos pos, Vec3 loc, Vec3 glo,
      * @return
      */
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<ServerBoundModelConfigurePacket> type() {
         return TYPE;
     }
 
