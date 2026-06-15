@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:item/handheld",
   "textures": {
-    "all": "minecraft:block/iron_block"
+    "layer0": "extended_signals_de:item/signals/de/hv_bk_hp_s"
   }
 }
