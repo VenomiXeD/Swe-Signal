@@ -27,6 +27,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.core.create.tracks.ISignalStateCompute;
+import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
 import venomized.mods.extendedsignals.core.create.tracks.SignalBoundaryConfiguration;
 import venomized.mods.extendedsignals.core.signalling.ISignalStateBoundaryTransformer;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -95,6 +96,9 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
         SignalEdgeGroup entering = Create.RAILWAYS.signalEdgeGroups.get(groups.get(primary));
 
         if (isForcedRed(primary))
+            return SignalStateNode.STOP;
+
+        if (InterlockingManager.trainOwnsGroupIntersecting(train, entering) == InterlockingManager.ReservationResult.CONFLICT)
             return SignalStateNode.STOP;
 
         // if (entering.isOccupiedUnless((SignalBoundary) (Object) this) &&

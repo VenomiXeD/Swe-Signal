@@ -105,7 +105,7 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
             }
 
             if (state.getMaxProceedSpeed() >= 80 && distant.getMaxProceedSpeed() >= 80) {
-                // PROCEED 80, EXPECT PROCEED 80
+                // PROCEED 80, EXPECT PROCEED 80 e
                 ISignalAspect.RGB.GREEN.apply(lights[0]);
                 ISignalAspect.RGB.BLACK.apply(lights[1]);
                 ISignalAspect.RGB.BLACK.apply(lights[2]);
