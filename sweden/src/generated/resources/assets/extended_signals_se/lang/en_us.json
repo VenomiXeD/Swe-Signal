@@ -11,5 +11,7 @@
   "block.extended_signals_se.se.dwarf_main_signal_modern": "(Swedish) dwarf main signal modern",
   "block.extended_signals_se.se.dwarf_signal_modern": "(Swedish) dwarf signal modern",
   "block.extended_signals_se.se.endpoint_signal_modern": "(Swedish) endpoint signal modern",
+  "item.extended_signals_se.incomplete_crossing": "Incomplete Crossing",
+  "item.extended_signals_se.incomplete_signal": "Incomplete Signal",
   "itemGroup.extended_signals_se.extended_signals_se": "Extended Signals Se"
 }

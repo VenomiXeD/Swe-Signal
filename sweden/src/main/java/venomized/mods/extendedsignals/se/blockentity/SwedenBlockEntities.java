@@ -77,7 +77,7 @@ public final class SwedenBlockEntities {
                     .register();
 
     public static BlockEntityEntry<BlockEntityThreeLightCrossingLights> CROSSING_LIGHTS = RegistrateHelper
-            .simpleBlockEntity(registrate(), "crossing_lights", BlockEntityThreeLightCrossingLights::new, SwedenBlocks.BLOCK_THREE_LIGHT_CROSSING_SIGNAL)
+            .simpleBlockEntity(registrate(), "crossing_lights", BlockEntityThreeLightCrossingLights::new, SwedenBlocks.CROSSING_LIGHTS)
             .renderer(() -> RendererCrossingLights::new)
                     .register();
 

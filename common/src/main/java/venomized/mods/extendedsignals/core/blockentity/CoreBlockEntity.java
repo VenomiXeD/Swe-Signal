@@ -12,6 +12,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
+
 public abstract class CoreBlockEntity extends BlockEntity implements IConfigurableModelBlockEntity {
     private final float[] orientation;
     private final double[] locOffsets;
@@ -294,5 +296,13 @@ public abstract class CoreBlockEntity extends BlockEntity implements IConfigurab
         gblOffsets[1] = offset.y();
         gblOffsets[2] = offset.z();
         sync();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public @Nullable EnumSet<?> variations() {
+        return null;
     }
 }

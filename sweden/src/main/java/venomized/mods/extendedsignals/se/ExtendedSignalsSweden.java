@@ -15,6 +15,7 @@ import venomized.mods.extendedsignals.se.block.SwedenBlocks;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
 import venomized.mods.extendedsignals.se.data.SwedenRecipes;
+import venomized.mods.extendedsignals.se.item.SwedenItems;
 
 @net.minecraftforge.fml.common.Mod(ExtendedSignalsSweden.MOD_ID)
 public class ExtendedSignalsSweden extends Mod {
@@ -42,6 +43,7 @@ public class ExtendedSignalsSweden extends Mod {
     @Override
     protected void commonInitialization() {
         SwedenBlocks.init();
+        SwedenItems.init();
         SwedenBlockEntities.init();
 
 
@@ -80,6 +82,6 @@ public class ExtendedSignalsSweden extends Mod {
                 ExtendedSignalsSwedenSounds.SOUNDS
         ));
 
-        e.getGenerator().addProvider(e.includeServer(), new SwedenRecipes(e.getGenerator().getPackOutput()));
+        e.getGenerator().addProvider(e.includeServer(), new SwedenRecipes(e.getGenerator().getPackOutput(), e.getLookupProvider()));
     }
 }
