@@ -1,6 +1,10 @@
 package venomized.mods.extendedsignals.core.client.screen;
 
+import com.simibubi.create.foundation.gui.widget.ScrollInput;
+import com.simibubi.create.foundation.gui.widget.SelectionScrollInput;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.StateSwitchingButton;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -10,6 +14,8 @@ import venomized.mods.extendedsignals.core.client.screen.widget.NumericEditBox;
 import venomized.mods.extendedsignals.core.menu.MenuModelConfig;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.core.network.packets.ServerBoundModelConfigurePacket;
+
+import java.util.List;
 
 public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> {
 
@@ -80,6 +86,30 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
         configureGlobalOffsetWidgets();
         configureRotationWidgets();
         updateEditBoxValues();
+
+        configureAdditionalCustomizationWidgets();
+    }
+
+    private void configureAdditionalCustomizationWidgets() {
+        LayoutBuilder.WidgetLayout pos;
+
+        final int TOP_OFFSET = 0;
+        final int WIDGET_PADDING = 15;
+
+        pos = new LayoutBuilder()
+                .anchor(1, .5)
+                .size(WIDGET_WIDTH, WIDGET_HEIGHT)
+                .scale(1, 3f / 6f)
+                .offset(-10, TOP_OFFSET)
+                .build(this);
+
+        this.addRenderableWidget(
+        );
+
+        // this.addRenderableWidget(new CycleButton.Builder<>((v) -> Component.literal(v.toString()))
+        //         .withValues("1", "2", "3")
+        //         .create(pos.x(), pos.y(), pos.w(), pos.h(), Component.literal("TEST CYCLE"))
+        // );
     }
 
     private void configureGlobalOffsetWidgets() {
