@@ -44,6 +44,9 @@ public class ExtendedSignalsSweden {
                 ExtendedSignalsSwedenSounds.SOUNDS
         ));
 
-        e.getGenerator().addProvider(e.includeServer(), new SwedenRecipes(e.getGenerator().getPackOutput()));
+        e.getGenerator().addProvider(
+                e.includeServer(),
+                new SwedenRecipes(e.getGenerator().getPackOutput(), e.getLookupProvider())
+        );
     }
 }
