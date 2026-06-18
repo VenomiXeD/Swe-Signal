@@ -104,8 +104,8 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 .offset(-10, TOP_OFFSET)
                 .build(this);
 
-        this.addRenderableWidget(
-        );
+        // this.addRenderableWidget(
+        // );
 
         // this.addRenderableWidget(new CycleButton.Builder<>((v) -> Component.literal(v.toString()))
         //         .withValues("1", "2", "3")

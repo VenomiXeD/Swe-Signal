@@ -1,0 +1,33 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "create:iron_sheet"
+  },
+  "loops": 2,
+  "results": [
+    {
+      "id": "extended_signals_se:se.2l_signal_modern"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "minecraft:stone"
+        },
+        {
+          "item": "create:electron_tube"
+        }
+      ],
+      "results": [
+        {
+          "id": "minecraft:stone"
+        }
+      ]
+    }
+  ],
+  "transitional_item": {
+    "id": "minecraft:stone"
+  }
+}

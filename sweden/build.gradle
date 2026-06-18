@@ -2,4 +2,7 @@ dependencies {
     implementation(project(":common"))
 }
 
+runs {
+
+}
 version = '1.1.1-beta'

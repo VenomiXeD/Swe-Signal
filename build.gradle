@@ -39,6 +39,12 @@ subprojects {
         mavenCentral()
         maven { url = "https://maven.createmod.net" } // Create, Ponder, Flywheel
         maven { url = "https://maven.ithundxr.dev/snapshots" } // Registrate
+        maven {
+            url "https://cursemaven.com"
+            content {
+                includeGroup "curse.maven"
+            }
+        }
     }
 
     dependencies {
@@ -49,6 +55,8 @@ subprojects {
         compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}")
         runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
         implementation("com.tterrag.registrate:Registrate:${registrate_version}")
+
+        implementation "curse.maven:jei-238222:7420587"
 
         compileOnly("org.projectlombok:lombok:1.18.46")
         annotationProcessor("org.projectlombok:lombok:1.18.46")
@@ -111,8 +119,9 @@ subprojects {
         data {
             // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
             // workingDirectory project.file('run-data')
+
             arguments.addAll([
-                    '--mod', project.name,
+                    '--mod', project.mod_sub_id == "common" ? "extended_signals" : "extended_signals_" + project.mod_sub_id,
                     '--all',
                     '--output', file('src/generated/resources/').absolutePath,
                     '--existing', file('src/main/resources/').absolutePath
