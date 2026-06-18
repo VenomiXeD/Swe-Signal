@@ -62,7 +62,7 @@ public class SwedenBlocks {
             .genericCustomModelledBlock(registrate(), "se", "crossings", "base", BlockCrossingGate::new)
             .register();
 
-    public static final BlockEntry<BlockCrossingLights> BLOCK_THREE_LIGHT_CROSSING_SIGNAL = RegistrateHelper
+    public static final BlockEntry<BlockCrossingLights> CROSSING_LIGHTS = RegistrateHelper
             .genericCustomModelledBlock(registrate(), "se", "crossings", "crossing_lights_modern", BlockCrossingLights::new)
             .register();
 

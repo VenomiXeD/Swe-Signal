@@ -18,6 +18,11 @@ public class SwedenItems {
                     .model((a, b) -> b.itemTexture(() -> Items.IRON_INGOT))
                     .register();
 
+    public static final ItemEntry<Item> INCOMPLETE_CROSSING =
+            registrate().item("incomplete_crossing", Item::new)
+                    .model((a, b) -> b.itemTexture(() -> Items.IRON_INGOT))
+                    .register();
+
     public static void init() {
     }
 }
