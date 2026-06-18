@@ -13,6 +13,7 @@ import venomized.mods.extendedsignals.core.data.SoundEventDataGenerator;
 import venomized.mods.extendedsignals.se.block.SwedenBlocks;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
+import venomized.mods.extendedsignals.se.data.SwedenRecipes;
 
 @Mod(ExtendedSignalsSweden.MOD_ID)
 public class ExtendedSignalsSweden {
@@ -42,5 +43,7 @@ public class ExtendedSignalsSweden {
                 e.getExistingFileHelper(),
                 ExtendedSignalsSwedenSounds.SOUNDS
         ));
+
+        e.getGenerator().addProvider(e.includeServer(), new SwedenRecipes(e.getGenerator().getPackOutput()));
     }
 }

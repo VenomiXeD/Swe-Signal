@@ -38,7 +38,7 @@ public record MainDwarfSignalAspect(SignalStateNode state) implements ISignalAsp
                 RGB.GREEN.apply(states[6]);
             }
         } else {
-            if (state.getNextState().isStop()) {
+            if (state.getNextState() != null && state.getNextState().isStop()) {
                 (totalTicksForBlockEntity % 20 > 10 ? RGB.GREEN : RGB.BLACK).apply(states[5]);
             } else {
                 RGB.GREEN.apply(states[5]);

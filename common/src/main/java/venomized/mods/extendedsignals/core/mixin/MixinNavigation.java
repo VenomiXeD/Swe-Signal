@@ -308,8 +308,8 @@ public abstract class MixinNavigation implements INavigation {
                     currentSignalState = transformer.transformSignalState(current.signalDirection(), currentSignalState);
                 }
 
-                if (current.isStoppingAtThisNode())
-                    currentSignalState.setProceed(false);
+                // if (current.isStoppingAtThisNode())
+                //     currentSignalState.setProceed(false);
 
                 // if (current.boundary() instanceof SignalBoundary sb) {
                 //     train.reservedSignalBlocks.add(sb.getId());
