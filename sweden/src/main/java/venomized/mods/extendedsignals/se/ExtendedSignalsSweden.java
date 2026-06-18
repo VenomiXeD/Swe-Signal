@@ -16,6 +16,7 @@ import venomized.mods.extendedsignals.se.block.SwedenBlocks;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
 import venomized.mods.extendedsignals.se.data.SwedenRecipes;
+import venomized.mods.extendedsignals.se.item.SwedenItems;
 
 @Mod(ExtendedSignalsSweden.MOD_ID)
 public class ExtendedSignalsSweden {
@@ -29,6 +30,7 @@ public class ExtendedSignalsSweden {
         bus.register(ExtendedSignalsSweden.class);
 
         SwedenBlocks.init();
+        SwedenItems.init();
         SwedenBlockEntities.init();
 
         ExtendedSignalsSwedenSounds.init(bus);
