@@ -4,7 +4,7 @@ import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.block.CoreBlocks;
-import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityPathTrainDetector;
+import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityTrainPathObserver;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityRepeaterCreateSignal;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntitySignalSpeedModifier;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererATCController;
@@ -19,10 +19,10 @@ public final class CoreBlockEntities {
             .simpleBlockEntity(registrate(), "crossing_controller", BlockEntityCrossingController::new, CoreBlocks.CROSSING_CONTROLLER)
             .register();
 
-    public static final BlockEntityEntry<BlockEntityATCController> ATC_CONTROLLER = RegistrateHelper
-            .simpleBlockEntity(registrate(), "atc_controller", BlockEntityATCController::new, CoreBlocks.ATC_CONTROLLER)
-            .renderer(() -> RendererATCController::new)
-            .register();
+    // public static final BlockEntityEntry<BlockEntityATCController> ATC_CONTROLLER = RegistrateHelper
+    //         .simpleBlockEntity(registrate(), "atc_controller", BlockEntityATCController::new, CoreBlocks.ATC_CONTROLLER)
+    //         .renderer(() -> RendererATCController::new)
+    //         .register();
 
     public static final BlockEntityEntry<BlockEntityRepeaterCreateSignal> SIGNAL_REPEATER = RegistrateHelper
             .simpleBlockEntity(registrate(), "repeater_signal", BlockEntityRepeaterCreateSignal::new, CoreBlocks.REPEATER_SIGNAL)
@@ -36,8 +36,8 @@ public final class CoreBlockEntities {
             .simpleBlockEntity(registrate(), "train_config", BlockEntityTrainConfig::new, CoreBlocks.BLOCK_TRAIN_CONFIG)
             .register();
 
-    public static BlockEntityEntry<BlockEntityPathTrainDetector> PATH_TRAIN_DETECTOR = RegistrateHelper
-            .simpleBlockEntity(registrate(), "path_train_detector", BlockEntityPathTrainDetector::new, CoreBlocks.PATH_TRAIN_DETECTOR)
+    public static BlockEntityEntry<BlockEntityTrainPathObserver> PATH_TRAIN_DETECTOR = RegistrateHelper
+            .simpleBlockEntity(registrate(), "path_train_detector", BlockEntityTrainPathObserver::new, CoreBlocks.PATH_TRAIN_DETECTOR)
             .register();
 
     public static void init() {

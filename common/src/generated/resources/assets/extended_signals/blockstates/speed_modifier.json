@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "minecraft:iron"
+      "model": "minecraft:stone"
     }
   }
 }

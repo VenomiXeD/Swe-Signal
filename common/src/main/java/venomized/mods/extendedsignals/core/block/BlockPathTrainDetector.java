@@ -7,10 +7,10 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityPathTrainDetector;
+import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityTrainPathObserver;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 
-public class BlockPathTrainDetector extends EdgePointBlock<BlockEntityPathTrainDetector> implements EntityBlock {
+public class BlockPathTrainDetector extends EdgePointBlock<BlockEntityTrainPathObserver> implements EntityBlock {
     /**
      * @param pProperties
      */
@@ -22,15 +22,15 @@ public class BlockPathTrainDetector extends EdgePointBlock<BlockEntityPathTrainD
      * @return
      */
     @Override
-    public Class<BlockEntityPathTrainDetector> getBlockEntityClass() {
-        return BlockEntityPathTrainDetector.class;
+    public Class<BlockEntityTrainPathObserver> getBlockEntityClass() {
+        return BlockEntityTrainPathObserver.class;
     }
 
     /**
      * @return
      */
     @Override
-    public BlockEntityType<BlockEntityPathTrainDetector> getBlockEntityType() {
+    public BlockEntityType<BlockEntityTrainPathObserver> getBlockEntityType() {
         return CoreBlockEntities.PATH_TRAIN_DETECTOR.get();
     }
 

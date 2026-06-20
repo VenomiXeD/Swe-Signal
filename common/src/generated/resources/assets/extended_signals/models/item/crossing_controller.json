@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "minecraft:block/iron_block"
-  }
+  "parent": "extended_signals:block/crossing_controller"
 }
