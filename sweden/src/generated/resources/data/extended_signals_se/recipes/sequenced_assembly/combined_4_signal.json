@@ -3,9 +3,10 @@
   "ingredient": {
     "item": "extended_signals_se:se.3l_signal_modern"
   },
+  "loops": 1,
   "results": [
     {
-      "id": "extended_signals_se:se.4l_signal_modern"
+      "item": "extended_signals_se:se.4l_signal_modern"
     }
   ],
   "sequence": [
@@ -16,12 +17,12 @@
           "item": "extended_signals_se:incomplete_signal"
         },
         {
-          "tag": "c:plates/iron"
+          "tag": "forge:plates/iron"
         }
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
+          "item": "extended_signals_se:incomplete_signal"
         }
       ]
     },
@@ -37,7 +38,7 @@
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
+          "item": "extended_signals_se:incomplete_signal"
         }
       ]
     },
@@ -50,12 +51,12 @@
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
+          "item": "extended_signals_se:incomplete_signal"
         }
       ]
     }
   ],
-  "transitional_item": {
-    "id": "extended_signals_se:incomplete_signal"
+  "transitionalItem": {
+    "item": "extended_signals_se:incomplete_signal"
   }
 }

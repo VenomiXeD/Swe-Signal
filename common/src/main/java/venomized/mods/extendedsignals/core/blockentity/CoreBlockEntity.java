@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -38,30 +39,45 @@ public abstract class CoreBlockEntity extends BlockEntity implements IConfigurab
     public void onBlockDestroyed(Player player) {
     }
 
+
     /**
-     * @param pTag
+     * @param tag
+     * @param registries
      */
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-        setXOrientation(pTag.getFloat("x_orientation"));
-
-        // Migration
-        if (pTag.contains("orientation_rotation"))
-            setYOrientation(pTag.getFloat("orientation_rotation"));
-        else
-            setYOrientation(pTag.getFloat("y_orientation"));
-
-        setZOrientation(pTag.getFloat("z_orientation"));
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        setXOrientation(tag.getFloat("x_orientation"));
+        setYOrientation(tag.getFloat("y_orientation"));
+        setZOrientation(tag.getFloat("z_orientation"));
 
 
-        setXLocOffset(pTag.getDouble("x_loc_offset"));
-        setYLocOffset(pTag.getDouble("y_loc_offset"));
-        setZLocOffset(pTag.getDouble("z_loc_offset"));
+        setXLocOffset(tag.getDouble("x_loc_offset"));
+        setYLocOffset(tag.getDouble("y_loc_offset"));
+        setZLocOffset(tag.getDouble("z_loc_offset"));
 
-        setXGblOffset(pTag.getDouble("x_gbl_offset"));
-        setYGblOffset(pTag.getDouble("y_gbl_offset"));
-        setZGblOffset(pTag.getDouble("z_gbl_offset"));
+        setXGblOffset(tag.getDouble("x_gbl_offset"));
+        setYGblOffset(tag.getDouble("y_gbl_offset"));
+        setZGblOffset(tag.getDouble("z_gbl_offset"));
+    }
+
+    /**
+     * @param tag
+     * @param registries
+     */
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.putDouble("x_orientation", this.getXOrientation());
+        tag.putDouble("y_orientation", this.getYOrientation());
+        tag.putDouble("z_orientation", this.getZOrientation());
+        tag.putDouble("x_loc_offset", getXLocOffset());
+        tag.putDouble("y_loc_offset", getYLocOffset());
+        tag.putDouble("z_loc_offset", getZLocOffset());
+
+        tag.putDouble("x_gbl_offset", getXGblOffset());
+        tag.putDouble("y_gbl_offset", getYGblOffset());
+        tag.putDouble("z_gbl_offset", getZGblOffset());
     }
 
     /**
@@ -73,41 +89,25 @@ public abstract class CoreBlockEntity extends BlockEntity implements IConfigurab
     }
 
     /**
+     * @param registries
      * @return
      */
     @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag tag = new CompoundTag();
-        saveAdditional(tag);
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag tag = super.getUpdateTag(registries);
+        saveAdditional(tag, registries);
+
         return tag;
     }
 
     /**
-     * @param tag The {@link CompoundTag} sent from {@link BlockEntity#getUpdateTag()}
+     * @param tag            The {@link CompoundTag} sent from {@link BlockEntity#getUpdateTag(HolderLookup.Provider)}
+     * @param lookupProvider
      */
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        super.handleUpdateTag(tag);
-        this.load(tag);
-    }
-
-
-    /**
-     * @param pTag
-     */
-    @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        pTag.putDouble("x_orientation", this.getXOrientation());
-        pTag.putDouble("y_orientation", this.getYOrientation());
-        pTag.putDouble("z_orientation", this.getZOrientation());
-        pTag.putDouble("x_loc_offset", getXLocOffset());
-        pTag.putDouble("y_loc_offset", getYLocOffset());
-        pTag.putDouble("z_loc_offset", getZLocOffset());
-
-        pTag.putDouble("x_gbl_offset", getXGblOffset());
-        pTag.putDouble("y_gbl_offset", getYGblOffset());
-        pTag.putDouble("z_gbl_offset", getZGblOffset());
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        super.handleUpdateTag(tag, lookupProvider);
+        loadAdditional(tag, lookupProvider);
     }
 
     /**

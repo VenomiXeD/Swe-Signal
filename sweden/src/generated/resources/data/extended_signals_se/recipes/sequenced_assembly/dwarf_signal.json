@@ -1,27 +1,25 @@
 {
   "type": "create:sequenced_assembly",
   "ingredient": {
-    "item": "extended_signals_se:se.dwarf_signal_modern"
+    "tag": "forge:plates/iron"
   },
+  "loops": 1,
   "results": [
     {
-      "id": "extended_signals_se:se.dwarf_main_signal_modern"
+      "item": "extended_signals_se:se.dwarf_signal_modern"
     }
   ],
   "sequence": [
     {
-      "type": "create:deploying",
+      "type": "create:cutting",
       "ingredients": [
         {
           "item": "extended_signals_se:incomplete_signal"
-        },
-        {
-          "tag": "c:plates/iron"
         }
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
+          "item": "extended_signals_se:incomplete_signal"
         }
       ]
     },
@@ -32,28 +30,12 @@
           "item": "extended_signals_se:incomplete_signal"
         },
         {
-          "tag": "c:nuggets/iron"
+          "tag": "forge:nuggets/iron"
         }
       ],
       "results": [
-        {
-          "id": "extended_signals_se:incomplete_signal"
-        }
-      ]
-    },
-    {
-      "type": "create:deploying",
-      "ingredients": [
         {
           "item": "extended_signals_se:incomplete_signal"
-        },
-        {
-          "item": "create:electron_tube"
-        }
-      ],
-      "results": [
-        {
-          "id": "extended_signals_se:incomplete_signal"
         }
       ]
     },
@@ -69,7 +51,7 @@
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
+          "item": "extended_signals_se:incomplete_signal"
         }
       ]
     },
@@ -85,7 +67,39 @@
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "item": "create:electron_tube"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "item": "create:electron_tube"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
         }
       ]
     },
@@ -98,12 +112,12 @@
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
+          "item": "extended_signals_se:incomplete_signal"
         }
       ]
     }
   ],
-  "transitional_item": {
-    "id": "extended_signals_se:incomplete_signal"
+  "transitionalItem": {
+    "item": "extended_signals_se:incomplete_signal"
   }
 }

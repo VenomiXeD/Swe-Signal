@@ -6,12 +6,11 @@ import com.simibubi.create.content.trains.signal.SingleBlockEntityEdgePoint;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PacketDistributor;
-import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityATCController;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
-import venomized.mods.extendedsignals.core.network.packets.UpdateATCEventPacket;
+//  venomized.mods.extendedsignals.core.network.packets.UpdateATCEventPacket;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -19,7 +18,7 @@ import java.util.UUID;
 
 public class ATCController extends SingleBlockEntityEdgePoint {
     public static final EdgePointType<ATCController> ATC = EdgePointType.register(
-            ExtendedSignalsCore.res("balise"), ATCController::new
+            ExtendedSignals.res("balise"), ATCController::new
     );
 
     public ATCController() {

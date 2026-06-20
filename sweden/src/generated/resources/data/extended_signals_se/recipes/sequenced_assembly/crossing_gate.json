@@ -3,9 +3,10 @@
   "ingredient": {
     "item": "minecraft:iron_block"
   },
+  "loops": 1,
   "results": [
     {
-      "id": "extended_signals_se:se.base"
+      "item": "extended_signals_se:se.base"
     }
   ],
   "sequence": [
@@ -18,7 +19,7 @@
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_crossing"
+          "item": "extended_signals_se:incomplete_crossing"
         }
       ]
     },
@@ -34,7 +35,7 @@
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_crossing"
+          "item": "extended_signals_se:incomplete_crossing"
         }
       ]
     },
@@ -45,12 +46,12 @@
           "item": "extended_signals_se:incomplete_crossing"
         },
         {
-          "tag": "c:fences"
+          "tag": "forge:fences"
         }
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_crossing"
+          "item": "extended_signals_se:incomplete_crossing"
         }
       ]
     },
@@ -61,12 +62,12 @@
           "item": "extended_signals_se:incomplete_crossing"
         },
         {
-          "tag": "c:fences"
+          "tag": "forge:fences"
         }
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_crossing"
+          "item": "extended_signals_se:incomplete_crossing"
         }
       ]
     },
@@ -77,12 +78,12 @@
           "item": "extended_signals_se:incomplete_crossing"
         },
         {
-          "tag": "c:fences"
+          "tag": "forge:fences"
         }
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_crossing"
+          "item": "extended_signals_se:incomplete_crossing"
         }
       ]
     },
@@ -93,12 +94,12 @@
           "item": "extended_signals_se:incomplete_crossing"
         },
         {
-          "tag": "c:fences"
+          "tag": "forge:fences"
         }
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_crossing"
+          "item": "extended_signals_se:incomplete_crossing"
         }
       ]
     },
@@ -109,17 +110,17 @@
           "item": "extended_signals_se:incomplete_crossing"
         },
         {
-          "tag": "c:fences"
+          "tag": "forge:fences"
         }
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_crossing"
+          "item": "extended_signals_se:incomplete_crossing"
         }
       ]
     }
   ],
-  "transitional_item": {
-    "id": "extended_signals_se:incomplete_crossing"
+  "transitionalItem": {
+    "item": "extended_signals_se:incomplete_crossing"
   }
 }

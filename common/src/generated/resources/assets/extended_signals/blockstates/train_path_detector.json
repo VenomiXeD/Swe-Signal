@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "extended_signals:block/train_path_detector"
+    }
+  }
+}

@@ -1,5 +1,4 @@
 {
-  "block.extended_signals.atc_controller": "Atc Controller",
   "block.extended_signals.crossing_controller": "Crossing Controller",
   "block.extended_signals.repeater_signal": "Repeater Signal",
   "block.extended_signals.speed_modifier": "Speed Modifier",

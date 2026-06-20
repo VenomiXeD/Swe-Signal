@@ -1,43 +1,25 @@
 {
   "type": "create:sequenced_assembly",
   "ingredient": {
-    "tag": "c:plates/iron"
+    "tag": "forge:plates/iron"
   },
+  "loops": 1,
   "results": [
     {
-      "id": "extended_signals_se:se.3l_distant_signal_modern"
+      "item": "extended_signals_se:se.crossing_lights_modern"
     }
   ],
   "sequence": [
     {
-      "type": "create:deploying",
+      "type": "create:pressing",
       "ingredients": [
         {
           "item": "extended_signals_se:incomplete_signal"
-        },
-        {
-          "tag": "c:plates/iron"
         }
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
-        }
-      ]
-    },
-    {
-      "type": "create:deploying",
-      "ingredients": [
-        {
           "item": "extended_signals_se:incomplete_signal"
-        },
-        {
-          "item": "create:shaft"
-        }
-      ],
-      "results": [
-        {
-          "id": "extended_signals_se:incomplete_signal"
         }
       ]
     },
@@ -53,7 +35,7 @@
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
+          "item": "extended_signals_se:incomplete_signal"
         }
       ]
     },
@@ -69,7 +51,7 @@
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
+          "item": "extended_signals_se:incomplete_signal"
         }
       ]
     },
@@ -85,7 +67,7 @@
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
+          "item": "extended_signals_se:incomplete_signal"
         }
       ]
     },
@@ -98,12 +80,12 @@
       ],
       "results": [
         {
-          "id": "extended_signals_se:incomplete_signal"
+          "item": "extended_signals_se:incomplete_signal"
         }
       ]
     }
   ],
-  "transitional_item": {
-    "id": "extended_signals_se:incomplete_signal"
+  "transitionalItem": {
+    "item": "extended_signals_se:incomplete_signal"
   }
 }
