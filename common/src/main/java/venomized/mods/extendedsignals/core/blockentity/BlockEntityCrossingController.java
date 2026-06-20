@@ -12,4 +12,12 @@ public class BlockEntityCrossingController extends CoreBlockEntity implements IS
     public boolean isRedstonePowered() {
         return getLevel().hasNeighborSignal(worldPosition);
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean supportsConfiguration() {
+        return false;
+    }
 }

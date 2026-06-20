@@ -10,7 +10,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import venomized.mods.extendedsignals.core.ExtendedSignalsCore;
-import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityPathTrainDetector;
+import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityTrainPathObserver;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -47,7 +47,7 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
 
         MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();
         ServerLevel level = currentServer.getLevel(getBlockEntityDimension());
-        if (level.getBlockEntity(blockEntityPos) instanceof BlockEntityPathTrainDetector detector) {
+        if (level.getBlockEntity(blockEntityPos) instanceof BlockEntityTrainPathObserver detector) {
             active = true;
             remainingDeactivationTicks = deactivationDelay;
             detector.trainInbound();
@@ -74,7 +74,7 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
         if (remainingDeactivationTicks == 0) {
             MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();
             ServerLevel level = currentServer.getLevel(getBlockEntityDimension());
-            if (level.getBlockEntity(blockEntityPos) instanceof BlockEntityPathTrainDetector detector) {
+            if (level.getBlockEntity(blockEntityPos) instanceof BlockEntityTrainPathObserver detector) {
                 detector.trainOutbound();
             }
 

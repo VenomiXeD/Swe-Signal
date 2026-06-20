@@ -25,15 +25,15 @@ public final class CoreBlocks {
             .simpleItem()
             .register();
 
-    public static final BlockEntry<BlockATCController> ATC_CONTROLLER = ExtendedSignalsCore.REGISTRATE.get()
-            .block("atc_controller", BlockATCController::new)
-            .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
-            .blockstate((ctx, prov) -> {
-                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
-            })
-            .item((block, prop) -> new TrackTargetingBlockItem(block, prop, ATCController.ATC))
-            .build()
-            .register();
+    // public static final BlockEntry<BlockATCController> ATC_CONTROLLER = ExtendedSignalsCore.REGISTRATE.get()
+    //         .block("atc_controller", BlockATCController::new)
+    //         .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
+    //         .blockstate((ctx, prov) -> {
+    //             prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
+    //         })
+    //         .item((block, prop) -> new TrackTargetingBlockItem(block, prop, ATCController.ATC))
+    //         .build()
+    //         .register();
 
     public static final BlockEntry<BlockCrossingController> CROSSING_CONTROLLER = ExtendedSignalsCore.REGISTRATE.get()
             .block("crossing_controller", BlockCrossingController::new)
@@ -43,9 +43,6 @@ public final class CoreBlocks {
     public static final BlockEntry<BlockRepeaterCreateSignal> REPEATER_SIGNAL = ExtendedSignalsCore.REGISTRATE.get()
             .block("repeater_signal", BlockRepeaterCreateSignal::new)
             .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
-            .blockstate((ctx, prov) -> {
-                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
-            })
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.REPEATER))
             .build()
             .register();
@@ -54,11 +51,12 @@ public final class CoreBlocks {
             .block("speed_modifier", BlockSpeedModifier::new)
             .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
             .blockstate((ctx, prov) -> {
-                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron"));
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
             })
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.SPEED_MODIFIER))
             .build()
             .register();
+
     public static final BlockEntry<BlockPathTrainDetector> PATH_TRAIN_DETECTOR = registrate()
             .block("train_path_detector", BlockPathTrainDetector::new)
             .properties(p -> BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))

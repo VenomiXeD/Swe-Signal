@@ -23,7 +23,7 @@ public class BlockATCController extends ExtendedSignalsBlock implements IBE {
 
     @Override
     public BlockEntityType<BlockEntityATCController> getBlockEntityType() {
-        return CoreBlockEntities.ATC_CONTROLLER.get();
+        return null; // CoreBlockEntities.ATC_CONTROLLER.get();
     }
 
     /**

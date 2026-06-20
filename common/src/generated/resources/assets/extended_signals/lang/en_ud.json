@@ -1,7 +1,13 @@
 {
   "block.extended_signals.atc_controller": "ɹǝןןoɹʇuoƆ ɔʇⱯ",
   "block.extended_signals.crossing_controller": "ɹǝןןoɹʇuoƆ buıssoɹƆ",
+  "block.extended_signals.repeater_signal": "ןɐubıS ɹǝʇɐǝdǝᴚ",
+  "block.extended_signals.speed_modifier": "ɹǝıɟıpoW pǝǝdS",
   "block.extended_signals.train_config": "bıɟuoƆ uıɐɹ⟘",
+  "block.extended_signals.train_path_detector": "ɹoʇɔǝʇǝᗡ ɥʇɐԀ uıɐɹ⟘",
+  "extended_signals.schedule.door.summary": "ןoɹʇuoƆ ɹooᗡ",
+  "extended_signals.schedule.door.title": "sɹoop ǝsoןƆ",
+  "extended_signals.schedule.instruction.door": "sɹoop ǝsoןƆ",
   "item.extended_signals.signalitem": "ɯǝʇıןɐubıS",
   "itemGroup.extended_signals.extended_signals": "sןɐubıS pǝpuǝʇxƎ"
 }

@@ -43,21 +43,21 @@ public class ATCController extends SingleBlockEntityEdgePoint {
                 .findFirst();
         Optional<Level> level = Optional.ofNullable(train.carriages.get(0).anyAvailableEntity()).map(Entity::level);
 
-        level.ifPresent(l -> {
-            Optional<BlockEntityATCController> blockEntity = l.getBlockEntity(this.getBlockEntityPos(), CoreBlockEntities.ATC_CONTROLLER.get());
-            blockEntity.ifPresent(blockEntityATCController -> {
-                // if any player is controlling
-                if (controllingPlayer.isPresent()) {
-                    ExtendedSignalsNetworking.CHANNEL.send(
-                            PacketDistributor.PLAYER.with(() -> (ServerPlayer) l.getPlayerByUUID(controllingPlayer.get())),
-                            new UpdateATCEventPacket(0.5f)
-                    );
-                }
-                // if AI is controlling it
-                else {
-                    train.throttle = 1.0f;
-                }
-            });
-        });
+        // level.ifPresent(l -> {
+        //     Optional<BlockEntityATCController> blockEntity = l.getBlockEntity(this.getBlockEntityPos(), CoreBlockEntities.ATC_CONTROLLER.get());
+        //     blockEntity.ifPresent(blockEntityATCController -> {
+        //         // if any player is controlling
+        //         if (controllingPlayer.isPresent()) {
+        //             ExtendedSignalsNetworking.CHANNEL.send(
+        //                     PacketDistributor.PLAYER.with(() -> (ServerPlayer) l.getPlayerByUUID(controllingPlayer.get())),
+        //                     new UpdateATCEventPacket(0.5f)
+        //             );
+        //         }
+        //         // if AI is controlling it
+        //         else {
+        //             train.throttle = 1.0f;
+        //         }
+        //     });
+        // });
     }
 }
