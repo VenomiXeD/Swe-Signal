@@ -1,0 +1,110 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "extended_signals_se:se.dwarf_signal_modern"
+  },
+  "loops": 1,
+  "results": [
+    {
+      "item": "extended_signals_se:se.dwarf_main_signal_modern"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "tag": "forge:plates/iron"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "tag": "forge:nuggets/iron"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "item": "create:electron_tube"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "item": "create:electron_tube"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "item": "create:electron_tube"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "extended_signals_se:incomplete_signal"
+  }
+}

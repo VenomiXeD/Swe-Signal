@@ -1,0 +1,62 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "extended_signals_se:se.endpoint_signal_modern"
+  },
+  "loops": 1,
+  "results": [
+    {
+      "item": "extended_signals_se:se.2l_signal_modern"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "tag": "forge:plates/iron"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "item": "create:electron_tube"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "extended_signals_se:incomplete_signal"
+  }
+}

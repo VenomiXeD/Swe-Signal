@@ -1,0 +1,126 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:iron_block"
+  },
+  "loops": 1,
+  "results": [
+    {
+      "item": "extended_signals_se:se.base"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:cutting",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        },
+        {
+          "item": "create:mechanical_bearing"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        },
+        {
+          "tag": "forge:fences"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        },
+        {
+          "tag": "forge:fences"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        },
+        {
+          "tag": "forge:fences"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        },
+        {
+          "tag": "forge:fences"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        },
+        {
+          "tag": "forge:fences"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_crossing"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "extended_signals_se:incomplete_crossing"
+  }
+}

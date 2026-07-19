@@ -1,0 +1,91 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "tag": "forge:plates/iron"
+  },
+  "loops": 1,
+  "results": [
+    {
+      "item": "extended_signals_se:se.crossing_lights_modern"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "item": "create:electron_tube"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "item": "create:electron_tube"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "item": "create:electron_tube"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ],
+      "results": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "extended_signals_se:incomplete_signal"
+  }
+}
