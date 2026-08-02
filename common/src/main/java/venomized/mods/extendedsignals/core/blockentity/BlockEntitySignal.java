@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.UseOnContext;
@@ -124,15 +125,16 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
     @Override
     public InteractionResult readerBindingToSource(@UnknownNullability ISignalTunerToolable sourceBlockEntity, SignalTunerMode mode, UseOnContext useContext) {
         if (sourceBlockEntity != null) {
-            if (sourceBlockEntity instanceof ISignalBoundaryReferenceProvider sb) {
+            if (sourceBlockEntity instanceof ISignalBoundaryReferenceProvider sb && useContext.getPlayer() instanceof ServerPlayer serverPlayer) {
                 bindToCreateSignal(sb);
                 if (this.pointID == null)
                     return InteractionResult.PASS;
 
-                useContext.getPlayer().sendSystemMessage(
-                        Component.translatable("message.extendedsignals.blockentitysignal.bind.success", pointID)
+                useContext.getPlayer().displayClientMessage(
+                        Component.translatable("message.extendedsignals.blockentitysignal.bind.success", pointID.toString())
                                 .withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)
-                                )
+                                ),
+                        true
                 );
 
                 return InteractionResult.SUCCESS;
