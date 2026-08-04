@@ -70,7 +70,8 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     @Unique
     private final int extendedSignals$shuntRequestCooldown = 0;
 
-    @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"))
+    @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"), order = 900)
+    // Order = 900, Steam n' Rails on NeoForge prematurely cancels our handler so it never gets executed and as such, signals never flip to red.
     public TravellingPoint.IEdgePointListener extendedSignals$hookFrontSignalListener(TravellingPoint.IEdgePointListener original) {
         return (distance, couple) -> {
             TrackEdgePoint trackEdgePoint = couple.getFirst();
