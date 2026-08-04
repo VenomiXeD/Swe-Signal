@@ -61,8 +61,6 @@ public record ServerBoundRequestShuntPacket(UUID trainUUID, boolean front,
     //     buf.writeBoolean(front);
     //     buf.writeFloat(shuntRequestDistance);
     // }
-
-
     @Override
     public @NotNull Type<ServerBoundRequestShuntPacket> type() {
         return TYPE;

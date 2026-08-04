@@ -7,17 +7,33 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mods.extendedsignals.core.blockentity.BlockEntityCrossingObject;
 import venomized.mods.extendedsignals.core.util.MathHelp;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSwedenSounds;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
 
 public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core.blockentity.BlockEntityCrossingGate {
+    private int tick;
+
     public BlockEntityCrossingGate(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
 
-    private int tick;
+    public static <S extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, S s) {
+        BlockEntityCrossingGate be = (BlockEntityCrossingGate) s;
+        be.tick++;
+
+        if (be.isActive()) {
+            if (be.tick % 10 == 0) {
+                level.playLocalSound(
+                        blockPos, ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(), SoundSource.BLOCKS, 1, 1f, true
+                );
+            } else if (be.tick % 11 == 0) {
+                level.playLocalSound(
+                        blockPos, ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(), SoundSource.BLOCKS, 1, 1.01f, true
+                );
+            }
+        }
+    }
 
     /**
      * @param partialTick
@@ -50,23 +66,6 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
     @Override
     public double getArmRotationHeightPoint() {
         return 17d / 16d;
-    }
-
-    public static <S extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, S s) {
-        BlockEntityCrossingGate be = (BlockEntityCrossingGate) s;
-        be.tick++;
-
-        if (be.isActive()) {
-            if (be.tick % 10 == 0) {
-                level.playLocalSound(
-                        blockPos, ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(), SoundSource.BLOCKS, 1, 1f, true
-                );
-            } else if (be.tick % 11 == 0) {
-                level.playLocalSound(
-                        blockPos, ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(), SoundSource.BLOCKS, 1, 1.01f, true
-                );
-            }
-        }
     }
 
 

@@ -8,13 +8,13 @@ import java.util.EnumSet;
 public interface IConfigurableModelBlockEntity {
     double getXLocOffset();
 
-    double getYLocOffset();
-
-    double getZLocOffset();
-
     void setXLocOffset(double offset);
 
+    double getYLocOffset();
+
     void setYLocOffset(double offset);
+
+    double getZLocOffset();
 
     void setZLocOffset(double offset);
 
@@ -22,13 +22,13 @@ public interface IConfigurableModelBlockEntity {
 
     double getXGblOffset();
 
-    double getYGblOffset();
-
-    double getZGblOffset();
-
     void setXGblOffset(double offset);
 
+    double getYGblOffset();
+
     void setYGblOffset(double offset);
+
+    double getZGblOffset();
 
     void setZGblOffset(double offset);
 
@@ -36,13 +36,13 @@ public interface IConfigurableModelBlockEntity {
 
     float getXOrientation();
 
-    float getYOrientation();
-
-    float getZOrientation();
-
     void setXOrientation(float rotInDeg);
 
+    float getYOrientation();
+
     void setYOrientation(float rotInDeg);
+
+    float getZOrientation();
 
     void setZOrientation(float rotInDeg);
 
@@ -54,5 +54,5 @@ public interface IConfigurableModelBlockEntity {
 
     @Nullable
     EnumSet<?> variations();
-    
+
 }

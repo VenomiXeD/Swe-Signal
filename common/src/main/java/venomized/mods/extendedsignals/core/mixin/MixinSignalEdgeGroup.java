@@ -1,6 +1,5 @@
 package venomized.mods.extendedsignals.core.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import org.spongepowered.asm.mixin.Mixin;

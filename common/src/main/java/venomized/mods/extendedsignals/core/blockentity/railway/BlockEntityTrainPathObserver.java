@@ -22,10 +22,9 @@ import venomized.mods.extendedsignals.core.create.tracks.points.PathTrainDetecto
 import java.util.List;
 
 public class BlockEntityTrainPathObserver extends SmartBlockEntity implements ISignalTunerToolable, TransformableBlockEntity {
+    public int redstoneOutput = 0;
     private TrackTargetingBehaviour<PathTrainDetector> pathTrainDetector;
     private ScrollValueBehaviour pathDistanceScrollValue;
-
-    public int redstoneOutput = 0;
 
     public BlockEntityTrainPathObserver(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
@@ -96,6 +95,7 @@ public class BlockEntityTrainPathObserver extends SmartBlockEntity implements IS
     @Override
     public void transform(BlockEntity blockEntity, StructureTransform transform) {
         pathTrainDetector.transform(blockEntity, transform);
+        pathTrainDetector.getEdgePoint().blockEntityPos = worldPosition;
     }
 
 

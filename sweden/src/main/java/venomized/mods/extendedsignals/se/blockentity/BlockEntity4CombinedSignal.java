@@ -12,7 +12,10 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.blockentity.ISignalBoundaryReferenceProvider;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
-import venomized.mods.extendedsignals.core.signalling.*;
+import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
+import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 
 public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {

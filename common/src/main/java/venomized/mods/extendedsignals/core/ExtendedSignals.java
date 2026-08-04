@@ -23,7 +23,6 @@ import org.apache.logging.log4j.Logger;
 import venomized.mods.extendedsignals.core.block.CoreBlocks;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.client.ClientSignalNetworkCache;
-import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
 import venomized.mods.extendedsignals.core.client.KeyMappings;
 import venomized.mods.extendedsignals.core.create.DoorInstruction;
 import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
@@ -45,10 +44,10 @@ public class ExtendedSignals {
 
     @SuppressWarnings("InstantiationOfUtilityClass")
     private static final ExtendedSignalsNetworking EXTENDED_SIGNAL_NET = new ExtendedSignalsNetworking();
+    public static ISignalNetwork EXTENDED_SIGNAL_CACHE_PROXY;
     @SuppressWarnings("InstantiationOfUtilityClass")
     static ServerSignalNetworkCache EXTENDED_SIGNAL_SERVER_CACHE;
     static ClientSignalNetworkCache EXTENDED_SIGNAL_CLIENT_CACHE;
-    public static ISignalNetwork EXTENDED_SIGNAL_CACHE_PROXY;
 
     public ExtendedSignals(IEventBus eventBus, ModContainer modContainer) {
         modContainer.registerConfig(

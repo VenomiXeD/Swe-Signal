@@ -1,18 +1,9 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
-import it.unimi.dsi.fastutil.Pair;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
 
 public interface ISignalTunerToolable {
-    enum SignalTunerMode {
-        INFO,
-        DISCONNECT,
-        CONNECT,
-        CONFIGURE
-    }
-
     default boolean isSource() {
         return true;
     }
@@ -46,5 +37,12 @@ public interface ISignalTunerToolable {
 
     default InteractionResult onSignalToolInteract(SignalTunerMode mode, UseOnContext context) {
         return InteractionResult.PASS;
+    }
+
+    enum SignalTunerMode {
+        INFO,
+        DISCONNECT,
+        CONNECT,
+        CONFIGURE
     }
 }

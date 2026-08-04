@@ -6,35 +6,21 @@ import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.createmod.catnip.data.Pair;
-import org.jetbrains.annotations.UnknownNullability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import venomized.mods.extendedsignals.core.mixin.MixinSignalEdgeGroupAccessor;
 
-import java.util.*;
+import java.util.Map;
+import java.util.UUID;
 
 public class InterlockingManager {
+    public static final Map<UUID, InterlockedSignalReservation> groupOwnerships = new Object2ObjectLinkedOpenHashMap<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(InterlockingManager.class);
 
     public static void flushReservations() {
         LOGGER.info("Clearing {} reservation entries", groupOwnerships.size());
         groupOwnerships.clear();
     }
-
-    public record InterlockedSignalReservation(
-            UUID train,
-            SignalBoundary boundary,
-            int priority
-    ) {
-    }
-
-    public enum ReservationResult {
-        NONE,
-        OWNED,
-        CONFLICT
-    }
-
-    public static final Map<UUID, InterlockedSignalReservation> groupOwnerships = new Object2ObjectLinkedOpenHashMap<>();
 
     public static ReservationResult tryReserveChain(Train train, Map<UUID, Pair<SignalBoundary, Boolean>> groups) {
         // for (UUID group : groups) {
@@ -53,8 +39,6 @@ public class InterlockingManager {
         return ReservationResult.OWNED;
     }
 
-    // public static ReservationResult tryReserveChain(Train self, )
-
     public static ReservationResult trainOwnsGroup(Train self, SignalEdgeGroup group) {
         InterlockedSignalReservation interlockedSignalReservation = groupOwnerships.get(group.id);
         if (interlockedSignalReservation == null)
@@ -68,6 +52,8 @@ public class InterlockingManager {
             return ReservationResult.NONE;
         return trainOwnsGroup(self, Create.RAILWAYS.signalEdgeGroups.get(group));
     }
+
+    // public static ReservationResult tryReserveChain(Train self, )
 
     public static ReservationResult trainOwnsGroupIntersecting(Train self, SignalEdgeGroup group) {
         ReservationResult direct = trainOwnsGroup(self, group);
@@ -121,5 +107,18 @@ public class InterlockingManager {
 
     public static void clearReservationForTrain(Train self, UUID groupId) {
         clearReservationForTrain(self, Create.RAILWAYS.signalEdgeGroups.get(groupId));
+    }
+
+    public enum ReservationResult {
+        NONE,
+        OWNED,
+        CONFLICT
+    }
+
+    public record InterlockedSignalReservation(
+            UUID train,
+            SignalBoundary boundary,
+            int priority
+    ) {
     }
 }

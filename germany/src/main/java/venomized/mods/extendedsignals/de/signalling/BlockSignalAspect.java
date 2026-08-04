@@ -13,6 +13,10 @@ public enum BlockSignalAspect implements ISignalAspect {
 
     private final boolean proceed;
 
+    public static BlockSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
+        return state.isStop() ? STOP : PROCEED;
+    }
+
     /**
      * @param totalTicksForBlockEntity
      * @param states
@@ -23,9 +27,5 @@ public enum BlockSignalAspect implements ISignalAspect {
             (proceed ? RGB.BLACK : RGB.RED).apply(states[0]);
             (proceed ? RGB.GREEN : RGB.BLACK).apply(states[1]);
         }
-    }
-
-    public static BlockSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
-        return state.isStop() ? STOP : PROCEED;
     }
 }

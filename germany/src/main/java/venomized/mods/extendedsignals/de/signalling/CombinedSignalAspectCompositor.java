@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.de.signalling;
 
 import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.SignalLightState;
-import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 

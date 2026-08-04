@@ -6,8 +6,6 @@ import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Pose;
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
@@ -19,6 +17,23 @@ import venomized.mods.extendedsignals.de.signalling.CombinedSignalAspectComposit
 public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombinedZs3Signal> {
     public RendererZs3CombinedSignal(BlockEntityRendererProvider.Context context) {
         super(context);
+    }
+
+    private static float[] speedToUVCoordinates(int speed) {
+        int index = speed - 1;
+        int column = index % 4;
+        int row = index / 4;
+        int pxU0 = column * 13 + column + 1;
+        int pxU1 = (column + 1) * 13 + column - 1;
+        int pxV0 = row * 15 + row;
+        int pxV1 = (row + 1) * 15 + row;
+
+        return new float[]{
+                (float) pxU0 / 64f,
+                (float) pxU1 / 64f,
+                (float) pxV0 / 64f,
+                (float) pxV1 / 64f
+        };
     }
 
     /**
@@ -150,22 +165,5 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
                 .setNormal(normal, 0, 1, 0);
 
         return true;
-    }
-
-    private static float[] speedToUVCoordinates(int speed) {
-        int index = speed - 1;
-        int column = index % 4;
-        int row = index / 4;
-        int pxU0 = column * 13 + column + 1;
-        int pxU1 = (column + 1) * 13 + column - 1;
-        int pxV0 = row * 15 + row;
-        int pxV1 = (row + 1) * 15 + row;
-
-        return new float[]{
-                (float) pxU0 / 64f,
-                (float) pxU1 / 64f,
-                (float) pxV0 / 64f,
-                (float) pxV1 / 64f
-        };
     }
 }

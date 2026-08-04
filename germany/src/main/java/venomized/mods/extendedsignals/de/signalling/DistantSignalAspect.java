@@ -35,6 +35,7 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
     final boolean shortBrakingDistance;
     final boolean upperGreen;
     final boolean bottomGreen;
+
     DistantSignalAspect(
             boolean shortBrakingDistance,
             boolean upperGreen,
@@ -54,7 +55,7 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
 
         return !distant.isStop()
                 ? distant.getMaxProceedSpeed() <= 40
-                  ? DistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED : DistantSignalAspect.EXPECT_PROCEED
+                ? DistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED : DistantSignalAspect.EXPECT_PROCEED
                 : DistantSignalAspect.EXPECT_STOP;
     }
 

@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.core.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -96,7 +97,6 @@ public abstract class CoreBlockEntity extends BlockEntity implements IConfigurab
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         CompoundTag tag = super.getUpdateTag(registries);
         saveAdditional(tag, registries);
-
         return tag;
     }
 
@@ -111,27 +111,21 @@ public abstract class CoreBlockEntity extends BlockEntity implements IConfigurab
     }
 
     /**
+     * @param net            The NetworkManager the packet originated from
+     * @param pkt            The data packet
+     * @param lookupProvider
+     */
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+        handleUpdateTag(pkt.getTag(), lookupProvider);
+    }
+
+    /**
      * @return
      */
     @Override
     public float getXOrientation() {
         return orientation[0];
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public float getYOrientation() {
-        return orientation[1];
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public float getZOrientation() {
-        return orientation[2];
     }
 
     /**
@@ -144,12 +138,28 @@ public abstract class CoreBlockEntity extends BlockEntity implements IConfigurab
     }
 
     /**
+     * @return
+     */
+    @Override
+    public float getYOrientation() {
+        return orientation[1];
+    }
+
+    /**
      * @param rotInDeg
      */
     @Override
     public void setYOrientation(float rotInDeg) {
         orientation[1] = rotInDeg;
         sync();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public float getZOrientation() {
+        return orientation[2];
     }
 
     /**
@@ -180,22 +190,6 @@ public abstract class CoreBlockEntity extends BlockEntity implements IConfigurab
     }
 
     /**
-     * @return
-     */
-    @Override
-    public double getYLocOffset() {
-        return locOffsets[1];
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public double getZLocOffset() {
-        return locOffsets[2];
-    }
-
-    /**
      * @param offset
      * @return
      */
@@ -206,6 +200,14 @@ public abstract class CoreBlockEntity extends BlockEntity implements IConfigurab
     }
 
     /**
+     * @return
+     */
+    @Override
+    public double getYLocOffset() {
+        return locOffsets[1];
+    }
+
+    /**
      * @param offset
      * @return
      */
@@ -213,6 +215,14 @@ public abstract class CoreBlockEntity extends BlockEntity implements IConfigurab
     public void setYLocOffset(double offset) {
         locOffsets[1] = offset;
         sync();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public double getZLocOffset() {
+        return locOffsets[2];
     }
 
     /**
@@ -245,22 +255,6 @@ public abstract class CoreBlockEntity extends BlockEntity implements IConfigurab
     }
 
     /**
-     * @return
-     */
-    @Override
-    public double getYGblOffset() {
-        return this.gblOffsets[1];
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public double getZGblOffset() {
-        return this.gblOffsets[2];
-    }
-
-    /**
      * @param offset
      */
     @Override
@@ -270,12 +264,28 @@ public abstract class CoreBlockEntity extends BlockEntity implements IConfigurab
     }
 
     /**
+     * @return
+     */
+    @Override
+    public double getYGblOffset() {
+        return this.gblOffsets[1];
+    }
+
+    /**
      * @param offset
      */
     @Override
     public void setYGblOffset(double offset) {
         this.gblOffsets[1] = offset;
         sync();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public double getZGblOffset() {
+        return this.gblOffsets[2];
     }
 
     /**

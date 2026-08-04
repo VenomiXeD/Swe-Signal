@@ -1,10 +1,6 @@
 package venomized.mods.extendedsignals.core.client.screen;
 
-import com.simibubi.create.foundation.gui.widget.ScrollInput;
-import com.simibubi.create.foundation.gui.widget.SelectionScrollInput;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.CycleButton;
-import net.minecraft.client.gui.components.StateSwitchingButton;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -13,10 +9,7 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import net.neoforged.neoforge.network.PacketDistributor;
 import venomized.mods.extendedsignals.core.client.screen.widget.NumericEditBox;
 import venomized.mods.extendedsignals.core.menu.MenuModelConfig;
-import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.core.network.packets.ServerBoundModelConfigurePacket;
-
-import java.util.List;
 
 public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> {
 

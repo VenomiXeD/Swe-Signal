@@ -26,6 +26,7 @@ public abstract class BlockModelled extends ExtendedSignalsBlock {
      * @deprecated call via {@link BlockStateBase#getRenderShape}
      * whenever possible. Implementing/overriding is fine.
      */
+    @Deprecated
     @Override
     public RenderShape getRenderShape(BlockState pState) {
         return RenderShape.ENTITYBLOCK_ANIMATED;

@@ -38,19 +38,6 @@ public enum DwarfSignalAspect implements ISignalAspect {
     private final boolean l2Lit;
     private final boolean l3Lit;
 
-
-    /**
-     * @param totalTicksForBlockEntity
-     * @param states
-     */
-    @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-        light(l0Lit, states[0]);
-        light(l1Lit, states[1]);
-        light(l2Lit, states[2]);
-        light(l3Lit, states[3]);
-    }
-
     private static void light(boolean lit, SignalLightState state) {
         (lit ? RGB.WHITE : RGB.BLACK).apply(state);
     }
@@ -64,5 +51,17 @@ public enum DwarfSignalAspect implements ISignalAspect {
             return PROCEED;
 
         return PROCEED_UNKNOWN;
+    }
+
+    /**
+     * @param totalTicksForBlockEntity
+     * @param states
+     */
+    @Override
+    public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
+        light(l0Lit, states[0]);
+        light(l1Lit, states[1]);
+        light(l2Lit, states[2]);
+        light(l3Lit, states[3]);
     }
 }

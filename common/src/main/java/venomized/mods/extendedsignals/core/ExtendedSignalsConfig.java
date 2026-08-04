@@ -1,8 +1,6 @@
 package venomized.mods.extendedsignals.core;
 
-import com.electronwill.nightconfig.core.ConfigSpec;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import org.checkerframework.checker.units.qual.C;
 
 public class ExtendedSignalsConfig {
     public static final ModConfigSpec SERVER_SPEC;

@@ -33,13 +33,23 @@ import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
 import venomized.mods.extendedsignals.core.signalling.ISignalStateBoundaryTransformer;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 @Mixin(value = Navigation.class, remap = false)
 public abstract class MixinNavigation implements INavigation {
-    @Shadow
-    public abstract TravellingPoint.ITrackSelector controlSignalScout();
-
+    @Unique
+    private static final int SIGNAL_SCOUT_INTERVAL = 10;
+    @Unique
+    private final Set<UUID> extendedSignals$ownedSignalGroups = new HashSet<>();
+    @Unique
+    private final ObjectArrayList<CollectedSignal> extendedSignals$collectedSignals = new ObjectArrayList<>();
+    @Unique
+    private final Map<ResourceLocation, ISignalModifier> extendedSignals$activeModifiers = new Object2ObjectLinkedOpenHashMap<>();
+    @Unique
+    private final Map<ResourceLocation, ISignalModifier> extendedSignals$predictedModifiers = new Object2ObjectLinkedOpenHashMap<>();
     @Shadow
     public Train train;
     @Shadow
@@ -51,19 +61,12 @@ public abstract class MixinNavigation implements INavigation {
     @Shadow
     private Map<UUID, Pair<SignalBoundary, Boolean>> waitingForChainedGroups;
     @Unique
-    private final Set<UUID> extendedSignals$ownedSignalGroups = new HashSet<>();
-    @Unique
-    private static final int SIGNAL_SCOUT_INTERVAL = 10;
-    @Unique
     private long extendedSignals$signalScoutCooldown = 0;
     @Unique
-    private final ObjectArrayList<CollectedSignal> extendedSignals$collectedSignals = new ObjectArrayList<>();
-    @Unique
-    private final Map<ResourceLocation, ISignalModifier> extendedSignals$activeModifiers = new Object2ObjectLinkedOpenHashMap<>();
-    @Unique
-    private final Map<ResourceLocation, ISignalModifier> extendedSignals$predictedModifiers = new Object2ObjectLinkedOpenHashMap<>();
-    @Unique
     private TravellingPoint extendedSignals$signalScoutTriggerCollector;
+
+    @Shadow
+    public abstract TravellingPoint.ITrackSelector controlSignalScout();
 
     @Redirect(
             method = "tick",

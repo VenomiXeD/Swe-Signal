@@ -3,18 +3,12 @@ package venomized.mods.extendedsignals.core.client.screen;
 import net.minecraft.client.gui.screens.Screen;
 
 public class LayoutBuilder {
-    public record WidgetLayout(int x, int y, int w, int h) {
-    }
-
     private double scaleX;
     private double scaleY;
-
     private int width = 0;
     private int height = 0;
-
     private double anchorX = 0.5;
     private double anchorY = 0.5;
-
     private int offsetX = 0;
     private int offsetY = 0;
 
@@ -53,5 +47,8 @@ public class LayoutBuilder {
         y += offsetY;
 
         return new WidgetLayout(x, y, width, height);
+    }
+
+    public record WidgetLayout(int x, int y, int w, int h) {
     }
 }

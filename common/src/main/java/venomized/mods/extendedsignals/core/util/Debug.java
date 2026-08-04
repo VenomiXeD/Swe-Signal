@@ -7,7 +7,6 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.apache.commons.lang3.mutable.MutableInt;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
@@ -36,7 +35,7 @@ public class Debug {
                                             return value;
                                         })
                                 )
-                        )
+                )
         );
 
         dispatcher.register(Commands.literal(ExtendedSignals.MOD_ID)

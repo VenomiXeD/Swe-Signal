@@ -50,6 +50,8 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
 
     @Shadow
     public Couple<UUID> groups;
+    @Shadow
+    public Couple<Boolean> sidesToUpdate;
     @Unique
     private Couple<ResourceLocation> extendedSignals$stateRemapperIDs;
     @Unique
@@ -60,9 +62,6 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
 
     @Shadow
     public abstract boolean isForcedRed(boolean primary);
-
-    @Shadow
-    public Couple<Boolean> sidesToUpdate;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void extendedSignals$Ctor(CallbackInfo ci) {
@@ -211,6 +210,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
                 }
         );
     }
+
     /**
      * @return
      */

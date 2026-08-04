@@ -8,12 +8,10 @@ import venomized.mods.extendedsignals.core.ExtendedSignals;
 
 @RequiredArgsConstructor
 public class SignalStateRemapper {
+    public static final Object2ObjectArrayMap<ResourceLocation, SignalStateRemapper> MAPPERS = new Object2ObjectArrayMap<>();
+    public static SignalStateRemapper NONE = register(new SignalStateRemapper(ExtendedSignals.res("none")));
     @Getter
     private final ResourceLocation id;
-    public static final Object2ObjectArrayMap<ResourceLocation, SignalStateRemapper> MAPPERS = new Object2ObjectArrayMap<>();
-
-
-    public static SignalStateRemapper NONE = register(new SignalStateRemapper(ExtendedSignals.res("none")));
 
     public static <T extends SignalStateRemapper> T register(T mapper) {
         if (MAPPERS.containsKey(mapper.getId()))

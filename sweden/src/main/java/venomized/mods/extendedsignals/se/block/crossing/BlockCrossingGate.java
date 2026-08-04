@@ -1,16 +1,11 @@
 package venomized.mods.extendedsignals.se.block.crossing;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.block.BlockCrossingObject;
-import venomized.mods.extendedsignals.core.blockentity.BlockEntityCrossingObject;
-import venomized.mods.extendedsignals.se.block.BlockGenericRotateableBlock;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
 

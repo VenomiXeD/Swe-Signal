@@ -22,9 +22,9 @@ public class BlockEntity3DistantSignal extends BlockEntitySignal<ISignalAspect> 
     @Override
     public SignalLightPlacement[] constructLightPlacements() {
         return new SignalLightPlacement[]{
-                new SignalLightPlacement(0d, 30.25d/16d , 0.75d/16d, 3.25f, 3.25f, 0 ),
-                new SignalLightPlacement(0d, 24.25d/16d , 0.75d/16d, 3.25f, 3.25f, 0 ),
-                new SignalLightPlacement(0d, 18.25d/16d , 0.75d/16d, 3.25f, 3.25f, 0 )
+                new SignalLightPlacement(0d, 30.25d / 16d, 0.75d / 16d, 3.25f, 3.25f, 0),
+                new SignalLightPlacement(0d, 24.25d / 16d, 0.75d / 16d, 3.25f, 3.25f, 0),
+                new SignalLightPlacement(0d, 18.25d / 16d, 0.75d / 16d, 3.25f, 3.25f, 0)
         };
     }
 

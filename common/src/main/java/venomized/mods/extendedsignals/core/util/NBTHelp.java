@@ -1,9 +1,7 @@
 package venomized.mods.extendedsignals.core.util;
 
 import net.createmod.catnip.nbt.NBTHelper;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

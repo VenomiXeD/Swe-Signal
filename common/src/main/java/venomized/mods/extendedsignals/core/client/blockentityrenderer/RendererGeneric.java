@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -12,7 +11,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
@@ -32,6 +30,7 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
     public RendererGeneric(BlockEntityRendererProvider.Context context) {
         renderer = context.getBlockRenderDispatcher().getModelRenderer();
     }
+
     @Override
     public int getViewDistance() {
         return 1024;

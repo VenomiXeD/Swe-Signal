@@ -6,7 +6,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityATCController;
-import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 
 public class BlockATCController extends ExtendedSignalsBlock implements IBE {
     /**
@@ -34,6 +33,7 @@ public class BlockATCController extends ExtendedSignalsBlock implements IBE {
      * @param pMovedByPiston
      * @deprecated
      */
+    @Deprecated
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         IBE.onRemove(pState, pLevel, pPos, pNewState);

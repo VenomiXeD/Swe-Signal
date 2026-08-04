@@ -9,7 +9,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import venomized.mods.extendedsignals.de.block.GermanyBlocks;
 import venomized.mods.extendedsignals.de.blockentity.GermanyBlockEntities;
-import venomized.mods.extendedsignals.de.client.GermanyModels;
 
 @Mod(ExtendedSignalsGermany.MOD_ID)
 public class ExtendedSignalsGermany {

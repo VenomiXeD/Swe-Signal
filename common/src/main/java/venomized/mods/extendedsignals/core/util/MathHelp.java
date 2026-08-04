@@ -1,10 +1,5 @@
 package venomized.mods.extendedsignals.core.util;
 
-import com.simibubi.create.Create;
-import com.simibubi.create.content.trains.entity.Train;
-import com.simibubi.create.infrastructure.data.CreateContraptionTypeTagsProvider;
-import net.minecraft.util.Mth;
-
 public final class MathHelp {
     public static float easeInOutBack(float x) {
         float c1 = 1.70158f;

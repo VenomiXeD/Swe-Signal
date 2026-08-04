@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core.network.packets;
 
 import net.minecraft.core.UUIDUtil;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -37,8 +36,8 @@ public record ClientBoundSyncSignalStatePacket(UUID uuid, boolean side,
     }
 
     public void handle(IPayloadContext iPayloadContext) {
-        ExtendedSignals.LOGGER
-                .info("new signal state update: {}, {}", uuid(), NbtUtils.prettyPrint(this.signalStateNode().toNBT()));
+        // ExtendedSignals.LOGGER
+        //         .info("new signal state update: {}, {}", uuid(), NbtUtils.prettyPrint(this.signalStateNode().toNBT()));
         ExtendedSignals.clientNetworkCache().updateState(
                 uuid(),
                 side(),

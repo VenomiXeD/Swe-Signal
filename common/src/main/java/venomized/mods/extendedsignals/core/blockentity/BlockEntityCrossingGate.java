@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.blockentity;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -10,12 +9,12 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 public abstract class BlockEntityCrossingGate extends BlockEntityCrossingObject {
+    private long gateMovementStart = -1;
+    private boolean gateIsDown = false;
+
     public BlockEntityCrossingGate(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
-
-    private long gateMovementStart = -1;
-    private boolean gateIsDown = false;
 
     public float getProgressPercent(float partialTick) {
         float t = (level.getGameTime() - gateMovementStart) + partialTick;

@@ -6,8 +6,6 @@ import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.OptionalDouble;
-import java.util.function.BiConsumer;
-import java.util.function.Predicate;
 
 public class NumericEditBox extends EditBox {
     public NumericEditBox(Font pFont, int pX, int pY, int pWidth, int pHeight, Component pMessage) {
@@ -28,19 +26,19 @@ public class NumericEditBox extends EditBox {
         this.setFilter(this::numericFilter);
     }
 
-    private boolean numericFilter(String s) {
-        return s.isEmpty() || s.matches("^-?") || parseDouble(s).isPresent();
-    }
-
-    public OptionalDouble getNumericValue() {
-        return parseDouble(getValue());
-    }
-
     public static OptionalDouble parseDouble(String s) {
         try {
             return OptionalDouble.of(Double.parseDouble(s));
         } catch (NumberFormatException e) {
             return OptionalDouble.empty();
         }
+    }
+
+    private boolean numericFilter(String s) {
+        return s.isEmpty() || s.matches("^-?") || parseDouble(s).isPresent();
+    }
+
+    public OptionalDouble getNumericValue() {
+        return parseDouble(getValue());
     }
 }

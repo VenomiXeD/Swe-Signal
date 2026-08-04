@@ -68,17 +68,7 @@ public abstract class BlockEntityCrossingObject extends CoreBlockEntity implemen
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.contains("railroad_crossing_controller_pos")) {
-            this.railroadCrossingControllerPos = NbtUtils.readBlockPos(tag, "controller_pos").orElse(null);
+            this.railroadCrossingControllerPos = NbtUtils.readBlockPos(tag, "railroad_crossing_controller_pos").orElse(null);
         }
-    }
-    /**
-     * @param registries
-     * @return
-     */
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        CompoundTag tag = super.getUpdateTag(registries);
-        this.saveAdditional(tag, registries);
-        return tag;
     }
 }

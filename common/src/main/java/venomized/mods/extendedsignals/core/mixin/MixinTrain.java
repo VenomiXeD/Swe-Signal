@@ -1,25 +1,17 @@
 package venomized.mods.extendedsignals.core.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.llamalad7.mixinextras.sugar.Local;
-import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.Navigation;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
-import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.graph.TrackGraph;
-import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.schedule.ScheduleRuntime;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
-import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import com.simibubi.create.content.trains.station.GlobalStation;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
-import net.createmod.catnip.data.Couple;
-import net.createmod.catnip.data.Pair;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -31,7 +23,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.create.ITrainDoorData;
-import venomized.mods.extendedsignals.core.create.tracks.*;
+import venomized.mods.extendedsignals.core.create.tracks.DelayedSignalCrossTrigger;
+import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
+import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
 import venomized.mods.extendedsignals.core.create.tracks.points.ATCController;
 import venomized.mods.extendedsignals.core.create.tracks.points.TrackEdgePointSignalModifier;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
@@ -41,7 +35,6 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -53,7 +46,8 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     private final List<DelayedSignalCrossTrigger> extendedSignals$frontDelayedOnCrossedTriggering = new ReferenceArrayList<>();
     @Unique
     private final List<DelayedSignalCrossTrigger> extendedSignals$backDelayedOnCrossedTriggering = new ReferenceArrayList<>();
-
+    @Unique
+    private final int extendedSignals$shuntRequestCooldown = 0;
     @Shadow
     public ScheduleRuntime runtime;
     @Shadow
@@ -62,13 +56,10 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     public TrackGraph graph;
     @Shadow
     public List<Carriage> carriages;
-
     @Shadow
     public UUID id;
     @Unique
     private boolean extendedSignals$doorOpen = false;
-    @Unique
-    private final int extendedSignals$shuntRequestCooldown = 0;
 
     @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"), order = 900)
     // Order = 900, Steam n' Rails on NeoForge prematurely cancels our handler so it never gets executed and as such, signals never flip to red.

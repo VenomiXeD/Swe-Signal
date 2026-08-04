@@ -7,8 +7,8 @@ import venomized.mods.extendedsignals.core.network.packets.*;
 
 public class ExtendedSignalsNetworking {
     private static final String NET_VERSION = "1.0";
-    public static PayloadRegistrar CHANNEL;
     private static final int MSG_ID = 0;
+    public static PayloadRegistrar CHANNEL;
 
     public static void init() {
         // CHANNEL.registerMessage(MSG_ID++,
