@@ -39,7 +39,7 @@ public class BlockCrossingGate extends BlockCrossingObject<BlockEntityCrossingGa
      */
     @Override
     public <S extends BlockEntity> BlockEntityTicker<S> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<S> p_153214_) {
-        return p_153212_.isClientSide() && p_153214_ == SwedenBlockEntities.CROSSING_GATE.get() ? BlockEntityCrossingGate::serverTick : null;
+        return !p_153212_.isClientSide() && p_153214_ == SwedenBlockEntities.CROSSING_GATE.get() ? BlockEntityCrossingGate::serverTick : null;
     }
 
     // @Override

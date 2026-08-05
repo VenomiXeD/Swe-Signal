@@ -2,6 +2,7 @@ package venomized.mods.extendedsignals.se.blockentity.crossing;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,8 +30,8 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
                         blockPos,
                         ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(),
                         SoundSource.BLOCKS,
-                        0.8F,
-                        1.0F
+                        1F,
+                        1.01F
                 );
             } else if (be.tick % 11 == 0) {
                 level.playSound(
@@ -38,7 +39,7 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
                         blockPos,
                         ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(),
                         SoundSource.BLOCKS,
-                        0.8F,
+                        1F,
                         1.0F
                 );
             }
