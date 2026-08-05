@@ -1,0 +1,15 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "loader": "neoforge:obj",
+  "flip_v": true,
+  "model": "extended_signals_se:models/block/signals/se/crossing_distant_signal_modern.obj",
+  "textures": {
+    "crossing": "extended_signals_se:block/signals/se/crossing"
+  }
+}

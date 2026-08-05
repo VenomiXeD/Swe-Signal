@@ -7,10 +7,10 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.block.BlockCrossingObject;
-import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityRailroadCrossingDistantSignal;
+import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityCrossingDistantSignal;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 
-public class BlockCrossingDistantSignal extends BlockCrossingObject<BlockEntityRailroadCrossingDistantSignal> {
+public class BlockCrossingDistantSignal extends BlockCrossingObject<BlockEntityCrossingDistantSignal> {
     public BlockCrossingDistantSignal(BlockBehaviour.Properties properties) {
         super(properties);
     }
@@ -19,15 +19,15 @@ public class BlockCrossingDistantSignal extends BlockCrossingObject<BlockEntityR
      * @return
      */
     @Override
-    public Class<BlockEntityRailroadCrossingDistantSignal> getBlockEntityClass() {
-        return BlockEntityRailroadCrossingDistantSignal.class;
+    public Class<BlockEntityCrossingDistantSignal> getBlockEntityClass() {
+        return BlockEntityCrossingDistantSignal.class;
     }
 
     /**
      * @return
      */
     @Override
-    public BlockEntityType<BlockEntityRailroadCrossingDistantSignal> getBlockEntityType() {
+    public BlockEntityType<BlockEntityCrossingDistantSignal> getBlockEntityType() {
         return SwedenBlockEntities.RAILROAD_CROSSING_DISTANT_SIGNAL.get();
     }
 

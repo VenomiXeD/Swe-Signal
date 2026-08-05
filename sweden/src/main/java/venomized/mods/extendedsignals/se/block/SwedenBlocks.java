@@ -10,7 +10,7 @@ import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingLights;
 /**
  * Swedish railway content (blocks)
  */
-public class SwedenBlocks {
+public final class SwedenBlocks {
     // == SWEDISH CONTENT ==
     // == SIGNALS FROM 2-5 LIGHTS ==
     public static final BlockEntry<Block2SignalModern> MAIN_2_SIGNAL = RegistrateHelper
@@ -50,12 +50,12 @@ public class SwedenBlocks {
     // public static final BlockEntry<BlockGenericRotateableBlock> BLOCK_U_SIGN = RegistrateHelper.signalBlock(registrate(),"signals", "se", "u_sign", BlockGenericRotateableBlock::new)
     //         .register();
     // == RAILROAD CROSSING SIGNALS ==
-    public static final BlockEntry<BlockCrossingSignal> CROSSING_SIGNAL = RegistrateHelper
-            .genericCustomModelledBlock(registrate(), "se", "crossings", "crossing_signal_modern", BlockCrossingSignal::new)
+    public static final BlockEntry<BlockCrossingDistantSignal> BLOCK_CROSSING_DISTANT_SIGNAL = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "se", "signals", "crossing_distant_signal_modern", BlockCrossingDistantSignal::new)
             .register();
 
-    public static final BlockEntry<BlockCrossingDistantSignal> BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL = RegistrateHelper
-            .genericCustomModelledBlock(registrate(), "se", "crossings", "crossing_distant_signal_modern", BlockCrossingDistantSignal::new)
+    public static final BlockEntry<BlockCrossingSignal> CROSSING_SIGNAL = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "se", "signals", "crossing_signal_modern", BlockCrossingSignal::new)
             .register();
 
     public static final BlockEntry<BlockCrossingGate> BLOCK_CROSSING_GATE = RegistrateHelper

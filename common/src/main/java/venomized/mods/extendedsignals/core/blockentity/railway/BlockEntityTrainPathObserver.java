@@ -103,6 +103,9 @@ public class BlockEntityTrainPathObserver extends SmartBlockEntity implements IS
         if (level.isClientSide())
             return;
 
+        if (pathTrainDetector.getEdgePoint() == null)
+            return;
+
         trainPresentDetector.change(pathTrainDetector.getEdgePoint().trainPresent());
     }
 

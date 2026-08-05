@@ -1,0 +1,10 @@
+{
+  "transform": {
+  },
+  "loader": "neoforge:obj",
+  "model": "extended_signals_se:models/block/signals/se/crossing_signal_modern.obj",
+  "textures": {
+    "crossing_signal_modern": "extended_signals_se:block/signals/se/crossing_signal_modern"
+  },
+  "flip_v": true
+}

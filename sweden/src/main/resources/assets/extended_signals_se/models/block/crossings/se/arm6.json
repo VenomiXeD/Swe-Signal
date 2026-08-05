@@ -3,6 +3,6 @@
   "flip_v": true,
   "model": "extended_signals_se:models/block/crossings/se/arm6.obj",
   "textures": {
-    "crossing": "extended_signals_se:block/crossings/se/crossing"
+    "gate": "extended_signals_se:block/crossings/se/gate"
   }
 }

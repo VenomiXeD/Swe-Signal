@@ -6,7 +6,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 
 @OnlyIn(Dist.CLIENT)
-public class SwedenModels {
+public final class SwedenModels {
     public static final PartialModel ARM_4 = PartialModel.of(ExtendedSignalsSweden.res("block/crossings/se/arm6"));
 
     public static void init() {

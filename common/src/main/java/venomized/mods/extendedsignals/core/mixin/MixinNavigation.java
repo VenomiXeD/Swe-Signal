@@ -133,8 +133,6 @@ public abstract class MixinNavigation implements INavigation {
             return;
         extendedSignals$signalScoutCooldown = SIGNAL_SCOUT_INTERVAL;
 
-        extendedSignals$signalScoutCooldown = extendedSignals$signalScoutCooldown < 0 ? 20 : extendedSignals$signalScoutCooldown - 1;
-
         extendedSignals$signalScoutTriggerCollector.node1 = leadingPoint.node1;
         extendedSignals$signalScoutTriggerCollector.node2 = leadingPoint.node2;
         extendedSignals$signalScoutTriggerCollector.edge = leadingPoint.edge;
@@ -183,7 +181,6 @@ public abstract class MixinNavigation implements INavigation {
         );
 
         final MutableDouble previousSignalDistance = new MutableDouble(-1);
-        final Vec3[] previousTrackVector = {null};
         extendedSignals$signalScoutTriggerCollector.travel(
                 train.graph,
                 (lookAheadDistance + 5) * speedMod,
@@ -311,8 +308,8 @@ public abstract class MixinNavigation implements INavigation {
                     currentSignalState = transformer.transformSignalState(current.signalDirection(), currentSignalState);
                 }
 
-                // if (current.isStoppingAtThisNode())
-                //     currentSignalState.setProceed(false);
+                if (current.isStoppingAtThisNode())
+                    currentSignalState.setProceed(false);
 
                 // if (current.boundary() instanceof SignalBoundary sb) {
                 //     train.reservedSignalBlocks.add(sb.getId());

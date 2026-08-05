@@ -21,7 +21,7 @@ public class RendererCrossingLights<T extends BlockEntityThreeLightCrossingLight
         boolean standbyLit = !blockEntity.isActive() && blink;
 
         renderLightAt(
-                0, 5f / 16f, 6f / 16f,
+                0, 5.2f / 16f, -1.2f / 16f,
                 5f, 5f, 0f,
                 standbyLit ? 255 : 0,
                 standbyLit ? 255 : 0,
@@ -31,12 +31,12 @@ public class RendererCrossingLights<T extends BlockEntityThreeLightCrossingLight
         int redPower = blockEntity.isActive() ? 255 : 0;
         boolean alternate = blockEntity.getLevel().getGameTime() % 20 < 10;
         renderLightAt(
-                4f / 16f, 12f / 16f, 6f / 16f,
+                4f / 16f, 12.2f / 16f, -1.2f / 16f,
                 5f, 5f, 0f,
                 alternate ? redPower : 0, 0, 0
         );
         renderLightAt(
-                -4f / 16f, 12f / 16f, 6f / 16f,
+                -4f / 16f, 12.2f / 16f, -1.2f / 16f,
                 5f, 5f, 0f,
                 alternate ? 0 : redPower, 0, 0
         );

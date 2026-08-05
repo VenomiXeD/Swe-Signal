@@ -6,11 +6,11 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityCrossingObject;
 
-public class BlockEntityRailroadCrossingDistantSignal extends BlockEntityCrossingObject {
+public class BlockEntityCrossingDistantSignal extends BlockEntityCrossingObject {
     public float lightLevel = 0;
     private int tick;
 
-    public BlockEntityRailroadCrossingDistantSignal(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+    public BlockEntityCrossingDistantSignal(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
 

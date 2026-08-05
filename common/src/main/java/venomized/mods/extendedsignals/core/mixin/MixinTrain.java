@@ -91,8 +91,6 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                         }
                     }
                 }
-
-                return false;
             }
 
             return original.test(distance, couple);

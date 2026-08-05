@@ -11,6 +11,7 @@ import venomized.mods.extendedsignals.se.auxilliarysignals.*;
 import venomized.mods.extendedsignals.se.block.SwedenBlocks;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityThreeLightCrossingLights;
+import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingDistantSignal;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingLights;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingSignal;
 
@@ -60,8 +61,9 @@ public final class SwedenBlockEntities {
                     .renderer(() -> RendererSignal::new)
                     .register();
     // == MISC SIGNALS ==
-    public static final BlockEntityEntry<BlockEntityRailroadCrossingDistantSignal> RAILROAD_CROSSING_DISTANT_SIGNAL = RegistrateHelper
-            .simpleBlockEntity(registrate(), "crossing_distant_signal", BlockEntityRailroadCrossingDistantSignal::new, SwedenBlocks.BLOCK_RAILROAD_CROSSING_DISTANT_SIGNAL)
+    public static final BlockEntityEntry<BlockEntityCrossingDistantSignal> RAILROAD_CROSSING_DISTANT_SIGNAL = RegistrateHelper
+            .simpleBlockEntity(registrate(), "crossing_distant_signal", BlockEntityCrossingDistantSignal::new, SwedenBlocks.BLOCK_CROSSING_DISTANT_SIGNAL)
+            .renderer(() -> RendererCrossingDistantSignal::new)
             .register();
     public static final BlockEntityEntry<BlockEntityCrossingSignal> RAILROAD_CROSSING_SIGNAL = RegistrateHelper
             .simpleBlockEntity(registrate(), "crossing_signal_modern", BlockEntityCrossingSignal::new, SwedenBlocks.CROSSING_SIGNAL)
