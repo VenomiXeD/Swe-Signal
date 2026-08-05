@@ -3,8 +3,8 @@ package venomized.mods.extendedsignals.core.util;
 import java.util.function.BiConsumer;
 
 public class ChangeDetector<T> {
-    private T oldValue;
     private final BiConsumer<T, T> changeCallback;
+    private T oldValue;
 
     public ChangeDetector(T initial) {
         this(initial, null);

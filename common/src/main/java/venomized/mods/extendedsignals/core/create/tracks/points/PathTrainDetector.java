@@ -2,17 +2,11 @@ package venomized.mods.extendedsignals.core.create.tracks.points;
 
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
-import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.signal.SingleBlockEntityEdgePoint;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
-import venomized.mods.extendedsignals.core.ExtendedSignals;
-import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityTrainPathObserver;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -40,6 +34,7 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
     public boolean doSkipChaining(Direction.AxisDirection direction, Train train) {
         return true;
     }
+
     /**
      * @param direction
      * @param newState

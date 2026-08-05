@@ -23,12 +23,11 @@ import venomized.mods.extendedsignals.core.util.ChangeDetector;
 import java.util.List;
 
 public class BlockEntityTrainPathObserver extends SmartBlockEntity implements ISignalTunerToolable, TransformableBlockEntity {
+    private final ChangeDetector<Boolean> trainPresentDetector = new ChangeDetector<>(false, this::trainPresenceChanged);
+    public int redstoneOutput = 0;
     private TrackTargetingBehaviour<PathTrainDetector> pathTrainDetector;
     private ScrollValueBehaviour pathDistanceScrollValue;
-
-    public int redstoneOutput = 0;
     private int deactivationDelay;
-    private final ChangeDetector<Boolean> trainPresentDetector = new ChangeDetector<>(false, this::trainPresenceChanged);
 
 
     public BlockEntityTrainPathObserver(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
