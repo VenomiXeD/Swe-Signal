@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityTrainPathObserver;
 
-public class BlockPathTrainDetector extends EdgePointBlock<BlockEntityTrainPathObserver> implements EntityBlock {
+public class BlockPathTrainDetector extends EdgePointBlock<BlockEntityTrainPathObserver> {
     /**
      * @param pProperties
      */

@@ -18,17 +18,23 @@ import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
 import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.create.tracks.points.PathTrainDetector;
+import venomized.mods.extendedsignals.core.util.ChangeDetector;
 
 import java.util.List;
 
 public class BlockEntityTrainPathObserver extends SmartBlockEntity implements ISignalTunerToolable, TransformableBlockEntity {
-    public int redstoneOutput = 0;
     private TrackTargetingBehaviour<PathTrainDetector> pathTrainDetector;
     private ScrollValueBehaviour pathDistanceScrollValue;
+
+    public int redstoneOutput = 0;
+    private int deactivationDelay;
+    private final ChangeDetector<Boolean> trainPresentDetector = new ChangeDetector<>(false, this::trainPresenceChanged);
+
 
     public BlockEntityTrainPathObserver(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
+
 
     /**
      * @param behaviours
@@ -57,15 +63,15 @@ public class BlockEntityTrainPathObserver extends SmartBlockEntity implements IS
 
         switch (mode) {
             case CONFIGURE:
-                pathTrainDetector.getEdgePoint().deactivationDelay += 20;
-                if (pathTrainDetector.getEdgePoint().deactivationDelay > 5 * 20)
-                    pathTrainDetector.getEdgePoint().deactivationDelay = 0;
+                deactivationDelay += 20;
+                if (deactivationDelay > 5 * 20)
+                    deactivationDelay = 0;
 
                 context.getPlayer()
                         .sendSystemMessage(
                                 Component.translatable(
                                         "setting.extendedsignals.pathtraindetector.timer",
-                                        pathTrainDetector.getEdgePoint().deactivationDelay / 20
+                                        deactivationDelay / 20
                                 )
                         );
                 return InteractionResult.SUCCESS;
@@ -78,16 +84,6 @@ public class BlockEntityTrainPathObserver extends SmartBlockEntity implements IS
         pathTrainDetector.getEdgePoint().triggerDistance = integer;
     }
 
-    public void trainInbound() {
-        redstoneOutput = 15;
-        level.updateNeighborsAt(worldPosition, getBlockState().getBlock());
-    }
-
-    public void trainOutbound() {
-        redstoneOutput = 0;
-        level.updateNeighborsAt(worldPosition, getBlockState().getBlock());
-    }
-
     /**
      * @param blockEntity
      * @param transform
@@ -95,8 +91,23 @@ public class BlockEntityTrainPathObserver extends SmartBlockEntity implements IS
     @Override
     public void transform(BlockEntity blockEntity, StructureTransform transform) {
         pathTrainDetector.transform(blockEntity, transform);
-        pathTrainDetector.getEdgePoint().blockEntityPos = worldPosition;
     }
 
+    /**
+     *
+     */
+    @Override
+    public void tick() {
+        super.tick();
 
+        if (level.isClientSide())
+            return;
+
+        trainPresentDetector.change(pathTrainDetector.getEdgePoint().trainPresent());
+    }
+
+    private void trainPresenceChanged(boolean newValue, boolean oldValue) {
+        redstoneOutput = newValue ? 15 : 0;
+        getLevel().updateNeighborsAt(worldPosition, getBlockState().getBlock());
+    }
 }

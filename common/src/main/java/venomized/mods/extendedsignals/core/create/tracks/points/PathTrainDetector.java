@@ -9,6 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityTrainPathObserver;
@@ -19,9 +20,16 @@ import java.util.UUID;
 
 public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IExtendedSignalBoundary<PathTrainDetector> {
     public int triggerDistance = 512;
-    public int deactivationDelay = 5 * 20;
-    private int remainingDeactivationTicks = 0;
-    private boolean active = false;
+    private boolean trainInbound = false;
+
+    /**
+     * @param blockEntity
+     * @param front
+     */
+    @Override
+    public void blockEntityAdded(BlockEntity blockEntity, boolean front) {
+        super.blockEntityAdded(blockEntity, front);
+    }
 
     /**
      * @param direction
@@ -32,8 +40,6 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
     public boolean doSkipChaining(Direction.AxisDirection direction, Train train) {
         return true;
     }
-
-
     /**
      * @param direction
      * @param newState
@@ -42,49 +48,16 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
      */
     @Override
     public void onSignalScout(Direction.AxisDirection direction, SignalStateNode newState, Train train, double distance) {
-        IExtendedSignalBoundary.super.onSignalScout(direction, newState, train, distance);
         if (distance > triggerDistance)
             return;
 
-        MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();
-        ServerLevel level = currentServer.getLevel(getBlockEntityDimension());
-        if (level.getBlockEntity(blockEntityPos) instanceof BlockEntityTrainPathObserver detector) {
-            active = true;
-            remainingDeactivationTicks = deactivationDelay;
-            detector.trainInbound();
-        } else {
-            ExtendedSignals.LOGGER.warn("PathTrainDetector is missing a block entity, this should not happen. Point ID: {}", id);
-        }
+        trainInbound = true;
     }
 
     @Override
     public void onSignalCrossedLate(Direction.AxisDirection direction, Train train) {
-        active = false;
+        trainInbound = false;
     }
-
-    /**
-     * @param graph
-     * @param preTrains
-     */
-    @Override
-    public void tick(TrackGraph graph, boolean preTrains) {
-        super.tick(graph, preTrains);
-        if (active)
-            return;
-
-        if (remainingDeactivationTicks == 0) {
-            MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();
-            ServerLevel level = currentServer.getLevel(getBlockEntityDimension());
-            if (level.getBlockEntity(blockEntityPos) instanceof BlockEntityTrainPathObserver detector) {
-                detector.trainOutbound();
-            }
-
-            remainingDeactivationTicks = -1;
-        } else {
-            remainingDeactivationTicks--;
-        }
-    }
-
 
     /**
      * @param nbt
@@ -95,7 +68,6 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
     public void write(CompoundTag nbt, HolderLookup.Provider registries, DimensionPalette dimensions) {
         super.write(nbt, registries, dimensions);
         nbt.putInt("trigger_distance", triggerDistance);
-        nbt.putInt("delay_timer", deactivationDelay);
     }
 
     /**
@@ -108,8 +80,6 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
     public void read(CompoundTag nbt, HolderLookup.Provider registries, boolean migration, DimensionPalette dimensions) {
         super.read(nbt, registries, migration, dimensions);
         triggerDistance = nbt.getInt("trigger_distance");
-        deactivationDelay = nbt.getInt("delay_timer");
-
     }
 
     /**
@@ -118,5 +88,9 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
     @Override
     public UUID pointId() {
         return getId();
+    }
+
+    public boolean trainPresent() {
+        return trainInbound;
     }
 }

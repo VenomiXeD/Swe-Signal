@@ -21,7 +21,7 @@ import venomized.mods.extendedsignals.core.util.TrainHelp;
 
 import java.util.List;
 
-public class BlockEntitySignalSpeedModifier extends SmartBlockEntity implements TransformableBlockEntity, IBE<BlockEntitySignalSpeedModifier> {
+public class BlockEntitySignalSpeedModifier extends SmartBlockEntity implements TransformableBlockEntity {
     private TrackTargetingBehaviour<SpeedModifier> edgePoint;
 
     private ScrollValueBehaviour speedConfigure;
@@ -64,23 +64,4 @@ public class BlockEntitySignalSpeedModifier extends SmartBlockEntity implements 
         edgePoint.getEdgePoint().onWrenched();
         return InteractionResult.SUCCESS;
     }
-
-
-    /**
-     * @return
-     */
-    @Override
-    public Class<BlockEntitySignalSpeedModifier> getBlockEntityClass() {
-        return BlockEntitySignalSpeedModifier.class;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public BlockEntityType<? extends BlockEntitySignalSpeedModifier> getBlockEntityType() {
-        return CoreBlockEntities.MODIFIER_SPEED.get();
-    }
-
-
 }
