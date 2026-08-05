@@ -24,12 +24,22 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
 
         if (be.isActive()) {
             if (be.tick % 10 == 0) {
-                level.playLocalSound(
-                        blockPos, ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(), SoundSource.BLOCKS, 1, 1f, true
+                level.playSound(
+                        null,
+                        blockPos,
+                        ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(),
+                        SoundSource.BLOCKS,
+                        0.8F,
+                        1.0F
                 );
             } else if (be.tick % 11 == 0) {
-                level.playLocalSound(
-                        blockPos, ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(), SoundSource.BLOCKS, 1, 1.01f, true
+                level.playSound(
+                        null,
+                        blockPos,
+                        ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(),
+                        SoundSource.BLOCKS,
+                        0.8F,
+                        1.0F
                 );
             }
         }
