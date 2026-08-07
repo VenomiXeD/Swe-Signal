@@ -8,9 +8,9 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-import venomized.mods.extendedsignals.de.signalling.BlockSignalAspect;
+import venomized.mods.extendedsignals.de.signalling.HvBlockSignalAspect;
 
-public class BlockEntityHVMainBlockSignal extends BlockEntitySignal<BlockSignalAspect> {
+public class BlockEntityHVMainBlockSignal extends BlockEntitySignal<HvBlockSignalAspect> {
     public BlockEntityHVMainBlockSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
@@ -32,7 +32,7 @@ public class BlockEntityHVMainBlockSignal extends BlockEntitySignal<BlockSignalA
      * @return
      */
     @Override
-    public @NotNull BlockSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
-        return BlockSignalAspect.interpret(state, incomingDirection);
+    public @NotNull HvBlockSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
+        return HvBlockSignalAspect.interpret(state, incomingDirection);
     }
 }

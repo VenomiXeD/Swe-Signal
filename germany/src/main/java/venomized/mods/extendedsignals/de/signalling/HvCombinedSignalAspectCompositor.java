@@ -7,18 +7,18 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.Arrays;
 
-public record CombinedSignalAspectCompositor(SignalStateNode rawState,
-                                             Direction.AxisDirection direction) implements ICombinedSignalAspect {
+public record HvCombinedSignalAspectCompositor(SignalStateNode rawState,
+                                               Direction.AxisDirection direction) implements ICombinedSignalAspect {
     /**
      * @param totalTicksForBlockEntity
      * @param states
      */
     @Override
     public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-        MainSignalAspect.interpret(rawState, direction)
+        HvMainSignalAspect.interpret(rawState, direction)
                 .applyAspect(totalTicksForBlockEntity, Arrays.copyOfRange(states, 0, 6));
 
-        DistantSignalAspect.interpret(rawState, direction)
+        HvDistantSignalAspect.interpret(rawState, direction)
                 .applyAspect(totalTicksForBlockEntity, Arrays.copyOfRange(states, 6, 11));
     }
 }

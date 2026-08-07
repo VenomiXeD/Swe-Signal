@@ -26,6 +26,6 @@ public class BlockHVCombinedSignal extends BlockGermanySignal implements IBE {
      */
     @Override
     public BlockEntityType getBlockEntityType() {
-        return GermanyBlockEntities.COMBINED_SIGNAL.get();
+        return GermanyBlockEntities.HV_COMBINED_SIGNAL.get();
     }
 }

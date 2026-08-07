@@ -7,6 +7,8 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
+import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
@@ -60,6 +62,10 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
 
         SignalStateNode signalStateNode = blockEntity.currentSignalState();
         ISignalAspect aspect = blockEntity.interpret(signalStateNode, blockEntity.getSignallingDirection());
+        if (aspect == null) {
+            ExtendedSignals.LOGGER.warn("A Signal block entity somehow returned a null aspect. This should nevever happen, please report this to the developers.\nOffending BlockEntity: {}", blockEntity.getClass().getName());
+            return;
+        }
 
         if (!blockEntity.valid()) {
             if (blockEntity.getLevel().getGameTime() % 20 == 0) {

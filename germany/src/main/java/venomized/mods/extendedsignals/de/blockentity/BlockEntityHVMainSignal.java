@@ -9,7 +9,7 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-import venomized.mods.extendedsignals.de.signalling.MainSignalAspect;
+import venomized.mods.extendedsignals.de.signalling.HvMainSignalAspect;
 
 public class BlockEntityHVMainSignal extends BlockEntitySignal<IMainSignalAspect> {
     public BlockEntityHVMainSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
@@ -18,7 +18,7 @@ public class BlockEntityHVMainSignal extends BlockEntitySignal<IMainSignalAspect
 
     @Override
     public @NotNull IMainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
-        return MainSignalAspect.interpret(state, direction);
+        return HvMainSignalAspect.interpret(state, direction);
     }
 
     @Override

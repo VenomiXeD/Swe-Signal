@@ -12,7 +12,7 @@ import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
 import venomized.mods.extendedsignals.de.blockentity.BlockEntityHVCombinedZs3Signal;
 import venomized.mods.extendedsignals.de.client.GermanyModels;
-import venomized.mods.extendedsignals.de.signalling.CombinedSignalAspectCompositor;
+import venomized.mods.extendedsignals.de.signalling.HvCombinedSignalAspectCompositor;
 
 public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombinedZs3Signal> {
     public RendererZs3CombinedSignal(BlockEntityRendererProvider.Context context) {
@@ -59,12 +59,12 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
     public void renderAdditionalSignals(ISignalAspect aspect) {
         poseStack.pushPose();
         poseStack.translate(0.5f, 0, 0.5f);
-        renderZs3((CombinedSignalAspectCompositor) aspect);
-        renderZs3v((CombinedSignalAspectCompositor) aspect);
+        renderZs3((HvCombinedSignalAspectCompositor) aspect);
+        renderZs3v((HvCombinedSignalAspectCompositor) aspect);
         poseStack.popPose();
     }
 
-    public void renderZs3(CombinedSignalAspectCompositor signalAspect) {
+    public void renderZs3(HvCombinedSignalAspectCompositor signalAspect) {
         if (signalAspect.rawState().isStop())
             return;
 
@@ -110,7 +110,7 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
                 .setNormal(normal, 0, 1, 0);
     }
 
-    public boolean renderZs3v(CombinedSignalAspectCompositor signalAspect) {
+    public boolean renderZs3v(HvCombinedSignalAspectCompositor signalAspect) {
         if (signalAspect.rawState().isStop())
             return false;
         if (signalAspect.rawState().getNextState() == null) {

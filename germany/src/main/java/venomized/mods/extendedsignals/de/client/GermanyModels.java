@@ -6,7 +6,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
 
 @OnlyIn(Dist.CLIENT)
-public class GermanyModels {
+public final class GermanyModels {
     public static PartialModel ZS3 = PartialModel.of(
             ExtendedSignalsGermany.res("block/signals/de/zs3")
     );

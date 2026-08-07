@@ -542,7 +542,6 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
     }
 
     private void updateModelTranslation() {
-        // TODO: Networking
         PacketDistributor.sendToServer(
                 new ServerBoundModelConfigurePacket(
                         menu.getBlockEntityPosition(),

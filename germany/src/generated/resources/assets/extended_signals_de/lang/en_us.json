@@ -4,5 +4,6 @@
   "block.extended_signals_de.de.hv_hp_vr": "[HV] Combined Block and Distant Signal",
   "block.extended_signals_de.de.hv_hp_vr_zs3": "[HV] Combined block and Distant Signal with Zs3 and Zs3v indicator",
   "block.extended_signals_de.de.hv_vr": "[HV] Distant Signal",
+  "block.extended_signals_de.de.ks_vr_default": "[KS] Distant Signal",
   "itemGroup.extended_signals_de.extended_signals_de": "Extended Signals De"
 }

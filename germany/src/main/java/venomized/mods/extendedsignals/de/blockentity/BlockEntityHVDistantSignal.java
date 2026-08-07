@@ -9,7 +9,7 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-import venomized.mods.extendedsignals.de.signalling.DistantSignalAspect;
+import venomized.mods.extendedsignals.de.signalling.HvDistantSignalAspect;
 
 public class BlockEntityHVDistantSignal extends BlockEntitySignal<IDistantSignalAspect> {
     public BlockEntityHVDistantSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
@@ -23,9 +23,9 @@ public class BlockEntityHVDistantSignal extends BlockEntitySignal<IDistantSignal
     public @NotNull IDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         SignalStateNode distant = state.getNextState();
         if (distant == null || distant.isStop())
-            return DistantSignalAspect.EXPECT_STOP;
+            return HvDistantSignalAspect.EXPECT_STOP;
 
-        return DistantSignalAspect.interpret(state, direction);
+        return HvDistantSignalAspect.interpret(state, direction);
     }
 
     /**

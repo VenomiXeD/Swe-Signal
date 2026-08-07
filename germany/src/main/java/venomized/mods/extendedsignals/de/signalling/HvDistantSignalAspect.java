@@ -5,7 +5,7 @@ import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-public enum DistantSignalAspect implements IDistantSignalAspect {
+public enum HvDistantSignalAspect implements IDistantSignalAspect {
     OFF(
             false,
             false,
@@ -36,7 +36,7 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
     final boolean upperGreen;
     final boolean bottomGreen;
 
-    DistantSignalAspect(
+    HvDistantSignalAspect(
             boolean shortBrakingDistance,
             boolean upperGreen,
             boolean bottomGreen,
@@ -48,15 +48,15 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
         this.off = off;
     }
 
-    public static DistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
+    public static HvDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         SignalStateNode distant = state.getNextState();
         if (distant == null || state.isStop())
-            return DistantSignalAspect.OFF;
+            return HvDistantSignalAspect.OFF;
 
         return !distant.isStop()
                 ? distant.getMaxProceedSpeed() <= 40
-                ? DistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED : DistantSignalAspect.EXPECT_PROCEED
-                : DistantSignalAspect.EXPECT_STOP;
+                ? HvDistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED : HvDistantSignalAspect.EXPECT_PROCEED
+                : HvDistantSignalAspect.EXPECT_STOP;
     }
 
     /**

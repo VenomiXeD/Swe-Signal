@@ -18,7 +18,7 @@ public class InterlockingManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(InterlockingManager.class);
 
     public static void flushReservations() {
-        LOGGER.info("Clearing {} reservation entries", groupOwnerships.size());
+        // LOGGER.info("Clearing {} reservation entries", groupOwnerships.size());
         groupOwnerships.clear();
     }
 
@@ -89,7 +89,7 @@ public class InterlockingManager {
 
     public static void clearReservationsForTrain(Train train) {
         groupOwnerships.values().removeIf(next -> next.train().equals(train.id));
-        LOGGER.info("Cleared all reservations for {} ({})", train.id, train.name.getString());
+        //LOGGER.info("Cleared all reservations for {} ({})", train.id, train.name.getString());
     }
 
     public static void clearReservationForTrain(Train self, SignalEdgeGroup group) {
@@ -100,9 +100,9 @@ public class InterlockingManager {
                 entry -> entry.getKey().equals(group.id) && entry.getValue().train.equals(self.id)
         );
 
-        if (removed) {
-            LOGGER.info("Cleared reservation for {} ({})", self.id, group.id);
-        }
+        // if (removed) {
+        //     //LOGGER.info("Cleared reservation for {} ({})", self.id, group.id);
+        // }
     }
 
     public static void clearReservationForTrain(Train self, UUID groupId) {

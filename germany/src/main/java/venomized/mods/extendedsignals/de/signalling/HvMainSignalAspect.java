@@ -7,7 +7,7 @@ import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 @RequiredArgsConstructor
-public enum MainSignalAspect implements IMainSignalAspect {
+public enum HvMainSignalAspect implements IMainSignalAspect {
     PROCEED(
             RGB.GREEN,
             RGB.BLACK,
@@ -35,7 +35,7 @@ public enum MainSignalAspect implements IMainSignalAspect {
 
     private RGB[] colors;
 
-    MainSignalAspect(
+    HvMainSignalAspect(
             RGB top,
             RGB topleft,
             RGB topright,
@@ -46,13 +46,13 @@ public enum MainSignalAspect implements IMainSignalAspect {
         colors = new RGB[]{top, topleft, topright, rightshunt, leftshunt, bottom};
     }
 
-    public static MainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
+    public static HvMainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         if (state.isStop())
-            return MainSignalAspect.STOP;
+            return HvMainSignalAspect.STOP;
 
         return state.getMaxProceedSpeed() <= 40
-                ? MainSignalAspect.PROCEED_40
-                : MainSignalAspect.PROCEED;
+                ? HvMainSignalAspect.PROCEED_40
+                : HvMainSignalAspect.PROCEED;
     }
 
     /**
