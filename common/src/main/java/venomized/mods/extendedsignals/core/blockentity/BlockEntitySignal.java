@@ -19,12 +19,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
-import venomized.mods.extendedsignals.core.SignalLightState;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalInterpreter;
 import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
@@ -37,13 +35,12 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         implements ISignalTunerToolable, ISignalBlockEntity, ISignalInterpreter<T> {
     private static final String TAG_REFERENCED_SIGNAL_POINT_UUID = "linked_signal_uuid";
     private static final String TAG_REFERENCED_SIGNAL_POINT_TYPE = "linked_signal_type";
-
     private static final String TAG_SIGNAL_DIRECTION = "signal_direction";
+
+    protected UUID targetEdgePointId;
+
     @Getter
-    protected final SignalLightPlacement[] lights;
-    @Getter
-    protected final SignalLightState[] lightStates;
-    protected UUID pointID;
+    private final SignalLighting signalLighting;
 
     @Getter
     @Nullable
@@ -51,28 +48,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
 
     public BlockEntitySignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
-
-        this.lights = constructLightPlacements();
-        this.lightStates = new SignalLightState[lights.length];
-        for (int i = 0; i < lightStates.length; i++) {
-            lightStates[i] = new SignalLightState();
-        }
-    }
-
-    @NotNull
-    protected static SignalLightPlacement[] getSignalLightPlacements(
-            final double x, final double z, final float xScale, final float yScale, final float zScale, final double initialY, final double deltaY, final int lightCount
-    ) {
-
-        SignalLightPlacement[] signalLights = new SignalLightPlacement[lightCount];
-        for (int i = 0; i < lightCount; i++) {
-            signalLights[i] = new SignalLightPlacement(
-                    x, initialY + deltaY * i, z,
-                    xScale, yScale, zScale
-            );
-        }
-
-        return signalLights;
+        this.signalLighting = constructSignalLighting();
     }
 
     public static void commonTick(BlockEntitySignal<?> pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
@@ -87,13 +63,13 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         commonTick(be, pLevel, pPos, pBlockState);
     }
 
-    public abstract SignalLightPlacement[] constructLightPlacements();
+    public abstract SignalLighting constructSignalLighting();
 
     public SignalStateNode currentSignalState() {
         if (this.getLevel() == null)
             return SignalStateNode.INVALID;
         return ExtendedSignals.sidedNetwork(this.getLevel())
-                .getSignalState(pointID, signallingDirection == Direction.AxisDirection.POSITIVE);
+                .getSignalState(targetEdgePointId, signallingDirection == Direction.AxisDirection.POSITIVE);
     }
 
     public boolean valid() {
@@ -103,12 +79,12 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         if (signallingDirection == null)
             return false;
 
-        if (pointID == null)
+        if (targetEdgePointId == null)
             return false;
 
         return ExtendedSignals.sidedNetwork(this.getLevel())
                 .signalStates()
-                .containsKey(pointID);
+                .containsKey(targetEdgePointId);
     }
 
 
@@ -126,11 +102,11 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         if (sourceBlockEntity != null) {
             if (sourceBlockEntity instanceof ISignalBoundaryReferenceProvider sb && useContext.getPlayer() instanceof ServerPlayer serverPlayer) {
                 bindToCreateSignal(sb);
-                if (this.pointID == null)
+                if (this.targetEdgePointId == null)
                     return InteractionResult.PASS;
 
                 useContext.getPlayer().displayClientMessage(
-                        Component.translatable("message.extendedsignals.blockentitysignal.bind.success", pointID.toString())
+                        Component.translatable("message.extendedsignals.blockentitysignal.bind.success", targetEdgePointId.toString())
                                 .withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)
                                 ),
                         true
@@ -155,7 +131,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
 
         switch (mode) {
             case DISCONNECT:
-                this.pointID = null;
+                this.targetEdgePointId = null;
                 this.signallingDirection = null;
                 context.getPlayer().sendSystemMessage(
                         Component.translatable("message.extendedsignals.blockentitysignal.disconnect.success")
@@ -174,7 +150,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
     }
 
     public void bindToCreateSignal(ISignalBoundaryReferenceProvider referenceProvider) {
-        pointID = referenceProvider.getTrackTargetingBehavior().getEdgePoint().getId();
+        targetEdgePointId = referenceProvider.getTrackTargetingBehavior().getEdgePoint().getId();
         signallingDirection = referenceProvider.getTrackTargetingBehavior().getTargetDirection();
 
         if (this.level == null)
@@ -182,7 +158,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
 
         // If the linked signal has no entry yet, push a new empty dummy raw signal state
         ISignalNetwork network = ExtendedSignals.sidedNetwork(this.level);
-        network.updateState(this.pointID, signallingDirection == Direction.AxisDirection.POSITIVE, new SignalStateNode());
+        network.updateState(this.targetEdgePointId, signallingDirection == Direction.AxisDirection.POSITIVE, new SignalStateNode());
 
         this.sync();
     }
@@ -245,8 +221,8 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        if (pointID != null)
-            tag.putUUID(TAG_REFERENCED_SIGNAL_POINT_UUID, pointID);
+        if (targetEdgePointId != null)
+            tag.putUUID(TAG_REFERENCED_SIGNAL_POINT_UUID, targetEdgePointId);
 
         NBTHelp.safeWriteEnum(tag, TAG_SIGNAL_DIRECTION, signallingDirection);
     }
@@ -258,7 +234,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        pointID = tag.hasUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) ? tag.getUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) : null;
+        targetEdgePointId = tag.hasUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) ? tag.getUUID(TAG_REFERENCED_SIGNAL_POINT_UUID) : null;
         signallingDirection = NBTHelp.safeReadEnum(tag, TAG_SIGNAL_DIRECTION, Direction.AxisDirection.class);
     }
 

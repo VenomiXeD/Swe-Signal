@@ -2,48 +2,19 @@ package venomized.mods.extendedsignals.de.signalling;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
-import venomized.mods.extendedsignals.core.SignalLightState;
+import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-@RequiredArgsConstructor
+
 public enum HvMainSignalAspect implements IMainSignalAspect {
-    PROCEED(
-            RGB.GREEN,
-            RGB.BLACK,
-            RGB.BLACK,
-            RGB.BLACK,
-            RGB.BLACK,
-            RGB.BLACK
-    ),
-    PROCEED_40(
-            RGB.GREEN,
-            RGB.BLACK,
-            RGB.BLACK,
-            RGB.BLACK,
-            RGB.BLACK,
-            RGB.YELLOW
-    ),
-    STOP(
-            RGB.BLACK,
-            RGB.RED,
-            RGB.RED,
-            RGB.BLACK,
-            RGB.BLACK,
-            RGB.BLACK
-    );
+    PROCEED("hp_proceed"),
+    PROCEED_40("hp_proceed", "hp_reduction"),
+    STOP("hp_stop_left", "hp_stop_right");
+    private final String[] litLights;
 
-    private RGB[] colors;
-
-    HvMainSignalAspect(
-            RGB top,
-            RGB topleft,
-            RGB topright,
-            RGB rightshunt,
-            RGB leftshunt,
-            RGB bottom
-    ) {
-        colors = new RGB[]{top, topleft, topright, rightshunt, leftshunt, bottom};
+    HvMainSignalAspect(String... litLights) {
+        this.litLights = litLights;
     }
 
     public static HvMainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
@@ -54,15 +25,14 @@ public enum HvMainSignalAspect implements IMainSignalAspect {
                 ? HvMainSignalAspect.PROCEED_40
                 : HvMainSignalAspect.PROCEED;
     }
-
     /**
      * @param totalTicksForBlockEntity
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-        for (int i = 0; i < states.length; i++) {
-            colors[i].apply(states[i]);
+    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+        for (String litLight : litLights) {
+            states.powered(litLight);
         }
     }
 }

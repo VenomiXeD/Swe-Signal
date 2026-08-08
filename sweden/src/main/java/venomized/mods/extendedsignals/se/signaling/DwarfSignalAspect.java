@@ -2,7 +2,8 @@ package venomized.mods.extendedsignals.se.signaling;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
-import venomized.mods.extendedsignals.core.SignalLightState;
+import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -38,10 +39,6 @@ public enum DwarfSignalAspect implements ISignalAspect {
     private final boolean l2Lit;
     private final boolean l3Lit;
 
-    private static void light(boolean lit, SignalLightState state) {
-        (lit ? RGB.WHITE : RGB.BLACK).apply(state);
-    }
-
     public static DwarfSignalAspect interpret(SignalStateNode node, Direction.AxisDirection direction) {
         if (node.isStop()) {
             return STOP;
@@ -58,10 +55,14 @@ public enum DwarfSignalAspect implements ISignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-        light(l0Lit, states[0]);
-        light(l1Lit, states[1]);
-        light(l2Lit, states[2]);
-        light(l3Lit, states[3]);
+    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+        if (l0Lit)
+            states.powered("l0");
+        if (l1Lit)
+            states.powered("l1");
+        if (l2Lit)
+            states.powered("l2");
+        if (l3Lit)
+            states.powered("l3");
     }
 }

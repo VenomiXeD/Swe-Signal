@@ -2,7 +2,7 @@ package venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererGeneric;
-import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityCrossingDistantSignal;
+import venomized.mods.extendedsignals.se.blockentity.auxilliarysignals.BlockEntityCrossingDistantSignal;
 
 public class RendererCrossingDistantSignal<T extends BlockEntityCrossingDistantSignal> extends RendererGeneric<T> {
     public RendererCrossingDistantSignal(BlockEntityRendererProvider.Context context) {

@@ -6,7 +6,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
+import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -16,18 +17,18 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
         super(t, pPos, pBlockState);
     }
 
+
     /**
      * @return
      */
     @Override
-    public SignalLightPlacement[] constructLightPlacements() {
-        return new SignalLightPlacement[]{
-                new SignalLightPlacement(0, 47.75d / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
-                new SignalLightPlacement(0, 40.75d / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
-                new SignalLightPlacement(0, 33.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
-                new SignalLightPlacement(0, 26.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
-                new SignalLightPlacement(0, 19.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0)
-        };
+    public SignalLighting constructSignalLighting() {
+        return new SignalLighting()
+                .withLight("l0", new SignalLight(0, 47.75d / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(0, 255, 0))
+                .withLight("l1", new SignalLight(0, 40.75d / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(255, 0, 0))
+                .withLight("l2", new SignalLight(0, 33.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(0, 255, 0))
+                .withLight("l3", new SignalLight(0, 26.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(255, 255, 255))
+                .withLight("l4", new SignalLight(0, 19.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(0, 255, 0));
     }
 
     /**
@@ -42,31 +43,15 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
             SignalStateNode distant = state.getNextState();
 
             if (state.isStop()) {
-                ISignalAspect.RGB.BLACK.apply(lights[0]);
-                ISignalAspect.RGB.RED.apply(lights[1]);
-                ISignalAspect.RGB.BLACK.apply(lights[2]);
-                ISignalAspect.RGB.BLACK.apply(lights[3]);
-                ISignalAspect.RGB.BLACK.apply(lights[4]);
-
+                lights.powered("l1");
                 return;
             }
 
             if (distant == null) {
-                ISignalAspect.RGB.GREEN.apply(lights[0]);
-                if (state.getMaxProceedSpeed() >= 80) {
-                    // PROCEED 80
-                    ISignalAspect.RGB.BLACK.apply(lights[1]);
-                    ISignalAspect.RGB.BLACK.apply(lights[2]);
-                    ISignalAspect.RGB.BLACK.apply(lights[3]);
-                    ISignalAspect.RGB.BLACK.apply(lights[4]);
-                } else {
-                    // PROCEED 40
-                    ISignalAspect.RGB.BLACK.apply(lights[1]);
-                    ISignalAspect.RGB.GREEN.apply(lights[2]);
-                    ISignalAspect.RGB.BLACK.apply(lights[3]);
-                    ISignalAspect.RGB.BLACK.apply(lights[4]);
+                lights.powered("l0");
+                if (state.getMaxProceedSpeed() < 80) {
+                    lights.powered("l2");
                 }
-
                 return;
             }
 
@@ -74,52 +59,37 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
                 if (state.getMaxProceedSpeed() < 80) {
                     if (state.getDistanceToNextSignal() <= 450) {
                         // PROCEED 40, SHORT ROUTE
-                        ISignalAspect.RGB.GREEN.apply(lights[0]);
-                        ISignalAspect.RGB.BLACK.apply(lights[1]);
-                        ISignalAspect.RGB.GREEN.apply(lights[2]);
-                        ISignalAspect.RGB.BLACK.apply(lights[3]);
-                        ISignalAspect.RGB.GREEN.apply(lights[4]);
-
+                        lights.powered("l0");
+                        lights.powered("l2");
+                        lights.powered("l4");
                         return;
                     } else {
                         //
-                        ISignalAspect.RGB.GREEN.apply(lights[0]);
-                        ISignalAspect.RGB.BLACK.apply(lights[1]);
-                        ISignalAspect.RGB.GREEN.apply(lights[2]);
-                        ISignalAspect.RGB.BLACK.apply(lights[3]);
-                        ISignalAspect.RGB.BLACK.apply(lights[4]);
-
+                        lights.powered("l0");
+                        lights.powered("l2");
                         return;
                     }
 
                 } else {
                     // PROCEED 80, EXPECT STOP
-                    ISignalAspect.RGB.GREEN.apply(lights[0]);
-                    ISignalAspect.RGB.BLACK.apply(lights[1]);
-                    (blink ? ISignalAspect.RGB.BLACK : ISignalAspect.RGB.GREEN).apply(lights[2]);
-                    ISignalAspect.RGB.BLACK.apply(lights[3]);
-                    ISignalAspect.RGB.BLACK.apply(lights[4]);
+                    lights.powered("l0");
+                    if (blink)
+                        lights.powered("l2");
 
                     return;
                 }
             }
 
             if (state.getMaxProceedSpeed() >= 80 && distant.getMaxProceedSpeed() >= 80) {
-                // PROCEED 80, EXPECT PROCEED 80 e
-                ISignalAspect.RGB.GREEN.apply(lights[0]);
-                ISignalAspect.RGB.BLACK.apply(lights[1]);
-                ISignalAspect.RGB.BLACK.apply(lights[2]);
-                (blink ? ISignalAspect.RGB.BLACK : ISignalAspect.RGB.WHITE).apply(lights[3]);
-                ISignalAspect.RGB.BLACK.apply(lights[4]);
-
+                // PROCEED 80, EXPECT PROCEED 80
+                lights.powered("l0");
+                if (blink)
+                    lights.powered("l3");
                 return;
             }
 
-            ISignalAspect.RGB.GREEN.apply(lights[0]);
-            ISignalAspect.RGB.BLACK.apply(lights[1]);
-            ISignalAspect.RGB.GREEN.apply(lights[2]);
-            ISignalAspect.RGB.BLACK.apply(lights[3]);
-            ISignalAspect.RGB.BLACK.apply(lights[4]);
+            lights.powered("l0");
+            lights.powered("l2");
             //throw new UnsupportedOperationException("An invalid state has been provided and this part should not be reached, report to developers\nState: " + NbtUtils.prettyPrint(state.toNBT()));
         };
     }

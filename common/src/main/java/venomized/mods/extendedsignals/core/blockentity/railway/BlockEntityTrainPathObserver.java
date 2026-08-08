@@ -18,12 +18,12 @@ import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
 import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.create.tracks.points.PathTrainDetector;
-import venomized.mods.extendedsignals.core.util.ChangeDetector;
+import venomized.mods.extendedsignals.core.util.TrackedValue;
 
 import java.util.List;
 
 public class BlockEntityTrainPathObserver extends SmartBlockEntity implements ISignalTunerToolable, TransformableBlockEntity {
-    private final ChangeDetector<Boolean> trainPresentDetector = new ChangeDetector<>(false, this::trainPresenceChanged);
+    private final TrackedValue<Boolean> trainPresentDetector = new TrackedValue<>(false, this::trainPresenceChanged);
     public int redstoneOutput = 0;
     private TrackTargetingBehaviour<PathTrainDetector> pathTrainDetector;
     private ScrollValueBehaviour pathDistanceScrollValue;
@@ -108,8 +108,8 @@ public class BlockEntityTrainPathObserver extends SmartBlockEntity implements IS
         trainPresentDetector.change(pathTrainDetector.getEdgePoint().trainPresent());
     }
 
-    private void trainPresenceChanged(boolean newValue, boolean oldValue) {
-        redstoneOutput = newValue ? 15 : 0;
+    private void trainPresenceChanged(boolean from, boolean to) {
+        redstoneOutput = to ? 15 : 0;
         getLevel().updateNeighborsAt(worldPosition, getBlockState().getBlock());
     }
 }

@@ -2,30 +2,30 @@ package venomized.mods.extendedsignals.se.signaling;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
-import venomized.mods.extendedsignals.core.SignalLightState;
+import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 @RequiredArgsConstructor
 public enum MainSignalAspect implements IMainSignalAspect {
     PROCEED_80(
-            RGB.GREEN,
-            RGB.BLACK,
-            RGB.BLACK
+            true,
+            false,
+            false
     ),
     PROCEED_40(
-            RGB.GREEN,
-            RGB.BLACK,
-            RGB.GREEN
+            false,
+            true,
+            false
     ),
     STOP(
-            RGB.BLACK,
-            RGB.RED,
-            RGB.BLACK
+            false,
+            true,
+            false
     );
-    private final RGB l0;
-    private final RGB l1;
-    private final RGB l2;
+    private final boolean l0Lit;
+    private final boolean l1Lit;
+    private final boolean l2Lit;
 
     public static MainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         if (state.isStop())
@@ -39,10 +39,12 @@ public enum MainSignalAspect implements IMainSignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-        l0.apply(states[0]);
-        l1.apply(states[1]);
-        if (states.length == 3)
-            l2.apply(states[2]);
+    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+        if (l0Lit)
+            states.powered("l0");
+        if (l1Lit)
+            states.powered("l1");
+        if (l2Lit)
+            states.powered("l2");
     }
 }

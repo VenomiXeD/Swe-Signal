@@ -1,10 +1,11 @@
 package venomized.mods.extendedsignals.core.signalling;
 
-import venomized.mods.extendedsignals.core.SignalLightState;
+import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 
 @FunctionalInterface
 public interface ISignalAspect {
-    void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states);
+    void applyAspect(long totalTicksForBlockEntity, SignalLighting states);
 
     record RGB(int color) {
         public static final RGB RED = new RGB(0xFF0000);
@@ -15,17 +16,13 @@ public interface ISignalAspect {
         public static final RGB WHITE = new RGB(0xFFFFFF);
         public static final RGB BLACK = new RGB(0x000000);
 
-        public void apply(SignalLightState state) {
+        public void apply(SignalLight.LightState state) {
             int r = (color >> 16) & 0xFF;
             int g = (color >> 8) & 0xFF;
             int b = color & 0xFF;
 
-            float rf = r / 255.0f;
-            float gf = g / 255.0f;
-            float bf = b / 255.0f;
-
-            state.setColorDirect(
-                    rf, gf, bf
+            state.setColor(
+                    r, g, b
             );
         }
 

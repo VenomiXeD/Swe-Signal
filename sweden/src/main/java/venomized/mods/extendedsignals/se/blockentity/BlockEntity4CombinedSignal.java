@@ -7,10 +7,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.blockentity.ISignalBoundaryReferenceProvider;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
+import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
@@ -23,6 +23,18 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
 
     public BlockEntity4CombinedSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public SignalLighting constructSignalLighting() {
+        return new SignalLighting()
+                .withLight("l0", new SignalLight(0, 40.75d / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(0, 255, 0))
+                .withLight("l1", new SignalLight(0, 33.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(255, 0, 0))
+                .withLight("l2", new SignalLight(0, 26.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(0, 255, 0))
+                .withLight("l3", new SignalLight(0, 19.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(255, 255, 255));
     }
 
     /**
@@ -42,13 +54,11 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
     /**
      * @return
      */
-    @Override
-    public SignalLightPlacement[] constructLightPlacements() {
-        return new SignalLightPlacement[]{
-                new SignalLightPlacement(0, 40.75d / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
-                new SignalLightPlacement(0, 33.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
-                new SignalLightPlacement(0, 26.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
-                new SignalLightPlacement(0, 19.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0)
+    public SignalLight[] constructLightPlacements() {
+        return new SignalLight[]{
+                new SignalLight(0, 33.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
+                new SignalLight(0, 26.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
+                new SignalLight(0, 19.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0)
         };
     }
 
@@ -61,21 +71,15 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
     public @NotNull ICombinedSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         return (ticks, lights) -> {
             if (state.isStop()) {
-                ISignalAspect.RGB.BLACK.apply(lights[0]);
-                ISignalAspect.RGB.RED.apply(lights[1]);
-                ISignalAspect.RGB.BLACK.apply(lights[2]);
-                ISignalAspect.RGB.BLACK.apply(lights[3]);
+                lights.powered("l1");
                 return;
             }
 
-            for (SignalLightState light : lights)
-                ISignalAspect.RGB.BLACK.apply(light);
-
             if (state.getMaxProceedSpeed() > 40) {
-                ISignalAspect.RGB.GREEN.apply(lights[0]);
+                lights.powered("l0");
             } else {
-                ISignalAspect.RGB.GREEN.apply(lights[0]);
-                ISignalAspect.RGB.GREEN.apply(lights[2]);
+                lights.powered("l0");
+                lights.powered("l2");
             }
 
             SignalStateNode distant = state.getNextState();
@@ -84,17 +88,19 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
                 return;
 
             if (distant.isStop()) {
-                (blink ? ISignalAspect.RGB.BLACK : ISignalAspect.RGB.GREEN).apply(lights[2]);
+                if (blink)
+                    lights.powered("l2");
                 return;
             }
 
             // Next is showing 40, 4-light signal has no way to display that, so proceed 40 is used instead
             if (distant.getMaxProceedSpeed() <= 40) {
-                ISignalAspect.RGB.GREEN.apply(lights[2]);
+                lights.powered("l2");
                 return;
             }
 
-            (blink ? ISignalAspect.RGB.BLACK : ISignalAspect.RGB.WHITE).apply(lights[3]);
+            if (blink)
+                lights.powered("l3");
         };
         // return CombinedSignalAspectCompositor.interpret(state);
     }

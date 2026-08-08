@@ -2,7 +2,7 @@ package venomized.mods.extendedsignals.se.block;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import venomized.mods.extendedsignals.core.block.BlockCrossingObject;
-import venomized.mods.extendedsignals.se.auxilliarysignals.BlockEntityCrossingSignal;
+import venomized.mods.extendedsignals.se.blockentity.auxilliarysignals.BlockEntityCrossingSignal;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 
 public class BlockCrossingSignal extends BlockCrossingObject<BlockEntityCrossingSignal> {

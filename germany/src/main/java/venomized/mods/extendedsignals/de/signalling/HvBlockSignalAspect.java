@@ -2,7 +2,7 @@ package venomized.mods.extendedsignals.de.signalling;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
-import venomized.mods.extendedsignals.core.SignalLightState;
+import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -22,10 +22,11 @@ public enum HvBlockSignalAspect implements ISignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-        if (states.length == 2) {
-            (proceed ? RGB.BLACK : RGB.RED).apply(states[0]);
-            (proceed ? RGB.GREEN : RGB.BLACK).apply(states[1]);
+    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+        if (this == PROCEED) {
+            states.powered("proceed");
+        } else {
+            states.powered("stop");
         }
     }
 }

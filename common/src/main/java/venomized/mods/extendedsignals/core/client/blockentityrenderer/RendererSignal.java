@@ -8,8 +8,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
-import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
-import venomized.mods.extendedsignals.core.SignalLightState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -57,74 +55,46 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
     }
 
     private void renderSignalLights() {
-
-        SignalLightPlacement[] lights = blockEntity.getLights();
-
-        SignalStateNode signalStateNode = blockEntity.currentSignalState();
-        ISignalAspect aspect = blockEntity.interpret(signalStateNode, blockEntity.getSignallingDirection());
+        ISignalAspect aspect = blockEntity.interpret(blockEntity.currentSignalState(), blockEntity.getSignallingDirection());
         if (aspect == null) {
             ExtendedSignals.LOGGER.warn("A Signal block entity somehow returned a null aspect. This should nevever happen, please report this to the developers.\nOffending BlockEntity: {}", blockEntity.getClass().getName());
             return;
         }
 
-        if (!blockEntity.valid()) {
-            if (blockEntity.getLevel().getGameTime() % 20 == 0) {
-                for (SignalLightState lightState : blockEntity.getLightStates()) {
-                    lightState.setColorDirect(1, 0, 0);
-                }
-            } else {
-                for (SignalLightState lightState : blockEntity.getLightStates()) {
-                    lightState.setColorDirect(0, 0, 0);
-                }
-            }
-        } else {
-            aspect.applyAspect(blockEntity.getLevel().getGameTime(), blockEntity.getLightStates());
-        }
         renderAdditionalSignals(aspect);
 
-        for (int i = 0; i < lights.length; i++) {
-            if (lights[i] == null)
-                continue;
+        blockEntity.getSignalLighting().allLights().forEach(light -> light.getState().setIgnoreFadeTicks(!blockEntity.valid()));
+        if (!blockEntity.valid()) {
+            if (blockEntity.getLevel().getGameTime() % 20 == 0) {
+                blockEntity.getSignalLighting().allLights().forEach(light -> light.getState().setColor(255, 0, 0));
+            } else {
+                blockEntity.getSignalLighting().allLights().forEach(light -> light.getState().setColor(0, 0, 0));
+            }
+            renderFinalLightValues();
+            return;
+        }
 
-            SignalLightPlacement lightPlacement = lights[i];
-            SignalLightState state = blockEntity.getLightStates()[i];
+        blockEntity.getSignalLighting().allLights().forEach(light -> light.getState().setCurrentTick(blockEntity.getLevel().getGameTime()));
+        blockEntity.getSignalLighting().renderFrameBegin();
+        aspect.applyAspect(blockEntity.getLevel().getGameTime(), blockEntity.getSignalLighting());
+        renderFinalLightValues();
+        blockEntity.getSignalLighting().renderFrameEnd();
+    }
+
+    private void renderFinalLightValues() {
+        blockEntity.getSignalLighting().allLights().forEach(light -> {
+            SignalLight.LightState state = light.getState();
             renderLightAt(
-                    lightPlacement.getX(),
-                    lightPlacement.getY(),
-                    lightPlacement.getZ(),
-                    lightPlacement.getXScale(),
-                    lightPlacement.getYScale(),
-                    lightPlacement.getZScale(),
-                    (byte) (state.r(partialTick) * 255), (byte) (state.g(partialTick) * 255), (byte) (state.b(partialTick) * 255)
+                    light.getX(),
+                    light.getY(),
+                    light.getZ(),
+                    light.getXScale(),
+                    light.getYScale(),
+                    light.getZScale(),
+                    state.getRedOutput(partialTick), state.getGreenOutput(partialTick), state.getBlueOutput(partialTick)
 
             );
-            // poseStack.pushPose();
-            // poseStack.translate(
-            //         lightPlacement.getX() + 0.5d,
-            //         lightPlacement.getY(),
-            //         lightPlacement.getZ() + 0.5d
-            // );
-
-            // poseStack.scale(
-            //         lightPlacement.getXScale() / 2f,
-            //         lightPlacement.getYScale() / 2f,
-            //         lightPlacement.getZScale() / 2f
-            // );
-
-            // CachedBuffers.partial(ExtendedSignalsCoreModels.LIGHT_MODEL, blockEntity.getBlockState())
-            //         .color(, 255)
-            //         .overlay(packedOverlay)
-            //         .disableDiffuse()
-            //         .light(0xFFFFFF)
-            //         .renderInto(
-            //                 poseStack,
-            //                 bufferSource.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)
-            //                 )
-            //         );
-
-
-            // poseStack.popPose();
-        }
+        });
     }
 
     /**

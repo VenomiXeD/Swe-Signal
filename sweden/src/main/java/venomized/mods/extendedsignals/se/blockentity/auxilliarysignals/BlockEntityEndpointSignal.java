@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.se.auxilliarysignals;
+package venomized.mods.extendedsignals.se.blockentity.auxilliarysignals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -6,7 +6,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLightPlacement;
+import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -19,10 +20,8 @@ public class BlockEntityEndpointSignal extends BlockEntitySignal<ISignalAspect> 
      * @return
      */
     @Override
-    public SignalLightPlacement[] constructLightPlacements() {
-        return new SignalLightPlacement[]{
-                new SignalLightPlacement(0d, 1.17188d, 0.005d, 3.25f, 3.25f, 0f)
-        };
+    public SignalLighting constructSignalLighting() {
+        return new SignalLighting().withLight("l0", new SignalLight(0d, 1.17188d, 0.005d, 3.25f, 3.25f, 0f).withDefaultColor(255, 0, 0));
     }
 
     /**
@@ -32,6 +31,9 @@ public class BlockEntityEndpointSignal extends BlockEntitySignal<ISignalAspect> 
      */
     @Override
     public @NotNull ISignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
-        return (totalTicksForBlockEntity, states) -> (state.isStop() ? ISignalAspect.RGB.RED : ISignalAspect.RGB.BLACK).apply(states[0]);
+        return (totalTicksForBlockEntity, states) -> {
+            if (state.isStop())
+                states.powered("l0");
+        };
     }
 }

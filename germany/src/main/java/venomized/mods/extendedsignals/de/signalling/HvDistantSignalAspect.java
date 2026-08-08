@@ -1,51 +1,19 @@
 package venomized.mods.extendedsignals.de.signalling;
 
 import net.minecraft.core.Direction;
-import venomized.mods.extendedsignals.core.SignalLightState;
+import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public enum HvDistantSignalAspect implements IDistantSignalAspect {
-    OFF(
-            false,
-            false,
-            false,
-            true
-    ),
-    EXPECT_STOP(
-            false,
-            false,
-            false,
-            false
-    ),
-    EXPECT_PROCEED(
-            false,
-            true,
-            true,
-            false
-    ),
-    EXPECT_PROCEED_REDUCED_SPEED(
-            false,
-            true,
-            false,
-            false
-    );
+    OFF(),
+    EXPECT_STOP("vr_yellow_right", "vr_yellow_left"),
+    EXPECT_PROCEED("vr_green_right", "vr_green_left"),
+    EXPECT_PROCEED_REDUCED_SPEED("vr_green_right", "vr_yellow_left");
+    private final String[] litLights;
 
-    final boolean off;
-    final boolean shortBrakingDistance;
-    final boolean upperGreen;
-    final boolean bottomGreen;
-
-    HvDistantSignalAspect(
-            boolean shortBrakingDistance,
-            boolean upperGreen,
-            boolean bottomGreen,
-            boolean off
-    ) {
-        this.shortBrakingDistance = shortBrakingDistance;
-        this.upperGreen = upperGreen;
-        this.bottomGreen = bottomGreen;
-        this.off = off;
+    HvDistantSignalAspect(String... litLights) {
+        this.litLights = litLights;
     }
 
     public static HvDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
@@ -64,17 +32,18 @@ public enum HvDistantSignalAspect implements IDistantSignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLightState[] states) {
-        if (off) {
-            for (int i = 1; i < states.length; i++)
-                RGB.BLACK.apply(states[i]);
-            return;
+    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+        for (String litLight : litLights) {
+            states.powered(litLight);
         }
-
-        (upperGreen ? RGB.BLACK : RGB.YELLOW).apply(states[1]);
-        (upperGreen ? RGB.GREEN : RGB.BLACK).apply(states[2]);
-
-        (bottomGreen ? RGB.BLACK : RGB.YELLOW).apply(states[3]);
-        (bottomGreen ? RGB.GREEN : RGB.BLACK).apply(states[4]);
     }
+
+    /*
+     return new SignalLighting()
+               .withLight("vr_braking",SignalLight.whiteLight(5.25d / 16d, 99.5d / 16d, -6.5d / 16d, 1.5f, 1.5f, 0.5f))
+               .withLight("vr_yellow_right", SignalLight.yellowLight(-2.25 / 16d, 99d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f))
+               .withLight("vr_green_right", SignalLight.greenLight(-6.25 / 16d, 99d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f))
+               .withLight("vr_yellow_left", SignalLight.yellowLight(6 / 16d, 89.5d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f))
+               .withLight("vr_green_left",SignalLight.greenLight(2 / 16d, 89.5d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f))
+     */
 }

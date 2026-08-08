@@ -7,8 +7,8 @@ import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererCr
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
-import venomized.mods.extendedsignals.se.auxilliarysignals.*;
 import venomized.mods.extendedsignals.se.block.SwedenBlocks;
+import venomized.mods.extendedsignals.se.blockentity.auxilliarysignals.*;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityThreeLightCrossingLights;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingDistantSignal;
