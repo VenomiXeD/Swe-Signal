@@ -43,7 +43,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
     private static final String TAG_SKIP_CHAIN_CONFIG_NAME = "chaining";
 
     @Unique
-    public Couple<UUID> extendedSignals$nextBlockSignalID;
+    public Couple<UUID> extendedSignals$nextSignalBoundaryEdgePointId;
 
     @Shadow
     public Couple<SignalBlockEntity.SignalState> cachedStates;
@@ -65,7 +65,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void extendedSignals$Ctor(CallbackInfo ci) {
-        extendedSignals$nextBlockSignalID = Couple.create(() -> null);
+        extendedSignals$nextSignalBoundaryEdgePointId = Couple.create(() -> null);
         extendedSignals$skipChainingConfiguration = Couple.create(false, false);
         extendedSignals$stateRemapperIDs = Couple.create(SignalStateRemapper.NONE.getId(), SignalStateRemapper.NONE.getId());
     }
@@ -203,7 +203,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExt
                 ),
                 (distance, detected) -> {
                     if (detected.getFirst() instanceof SignalBoundary signalBoundary) {
-                        extendedSignals$nextBlockSignalID.set(front, signalBoundary.getId());
+                        extendedSignals$nextSignalBoundaryEdgePointId.set(front, signalBoundary.getId());
                         return true;
                     }
                     return false;

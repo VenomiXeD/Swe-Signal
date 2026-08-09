@@ -2,14 +2,18 @@ package venomized.mods.extendedsignals.de.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.VariantData;
+import venomized.mods.extendedsignals.core.blockentity.VariantOption;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.de.client.GermanyModels;
 import venomized.mods.extendedsignals.de.signalling.KsDistantSignalAspect;
 
 public class BlockEntityKsDistantSignal extends BlockEntitySignal<ISignalAspect> {
@@ -44,5 +48,17 @@ public class BlockEntityKsDistantSignal extends BlockEntitySignal<ISignalAspect>
         }
 
         return KsDistantSignalAspect.EXPECT_REDUCED_SPEED;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    protected VariantData constructVariantData() {
+        VariantData variantData = super.constructVariantData();
+        variantData.addVariantOption(new VariantOption(Component.literal("PLACEHOLDER 400mm RIGHT"), () -> GermanyModels.KS_VR_400_RIGHT));
+        variantData.addVariantOption(new VariantOption(Component.literal("TEST 2"), () -> GermanyModels.ZS3V));
+
+        return variantData;
     }
 }

@@ -58,6 +58,8 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     public List<Carriage> carriages;
     @Shadow
     public UUID id;
+    @Shadow
+    public double speed;
     @Unique
     private boolean extendedSignals$doorOpen = false;
 
@@ -76,9 +78,11 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
             }
 
             if (trackEdgePoint instanceof IExtendedSignalBoundary<?> signalBoundary) {
-                extendedSignals$frontDelayedOnCrossedTriggering.add(
-                        new DelayedSignalCrossTrigger(TICKS_ON_CROSSED_TRIGGERING_DELAY, front, signalBoundary)
-                );
+                if (speed != 0) {
+                    extendedSignals$frontDelayedOnCrossedTriggering.add(
+                            new DelayedSignalCrossTrigger(TICKS_ON_CROSSED_TRIGGERING_DELAY, front, signalBoundary)
+                    );
+                }
 
                 if (trackEdgePoint instanceof TrackEdgePointSignalModifier<?> modifier && navigation != null) {
                     if (modifier.isAligned(modifier.isPrimary(couple.getSecond().getSecond()))) {

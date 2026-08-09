@@ -15,6 +15,10 @@ public final class GermanyModels {
             ExtendedSignalsGermany.res("block/signals/de/zs3v")
     );
 
+    public static PartialModel KS_VR_400_RIGHT = PartialModel.of(
+            ExtendedSignalsGermany.res("block/signals/de/ks_vr_400_right")
+    );
+
     public static void init() {
 
     }

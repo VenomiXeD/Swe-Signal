@@ -6,6 +6,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
 
 public interface IConfigurableModelBlockEntity {
+    default boolean supportsConfiguration() {
+        return true;
+    }
+
     double getXLocOffset();
 
     void setXLocOffset(double offset);
@@ -48,11 +52,5 @@ public interface IConfigurableModelBlockEntity {
 
     void setOrientation(Vec3 orientationInDeg);
 
-    default boolean supportsConfiguration() {
-        return true;
-    }
-
-    @Nullable
-    EnumSet<?> variations();
-
+    VariantData variantData();
 }

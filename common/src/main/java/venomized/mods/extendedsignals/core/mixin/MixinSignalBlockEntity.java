@@ -24,11 +24,11 @@ import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
 import java.util.UUID;
 
 @Mixin(value = SignalBlockEntity.class, remap = false)
-public abstract class MixinCreateTrainSignal extends SmartBlockEntity implements ISignalTunerToolable, ISignalBoundaryReferenceProvider {
+public abstract class MixinSignalBlockEntity extends SmartBlockEntity implements ISignalTunerToolable, ISignalBoundaryReferenceProvider {
     @Shadow
     public TrackTargetingBehaviour<SignalBoundary> edgePoint;
 
-    public MixinCreateTrainSignal(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public MixinSignalBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

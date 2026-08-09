@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -63,6 +64,16 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
     }
 
     protected void renderSelfBlock() {
+        if (blockEntity instanceof IConfigurableModelBlockEntity configurableModelBlockEntity) {
+            PartialModel model = configurableModelBlockEntity.variantData().getModel();
+            if (model != null) {
+                CachedBuffers.partial(model, blockEntity.getBlockState())
+                        .light(packedLight)
+                        .overlay(packedOverlay)
+                        .renderInto(poseStack, bufferSource.getBuffer(RenderType.cutoutMipped()));
+                return;
+            }
+        }
         CachedBuffers.block(CachedBuffers.GENERIC_BLOCK, blockEntity.getBlockState())
                 .light(packedLight)
                 .overlay(packedOverlay)

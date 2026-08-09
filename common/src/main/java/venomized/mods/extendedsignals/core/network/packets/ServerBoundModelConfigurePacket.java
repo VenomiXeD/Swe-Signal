@@ -2,7 +2,11 @@ package venomized.mods.extendedsignals.core.network.packets;
 
 import net.createmod.catnip.codecs.stream.CatnipStreamCodecs;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtAccounter;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -13,7 +17,8 @@ import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 
 public record ServerBoundModelConfigurePacket(BlockPos pos, Vec3 loc, Vec3 glo,
-                                              Vec3 orientation) implements CustomPacketPayload {
+                                              Vec3 orientation,
+                                              CompoundTag variableVariantData) implements CustomPacketPayload {
     public static final Type<ServerBoundModelConfigurePacket> TYPE =
             new Type<>(ExtendedSignals.res(ServerBoundModelConfigurePacket.class.getSimpleName().toLowerCase()));
     public static final StreamCodec<? super RegistryFriendlyByteBuf, ServerBoundModelConfigurePacket> CODEC = StreamCodec.composite(
@@ -25,6 +30,8 @@ public record ServerBoundModelConfigurePacket(BlockPos pos, Vec3 loc, Vec3 glo,
             ServerBoundModelConfigurePacket::glo,
             CatnipStreamCodecs.VEC3,
             ServerBoundModelConfigurePacket::orientation,
+            ByteBufCodecs.compoundTagCodec(() -> NbtAccounter.create(64 * 1024)),
+            ServerBoundModelConfigurePacket::variableVariantData,
             ServerBoundModelConfigurePacket::new
     );
 
@@ -45,6 +52,7 @@ public record ServerBoundModelConfigurePacket(BlockPos pos, Vec3 loc, Vec3 glo,
                 configurableModel.setLocOffset(this.loc);
                 configurableModel.setGblOffset(this.glo);
                 configurableModel.setOrientation(this.orientation);
+                configurableModel.variantData().read(variableVariantData);
             }
         });
     }

@@ -79,8 +79,8 @@ public class BlockEntityTrainPathObserver extends SmartBlockEntity implements IS
         return InteractionResult.PASS;
     }
 
-    private void pathDetectionRangeChanged(Integer integer) {
-        pathTrainDetector.getEdgePoint().triggerDistance = integer;
+    private void pathDetectionRangeChanged(int val) {
+        pathTrainDetector.getEdgePoint().triggerDistance = val;
     }
 
     /**

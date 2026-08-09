@@ -51,13 +51,15 @@ public abstract class ExtendedSignalsBlock extends Block {
     @Override
     public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
         if (pPlacer == null)
-            return;
+            super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
 
-        if (pLevel.getBlockEntity(pPos) instanceof CoreBlockEntity rotateableBlockEntity) {
+        if (pLevel.getBlockEntity(pPos) instanceof IConfigurableModelBlockEntity rotateableBlockEntity) {
             rotateableBlockEntity.setYOrientation(
                     getSnappedRotation(pPos, pPlacer.position())
             );
-            rotateableBlockEntity.sync();
+            if (pLevel.getBlockEntity(pPos) instanceof CoreBlockEntity coreBlockEntity) {
+                coreBlockEntity.sync();
+            }
         }
     }
 
@@ -73,20 +75,24 @@ public abstract class ExtendedSignalsBlock extends Block {
      */
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (!level.isClientSide() && player instanceof ServerPlayer p && level.getBlockEntity(pos) instanceof IConfigurableModelBlockEntity configurableModelBlockEntity && configurableModelBlockEntity.supportsConfiguration()) {
-            p.openMenu(
-                    new SimpleMenuProvider(
-                            ((pContainerId, pPlayerInventory, pPlayer1) -> new MenuModelConfig(
-                                    CoreMenus.MODEL_CONFIG.get(),
-                                    pContainerId,
-                                    pPlayerInventory,
-                                    pos
-                            )),
-                            Component.literal("TEST")
-                    ), pos
-            );
+        if (level.getBlockEntity(pos) instanceof IConfigurableModelBlockEntity configurableModelBlockEntity && configurableModelBlockEntity.supportsConfiguration()) {
+            if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.openMenu(
+                        new SimpleMenuProvider(
+                                ((pContainerId, pPlayerInventory, pPlayer1) -> new MenuModelConfig(
+                                        CoreMenus.MODEL_CONFIG.get(),
+                                        pContainerId,
+                                        pPlayerInventory,
+                                        pos
+                                )),
+                                Component.literal("TEST")
+                        ), pos
+                );
+            }
+            return ItemInteractionResult.sidedSuccess(level.isClientSide());
         }
-        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
     // /**

@@ -102,6 +102,6 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
      */
     @Override
     public int getViewDistance() {
-        return 2048;
+        return 512;
     }
 }

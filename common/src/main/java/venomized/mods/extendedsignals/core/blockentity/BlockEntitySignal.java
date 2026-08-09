@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalInterpreter;
 import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
@@ -31,10 +30,9 @@ import venomized.mods.extendedsignals.core.util.NBTHelp;
 
 import java.util.UUID;
 
-public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlockEntity
+public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBlockEntity
         implements ISignalTunerToolable, ISignalBlockEntity, ISignalInterpreter<T> {
     private static final String TAG_REFERENCED_SIGNAL_POINT_UUID = "linked_signal_uuid";
-    private static final String TAG_REFERENCED_SIGNAL_POINT_TYPE = "linked_signal_type";
     private static final String TAG_SIGNAL_DIRECTION = "signal_direction";
 
     protected UUID targetEdgePointId;
@@ -238,7 +236,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends CoreBlo
         signallingDirection = NBTHelp.safeReadEnum(tag, TAG_SIGNAL_DIRECTION, Direction.AxisDirection.class);
     }
 
-//    /**
+    //    /**
 //     * @return
 //     */
 //    @Override

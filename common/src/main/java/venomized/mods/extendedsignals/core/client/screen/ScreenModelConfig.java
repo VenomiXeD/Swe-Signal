@@ -1,20 +1,24 @@
 package venomized.mods.extendedsignals.core.client.screen;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import net.neoforged.neoforge.network.PacketDistributor;
+import venomized.mods.extendedsignals.core.blockentity.VariantOption;
 import venomized.mods.extendedsignals.core.client.screen.widget.NumericEditBox;
 import venomized.mods.extendedsignals.core.menu.MenuModelConfig;
 import venomized.mods.extendedsignals.core.network.packets.ServerBoundModelConfigurePacket;
 
+import java.util.List;
+
 public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> {
 
     private static final int WIDGET_WIDTH = 180;
-    private static final int WIDGET_HEIGHT = 12;
+    private static final int WIDGET_HEIGHT = 15;
 
 
     private final NumericEditBox[] locOffsetEditBoxes;
@@ -90,20 +94,27 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
         final int TOP_OFFSET = 0;
         final int WIDGET_PADDING = 15;
 
-        pos = new LayoutBuilder()
-                .anchor(1, .5)
-                .size(WIDGET_WIDTH, WIDGET_HEIGHT)
-                .scale(1, 3f / 6f)
-                .offset(-10, TOP_OFFSET)
-                .build(this);
 
         // this.addRenderableWidget(
         // );
 
-        // this.addRenderableWidget(new CycleButton.Builder<>((v) -> Component.literal(v.toString()))
-        //         .withValues("1", "2", "3")
-        //         .create(pos.x(), pos.y(), pos.w(), pos.h(), Component.literal("TEST CYCLE"))
-        // );
+        final int VARIANT_MAX_WIDTH = 300;
+        List<VariantOption> variants = menu.getReferenceBlockEntity().variantData().getVariants();
+        for (int i = 0; i < variants.size(); i++) {
+            pos = new LayoutBuilder()
+                    .anchor(1, .5)
+                    .size(VARIANT_MAX_WIDTH / variants.size(), WIDGET_HEIGHT)
+                    .scale(1, 3f / 6f)
+                    .offset(-10 - (VARIANT_MAX_WIDTH / variants.size() * i), TOP_OFFSET)
+                    .build(this);
+
+            final int selectedVariantIdx = i;
+            VariantOption variant = variants.get(i);
+            addRenderableWidget(new Button.Builder(variant.variantOptionDisplayName(), (b) -> {
+                menu.getReferenceBlockEntity().variantData().setSelectedVariant(selectedVariantIdx);
+                updateModel();
+            }).pos(pos.x(), pos.y()).size(pos.w(), pos.h()).build());
+        }
     }
 
     private void configureGlobalOffsetWidgets() {
@@ -412,17 +423,17 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
         for (int i = 0; i < 3; i++) {
             if (locOffsetEditBoxes[i].getNumericValue().isPresent() && locOffsetEditBoxes[i].isFocused()) {
                 locOffsetValues[i] = locOffsetEditBoxes[i].getNumericValue().getAsDouble();
-                updateModelTranslation();
+                updateModel();
                 updateSliderValues();
             }
             if (gloOffsetEditBoxes[i].getNumericValue().isPresent() && gloOffsetEditBoxes[i].isFocused()) {
                 gloOffsetValues[i] = gloOffsetEditBoxes[i].getNumericValue().getAsDouble();
-                updateModelTranslation();
+                updateModel();
                 updateSliderValues();
             }
             if (orientationEditBoxes[i].getNumericValue().isPresent() && orientationEditBoxes[i].isFocused()) {
                 orientationValues[i] = orientationEditBoxes[i].getNumericValue().getAsDouble();
-                updateModelTranslation();
+                updateModel();
                 updateSliderValues();
             }
         }
@@ -489,21 +500,21 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
             if (locOffsetSliders[i].getValue() != locOffsetValues[i] &&
                     locOffsetSliders[i].isFocused()) {
                 locOffsetValues[i] = locOffsetSliders[i].getValue();
-                updateModelTranslation();
+                updateModel();
                 updateEditBoxValues();
             }
 
             if (gloOffsetSliders[i].getValue() != gloOffsetValues[i] &&
                     gloOffsetSliders[i].isFocused()) {
                 gloOffsetValues[i] = gloOffsetSliders[i].getValue();
-                updateModelTranslation();
+                updateModel();
                 updateEditBoxValues();
             }
 
             if (orientationSliders[i].getValue() != orientationValues[i] &&
                     orientationSliders[i].isFocused()) {
                 orientationValues[i] = orientationSliders[i].getValue();
-                updateModelTranslation();
+                updateModel();
                 updateEditBoxValues();
             }
         }
@@ -541,7 +552,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
         }
     }
 
-    private void updateModelTranslation() {
+    private void updateModel() {
         PacketDistributor.sendToServer(
                 new ServerBoundModelConfigurePacket(
                         menu.getBlockEntityPosition(),
@@ -559,7 +570,8 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                                 orientationValues[0],
                                 orientationValues[1],
                                 orientationValues[2]
-                        )
+                        ),
+                        menu.getReferenceBlockEntity().variantData().toNBT()
                 )
         );
 
