@@ -13,7 +13,6 @@ import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
 
 public class Debug {
-
     @SubscribeEvent
     public static void onRegisterCommandsEvent(RegisterCommandsEvent e) {
         CommandDispatcher<CommandSourceStack> dispatcher = e.getDispatcher();

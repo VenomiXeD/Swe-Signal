@@ -30,6 +30,7 @@ import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 import venomized.mods.extendedsignals.core.item.ExtendedSignalsItems;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
 import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
+import venomized.mods.extendedsignals.core.util.Debug;
 
 @Mod(ExtendedSignals.MOD_ID)
 public class ExtendedSignals {
@@ -57,6 +58,7 @@ public class ExtendedSignals {
         eventBus.register(ExtendedSignals.class);
         NeoForge.EVENT_BUS.register(Events.class);
         eventBus.register(ExtendedSignalsNetworking.class);
+        NeoForge.EVENT_BUS.register(Debug.class);
 
         ExtendedSignalsItems.init();
         CoreBlocks.init();
