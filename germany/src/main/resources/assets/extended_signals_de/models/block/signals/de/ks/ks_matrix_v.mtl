@@ -1,0 +1,8 @@
+# Blender 5.2.0 LTS MTL File: 'None'
+# www.blender.org
+
+newmtl m_3d215661-f591-00a8-53e2-d8d611c756be.015
+map_Kd #signal
+
+newmtl m_b2af6bd8-ffc8-ff72-7f7b-7b18782af15d.015
+map_Kd #metal
