@@ -7,6 +7,7 @@ import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSi
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
 import venomized.mods.extendedsignals.de.block.GermanyBlocks;
+import venomized.mods.extendedsignals.de.client.blockentityrenderer.RendererKs;
 import venomized.mods.extendedsignals.de.client.blockentityrenderer.RendererZs3CombinedSignal;
 
 public final class GermanyBlockEntities {
@@ -25,11 +26,6 @@ public final class GermanyBlockEntities {
 
     public static BlockEntityEntry<BlockEntityHVCombinedSignal> HV_COMBINED_SIGNAL = RegistrateHelper
             .simpleBlockEntity(registrate(), "hv_combined_signal", BlockEntityHVCombinedSignal::new, GermanyBlocks.HV_COMBINED_SIGNAL)
-            .renderer(() -> RendererSignal::new)
-            .register();
-
-    public static BlockEntityEntry<BlockEntityHVCombinedZs3Signal> HV_ZS3_SIGNAL = RegistrateHelper
-            .simpleBlockEntity(registrate(), "hv_combined_zs3_signal", BlockEntityHVCombinedZs3Signal::new, GermanyBlocks.HV_COMBINED_ZS3_SIGNAL)
             .renderer(() -> RendererZs3CombinedSignal::new)
             .register();
 
@@ -39,9 +35,20 @@ public final class GermanyBlockEntities {
             .register();
 
     // KS System
+    public static BlockEntityEntry<BlockEntityKsCombinedSignal> KS_COMBINED_SIGNAL = RegistrateHelper
+            .simpleBlockEntity(registrate(), "ks_combined_signal", BlockEntityKsCombinedSignal::new, GermanyBlocks.KS_COMBINED_SIGNAL)
+            .renderer(() -> RendererKs::new)
+            .register();
+
     public static BlockEntityEntry<BlockEntityKsDistantSignal> KS_DISTANT_SIGNAL = RegistrateHelper
             .simpleBlockEntity(registrate(), "ks_distant_signal", BlockEntityKsDistantSignal::new, GermanyBlocks.KS_DISTANT_SIGNAL)
-            .renderer(() -> RendererSignal::new)
+            .renderer(() -> RendererKs::new)
+            .register();
+
+
+    public static BlockEntityEntry<BlockEntityKsMainSignal> KS_MAIN_SIGNAL = RegistrateHelper
+            .simpleBlockEntity(registrate(), "ks_main_signal", BlockEntityKsMainSignal::new, GermanyBlocks.KS_MAIN_SIGNAL)
+            .renderer(() -> RendererKs::new)
             .register();
 
     public static Registrate registrate() {

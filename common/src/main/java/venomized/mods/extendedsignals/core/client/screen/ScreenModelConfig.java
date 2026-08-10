@@ -2,6 +2,7 @@ package venomized.mods.extendedsignals.core.client.screen;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -91,21 +92,21 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
     private void configureAdditionalCustomizationWidgets() {
         LayoutBuilder.WidgetLayout pos;
 
-        final int TOP_OFFSET = 0;
+        int WIDGET_TOP_OFFSET = 0;
         final int WIDGET_PADDING = 15;
+        final int WIDGET_TOTAL_MAX_WIDTH = 300;
 
 
         // this.addRenderableWidget(
         // );
 
-        final int VARIANT_MAX_WIDTH = 300;
         List<VariantOption> variants = menu.getReferenceBlockEntity().variantData().getVariants();
         for (int i = 0; i < variants.size(); i++) {
             pos = new LayoutBuilder()
                     .anchor(1, .5)
-                    .size(VARIANT_MAX_WIDTH / variants.size(), WIDGET_HEIGHT)
-                    .scale(1, 3f / 6f)
-                    .offset(-10 - (VARIANT_MAX_WIDTH / variants.size() * i), TOP_OFFSET)
+                    .size(WIDGET_TOTAL_MAX_WIDTH / variants.size(), WIDGET_HEIGHT)
+                    .scale(1, 1f / 6f)
+                    .offset(-10 - (WIDGET_TOTAL_MAX_WIDTH / variants.size() * i), WIDGET_TOP_OFFSET)
                     .build(this);
 
             final int selectedVariantIdx = i;
@@ -115,6 +116,36 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 updateModel();
             }).pos(pos.x(), pos.y()).size(pos.w(), pos.h()).build());
         }
+
+        WIDGET_TOP_OFFSET += 20;
+
+        List<VariantOption> checkboxOptions = menu.getReferenceBlockEntity().variantData().getCheckboxOptions();
+        for (int i = 0; i < checkboxOptions.size(); i++) {
+            pos = new LayoutBuilder()
+                    .anchor(1, .5)
+                    .size(WIDGET_TOTAL_MAX_WIDTH / variants.size(), WIDGET_HEIGHT)
+                    .scale(1, 1f / 6f)
+                    .offset(-10 - WIDGET_TOTAL_MAX_WIDTH / 2, WIDGET_TOP_OFFSET)
+                    .build(this);
+
+            VariantOption checkboxOption = checkboxOptions.get(i);
+            addRenderableWidget(
+                    Checkbox.builder(checkboxOption.variantOptionDisplayName(), font)
+                            .pos(pos.x(), pos.y())
+                            .selected(menu.getReferenceBlockEntity().variantData().getCheckboxOptionsTicked().contains(checkboxOption.key()))
+                            .onValueChange(featureCheckboxToggle(checkboxOption.key()))
+                            .build()
+            );
+
+            WIDGET_TOP_OFFSET += 20;
+        }
+    }
+
+    private Checkbox.OnValueChange featureCheckboxToggle(String key) {
+        return (checkbox, val) -> {
+            menu.getReferenceBlockEntity().variantData().toggleCheckboxOption(key);
+            updateModel();
+        };
     }
 
     private void configureGlobalOffsetWidgets() {

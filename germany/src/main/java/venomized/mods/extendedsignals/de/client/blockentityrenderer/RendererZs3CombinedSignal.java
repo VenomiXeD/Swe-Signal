@@ -10,11 +10,11 @@ import org.joml.Matrix4f;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
-import venomized.mods.extendedsignals.de.blockentity.BlockEntityHVCombinedZs3Signal;
+import venomized.mods.extendedsignals.de.blockentity.BlockEntityHVCombinedSignal;
 import venomized.mods.extendedsignals.de.client.GermanyModels;
 import venomized.mods.extendedsignals.de.signalling.HvCombinedSignalAspectCompositor;
 
-public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombinedZs3Signal> {
+public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombinedSignal> {
     public RendererZs3CombinedSignal(BlockEntityRendererProvider.Context context) {
         super(context);
     }
@@ -41,12 +41,12 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
      */
     @Override
     public void renderAdditionalModels() {
-        CachedBuffers.partial(GermanyModels.ZS3, blockEntity.getBlockState())
+        CachedBuffers.partial(GermanyModels.HV_ZS3, blockEntity.getBlockState())
                 .light(packedLight)
                 .overlay(packedOverlay)
                 .renderInto(poseStack, bufferSource.getBuffer(RenderType.cutoutMipped()));
 
-        CachedBuffers.partial(GermanyModels.ZS3V, blockEntity.getBlockState())
+        CachedBuffers.partial(GermanyModels.HV_ZS3V, blockEntity.getBlockState())
                 .light(packedLight)
                 .overlay(packedOverlay)
                 .renderInto(poseStack, bufferSource.getBuffer(RenderType.cutoutMipped()));

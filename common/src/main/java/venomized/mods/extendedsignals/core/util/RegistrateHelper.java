@@ -91,7 +91,8 @@ public class RegistrateHelper {
     private static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateBlockstateProvider> signalBlockStateModelProvider(final String assetType, final String nation, final String name) {
         return (blockTDataGenContext, registrateBlockstateProvider) -> {
             //if (blockTDataGenContext.get() instanceof Sw45DegreeBlock) {
-            String path = "block/%s/%s/%s".formatted(assetType, nation, name);
+
+            String path = "block/%s/%s/%s".formatted(assetType, nation, name.replace(".", "/"));
             ResourceLocation loc = registrateBlockstateProvider.modLoc(path);
 
             if (!registrateBlockstateProvider.models().existingFileHelper.exists(
@@ -101,8 +102,7 @@ public class RegistrateHelper {
 
             registrateBlockstateProvider.getVariantBuilder(blockTDataGenContext.get())
                     .forAllStates(blockState -> new ConfiguredModel[]{ConfiguredModel.builder()
-                            .modelFile(registrateBlockstateProvider.models()
-                                    .getExistingFile(loc))
+                            .modelFile(registrateBlockstateProvider.models().getExistingFile(loc))
                             .buildLast()});
             //}
         };

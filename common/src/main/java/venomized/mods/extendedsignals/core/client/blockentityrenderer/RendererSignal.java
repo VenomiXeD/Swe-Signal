@@ -1,7 +1,10 @@
 package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
@@ -56,10 +59,7 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
 
     private void renderSignalLights() {
         ISignalAspect aspect = blockEntity.interpret(blockEntity.currentSignalState(), blockEntity.getSignallingDirection());
-        if (aspect == null) {
-            ExtendedSignals.LOGGER.warn("A Signal block entity somehow returned a null aspect. This should nevever happen, please report this to the developers.\nOffending BlockEntity: {}", blockEntity.getClass().getName());
-            return;
-        }
+
 
         renderAdditionalSignals(aspect);
 
@@ -74,11 +74,17 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
             return;
         }
 
+        if (aspect == null) {
+            ExtendedSignals.LOGGER.warn("A Signal block entity somehow returned a null aspect. This should nevever happen, please report this to the developers.\nOffending BlockEntity: {}", blockEntity.getClass().getName());
+            return;
+        }
+
         blockEntity.getSignalLighting().allLights().forEach(light -> light.getState().setCurrentTick(blockEntity.getLevel().getGameTime()));
         blockEntity.getSignalLighting().renderFrameBegin();
         aspect.applyAspect(blockEntity.getLevel().getGameTime(), blockEntity.getSignalLighting());
         renderFinalLightValues();
         blockEntity.getSignalLighting().renderFrameEnd();
+
     }
 
     private void renderFinalLightValues() {
@@ -92,7 +98,6 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
                     light.getYScale(),
                     light.getZScale(),
                     state.getRedOutput(partialTick), state.getGreenOutput(partialTick), state.getBlueOutput(partialTick)
-
             );
         });
     }

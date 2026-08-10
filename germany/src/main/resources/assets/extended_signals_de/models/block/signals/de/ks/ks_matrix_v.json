@@ -9,10 +9,9 @@
   "parent": "forge:block/default",
   "loader": "neoforge:obj",
   "flip_v": true,
-  "model": "extended_signals_de:models/block/signals/de/ks_vr_400_right.obj",
+  "model": "extended_signals_de:models/block/signals/de/ks/ks_matrix_v.obj",
   "textures": {
     "signal": "extended_signals_de:block/signals/de/ks_signal",
-    "out": "extended_signals_de:block/signals/de/out",
     "metal": "extended_signals_de:block/signals/de/metal"
   }
 }

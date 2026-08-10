@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.create.ITrainDoorData;
 import venomized.mods.extendedsignals.core.create.tracks.DelayedSignalCrossTrigger;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
@@ -78,7 +79,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
             }
 
             if (trackEdgePoint instanceof IExtendedSignalBoundary<?> signalBoundary) {
-                if (speed != 0) {
+                if (!ExtendedSignals.serverNetworkCache().getSignalState(signalBoundary.pointId(), front).isStop()) {
                     extendedSignals$frontDelayedOnCrossedTriggering.add(
                             new DelayedSignalCrossTrigger(TICKS_ON_CROSSED_TRIGGERING_DELAY, front, signalBoundary)
                     );

@@ -4,5 +4,13 @@
   "block.extended_signals_de.de.hv_hp_vr": "[HV] Combined Block and Distant Signal",
   "block.extended_signals_de.de.hv_hp_vr_zs3": "[HV] Combined block and Distant Signal with Zs3 and Zs3v indicator",
   "block.extended_signals_de.de.hv_vr": "[HV] Distant Signal",
-  "itemGroup.extended_signals_de.extended_signals_de": "Extended Signals - Germany"
+  "itemGroup.extended_signals_de.extended_signals_de": "Extended Signals - Germany",
+  "screens.extended_signals_de.modelconfig.ks.offset.variant.400.left": "0.4m Left",
+  "screens.extended_signals_de.modelconfig.ks.offset.variant.400.right": "0.4m Right",
+  "screens.extended_signals_de.modelconfig.ks.offset.variant.1000.left": "1.0m Left",
+  "screens.extended_signals_de.modelconfig.ks.offset.variant.1000.right": "1.0m Right",
+  "screens.extended_signals_de.modelconfig.screens.matrix_display": "Matrix Display",
+  "screens.extended_signals_de.modelconfig.screens.matrix_display_v": "Matrix Display (Distant)",
+  "screens.extended_signals_de.modelconfig.screens.zs3_metal": "Speed Limit (Metal)",
+  "screens.extended_signals_de.modelconfig.screens.zs3v_metal": "Speed Limit (Metal) (Distant)"
 }

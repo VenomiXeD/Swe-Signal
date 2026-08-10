@@ -268,7 +268,7 @@ public abstract class ModelBlockEntity extends CoreBlockEntity implements IConfi
 
     protected VariantData constructVariantData() {
         VariantData variants = new VariantData();
-        variants.addVariantOption(new VariantOption(Component.translatable("PLACE.HOLDER"), () -> null));
+        variants.addVariantOption(new VariantOption("default", Component.translatable("screens.extended_signals.modelconfig.variants.default"), () -> null));
 
         return variants;
     }

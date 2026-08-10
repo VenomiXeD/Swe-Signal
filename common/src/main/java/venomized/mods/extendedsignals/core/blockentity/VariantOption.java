@@ -5,5 +5,5 @@ import net.minecraft.network.chat.Component;
 
 import java.util.function.Supplier;
 
-public record VariantOption(Component variantOptionDisplayName, Supplier<PartialModel> model) {
+public record VariantOption(String key, Component variantOptionDisplayName, Supplier<PartialModel> model) {
 }

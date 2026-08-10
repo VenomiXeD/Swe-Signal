@@ -1,0 +1,51 @@
+package venomized.mods.extendedsignals.de.signalling;
+
+import net.minecraft.core.Direction;
+import org.jetbrains.annotations.NotNull;
+import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+
+// This is pretty awful, but it works
+public enum KsCombinedSignalAspect implements ICombinedSignalAspect {
+    STOP(new String[]{"stop"}, new String[]{}),
+    PROCEED(new String[]{"proceed"}, new String[]{}),
+    EXPECT_REDUCED_SPEED(new String[]{}, new String[]{"proceed"}),
+    EXPECT_STOP(new String[]{"danger"}, new String[]{});
+    private final String[] litLights;
+    private final String[] flashingLights;
+
+    KsCombinedSignalAspect(String[] lit, String[] blinking) {
+        litLights = lit;
+        flashingLights = blinking;
+    }
+
+    public static @NotNull ICombinedSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
+        if (state.isStop())
+            return STOP;
+
+        if (state.getNextState() != null) {
+            if (state.getNextState().isStop())
+                return EXPECT_STOP;
+            if (state.getNextState().getMaxProceedSpeed() < state.getMaxProceedSpeed())
+                return EXPECT_REDUCED_SPEED;
+        }
+
+        return PROCEED;
+    }
+
+    /**
+     * @param totalTicksForBlockEntity
+     * @param states
+     */
+    @Override
+    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+        for (String litLight : litLights) {
+            states.powered(litLight);
+        }
+
+        for (String litLight : flashingLights) {
+            if (totalTicksForBlockEntity % 20 > 10) states.powered(litLight);
+        }
+    }
+}

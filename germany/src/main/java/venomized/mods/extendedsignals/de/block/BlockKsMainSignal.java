@@ -6,11 +6,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.de.blockentity.GermanyBlockEntities;
 
-public class BlockZsCombinedSignal extends BlockGermanySignal {
+public class BlockKsMainSignal extends BlockGermanySignal {
     /**
      * @param pProperties
      */
-    public BlockZsCombinedSignal(Properties pProperties) {
+    public BlockKsMainSignal(Properties pProperties) {
         super(pProperties);
     }
 
@@ -21,6 +21,6 @@ public class BlockZsCombinedSignal extends BlockGermanySignal {
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return GermanyBlockEntities.HV_ZS3_SIGNAL.create(pPos, pState);
+        return GermanyBlockEntities.KS_MAIN_SIGNAL.create(pPos, pState);
     }
 }

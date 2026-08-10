@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -38,6 +39,9 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
     protected UUID targetEdgePointId;
 
     @Getter
+    private ISignalAspect currentDisplayedAspect;
+
+    @Getter
     private final SignalLighting signalLighting;
 
     @Getter
@@ -58,7 +62,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
     }
 
     public static void clientTick(BlockEntitySignal<?> be, Level pLevel, BlockPos pPos, BlockState pBlockState) {
-        commonTick(be, pLevel, pPos, pBlockState);
+        be.currentDisplayedAspect = be.interpret(be.currentSignalState(), be.getSignallingDirection());
     }
 
     public abstract SignalLighting constructSignalLighting();

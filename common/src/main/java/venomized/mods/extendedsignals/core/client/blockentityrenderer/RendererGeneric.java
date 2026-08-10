@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -8,6 +9,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -34,15 +36,16 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
 
     @Override
     public int getViewDistance() {
-        return 1024;
+        return 128;
     }
 
     public void renderLightAt(double x, double y, double z, float xscale, float yscale, float zscale, int r, int g, int b) {
+
         poseStack.pushPose();
         poseStack.translate(
                 x + 0.5d,
                 y,
-                z + 0.5d
+                z + 0.5d - 0.025d / 16d
         );
 
         poseStack.scale(
@@ -50,11 +53,19 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
                 yscale / 2f,
                 zscale / 2f
         );
+        // renderer.renderModel(
+        //         poseStack.last(),
+        //         bufferSource.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
+        //         blockEntity.getBlockState(), ExtendedSignalsCoreModels.LIGHT_MODEL.get(),
+        //         r/255f, g/255f, b/255f,
+        //         15728880,
+        //         packedOverlay
+        // );
         CachedBuffers.partial(ExtendedSignalsCoreModels.LIGHT_MODEL, blockEntity.getBlockState())
                 .color(r, g, b, 255)
                 .overlay(packedOverlay)
                 .disableDiffuse()
-                .light(0xFFFFFF)
+                .light(0xFFFFFFFF)
                 .renderInto(
                         poseStack,
                         bufferSource.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)
@@ -65,7 +76,18 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
 
     protected void renderSelfBlock() {
         if (blockEntity instanceof IConfigurableModelBlockEntity configurableModelBlockEntity) {
-            PartialModel model = configurableModelBlockEntity.variantData().getModel();
+            PartialModel model = configurableModelBlockEntity.variantData().getVariantModel();
+
+            configurableModelBlockEntity.variantData().getAdditionalFeatures().forEach(additionalModel -> {
+                if (additionalModel == null)
+                    return;
+
+                CachedBuffers.partial(additionalModel, blockEntity.getBlockState())
+                        .light(packedLight)
+                        .overlay(packedOverlay)
+                        .renderInto(poseStack, bufferSource.getBuffer(RenderType.cutoutMipped()));
+            });
+
             if (model != null) {
                 CachedBuffers.partial(model, blockEntity.getBlockState())
                         .light(packedLight)

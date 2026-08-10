@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "extended_signals_de:de.hv_hp_vr_zs3"
+          "name": "extended_signals_de:de.ks.ks_hp_vr"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "extended_signals_de:blocks/de.hv_hp_vr_zs3"
+  "random_sequence": "extended_signals_de:blocks/de.ks.ks_hp_vr"
 }

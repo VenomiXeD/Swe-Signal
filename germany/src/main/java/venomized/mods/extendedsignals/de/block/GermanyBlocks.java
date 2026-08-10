@@ -15,7 +15,7 @@ public final class GermanyBlocks {
     // HP + VR
     public static final BlockEntry<BlockHVCombinedSignal> HV_COMBINED_SIGNAL = RegistrateHelper
             .genericCustomModelledBlock(registrate(), "de", "signals", "hv_hp_vr", BlockHVCombinedSignal::new)
-            .lang("[HV] Combined Block and Distant Signal")
+            .lang("[HV] Combined Signal")
             .register();
     public static final BlockEntry<BlockHVMainBlockSignal> HV_BLOCK_SIGNAL = RegistrateHelper
             .genericCustomModelledBlock(registrate(), "de", "signals", "hv_bk_hp_s", BlockHVMainBlockSignal::new)
@@ -26,10 +26,7 @@ public final class GermanyBlocks {
             .genericCustomModelledBlock(registrate(), "de", "signals", "hv_vr", BlockHVDistantSignal::new)
             .lang("[HV] Distant Signal")
             .register();
-    public static final BlockEntry<BlockZsCombinedSignal> HV_COMBINED_ZS3_SIGNAL = RegistrateHelper // TODO: Remove HV COMBINED SIGNAL, use feature toggles instead
-            .genericCustomModelledBlock(registrate(), "de", "signals", "hv_hp_vr_zs3", BlockZsCombinedSignal::new)
-            .lang("[HV] Combined block and Distant Signal with Zs3 and Zs3v indicator")
-            .register();
+
     // HP, Hauptsignal
     public static BlockEntry<BlockHVMainSignal> HV_MAIN_SIGNAL = RegistrateHelper
             .genericCustomModelledBlock(registrate(), "de", "signals", "hv_hp", BlockHVMainSignal::new)
@@ -38,9 +35,20 @@ public final class GermanyBlocks {
 
 
     // KS System
+
+    public static final BlockEntry<BlockKsCombinedSignal> KS_COMBINED_SIGNAL = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "de", "signals", "ks.ks_hp_vr", BlockKsCombinedSignal::new)
+            .lang("[KS] Combined Signal")
+            .register();
+
     public static final BlockEntry<BlockKsDistantSignal> KS_DISTANT_SIGNAL = RegistrateHelper
-            .genericCustomModelledBlock(registrate(), "de", "signals", "ks_vr_default", BlockKsDistantSignal::new)
+            .genericCustomModelledBlock(registrate(), "de", "signals", "ks.ks_vr", BlockKsDistantSignal::new)
             .lang("[KS] Distant Signal")
+            .register();
+
+    public static final BlockEntry<BlockKsMainSignal> KS_MAIN_SIGNAL = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "de", "signals", "ks.ks_hp", BlockKsMainSignal::new)
+            .lang("[KS] Main Signal")
             .register();
 
 

@@ -20,6 +20,11 @@ public class SignalLighting {
         return this;
     }
 
+    public SignalLighting withFadeTicks(int fadeTicks) {
+        allLights().forEach(e -> e.getState().setFadeTicks(fadeTicks));
+        return this;
+    }
+
     public SignalLight keyedLight(String lightNameKey) {
         SignalLight light = lights.get(lightNameKey);
         if (light == null) {

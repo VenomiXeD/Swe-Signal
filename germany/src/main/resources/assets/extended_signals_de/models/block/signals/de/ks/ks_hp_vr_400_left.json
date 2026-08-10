@@ -1,0 +1,18 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "parent": "forge:block/default",
+  "loader": "neoforge:obj",
+  "flip_v": true,
+  "model": "extended_signals_de:models/block/signals/de/ks/ks_hp_vr_400_left.obj",
+  "textures": {
+    "signal": "extended_signals_de:block/signals/de/ks_signal",
+    "out": "extended_signals_de:block/signals/de/out",
+    "metal": "extended_signals_de:block/signals/de/metal"
+  }
+}

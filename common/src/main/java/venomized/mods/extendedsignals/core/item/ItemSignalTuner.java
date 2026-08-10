@@ -28,27 +28,6 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
         super(pProperties);
     }
 
-    private static void sendStatusMessageFromInteraction(UseOnContext pContext, Pair<InteractionResult, ? extends Component> result, MutableComponent fullMessage) {
-        if (result.left() != null && result.right() != null) {
-            switch (result.left()) {
-                case SUCCESS:
-                    pContext.getPlayer().sendSystemMessage(
-                            fullMessage.setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN))
-                    );
-                    break;
-                case FAIL:
-                    pContext.getPlayer().sendSystemMessage(
-                            fullMessage.setStyle(Style.EMPTY.withColor(ChatFormatting.RED))
-                    );
-                case PASS:
-                    pContext.getPlayer().sendSystemMessage(
-                            fullMessage
-                    );
-                    break;
-            }
-        }
-    }
-
     /**
      * @param itemStack
      * @param up
