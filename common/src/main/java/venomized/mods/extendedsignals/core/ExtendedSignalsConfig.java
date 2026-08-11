@@ -2,6 +2,8 @@ package venomized.mods.extendedsignals.core;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
 
+import java.util.function.BooleanSupplier;
+
 public class ExtendedSignalsConfig {
     public static final ModConfigSpec SERVER_SPEC;
     public static final ServerConfig SERVER;
@@ -23,6 +25,7 @@ public class ExtendedSignalsConfig {
     public static class ServerConfig {
         public final ModConfigSpec.DoubleValue defaultScanDistance;
         public final ModConfigSpec.DoubleValue defaultMinScanDistance;
+        public final ModConfigSpec.BooleanValue creativeBlockBreakingMovementBehavior;
 
         ServerConfig(ModConfigSpec.Builder builder) {
             builder.push("signals");
@@ -31,6 +34,11 @@ public class ExtendedSignalsConfig {
 
             defaultMinScanDistance = builder.comment("Default scan distance for signalling, also changes brass signals reservation distance")
                     .defineInRange("defaultMinScanDistance", 128, 16, Double.MAX_VALUE);
+            builder.pop();
+
+            builder.push("creative");
+            creativeBlockBreakingMovementBehavior = builder.comment("Makes Movement behavior blocks (Drills, Saws, Rollers) have infinite break speed and disables stalling. Use with caution")
+                    .define("creativeBlockBreakingMovementBehavior", false);
             builder.pop();
         }
     }

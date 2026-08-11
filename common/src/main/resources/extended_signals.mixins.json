@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "extendedsignals.refmap.json",
   "mixins": [
+    "MixinBlockBreakingMovementBehaviour",
     "MixinNavigation",
     "MixinScheduleRuntime",
     "MixinSignalBlockEntity",

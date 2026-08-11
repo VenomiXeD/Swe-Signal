@@ -17,7 +17,7 @@ import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 
 @Mixin(value = GlobalRailwayManager.class, remap = false)
 @OnlyIn(Dist.CLIENT)
-public class MixinGlobalRailwayManager {
+public abstract class MixinGlobalRailwayManager {
     @ModifyReturnValue(method = "isTrackGraphDebugActive", at = @At("RETURN"))
     private static boolean isTrackGraphDebugActive(boolean value) {
         return value || extendedSignals$shouldDisplayGraph();
