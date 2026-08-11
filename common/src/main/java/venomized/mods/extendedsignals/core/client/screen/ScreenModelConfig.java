@@ -1,15 +1,16 @@
 package venomized.mods.extendedsignals.core.client.screen;
 
+import mezz.jei.gui.input.handlers.TextFieldInputHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Checkbox;
+import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import net.neoforged.neoforge.network.PacketDistributor;
-import venomized.mods.extendedsignals.core.blockentity.VariantOption;
+import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.client.screen.widget.NumericEditBox;
 import venomized.mods.extendedsignals.core.menu.MenuModelConfig;
 import venomized.mods.extendedsignals.core.network.packets.ServerBoundModelConfigurePacket;
@@ -100,17 +101,17 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
         // this.addRenderableWidget(
         // );
 
-        List<VariantOption> variants = menu.getReferenceBlockEntity().variantData().getVariants();
+        List<VariantData.VariantOption> variants = menu.getReferenceBlockEntity().variantData().getVariants();
         for (int i = 0; i < variants.size(); i++) {
             pos = new LayoutBuilder()
                     .anchor(1, .5)
                     .size(WIDGET_TOTAL_MAX_WIDTH / variants.size(), WIDGET_HEIGHT)
-                    .scale(1, 1f / 6f)
+                    .scale(1, 1f / 12f)
                     .offset(-10 - (WIDGET_TOTAL_MAX_WIDTH / variants.size() * i), WIDGET_TOP_OFFSET)
                     .build(this);
 
             final int selectedVariantIdx = i;
-            VariantOption variant = variants.get(i);
+            VariantData.VariantOption variant = variants.get(i);
             addRenderableWidget(new Button.Builder(variant.variantOptionDisplayName(), (b) -> {
                 menu.getReferenceBlockEntity().variantData().setSelectedVariant(selectedVariantIdx);
                 updateModel();
@@ -119,29 +120,84 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
 
         WIDGET_TOP_OFFSET += 20;
 
-        List<VariantOption> checkboxOptions = menu.getReferenceBlockEntity().variantData().getCheckboxOptions();
+        List<VariantData.VariantOption> checkboxOptions = menu.getReferenceBlockEntity().variantData().getCheckboxOptions();
         for (int i = 0; i < checkboxOptions.size(); i++) {
             pos = new LayoutBuilder()
                     .anchor(1, .5)
                     .size(WIDGET_TOTAL_MAX_WIDTH / variants.size(), WIDGET_HEIGHT)
-                    .scale(1, 1f / 6f)
-                    .offset(-10 - WIDGET_TOTAL_MAX_WIDTH / 2, WIDGET_TOP_OFFSET)
+                    .scale(1, 1f / 12f)
+                    .offset(-WIDGET_TOTAL_MAX_WIDTH + 50, WIDGET_TOP_OFFSET)
                     .build(this);
 
-            VariantOption checkboxOption = checkboxOptions.get(i);
+            VariantData.VariantOption checkboxOption = checkboxOptions.get(i);
             addRenderableWidget(
                     Checkbox.builder(checkboxOption.variantOptionDisplayName(), font)
                             .pos(pos.x(), pos.y())
                             .selected(menu.getReferenceBlockEntity().variantData().getCheckboxOptionsTicked().contains(checkboxOption.key()))
-                            .onValueChange(featureCheckboxToggle(checkboxOption.key()))
+                            .onValueChange(featureCheckboxToggleCallback(checkboxOption.key()))
                             .build()
             );
 
             WIDGET_TOP_OFFSET += 20;
         }
+
+        // WIDGET_TOP_OFFSET += 20;
+
+        for (VariantData.TextBoxOption textBoxOption : menu.getReferenceBlockEntity().variantData().getTextBoxOptions()) {
+            final int BUTTON_APPLY_WIDTH = 75;
+
+            pos = new LayoutBuilder()
+                    .anchor(1, .5)
+                    .size(WIDGET_TOTAL_MAX_WIDTH, WIDGET_HEIGHT)
+                    .scale(1, 1f / 12f)
+                    .offset(-10, WIDGET_TOP_OFFSET)
+                    .build(this);
+
+            addRenderableWidget(new StringWidget(pos.x(), pos.y(), pos.w(), pos.h(), textBoxOption.label(), font)).alignLeft();
+
+            WIDGET_TOP_OFFSET += 20;
+
+            pos = new LayoutBuilder()
+                    .anchor(1, .5)
+                    .size(WIDGET_TOTAL_MAX_WIDTH - BUTTON_APPLY_WIDTH, WIDGET_HEIGHT)
+                    .scale(1, 1f / 12f)
+                    .offset(-10 - BUTTON_APPLY_WIDTH, WIDGET_TOP_OFFSET)
+                    .build(this);
+
+            EditBox editBox = addRenderableWidget(
+                    new EditBox(font, pos.x(), pos.y(), pos.w(), pos.h(), textBoxOption.description())
+            );
+            editBox.setTooltip(Tooltip.create(textBoxOption.description()));
+            editBox.setValue(menu.getReferenceBlockEntity().variantData().getTextBoxValues().getOrDefault(textBoxOption.key(), ""));
+
+            pos = new LayoutBuilder()
+                    .anchor(1, .5)
+                    .size(BUTTON_APPLY_WIDTH, WIDGET_HEIGHT)
+                    .scale(1, 1f / 12f)
+                    .offset(-10, WIDGET_TOP_OFFSET)
+                    .build(this);
+
+            addRenderableWidget(
+                    Button.builder(Component.translatable("screens.extended_signals.modelconfig.textinput.btn.apply"), onTextBoxApply(textBoxOption.key(), editBox))
+                            .pos(pos.x(), pos.y())
+                            .size(pos.w(), pos.h())
+                            .build()
+            );
+
+            WIDGET_TOP_OFFSET += 20;
+        }
+
     }
 
-    private Checkbox.OnValueChange featureCheckboxToggle(String key) {
+    private Button.OnPress onTextBoxApply(String key, EditBox editBox) {
+        return (button) -> {
+            menu.getReferenceBlockEntity().variantData().getTextBoxValues().put(key, editBox.getValue());
+            if (getFocused() != null) getFocused().setFocused(false);
+            updateModel();
+        };
+    }
+
+    private Checkbox.OnValueChange featureCheckboxToggleCallback(String key) {
         return (checkbox, val) -> {
             menu.getReferenceBlockEntity().variantData().toggleCheckboxOption(key);
             updateModel();
@@ -610,27 +666,28 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
     }
 
     /**
-     * @param pGuiGraphics
-     * @param pPartialTick
-     * @param pMouseX
-     * @param pMouseY
+     * @param keyCode   the key code of the pressed key.
+     * @param scanCode  the scan code of the pressed key.
+     * @param modifiers the keyboard modifiers.
+     * @return
      */
     @Override
-    protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        // pGuiGraphics.fill(
-        //         leftPos, topPos,
-        //         leftPos + imageWidth,
-        //         topPos + imageHeight,
-        //         0xAA000000
-        // );
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == Minecraft.getInstance().options.keyInventory.getKey().getValue())
+            if (this.getFocused() instanceof EditBox)
+                return true;
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     /**
-     * @param pGuiGraphics
-     * @param pMouseX
-     * @param pMouseY
+     * @param guiGraphics
+     * @param partialTick
+     * @param mouseX
+     * @param mouseY
      */
     @Override
-    protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
+    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+
     }
 }

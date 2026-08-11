@@ -35,5 +35,6 @@
   "message.extended_signals.createsignal.tool.info.owning_train_nonexistent": "This signal has a group ownership, but the owning train does not exist.",
   "message.extended_signals.createsignal.tool.info.owning_train": "Train with ID %s (%s) has reserved this block, it is roughly %.2f meters away",
   "message.extended_signals.createsignal.tool.info.no_owning_train": "This signal edge group currently has no reservation",
-  "screens.extended_signals.modelconfig.variants.default": "Default"
+  "screens.extended_signals.modelconfig.variants.default": "Default",
+  "screens.extended_signals.modelconfig.textinput.btn.apply": "Apply"
 }

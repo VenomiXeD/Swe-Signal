@@ -47,6 +47,10 @@ subprojects {
         }
     }
 
+    configurations {
+        runtimeClasspath.extendsFrom localRuntime
+    }
+
     dependencies {
         implementation "net.neoforged:neoforge:${rootProject.neo_version}"
 

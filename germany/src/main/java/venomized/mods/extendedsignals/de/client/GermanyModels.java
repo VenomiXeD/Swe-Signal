@@ -31,6 +31,22 @@ public final class GermanyModels {
             ExtendedSignalsGermany.res("block/signals/de/ks/ks_zs3v_metal")
     );
 
+    public static PartialModel KS_VR_R_400_LEFT = PartialModel.of(
+            ExtendedSignalsGermany.res("block/signals/de/ks/ks_vr_r_400_left")
+    );
+
+    public static PartialModel KS_VR_R_400_RIGHT = PartialModel.of(
+            ExtendedSignalsGermany.res("block/signals/de/ks/ks_vr_r_400_right")
+    );
+
+    public static PartialModel KS_VR_R_1000_LEFT = PartialModel.of(
+            ExtendedSignalsGermany.res("block/signals/de/ks/ks_vr_r_1000_left")
+    );
+
+    public static PartialModel KS_VR_R_1000_RIGHT = PartialModel.of(
+            ExtendedSignalsGermany.res("block/signals/de/ks/ks_vr_r_1000_right")
+    );
+
     public static PartialModel KS_HP_VR_400_LEFT = PartialModel.of(
             ExtendedSignalsGermany.res("block/signals/de/ks/ks_hp_vr_400_left")
     );

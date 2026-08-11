@@ -119,7 +119,7 @@ public class RegistrateHelper {
             }
 
             // PLACEMENT: <root>/textures/item/signals/<nation>/<signalblockname>.png
-            String path = "item/" + assetType + "/" + "%s/%s".formatted(nation, name);
+            String path = "item/" + assetType + "/" + "%s/%s".formatted(nation, name.replace(".", "/"));
             ResourceLocation loc = prov.modLoc(path);
             LOGGER.info("Looking for item texture: {}", loc);
             if (prov.existingFileHelper.exists(loc, PackType.CLIENT_RESOURCES, ".png", "textures")) {

@@ -9,5 +9,6 @@
   "extended_signals.schedule.instruction.door": "Close doors",
   "item.extended_signals.signalitem": "Signalitem",
   "itemGroup.extended_signals.extended_signals": "Extended Signals",
-  "screens.extended_signals.modelconfig.variants.default": "Default"
+  "screens.extended_signals.modelconfig.variants.default": "Default",
+  "screens.extended_signals.modelconfig.textinput.btn.apply": "Apply"
 }

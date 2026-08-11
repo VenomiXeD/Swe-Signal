@@ -7,11 +7,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Supplier;
 
 public class VariantData {
 
@@ -32,17 +34,18 @@ public class VariantData {
     @Getter
     private final List<VariantOption> variants = new ArrayList<>();
 
-    @Getter
-    private final List<VariantOption> checkboxOptions = new ArrayList<>();
-
     public void addVariantOption(VariantOption option) {
         variants.add(option);
     }
 
-    public void addCheckboxOption(VariantOption option) {
-        checkboxOptions.add(option);
+    public void addVariantOptionLeft(VariantOption option) {
+        variants.addLast(option);
     }
 
+    public void addVariantOptionRight(VariantOption option) {
+        variants.addFirst(option);
+        selectedVariant++;
+    }
 
     @OnlyIn(Dist.CLIENT)
     @Nullable
@@ -54,10 +57,26 @@ public class VariantData {
         return variants.get(selectedVariant).model().get();
     }
 
+    @Getter
+    private final List<VariantOption> checkboxOptions = new ArrayList<>();
+
+    public void addCheckboxOption(VariantOption option) {
+        checkboxOptions.add(option);
+    }
+
     @OnlyIn(Dist.CLIENT)
     @Nullable
     public List<PartialModel> getAdditionalFeatures() {
         return checkboxOptions.stream().filter(e -> checkboxOptionsTicked.contains(e.key())).map(e -> e.model().get()).toList();
+    }
+
+    @Getter
+    private final List<TextBoxOption> textBoxOptions = new ArrayList<>();
+    @Getter
+    private final HashMap<String, String> textBoxValues = new HashMap<>();
+
+    public void addTextBoxOption(TextBoxOption option) {
+        textBoxOptions.add(option);
     }
 
     public void read(CompoundTag tag) {
@@ -67,6 +86,9 @@ public class VariantData {
         for (int i = 0; i < selectedCheckboxes.size(); i++) {
             checkboxOptionsTicked.add(selectedCheckboxes.getString(i));
         }
+        textBoxValues.clear();
+        final CompoundTag textValues = tag.getCompound("textbox_values");
+        textValues.getAllKeys().forEach(k -> textBoxValues.put(k, textValues.getString(k)));
     }
 
     public CompoundTag toNBT() {
@@ -77,7 +99,16 @@ public class VariantData {
             selectedCheckboxes.add(StringTag.valueOf(checkedKey));
         }
         tag.put("checkbox_options", selectedCheckboxes);
+        CompoundTag textValues = new CompoundTag();
+        textBoxValues.forEach(textValues::putString);
+        tag.put("textbox_values", textValues);
 
         return tag;
+    }
+
+    public record VariantOption(String key, Component variantOptionDisplayName, Supplier<PartialModel> model) {
+    }
+
+    public record TextBoxOption(String key, Component label, Component description) {
     }
 }

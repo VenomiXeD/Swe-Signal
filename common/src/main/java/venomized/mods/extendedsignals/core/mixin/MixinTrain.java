@@ -79,7 +79,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
             }
 
             if (trackEdgePoint instanceof IExtendedSignalBoundary<?> signalBoundary) {
-                if (!ExtendedSignals.serverNetworkCache().getSignalState(signalBoundary.pointId(), front).isStop()) {
+                if (speed != 0) {
                     extendedSignals$frontDelayedOnCrossedTriggering.add(
                             new DelayedSignalCrossTrigger(TICKS_ON_CROSSED_TRIGGERING_DELAY, front, signalBoundary)
                     );

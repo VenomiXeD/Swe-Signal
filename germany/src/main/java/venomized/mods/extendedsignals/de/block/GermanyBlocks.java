@@ -35,10 +35,14 @@ public final class GermanyBlocks {
 
 
     // KS System
+    public static final BlockEntry<BlockKsMainSignal> KS_MAIN_SIGNAL = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "de", "signals", "ks.ks_hp", BlockKsMainSignal::new)
+            .lang("[KS] Main Signal")
+            .register();
 
-    public static final BlockEntry<BlockKsCombinedSignal> KS_COMBINED_SIGNAL = RegistrateHelper
-            .genericCustomModelledBlock(registrate(), "de", "signals", "ks.ks_hp_vr", BlockKsCombinedSignal::new)
-            .lang("[KS] Combined Signal")
+    public static final BlockEntry<BlockKsDistantRepeaterSignal> KS_DISTANT_REPEATER_SIGNAL = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "de", "signals", "ks.ks_vr_r", BlockKsDistantRepeaterSignal::new)
+            .lang("[KS] Distant Repeater Signal")
             .register();
 
     public static final BlockEntry<BlockKsDistantSignal> KS_DISTANT_SIGNAL = RegistrateHelper
@@ -46,11 +50,11 @@ public final class GermanyBlocks {
             .lang("[KS] Distant Signal")
             .register();
 
-    public static final BlockEntry<BlockKsMainSignal> KS_MAIN_SIGNAL = RegistrateHelper
-            .genericCustomModelledBlock(registrate(), "de", "signals", "ks.ks_hp", BlockKsMainSignal::new)
-            .lang("[KS] Main Signal")
-            .register();
 
+    public static final BlockEntry<BlockKsCombinedSignal> KS_COMBINED_SIGNAL = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "de", "signals", "ks.ks_hp_vr", BlockKsCombinedSignal::new)
+            .lang("[KS] Combined Signal")
+            .register();
 
 
     public static void init() {

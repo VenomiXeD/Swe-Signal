@@ -36,7 +36,7 @@ public class RepeaterSignal extends TrackEdgePoint implements IExtendedSignalBou
      */
     @Override
     public UUID pointId() {
-        return null;
+        return id;
     }
 
     /**

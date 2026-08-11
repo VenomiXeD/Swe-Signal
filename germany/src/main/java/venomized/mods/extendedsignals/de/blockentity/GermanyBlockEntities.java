@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.de.blockentity;
 
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
@@ -35,8 +34,13 @@ public final class GermanyBlockEntities {
             .register();
 
     // KS System
-    public static BlockEntityEntry<BlockEntityKsCombinedSignal> KS_COMBINED_SIGNAL = RegistrateHelper
-            .simpleBlockEntity(registrate(), "ks_combined_signal", BlockEntityKsCombinedSignal::new, GermanyBlocks.KS_COMBINED_SIGNAL)
+    public static BlockEntityEntry<BlockEntityKsMainSignal> KS_MAIN_SIGNAL = RegistrateHelper
+            .simpleBlockEntity(registrate(), "ks_main_signal", BlockEntityKsMainSignal::new, GermanyBlocks.KS_MAIN_SIGNAL)
+            .renderer(() -> RendererKs::new)
+            .register();
+
+    public static BlockEntityEntry<BlockEntityKsDistantRepeaterSignal> KS_DISTANT_REPEATER_SIGNAL = RegistrateHelper
+            .simpleBlockEntity(registrate(), "ks_distant_repeater_signal", BlockEntityKsDistantRepeaterSignal::new, GermanyBlocks.KS_DISTANT_REPEATER_SIGNAL)
             .renderer(() -> RendererKs::new)
             .register();
 
@@ -46,8 +50,8 @@ public final class GermanyBlockEntities {
             .register();
 
 
-    public static BlockEntityEntry<BlockEntityKsMainSignal> KS_MAIN_SIGNAL = RegistrateHelper
-            .simpleBlockEntity(registrate(), "ks_main_signal", BlockEntityKsMainSignal::new, GermanyBlocks.KS_MAIN_SIGNAL)
+    public static BlockEntityEntry<BlockEntityKsCombinedSignal> KS_COMBINED_SIGNAL = RegistrateHelper
+            .simpleBlockEntity(registrate(), "ks_combined_signal", BlockEntityKsCombinedSignal::new, GermanyBlocks.KS_COMBINED_SIGNAL)
             .renderer(() -> RendererKs::new)
             .register();
 

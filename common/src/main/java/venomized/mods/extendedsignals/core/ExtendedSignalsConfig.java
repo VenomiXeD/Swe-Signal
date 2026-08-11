@@ -19,10 +19,10 @@ public class ExtendedSignalsConfig {
         ServerConfig(ModConfigSpec.Builder builder) {
             builder.push("signals");
             defaultScanDistance = builder.comment("Default scan distance for signalling, also changes brass signals reservation distance")
-                    .defineInRange("defaultScanDistance", 2048, 256, Double.MAX_VALUE);
+                    .defineInRange("defaultScanDistance", 2048, 32, Double.MAX_VALUE);
 
             defaultMinScanDistance = builder.comment("Default scan distance for signalling, also changes brass signals reservation distance")
-                    .defineInRange("defaultMinScanDistance", 256, 64, Double.MAX_VALUE);
+                    .defineInRange("defaultMinScanDistance", 128, 16, Double.MAX_VALUE);
             builder.pop();
         }
     }

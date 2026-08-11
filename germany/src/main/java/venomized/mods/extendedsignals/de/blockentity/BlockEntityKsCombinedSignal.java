@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 import venomized.mods.extendedsignals.core.blockentity.VariantData;
-import venomized.mods.extendedsignals.core.blockentity.VariantOption;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -75,10 +74,10 @@ public class BlockEntityKsCombinedSignal extends BlockEntityKs<ICombinedSignalAs
     @Override
     protected VariantData constructVariantData() {
         VariantData variants = super.constructVariantData();
-        variants.addVariantOption(new VariantOption("400_left", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.400.left"), () -> GermanyModels.KS_HP_VR_400_LEFT));
-        variants.addVariantOption(new VariantOption("400_right", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.400.right"), () -> GermanyModels.KS_HP_VR_400_RIGHT));
-        variants.addVariantOption(new VariantOption("1000_left", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.1000.left"), () -> GermanyModels.KS_HP_VR_1000_LEFT));
-        variants.addVariantOption(new VariantOption("1000_right", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.1000.right"), () -> GermanyModels.KS_HP_VR_1000_RIGHT));
+        variants.addVariantOptionLeft(new VariantData.VariantOption("400_left", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.400.left"), () -> GermanyModels.KS_HP_VR_400_LEFT));
+        variants.addVariantOptionRight(new VariantData.VariantOption("400_right", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.400.right"), () -> GermanyModels.KS_HP_VR_400_RIGHT));
+        variants.addVariantOptionLeft(new VariantData.VariantOption("1000_left", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.1000.left"), () -> GermanyModels.KS_HP_VR_1000_LEFT));
+        variants.addVariantOptionRight(new VariantData.VariantOption("1000_right", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.1000.right"), () -> GermanyModels.KS_HP_VR_1000_RIGHT));
         return variants;
     }
 }

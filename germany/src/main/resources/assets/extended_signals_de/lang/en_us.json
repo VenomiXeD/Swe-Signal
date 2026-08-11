@@ -1,9 +1,12 @@
 {
   "block.extended_signals_de.de.hv_bk_hp_s": "[HV] Block Signal",
   "block.extended_signals_de.de.hv_hp": "[HV] Main Signal",
-  "block.extended_signals_de.de.hv_hp_vr": "[HV] Combined Block and Distant Signal",
-  "block.extended_signals_de.de.hv_hp_vr_zs3": "[HV] Combined block and Distant Signal with Zs3 and Zs3v indicator",
+  "block.extended_signals_de.de.hv_hp_vr": "[HV] Combined Signal",
   "block.extended_signals_de.de.hv_vr": "[HV] Distant Signal",
+  "block.extended_signals_de.de.ks.ks_hp": "[KS] Main Signal",
+  "block.extended_signals_de.de.ks.ks_hp_vr": "[KS] Combined Signal",
+  "block.extended_signals_de.de.ks.ks_vr": "[KS] Distant Signal",
+  "block.extended_signals_de.de.ks.ks_vr_r": "[KS] Distant Repeater Signal",
   "itemGroup.extended_signals_de.extended_signals_de": "Extended Signals - Germany",
   "screens.extended_signals_de.modelconfig.ks.offset.variant.400.left": "0.4m Left",
   "screens.extended_signals_de.modelconfig.ks.offset.variant.400.right": "0.4m Right",
@@ -11,6 +14,10 @@
   "screens.extended_signals_de.modelconfig.ks.offset.variant.1000.right": "1.0m Right",
   "screens.extended_signals_de.modelconfig.screens.matrix_display": "Matrix Display",
   "screens.extended_signals_de.modelconfig.screens.matrix_display_v": "Matrix Display (Distant)",
-  "screens.extended_signals_de.modelconfig.screens.zs3_metal": "Speed Limit (Metal)",
-  "screens.extended_signals_de.modelconfig.screens.zs3v_metal": "Speed Limit (Metal) (Distant)"
+  "screens.extended_signals_de.modelconfig.screens.ks.zs3_metal": "Speed Limit (Metal)",
+  "screens.extended_signals_de.modelconfig.screens.ks.zs3v_metal": "Speed Limit (Metal) (Distant)",
+  "screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3.tooltip": "Enter Zs3 Display value",
+  "screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3v.tooltip": "Enter Zs3v Display value",
+  "screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3.label": "Zs3 Display value",
+  "screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3v.label": "Zs3v Display value"
 }

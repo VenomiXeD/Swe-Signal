@@ -6,5 +6,6 @@
   "block.extended_signals_de.de.ks.ks_hp": "[KS] Main Signal",
   "block.extended_signals_de.de.ks.ks_hp_vr": "[KS] Combined Signal",
   "block.extended_signals_de.de.ks.ks_vr": "[KS] Distant Signal",
+  "block.extended_signals_de.de.ks.ks_vr_r": "[KS] Distant Repeater Signal",
   "itemGroup.extended_signals_de.extended_signals_de": "Extended Signals De"
 }

@@ -1,7 +1,7 @@
 package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -9,14 +9,16 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.util.FastColor;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
+import venomized.mods.extendedsignals.core.util.SpriteUV;
 
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
@@ -40,7 +42,6 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
     }
 
     public void renderLightAt(double x, double y, double z, float xscale, float yscale, float zscale, int r, int g, int b) {
-
         poseStack.pushPose();
         poseStack.translate(
                 x + 0.5d,
@@ -146,5 +147,46 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
     }
 
     public void doRender() {
+    }
+
+    protected void renderUVMappedTexturedDisplay(Vector3f topLeft, Vector3f bottomRight, ResourceLocation texture, SpriteUV spriteUV, boolean lit) {
+        Vector3f bottomLeft = new Vector3f(topLeft.x(), bottomRight.y(), topLeft.z());
+        Vector3f topRight = new Vector3f(bottomRight.x(), topLeft.y(), topLeft.z());
+        Vector3f horizontal = new Vector3f(topRight).sub(topLeft);
+        Vector3f vertical = new Vector3f(bottomLeft).sub(topLeft);
+        Vector3f normal = horizontal.cross(vertical).normalize();
+
+        VertexConsumer consumer = lit ?
+                bufferSource.getBuffer(RenderType.beaconBeam(texture, true)) :
+                bufferSource.getBuffer(RenderType.entityCutoutNoCull(texture));
+
+        poseStack.pushPose();
+        poseStack.translate(0.5f, 0, .5f);
+        consumer.addVertex(poseStack.last(), topLeft.x(), topLeft.y(), topLeft.z())
+                .setColor(255, 255, 255, 255)
+                .setUv(spriteUV.u0(), spriteUV.v0())
+                .setOverlay(packedOverlay)
+                .setLight(lit ? 0xFFFFFFFF : packedLight)
+                .setNormal(normal.x(), normal.y(), normal.z());
+        consumer.addVertex(poseStack.last(), bottomLeft.x(), bottomLeft.y(), bottomLeft.z())
+                .setColor(255, 255, 255, 255)
+                .setUv(spriteUV.u0(), spriteUV.v1())
+                .setOverlay(packedOverlay)
+                .setLight(lit ? 0xFFFFFFFF : packedLight)
+                .setNormal(normal.x(), normal.y(), normal.z());
+        consumer.addVertex(poseStack.last(), bottomRight.x(), bottomRight.y(), bottomRight.z())
+                .setColor(255, 255, 255, 255)
+                .setUv(spriteUV.u1(), spriteUV.v1())
+                .setOverlay(packedOverlay)
+                .setLight(lit ? 0xFFFFFFFF : packedLight)
+                .setNormal(normal.x(), normal.y(), normal.z());
+        consumer.addVertex(poseStack.last(), topRight.x(), topRight.y(), topRight.z())
+                .setColor(255, 255, 255, 255)
+                .setUv(spriteUV.u1(), spriteUV.v0())
+                .setOverlay(packedOverlay)
+                .setLight(lit ? 0xFFFFFFFF : packedLight)
+                .setNormal(normal.x(), normal.y(), normal.z());
+
+        poseStack.popPose();
     }
 }
