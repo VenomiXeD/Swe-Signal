@@ -40,6 +40,8 @@ public class InterlockingManager {
     }
 
     public static ReservationResult trainOwnsGroup(Train self, SignalEdgeGroup group) {
+        if (group == null)
+            return ReservationResult.NONE;
         InterlockedSignalReservation interlockedSignalReservation = groupOwnerships.get(group.id);
         if (interlockedSignalReservation == null)
             return ReservationResult.NONE;
