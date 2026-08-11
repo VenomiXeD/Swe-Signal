@@ -14,6 +14,8 @@
     "MixinTrain"
   ],
   "client": [
+    "client.MixinGlobalRailwayManager",
+    "client.MixinSignalVisual"
   ],
   "minVersion": "0.8"
 }

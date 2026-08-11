@@ -55,6 +55,10 @@ public class ExtendedSignals {
                 ModConfig.Type.SERVER, ExtendedSignalsConfig.SERVER_SPEC
         );
 
+        modContainer.registerConfig(
+                ModConfig.Type.CLIENT, ExtendedSignalsConfig.CLIENT_SPEC
+        );
+
         eventBus.register(ExtendedSignals.class);
         NeoForge.EVENT_BUS.register(Events.class);
         eventBus.register(ExtendedSignalsNetworking.class);
