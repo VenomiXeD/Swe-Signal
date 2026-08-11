@@ -5,8 +5,6 @@ import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-import java.util.Arrays;
-
 public record HvCombinedSignalAspectCompositor(SignalStateNode rawState,
                                                Direction.AxisDirection direction) implements ICombinedSignalAspect {
     /**

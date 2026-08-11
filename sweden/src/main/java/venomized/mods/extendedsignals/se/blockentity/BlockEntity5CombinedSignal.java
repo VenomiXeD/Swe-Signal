@@ -9,7 +9,6 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {

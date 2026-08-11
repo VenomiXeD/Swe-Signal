@@ -1,6 +1,5 @@
 package venomized.mods.extendedsignals.de.signalling;
 
-import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
@@ -25,6 +24,7 @@ public enum HvMainSignalAspect implements IMainSignalAspect {
                 ? HvMainSignalAspect.PROCEED_40
                 : HvMainSignalAspect.PROCEED;
     }
+
     /**
      * @param totalTicksForBlockEntity
      * @param states

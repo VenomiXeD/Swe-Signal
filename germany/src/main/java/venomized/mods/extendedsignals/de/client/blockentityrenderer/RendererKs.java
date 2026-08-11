@@ -14,6 +14,10 @@ public class RendererKs<T extends BlockEntityKs<?>> extends RendererSignal<T> {
     private static final ResourceLocation KS_ZS3_NUMBERS = ExtendedSignalsGermany.res("textures/block/signals/de/ks_zs3_numbers.png");
     private static final ResourceLocation KS_ZS3V_NUMBERS = ExtendedSignalsGermany.res("textures/block/signals/de/ks_zs3v_numbers.png");
 
+    public RendererKs(BlockEntityRendererProvider.Context context) {
+        super(context);
+    }
+
     private static SpriteUV getZs3MetalPlateUV(int v) {
         if (v <= 0 || v > 16)
             return null;
@@ -49,10 +53,6 @@ public class RendererKs<T extends BlockEntityKs<?>> extends RendererSignal<T> {
         final int u1 = u0 + CELL_W;
 
         return new SpriteUV((float) u0 / TEX_W, (float) v0 / TEX_H, (float) u1 / TEX_W, (float) v1 / TEX_H);
-    }
-
-    public RendererKs(BlockEntityRendererProvider.Context context) {
-        super(context);
     }
 
     /**

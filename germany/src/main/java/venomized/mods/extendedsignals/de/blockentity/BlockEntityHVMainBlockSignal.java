@@ -25,6 +25,7 @@ public class BlockEntityHVMainBlockSignal extends BlockEntitySignal<HvBlockSigna
                 .withLight("proceed", new SignalLight(2d / 16d, 97d / 16d, -7.65d / 16d, 2.75f, 2.75f, 0.5f, 0, 255, 0))
                 .withLight("stop", new SignalLight(-2d / 16d, 97d / 16d, -7.65d / 16d, 2.75f, 2.75f, 0.5f).withDefaultColor(255, 0, 0));
     }
+
     /**
      * @param state
      * @param incomingDirection

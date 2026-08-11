@@ -22,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.create.ITrainDoorData;
 import venomized.mods.extendedsignals.core.create.tracks.DelayedSignalCrossTrigger;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;

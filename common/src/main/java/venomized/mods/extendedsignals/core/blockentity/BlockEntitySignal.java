@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
 import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,15 +34,11 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
         implements ISignalTunerToolable, ISignalBlockEntity, ISignalInterpreter<T> {
     private static final String TAG_REFERENCED_SIGNAL_POINT_UUID = "linked_signal_uuid";
     private static final String TAG_SIGNAL_DIRECTION = "signal_direction";
-
-    protected UUID targetEdgePointId;
-
-    @Getter
-    private ISignalAspect currentDisplayedAspect;
-
     @Getter
     private final SignalLighting signalLighting;
-
+    protected UUID targetEdgePointId;
+    @Getter
+    private ISignalAspect currentDisplayedAspect;
     @Getter
     @Nullable
     private Direction.AxisDirection signallingDirection;

@@ -7,8 +7,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.block.BlockCrossingObject;
-import venomized.mods.extendedsignals.se.blockentity.auxilliarysignals.BlockEntityCrossingDistantSignal;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
+import venomized.mods.extendedsignals.se.blockentity.auxilliarysignals.BlockEntityCrossingDistantSignal;
 
 public class BlockCrossingDistantSignal extends BlockCrossingObject<BlockEntityCrossingDistantSignal> {
     public BlockCrossingDistantSignal(BlockBehaviour.Properties properties) {

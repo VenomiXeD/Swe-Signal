@@ -10,16 +10,16 @@ import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.de.client.GermanyModels;
 
 public abstract class BlockEntityKs<T extends ISignalAspect> extends BlockEntitySignal<T> {
+    public BlockEntityKs(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
+        super(t, pPos, pBlockState);
+    }
+
     protected boolean withDistantScreen() {
         return false;
     }
 
     protected boolean withScreen() {
         return false;
-    }
-
-    public BlockEntityKs(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
-        super(t, pPos, pBlockState);
     }
 
     /**

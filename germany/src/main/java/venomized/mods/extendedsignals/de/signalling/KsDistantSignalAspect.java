@@ -3,8 +3,6 @@ package venomized.mods.extendedsignals.de.signalling;
 import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
-import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public enum KsDistantSignalAspect implements IDistantSignalAspect {

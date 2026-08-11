@@ -3,7 +3,6 @@ package venomized.mods.extendedsignals.se.signaling;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 

@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.signalling;
 
 import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 
-import java.util.List;
 import java.util.Set;
 
 public record Aspect(Set<String> litLights, Set<String> blinkingLights, int flashInterval) implements ISignalAspect {

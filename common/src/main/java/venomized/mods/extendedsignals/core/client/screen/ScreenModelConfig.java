@@ -1,6 +1,5 @@
 package venomized.mods.extendedsignals.core.client.screen;
 
-import mezz.jei.gui.input.handlers.TextFieldInputHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.*;

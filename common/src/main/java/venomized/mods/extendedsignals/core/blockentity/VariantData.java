@@ -17,6 +17,14 @@ import java.util.function.Supplier;
 
 public class VariantData {
 
+    @Getter
+    private final List<VariantOption> variants = new ArrayList<>();
+    @Getter
+    private final List<VariantOption> checkboxOptions = new ArrayList<>();
+    @Getter
+    private final List<TextBoxOption> textBoxOptions = new ArrayList<>();
+    @Getter
+    private final HashMap<String, String> textBoxValues = new HashMap<>();
     @Setter
     @Getter
     private int selectedVariant = 0;
@@ -30,9 +38,6 @@ public class VariantData {
             checkboxOptionsTicked.add(option);
         }
     }
-
-    @Getter
-    private final List<VariantOption> variants = new ArrayList<>();
 
     public void addVariantOption(VariantOption option) {
         variants.add(option);
@@ -57,9 +62,6 @@ public class VariantData {
         return variants.get(selectedVariant).model().get();
     }
 
-    @Getter
-    private final List<VariantOption> checkboxOptions = new ArrayList<>();
-
     public void addCheckboxOption(VariantOption option) {
         checkboxOptions.add(option);
     }
@@ -69,11 +71,6 @@ public class VariantData {
     public List<PartialModel> getAdditionalFeatures() {
         return checkboxOptions.stream().filter(e -> checkboxOptionsTicked.contains(e.key())).map(e -> e.model().get()).toList();
     }
-
-    @Getter
-    private final List<TextBoxOption> textBoxOptions = new ArrayList<>();
-    @Getter
-    private final HashMap<String, String> textBoxValues = new HashMap<>();
 
     public void addTextBoxOption(TextBoxOption option) {
         textBoxOptions.add(option);

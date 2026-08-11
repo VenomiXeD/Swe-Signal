@@ -4,8 +4,6 @@ import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-import java.util.Arrays;
-
 public record MainDwarfSignalAspect(SignalStateNode state) implements ISignalAspect {
     /**
      * @param totalTicksForBlockEntity
