@@ -84,9 +84,11 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
                 if (!tag.contains(TAG_BLOCKENTITY_READER_NAME)) {
                     // Ensure that the reader block entity can only be a reader
                     if (!bindable.isReader()) {
+                        pContext.getPlayer().displayClientMessage(Component.translatable("message.extended_signals.item.signalitem.not_reader").withStyle(ChatFormatting.RED), true);
                         result = InteractionResult.FAIL;
                         break;
                     }
+                    pContext.getPlayer().displayClientMessage(Component.translatable("message.extended_signals.item.signalitem.binding_started").withStyle(ChatFormatting.YELLOW), true);
                     tag.put(TAG_BLOCKENTITY_READER_NAME, NbtUtils.writeBlockPos(currentRightClickedBlockEntity.getBlockPos()));
                     result = InteractionResult.SUCCESS;
                     break;
@@ -94,6 +96,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 
                 // Ensure that data source is only a source
                 if (!bindable.isSource()) {
+                    pContext.getPlayer().displayClientMessage(Component.translatable("message.extended_signals.item.signalitem.not_source").withStyle(ChatFormatting.RED), true);
                     result = InteractionResult.FAIL;
                     break;
                 }
@@ -103,6 +106,7 @@ public class ItemSignalTuner extends Item implements IScrollableItem {
 
                 if (!(blockEntityReadingEntity instanceof ISignalTunerToolable)) {
                     // TODO: inform player that the reader has been destroyed
+                    pContext.getPlayer().displayClientMessage(Component.translatable("message.extended_signals.item.signalitem.reader_destroyed").withStyle(ChatFormatting.RED), true);
                     result = InteractionResult.FAIL;
                     tag.remove(TAG_BLOCKENTITY_READER_NAME);
                     break;

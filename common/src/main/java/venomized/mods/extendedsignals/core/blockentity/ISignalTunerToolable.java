@@ -40,9 +40,9 @@ public interface ISignalTunerToolable {
     }
 
     enum SignalTunerMode {
-        INFO,
-        DISCONNECT,
         CONNECT,
-        CONFIGURE
+        DISCONNECT,
+        CONFIGURE,
+        INFO
     }
 }

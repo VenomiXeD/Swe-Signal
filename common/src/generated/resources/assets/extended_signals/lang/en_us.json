@@ -10,5 +10,10 @@
   "item.extended_signals.signalitem": "Signalitem",
   "itemGroup.extended_signals.extended_signals": "Extended Signals",
   "screens.extended_signals.modelconfig.variants.default": "Default",
-  "screens.extended_signals.modelconfig.textinput.btn.apply": "Apply"
+  "screens.extended_signals.modelconfig.textinput.btn.apply": "Apply",
+  "key.extendedsignals.mode": "Mode switch",
+  "message.extended_signals.item.signalitem.not_reader": "Targeted block is not a valid reader",
+  "message.extended_signals.item.signalitem.not_source": "Targeted block is not a valid source",
+  "message.extended_signals.item.signalitem.reader_destroyed": "The reading block has is missing",
+  "message.extended_signals.item.signalitem.binding_started": "Binding started, select source"
 }

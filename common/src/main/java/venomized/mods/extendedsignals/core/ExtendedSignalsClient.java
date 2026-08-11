@@ -7,6 +7,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import venomized.mods.extendedsignals.core.client.ClientEvents;
 import venomized.mods.extendedsignals.core.client.ClientSignalNetworkCache;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
+import venomized.mods.extendedsignals.core.client.KeyMappings;
 
 @Mod(value = ExtendedSignals.MOD_ID, dist = Dist.CLIENT)
 public class ExtendedSignalsClient {
@@ -17,5 +18,7 @@ public class ExtendedSignalsClient {
         ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY = ExtendedSignals.EXTENDED_SIGNAL_CLIENT_CACHE;
 
         ExtendedSignalsCoreModels.init();
+
+        KeyMappings.init();
     }
 }

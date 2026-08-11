@@ -38,6 +38,8 @@ public abstract class MixinSignalVisual {
     @Inject(method = "setupVisual", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/signal/SignalBlockEntity;getOverlay()Lcom/simibubi/create/content/trains/signal/SignalBlockEntity$OverlayState;"), cancellable = true)
     public void extendedSignals$disableTrackSignalPlate(CallbackInfo ci) {
         if (ExtendedSignalsConfig.CLIENT.alwaysDisplaySignalPlates.getAsBoolean()) {
+            signalOverlay.setVisible(true);
+            signalOverlay.setChanged();
             return;
         }
 

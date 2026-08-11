@@ -31,6 +31,14 @@ public class BlockEntityRepeaterCreateSignal extends SmartBlockEntity implements
     }
 
     /**
+     * @return
+     */
+    @Override
+    public boolean isReader() {
+        return false;
+    }
+
+    /**
      * @param blockEntity
      * @param transform
      */

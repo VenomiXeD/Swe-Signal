@@ -2,7 +2,7 @@
   "block.extended_signals.atc_controller": "Atc Controller",
   "block.extended_signals.crossing_controller": "Crossing Controller",
   "block.extended_signals.train_config": "Train Config",
-  "item.extended_signals.signalitem": "Signalitem",
+  "item.extended_signals.signalitem": "Programming Unit",
   "itemGroup.extended_signals.extended_signals": "Extended Signals",
   "message.extendedsignals.createsignal.interact.chaining": "Chaining disabled: %s",
   "message.extendedsignals.blockentitysignal.bind.success": "Signal successfully bound: %s",
@@ -36,5 +36,10 @@
   "message.extended_signals.createsignal.tool.info.owning_train": "Train with ID %s (%s) has reserved this block, it is roughly %.2f meters away",
   "message.extended_signals.createsignal.tool.info.no_owning_train": "This signal edge group currently has no reservation",
   "screens.extended_signals.modelconfig.variants.default": "Default",
-  "screens.extended_signals.modelconfig.textinput.btn.apply": "Apply"
+  "screens.extended_signals.modelconfig.textinput.btn.apply": "Apply",
+  "key.extendedsignals.mode": "Mode switch",
+  "message.extended_signals.item.signalitem.not_reader": "Targeted block is not a valid reader",
+  "message.extended_signals.item.signalitem.not_source": "Targeted block is not a valid source",
+  "message.extended_signals.item.signalitem.reader_destroyed": "The reading block has is missing",
+  "message.extended_signals.item.signalitem.binding_started": "Binding started, select source"
 }

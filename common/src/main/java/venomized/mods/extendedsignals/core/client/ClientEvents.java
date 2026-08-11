@@ -16,6 +16,7 @@ import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jline.keymap.KeyMap;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 import venomized.mods.extendedsignals.core.item.IScrollableItem;
 import venomized.mods.extendedsignals.core.network.packets.ServerBoundRequestShuntPacket;
@@ -26,7 +27,7 @@ import venomized.mods.extendedsignals.core.network.packets.ServerBoundTranslateB
 public class ClientEvents {
     @SubscribeEvent
     public static void onScrollEvent(InputEvent.MouseScrollingEvent e) {
-        if (Screen.hasControlDown() && Minecraft.getInstance().player != null) {
+        if (KeyMappings.MODE_SWITCH.isDown() && Minecraft.getInstance().player != null) {
             ItemStack mainHandItem = Minecraft.getInstance().player.getMainHandItem();
             if (mainHandItem.getItem() instanceof IScrollableItem scrollableInterface) {
                 PacketDistributor.sendToServer(new ServerBoundScrollItemPacket(e.getScrollDeltaY() > 0));
