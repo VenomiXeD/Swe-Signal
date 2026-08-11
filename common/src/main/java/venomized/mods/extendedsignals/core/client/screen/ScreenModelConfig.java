@@ -34,6 +34,8 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
     private final ExtendedSlider[] orientationSliders;
     private final double[] orientationValues;
 
+    private boolean editBoxRecursiveDebounce = false;
+
     public ScreenModelConfig(MenuModelConfig pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
 
@@ -506,6 +508,10 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
     }
 
     private void editBoxChanged(String s) {
+        if (editBoxRecursiveDebounce)
+            return;
+
+        editBoxRecursiveDebounce = true;
         for (int i = 0; i < 3; i++) {
             if (locOffsetEditBoxes[i].getNumericValue().isPresent() && locOffsetEditBoxes[i].isFocused()) {
                 locOffsetValues[i] = locOffsetEditBoxes[i].getNumericValue().getAsDouble();
@@ -523,6 +529,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 updateSliderValues();
             }
         }
+        editBoxRecursiveDebounce = false;
     }
 
     /**
@@ -660,8 +667,6 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                         menu.getReferenceBlockEntity().variantData().toNBT()
                 )
         );
-
-        locOffsetEditBoxes[0].setValue(String.valueOf(locOffsetValues[0]));
     }
 
     /**
