@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.core.CoreMenus;
+import venomized.mods.extendedsignals.core.menu.CoreMenus;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 import venomized.mods.extendedsignals.core.menu.MenuModelConfig;
@@ -75,7 +75,7 @@ public abstract class ExtendedSignalsBlock extends Block {
      */
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (level.getBlockEntity(pos) instanceof IConfigurableModelBlockEntity configurableModelBlockEntity && configurableModelBlockEntity.supportsConfiguration()) {
+        if (level.getBlockEntity(pos) instanceof IConfigurableModelBlockEntity configurableModelBlockEntity && configurableModelBlockEntity.supportsTranslation()) {
             if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
                 serverPlayer.openMenu(
                         new SimpleMenuProvider(

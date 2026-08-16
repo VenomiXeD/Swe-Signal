@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.phys.AABB;
@@ -9,6 +10,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
+import venomized.mods.extendedsignals.core.client.ClientEvents;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 
 @OnlyIn(Dist.CLIENT)
@@ -77,7 +79,7 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
 
         blockEntity.getSignalLighting().allLights().forEach(light -> light.getState().setCurrentTick(blockEntity.getLevel().getGameTime()));
         blockEntity.getSignalLighting().renderFrameBegin();
-        aspect.applyAspect(blockEntity.getLevel().getGameTime(), blockEntity.getSignalLighting());
+        aspect.applyAspect(System.nanoTime() / 1_000_000_000f, blockEntity.getSignalLighting());
         renderFinalLightValues();
         blockEntity.getSignalLighting().renderFrameEnd();
 

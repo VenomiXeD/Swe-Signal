@@ -10,8 +10,8 @@ public record MainDwarfSignalAspect(SignalStateNode state) implements ISignalAsp
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
-        DwarfSignalAspect.interpret(state, state.getAxisDirection()).applyAspect(totalTicksForBlockEntity, states);
+    public void applyAspect(float seconds, SignalLighting states) {
+        DwarfSignalAspect.interpret(state, state.getAxisDirection()).applyAspect(seconds, states);
 
         if (state.isStop()) {
             states.powered("stop");
@@ -23,14 +23,14 @@ public record MainDwarfSignalAspect(SignalStateNode state) implements ISignalAsp
             if (state.getNextState() == null)
                 states.powered("green_right");
             else if (state.getNextState().isStop() || state.getNextState().getMaxProceedSpeed() < 80) {
-                if (totalTicksForBlockEntity % 20 > 10)
-                    states.powered("green_right");
+                if (seconds % 1 > .5f)
+                    states.powered("green_left");
             } else {
                 states.powered("green_right");
             }
         } else {
             if (state.getNextState() != null && state.getNextState().isStop()) {
-                if (totalTicksForBlockEntity % 20 > 10)
+                if (seconds % 1 > .5f)
                     states.powered("green_left");
             } else {
                 states.powered("green_left");

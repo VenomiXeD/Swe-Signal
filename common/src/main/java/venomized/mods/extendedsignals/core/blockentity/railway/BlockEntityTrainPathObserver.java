@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
-import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
+import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.create.tracks.points.PathTrainDetector;
 import venomized.mods.extendedsignals.core.util.TrackedValue;
 

@@ -10,12 +10,12 @@ public record Aspect(Set<String> litLights, Set<String> blinkingLights, int flas
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+    public void applyAspect(float seconds, SignalLighting states) {
         for (String litLight : litLights) {
             states.powered(litLight);
         }
         for (String blinkingLight : blinkingLights) {
-            if (totalTicksForBlockEntity % 20 > flashInterval)
+            if (seconds % 1 > flashInterval)
                 states.powered(blinkingLight);
         }
     }

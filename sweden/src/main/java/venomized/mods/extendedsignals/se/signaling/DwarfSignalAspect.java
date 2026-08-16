@@ -54,7 +54,7 @@ public enum DwarfSignalAspect implements ISignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+    public void applyAspect(float totalTicksForBlockEntity, SignalLighting states) {
         if (l0Lit)
             states.powered("l0");
         if (l1Lit)

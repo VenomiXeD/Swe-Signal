@@ -7,12 +7,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
+import venomized.mods.extendedsignals.core.create.tracks.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.UUID;
 
-public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IExtendedSignalBoundary<PathTrainDetector> {
+public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IExtendedEdgePoint<PathTrainDetector> {
     public int triggerDistance = 512;
     private boolean trainInbound = false;
 
@@ -31,7 +31,7 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
      * @return
      */
     @Override
-    public boolean doSkipChaining(Direction.AxisDirection direction, Train train) {
+    public boolean avoidSignalChaining(Direction.AxisDirection direction, Train train) {
         return true;
     }
 

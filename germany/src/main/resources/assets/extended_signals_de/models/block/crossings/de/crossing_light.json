@@ -1,0 +1,16 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "parent": "forge:block/default",
+  "loader": "neoforge:obj",
+  "flip_v": true,
+  "model": "extended_signals_de:models/block/crossings/de/light.obj",
+  "textures": {
+    "crossing": "extended_signals_de:block/crossings/de/crossing"
+  }
+}

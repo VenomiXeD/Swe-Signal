@@ -12,7 +12,7 @@ public record HvCombinedSignalAspectCompositor(SignalStateNode rawState,
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+    public void applyAspect(float totalTicksForBlockEntity, SignalLighting states) {
         HvMainSignalAspect.interpret(rawState, direction)
                 .applyAspect(totalTicksForBlockEntity, states);
 

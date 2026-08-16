@@ -14,9 +14,9 @@ public enum MainSignalAspect implements IMainSignalAspect {
             false
     ),
     PROCEED_40(
-            false,
             true,
-            false
+            false,
+            true
     ),
     STOP(
             false,
@@ -31,7 +31,7 @@ public enum MainSignalAspect implements IMainSignalAspect {
         if (state.isStop())
             return MainSignalAspect.STOP;
 
-        return state.getMaxProceedSpeed() > 40 ? PROCEED_80 : PROCEED_40;
+        return state.getMaxProceedSpeed() >= 80 ? PROCEED_80 : PROCEED_40;
     }
 
     /**
@@ -39,7 +39,7 @@ public enum MainSignalAspect implements IMainSignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+    public void applyAspect(float seconds, SignalLighting states) {
         if (l0Lit)
             states.powered("l0");
         if (l1Lit)

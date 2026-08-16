@@ -1,4 +1,6 @@
 {
+  "block.extended_signals_de.de.crossing_light": "Railway Crossing Light",
+  "block.extended_signals_de.de.gate": "Railway Crossing Gate",
   "block.extended_signals_de.de.hv_bk_hp_s": "[HV] Block Signal",
   "block.extended_signals_de.de.hv_hp": "[HV] Main Signal",
   "block.extended_signals_de.de.hv_hp_vr": "[HV] Combined Signal",
@@ -7,5 +9,12 @@
   "block.extended_signals_de.de.ks.ks_hp_vr": "[KS] Combined Signal",
   "block.extended_signals_de.de.ks.ks_vr": "[KS] Distant Signal",
   "block.extended_signals_de.de.ks.ks_vr_r": "[KS] Distant Repeater Signal",
+  "block.extended_signals_de.de.ne_1": "Auxiliary Sign [Ne 1]",
+  "block.extended_signals_de.de.ne_2_small_west": "Auxiliary Sign [Ne 2, Small]",
+  "block.extended_signals_de.de.ne_2_west": "Auxiliary Sign [Ne 2]",
+  "block.extended_signals_de.de.ne_3": "Auxiliary Sign [Ne 3]",
+  "block.extended_signals_de.de.ne_4_west": "Auxiliary Sign [Ne 4]",
+  "block.extended_signals_de.de.ne_5_small_west": "Auxiliary Sign [Ne 5, Small]",
+  "block.extended_signals_de.de.ne_5_west": "Auxiliary Sign [Ne 5]",
   "itemGroup.extended_signals_de.extended_signals_de": "Extended Signals De"
 }

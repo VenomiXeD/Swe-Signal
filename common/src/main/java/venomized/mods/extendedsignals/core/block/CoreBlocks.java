@@ -7,8 +7,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
+import venomized.mods.extendedsignals.core.block.railway.*;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
-import venomized.mods.extendedsignals.core.create.tracks.CoreEdgePoints;
+import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
 
 public final class CoreBlocks {
     public static final BlockEntry<BlockTrainConfig> BLOCK_TRAIN_CONFIG = registrate()
@@ -39,19 +40,36 @@ public final class CoreBlocks {
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.REPEATER))
             .build()
             .register();
-    public static final BlockEntry<BlockSpeedModifier> SPEED_MODIFIER = registrate()
-            .block("speed_modifier", BlockSpeedModifier::new)
+    public static final BlockEntry<BlockLocalSpeedModifier> LOCAL_SPEED_MODIFIER = registrate()
+            .block("local_speed_modifier", BlockLocalSpeedModifier::new)
             .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
             .blockstate((ctx, prov) -> {
                 prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
             })
-            .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.SPEED_MODIFIER))
+            .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.LOCAL_SPEED_MODIFIER))
+            .build()
+            .register();
+
+    public static final BlockEntry<BlockLineSpeedModifier> LINE_SPEED_MODIFIER = registrate()
+            .block("line_speed_modifier", BlockLineSpeedModifier::new)
+            .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
+            .blockstate((ctx, prov) -> {
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
+            })
+            .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.LINE_SPEED_MODIFIER))
             .build()
             .register();
     public static final BlockEntry<BlockPathTrainDetector> PATH_TRAIN_DETECTOR = registrate()
             .block("train_path_detector", BlockPathTrainDetector::new)
             .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.PATH_TRAIN_DETECTOR))
+            .build()
+            .register();
+
+    public static final BlockEntry<BlockPathIdentifier> PATH_IDENTIFIER = registrate()
+            .block("path_identifier", BlockPathIdentifier::new)
+            .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
+            .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.PATH_IDENTIFIER))
             .build()
             .register();
 

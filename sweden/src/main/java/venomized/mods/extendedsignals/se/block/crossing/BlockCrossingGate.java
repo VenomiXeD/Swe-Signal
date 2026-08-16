@@ -1,11 +1,13 @@
 package venomized.mods.extendedsignals.se.block.crossing;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mods.extendedsignals.core.block.BlockCrossingObject;
+import org.jetbrains.annotations.Nullable;
+import venomized.mods.extendedsignals.core.block.railway.BlockCrossingObject;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
 
@@ -15,19 +17,13 @@ public class BlockCrossingGate extends BlockCrossingObject<BlockEntityCrossingGa
     }
 
     /**
+     * @param pos
+     * @param state
      * @return
      */
     @Override
-    public Class<BlockEntityCrossingGate> getBlockEntityClass() {
-        return BlockEntityCrossingGate.class;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public BlockEntityType<BlockEntityCrossingGate> getBlockEntityType() {
-        return SwedenBlockEntities.CROSSING_GATE.get();
+    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return SwedenBlockEntities.CROSSING_GATE.create(pos, state);
     }
 
     /**

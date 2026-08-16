@@ -41,12 +41,12 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
      */
     @Override
     public void renderAdditionalModels() {
-        CachedBuffers.partial(GermanyModels.HV_ZS3, blockEntity.getBlockState())
+        CachedBuffers.partial(GermanyModels.HVModels.HV_ZS3, blockEntity.getBlockState())
                 .light(packedLight)
                 .overlay(packedOverlay)
                 .renderInto(poseStack, bufferSource.getBuffer(RenderType.cutoutMipped()));
 
-        CachedBuffers.partial(GermanyModels.HV_ZS3V, blockEntity.getBlockState())
+        CachedBuffers.partial(GermanyModels.HVModels.HV_ZS3V, blockEntity.getBlockState())
                 .light(packedLight)
                 .overlay(packedOverlay)
                 .renderInto(poseStack, bufferSource.getBuffer(RenderType.cutoutMipped()));

@@ -5,7 +5,7 @@ import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLigh
 
 @FunctionalInterface
 public interface ISignalAspect {
-    void applyAspect(long totalTicksForBlockEntity, SignalLighting states);
+    void applyAspect(float seconds, SignalLighting states);
 
     record RGB(int color) {
         public static final RGB RED = new RGB(0xFF0000);

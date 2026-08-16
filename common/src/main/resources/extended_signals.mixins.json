@@ -8,7 +8,7 @@
     "MixinNavigation",
     "MixinScheduleRuntime",
     "MixinSignalBlockEntity",
-    "MixinSignalBoundary",
+    "MixinEdgePoint",
     "MixinSignalEdgeGroup",
     "MixinSignalEdgeGroupAccessor",
     "MixinSlidingDoorMovementBehavior",

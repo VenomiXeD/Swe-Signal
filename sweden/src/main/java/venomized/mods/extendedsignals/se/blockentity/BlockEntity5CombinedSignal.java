@@ -38,7 +38,8 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
     @Override
     public @NotNull ICombinedSignalAspect interpret(final SignalStateNode state, Direction.AxisDirection direction) {
         return (ticks, lights) -> {
-            final boolean blink = ticks % 20 > 10;
+            boolean is40 = false;
+            final boolean blink = ticks % 1 > .5f;
             SignalStateNode distant = state.getNextState();
 
             if (state.isStop()) {
@@ -46,49 +47,36 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
                 return;
             }
 
-            if (distant == null) {
+            if (state.getMaxProceedSpeed() >= 80) {
                 lights.powered("l0");
-                if (state.getMaxProceedSpeed() < 80) {
-                    lights.powered("l2");
-                }
+            } else {
+                is40 = true;
+                lights.powered("l0");
+                lights.powered("l2");
+            }
+
+            if (distant == null) {
                 return;
             }
 
             if (distant.isStop()) {
-                if (state.getMaxProceedSpeed() < 80) {
-                    if (state.getDistanceToNextSignal() <= 450) {
-                        // PROCEED 40, SHORT ROUTE
-                        lights.powered("l0");
-                        lights.powered("l2");
-                        lights.powered("l4");
-                        return;
-                    } else {
-                        //
-                        lights.powered("l0");
-                        lights.powered("l2");
-                        return;
-                    }
-
-                } else {
-                    // PROCEED 80, EXPECT STOP
-                    lights.powered("l0");
-                    if (blink)
-                        lights.powered("l2");
-
-                    return;
-                }
-            }
-
-            if (state.getMaxProceedSpeed() >= 80 && distant.getMaxProceedSpeed() >= 80) {
-                // PROCEED 80, EXPECT PROCEED 80
-                lights.powered("l0");
                 if (blink)
-                    lights.powered("l3");
+                    lights.powered("l2");
+                if (is40 && state.getDistanceToNextSignal() <= 450)
+                    lights.powered("l4");
+
                 return;
             }
 
-            lights.powered("l0");
-            lights.powered("l2");
+            if (distant.getMaxProceedSpeed() >= 80) {
+                if (blink)
+                    lights.powered("l3");
+            } else {
+                if (blink && !is40) {
+                    lights.powered("l2");
+                    lights.powered("l4");
+                }
+            }
             //throw new UnsupportedOperationException("An invalid state has been provided and this part should not be reached, report to developers\nState: " + NbtUtils.prettyPrint(state.toNBT()));
         };
     }

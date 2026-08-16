@@ -11,7 +11,7 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.blockentity.ISignalBoundaryReferenceProvider;
 import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
-import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
+import venomized.mods.extendedsignals.core.create.tracks.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
@@ -43,7 +43,7 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
     public void bindToCreateSignal(ISignalBoundaryReferenceProvider referenceProvider) {
         super.bindToCreateSignal(referenceProvider);
         TrackEdgePoint point = referenceProvider.getTrackTargetingBehavior().getEdgePoint();
-        if (point instanceof IExtendedSignalBoundary<?> boundary) {
+        if (point instanceof IExtendedEdgePoint<?> boundary) {
             boundary.setMapper(referenceProvider.getTrackTargetingBehavior().getTargetDirection() == Direction.AxisDirection.POSITIVE,
                     COMBINED_4_SIGNAL_MAPPER
             );
@@ -74,15 +74,17 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
                 return;
             }
 
-            if (state.getMaxProceedSpeed() > 40) {
+            boolean blink = ticks % 1 > 0.5f;
+            if (state.getMaxProceedSpeed() >= 80) {
                 lights.powered("l0");
             } else {
                 lights.powered("l0");
                 lights.powered("l2");
+
+                return;
             }
 
             SignalStateNode distant = state.getNextState();
-            boolean blink = ticks % 20 > 10;
             if (distant == null)
                 return;
 

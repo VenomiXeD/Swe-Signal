@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.util.MathHelp;
-import venomized.mods.extendedsignals.se.ExtendedSignalsSwedenSounds;
+import venomized.mods.extendedsignals.se.SwedenSounds;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
 
 public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core.blockentity.BlockEntityCrossingGate {
@@ -27,7 +27,7 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
                 level.playSound(
                         null,
                         blockPos,
-                        ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(),
+                        SwedenSounds.SE_CROSSING_BELL.get(),
                         SoundSource.BLOCKS,
                         1F,
                         1.01F
@@ -36,7 +36,7 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
                 level.playSound(
                         null,
                         blockPos,
-                        ExtendedSignalsSwedenSounds.SE_CROSSING_BELL.get(),
+                        SwedenSounds.SE_CROSSING_BELL.get(),
                         SoundSource.BLOCKS,
                         1F,
                         1.0F
@@ -75,7 +75,7 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
      */
     @Override
     public double getArmRotationHeightPoint() {
-        return 17d / 16d;
+        return 8.5d / 16d;
     }
 
 

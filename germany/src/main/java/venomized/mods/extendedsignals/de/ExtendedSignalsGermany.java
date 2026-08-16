@@ -6,7 +6,10 @@ import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import venomized.mods.extendedsignals.core.data.SoundEventDataGenerator;
 import venomized.mods.extendedsignals.de.block.GermanyBlocks;
 import venomized.mods.extendedsignals.de.blockentity.GermanyBlockEntities;
 
@@ -26,10 +29,19 @@ public class ExtendedSignalsGermany {
     public ExtendedSignalsGermany(IEventBus context) {
         GermanyBlocks.init();
         GermanyBlockEntities.init();
+
+        GermanySounds.init(context);
+
+        context.register(ExtendedSignalsGermany.class);
     }
 
 
     public static ResourceLocation res(String location) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, location);
+    }
+
+    @SubscribeEvent
+    public static void onDataGenerator(GatherDataEvent event) {
+        event.addProvider(new SoundEventDataGenerator(MOD_ID, event.getGenerator().getPackOutput(), event.getExistingFileHelper(), GermanySounds.SOUNDS));
     }
 }

@@ -31,7 +31,7 @@ public class ExtendedSignalsSweden {
         SwedenItems.init();
         SwedenBlockEntities.init();
 
-        ExtendedSignalsSwedenSounds.init(bus);
+        SwedenSounds.init(bus);
     }
 
     public static ResourceLocation res(String path) {
@@ -44,7 +44,7 @@ public class ExtendedSignalsSweden {
                 ExtendedSignalsSweden.MOD_ID,
                 e.getGenerator().getPackOutput(),
                 e.getExistingFileHelper(),
-                ExtendedSignalsSwedenSounds.SOUNDS
+                SwedenSounds.SOUNDS
         ));
 
         e.getGenerator().addProvider(

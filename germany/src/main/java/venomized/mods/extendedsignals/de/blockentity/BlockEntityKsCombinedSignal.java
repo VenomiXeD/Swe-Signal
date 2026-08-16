@@ -74,10 +74,10 @@ public class BlockEntityKsCombinedSignal extends BlockEntityKs<ICombinedSignalAs
     @Override
     protected VariantData constructVariantData() {
         VariantData variants = super.constructVariantData();
-        variants.addVariantOptionLeft(new VariantData.VariantOption("400_left", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.400.left"), () -> GermanyModels.KS_HP_VR_400_LEFT));
-        variants.addVariantOptionRight(new VariantData.VariantOption("400_right", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.400.right"), () -> GermanyModels.KS_HP_VR_400_RIGHT));
-        variants.addVariantOptionLeft(new VariantData.VariantOption("1000_left", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.1000.left"), () -> GermanyModels.KS_HP_VR_1000_LEFT));
-        variants.addVariantOptionRight(new VariantData.VariantOption("1000_right", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.1000.right"), () -> GermanyModels.KS_HP_VR_1000_RIGHT));
+        variants.addVariantOptionLeft(new VariantData.VariantOption("400_left", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.400.left"), () -> GermanyModels.KSModels.KS_HP_VR_400_LEFT));
+        variants.addVariantOptionRight(new VariantData.VariantOption("400_right", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.400.right"), () -> GermanyModels.KSModels.KS_HP_VR_400_RIGHT));
+        variants.addVariantOptionLeft(new VariantData.VariantOption("1000_left", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.1000.left"), () -> GermanyModels.KSModels.KS_HP_VR_1000_LEFT));
+        variants.addVariantOptionRight(new VariantData.VariantOption("1000_right", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.1000.right"), () -> GermanyModels.KSModels.KS_HP_VR_1000_RIGHT));
         return variants;
     }
 }

@@ -1,4 +1,6 @@
 {
+  "block.extended_signals_de.de.crossing_light": "ʇɥbıꞀ buıssoɹƆ ʎɐʍןıɐᴚ",
+  "block.extended_signals_de.de.gate": "ǝʇɐ⅁ buıssoɹƆ ʎɐʍןıɐᴚ",
   "block.extended_signals_de.de.hv_bk_hp_s": "ןɐubıS ʞɔoןᗺ ]ΛH[",
   "block.extended_signals_de.de.hv_hp": "ןɐubıS uıɐW ]ΛH[",
   "block.extended_signals_de.de.hv_hp_vr": "ןɐubıS pǝuıqɯoƆ ]ΛH[",
@@ -7,5 +9,12 @@
   "block.extended_signals_de.de.ks.ks_hp_vr": "ןɐubıS pǝuıqɯoƆ ]Sʞ[",
   "block.extended_signals_de.de.ks.ks_vr": "ןɐubıS ʇuɐʇsıᗡ ]Sʞ[",
   "block.extended_signals_de.de.ks.ks_vr_r": "ןɐubıS ɹǝʇɐǝdǝᴚ ʇuɐʇsıᗡ ]Sʞ[",
+  "block.extended_signals_de.de.ne_1": "]Ɩ ǝN[ ubıS ʎɹɐıןıxnⱯ",
+  "block.extended_signals_de.de.ne_2_small_west": "]ןןɐɯS 'ᄅ ǝN[ ubıS ʎɹɐıןıxnⱯ",
+  "block.extended_signals_de.de.ne_2_west": "]ᄅ ǝN[ ubıS ʎɹɐıןıxnⱯ",
+  "block.extended_signals_de.de.ne_3": "]Ɛ ǝN[ ubıS ʎɹɐıןıxnⱯ",
+  "block.extended_signals_de.de.ne_4_west": "]ㄣ ǝN[ ubıS ʎɹɐıןıxnⱯ",
+  "block.extended_signals_de.de.ne_5_small_west": "]ןןɐɯS 'ϛ ǝN[ ubıS ʎɹɐıןıxnⱯ",
+  "block.extended_signals_de.de.ne_5_west": "]ϛ ǝN[ ubıS ʎɹɐıןıxnⱯ",
   "itemGroup.extended_signals_de.extended_signals_de": "ǝᗡ sןɐubıS pǝpuǝʇxƎ"
 }

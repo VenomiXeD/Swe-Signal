@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.core.client;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.contraptions.actors.trainControls.ControlsHandler;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
+import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Direction;
@@ -14,6 +15,8 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jline.keymap.KeyMap;
@@ -25,6 +28,12 @@ import venomized.mods.extendedsignals.core.network.packets.ServerBoundTranslateB
 
 @OnlyIn(Dist.CLIENT)
 public class ClientEvents {
+    private static long CLIENT_TICK_TRACKER;
+
+    public static long globalClientTick() {
+        return CLIENT_TICK_TRACKER;
+    }
+
     @SubscribeEvent
     public static void onScrollEvent(InputEvent.MouseScrollingEvent e) {
         if (KeyMappings.MODE_SWITCH.isDown() && Minecraft.getInstance().player != null) {
@@ -39,7 +48,7 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public static void onClientPlayerTickEvent(PlayerTickEvent.Post e) {
+    public static void onClientPlayerPostTickEvent(PlayerTickEvent.Post e) {
         if (KeyMappings.REQUEST_SHUNT.consumeClick()) {
             if (ControlsHandler.getContraption() instanceof CarriageContraptionEntity trainCarriage) {
                 System.out.println("train: " + trainCarriage.getCarriage().train.id);
@@ -58,6 +67,16 @@ public class ClientEvents {
                 System.out.println("none");
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onLevelTickEvent(LevelTickEvent.Pre e) {
+        CLIENT_TICK_TRACKER++;
+    }
+
+    @SubscribeEvent
+    public static void onLevelTickEvent(LevelEvent.Load e) {
+        CLIENT_TICK_TRACKER = 0;
     }
 
 

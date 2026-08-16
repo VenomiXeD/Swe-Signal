@@ -7,7 +7,7 @@ import venomized.mods.extendedsignals.core.client.sound.LoopingSound;
 import venomized.mods.extendedsignals.core.client.sound.train.ICarriageSounds;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSounds;
-import venomized.mods.extendedsignals.se.ExtendedSignalsSwedenSounds;
+import venomized.mods.extendedsignals.se.SwedenSounds;
 
 public class TrainSoundX60 extends TrainSound {
     private LoopingSound vvvfSound;
@@ -29,6 +29,6 @@ public class TrainSoundX60 extends TrainSound {
 
     public void init(ICarriageSounds carriageSounds, CarriageContraptionEntity entity) {
         super.init(carriageSounds, entity);
-        vvvfSound = playSound(ExtendedSignalsSwedenSounds.TRAIN_VVVF.get());
+        vvvfSound = playSound(SwedenSounds.TRAIN_VVVF.get());
     }
 }

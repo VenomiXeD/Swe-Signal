@@ -62,7 +62,7 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
                 pMenu.getReferenceBlockEntity().getYOrientation(),
                 pMenu.getReferenceBlockEntity().getZOrientation(),
         };
-        // this.inventoryLabelY = 10000;
+        this.inventoryLabelY = 10000;
     }
 
 
@@ -71,8 +71,8 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
      */
     @Override
     protected void init() {
-        this.imageWidth = width;
-        this.imageHeight = height;
+        imageWidth = width;
+        imageHeight = height;
 
         super.init();
 
@@ -113,10 +113,12 @@ public class ScreenModelConfig extends AbstractContainerScreen<MenuModelConfig> 
 
             final int selectedVariantIdx = i;
             VariantData.VariantOption variant = variants.get(i);
-            addRenderableWidget(new Button.Builder(variant.variantOptionDisplayName(), (b) -> {
+            Button button = addRenderableWidget(new Button.Builder(variant.variantOptionDisplayName(), (b) -> {
                 menu.getReferenceBlockEntity().variantData().setSelectedVariant(selectedVariantIdx);
                 updateModel();
             }).pos(pos.x(), pos.y()).size(pos.w(), pos.h()).build());
+
+            button.setTooltip(Tooltip.create(variant.variantOptionDisplayName()));
         }
 
         WIDGET_TOP_OFFSET += 20;

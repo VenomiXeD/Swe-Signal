@@ -35,17 +35,16 @@ public enum KsCombinedSignalAspect implements ICombinedSignalAspect {
     }
 
     /**
-     * @param totalTicksForBlockEntity
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+    public void applyAspect(float seconds, SignalLighting states) {
         for (String litLight : litLights) {
             states.powered(litLight);
         }
 
         for (String litLight : flashingLights) {
-            if (totalTicksForBlockEntity % 20 > 10) states.powered(litLight);
+            if (seconds % 1 > 0.5f) states.powered(litLight);
         }
     }
 }

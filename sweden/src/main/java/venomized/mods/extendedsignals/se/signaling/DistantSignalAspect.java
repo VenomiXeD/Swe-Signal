@@ -9,42 +9,42 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 @RequiredArgsConstructor
 public enum DistantSignalAspect implements IDistantSignalAspect {
     EXPECT_80(
-            new LightEntry(RGB.BLACK, false),
-            new LightEntry(RGB.WHITE, true),
-            new LightEntry(RGB.BLACK, false)
+            false,
+            true,
+            false
     ),
     EXPECT_40(
-            new LightEntry(RGB.GREEN, true),
-            new LightEntry(RGB.BLACK, false),
-            new LightEntry(RGB.GREEN, true)
+            true,
+            false,
+            true
     ),
     EXPECT_40_SHORT(
-            new LightEntry(RGB.GREEN, false),
-            new LightEntry(RGB.BLACK, false),
-            new LightEntry(RGB.GREEN, false)
+            false,
+            false,
+            false
     ),
     EXPECT_STOP(
-            new LightEntry(RGB.GREEN, true),
-            new LightEntry(RGB.BLACK, false),
-            new LightEntry(RGB.BLACK, false)
+            true,
+            false,
+            false
     ),
     NONE(
-            new LightEntry(RGB.BLACK, false),
-            new LightEntry(RGB.BLACK, false),
-            new LightEntry(RGB.BLACK, false)
+            false,
+            false,
+            false
     );
 
-    private final LightEntry l0;
-    private final LightEntry l1;
-    private final LightEntry l2;
+    private final boolean l0;
+    private final boolean l1;
+    private final boolean l2;
 
     public static DistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         SignalStateNode distant = state.getNextState();
-        if (distant == null || distant.isStop()) {
+        if (distant == null || !distant.isProceed()) {
             return DistantSignalAspect.EXPECT_STOP;
         }
 
-        return distant.getMaxProceedSpeed() > 40 ? EXPECT_80 :
+        return distant.getMaxProceedSpeed() >= 80 ? EXPECT_80 :
                 state.getDistanceToNextSignal() > 450 ? EXPECT_40 : EXPECT_40_SHORT;
     }
 
@@ -53,14 +53,15 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
-        // boolean lit = totalTicksForBlockEntity % 20 > 10;
-        //
-        // if (l0.blink() && lit)
-        //     states.powered("l0");
-        // l0.apply(totalTicksForBlockEntity, states);
-        // l1.apply(totalTicksForBlockEntity, states);
-        // if (states.length == 3 && states[2] != null)
-        //     l2.apply(totalTicksForBlockEntity, states[2]);
+    public void applyAspect(float seconds, SignalLighting states) {
+        boolean lit = seconds % 1 > .5f;
+
+
+        if (l0 && lit)
+            states.powered("l2");
+        if (l1 && lit)
+            states.powered("l3");
+        if (l2 && lit)
+            states.powered("l4");
     }
 }

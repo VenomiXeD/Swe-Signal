@@ -22,7 +22,7 @@ import venomized.mods.extendedsignals.core.util.SpriteUV;
 
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
-public abstract class RendererGeneric<T extends BlockEntity> implements BlockEntityRenderer<T> {
+public class RendererGeneric<T extends BlockEntity> implements BlockEntityRenderer<T> {
     protected T blockEntity;
 
     protected float partialTick;
@@ -34,6 +34,9 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
 
     public RendererGeneric(BlockEntityRendererProvider.Context context) {
         renderer = context.getBlockRenderDispatcher().getModelRenderer();
+    }
+
+    protected RendererGeneric() {
     }
 
     @Override
@@ -78,7 +81,6 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
     protected void renderSelfBlock() {
         if (blockEntity instanceof IConfigurableModelBlockEntity configurableModelBlockEntity) {
             PartialModel model = configurableModelBlockEntity.variantData().getVariantModel();
-
             configurableModelBlockEntity.variantData().getAdditionalFeatures().forEach(additionalModel -> {
                 if (additionalModel == null)
                     return;
@@ -147,6 +149,7 @@ public abstract class RendererGeneric<T extends BlockEntity> implements BlockEnt
     }
 
     public void doRender() {
+        renderSelfBlock();
     }
 
     protected void renderUVMappedTexturedDisplay(Vector3f topLeft, Vector3f bottomRight, ResourceLocation texture, SpriteUV spriteUV, boolean lit) {

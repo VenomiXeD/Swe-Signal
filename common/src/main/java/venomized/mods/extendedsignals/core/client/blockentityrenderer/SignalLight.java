@@ -86,15 +86,15 @@ public class SignalLight {
         private long blueChangeTimestamp;
 
         private void redChanged(int newVal, int oldVal) {
-            redChangeTimestamp = currentTick;
+            redChangeTimestamp = System.nanoTime();
         }
 
         private void greenChanged(int newVal, int oldVal) {
-            greenChangeTimestamp = currentTick;
+            greenChangeTimestamp = System.nanoTime();
         }
 
         private void blueChanged(int newVal, int oldVal) {
-            blueChangeTimestamp = currentTick;
+            blueChangeTimestamp = System.nanoTime();
         }
 
         public void setLit(boolean lit) {
@@ -122,17 +122,20 @@ public class SignalLight {
         }
 
         public int getRedOutput(float partialTick) {
-            float progress = Math.min(1, ((currentTick + partialTick) - redChangeTimestamp) / fadeTicks);
+            float s = (System.nanoTime() - redChangeTimestamp) / 1_000_000_000f;
+            float progress = Math.min(1, (s / (fadeTicks / 20f)));
             return (int) Mth.lerp(ignoreFadeTicks ? 1 : progress, red.fromValue(), red.toValue());
         }
 
         public int getGreenOutput(float partialTick) {
-            float progress = Math.min(1, ((currentTick + partialTick) - greenChangeTimestamp) / fadeTicks);
+            float s = (System.nanoTime() - greenChangeTimestamp) / 1_000_000_000f;
+            float progress = Math.min(1, (s / (fadeTicks / 20f)));
             return (int) Mth.lerp(ignoreFadeTicks ? 1 : progress, green.fromValue(), green.toValue());
         }
 
         public int getBlueOutput(float partialTick) {
-            float progress = Math.min(1, ((currentTick + partialTick) - blueChangeTimestamp) / fadeTicks);
+            float s = (System.nanoTime() - blueChangeTimestamp) / 1_000_000_000f;
+            float progress = Math.min(1, (s / (fadeTicks / 20f)));
             return (int) Mth.lerp(ignoreFadeTicks ? 1 : progress, blue.fromValue(), blue.toValue());
         }
     }

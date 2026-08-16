@@ -29,14 +29,14 @@ public abstract class BlockEntityKs<T extends ISignalAspect> extends BlockEntity
     protected VariantData constructVariantData() {
         VariantData variantData = super.constructVariantData();
         if (withScreen()) {
-            variantData.addCheckboxOption(new VariantData.VariantOption("matrix", Component.translatable("screens.extended_signals_de.modelconfig.screens.matrix_display"), () -> GermanyModels.KS_MATRIX));
-            variantData.addCheckboxOption(new VariantData.VariantOption("zs3_metal", Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.zs3_metal"), () -> GermanyModels.KS_ZS3_METAL));
+            variantData.addCheckboxOption(new VariantData.VariantOption("matrix", Component.translatable("screens.extended_signals_de.modelconfig.screens.matrix_display"), () -> GermanyModels.KSModels.KS_MATRIX));
+            variantData.addCheckboxOption(new VariantData.VariantOption("zs3_metal", Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.zs3_metal"), () -> GermanyModels.KSModels.KS_ZS3_METAL));
 
             variantData.addTextBoxOption(new VariantData.TextBoxOption("zs3_value", Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3.label"), Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3.tooltip")));
         }
         if (withDistantScreen()) {
-            variantData.addCheckboxOption(new VariantData.VariantOption("matrix_v", Component.translatable("screens.extended_signals_de.modelconfig.screens.matrix_display_v"), () -> GermanyModels.KS_MATRIX_DISTANT));
-            variantData.addCheckboxOption(new VariantData.VariantOption("zs3v_metal", Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.zs3v_metal"), () -> GermanyModels.KS_ZS3V_METAL));
+            variantData.addCheckboxOption(new VariantData.VariantOption("matrix_v", Component.translatable("screens.extended_signals_de.modelconfig.screens.matrix_display_v"), () -> GermanyModels.KSModels.KS_MATRIX_DISTANT));
+            variantData.addCheckboxOption(new VariantData.VariantOption("zs3v_metal", Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.zs3v_metal"), () -> GermanyModels.KSModels.KS_ZS3V_METAL));
             variantData.addTextBoxOption(new VariantData.TextBoxOption("zs3v_value", Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3v.label"), Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3v.tooltip")));
         }
 

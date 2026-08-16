@@ -27,13 +27,13 @@ public enum KsDistantSignalAspect implements IDistantSignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+    public void applyAspect(float totalTicksForBlockEntity, SignalLighting states) {
         switch (this) {
             case EXPECT_PROCEED:
                 states.powered("proceed");
                 break;
             case EXPECT_REDUCED_SPEED:
-                if ((totalTicksForBlockEntity % 20 > 10))
+                if ((totalTicksForBlockEntity % 1 > .5f))
                     states.powered("proceed");
                 break;
             case EXPECT_STOP:

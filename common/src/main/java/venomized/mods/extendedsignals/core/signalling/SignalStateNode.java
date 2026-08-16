@@ -11,6 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.util.NBTHelp;
 
 import javax.annotation.Nullable;
@@ -74,7 +75,7 @@ public class SignalStateNode {
     @Getter
     private TravellingPoint.SteerDirection upcomingJunctionSteerDirection;
 
-    private static SignalStateNode decode(FriendlyByteBuf friendlyByteBuf) {
+    private static SignalStateNode decode(@NotNull FriendlyByteBuf friendlyByteBuf) {
         return SignalStateNode.fromNBT(friendlyByteBuf.readNbt());
     }
 
@@ -82,7 +83,10 @@ public class SignalStateNode {
         buf.writeNbt(state.toNBT());
     }
 
-    public static SignalStateNode fromNBT(final CompoundTag tag) {
+    public static @Nullable SignalStateNode fromNBT(@Nullable final CompoundTag tag) {
+        if (tag == null) {
+            return INVALID;
+        }
         final SignalStateNode signalStateNode = new SignalStateNode();
         signalStateNode.setProceed(tag.getBoolean(TAG_PROCEED_NAME));
         signalStateNode.setMaxProceedSpeed(tag.getDouble(TAG_PROCEED_SPEED_NAME));

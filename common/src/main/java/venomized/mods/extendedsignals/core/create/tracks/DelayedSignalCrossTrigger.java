@@ -10,5 +10,5 @@ import lombok.Setter;
 public final class DelayedSignalCrossTrigger {
     int remainingDelayTicks;
     boolean primary;
-    IExtendedSignalBoundary<?> signalBoundary;
+    IExtendedEdgePoint<?> signalBoundary;
 }

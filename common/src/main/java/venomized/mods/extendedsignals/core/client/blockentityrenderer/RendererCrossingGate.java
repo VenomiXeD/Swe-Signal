@@ -1,5 +1,6 @@
 package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
+import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -19,15 +20,24 @@ public class RendererCrossingGate<T extends BlockEntityCrossingGate> extends Ren
 
         blockEntity.setGateDown(blockEntity.isActive());
 
-        CachedBuffers.partial(blockEntity.getCrossingArmModel(), blockEntity.getBlockState())
+        PartialModel gateModel = blockEntity.getCrossingArmModel();
+        if (gateModel == null)
+            return;
+
+
+        poseStack.pushPose();
+        poseStack.translate(0, blockEntity.getArmRotationHeightPoint(), 0);
+        CachedBuffers.partial(gateModel, blockEntity.getBlockState())
+                // .translate(0, -0.5f + blockEntity.getArmRotationHeightPoint(), 0)
+                .rotateCentered(Mth.DEG_TO_RAD * blockEntity.getArmRotation(partialTick), Direction.Axis.X)
                 .center()
-                .translate(0, -0.5f + blockEntity.getArmRotationHeightPoint(), 0)
-                .rotate(Direction.Axis.X, Mth.DEG_TO_RAD * blockEntity.getArmRotation(partialTick))
                 // .translate(new Vec3(0,0,3.5f/16f))
                 .light(packedLight)
                 .overlay(packedOverlay)
                 .renderInto(
                         poseStack, bufferSource.getBuffer(RenderType.cutoutMipped())
                 );
+
+        poseStack.popPose();
     }
 }

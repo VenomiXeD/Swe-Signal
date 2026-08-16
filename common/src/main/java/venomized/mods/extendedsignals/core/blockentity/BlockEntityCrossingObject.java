@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BlockEntityCrossingObject extends CoreBlockEntity implements ISignalTunerToolable {
+public abstract class BlockEntityCrossingObject extends ModelBlockEntity implements ISignalTunerToolable {
     @Nullable
     public BlockPos railroadCrossingControllerPos;
 

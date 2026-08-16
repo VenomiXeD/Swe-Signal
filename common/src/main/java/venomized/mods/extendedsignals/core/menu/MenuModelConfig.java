@@ -16,7 +16,7 @@ public class MenuModelConfig extends AbstractContainerMenu {
     private BlockPos blockEntityPosition;
 
     /**
-     * Clien    t
+     * Client
      *
      * @param menuModelConfigMenuType
      * @param i

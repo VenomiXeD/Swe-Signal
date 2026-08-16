@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import venomized.mods.extendedsignals.core.blockentity.ISignalBoundaryReferenceProvider;
 import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
-import venomized.mods.extendedsignals.core.create.tracks.IExtendedSignalBoundary;
+import venomized.mods.extendedsignals.core.create.tracks.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
 
 import java.util.UUID;
@@ -55,7 +55,7 @@ public abstract class MixinSignalBlockEntity extends SmartBlockEntity implements
         if (context.getLevel().isClientSide())
             return InteractionResult.sidedSuccess(context.getLevel().isClientSide());
 
-        IExtendedSignalBoundary<SignalBoundary> boundary = (IExtendedSignalBoundary<SignalBoundary>) edgePoint.getEdgePoint();
+        IExtendedEdgePoint<SignalBoundary> boundary = (IExtendedEdgePoint<SignalBoundary>) edgePoint.getEdgePoint();
         boolean primary = edgePoint.getTargetDirection() == Direction.AxisDirection.POSITIVE;
 
         switch (mode) {

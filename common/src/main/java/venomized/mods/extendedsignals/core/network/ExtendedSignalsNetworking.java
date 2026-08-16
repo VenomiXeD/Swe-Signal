@@ -7,7 +7,6 @@ import venomized.mods.extendedsignals.core.network.packets.*;
 
 public class ExtendedSignalsNetworking {
     private static final String NET_VERSION = "1.0";
-    private static final int MSG_ID = 0;
     public static PayloadRegistrar CHANNEL;
 
     public static void init() {
@@ -91,6 +90,12 @@ public class ExtendedSignalsNetworking {
                 ServerBoundModelConfigurePacket.TYPE,
                 ServerBoundModelConfigurePacket.CODEC,
                 ServerBoundModelConfigurePacket::handle
+        );
+
+        CHANNEL.playToServer(
+                ServerBoundConfigurePointPacket.TYPE,
+                ServerBoundConfigurePointPacket.CODEC,
+                ServerBoundConfigurePointPacket::handle
         );
     }
 

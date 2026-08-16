@@ -15,5 +15,13 @@
   "message.extended_signals.item.signalitem.not_reader": "Targeted block is not a valid reader",
   "message.extended_signals.item.signalitem.not_source": "Targeted block is not a valid source",
   "message.extended_signals.item.signalitem.reader_destroyed": "The reading block has is missing",
-  "message.extended_signals.item.signalitem.binding_started": "Binding started, select source"
+  "message.extended_signals.item.signalitem.binding_started": "Binding started, select source",
+  "screens.extended_signals_de.pointconfig.speed.label": "Speed limit (Km/h)",
+  "screens.extended_signals_de.pointconfig.speed.tooltip": "Speed limit in Km/h, beyond this point",
+  "screens.extended_signals_de.pointconfig.path_key.tooltip": "The key of the given path to use",
+  "screens.extended_signals_de.pointconfig.path_key.label": "Path key name for this point",
+  "screens.extended_signals_de.pointconfig.discard.label": "Discard mode",
+  "screens.extended_signals_de.pointconfig.discard.tooltip": "If this point should discard the modifier along a route",
+  "screens.extended_signals_de.pointconfig.forced.tooltip": "If this point is forced, regardless of underlying condition",
+  "screens.extended_signals_de.pointconfig.forced.label": "Forced mode"
 }

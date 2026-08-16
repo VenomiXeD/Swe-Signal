@@ -32,7 +32,7 @@ public enum HvDistantSignalAspect implements IDistantSignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+    public void applyAspect(float totalTicksForBlockEntity, SignalLighting states) {
         for (String litLight : litLights) {
             states.powered(litLight);
         }

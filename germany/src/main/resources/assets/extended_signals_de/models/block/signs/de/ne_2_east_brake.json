@@ -1,0 +1,17 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "parent": "forge:block/default",
+  "loader": "neoforge:obj",
+  "flip_v": true,
+  "model": "extended_signals_de:models/block/signs/de/ne_2_east_reduced_brake_distance.obj",
+  "textures": {
+    "metal": "extended_signals_de:block/signs/de/metal",
+    "ne_2": "extended_signals_de:block/signs/de/ne_2"
+  }
+}

@@ -18,7 +18,7 @@ public class BlockEntityCrossingController extends ModelBlockEntity implements I
      * @return
      */
     @Override
-    public boolean supportsConfiguration() {
+    public boolean supportsTranslation() {
         return false;
     }
 }

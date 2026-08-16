@@ -22,7 +22,7 @@ public enum HvBlockSignalAspect implements ISignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(long totalTicksForBlockEntity, SignalLighting states) {
+    public void applyAspect(float seconds, SignalLighting states) {
         if (this == PROCEED) {
             states.powered("proceed");
         } else {
