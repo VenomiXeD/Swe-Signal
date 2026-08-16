@@ -58,6 +58,8 @@ public class InterlockingManager {
     // public static ReservationResult tryReserveChain(Train self, )
 
     public static ReservationResult trainOwnsGroupIntersecting(Train self, SignalEdgeGroup group) {
+        if (group == null)
+            return ReservationResult.NONE;
         ReservationResult direct = trainOwnsGroup(self, group);
 //
         if (direct != ReservationResult.NONE) {
