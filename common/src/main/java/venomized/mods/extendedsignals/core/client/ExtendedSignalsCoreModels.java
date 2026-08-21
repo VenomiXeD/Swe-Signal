@@ -10,8 +10,4 @@ public class ExtendedSignalsCoreModels {
 
     public static void init() {
     }
-
-    public static BakedModel signalLightModel() {
-        return LIGHT_MODEL.get();
-    }
 }

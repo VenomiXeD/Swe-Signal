@@ -58,10 +58,10 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
 
 
         if (l0 && lit)
-            states.powered("l2");
+            states.powered("l0");
         if (l1 && lit)
-            states.powered("l3");
+            states.powered("l1");
         if (l2 && lit)
-            states.powered("l4");
+            states.powered("l2");
     }
 }
