@@ -1,0 +1,16 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "loader": "neoforge:obj",
+  "flip_v": true,
+  "model": "extended_signals_se:models/block/signs/se/weight_signal.obj",
+  "textures": {
+    "texture": "extended_signals_se:block/signs/se/weight_signal",
+    "metal": "extended_signals_se:block/metal"
+  }
+}

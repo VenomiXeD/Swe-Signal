@@ -1,0 +1,8 @@
+# Blender 5.2.0 LTS MTL File: 'None'
+# www.blender.org
+
+newmtl m_0ac5c793-748d-37e2-16e6-2a68a8c778dc.003
+map_Kd #texture
+
+newmtl m_6ab9c7e5-83f1-6119-e1ae-bd6bc9c2555b.003
+map_Kd #metal

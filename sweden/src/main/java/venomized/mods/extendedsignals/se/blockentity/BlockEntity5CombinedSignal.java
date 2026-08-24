@@ -2,14 +2,17 @@ package venomized.mods.extendedsignals.se.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.se.client.SwedenModels;
 
 public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
     public BlockEntity5CombinedSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
@@ -28,6 +31,16 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
                 .withLight("l2", new SignalLight(0, 33.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(0, 255, 0))
                 .withLight("l3", new SignalLight(0, 26.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(255, 255, 255))
                 .withLight("l4", new SignalLight(0, 19.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(0, 255, 0));
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    protected VariantData constructVariantData() {
+        VariantData variants = super.constructVariantData();
+        variants.addVariantOptionRight(new VariantData.VariantOption("gantry", Component.translatable("screens.extended_signals_se.modelconfig.main_signal.gantry"), () -> SwedenModels.SIGNAL_5L_GANTRY));
+        return variants;
     }
 
     /**
@@ -55,11 +68,7 @@ public class BlockEntity5CombinedSignal extends BlockEntitySignal<ICombinedSigna
                 lights.powered("l2");
             }
 
-            if (distant == null) {
-                return;
-            }
-
-            if (distant.isStop()) {
+            if (distant == null || distant.isStop()) {
                 if (blink)
                     lights.powered("l2");
                 if (is40 && state.getDistanceToNextSignal() <= 450)

@@ -67,7 +67,7 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
      */
     @Override
     public PartialModel getCrossingArmModel() {
-        return SwedenModels.ARM_4;
+        return SwedenModels.ARM_6;
     }
 
     /**

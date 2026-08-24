@@ -19,9 +19,9 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
             true
     ),
     EXPECT_40_SHORT(
+            true,
             false,
-            false,
-            false
+            true
     ),
     EXPECT_STOP(
             true,

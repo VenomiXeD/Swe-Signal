@@ -1,0 +1,16 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "loader": "neoforge:obj",
+  "flip_v": true,
+  "model": "extended_signals_se:models/block/signs/se/continued_driving_permission.obj",
+  "textures": {
+    "texture": "extended_signals_se:block/signs/se/continued_driving_permission",
+    "metal": "extended_signals_se:block/metal"
+  }
+}
