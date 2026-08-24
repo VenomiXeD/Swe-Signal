@@ -55,8 +55,6 @@ public class InterlockingManager {
         return trainOwnsGroup(self, Create.RAILWAYS.signalEdgeGroups.get(group));
     }
 
-    // public static ReservationResult tryReserveChain(Train self, )
-
     public static ReservationResult trainOwnsGroupIntersecting(Train self, SignalEdgeGroup group) {
         if (group == null)
             return ReservationResult.NONE;

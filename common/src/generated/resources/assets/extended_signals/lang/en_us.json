@@ -23,5 +23,10 @@
   "screens.extended_signals_de.pointconfig.discard.label": "Discard mode",
   "screens.extended_signals_de.pointconfig.discard.tooltip": "If this point should discard the modifier along a route",
   "screens.extended_signals_de.pointconfig.forced.tooltip": "If this point is forced, regardless of underlying condition",
-  "screens.extended_signals_de.pointconfig.forced.label": "Forced mode"
+  "screens.extended_signals_de.pointconfig.forced.label": "Forced mode",
+  "train_map.extended_signals.signal.direction": "Signal direction: %s",
+  "train_map.extended_signals.signal.id": "Signal: %s",
+  "train_map.extended_signals.signal.state": "State: %s",
+  "train_map.extended_signals.signal.distance_next": "Distance to next: %s",
+  "train_map.extended_signals.signal.max_speed": "Max speed: %.2f"
 }
