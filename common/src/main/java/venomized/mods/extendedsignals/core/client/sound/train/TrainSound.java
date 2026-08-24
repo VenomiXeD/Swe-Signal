@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.core.client.sound.train;
 import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
@@ -15,7 +16,7 @@ import venomized.mods.extendedsignals.core.client.sound.LoopingSound;
 import java.util.List;
 
 public abstract class TrainSound {
-    private final List<LoopingSound> playedSounds = new ObjectArrayList<>();
+    private final List<LoopingSound> playedSounds = new ReferenceArrayList<>();
     @Getter(AccessLevel.PROTECTED)
     private ICarriageSounds internalCarriageSounds;
 

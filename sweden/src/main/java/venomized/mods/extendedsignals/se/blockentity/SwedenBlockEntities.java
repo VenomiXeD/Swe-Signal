@@ -20,62 +20,62 @@ public final class SwedenBlockEntities {
     public static final BlockEntityEntry<BlockEntity2MainSignal> MAIN_2_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "2l_main_signal", BlockEntity2MainSignal::new,
-                            SwedenBlocks.MAIN_2_SIGNAL
+                            SwedenBlocks.SIGNAL_MAIN_2_MODERN
                     )
                     .renderer(() -> RendererSignal::new)
                     .register();
     //          .register();
     //
     public static final BlockEntityEntry<BlockEntity3MainSignal> MAIN_3_SIGNAL =
-            RegistrateHelper.simpleBlockEntity(registrate(), "3l_main_signal", BlockEntity3MainSignal::new, SwedenBlocks.MAIN_3_SIGNAL)
+            RegistrateHelper.simpleBlockEntity(registrate(), "3l_main_signal", BlockEntity3MainSignal::new, SwedenBlocks.SIGNAL_MAIN_3_MODERN)
                     .renderer(() -> RendererSignal::new)
                     .register();
     public static final BlockEntityEntry<BlockEntity4CombinedSignal> COMBINED_4_SIGNAL =
             RegistrateHelper.simpleBlockEntity(
                             registrate(), "4_combined_signal", BlockEntity4CombinedSignal::new,
-                            SwedenBlocks.COMBINED_4_SIGNAL
+                            SwedenBlocks.SIGNAL_COMBINED_4_MODERN
                     )
                     .renderer(() -> RendererSignal::new)
                     .register();
     public static final BlockEntityEntry<BlockEntity5CombinedSignal> COMBINED_5_SIGNAL =
-            RegistrateHelper.simpleBlockEntity(registrate(), "5l_combined_signal", BlockEntity5CombinedSignal::new, SwedenBlocks.COMBINED_5_SIGNAL)
+            RegistrateHelper.simpleBlockEntity(registrate(), "5l_combined_signal", BlockEntity5CombinedSignal::new, SwedenBlocks.SIGNAL_COMBINED_5_MODERN)
                     .renderer(() -> RendererSignal::new)
                     .register();
     // == DISTANT SIGNALS ==
     public static final BlockEntityEntry<BlockEntity3DistantSignal> DISTANT_THREE_LIGHT =
-            RegistrateHelper.simpleBlockEntity(registrate(), "3l_distant_signal", BlockEntity3DistantSignal::new, SwedenBlocks.BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL)
+            RegistrateHelper.simpleBlockEntity(registrate(), "3l_distant_signal", BlockEntity3DistantSignal::new, SwedenBlocks.SIGNAL_DISTANT_3_MODERN)
                     .renderer(() -> RendererSignal::new)
                     .register();
     // == DWARF SIGNALS ==
     public static final BlockEntityEntry<BlockEntityDwarfSignal> DWARF_SIGNAL =
-            RegistrateHelper.simpleBlockEntity(registrate(), "dwarf_signal", BlockEntityDwarfSignal::new, SwedenBlocks.BLOCK_MODERN_DWARF_SIGNAL)
+            RegistrateHelper.simpleBlockEntity(registrate(), "dwarf_signal", BlockEntityDwarfSignal::new, SwedenBlocks.SIGNAL_DWARF_MODERN)
                     .renderer(() -> RendererSignal::new)
                     .register();
     //
     public static final BlockEntityEntry<BlockEntityMainDwarfSignal> MAIN_DWARF_SIGNAL =
-            RegistrateHelper.simpleBlockEntity(registrate(), "main_dwarf_signal", BlockEntityMainDwarfSignal::new, SwedenBlocks.BLOCK_MODERN_MAIN_DWARF_SIGNAL)
+            RegistrateHelper.simpleBlockEntity(registrate(), "main_dwarf_signal", BlockEntityMainDwarfSignal::new, SwedenBlocks.SIGNAL_MAIN_DWARF_MODERN)
                     .renderer(() -> RendererSignal::new)
                     .register();
     public static final BlockEntityEntry<BlockEntityEndpointSignal> ENDPOINT_SIGNAL =
-            RegistrateHelper.simpleBlockEntity(registrate(), "endpoint_signal", BlockEntityEndpointSignal::new, SwedenBlocks.BLOCK_ENDPOINT_SIGNAL)
+            RegistrateHelper.simpleBlockEntity(registrate(), "endpoint_signal", BlockEntityEndpointSignal::new, SwedenBlocks.SIGNAL_ENDPOINT)
                     .renderer(() -> RendererSignal::new)
                     .register();
     // == MISC SIGNALS ==
     public static final BlockEntityEntry<BlockEntityCrossingDistantSignal> RAILROAD_CROSSING_DISTANT_SIGNAL = RegistrateHelper
-            .simpleBlockEntity(registrate(), "crossing_distant_signal", BlockEntityCrossingDistantSignal::new, SwedenBlocks.BLOCK_CROSSING_DISTANT_SIGNAL)
+            .simpleBlockEntity(registrate(), "crossing_distant_signal", BlockEntityCrossingDistantSignal::new, SwedenBlocks.SIGNAL_CROSSING_DISTANT_MODERN)
             .renderer(() -> RendererCrossingDistantSignal::new)
             .register();
     public static final BlockEntityEntry<BlockEntityCrossingSignal> RAILROAD_CROSSING_SIGNAL = RegistrateHelper
-            .simpleBlockEntity(registrate(), "crossing_signal_modern", BlockEntityCrossingSignal::new, SwedenBlocks.CROSSING_SIGNAL)
+            .simpleBlockEntity(registrate(), "crossing_signal_modern", BlockEntityCrossingSignal::new, SwedenBlocks.SIGNAL_CROSSING_MODERN)
             .renderer(() -> RendererCrossingSignal::new)
             .register();
     // == RAILROAD CROSSING SIGNALS ==
     public static final BlockEntityEntry<BlockEntityCrossingGate> CROSSING_GATE = RegistrateHelper
-            .simpleBlockEntity(registrate(), "crossing_gate", BlockEntityCrossingGate::new, SwedenBlocks.BLOCK_CROSSING_GATE)
+            .simpleBlockEntity(registrate(), "crossing_gate", BlockEntityCrossingGate::new, SwedenBlocks.CROSSING_GATE_MODERN)
             .renderer(() -> RendererCrossingGate::new)
             .register();
     public static BlockEntityEntry<BlockEntityThreeLightCrossingLights> CROSSING_LIGHTS = RegistrateHelper
-            .simpleBlockEntity(registrate(), "crossing_lights", BlockEntityThreeLightCrossingLights::new, SwedenBlocks.CROSSING_LIGHTS)
+            .simpleBlockEntity(registrate(), "crossing_lights", BlockEntityThreeLightCrossingLights::new, SwedenBlocks.CROSSING_LIGHTS_MODERN)
             .renderer(() -> RendererCrossingLights::new)
             .register();
 

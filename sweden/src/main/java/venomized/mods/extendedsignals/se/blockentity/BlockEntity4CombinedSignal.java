@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.se.blockentity;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -10,12 +11,14 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.blockentity.ISignalBoundaryReferenceProvider;
 import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
+import venomized.mods.extendedsignals.se.client.SwedenModels;
 
 public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
     public static Combined4SignalStateMapper COMBINED_4_SIGNAL_MAPPER = SignalStateRemapper.register(new Combined4SignalStateMapper(ExtendedSignalsSweden.res("4_combined_signal")));
@@ -37,29 +40,28 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
     }
 
     /**
-     * @param referenceProvider
-     */
-    @Override
-    public void bindToCreateSignal(ISignalBoundaryReferenceProvider referenceProvider) {
-        super.bindToCreateSignal(referenceProvider);
-        TrackEdgePoint point = referenceProvider.getTrackTargetingBehavior().getEdgePoint();
-        if (point instanceof IExtendedEdgePoint<?> boundary) {
-            boundary.setMapper(referenceProvider.getTrackTargetingBehavior().getTargetDirection() == Direction.AxisDirection.POSITIVE,
-                    COMBINED_4_SIGNAL_MAPPER
-            );
-        }
-    }
-
-    /**
      * @return
      */
-    public SignalLight[] constructLightPlacements() {
-        return new SignalLight[]{
-                new SignalLight(0, 33.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
-                new SignalLight(0, 26.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0),
-                new SignalLight(0, 19.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0)
-        };
+    @Override
+    protected VariantData constructVariantData() {
+        VariantData variants = super.constructVariantData();
+        variants.addVariantOptionRight(new VariantData.VariantOption("gantry", Component.translatable("screens.extended_signals_se.modelconfig.main_signal.gantry"), () -> SwedenModels.SIGNAL_4L_GANTRY));
+        return variants;
     }
+
+    // /**
+    //  * @param referenceProvider
+    //  */
+    // @Override
+    // public void bindToCreateSignal(ISignalBoundaryReferenceProvider referenceProvider) {
+    //     super.bindToCreateSignal(referenceProvider);
+    //     TrackEdgePoint point = referenceProvider.getTrackTargetingBehavior().getEdgePoint();
+    //     if (point instanceof IExtendedEdgePoint<?> boundary) {
+    //         boundary.setMapper(referenceProvider.getTrackTargetingBehavior().getTargetDirection() == Direction.AxisDirection.POSITIVE,
+    //                 COMBINED_4_SIGNAL_MAPPER
+    //         );
+    //     }
+    // }
 
     /**
      * @param state
@@ -85,10 +87,7 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
             }
 
             SignalStateNode distant = state.getNextState();
-            if (distant == null)
-                return;
-
-            if (distant.isStop()) {
+            if (distant == null || distant.isStop()) {
                 if (blink)
                     lights.powered("l2");
                 return;

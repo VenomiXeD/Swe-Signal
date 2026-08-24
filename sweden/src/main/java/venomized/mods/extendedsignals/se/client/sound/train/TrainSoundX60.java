@@ -23,7 +23,7 @@ public class TrainSoundX60 extends TrainSound {
         float speed = getInternalCarriageSounds().getSpeedFactor().getValue();
         vvvfSound.setVolume(Mth.sqrt(speed));
 
-        vvvfSound.setPitch(1f + TrainSounds.swe_Signal$vvvfSawPitch(speed, 12));
+        vvvfSound.setPitch(1f + TrainSounds.vvvfSawPitch(speed, 12));
     }
 
 

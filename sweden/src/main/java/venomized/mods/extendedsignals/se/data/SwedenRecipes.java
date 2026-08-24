@@ -41,47 +41,47 @@ public class SwedenRecipes extends RecipeProvider {
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(AllItems.ELECTRON_TUBE))
                 .addStep(PressingRecipe::new, rb -> rb)
                 .loops(1)
-                .addOutput(SwedenBlocks.BLOCK_ENDPOINT_SIGNAL.asItem(), 1)
+                .addOutput(SwedenBlocks.SIGNAL_ENDPOINT.asItem(), 1)
                 .build(p_recipeOutput);
 
         new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("main_2_signal"))
-                .require(SwedenBlocks.BLOCK_ENDPOINT_SIGNAL.asItem())
+                .require(SwedenBlocks.SIGNAL_ENDPOINT.asItem())
                 .transitionTo(SwedenItems.INCOMPLETE_SIGNAL.get())
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(CommonMetal.IRON.plates))
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(AllItems.ELECTRON_TUBE))
                 .addStep(PressingRecipe::new, rb -> rb)
                 .loops(1)
-                .addOutput(SwedenBlocks.MAIN_2_SIGNAL.asItem(), 1)
+                .addOutput(SwedenBlocks.SIGNAL_MAIN_2_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
 
         new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("main_3_signal"))
-                .require(SwedenBlocks.MAIN_2_SIGNAL.asItem())
+                .require(SwedenBlocks.SIGNAL_MAIN_2_MODERN.asItem())
                 .transitionTo(SwedenItems.INCOMPLETE_SIGNAL.get())
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(CommonMetal.IRON.plates))
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(AllItems.ELECTRON_TUBE))
                 .addStep(PressingRecipe::new, rb -> rb)
                 .loops(1)
-                .addOutput(SwedenBlocks.MAIN_3_SIGNAL.asItem(), 1)
+                .addOutput(SwedenBlocks.SIGNAL_MAIN_3_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
 
         new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("combined_4_signal"))
-                .require(SwedenBlocks.MAIN_3_SIGNAL.asItem())
+                .require(SwedenBlocks.SIGNAL_MAIN_3_MODERN.asItem())
                 .transitionTo(SwedenItems.INCOMPLETE_SIGNAL.get())
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(CommonMetal.IRON.plates))
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(AllItems.ELECTRON_TUBE))
                 .addStep(PressingRecipe::new, rb -> rb)
                 .loops(1)
-                .addOutput(SwedenBlocks.COMBINED_4_SIGNAL.asItem(), 1)
+                .addOutput(SwedenBlocks.SIGNAL_COMBINED_4_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
 
         new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("combined_5_signal"))
-                .require(SwedenBlocks.COMBINED_4_SIGNAL.asItem())
+                .require(SwedenBlocks.SIGNAL_COMBINED_4_MODERN.asItem())
                 .transitionTo(SwedenItems.INCOMPLETE_SIGNAL.get())
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(CommonMetal.IRON.plates))
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(AllItems.ELECTRON_TUBE))
                 .addStep(PressingRecipe::new, rb -> rb)
                 .loops(1)
-                .addOutput(SwedenBlocks.COMBINED_5_SIGNAL.asItem(), 1)
+                .addOutput(SwedenBlocks.SIGNAL_COMBINED_5_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
 
         new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("dwarf_signal"))
@@ -95,11 +95,11 @@ public class SwedenRecipes extends RecipeProvider {
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(AllItems.ELECTRON_TUBE))
                 .addStep(PressingRecipe::new, rb -> rb)
                 .loops(1)
-                .addOutput(SwedenBlocks.BLOCK_MODERN_DWARF_SIGNAL.asItem(), 1)
+                .addOutput(SwedenBlocks.SIGNAL_DWARF_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
 
         new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("main_dwarf_signal"))
-                .require(SwedenBlocks.BLOCK_MODERN_DWARF_SIGNAL.asItem())
+                .require(SwedenBlocks.SIGNAL_DWARF_MODERN.asItem())
                 .transitionTo(SwedenItems.INCOMPLETE_SIGNAL.get())
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(CommonMetal.IRON.plates))
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(CommonMetal.IRON.nuggets))
@@ -108,7 +108,7 @@ public class SwedenRecipes extends RecipeProvider {
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(AllItems.ELECTRON_TUBE))
                 .addStep(PressingRecipe::new, rb -> rb)
                 .loops(1)
-                .addOutput(SwedenBlocks.BLOCK_MODERN_MAIN_DWARF_SIGNAL.asItem(), 1)
+                .addOutput(SwedenBlocks.SIGNAL_MAIN_DWARF_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
 
         new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("distant_3_signal"))
@@ -121,7 +121,7 @@ public class SwedenRecipes extends RecipeProvider {
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(AllItems.ELECTRON_TUBE))
                 .addStep(PressingRecipe::new, rb -> rb)
                 .loops(1)
-                .addOutput(SwedenBlocks.BLOCK_MODERN_THREE_LIGHT_DISTANT_SIGNAL.asItem(), 1)
+                .addOutput(SwedenBlocks.SIGNAL_DISTANT_3_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
 
         new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("crossing_lights"))
@@ -133,7 +133,7 @@ public class SwedenRecipes extends RecipeProvider {
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(AllItems.ELECTRON_TUBE))
                 .addStep(PressingRecipe::new, rb -> rb)
                 .loops(1)
-                .addOutput(SwedenBlocks.CROSSING_LIGHTS.asItem(), 1)
+                .addOutput(SwedenBlocks.CROSSING_LIGHTS_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
 
         new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("crossing_gate"))
@@ -147,7 +147,7 @@ public class SwedenRecipes extends RecipeProvider {
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(Tags.Items.FENCES))
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(Tags.Items.FENCES))
                 .loops(1)
-                .addOutput(SwedenBlocks.BLOCK_CROSSING_GATE.asItem(), 1)
+                .addOutput(SwedenBlocks.CROSSING_GATE_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
     }
 }
