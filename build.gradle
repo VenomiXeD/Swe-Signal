@@ -26,12 +26,17 @@ subprojects {
                 mod_id                 : mod_id,
                 mod_name               : mod_name,
                 mod_license            : mod_license,
-                mod_version            : mod_version,
+                mod_version : project.version,
+                core_version: project(":common").version
         ]
         inputs.properties replaceProperties
 
         filesMatching(['META-INF/neoforge.mods.toml']) {
             expand replaceProperties
+        }
+
+        filesMatching("**/*.java") {
+            expand(MOD_VERSION: project.version)
         }
     }
 

@@ -1,18 +1,14 @@
 package venomized.mods.extendedsignals.core.mixin.client;
 
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.simibubi.create.compat.trainmap.TrainMapManager;
 import com.simibubi.create.compat.trainmap.TrainMapRenderer;
-import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.*;
-import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
-import com.simibubi.create.content.trains.station.GlobalStation;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.createmod.catnip.data.Couple;
@@ -24,7 +20,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,13 +28,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(TrainMapManager.class)
 public abstract class MixinTrainMapManager {
+    @ModifyReturnValue(method = "listTrainDetails", at = @At("RETURN"))
+    private static List<FormattedText> extendedSignals$addListTrainDetails(List<FormattedText> original) {
+        final int blue = 0xD3DEDC;
+        final int darkBlue = 0x92A9BD;
+        final int bright = 0xFFEFEF;
+        final int orange = 0xFFAD60;
+
+
+        return original;
+    }
+
     @Inject(method = "drawPoints", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/graph/TrackGraph;getPoints(Lcom/simibubi/create/content/trains/graph/EdgePointType;)Ljava/util/Collection;"))
-    private static void extendedSignals$draw$drawSignals(GuiGraphics graphics, int mouseX, int mouseY, Object hoveredElement, Rect2i bounds, CallbackInfoReturnable<Object> cir, @Local(name = "graph") TrackGraph graph, @Local(name = "pose") PoseStack pose, @Local(name = "hoveredElement", index = 0, ordinal = 0, argsOnly = true) LocalRef<Object> hElement) {
+    private static void extendedSignals$drawSignals(GuiGraphics graphics, int mouseX, int mouseY, Object hoveredElement, Rect2i bounds, CallbackInfoReturnable<Object> cir, @Local(name = "graph") TrackGraph graph, @Local(name = "pose") PoseStack pose, @Local(name = "hoveredElement", index = 0, ordinal = 0, argsOnly = true) LocalRef<Object> hElement) {
         for (SignalBoundary signal : graph.getPoints(EdgePointType.SIGNAL)) {
             Couple<TrackNodeLocation> edgeLocation = signal.edgeLocation;
             TrackNode node = graph.locateNode(edgeLocation.getFirst());
