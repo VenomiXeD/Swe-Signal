@@ -77,7 +77,7 @@ ordering = "NONE"
 side = "BOTH"
 
 # Extended Signals dependency
-[[dependencies.${ mod_id }]]
+[[dependencies.${ mod_id }_${ sub_id }]]
 modId = "extended_signals"
 type = "required"
 # This version range declares a minimum of the current minecraft version up to but not including the next major version

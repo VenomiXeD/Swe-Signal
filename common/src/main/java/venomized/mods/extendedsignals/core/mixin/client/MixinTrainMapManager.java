@@ -7,6 +7,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.simibubi.create.compat.trainmap.TrainMapManager;
 import com.simibubi.create.compat.trainmap.TrainMapRenderer;
+import com.simibubi.create.compat.trainmap.TrainMapSync;
+import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.*;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
@@ -27,18 +29,21 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.core.util.MathHelp;
+import venomized.mods.extendedsignals.core.util.TrainHelp;
 
 import java.util.List;
 
 @Mixin(TrainMapManager.class)
 public abstract class MixinTrainMapManager {
     @ModifyReturnValue(method = "listTrainDetails", at = @At("RETURN"))
-    private static List<FormattedText> extendedSignals$addListTrainDetails(List<FormattedText> original) {
+    private static List<FormattedText> extendedSignals$addListTrainDetails(List<FormattedText> original, @Local(name = "train") Train train) {
         final int blue = 0xD3DEDC;
         final int darkBlue = 0x92A9BD;
         final int bright = 0xFFEFEF;
         final int orange = 0xFFAD60;
 
+        original.add(Component.literal("%.2f Km/h".formatted(MathHelp.KphFromMs(train.speed))));
 
         return original;
     }

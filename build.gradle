@@ -27,7 +27,8 @@ subprojects {
                 mod_name               : mod_name,
                 mod_license            : mod_license,
                 mod_version : project.version,
-                core_version: project(":common").version
+                core_version: project(":common").version,
+                sub_id      : project.mod_sub_id
         ]
         inputs.properties replaceProperties
 

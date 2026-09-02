@@ -2,7 +2,4 @@ dependencies {
     implementation(project(":common"))
 }
 
-runs {
-
-}
-version = '1.2.1-beta'
+version = "1.2.1-beta"
