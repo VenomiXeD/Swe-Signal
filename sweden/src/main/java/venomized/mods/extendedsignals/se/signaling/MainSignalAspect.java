@@ -2,7 +2,7 @@ package venomized.mods.extendedsignals.se.signaling;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -39,7 +39,7 @@ public enum MainSignalAspect implements IMainSignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(float seconds, SignalLighting states) {
+    public void applyAspect(float seconds, SignalContainer states) {
         if (l0Lit)
             states.powered("l0");
         if (l1Lit)

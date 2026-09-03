@@ -1,6 +1,5 @@
 package venomized.mods.extendedsignals.se.blockentity;
 
-import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -9,30 +8,29 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
-import venomized.mods.extendedsignals.core.blockentity.ISignalBoundaryReferenceProvider;
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
-import venomized.mods.extendedsignals.core.create.tracks.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
+import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
 
-public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSignalAspect> {
-    public static Combined4SignalStateMapper COMBINED_4_SIGNAL_MAPPER = SignalStateRemapper.register(new Combined4SignalStateMapper(ExtendedSignalsSweden.res("4_combined_signal")));
+public class BlockEntity4CombinedSignal extends BlockEntitySwedishSignal<ICombinedSignalAspect> {
+    // public static Combined4SignalStateMapper COMBINED_4_SIGNAL_MAPPER = SignalStateRemapper.register(new Combined4SignalStateMapper(ExtendedSignalsSweden.res("4_combined_signal")));
 
     public BlockEntity4CombinedSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
 
     /**
-     * @return
+     *
      */
     @Override
-    public SignalLighting constructSignalLighting() {
-        return new SignalLighting()
+    public void configureSignalLights(SignalContainer signalLights) {
+        signalLights
                 .withLight("l0", new SignalLight(0, 40.75d / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(0, 255, 0))
                 .withLight("l1", new SignalLight(0, 33.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(255, 0, 0))
                 .withLight("l2", new SignalLight(0, 26.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(0, 255, 0))
@@ -70,13 +68,13 @@ public class BlockEntity4CombinedSignal extends BlockEntitySignal<ICombinedSigna
      */
     @Override
     public @NotNull ICombinedSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
-        return (ticks, lights) -> {
+        return (seconds, lights) -> {
             if (state.isStop()) {
                 lights.powered("l1");
                 return;
             }
 
-            boolean blink = ticks % 1 > 0.5f;
+            boolean blink = ISignalAspect.blink(seconds, 80, 0.5f);
             if (state.getMaxProceedSpeed() >= 80) {
                 lights.powered("l0");
             } else {

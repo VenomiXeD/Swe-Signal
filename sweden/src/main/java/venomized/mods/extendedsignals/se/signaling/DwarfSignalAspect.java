@@ -2,7 +2,7 @@ package venomized.mods.extendedsignals.se.signaling;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -54,7 +54,7 @@ public enum DwarfSignalAspect implements ISignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(float totalTicksForBlockEntity, SignalLighting states) {
+    public void applyAspect(float totalTicksForBlockEntity, SignalContainer states) {
         if (l0Lit)
             states.powered("l0");
         if (l1Lit)

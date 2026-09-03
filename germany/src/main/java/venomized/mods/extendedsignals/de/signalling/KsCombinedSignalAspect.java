@@ -2,7 +2,7 @@ package venomized.mods.extendedsignals.de.signalling;
 
 import net.minecraft.core.Direction;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -38,7 +38,7 @@ public enum KsCombinedSignalAspect implements ICombinedSignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(float seconds, SignalLighting states) {
+    public void applyAspect(float seconds, SignalContainer states) {
         for (String litLight : litLights) {
             states.powered(litLight);
         }

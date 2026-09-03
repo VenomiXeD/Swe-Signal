@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
@@ -28,11 +28,11 @@ public class BlockEntityKsMainSignal extends BlockEntityKs<IMainSignalAspect> {
     }
 
     /**
-     * @return
+     *
      */
     @Override
-    public SignalLighting constructSignalLighting() {
-        return new SignalLighting()
+    public void configureSignalLights(SignalContainer signalLights) {
+        signalLights
                 .withLight("braking_distance", SignalLight.whiteLight(3.5d / 16d, 96.5 / 16f, -8.4 / 16d, 1.75f, 1.75f, 0f))
 
                 .withLight("stop", SignalLight.redLight(0d, 93.25 / 16d, -8.55 / 16d, 2.75f, 2.75f, 0f))
@@ -46,7 +46,7 @@ public class BlockEntityKsMainSignal extends BlockEntityKs<IMainSignalAspect> {
 
                 .withLight("zs1", SignalLight.whiteLight(3.5 / 16d, 82.5 / 16d, -8.4d / 16d, 1.75f, 1.75f, 0f))
 
-                .withFadeTicks(2);
+                .withFadeSeconds(0.1f);
     }
 
     /**

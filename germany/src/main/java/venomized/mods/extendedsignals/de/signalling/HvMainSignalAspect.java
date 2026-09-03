@@ -1,7 +1,7 @@
 package venomized.mods.extendedsignals.de.signalling;
 
 import net.minecraft.core.Direction;
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -30,7 +30,7 @@ public enum HvMainSignalAspect implements IMainSignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(float totalTicksForBlockEntity, SignalLighting states) {
+    public void applyAspect(float totalTicksForBlockEntity, SignalContainer states) {
         for (String litLight : litLights) {
             states.powered(litLight);
         }

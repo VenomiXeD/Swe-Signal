@@ -1,6 +1,6 @@
 package venomized.mods.extendedsignals.core.signalling;
 
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 
 import java.util.Set;
 
@@ -10,7 +10,7 @@ public record Aspect(Set<String> litLights, Set<String> blinkingLights, int flas
      * @param states
      */
     @Override
-    public void applyAspect(float seconds, SignalLighting states) {
+    public void applyAspect(float seconds, SignalContainer states) {
         for (String litLight : litLights) {
             states.powered(litLight);
         }

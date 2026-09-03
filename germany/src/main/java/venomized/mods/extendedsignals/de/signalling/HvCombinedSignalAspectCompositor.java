@@ -1,7 +1,7 @@
 package venomized.mods.extendedsignals.de.signalling;
 
 import net.minecraft.core.Direction;
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -12,7 +12,7 @@ public record HvCombinedSignalAspectCompositor(SignalStateNode rawState,
      * @param states
      */
     @Override
-    public void applyAspect(float totalTicksForBlockEntity, SignalLighting states) {
+    public void applyAspect(float totalTicksForBlockEntity, SignalContainer states) {
         HvMainSignalAspect.interpret(rawState, direction)
                 .applyAspect(totalTicksForBlockEntity, states);
 

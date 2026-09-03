@@ -1,11 +1,11 @@
 package venomized.mods.extendedsignals.core.signalling;
 
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 
 @FunctionalInterface
 public interface ISignalAspect {
-    void applyAspect(float seconds, SignalLighting states);
+    void applyAspect(float seconds, SignalContainer states);
 
     record RGB(int color) {
         public static final RGB RED = new RGB(0xFF0000);
@@ -29,5 +29,10 @@ public interface ISignalAspect {
         public int argb() {
             return 0xFF000000 | color;
         }
+    }
+
+    static boolean blink(float seconds, float blinkRate, float dutyCycle) {
+        float period = 60.0f / blinkRate;
+        return seconds % period < period * dutyCycle;
     }
 }

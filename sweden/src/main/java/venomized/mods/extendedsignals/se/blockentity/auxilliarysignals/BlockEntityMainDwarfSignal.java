@@ -6,22 +6,23 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.se.blockentity.BlockEntitySwedishSignal;
 import venomized.mods.extendedsignals.se.signaling.MainDwarfSignalAspect;
 
-public class BlockEntityMainDwarfSignal extends BlockEntitySignal<MainDwarfSignalAspect> {
+public class BlockEntityMainDwarfSignal extends BlockEntitySwedishSignal<MainDwarfSignalAspect> {
     public BlockEntityMainDwarfSignal(BlockEntityType t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
     }
 
     /**
-     * @return
+     *
      */
     @Override
-    public SignalLighting constructSignalLighting() {
-        return new SignalLighting()
+    public void configureSignalLights(SignalContainer signalLights) {
+        signalLights
                 .withLight("stop", new SignalLight(0.411157d, 1.36563d, -0.185d, 3.25f, 3.25f, 0f).withDefaultColor(255, 0, 0))
 
                 .withLight("l0", new SignalLight(-0.16966d, 1.20938d, -0.175d, 3.25f, 3.25f, 0f).withDefaultColor(255, 255, 255))

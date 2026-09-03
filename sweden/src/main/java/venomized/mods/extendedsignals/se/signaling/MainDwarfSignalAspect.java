@@ -1,6 +1,6 @@
 package venomized.mods.extendedsignals.se.signaling;
 
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -10,7 +10,7 @@ public record MainDwarfSignalAspect(SignalStateNode state) implements ISignalAsp
      * @param states
      */
     @Override
-    public void applyAspect(float seconds, SignalLighting states) {
+    public void applyAspect(float seconds, SignalContainer states) {
         DwarfSignalAspect.interpret(state, state.getAxisDirection()).applyAspect(seconds, states);
 
         if (state.isStop()) {
@@ -18,19 +18,20 @@ public record MainDwarfSignalAspect(SignalStateNode state) implements ISignalAsp
             return;
         }
 
+        boolean blink = ISignalAspect.blink(seconds, 80, 375f / 1000f);
         // 5, 6 bottom green light
         if (state.getMaxProceedSpeed() >= 80) {
             if (state.getNextState() == null)
                 states.powered("green_right");
             else if (state.getNextState().isStop() || state.getNextState().getMaxProceedSpeed() < 80) {
-                if (seconds % 1 > .5f)
+                if (blink)
                     states.powered("green_left");
             } else {
                 states.powered("green_right");
             }
         } else {
             if (state.getNextState() != null && state.getNextState().isStop()) {
-                if (seconds % 1 > .5f)
+                if (blink)
                     states.powered("green_left");
             } else {
                 states.powered("green_left");

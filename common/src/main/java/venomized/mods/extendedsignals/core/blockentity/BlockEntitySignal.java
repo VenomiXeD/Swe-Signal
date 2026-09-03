@@ -35,7 +35,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
     private static final String TAG_REFERENCED_SIGNAL_POINT_UUID = "linked_signal_uuid";
     private static final String TAG_SIGNAL_DIRECTION = "signal_direction";
     @Getter
-    private final SignalLighting signalLighting;
+    private final SignalContainer signalContainer;
     protected UUID targetEdgePointId;
     @Getter
     private ISignalAspect currentDisplayedAspect;
@@ -45,7 +45,8 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
 
     public BlockEntitySignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
-        this.signalLighting = constructSignalLighting();
+        signalContainer = new SignalContainer();
+        configureSignalLights(signalContainer);
     }
 
     public static void commonTick(BlockEntitySignal<?> pBlockEntity, Level pLevel, BlockPos pPos, BlockState pBlockState) {
@@ -60,7 +61,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
         be.currentDisplayedAspect = be.interpret(be.currentSignalState(), be.getSignallingDirection());
     }
 
-    public abstract SignalLighting constructSignalLighting();
+    public abstract void configureSignalLights(SignalContainer signalLights);
 
     public SignalStateNode currentSignalState() {
         if (this.getLevel() == null)
@@ -69,7 +70,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
                 .getSignalState(targetEdgePointId, signallingDirection == Direction.AxisDirection.POSITIVE);
     }
 
-    public boolean valid() {
+    public boolean isSignalValid() {
         if (this.getLevel() == null)
             return false;
 

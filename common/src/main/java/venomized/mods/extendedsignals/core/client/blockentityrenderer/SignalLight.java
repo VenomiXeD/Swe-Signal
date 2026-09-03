@@ -77,7 +77,7 @@ public class SignalLight {
         @Setter
         private long currentTick;
         @Setter
-        private int fadeTicks = 5;
+        private float fadeSeconds = 5f / 20f;
         private int defaultRed;
         private int defaultGreen;
         private int defaultBlue;
@@ -123,19 +123,19 @@ public class SignalLight {
 
         public int getRedOutput(float partialTick) {
             float s = (System.nanoTime() - redChangeTimestamp) / 1_000_000_000f;
-            float progress = Math.min(1, (s / (fadeTicks / 20f)));
+            float progress = Math.min(1, (s / (fadeSeconds)));
             return (int) Mth.lerp(ignoreFadeTicks ? 1 : progress, red.fromValue(), red.toValue());
         }
 
         public int getGreenOutput(float partialTick) {
             float s = (System.nanoTime() - greenChangeTimestamp) / 1_000_000_000f;
-            float progress = Math.min(1, (s / (fadeTicks / 20f)));
+            float progress = Math.min(1, (s / (fadeSeconds)));
             return (int) Mth.lerp(ignoreFadeTicks ? 1 : progress, green.fromValue(), green.toValue());
         }
 
         public int getBlueOutput(float partialTick) {
             float s = (System.nanoTime() - blueChangeTimestamp) / 1_000_000_000f;
-            float progress = Math.min(1, (s / (fadeTicks / 20f)));
+            float progress = Math.min(1, (s / (fadeSeconds)));
             return (int) Mth.lerp(ignoreFadeTicks ? 1 : progress, blue.fromValue(), blue.toValue());
         }
     }

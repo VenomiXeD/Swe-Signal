@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.blockentity.SignalLighting;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
@@ -28,15 +28,15 @@ public class BlockEntityKsDistantRepeaterSignal extends BlockEntityKs<IDistantSi
 
 
     /**
-     * @return
+     *
      */
     @Override
-    public SignalLighting constructSignalLighting() {
-        return new SignalLighting()
+    public void configureSignalLights(SignalContainer signalLights) {
+        signalLights
                 .withLight("proceed", SignalLight.greenLight(2.5d / 16d, 88.25 / 16d, -8.55d / 16d, 2.75f, 2.75f, 0f))
                 .withLight("danger", SignalLight.yellowLight(-2.5d / 16d, 88.25 / 16f, -8.55 / 16d, 2.75f, 2.75f, 0f))
                 .withLight("repeater", SignalLight.whiteLight(3.5d / 16d, 82.25d / 16f, -8.4 / 16d, 1.75f, 1.75f, 0f))
-                .withFadeTicks(2);
+                .withFadeSeconds(0.1f);
     }
 
     /**
@@ -46,7 +46,7 @@ public class BlockEntityKsDistantRepeaterSignal extends BlockEntityKs<IDistantSi
      */
     @Override
     public @NotNull IDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
-        return (ticks, states) -> {
+        return (seconds, states) -> {
             if (state.getNextState() == null || !state.getNextState().isProceed()) {
                 states.powered("danger");
                 states.powered("repeater");
@@ -58,7 +58,7 @@ public class BlockEntityKsDistantRepeaterSignal extends BlockEntityKs<IDistantSi
                 return;
             }
 
-            if (ticks % 20 > 10) {
+            if (seconds % 1f > 0.5f) {
                 states.powered("proceed");
             }
         };

@@ -10,18 +10,23 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-public class SignalLighting {
+public class SignalContainer {
     private final HashMap<String, SignalLight> lights = new HashMap<>();
     private final List<String> powered = new ArrayList<>();
     private final List<String> unpowered = new ArrayList<>();
 
-    public SignalLighting withLight(String lightNameKey, SignalLight light) {
+    public SignalContainer withLight(String lightNameKey, SignalLight light) {
         lights.put(lightNameKey, light);
         return this;
     }
 
-    public SignalLighting withFadeTicks(int fadeTicks) {
-        allLights().forEach(e -> e.getState().setFadeTicks(fadeTicks));
+    public SignalContainer withFadeSeconds(float seconds) {
+        allLights().forEach(e -> e.getState().setFadeSeconds(seconds));
+        return this;
+    }
+
+    public SignalContainer withFadeMilliSeconds(float milliSeconds) {
+        withFadeSeconds(milliSeconds / 1000f);
         return this;
     }
 
