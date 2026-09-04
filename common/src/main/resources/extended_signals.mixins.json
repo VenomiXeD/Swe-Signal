@@ -5,14 +5,15 @@
   "refmap": "extendedsignals.refmap.json",
   "mixins": [
     "MixinBlockBreakingMovementBehaviour",
-    "MixinEdgePoint",
     "MixinNavigation",
     "MixinScheduleRuntime",
     "MixinSignalBlockEntity",
+    "MixinSignalBoundary",
     "MixinSignalEdgeGroup",
     "MixinSignalEdgeGroupAccessor",
     "MixinSlidingDoorMovementBehavior",
     "MixinTrain",
+    "client.MixinCarriageSounds",
     "client.MixinTrainMapManager"
   ],
   "client": [

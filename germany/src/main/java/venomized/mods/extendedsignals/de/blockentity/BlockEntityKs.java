@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.de.client.GermanyModels;
 
 public abstract class BlockEntityKs<T extends ISignalAspect> extends BlockEntitySignal<T> {
@@ -43,7 +44,6 @@ public abstract class BlockEntityKs<T extends ISignalAspect> extends BlockEntity
         // variantData.addCheckboxOption(new VariantOption("zs2v", Component.translatable("screens.extended_signals_de.modelconfig.screens.zs2v"),() -> null));
         return variantData;
     }
-
     // /**
     //  * @param tooltip
     //  * @param isPlayerSneaking

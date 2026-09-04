@@ -2,6 +2,7 @@ package venomized.mods.extendedsignals.core.signalling;
 
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
 import lombok.*;
 import lombok.experimental.Accessors;
 import net.createmod.catnip.data.Couple;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.util.NBTHelp;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
@@ -70,10 +72,10 @@ public class SignalStateNode {
     @Setter
     @Getter
     private Direction.AxisDirection axisDirection;
-    @Nullable
-    @Setter
+    @NotNull
     @Getter
-    private TravellingPoint.SteerDirection upcomingJunctionSteerDirection;
+    @Setter
+    private Map<String, String> miscTags = new Object2ReferenceArrayMap<>();
 
     private static SignalStateNode decode(@NotNull FriendlyByteBuf friendlyByteBuf) {
         return SignalStateNode.fromNBT(friendlyByteBuf.readNbt());
@@ -107,8 +109,9 @@ public class SignalStateNode {
             );
 
         signalStateNode.setAxisDirection(NBTHelp.safeReadEnum(tag, TAG_DIRECTION_NAME, Direction.AxisDirection.class));
-        signalStateNode.setUpcomingJunctionSteerDirection(NBTHelp.safeReadEnum(tag, TAG_UPCOMING_SWITCH_DIRECTION_NAME, TravellingPoint.SteerDirection.class));
 
+        CompoundTag miscCompTag = tag.getCompound("misc_tags");
+        miscCompTag.getAllKeys().forEach(e -> signalStateNode.miscTags.put(e, miscCompTag.getString(e)));
         return signalStateNode;
     }
 
@@ -141,7 +144,12 @@ public class SignalStateNode {
             );
 
         NBTHelp.safeWriteEnum(tag, TAG_DIRECTION_NAME, axisDirection);
-        NBTHelp.safeWriteEnum(tag, TAG_UPCOMING_SWITCH_DIRECTION_NAME, upcomingJunctionSteerDirection);
+
+        final CompoundTag miscCompTag = new CompoundTag();
+        miscTags.entrySet().forEach(entry -> {
+            miscCompTag.putString(entry.getKey(), entry.getValue());
+        });
+        tag.put("misc_tags", miscCompTag);
         return tag;
     }
 

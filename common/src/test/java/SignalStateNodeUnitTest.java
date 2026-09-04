@@ -13,8 +13,7 @@ class SignalStateNodeUnitTest {
                 .setProceed(true)
                 .setMaxProceedSpeed(42.5)
                 .setDistanceToNextSignal(128.75)
-                .setAxisDirection(Direction.AxisDirection.POSITIVE)
-                .setUpcomingJunctionSteerDirection(TravellingPoint.SteerDirection.LEFT);
+                .setAxisDirection(Direction.AxisDirection.POSITIVE);
 
         SignalStateNode deserialized = SignalStateNode.fromNBT(original.toNBT());
 
@@ -27,15 +26,13 @@ class SignalStateNodeUnitTest {
                 .setProceed(false)
                 .setMaxProceedSpeed(12.0)
                 .setDistanceToNextSignal(64.0)
-                .setAxisDirection(Direction.AxisDirection.POSITIVE)
-                .setUpcomingJunctionSteerDirection(TravellingPoint.SteerDirection.RIGHT);
+                .setAxisDirection(Direction.AxisDirection.POSITIVE);
 
         SignalStateNode original = new SignalStateNode()
                 .setProceed(true)
                 .setMaxProceedSpeed(30.0)
                 .setDistanceToNextSignal(100.0)
                 .setAxisDirection(Direction.AxisDirection.NEGATIVE)
-                .setUpcomingJunctionSteerDirection(TravellingPoint.SteerDirection.LEFT)
                 .setNextState(nextState);
 
         SignalStateNode deserialized = SignalStateNode.fromNBT(original.toNBT());
@@ -52,7 +49,6 @@ class SignalStateNodeUnitTest {
                 .setMaxProceedSpeed(20.0)
                 .setDistanceToNextSignal(50.0)
                 .setAxisDirection(null)
-                .setUpcomingJunctionSteerDirection(null)
                 .setNextState(null);
 
         CompoundTag tag = state.toNBT();
@@ -76,6 +72,5 @@ class SignalStateNodeUnitTest {
         assertEquals(80.0, state.getDistanceToNextSignal());
         assertNull(state.getNextState());
         assertNull(state.getAxisDirection());
-        assertNull(state.getUpcomingJunctionSteerDirection());
     }
 }

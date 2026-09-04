@@ -35,7 +35,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Mixin(value = SignalBoundary.class, remap = false)
-public abstract class MixinEdgePoint extends TrackEdgePoint implements IExtendedEdgePoint<SignalBoundary>, ISignalStateCompute, ISignalStateBoundaryTransformer {
+public abstract class MixinSignalBoundary extends TrackEdgePoint implements IExtendedEdgePoint<SignalBoundary>, ISignalStateCompute, ISignalStateBoundaryTransformer {
     private static final String TAG_MAPPER_NAME = "mapper";
     private static final String TAG_SKIP_CHAIN_CONFIG_NAME = "chaining";
 

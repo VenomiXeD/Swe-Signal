@@ -47,6 +47,9 @@ public class BlockEntityKsDistantSignal extends BlockEntityKs<IDistantSignalAspe
      */
     @Override
     public @NotNull IDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
+        if (variantData().getCheckboxOptionsTicked().contains("zs3v_metal")) {
+            state.getMiscTags().put("zs3v_metal", "present");
+        }
         return KsDistantSignalAspect.interpret(state, incomingDirection);
     }
 

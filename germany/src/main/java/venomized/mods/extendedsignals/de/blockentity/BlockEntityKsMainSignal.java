@@ -27,9 +27,6 @@ public class BlockEntityKsMainSignal extends BlockEntityKs<IMainSignalAspect> {
         return true;
     }
 
-    /**
-     *
-     */
     @Override
     public void configureSignalLights(SignalContainer signalLights) {
         signalLights

@@ -24,10 +24,13 @@ public enum KsCombinedSignalAspect implements ICombinedSignalAspect {
         if (state.isStop())
             return STOP;
 
+        if (state.getMiscTags().containsKey("zs3v_metal"))
+            return EXPECT_REDUCED_SPEED;
+
         if (state.getNextState() != null) {
             if (state.getNextState().isStop())
                 return EXPECT_STOP;
-            if (state.getNextState().getMaxProceedSpeed() < state.getMaxProceedSpeed())
+            if (state.getMiscTags().containsKey("local_speed") && state.getNextState().getMaxProceedSpeed() < state.getMaxProceedSpeed())
                 return EXPECT_REDUCED_SPEED;
         }
 

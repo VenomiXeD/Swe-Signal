@@ -32,7 +32,6 @@ import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
 import venomized.mods.extendedsignals.core.signalling.ShuntRequest;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-import venomized.mods.extendedsignals.core.util.MathHelp;
 import venomized.mods.extendedsignals.core.util.TrainHelp;
 
 import java.util.Iterator;
@@ -107,10 +106,13 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
 
                 if (trackEdgePoint instanceof TrackEdgePointSignalModifier<?> modifierPoint && navigation != null) {
-                    if (modifierPoint.isDiscardMode() && modifierPoint.isAligned(front)) {
-                        ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().remove(modifierPoint.getType().getId());
-                    } else {
-                        ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().put(modifierPoint.getType().getId(), new EncounteredModifier(front, modifierPoint));
+                    if (modifierPoint.isAligned(front)) {
+                        if (modifierPoint.isDiscardMode()) {
+                            ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().remove(modifierPoint.getType().getId());
+                        } else {
+                            ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().put(modifierPoint.getType().getId(), new EncounteredPoint(front, modifierPoint));
+                        }
+                        return false;
                     }
                     // ISignalModifier.ModifierAction modifierAction = modifierPoint.onAction(front, ((INavigation) navigation).extendedSignals$currentScoutedEdgePoints(), (Train) (Object) this);
                     // if (modifierAction == null) {
@@ -125,7 +127,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                     //             .remove(modifierPoint.getType().getId());
                     // }
 
-                    return false;
+
                 }
             }
 

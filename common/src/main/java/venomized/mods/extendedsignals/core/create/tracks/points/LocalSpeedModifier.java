@@ -23,6 +23,8 @@ public class LocalSpeedModifier extends TrackEdgePointSignalModifier<LocalSpeedM
         stateToBeModified.setMaxProceedSpeed(
                 Math.min(getSpeedModifierKph(), stateToBeModified.getMaxProceedSpeed())
         );
+
+        stateToBeModified.getMiscTags().put("local_speed", Float.toString(getSpeedModifierKph()));
     }
 
     /**

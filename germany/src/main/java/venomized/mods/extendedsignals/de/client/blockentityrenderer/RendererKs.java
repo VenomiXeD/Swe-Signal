@@ -2,6 +2,7 @@ package venomized.mods.extendedsignals.de.client.blockentityrenderer;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -10,6 +11,8 @@ import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.util.SpriteUV;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
 import venomized.mods.extendedsignals.de.blockentity.BlockEntityKs;
+
+import java.util.Map;
 
 public class RendererKs<T extends BlockEntityKs<?>> extends RendererSignal<T> {
     private static final ResourceLocation KS_ZS3_NUMBERS = ExtendedSignalsGermany.res("textures/block/signals/de/ks_zs3_numbers.png");
@@ -32,10 +35,10 @@ public class RendererKs<T extends BlockEntityKs<?>> extends RendererSignal<T> {
         final int CELL_H = kph >= 10 ? 18 : 16;
         final int OFFSET_H = kph >= 10 ? 1 : 3;
 
-        final int v0 = OFFSET_H;
-        final int v1 = v0 + CELL_H;
         final int u0 = (kph - 1) * CELL_W + (kph - 1);
         final int u1 = u0 + CELL_W;
+        final int v0 = OFFSET_H;
+        final int v1 = v0 + CELL_H;
 
         return new SpriteUV((float) u0 / TEX_W, (float) v0 / TEX_H, (float) u1 / TEX_W, (float) v1 / TEX_H);
     }
@@ -58,7 +61,7 @@ public class RendererKs<T extends BlockEntityKs<?>> extends RendererSignal<T> {
         return new SpriteUV((float) u0 / TEX_W, (float) v0 / TEX_H, (float) u1 / TEX_W, (float) v1 / TEX_H);
     }
 
-    private static SpriteUV getZs3MatrixSpeedUV(int kph, boolean zs3v) {
+    private static @Nullable SpriteUV getZs3MatrixSpeedUV(final int kph, final boolean orange) {
         if (kph <= 0 || kph > 16)
             return null;
 
@@ -69,7 +72,7 @@ public class RendererKs<T extends BlockEntityKs<?>> extends RendererSignal<T> {
         final int CELL_H = 14;
         final int u0 = (kph - 1) * CELL_W + (kph - 1);
         final int u1 = u0 + CELL_W;
-        final int v0 = 0;
+        final int v0 = orange ? 15 : 0;
         final int v1 = v0 + CELL_H;
 
         return new SpriteUV((float) u0 / TEX_W, (float) v0 / TEX_H, (float) u1 / TEX_W, (float) v1 / TEX_H);
@@ -106,6 +109,32 @@ public class RendererKs<T extends BlockEntityKs<?>> extends RendererSignal<T> {
                         KS_ZS3V_NUMBERS,
                         uv,
                         false
+                );
+            }
+        }
+
+        if (blockEntity.variantData().getCheckboxOptionsTicked().contains("matrix") && blockEntity.currentSignalState().getMiscTags().containsKey("local_speed")) {
+            SpriteUV uv = getZs3MatrixSpeedUV(Mth.floor(blockEntity.currentSignalState().getMaxProceedSpeed() / 10f), false);
+            if (uv != null) {
+                renderUVMappedTexturedDisplay(
+                        new Vector3f(3f / 16f, 110f / 16f, -8.4f / 16f),
+                        new Vector3f(-3f / 16f, 103f / 16f, -8.4f / 16f),
+                        KS_MATRIX_CHARACTERS,
+                        uv,
+                        true
+                );
+            }
+        }
+
+        if (blockEntity.variantData().getCheckboxOptionsTicked().contains("matrix_v") && blockEntity.currentSignalState().getNextState() != null && blockEntity.currentSignalState().getNextState().getMiscTags().containsKey("local_speed")) {
+            SpriteUV uv = getZs3MatrixSpeedUV(Mth.floor(blockEntity.currentSignalState().getNextState().getMaxProceedSpeed() / 10f), true);
+            if (uv != null) {
+                renderUVMappedTexturedDisplay(
+                        new Vector3f(3f / 16f, 75f / 16f, -16.9f / 16f),
+                        new Vector3f(-3f / 16f, 68f / 16f, -16.9f / 16f),
+                        KS_MATRIX_CHARACTERS,
+                        uv,
+                        true
                 );
             }
         }

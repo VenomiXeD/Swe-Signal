@@ -43,7 +43,7 @@ public abstract class MixinNavigation implements INavigation {
     @Unique
     private final ReferenceArrayList<CollectedSignal> extendedSignals$collectedSignals = new ReferenceArrayList<>();
     @Unique
-    private final Map<ResourceLocation, EncounteredModifier> extendedSignals$activeModifiers = new Object2ReferenceLinkedOpenHashMap<>();
+    private final Map<ResourceLocation, EncounteredPoint> extendedSignals$activeModifiers = new Object2ReferenceLinkedOpenHashMap<>();
     // @Unique
     // private final Map<ResourceLocation, ISignalModifier> extendedSignals$encounteredModifiers = new Object2ReferenceLinkedOpenHashMap<>();
     @Shadow
@@ -135,7 +135,7 @@ public abstract class MixinNavigation implements INavigation {
      * @return
      */
     @Override
-    public Map<ResourceLocation, EncounteredModifier> extendedSignals$encounteredTrackEdgePointModifiers() {
+    public Map<ResourceLocation, EncounteredPoint> extendedSignals$encounteredTrackEdgePointModifiers() {
         return this.extendedSignals$activeModifiers;
     }
 

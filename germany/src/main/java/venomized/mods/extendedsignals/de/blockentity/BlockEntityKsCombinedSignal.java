@@ -65,6 +65,9 @@ public class BlockEntityKsCombinedSignal extends BlockEntityKs<ICombinedSignalAs
      */
     @Override
     public @NotNull ICombinedSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
+        if (this.variantData().getCheckboxOptionsTicked().contains("zs3v_metal")) {
+            state.getMiscTags().put("zs3v_metal", "present");
+        }
         return KsCombinedSignalAspect.interpret(state, incomingDirection);
     }
 

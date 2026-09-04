@@ -11,11 +11,15 @@ public enum KsDistantSignalAspect implements IDistantSignalAspect {
     EXPECT_STOP;
 
     public static KsDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
+        if (state.getMiscTags().containsKey("zs3v_metal")) {
+            return KsDistantSignalAspect.EXPECT_PROCEED;
+        }
+
         if (state.getNextState() == null || !state.getNextState().isProceed()) {
             return KsDistantSignalAspect.EXPECT_STOP;
         }
 
-        if (state.getNextState().getMaxProceedSpeed() >= state.getMaxProceedSpeed()) {
+        if (state.getMiscTags().containsKey("local_speed") && state.getNextState().getMaxProceedSpeed() >= state.getMaxProceedSpeed()) {
             return KsDistantSignalAspect.EXPECT_PROCEED;
         }
 
