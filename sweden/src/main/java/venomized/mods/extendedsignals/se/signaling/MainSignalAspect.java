@@ -27,11 +27,11 @@ public enum MainSignalAspect implements IMainSignalAspect {
     private final boolean l1Lit;
     private final boolean l2Lit;
 
-    public static MainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
+    public static MainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction, boolean is2LightOnly) {
         if (state.isStop())
             return MainSignalAspect.STOP;
 
-        return state.getMaxProceedSpeed() >= 80 ? PROCEED_80 : PROCEED_40;
+        return is2LightOnly || state.getMaxProceedSpeed() >= 80 ? PROCEED_80 : PROCEED_40;
     }
 
     /**
