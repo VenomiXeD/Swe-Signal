@@ -6,7 +6,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import venomized.mods.extendedsignals.core.network.packets.*;
 
 public class ExtendedSignalsNetworking {
-    private static final String NET_VERSION = "1.0";
+    private static final String NET_VERSION = "1.1";
     public static PayloadRegistrar CHANNEL;
 
     public static void init() {

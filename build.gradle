@@ -37,7 +37,7 @@ subprojects {
         }
 
         filesMatching("**/*.java") {
-            expand(MOD_VERSION: project.version)
+            expand(mod_version: project.version)
         }
     }
 
