@@ -113,7 +113,10 @@ public class RendererKs<T extends BlockEntityKs<?>> extends RendererSignal<T> {
             }
         }
 
-        if (blockEntity.variantData().getCheckboxOptionsTicked().contains("matrix") && blockEntity.currentSignalState().getMiscTags().containsKey("local_speed")) {
+        if (blockEntity.currentSignalState().isProceed() &&
+                blockEntity.variantData().getCheckboxOptionsTicked().contains("matrix") &&
+                blockEntity.currentSignalState().getMiscTags().containsKey("local_speed")
+        ) {
             SpriteUV uv = getZs3MatrixSpeedUV(Mth.floor(blockEntity.currentSignalState().getMaxProceedSpeed() / 10f), false);
             if (uv != null) {
                 renderUVMappedTexturedDisplay(
@@ -126,7 +129,10 @@ public class RendererKs<T extends BlockEntityKs<?>> extends RendererSignal<T> {
             }
         }
 
-        if (blockEntity.variantData().getCheckboxOptionsTicked().contains("matrix_v") && blockEntity.currentSignalState().getNextState() != null && blockEntity.currentSignalState().getNextState().getMiscTags().containsKey("local_speed")) {
+        if (blockEntity.currentSignalState().isProceed() && blockEntity.variantData().getCheckboxOptionsTicked().contains("matrix_v") &&
+                blockEntity.currentSignalState().getNextState() != null &&
+                blockEntity.currentSignalState().getNextState().getMiscTags().containsKey("local_speed")
+        ) {
             SpriteUV uv = getZs3MatrixSpeedUV(Mth.floor(blockEntity.currentSignalState().getNextState().getMaxProceedSpeed() / 10f), true);
             if (uv != null) {
                 renderUVMappedTexturedDisplay(
