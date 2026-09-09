@@ -9,7 +9,9 @@ import com.simibubi.create.content.trains.graph.DiscoveredPath;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.createmod.catnip.data.Pair;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -32,7 +34,9 @@ import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
 import venomized.mods.extendedsignals.core.signalling.ISignalStateBoundaryTransformer;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Mixin(value = Navigation.class, remap = false)
 public abstract class MixinNavigation implements INavigation {
@@ -351,7 +355,6 @@ public abstract class MixinNavigation implements INavigation {
                     modifier.applyModifier(currentSignalState);
                 }
             }
-
 
 
             current.boundary().onSignalScout(

@@ -1,18 +1,14 @@
 package venomized.mods.extendedsignals.core.mixin.client;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.trains.GlobalRailwayManager;
-import com.simibubi.create.content.trains.signal.SignalVisual;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 
 @Mixin(value = GlobalRailwayManager.class, remap = false)

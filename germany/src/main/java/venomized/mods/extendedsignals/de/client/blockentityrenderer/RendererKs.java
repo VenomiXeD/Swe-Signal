@@ -12,8 +12,6 @@ import venomized.mods.extendedsignals.core.util.SpriteUV;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
 import venomized.mods.extendedsignals.de.blockentity.BlockEntityKs;
 
-import java.util.Map;
-
 public class RendererKs<T extends BlockEntityKs<?>> extends RendererSignal<T> {
     private static final ResourceLocation KS_ZS3_NUMBERS = ExtendedSignalsGermany.res("textures/block/signals/de/ks_zs3_numbers.png");
     private static final ResourceLocation KS_ZS3V_NUMBERS = ExtendedSignalsGermany.res("textures/block/signals/de/ks_zs3v_numbers.png");

@@ -1,10 +1,8 @@
 package venomized.mods.extendedsignals.core.client.sound;
 
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
-import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.util.Mth;
 import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
-import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
 import venomized.mods.extendedsignals.core.util.MathHelp;
 
 import java.util.Collection;

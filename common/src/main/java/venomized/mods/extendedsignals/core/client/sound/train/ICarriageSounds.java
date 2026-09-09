@@ -4,6 +4,7 @@ import net.createmod.catnip.animation.LerpedFloat;
 import net.minecraft.world.entity.Entity;
 
 import java.util.Optional;
+
 public interface ICarriageSounds {
     LerpedFloat getSpeedFactor();
 

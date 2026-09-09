@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.de.blockentity;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityCrossingGate;

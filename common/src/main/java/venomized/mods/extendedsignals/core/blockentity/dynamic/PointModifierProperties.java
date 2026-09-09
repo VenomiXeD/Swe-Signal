@@ -1,15 +1,10 @@
 package venomized.mods.extendedsignals.core.blockentity.dynamic;
 
-import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap;
-import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class PointModifierProperties {
     @Getter

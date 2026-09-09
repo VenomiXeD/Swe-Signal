@@ -1,4 +1,3 @@
-import com.simibubi.create.content.trains.entity.TravellingPoint;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import org.junit.jupiter.api.Test;

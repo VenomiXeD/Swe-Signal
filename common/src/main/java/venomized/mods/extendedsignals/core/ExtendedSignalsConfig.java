@@ -2,8 +2,6 @@ package venomized.mods.extendedsignals.core;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-import java.util.function.BooleanSupplier;
-
 public class ExtendedSignalsConfig {
     public static final ModConfigSpec SERVER_SPEC;
     public static final ServerConfig SERVER;

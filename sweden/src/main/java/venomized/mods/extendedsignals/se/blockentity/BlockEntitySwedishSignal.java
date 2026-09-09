@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
-import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 
 public abstract class BlockEntitySwedishSignal<T extends ISignalAspect> extends BlockEntitySignal<T> {

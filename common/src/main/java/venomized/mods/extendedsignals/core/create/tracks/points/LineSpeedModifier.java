@@ -1,21 +1,13 @@
 package venomized.mods.extendedsignals.core.create.tracks.points;
 
-import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.LevelAccessor;
 import org.apache.commons.lang3.math.NumberUtils;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
-import venomized.mods.extendedsignals.core.create.tracks.CollectedSignal;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
-
-import java.util.List;
-import java.util.UUID;
 
 public class LineSpeedModifier extends TrackEdgePointSignalModifier<LineSpeedModifier> implements IConfigurableEdgePoint {
     @Getter

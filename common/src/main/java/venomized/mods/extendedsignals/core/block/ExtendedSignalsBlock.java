@@ -15,9 +15,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.core.menu.CoreMenus;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
+import venomized.mods.extendedsignals.core.menu.CoreMenus;
 import venomized.mods.extendedsignals.core.menu.MenuModelConfig;
 
 public abstract class ExtendedSignalsBlock extends Block {

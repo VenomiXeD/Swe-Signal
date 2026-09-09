@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.TextProperty;
 import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
-import venomized.mods.extendedsignals.core.create.tracks.points.LineSpeedModifier;
 import venomized.mods.extendedsignals.core.create.tracks.points.LocalSpeedModifier;
 
 import java.util.List;

@@ -6,13 +6,13 @@ import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
 import venomized.mods.extendedsignals.core.client.sound.VVVFSoundMap;
 import venomized.mods.extendedsignals.core.client.sound.train.ICarriageSounds;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
-import venomized.mods.extendedsignals.core.util.MathHelp;
 import venomized.mods.extendedsignals.se.SwedenSounds;
 
 import java.util.Set;
 
 public class TrainSoundX60 extends TrainSound {
     private VVVFSoundMap vvvfSoundMap;
+
     /**
      * @param location
      * @param entity

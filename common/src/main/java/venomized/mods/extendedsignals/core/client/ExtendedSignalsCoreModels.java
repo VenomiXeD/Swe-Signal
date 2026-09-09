@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core.client;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
-import net.minecraft.client.resources.model.BakedModel;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 
 public class ExtendedSignalsCoreModels {

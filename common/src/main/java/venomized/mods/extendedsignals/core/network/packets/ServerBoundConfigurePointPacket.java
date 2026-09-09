@@ -1,10 +1,6 @@
 package venomized.mods.extendedsignals.core.network.packets;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import net.createmod.catnip.codecs.stream.CatnipStreamCodecs;
-import net.createmod.catnip.data.Couple;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -14,7 +10,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityPointModifier;
-import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public record ServerBoundConfigurePointPacket(BlockPos targetBlockEntityPos,
                                               CompoundTag properties) implements CustomPacketPayload {

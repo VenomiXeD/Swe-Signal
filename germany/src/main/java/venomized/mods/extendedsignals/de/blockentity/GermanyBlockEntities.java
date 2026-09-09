@@ -2,10 +2,7 @@ package venomized.mods.extendedsignals.de.blockentity;
 
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import venomized.mods.extendedsignals.core.blockentity.ModelBlockEntity;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererCrossingGate;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererGeneric;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;

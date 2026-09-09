@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.simibubi.create.compat.trainmap.TrainMapManager;
 import com.simibubi.create.compat.trainmap.TrainMapRenderer;
-import com.simibubi.create.compat.trainmap.TrainMapSync;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.*;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
@@ -31,7 +30,6 @@ import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.MathHelp;
-import venomized.mods.extendedsignals.core.util.TrainHelp;
 
 import java.util.List;
 

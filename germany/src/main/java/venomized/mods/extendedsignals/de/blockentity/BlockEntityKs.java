@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
-import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.de.client.GermanyModels;
 
 public abstract class BlockEntityKs<T extends ISignalAspect> extends BlockEntitySignal<T> {

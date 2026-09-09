@@ -4,24 +4,17 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
-import it.unimi.dsi.fastutil.objects.Object2ReferenceLinkedOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
-import net.createmod.catnip.nbt.NBTHelper;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
 import venomized.mods.extendedsignals.core.create.tracks.CollectedSignal;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.create.tracks.ISignalModifier;
-import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> extends DirectionalEdgePoint<T> implements IExtendedEdgePoint<T>, ISignalModifier, IConfigurableEdgePoint {

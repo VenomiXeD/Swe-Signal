@@ -2,20 +2,13 @@ package venomized.mods.extendedsignals.core.create.tracks.points;
 
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
-import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
 import venomized.mods.extendedsignals.core.create.tracks.IExtendedEdgePoint;
-
-import java.util.UUID;
 
 public class PathIdentifierEdgePoint extends DirectionalEdgePoint<PathIdentifierEdgePoint> implements IExtendedEdgePoint<PathIdentifierEdgePoint>, IConfigurableEdgePoint {
     @Getter

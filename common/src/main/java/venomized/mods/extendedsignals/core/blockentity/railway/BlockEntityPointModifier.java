@@ -18,7 +18,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.BoolProperty;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
 import venomized.mods.extendedsignals.core.create.tracks.points.IConfigurableEdgePoint;
-import venomized.mods.extendedsignals.core.create.tracks.points.TrackEdgePointSignalModifier;
 
 import java.util.List;
 

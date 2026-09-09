@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.de.client.blockentityrenderer;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererGeneric;
 import venomized.mods.extendedsignals.de.blockentity.BlockEntityCrossingLight;
 
