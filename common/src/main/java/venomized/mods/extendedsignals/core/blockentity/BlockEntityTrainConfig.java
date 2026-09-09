@@ -19,6 +19,7 @@ public class BlockEntityTrainConfig extends CoreBlockEntity implements PartialSa
      */
     @Override
     public void writeSafe(CompoundTag compound, HolderLookup.Provider registries) {
+        compound.putString("test", "INCREDIBLY COOL STUFF");
     }
 
     /**

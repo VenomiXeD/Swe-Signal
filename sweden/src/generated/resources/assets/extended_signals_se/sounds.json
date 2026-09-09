@@ -4,9 +4,49 @@
       "extended_signals_se:crossing_bell"
     ]
   },
-  "vvvf": {
+  "onix1500_async": {
     "sounds": [
-      "extended_signals_se:vvvf"
+      "extended_signals_se:onix1500_async"
+    ]
+  },
+  "onix1500_hum": {
+    "sounds": [
+      "extended_signals_se:onix1500_hum"
+    ]
+  },
+  "onix1500_p0_acc": {
+    "sounds": [
+      "extended_signals_se:onix1500_p0_acc"
+    ]
+  },
+  "onix1500_p1_acc": {
+    "sounds": [
+      "extended_signals_se:onix1500_p1_acc"
+    ]
+  },
+  "onix1500_p2_acc": {
+    "sounds": [
+      "extended_signals_se:onix1500_p2_acc"
+    ]
+  },
+  "onix1500_p3_acc": {
+    "sounds": [
+      "extended_signals_se:onix1500_p3_acc"
+    ]
+  },
+  "onix1500_p4_acc": {
+    "sounds": [
+      "extended_signals_se:onix1500_p4_acc"
+    ]
+  },
+  "onix1500_p5_acc": {
+    "sounds": [
+      "extended_signals_se:onix1500_p5_acc"
+    ]
+  },
+  "onix1500_p6_acc": {
+    "sounds": [
+      "extended_signals_se:onix1500_p6_acc"
     ]
   }
 }

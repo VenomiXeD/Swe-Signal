@@ -8,6 +8,7 @@ import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingGate;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingLights;
+import venomized.mods.extendedsignals.se.block.trainsound.BlockOnix1500TrainSound;
 
 /**
  * Swedish railway content (blocks)
@@ -18,6 +19,7 @@ public final class SwedenBlocks {
     public static final BlockEntry<Block2SignalModern> SIGNAL_MAIN_2_MODERN = RegistrateHelper
             .genericCustomModelledBlock(registrate(), "se", "signals", "2l_signal_modern", Block2SignalModern::new)
             .register();
+
     public static final BlockEntry<Block3SignalModern> SIGNAL_MAIN_3_MODERN = RegistrateHelper
             .genericCustomModelledBlock(registrate(), "se", "signals", "3l_signal_modern", Block3SignalModern::new)
             .register();
@@ -68,6 +70,11 @@ public final class SwedenBlocks {
             .genericCustomModelledBlock(registrate(), "se", "crossings", "crossing_lights_modern", BlockCrossingLights::new)
             .register();
 
+
+    public static final BlockEntry<BlockCrossingLights> CROSSBUCKS = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "se", "crossings", "crossbucks_modern", BlockCrossingLights::new)
+            .register();
+
     // == MISC ==
     public static final BlockEntry<BlockModelled> SIGN_CONTINUED_DRIVING_PERMISSION = RegistrateHelper
             .genericCustomModelledBlock(registrate(), "se", "signs", "continued_driving_permission", BlockModelled::withBlockEntity, ModelBlockEntity::new)
@@ -85,6 +92,10 @@ public final class SwedenBlocks {
 
     public static final BlockEntry<BlockModelled> SIGN_WEIGHT = RegistrateHelper
             .genericCustomModelledBlock(registrate(), "se", "signs", "weight_signal", BlockModelled::withBlockEntity, ModelBlockEntity::new)
+            .register();
+
+    public static final BlockEntry<BlockOnix1500TrainSound> TRAIN_SOUND_X60 = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "se", "trainsound", "onix1500", BlockOnix1500TrainSound::new)
             .register();
 
     private static Registrate registrate() {

@@ -26,9 +26,9 @@ public final class CoreBlockEntities {
     public static final BlockEntityEntry<BlockEntityLineSpeedModifier> LINE_SPEED_MODIFIER = RegistrateHelper
             .simpleBlockEntity(registrate(), "line_modifier_speed", BlockEntityLineSpeedModifier::new, CoreBlocks.LINE_SPEED_MODIFIER)
             .register();
-    public static BlockEntityEntry<BlockEntityTrainConfig> TRAIN_CONFIG = RegistrateHelper
-            .simpleBlockEntity(registrate(), "train_config", BlockEntityTrainConfig::new, CoreBlocks.BLOCK_TRAIN_CONFIG)
-            .register();
+    // public static BlockEntityEntry<BlockEntityTrainConfig> TRAIN_CONFIG = RegistrateHelper
+    //         .simpleBlockEntity(registrate(), "train_config", BlockEntityTrainConfig::new, CoreBlocks.BLOCK_TRAIN_CONFIG)
+    //         .register();
     public static BlockEntityEntry<BlockEntityTrainPathObserver> PATH_TRAIN_DETECTOR = RegistrateHelper
             .simpleBlockEntity(registrate(), "path_train_detector", BlockEntityTrainPathObserver::new, CoreBlocks.PATH_TRAIN_DETECTOR)
             .register();

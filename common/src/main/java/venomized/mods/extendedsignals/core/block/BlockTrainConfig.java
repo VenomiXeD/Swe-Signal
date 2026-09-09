@@ -20,6 +20,6 @@ public class BlockTrainConfig extends Block implements EntityBlock {
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return CoreBlockEntities.TRAIN_CONFIG.create(pPos, pState);
+        return null; //return CoreBlockEntities.TRAIN_CONFIG.create(pPos, pState);
     }
 }

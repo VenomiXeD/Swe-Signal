@@ -12,10 +12,14 @@ import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import com.simibubi.create.content.trains.station.GlobalStation;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
+import net.createmod.catnip.net.base.CatnipPacketRegistry;
+import net.createmod.catnip.platform.CatnipServices;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -30,8 +34,10 @@ import venomized.mods.extendedsignals.core.create.tracks.points.ATCController;
 import venomized.mods.extendedsignals.core.create.tracks.points.TrackEdgePointSignalModifier;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
+import venomized.mods.extendedsignals.core.network.packets.ClientBoundMiscTrainDataPacket;
 import venomized.mods.extendedsignals.core.signalling.ShuntRequest;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.core.util.TrackedValue;
 import venomized.mods.extendedsignals.core.util.TrainHelp;
 
 import java.util.Iterator;
@@ -49,6 +55,8 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     @Unique
     private final List<DelayedSignalCrossTrigger> extendedSignals$backDelayedOnCrossedTriggering = new ReferenceArrayList<>();
     @Unique
+    private final TrackedValue<Double> extendedSignals$speedTracker = new TrackedValue<>(0d, this::extendedSignals$onSpeedChanged);
+    @Unique
     private final int extendedSignals$shuntRequestCooldown = 0;
     @Shadow
     public ScheduleRuntime runtime;
@@ -63,8 +71,6 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     @Shadow
     public double speed;
     @Shadow
-    public double targetSpeed;
-    @Shadow
     public boolean manualTick;
     @Shadow
     public double throttle;
@@ -72,7 +78,9 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     private boolean extendedSignals$doorOpen = false;
 
     @Unique
-    private final Map<UUID, TrackEdgePointSignalModifier<?>> trackEdgePointModifiers = new Object2ReferenceArrayMap<>();
+    private void extendedSignals$onSpeedChanged(double oldValue, double newValue) {
+        PacketDistributor.sendToAllPlayers(new ClientBoundMiscTrainDataPacket(id, newValue * 20f, (oldValue - newValue) * 20f));
+    }
 
     @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"), order = 900)
     // Order = 900, Steam n' Rails on NeoForge prematurely cancels our handler so it never gets executed and as such, signals never flip to red.
@@ -138,6 +146,8 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
     @Inject(method = "arriveAt", at = @At("RETURN"))
     public void extendedSignals$flushReservationsOnArrival(GlobalStation station, CallbackInfo ci) {
+        PacketDistributor.sendToAllPlayers(new ClientBoundMiscTrainDataPacket(id, 0, 0));
+
         InterlockingManager.clearReservationsForTrain((Train) (Object) this);
         if (navigation != null)
             ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().clear();
@@ -145,6 +155,8 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
     @Inject(method = "crash", at = @At("RETURN"))
     public void extendedSignals$flushReservationsOnCrash(CallbackInfo ci) {
+        PacketDistributor.sendToAllPlayers(new ClientBoundMiscTrainDataPacket(id, 0, 0));
+
         InterlockingManager.clearReservationsForTrain((Train) (Object) this);
         if (navigation != null)
             ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().clear();
@@ -216,10 +228,11 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
         );
     }
 
-    @Inject(method = "tick", at = @At("HEAD"))
-    public void extendedSignals$onTick(Level level, CallbackInfo ci) {
+    @Inject(method = "tick", at = @At("RETURN"))
+    public void extendedSignals$returnTick(Level level, CallbackInfo ci) {
         extendedSignals$processFrontDelayedCrossCallbacks();
         extendedSignals$processBackDelayedCrossCallbacks();
+        extendedSignals$speedTracker.change(speed);
     }
 
 

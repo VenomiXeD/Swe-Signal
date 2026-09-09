@@ -14,6 +14,7 @@ public final class SwedenModels {
     public static final PartialModel SIGNAL_3L_GANTRY = PartialModel.of(ExtendedSignalsSweden.res("block/signals/se/3l_signal_modern_gantry"));
     public static final PartialModel SIGNAL_4L_GANTRY = PartialModel.of(ExtendedSignalsSweden.res("block/signals/se/4l_signal_modern_gantry"));
     public static final PartialModel SIGNAL_5L_GANTRY = PartialModel.of(ExtendedSignalsSweden.res("block/signals/se/5l_signal_modern_gantry"));
+    public static final PartialModel CROSSBUCK_EXTRA = PartialModel.of(ExtendedSignalsSweden.res("block/crossings/se/crossbucks_modern_extra"));
 
     public static void init() {
     }

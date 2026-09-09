@@ -4,6 +4,7 @@ package venomized.mods.extendedsignals.se.blockentity;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererCrossingGate;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererGeneric;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
@@ -31,10 +32,7 @@ public final class SwedenBlockEntities {
                     .renderer(() -> RendererSignal::new)
                     .register();
     public static final BlockEntityEntry<BlockEntity4CombinedSignal> COMBINED_4_SIGNAL =
-            RegistrateHelper.simpleBlockEntity(
-                            registrate(), "4_combined_signal", BlockEntity4CombinedSignal::new,
-                            SwedenBlocks.SIGNAL_COMBINED_4_MODERN
-                    )
+            RegistrateHelper.simpleBlockEntity(registrate(), "4_combined_signal", BlockEntity4CombinedSignal::new, SwedenBlocks.SIGNAL_COMBINED_4_MODERN)
                     .renderer(() -> RendererSignal::new)
                     .register();
     public static final BlockEntityEntry<BlockEntity5CombinedSignal> COMBINED_5_SIGNAL =
@@ -77,6 +75,11 @@ public final class SwedenBlockEntities {
     public static BlockEntityEntry<BlockEntityThreeLightCrossingLights> CROSSING_LIGHTS = RegistrateHelper
             .simpleBlockEntity(registrate(), "crossing_lights", BlockEntityThreeLightCrossingLights::new, SwedenBlocks.CROSSING_LIGHTS_MODERN)
             .renderer(() -> RendererCrossingLights::new)
+            .register();
+
+    public static BlockEntityEntry<BlockEntityCrossbucks> CROSSBUCKS = RegistrateHelper
+            .simpleBlockEntity(registrate(), "crossing_lights", BlockEntityCrossbucks::new, SwedenBlocks.CROSSBUCKS)
+            .renderer(() -> RendererGeneric::new)
             .register();
 
     private static Registrate registrate() {

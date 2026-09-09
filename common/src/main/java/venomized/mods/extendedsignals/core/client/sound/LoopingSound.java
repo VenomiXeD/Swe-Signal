@@ -7,7 +7,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
-public class LoopingSound extends AbstractTickableSoundInstance {
+public class LoopingSound extends AbstractTickableSoundInstance implements IPitchSound {
     private double x, y, z;
     @Setter
     private float volume;
@@ -20,6 +20,7 @@ public class LoopingSound extends AbstractTickableSoundInstance {
         this.attenuation = Attenuation.LINEAR;
 
         volume = 1.0f;
+        pitch = 1.0f;
     }
 
     /**

@@ -28,6 +28,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
+import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.MathHelp;
 import venomized.mods.extendedsignals.core.util.TrainHelp;
@@ -43,7 +44,7 @@ public abstract class MixinTrainMapManager {
         final int bright = 0xFFEFEF;
         final int orange = 0xFFAD60;
 
-        original.add(Component.literal("%.2f Km/h".formatted(MathHelp.KphFromMs(train.speed))));
+        original.add(Component.literal(" > %.2f Km/h".formatted(MathHelp.KphFromMs(MiscTrainDataClientSync.getTrainData(train.id).speed()))));
 
         return original;
     }

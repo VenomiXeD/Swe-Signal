@@ -26,4 +26,8 @@ public final class MathHelp {
         return ms * 3.6d;
     }
 
+
+    public static float pitchFactor(float baseFrequency, float targetFrequency) {
+        return targetFrequency / baseFrequency;
+    }
 }

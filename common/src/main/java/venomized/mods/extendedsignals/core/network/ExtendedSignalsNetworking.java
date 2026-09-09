@@ -115,5 +115,10 @@ public class ExtendedSignalsNetworking {
                 ClientBoundSyncSignalStatesPacket.CODEC,
                 ClientBoundSyncSignalStatesPacket::handle
         );
+        CHANNEL.playToClient(
+                ClientBoundMiscTrainDataPacket.TYPE,
+                ClientBoundMiscTrainDataPacket.CODEC,
+                ClientBoundMiscTrainDataPacket::handle
+        );
     }
 }

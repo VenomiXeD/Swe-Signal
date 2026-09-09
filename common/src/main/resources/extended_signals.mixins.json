@@ -18,7 +18,8 @@
   ],
   "client": [
     "client.MixinGlobalRailwayManager",
-    "client.MixinSignalVisual"
+    "client.MixinSignalVisual",
+    "client.MixinSoundEngine"
   ],
   "minVersion": "0.8"
 }

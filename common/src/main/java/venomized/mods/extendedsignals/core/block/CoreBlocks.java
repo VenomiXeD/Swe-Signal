@@ -12,13 +12,14 @@ import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
 
 public final class CoreBlocks {
-    public static final BlockEntry<BlockTrainConfig> BLOCK_TRAIN_CONFIG = registrate()
-            .block("train_config", BlockTrainConfig::new)
-            .blockstate((ctx, prov) -> {
-                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
-            })
-            .simpleItem()
-            .register();
+    // public static final BlockEntry<BlockTrainConfig> BLOCK_TRAIN_CONFIG = registrate()
+    //         .block("train_config", BlockTrainConfig::new)
+    //         .blockstate((ctx, prov) -> {
+    //             prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
+    //         })
+    //         .simpleItem()
+    //         .register();
+
     // public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SwSignal.MOD_ID);
     public static final BlockEntry<BlockCrossingController> CROSSING_CONTROLLER = registrate()
             .block("crossing_controller", BlockCrossingController::new)
@@ -71,6 +72,11 @@ public final class CoreBlocks {
             .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.PATH_IDENTIFIER))
             .build()
+            .register();
+
+    public static final BlockEntry<BlockSteamMuffler> STEAM_MUFFLER = registrate()
+            .block("steam_muffler", BlockSteamMuffler::new)
+            .simpleItem()
             .register();
 
     public static Registrate registrate() {
