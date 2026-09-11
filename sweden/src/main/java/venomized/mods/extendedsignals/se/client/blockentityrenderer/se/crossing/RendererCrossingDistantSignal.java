@@ -14,11 +14,11 @@ public class RendererCrossingDistantSignal<T extends BlockEntityCrossingDistantS
      */
     @Override
     public void doRender() {
-        boolean lit = blockEntity.getLevel().getGameTime() % 40 < 20 || this.blockEntity.isActive();
+        boolean lit = blockEntity.getLevel().getGameTime() % 40 < 20 || this.blockEntity.crossingControllerActive();
         super.doRender();
         renderSelfBlock();
 
-        int redPower = blockEntity.isActive() ? 255 : 0;
+        int redPower = blockEntity.crossingControllerActive() ? 255 : 0;
         boolean alternate = blockEntity.getLevel().getGameTime() % 20 < 10;
         // 255, 191, 0
         int r = lit ? 255 : 0;

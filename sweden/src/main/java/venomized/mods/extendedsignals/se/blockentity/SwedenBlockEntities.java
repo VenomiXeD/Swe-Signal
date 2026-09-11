@@ -78,7 +78,7 @@ public final class SwedenBlockEntities {
             .register();
 
     public static BlockEntityEntry<BlockEntityCrossbucks> CROSSBUCKS = RegistrateHelper
-            .simpleBlockEntity(registrate(), "crossing_lights", BlockEntityCrossbucks::new, SwedenBlocks.CROSSBUCKS)
+            .simpleBlockEntity(registrate(), "crossbucks", BlockEntityCrossbucks::new, SwedenBlocks.CROSSBUCKS)
             .renderer(() -> RendererGeneric::new)
             .register();
 

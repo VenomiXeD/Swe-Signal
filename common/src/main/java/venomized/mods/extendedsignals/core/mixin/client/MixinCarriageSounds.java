@@ -1,5 +1,6 @@
 package venomized.mods.extendedsignals.core.mixin.client;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.simibubi.create.AllSoundEvents;
@@ -71,12 +72,19 @@ public abstract class MixinCarriageSounds implements ICarriageSounds, IEntityMot
         // this.combinedMotion = combinedMotion;
     }
 
-    @Inject(method = "tick", at = @At("HEAD"))
+    @Inject(method = "tick", at = @At("HEAD"))  
     public void onTick(Carriage.DimensionalCarriageEntity dce, CallbackInfo ci) {
         // swe_Signal$trainSound.ifPresent(e -> e.tick(dce));
         if (extendedSignals$trainSound != null)
             extendedSignals$trainSound.tick(dce);
     }
+
+    // @ModifyExpressionValue(method = "submitSharedSoundVolume",at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/entity/CarriageSounds$LoopingSound;getVolume()F"))
+    // public float extendedSignals$neverCancelSound(float original) {
+    //     if (extendedSignals$trainSound != null)
+    //         return Float.MIN_VALUE;
+    //     return original;
+    // }
 
     @Inject(method = "submitSharedSoundVolume", at = @At("HEAD"))
     public void onSubmitSharedSoundVolume(Vec3 location, float volume, CallbackInfo ci) {

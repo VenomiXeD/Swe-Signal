@@ -19,7 +19,7 @@ public class BlockEntityCrossingLight extends BlockEntityCrossingObject {
     public static <S extends BlockEntity> void serverTick(Level level, BlockPos blockPos, BlockState blockState, S s) {
         BlockEntityCrossingLight be = (BlockEntityCrossingLight) s;
 
-        if (!be.isActive()) {
+        if (!be.crossingControllerActive()) {
             be.tick = 0;
             return;
         }

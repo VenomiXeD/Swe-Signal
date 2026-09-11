@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "extended_signals_nl:block/crossings/nl/gate"
+    }
+  }
+}

@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import org.joml.Vector3f;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityCrossingGate;
 
 public class RendererCrossingGate<T extends BlockEntityCrossingGate> extends RendererGeneric<T> {
@@ -18,20 +19,19 @@ public class RendererCrossingGate<T extends BlockEntityCrossingGate> extends Ren
         super.doRender();
         renderSelfBlock();
 
-        blockEntity.setGateDown(blockEntity.isActive());
+        blockEntity.setGateDown(blockEntity.crossingControllerActive());
 
-        PartialModel gateModel = blockEntity.getCrossingArmModel();
+        PartialModel gateModel = blockEntity.gateArmModel();
         if (gateModel == null)
             return;
 
 
         poseStack.pushPose();
-        poseStack.translate(0, blockEntity.getArmRotationHeightPoint(), 0);
+        final Vector3f point = blockEntity.gateArmPivotPoint();
+        poseStack.translate(point.x, point.y, point.z);
         CachedBuffers.partial(gateModel, blockEntity.getBlockState())
-                // .translate(0, -0.5f + blockEntity.getArmRotationHeightPoint(), 0)
                 .rotateCentered(Mth.DEG_TO_RAD * blockEntity.getArmRotation(partialTick), Direction.Axis.X)
                 .center()
-                // .translate(new Vec3(0,0,3.5f/16f))
                 .light(packedLight)
                 .overlay(packedOverlay)
                 .renderInto(

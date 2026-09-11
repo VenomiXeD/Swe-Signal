@@ -18,8 +18,8 @@ public class RendererCrossingSignal<T extends BlockEntityCrossingSignal> extends
         super.renderSelfBlock();
 
         int r = 255;
-        int g = blockEntity.isActive() ? 255 : 0;
-        int b = blockEntity.isActive() ? 255 : 0;
+        int g = blockEntity.crossingControllerActive() ? 255 : 0;
+        int b = blockEntity.crossingControllerActive() ? 255 : 0;
 
         renderLightAt(
                 0f,

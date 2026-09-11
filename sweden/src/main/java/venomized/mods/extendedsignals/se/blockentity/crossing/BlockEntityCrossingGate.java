@@ -7,6 +7,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.joml.Vector3f;
 import venomized.mods.extendedsignals.core.util.MathHelp;
 import venomized.mods.extendedsignals.se.SwedenSounds;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
@@ -22,7 +23,7 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
         BlockEntityCrossingGate be = (BlockEntityCrossingGate) s;
         be.tick++;
 
-        if (be.isActive()) {
+        if (be.crossingControllerActive()) {
             if (be.tick % 10 == 0) {
                 level.playSound(
                         null,
@@ -58,7 +59,7 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
      * @return
      */
     @Override
-    public float getArmMovementTimeTicks() {
+    public float gateArmMovementTimeTicks() {
         return 20f * 15f;
     }
 
@@ -66,7 +67,7 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
      * @return
      */
     @Override
-    public PartialModel getCrossingArmModel() {
+    public PartialModel gateArmModel() {
         return SwedenModels.ARM_6;
     }
 
@@ -74,8 +75,8 @@ public class BlockEntityCrossingGate extends venomized.mods.extendedsignals.core
      * @return
      */
     @Override
-    public double getArmRotationHeightPoint() {
-        return 8.5d / 16d;
+    public Vector3f gateArmPivotPoint() {
+        return new Vector3f(0, 8.5f / 16f, 0);
     }
 
 

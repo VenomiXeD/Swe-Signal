@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
@@ -37,6 +38,15 @@ public class RendererGeneric<T extends BlockEntity> implements BlockEntityRender
     }
 
     protected RendererGeneric() {
+    }
+
+    /**
+     * @param blockEntity
+     * @return
+     */
+    @Override
+    public AABB getRenderBoundingBox(T blockEntity) {
+        return BlockEntityRenderer.super.getRenderBoundingBox(blockEntity).inflate(5);
     }
 
     @Override

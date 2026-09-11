@@ -10,6 +10,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 public abstract class BlockEntityCrossingObject extends ModelBlockEntity implements ISignalTunerToolable {
     @Nullable
     public BlockPos railroadCrossingControllerPos;
@@ -23,12 +25,18 @@ public abstract class BlockEntityCrossingObject extends ModelBlockEntity impleme
         this.sync();
     }
 
-    public boolean isActive() {
+    public boolean crossingControllerActive() {
         if (railroadCrossingControllerPos == null)
             return false;
         return getLevel().getBlockEntity(railroadCrossingControllerPos, CoreBlockEntities.CROSSING_CONTROLLER.get())
                 .map(BlockEntityCrossingController::isRedstonePowered)
                 .orElse(false);
+    }
+
+    public Optional<BlockEntityCrossingController> getCrossingController() {
+        if (railroadCrossingControllerPos == null)
+            return Optional.empty();
+        return level.getBlockEntity(railroadCrossingControllerPos, CoreBlockEntities.CROSSING_CONTROLLER.get());
     }
 
     /**

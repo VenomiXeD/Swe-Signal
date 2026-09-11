@@ -1,41 +1,52 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
+import lombok.AccessLevel;
+import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.joml.Vector3f;
+import venomized.mods.extendedsignals.core.util.TrackedValue;
 
 public abstract class BlockEntityCrossingGate extends BlockEntityCrossingObject {
-    private long gateMovementStart = -1;
-    private boolean gateIsDown = false;
+    @Getter(AccessLevel.PROTECTED)
+    private long gateActivationTick = -1;
+    private final TrackedValue<Boolean> gateDown = new TrackedValue<>(false, this::onGateActivationChanged);
+
+    private void onGateActivationChanged(boolean oldValue, boolean newValue) {
+        gateActivationTick = level.getGameTime();
+    }
 
     public BlockEntityCrossingGate(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
 
     public float getProgressPercent(float partialTick) {
-        float t = (level.getGameTime() - gateMovementStart) + partialTick;
-        float progress = Mth.clamp(t / getArmMovementTimeTicks(), 0f, 1f);
+        float progress = 0;
+        float t = 0;
+        if (gateActivationTick + gateArmMovementDelayTicks() < level.getGameTime() && gateDown.value()) {
+            t = (level.getGameTime() - gateActivationTick - gateArmMovementDelayTicks()) + partialTick;
+        } else if (!gateDown.value()) {
+            t = (level.getGameTime() - gateActivationTick) + partialTick;
+        }
 
-        if (!gateIsDown)
+        progress = Mth.clamp(t / gateArmMovementTimeTicks(), 0f, 1f);
+        if (!gateDown.value())
             progress = 1f - progress;
 
         return progress;
     }
 
     public float getArmRotation(float partialTick) {
-        return (1f - getProgressPercent(partialTick)) * 90f;
+        return (1f - getProgressPercent(partialTick)) * gateArmUpRotationAngle();
     }
 
     public void setGateDown(boolean gateDown) {
-        if (gateDown == gateIsDown)
-            return;
-
-        gateIsDown = gateDown;
-        gateMovementStart = level.getGameTime();
+        this.gateDown.change(gateDown);
     }
 
     // /**
@@ -59,11 +70,19 @@ public abstract class BlockEntityCrossingGate extends BlockEntityCrossingObject 
 
     //    return tag;
     //}
-    public abstract float getArmMovementTimeTicks();
+    public abstract float gateArmMovementTimeTicks();
+
+    public float gateArmUpRotationAngle() {
+        return 90f;
+    }
+
+    public long gateArmMovementDelayTicks() {
+        return 0;
+    }
 
     @OnlyIn(Dist.CLIENT)
-    public abstract PartialModel getCrossingArmModel();
+    public abstract PartialModel gateArmModel();
 
     @OnlyIn(Dist.CLIENT)
-    public abstract double getArmRotationHeightPoint();
+    public abstract Vector3f gateArmPivotPoint();
 }

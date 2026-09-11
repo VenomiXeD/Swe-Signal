@@ -21,7 +21,7 @@ public class RendererCrossingLight extends RendererGeneric<BlockEntityCrossingLi
     public void doRender() {
         renderSelfBlock();
 
-        if (blockEntity.isActive()) {
+        if (blockEntity.crossingControllerActive()) {
             if (startTick == -1) {
                 startTick = blockEntity.getLevel().getGameTime();
             }

@@ -44,7 +44,8 @@ public class ExtendedSignalsSweden {
                 ExtendedSignalsSweden.MOD_ID,
                 e.getGenerator().getPackOutput(),
                 e.getExistingFileHelper(),
-                SwedenSounds.SOUNDS
+                SwedenSounds.SOUNDS,
+                SwedenSounds.ATTENUATION_VALUES
         ));
 
         e.getGenerator().addProvider(

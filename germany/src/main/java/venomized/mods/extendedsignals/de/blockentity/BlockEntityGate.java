@@ -4,6 +4,7 @@ import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.joml.Vector3f;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityCrossingGate;
 import venomized.mods.extendedsignals.de.client.GermanyModels;
 
@@ -16,7 +17,7 @@ public class BlockEntityGate extends BlockEntityCrossingGate {
      * @return
      */
     @Override
-    public float getArmMovementTimeTicks() {
+    public float gateArmMovementTimeTicks() {
         return 20 * 6;
     }
 
@@ -24,7 +25,7 @@ public class BlockEntityGate extends BlockEntityCrossingGate {
      * @return
      */
     @Override
-    public PartialModel getCrossingArmModel() {
+    public PartialModel gateArmModel() {
         return GermanyModels.GATE_ARM;
     }
 
@@ -32,7 +33,7 @@ public class BlockEntityGate extends BlockEntityCrossingGate {
      * @return
      */
     @Override
-    public double getArmRotationHeightPoint() {
-        return 8f / 16f;
+    public Vector3f gateArmPivotPoint() {
+        return new Vector3f(0, 8f / 16f, 0);
     }
 }

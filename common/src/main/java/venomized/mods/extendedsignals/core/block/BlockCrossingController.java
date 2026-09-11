@@ -24,4 +24,6 @@ public class BlockCrossingController extends ExtendedSignalsBlock implements Ent
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return CoreBlockEntities.CROSSING_CONTROLLER.create(pPos, pState);
     }
+
+
 }

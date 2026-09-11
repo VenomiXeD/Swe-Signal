@@ -42,7 +42,7 @@ public abstract class MixinTrainMapManager {
         final int bright = 0xFFEFEF;
         final int orange = 0xFFAD60;
 
-        original.add(Component.literal(" > %.2f Km/h".formatted(MathHelp.KphFromMs(MiscTrainDataClientSync.getTrainData(train.id).speed()))));
+        original.add(Component.literal(" >> %.2f Km/h".formatted(MathHelp.KphFromMs(MiscTrainDataClientSync.getTrainData(train.id).speed()))));
 
         return original;
     }

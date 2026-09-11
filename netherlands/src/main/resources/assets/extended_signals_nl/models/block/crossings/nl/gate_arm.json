@@ -1,0 +1,8 @@
+{
+  "loader": "neoforge:obj",
+  "flip_v": true,
+  "model": "extended_signals_nl:models/block/crossings/nl/arm.obj",
+  "textures": {
+    "gate": "extended_signals_nl:block/crossings/nl/gate"
+  }
+}
