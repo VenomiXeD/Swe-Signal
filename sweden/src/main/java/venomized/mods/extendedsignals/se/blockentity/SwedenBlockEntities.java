@@ -77,10 +77,10 @@ public final class SwedenBlockEntities {
             .renderer(() -> RendererCrossingLights::new)
             .register();
 
-    public static BlockEntityEntry<BlockEntityCrossbucks> CROSSBUCKS = RegistrateHelper
-            .simpleBlockEntity(registrate(), "crossbucks", BlockEntityCrossbucks::new, SwedenBlocks.CROSSBUCKS)
-            .renderer(() -> RendererGeneric::new)
-            .register();
+    // public static BlockEntityEntry<BlockEntityCrossbucks> CROSSBUCKS = RegistrateHelper
+    //         .simpleBlockEntity(registrate(), "crossbucks", BlockEntityCrossbucks::new, SwedenBlocks.CROSSBUCKS)
+    //         .renderer(() -> RendererGeneric::new)
+    //         .register();
 
     private static Registrate registrate() {
         return ExtendedSignalsSweden.REGISTRATE.get();

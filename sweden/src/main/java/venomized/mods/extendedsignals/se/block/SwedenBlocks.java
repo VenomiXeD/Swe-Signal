@@ -9,6 +9,7 @@ import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingGate;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingLights;
 import venomized.mods.extendedsignals.se.block.trainsound.BlockOnix1500TrainSound;
+import venomized.mods.extendedsignals.se.blockentity.BlockEntityCrossbucks;
 
 /**
  * Swedish railway content (blocks)
@@ -71,8 +72,8 @@ public final class SwedenBlocks {
             .register();
 
 
-    public static final BlockEntry<BlockCrossingLights> CROSSBUCKS = RegistrateHelper
-            .genericCustomModelledBlock(registrate(), "se", "crossings", "crossbucks_modern", BlockCrossingLights::new)
+    public static final BlockEntry<BlockModelled> CROSSBUCKS = RegistrateHelper
+            .genericCustomModelledBlock(registrate(), "se", "crossings", "crossbucks_modern", BlockModelled::withBlockEntity, BlockEntityCrossbucks::new)
             .register();
 
     // == MISC ==
