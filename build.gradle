@@ -6,6 +6,10 @@ plugins {
     id 'net.neoforged.gradle.userdev' version '7.1.36' apply false
 }
 
+def gitHash = providers.exec {
+    commandLine("git", "rev-parse", "--short", "HEAD")
+}.standardOutput.asText.map { it.trim() }
+
 subprojects {
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
@@ -150,10 +154,6 @@ subprojects {
         exclude("**/*.bbmodel") // BlockBench project files
         exclude("src/generated/**/.cache") // datagen cache files
     }
-
-    def gitHash = providers.exec {
-        commandLine("git", "rev-parse", "--short", "HEAD")
-    }.standardOutput.asText.map { it.trim() }
 
     tasks.withType(Jar).configureEach {
         archiveVersion.set("${project.version}-git-${gitHash.get()}-t${Instant.now().toString().replace(':', '-')}-${minecraft_version}")
