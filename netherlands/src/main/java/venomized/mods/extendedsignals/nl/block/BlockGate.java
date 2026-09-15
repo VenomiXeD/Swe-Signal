@@ -35,10 +35,6 @@ public class BlockGate extends BlockCrossingObject<BlockEntityGate> {
      */
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        if (!level.isClientSide && blockEntityType.isValid(state)) {
-            return BlockEntityGate::serverTick;
-        }
-
-        return null;
+        return !level.isClientSide() && blockEntityType.isValid(state) ? BlockEntityGate::serverTick : null;
     }
 }
