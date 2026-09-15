@@ -1,4 +1,7 @@
 {
+  "block.extended_signals.repeater_signal": "Repeater Signal",
+  "block.extended_signals.speed_modifier": "Speed Modifier",
+  "block.extended_signals.train_path_detector": "Train Path Detector",
   "block.extended_signals.atc_controller": "Atc Controller",
   "block.extended_signals.crossing_controller": "Crossing Controller",
   "block.extended_signals.train_config": "Train Config",
@@ -54,5 +57,8 @@
   "train_map.extended_signals.signal.id": "Signal: %s",
   "train_map.extended_signals.signal.state": "State: %s",
   "train_map.extended_signals.signal.distance_next": "Distance to next: %s",
-  "train_map.extended_signals.signal.max_speed": "Max speed: %s"
+  "train_map.extended_signals.signal.max_speed": "Max speed: %s",
+  "extended_signals.schedule.door.summary": "Door Control",
+  "extended_signals.schedule.door.title": "Close doors",
+  "extended_signals.schedule.instruction.door": "Close doors"
 }
