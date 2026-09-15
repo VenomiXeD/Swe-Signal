@@ -27,7 +27,7 @@ modId = "${mod_id}_nl" #mandatory
 version = "${mod_version}" #mandatory
 
 # A display name for the mod
-displayName = "${mod_name} Germany" #mandatory
+displayName = "${mod_name} Netherlands" #mandatory
 
 # A URL to query for updates for this mod. See the JSON update specification https://docs.neoforged.net/docs/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
@@ -46,7 +46,7 @@ displayName = "${mod_name} Germany" #mandatory
 
 # The description text for the mod (multi line!) (#mandatory)
 description = '''
-German Content pack for Extended Signals series of mods.
+Netherlands Content pack for Extended Signals series of mods.
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
