@@ -17,6 +17,10 @@ public class MiscTrainDataClientSync {
         return TRAIN_SYNC_DATA.getOrDefault(trainID, DEFAULT_TRAIN_SYNC_DATA);
     }
 
+    public static void flushTrainData() {
+        TRAIN_SYNC_DATA.clear();
+    }
+
     public record TrainData(double speed, double acceleration) {
     }
 }

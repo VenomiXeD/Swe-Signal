@@ -12,13 +12,14 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
 public record ClientBoundSyncSignalStatesPacket(
         Map<UUID, Couple<SignalStateNode>> fullNetworkMapping) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<ClientBoundSyncSignalStatesPacket> TYPE =
-            new Type<>(ExtendedSignals.res(ClientBoundSyncSignalStatesPacket.class.getSimpleName().toLowerCase()));
+            new Type<>(ExtendedSignals.res(ClientBoundSyncSignalStatesPacket.class.getSimpleName().toLowerCase(Locale.ROOT)));
 
     public static final StreamCodec<FriendlyByteBuf, ClientBoundSyncSignalStatesPacket> CODEC = StreamCodec.composite(
             ByteBufCodecs.map(

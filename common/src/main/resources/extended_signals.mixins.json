@@ -5,6 +5,7 @@
   "refmap": "extendedsignals.refmap.json",
   "mixins": [
     "MixinBlockBreakingMovementBehaviour",
+    "MixinEdgePointStorageAccessor",
     "MixinNavigation",
     "MixinScheduleRuntime",
     "MixinSignalBlockEntity",

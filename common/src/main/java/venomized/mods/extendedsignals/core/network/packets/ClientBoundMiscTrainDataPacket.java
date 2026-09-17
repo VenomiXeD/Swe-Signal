@@ -9,11 +9,12 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public record ClientBoundMiscTrainDataPacket(UUID trainID, double trainSpeed,
                                              double acceleration) implements CustomPacketPayload {
-    public static Type<ClientBoundMiscTrainDataPacket> TYPE = new Type<>(ExtendedSignals.res(ClientBoundMiscTrainDataPacket.class.getSimpleName().toLowerCase()));
+    public static Type<ClientBoundMiscTrainDataPacket> TYPE = new Type<>(ExtendedSignals.res(ClientBoundMiscTrainDataPacket.class.getSimpleName().toLowerCase(Locale.ROOT)));
 
     public static final StreamCodec<FriendlyByteBuf, ClientBoundMiscTrainDataPacket> CODEC = StreamCodec.composite(
             UUIDUtil.STREAM_CODEC,

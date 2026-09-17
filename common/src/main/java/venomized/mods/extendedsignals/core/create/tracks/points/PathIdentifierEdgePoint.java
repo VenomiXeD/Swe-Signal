@@ -1,29 +1,16 @@
 package venomized.mods.extendedsignals.core.create.tracks.points;
 
-import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
-import venomized.mods.extendedsignals.core.create.tracks.IExtendedEdgePoint;
 
 public class PathIdentifierEdgePoint extends DirectionalEdgePoint<PathIdentifierEdgePoint> implements IExtendedEdgePoint<PathIdentifierEdgePoint>, IConfigurableEdgePoint {
     @Getter
     @Setter
     private String pathIdentifierKey = "";
-
-    /**
-     * @param direction
-     * @param train
-     * @return
-     */
-    @Override
-    public boolean avoidSignalChaining(Direction.AxisDirection direction, Train train) {
-        return true;
-    }
 
     /**
      * @param nbt

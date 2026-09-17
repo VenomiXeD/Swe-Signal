@@ -35,4 +35,12 @@ public class BlockEntityHVMainSignal extends BlockEntitySignal<IMainSignalAspect
                 .withLight("hp_shunt_left", SignalLight.whiteLight(2.75d / 16d, 100.25 / 16d, -7.65 / 16d, 1.75f, 1.75f, 0.1f))
                 .withLight("hp_reduction", SignalLight.yellowLight(2.75d / 16d, 96.25 / 16d, -7.65 / 16d, 2.75f, 2.75f, 0.1f));
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return true;
+    }
 }

@@ -36,4 +36,12 @@ public class BlockEntityEndpointSignal extends BlockEntitySwedishSignal<ISignalA
                 states.powered("l0");
         };
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return false;
+    }
 }

@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.core.create.tracks;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import venomized.mods.extendedsignals.core.create.tracks.points.IExtendedEdgePoint;
 
 @AllArgsConstructor
 @Getter

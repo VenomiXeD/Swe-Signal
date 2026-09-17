@@ -36,4 +36,12 @@ public class BlockEntity3DistantSignal extends BlockEntitySwedishSignal<IDistant
     public @NotNull IDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         return DistantSignalAspect.interpret(state, direction);
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return false;
+    }
 }

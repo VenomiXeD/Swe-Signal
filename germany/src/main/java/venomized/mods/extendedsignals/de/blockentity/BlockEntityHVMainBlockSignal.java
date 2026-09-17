@@ -35,4 +35,12 @@ public class BlockEntityHVMainBlockSignal extends BlockEntitySignal<HvBlockSigna
     public @NotNull HvBlockSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
         return HvBlockSignalAspect.interpret(state, incomingDirection);
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return true;
+    }
 }

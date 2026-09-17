@@ -1,4 +1,6 @@
 package venomized.mods.extendedsignals.core.create.tracks;
 
-public record EncounteredPoint(boolean front, ISignalModifier modifier) {
+import venomized.mods.extendedsignals.core.create.tracks.points.ISignalStateModifier;
+
+public record EncounteredPoint(boolean front, ISignalStateModifier modifier) {
 }

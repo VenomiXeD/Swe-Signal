@@ -34,7 +34,7 @@ public class Events {
     public static void onBlockBreakEvent(BlockEvent.BreakEvent e) {
         BlockEntity blockEntity = e.getLevel().getBlockEntity(e.getPos());
         if (blockEntity instanceof CoreBlockEntity blockEntitySignal) {
-            blockEntitySignal.onBlockDestroyed(e.getPlayer());
+            blockEntitySignal.onBlockDestroyed(e.getPlayer().level(), e.getPlayer());
         }
     }
 }

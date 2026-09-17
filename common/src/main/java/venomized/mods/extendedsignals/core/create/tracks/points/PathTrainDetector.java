@@ -7,10 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import venomized.mods.extendedsignals.core.create.tracks.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-
-import java.util.UUID;
 
 public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IExtendedEdgePoint<PathTrainDetector> {
     public int triggerDistance = 512;
@@ -23,16 +20,6 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
     @Override
     public void blockEntityAdded(BlockEntity blockEntity, boolean front) {
         super.blockEntityAdded(blockEntity, front);
-    }
-
-    /**
-     * @param direction
-     * @param train
-     * @return
-     */
-    @Override
-    public boolean avoidSignalChaining(Direction.AxisDirection direction, Train train) {
-        return true;
     }
 
     /**
@@ -75,14 +62,6 @@ public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IEx
     public void read(CompoundTag nbt, HolderLookup.Provider registries, boolean migration, DimensionPalette dimensions) {
         super.read(nbt, registries, migration, dimensions);
         triggerDistance = nbt.getInt("trigger_distance");
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public UUID pointId() {
-        return getId();
     }
 
     public boolean trainPresent() {

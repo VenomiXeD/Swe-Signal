@@ -60,5 +60,8 @@
   "train_map.extended_signals.signal.max_speed": "Max speed: %s",
   "extended_signals.schedule.door.summary": "Door Control",
   "extended_signals.schedule.door.title": "Close doors",
-  "extended_signals.schedule.instruction.door": "Close doors"
+  "extended_signals.schedule.instruction.door": "Close doors",
+  "train_map.extended_signals.signal.is_main": "Main Signal: %s",
+  "train_map.extended_signals.signal.is_main.true": "Yes",
+  "train_map.extended_signals.signal.is_main.false": "No"
 }

@@ -13,12 +13,13 @@ import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
 import venomized.mods.extendedsignals.core.signalling.ShuntRequest;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public record ServerBoundRequestShuntPacket(UUID trainUUID, boolean front,
                                             float shuntRequestDistance) implements CustomPacketPayload {
     public static final Type<ServerBoundRequestShuntPacket> TYPE =
-            new Type<>(ExtendedSignals.res(ServerBoundRequestShuntPacket.class.getSimpleName().toLowerCase()));
+            new Type<>(ExtendedSignals.res(ServerBoundRequestShuntPacket.class.getSimpleName().toLowerCase(Locale.ROOT)));
     public static final StreamCodec<? super RegistryFriendlyByteBuf, ServerBoundRequestShuntPacket> CODEC = StreamCodec.composite(
             UUIDUtil.STREAM_CODEC,
             ServerBoundRequestShuntPacket::trainUUID,

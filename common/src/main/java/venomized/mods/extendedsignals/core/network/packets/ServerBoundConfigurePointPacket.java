@@ -11,11 +11,13 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.railway.BlockEntityPointModifier;
 
+import java.util.Locale;
+
 public record ServerBoundConfigurePointPacket(BlockPos targetBlockEntityPos,
                                               CompoundTag properties) implements CustomPacketPayload {
 
     public static final Type<ServerBoundConfigurePointPacket> TYPE = new CustomPacketPayload.Type<>(
-            ExtendedSignals.res(ServerBoundConfigurePointPacket.class.getSimpleName().toLowerCase())
+            ExtendedSignals.res(ServerBoundConfigurePointPacket.class.getSimpleName().toLowerCase(Locale.ROOT))
     );
 
 

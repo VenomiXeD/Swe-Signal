@@ -55,6 +55,10 @@ subprojects {
                 includeGroup "curse.maven"
             }
         }
+        maven {
+            url "https://chocolateminecraft.com/maven"
+            name "Xaero's Maven"
+        }
     }
 
     configurations {
@@ -69,6 +73,7 @@ subprojects {
         compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}")
         runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
         implementation("com.tterrag.registrate:Registrate:${registrate_version}")
+        runtimeOnly("xaero.map:xaeroworldmap-neoforge-${minecraft_version}:1.46.0")
 
         implementation "curse.maven:jei-238222:7420587"
 

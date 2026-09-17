@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.nl.blockentity;
 
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
-import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererCrossingGate;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.nl.ExtendedSignalsNetherlands;
 import venomized.mods.extendedsignals.nl.block.NetherlandBlocks;

@@ -36,6 +36,6 @@ public class BlockCrossingLight extends BlockCrossingObject<BlockEntityCrossingL
      */
     @Override
     public <S extends BlockEntity> BlockEntityTicker<S> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<S> p_153214_) {
-        return !p_153212_.isClientSide ? BlockEntityCrossingLight::serverTick : null;
+        return !p_153212_.isClientSide && p_153214_.isValid(p_153213_) ? BlockEntityCrossingLight::serverTick : null;
     }
 }

@@ -11,9 +11,11 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 
+import java.util.Locale;
+
 public record ClientBoundATCEventPacket(double atcLimit) implements CustomPacketPayload {
     public static final Type<ClientBoundATCEventPacket> TYPE =
-            new Type<>(ExtendedSignals.res(ClientBoundATCEventPacket.class.getSimpleName().toLowerCase()));
+            new Type<>(ExtendedSignals.res(ClientBoundATCEventPacket.class.getSimpleName().toLowerCase(Locale.ROOT)));
     public static final StreamCodec<RegistryFriendlyByteBuf, ClientBoundATCEventPacket> CODEC = StreamCodec.composite(
             ByteBufCodecs.DOUBLE,
             ClientBoundATCEventPacket::atcLimit,

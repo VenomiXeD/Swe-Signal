@@ -15,11 +15,13 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 
+import java.util.Locale;
+
 public record ServerBoundModelConfigurePacket(BlockPos pos, Vec3 loc, Vec3 glo,
                                               Vec3 orientation,
                                               CompoundTag variableVariantData) implements CustomPacketPayload {
     public static final Type<ServerBoundModelConfigurePacket> TYPE =
-            new Type<>(ExtendedSignals.res(ServerBoundModelConfigurePacket.class.getSimpleName().toLowerCase()));
+            new Type<>(ExtendedSignals.res(ServerBoundModelConfigurePacket.class.getSimpleName().toLowerCase(Locale.ROOT)));
     public static final StreamCodec<? super RegistryFriendlyByteBuf, ServerBoundModelConfigurePacket> CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC,
             ServerBoundModelConfigurePacket::pos,

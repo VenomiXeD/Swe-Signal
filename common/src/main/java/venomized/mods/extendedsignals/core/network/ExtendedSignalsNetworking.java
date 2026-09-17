@@ -6,7 +6,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import venomized.mods.extendedsignals.core.network.packets.*;
 
 public class ExtendedSignalsNetworking {
-    private static final String NET_VERSION = "1.1";
+    private static final String NET_VERSION = "2.0";
     public static PayloadRegistrar CHANNEL;
 
     public static void init() {
@@ -119,6 +119,11 @@ public class ExtendedSignalsNetworking {
                 ClientBoundMiscTrainDataPacket.TYPE,
                 ClientBoundMiscTrainDataPacket.CODEC,
                 ClientBoundMiscTrainDataPacket::handle
+        );
+        CHANNEL.playToClient(
+                ClientBoundUpdateMainSignalEdgePointTagPacket.TYPE,
+                ClientBoundUpdateMainSignalEdgePointTagPacket.CODEC,
+                ClientBoundUpdateMainSignalEdgePointTagPacket::handle
         );
     }
 }

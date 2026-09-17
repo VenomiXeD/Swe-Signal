@@ -34,12 +34,7 @@ public abstract class BlockSignal extends BlockModelled {
                     BlockEntitySignal.clientTick(signal, pLevel, pos, state);
                 }
             };
-        } else {
-            return (level, pos, state, be) -> {
-                if (be instanceof BlockEntitySignal<?> signal) {
-                    BlockEntitySignal.serverTick(signal, level, pos, state);
-                }
-            };
         }
+        return super.getTicker(pLevel, pState, pBlockEntityType);
     }
 }

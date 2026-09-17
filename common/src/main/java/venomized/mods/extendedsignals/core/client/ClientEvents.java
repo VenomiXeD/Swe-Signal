@@ -9,15 +9,19 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 import venomized.mods.extendedsignals.core.item.IScrollableItem;
 import venomized.mods.extendedsignals.core.network.packets.ServerBoundRequestShuntPacket;
@@ -49,8 +53,6 @@ public class ClientEvents {
     public static void onClientPlayerPostTickEvent(PlayerTickEvent.Post e) {
         if (KeyMappings.REQUEST_SHUNT.consumeClick()) {
             if (ControlsHandler.getContraption() instanceof CarriageContraptionEntity trainCarriage) {
-                System.out.println("train: " + trainCarriage.getCarriage().train.id);
-
                 float carriageYRot = trainCarriage.getYRot() - (trainCarriage.yaw + 90);
                 float playerYRot = e.getEntity().getYRot();
 
@@ -61,8 +63,6 @@ public class ClientEvents {
                     front = !front;
 
                 PacketDistributor.sendToServer(new ServerBoundRequestShuntPacket(trainCarriage.getCarriage().train.id, front, 64));
-            } else {
-                System.out.println("none");
             }
         }
     }
@@ -95,5 +95,18 @@ public class ClientEvents {
 
         e.setCanceled(true);
         e.setCancellationResult(InteractionResult.SUCCESS);
+    }
+
+    @SubscribeEvent
+    public static void onClientEnterWorld(PlayerEvent.PlayerLoggedInEvent e) {
+        MiscTrainDataClientSync.flushTrainData();
+    }
+
+    @SubscribeEvent
+    public static void onBlockBreakEvent(BlockEvent.BreakEvent e) {
+        BlockEntity blockEntity = e.getLevel().getBlockEntity(e.getPos());
+        if (blockEntity instanceof CoreBlockEntity blockEntitySignal) {
+            blockEntitySignal.onBlockDestroyed(e.getPlayer().level(), e.getPlayer());
+        }
     }
 }

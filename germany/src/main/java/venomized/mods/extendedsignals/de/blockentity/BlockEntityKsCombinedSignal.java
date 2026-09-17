@@ -83,4 +83,12 @@ public class BlockEntityKsCombinedSignal extends BlockEntityKs<ICombinedSignalAs
         variants.addVariantOptionRight(new VariantData.VariantOption("1000_right", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.1000.right"), () -> GermanyModels.KSModels.KS_HP_VR_1000_RIGHT));
         return variants;
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return true;
+    }
 }

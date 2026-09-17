@@ -1,53 +1,17 @@
 package venomized.mods.extendedsignals.core.create.tracks.points;
 
-import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.core.create.tracks.IExtendedEdgePoint;
-import venomized.mods.extendedsignals.core.create.tracks.ISignalStateCompute;
-import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
 
-import java.util.UUID;
-
-public class RepeaterSignalEdgePoint extends TrackEdgePoint implements IExtendedEdgePoint<RepeaterSignalEdgePoint>, ISignalStateCompute {
+public class RepeaterSignalEdgePoint extends TrackEdgePoint implements ISignal<RepeaterSignalEdgePoint> {
     /**
      * @param front
-     * @param mapper
+     * @param mainSignal
      */
     @Override
-    public void setMapper(boolean front, SignalStateRemapper mapper) {
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public boolean avoidSignalChaining(Direction.AxisDirection direction, Train train) {
-        return true;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public UUID pointId() {
-        return id;
-    }
-
-    /**
-     * @param upcomingSignal
-     * @param train
-     * @return
-     */
-    @Override
-    public SignalStateNode computeSignalState(Direction.AxisDirection direction, @Nullable SignalStateNode upcomingSignal, Train train) {
-        return new SignalStateNode()
-                .setProceed(true);
+    public void setMainSignal(boolean front, boolean mainSignal) {
     }
 
     /**
@@ -63,7 +27,6 @@ public class RepeaterSignalEdgePoint extends TrackEdgePoint implements IExtended
      */
     @Override
     public void invalidate(LevelAccessor level) {
-
     }
 
     /**
@@ -72,7 +35,6 @@ public class RepeaterSignalEdgePoint extends TrackEdgePoint implements IExtended
      */
     @Override
     public void blockEntityAdded(BlockEntity blockEntity, boolean front) {
-
     }
 
     /**
@@ -84,4 +46,12 @@ public class RepeaterSignalEdgePoint extends TrackEdgePoint implements IExtended
         removeFromAllGraphs();
     }
 
+    /**
+     * @param front
+     * @return
+     */
+    @Override
+    public boolean isMainSignal(boolean front) {
+        return false;
+    }
 }

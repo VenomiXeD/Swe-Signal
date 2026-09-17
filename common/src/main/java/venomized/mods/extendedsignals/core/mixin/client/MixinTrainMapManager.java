@@ -10,6 +10,7 @@ import com.simibubi.create.compat.trainmap.TrainMapRenderer;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.*;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
+import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.createmod.catnip.data.Couple;
@@ -26,8 +27,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
+import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.MathHelp;
 
@@ -75,7 +76,7 @@ public abstract class MixinTrainMapManager {
             Vec3 diff = edge.getDirectionAt(tLength)
                     .normalize();
             int rotation = Mth.positiveModulo(Mth.floor(0.5
-                            + (Math.atan2(diff.z, diff.x) * Mth.RAD_TO_DEG + 90 + (signal.isPrimary(node) ? 180 : 0)) / 45),
+                            + (Math.atan2(diff.z, diff.x) * Mth.RAD_TO_DEG + 90 + (signal.canNavigateVia(node) ? 180 : 0)) / 45),
                     8);
 
             AllGuiTextures sprite = AllGuiTextures.TRAINMAP_STATION_ORTHO;
@@ -109,25 +110,25 @@ public abstract class MixinTrainMapManager {
 
     @Inject(method = "renderAndPick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch()V", shift = At.Shift.AFTER), cancellable = true)
     private static void extendedSignals$additionalRenderAndPick(GuiGraphics graphics, int mouseX, int mouseY, boolean linearFiltering, Rect2i bounds, CallbackInfoReturnable<List<FormattedText>> cir, @Local(name = "hoveredElement") Object hoveredElement) {
-        if (hoveredElement instanceof SignalBoundary signal) {
+        if (hoveredElement instanceof ISignal<?> signal) {
             cir.setReturnValue(extendedSignals$listSignalDetails(signal));
         }
     }
 
     @Unique
-    private static List<FormattedText> extendedSignals$listSignalDetails(SignalBoundary signal) {
+    private static List<FormattedText> extendedSignals$listSignalDetails(ISignal<?> signal) {
         ReferenceArrayList<FormattedText> text = new ReferenceArrayList<>();
-        text.add(Component.translatable("train_map.extended_signals.signal.id", signal.getId().toString()));
+        text.add(Component.translatable("train_map.extended_signals.signal.id", ((TrackEdgePoint) signal).getId().toString()));
         for (boolean side : Iterate.falseAndTrue) {
             text.add(Component.literal("-".repeat(10)));
-            SignalStateNode state = ExtendedSignals.clientNetworkCache().getSignalState(signal.id, side);
-            extendedSignals$populateSignalDetails(text, state, side, 0);
+            SignalStateNode state = signal.currentSignalState(side);
+            extendedSignals$populateSignalDetails(text, signal, state, side, 0);
             if (Screen.hasShiftDown()) {
                 text.add(Component.translatable("train_map.extended_signals.signal.distance_next",
                         state.getDistanceToNextSignal() == -1 ? "N/A" : "%.2f".formatted(state.getDistanceToNextSignal())));
 
                 if (state.getNextState() != null)
-                    extendedSignals$populateSignalDetails(text, state.getNextState(), side, 1);
+                    extendedSignals$populateSignalDetails(text, signal, state.getNextState(), side, 1);
             }
         }
 
@@ -135,7 +136,14 @@ public abstract class MixinTrainMapManager {
     }
 
     @Unique
-    private static void extendedSignals$populateSignalDetails(final List<FormattedText> text, SignalStateNode state, boolean side, int depth) {
+    private static void extendedSignals$populateSignalDetails(final List<FormattedText> text, ISignal<?> signalNode, SignalStateNode state, boolean side, int depth) {
+        text.add(Component.literal("    ".repeat(depth)).append(
+                        Component.translatable(
+                                "train_map.extended_signals.signal.is_main",
+                                signalNode.isMainSignal(side) ?
+                                        Component.translatable("train_map.extended_signals.signal.is_main.true").getString() : Component.translatable("train_map.extended_signals.signal.is_main.false").getString())
+                )
+        );
         text.add(Component.literal("    ".repeat(depth)).append(Component.translatable("train_map.extended_signals.signal.direction", side ? "Positive " : "Negative")));
         text.add(Component.literal("    ".repeat(depth)).append(Component.translatable("train_map.extended_signals.signal.state", state.isStop() ? "Stop" : "Proceed")));
         if (state.isProceed()) {

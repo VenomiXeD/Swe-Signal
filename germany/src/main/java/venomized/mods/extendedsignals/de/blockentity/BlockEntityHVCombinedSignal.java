@@ -47,5 +47,11 @@ public class BlockEntityHVCombinedSignal extends BlockEntitySignal<ICombinedSign
         return new HvCombinedSignalAspectCompositor(state, direction);
     }
 
-
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return true;
+    }
 }

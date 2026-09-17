@@ -120,4 +120,11 @@ public class BlockEntity4CombinedSignal extends BlockEntitySwedishSignal<ICombin
         }
     }
 
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return true;
+    }
 }

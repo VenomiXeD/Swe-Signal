@@ -39,8 +39,8 @@ public class SoundEventDataGenerator extends SoundDefinitionsProvider {
             this.add(sound.getId(),
                     SoundDefinition.definition().with(
                             SoundDefinition.Sound.sound(
-                                    sound.getId(), SoundDefinition.SoundType.SOUND
-                            )
+                                            sound.getId(), SoundDefinition.SoundType.SOUND
+                                    )
                                     .attenuationDistance(attenuationDistanceValues.getOrDefault(sound, 16))
                     )
             );

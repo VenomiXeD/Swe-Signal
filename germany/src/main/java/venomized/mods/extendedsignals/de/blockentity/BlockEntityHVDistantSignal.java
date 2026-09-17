@@ -41,4 +41,12 @@ public class BlockEntityHVDistantSignal extends BlockEntitySignal<IDistantSignal
                 .withLight("vr_yellow_left", SignalLight.yellowLight(6 / 16d, 89.5d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f))
                 .withLight("vr_green_left", SignalLight.greenLight(2 / 16d, 89.5d / 16d, -6.65d / 16d, 2.75f, 2.75f, 0.5f));
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return false;
+    }
 }

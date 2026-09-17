@@ -11,10 +11,12 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 
+import java.util.Locale;
+
 public record ServerBoundTranslateBlockPacket(BlockPos blockEntityPos,
                                               Direction direction) implements CustomPacketPayload {
     public static final Type<ServerBoundTranslateBlockPacket> TYPE =
-            new Type<>(ExtendedSignals.res(ServerBoundTranslateBlockPacket.class.getSimpleName().toLowerCase()));
+            new Type<>(ExtendedSignals.res(ServerBoundTranslateBlockPacket.class.getSimpleName().toLowerCase(Locale.ROOT)));
 
     public static final StreamCodec<FriendlyByteBuf, ServerBoundTranslateBlockPacket> CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC,

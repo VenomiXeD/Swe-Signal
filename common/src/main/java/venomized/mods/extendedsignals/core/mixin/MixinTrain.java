@@ -25,9 +25,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.create.ITrainDoorData;
-import venomized.mods.extendedsignals.core.create.tracks.*;
-import venomized.mods.extendedsignals.core.create.tracks.points.ATCController;
-import venomized.mods.extendedsignals.core.create.tracks.points.TrackEdgePointSignalModifier;
+import venomized.mods.extendedsignals.core.create.tracks.DelayedSignalCrossTrigger;
+import venomized.mods.extendedsignals.core.create.tracks.EncounteredPoint;
+import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
+import venomized.mods.extendedsignals.core.create.tracks.points.*;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundMiscTrainDataPacket;
@@ -92,11 +93,15 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                 return false;
             }
 
-            if (signalState != SignalStateNode.INVALID && trackEdgePoint instanceof SignalBoundary) {
+
+            if (signalState != SignalStateNode.INVALID && trackEdgePoint instanceof ISignal<?>) {
                 ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().values().forEach(e -> {
-                    if (e.modifier().onAction(front, ((INavigation) navigation).extendedSignals$currentScoutedEdgePoints(), (Train) (Object) this) == ISignalModifier.ModifierAction.APPLY)
+                    if (e.modifier().onAction(front, ((INavigation) navigation).extendedSignals$currentScoutedEdgePoints(), (Train) (Object) this) == ISignalStateModifier.ModifierAction.APPLY)
                         e.modifier().applyModifier(signalState);
                 });
+                if (trackEdgePoint instanceof ITrainSpeedModifier speedPoint) {
+                    speedPoint.applySpeed(front, ((Train) (Object) this));
+                }
                 throttle = TrainHelp.trainSpeedPercentFromKph(signalState.getMaxProceedSpeed(), (Train) (Object) this, manualTick);
             }
 
@@ -115,22 +120,8 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                         } else {
                             ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().put(modifierPoint.getType().getId(), new EncounteredPoint(front, modifierPoint));
                         }
-                        return false;
                     }
-                    // ISignalModifier.ModifierAction modifierAction = modifierPoint.onAction(front, ((INavigation) navigation).extendedSignals$currentScoutedEdgePoints(), (Train) (Object) this);
-                    // if (modifierAction == null) {
-                    //     ExtendedSignals.LOGGER.info("A Signal modifier returned *null* as an action. This is undefined behavior: {}", modifierPoint.getClass().getName());
-                    //     return false;
-                    // }
-//
-                    // switch (modifierAction) {
-                    //     case APPLY -> ((INavigation) navigation).extendedSignals$activeModifiers()
-                    //             .put(modifierPoint.getType().getId(), modifierPoint);
-                    //     case DISCARD -> ((INavigation) navigation).extendedSignals$activeModifiers()
-                    //             .remove(modifierPoint.getType().getId());
-                    // }
-
-
+                    return false;
                 }
             }
 

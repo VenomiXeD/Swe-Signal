@@ -42,4 +42,12 @@ public class BlockEntityMainDwarfSignal extends BlockEntitySwedishSignal<MainDwa
     public @NotNull MainDwarfSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
         return new MainDwarfSignalAspect(state);
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return true;
+    }
 }

@@ -28,10 +28,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
-import venomized.mods.extendedsignals.core.create.tracks.*;
+import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
+import venomized.mods.extendedsignals.core.create.tracks.EncounteredPoint;
+import venomized.mods.extendedsignals.core.create.tracks.ISignalStateEvaluator;
+import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
+import venomized.mods.extendedsignals.core.create.tracks.points.IExtendedEdgePoint;
+import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
+import venomized.mods.extendedsignals.core.create.tracks.points.ISignalStateModifier;
 import venomized.mods.extendedsignals.core.create.tracks.points.TrackEdgePointSignalModifier;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
-import venomized.mods.extendedsignals.core.signalling.ISignalStateBoundaryTransformer;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.List;
@@ -43,9 +48,9 @@ public abstract class MixinNavigation implements INavigation {
     @Unique
     private static final int SIGNAL_SCOUT_INTERVAL = 10;
     @Unique
-    private final ReferenceArrayList<CollectedSignal> extendedSignals$persistentCollectedSignals = new ReferenceArrayList<>();
+    private final ReferenceArrayList<CollectedEdgePoint> extendedSignals$persistentCollectedEdgePoints = new ReferenceArrayList<>();
     @Unique
-    private final ReferenceArrayList<CollectedSignal> extendedSignals$collectedSignals = new ReferenceArrayList<>();
+    private final ReferenceArrayList<CollectedEdgePoint> extendedSignals$collectedEdgePoints = new ReferenceArrayList<>();
     @Unique
     private final Map<ResourceLocation, EncounteredPoint> extendedSignals$activeModifiers = new Object2ReferenceLinkedOpenHashMap<>();
     // @Unique
@@ -147,8 +152,8 @@ public abstract class MixinNavigation implements INavigation {
      * @return
      */
     @Override
-    public List<CollectedSignal> extendedSignals$currentScoutedEdgePoints() {
-        return extendedSignals$persistentCollectedSignals;
+    public List<CollectedEdgePoint> extendedSignals$currentScoutedEdgePoints() {
+        return extendedSignals$persistentCollectedEdgePoints;
     }
 
     // @Inject(
@@ -173,17 +178,15 @@ public abstract class MixinNavigation implements INavigation {
                 Math.min(distanceToDestination, distanceToSignal)
         );
 
-        extendedSignals$collectedSignals.clear();
-
+        extendedSignals$collectedEdgePoints.clear();
 
         final MutableDouble previousSignalDistance = new MutableDouble(-1);
         extendedSignals$signalScoutTriggerCollector.travel(
                 train.graph,
-                (lookAheadDistance + 5) * speedMod,
+                (lookAheadDistance + 1f) * speedMod,
                 controlSignalScout(),
                 (distance, trackEdgePointCouplePair) -> {
                     TrackEdgePoint trackEdgePoint = trackEdgePointCouplePair.getFirst();
-
                     boolean front = trackEdgePoint.isPrimary(trackEdgePointCouplePair.getSecond()
                             .getSecond()
                     );
@@ -191,28 +194,14 @@ public abstract class MixinNavigation implements INavigation {
                     if (!(trackEdgePoint instanceof IExtendedEdgePoint<?> extendedSignalPoint)) {
                         return false;
                     }
-
-                    // if (trackEdgePoint instanceof TrackEdgePointSignalModifier<?> modifierPoint) {
-                    //     modifierPoint.onAction(front, )
-                    //     if (modifierPoint.()) {
-                    //         extendedSignals$predictedModifiers
-                    //                 .put(trackEdgePoint.getType().getId(), modifierPoint);
-                    //     } else {
-                    //         extendedSignals$predictedModifiers
-                    //                 .remove(trackEdgePoint.getType().getId());
-                    //     }
-//
-                    //     return false;
-                    // }
-
                     double deltaSignalDistance = previousSignalDistance.getValue() < 0
                             ? -1.0 : distance - previousSignalDistance.getValue();
                     previousSignalDistance.setValue(distance);
 
 
                     boolean waiting = extendedSignals$isSignalWaiting(trackEdgePoint, front);
-                    extendedSignals$collectedSignals.push(
-                            new CollectedSignal(
+                    extendedSignals$collectedEdgePoints.push(
+                            new CollectedEdgePoint(
                                     extendedSignalPoint,
                                     front ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
                                     waiting,
@@ -224,29 +213,28 @@ public abstract class MixinNavigation implements INavigation {
                     return waiting;
                 }
         );
-        extendedSignals$persistentCollectedSignals.clear();
-        extendedSignals$persistentCollectedSignals.addAll(extendedSignals$collectedSignals);
+        extendedSignals$persistentCollectedEdgePoints.clear();
+        extendedSignals$persistentCollectedEdgePoints.addAll(extendedSignals$collectedEdgePoints);
 
-        final Map<ResourceLocation, ISignalModifier> predictedModifiers = new Object2ReferenceArrayMap<>();
+        final Map<ResourceLocation, ISignalStateModifier> predictedModifiers = new Object2ReferenceArrayMap<>();
         extendedSignals$encounteredTrackEdgePointModifiers().forEach((key, value) -> {
-            ISignalModifier.ModifierAction action =
-                    value.modifier().onAction(value.front(), extendedSignals$persistentCollectedSignals, train);
+            ISignalStateModifier.ModifierAction action =
+                    value.modifier().onAction(value.front(), extendedSignals$persistentCollectedEdgePoints, train);
 
-            if (action == ISignalModifier.ModifierAction.APPLY)
+            if (action == ISignalStateModifier.ModifierAction.APPLY)
                 predictedModifiers.put(key, value.modifier());
-            else if (action == ISignalModifier.ModifierAction.DISCARD)
+            else if (action == ISignalStateModifier.ModifierAction.DISCARD)
                 predictedModifiers.remove(key);
         });
 
-        for (CollectedSignal collected : extendedSignals$collectedSignals) {
+        extendedSignals$collectedEdgePoints.forEach(collected -> {
             if (collected.boundary() instanceof TrackEdgePointSignalModifier<?> modifierPoint) {
-                ISignalModifier.ModifierAction modifierAction = modifierPoint.onAction(
+                ISignalStateModifier.ModifierAction modifierAction = modifierPoint.onAction(
                         collected.signalDirection() == Direction.AxisDirection.POSITIVE,
-                        extendedSignals$persistentCollectedSignals, train);
-
+                        extendedSignals$persistentCollectedEdgePoints, train);
                 if (modifierAction == null) {
                     ExtendedSignals.LOGGER.info("A Signal modifier returned *null* as an action. This is undefined behavior: {}", modifierPoint.getClass().getName());
-                    continue;
+                    return;
                 }
 
                 switch (modifierAction) {
@@ -256,11 +244,8 @@ public abstract class MixinNavigation implements INavigation {
                             .remove(modifierPoint.getType().getId());
                 }
             }
-
-            collected.signalModifierSnapshot().addAll(
-                    List.copyOf(predictedModifiers.values())
-            );
-        }
+            collected.signalModifierSnapshot().addAll(predictedModifiers.values());
+        });
 
     }
 
@@ -309,60 +294,35 @@ public abstract class MixinNavigation implements INavigation {
         InterlockingManager.clearReservationsForTrain(train);
     }
 
-    // @ModifyExpressionValue(method = "lambda$tick$0", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/signal/SignalEdgeGroup;isOccupiedUnless(Lcom/simibubi/create/content/trains/entity/Train;)Z"))
-    // public boolean extendedSignals$includeSignalOwnershipInOccupancyCheck(boolean original, @Local(name = "signalEdgeGroup") SignalEdgeGroup signalEdgeGroup) {
-    //     return original || InterlockingManager.trainOwnsGroupIntersecting(train, signalEdgeGroup) ==
-    //                     InterlockingManager.ReservationResult.CONFLICT;
-    // }
-
-    // @Inject(method = "currentSignalResolved", at = @At("HEAD"), cancellable = true)
-    // public void extendedSignals$includeLockReservation(CallbackInfoReturnable<Boolean> cir) {
-    //     if (InterlockingManager.isWaitingSignalBlockedByReservation(train, waitingForSignal, waitingForChainedGroups)) {
-    //         cir.setReturnValue(false);
-    //         cir.cancel();
-    //     }
-    // }
-
     @Unique
     private void extendedSignals$resolveSignallingLogic() {
         SignalStateNode upcomingSignalState = null;
         SignalStateNode currentSignalState = SignalStateNode.INVALID;
 
-        while (!extendedSignals$collectedSignals.isEmpty()) {
-            CollectedSignal current = extendedSignals$collectedSignals.pop();
+        while (!extendedSignals$collectedEdgePoints.isEmpty()) {
+            CollectedEdgePoint current = extendedSignals$collectedEdgePoints.pop();
 
-            if (current.boundary() instanceof ISignalStateCompute signalStateEvaluator) {
-                currentSignalState = signalStateEvaluator.computeSignalState(
-                                current.signalDirection(),
-                                upcomingSignalState,
-                                train
-                        )
+            if (current.boundary() instanceof ISignal<?>) {
+                if (current.boundary() instanceof ISignalStateEvaluator evaluator)
+                    currentSignalState = evaluator.evaluateSignalState(current.signalDirection(), upcomingSignalState, train);
+                else
+                    currentSignalState = new SignalStateNode();
+                currentSignalState.setAxisDirection(current.signalDirection()).setDistanceToNextSignal(current.distanceFromPreviousSignal())
                         .setNextState(upcomingSignalState)
-                        .setAxisDirection(current.signalDirection())
-                        .setDistanceToNextSignal(current.distanceFromPreviousSignal());
-
-                if (signalStateEvaluator instanceof ISignalStateBoundaryTransformer transformer) {
-                    currentSignalState = transformer.transformSignalState(current.signalDirection(), currentSignalState);
-                }
-
-                if (current.isStoppingAtThisNode())
-                    currentSignalState.setProceed(false);
-
-                // if (current.boundary() instanceof SignalBoundary sb) {
-                //     train.reservedSignalBlocks.add(sb.getId());
-                // }
-                for (ISignalModifier modifier : current.signalModifierSnapshot()) {
-                    modifier.applyModifier(currentSignalState);
-                }
+                        .setProceed(!current.isStoppingAtThisNode());
             }
 
+            for (ISignalStateModifier modifier : current.signalModifierSnapshot()) {
+                modifier.applyModifier(currentSignalState);
+            }
 
             current.boundary().onSignalScout(
                     current.signalDirection(), currentSignalState, this.train, current.distance()
             );
 
-            if (!current.boundary().avoidSignalChaining(current.signalDirection(), train))
+            if (current.boundary() instanceof ISignal<?> signalPoint && signalPoint.isMainSignal(current.signalDirection() == Direction.AxisDirection.POSITIVE)) {
                 upcomingSignalState = currentSignalState;
+            }
         }
     }
 }

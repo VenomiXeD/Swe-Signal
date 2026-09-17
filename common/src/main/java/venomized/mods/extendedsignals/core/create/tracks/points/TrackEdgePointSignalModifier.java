@@ -6,18 +6,15 @@ import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
-import venomized.mods.extendedsignals.core.create.tracks.CollectedSignal;
-import venomized.mods.extendedsignals.core.create.tracks.IExtendedEdgePoint;
-import venomized.mods.extendedsignals.core.create.tracks.ISignalModifier;
+import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
-public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> extends DirectionalEdgePoint<T> implements IExtendedEdgePoint<T>, ISignalModifier, IConfigurableEdgePoint {
+public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> extends DirectionalEdgePoint<T> implements IExtendedEdgePoint<T>, ISignalStateModifier, IConfigurableEdgePoint {
     @Getter
     @Setter
     protected boolean discardMode;
@@ -82,7 +79,7 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
     /**
      * @return
      */
-    public ModifierAction onAction(boolean primary, List<CollectedSignal> points, Train train) {
+    public ModifierAction onAction(boolean primary, List<CollectedEdgePoint> points, Train train) {
         if (!isAligned(primary))
             return ModifierAction.NONE;
 
@@ -104,15 +101,4 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
     public boolean canMerge() {
         return true;
     }
-
-    /**
-     * @param direction
-     * @param train
-     * @return
-     */
-    @Override
-    public boolean avoidSignalChaining(Direction.AxisDirection direction, Train train) {
-        return true;
-    }
-
 }

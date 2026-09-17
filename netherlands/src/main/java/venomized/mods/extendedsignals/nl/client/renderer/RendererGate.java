@@ -1,12 +1,9 @@
 package venomized.mods.extendedsignals.nl.client.renderer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import org.joml.Vector3f;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityCrossingGate;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererCrossingGate;
-import venomized.mods.extendedsignals.nl.block.BlockGate;
 
 public class RendererGate<T extends BlockEntityCrossingGate> extends RendererCrossingGate<T> {
     public RendererGate(BlockEntityRendererProvider.Context context) {

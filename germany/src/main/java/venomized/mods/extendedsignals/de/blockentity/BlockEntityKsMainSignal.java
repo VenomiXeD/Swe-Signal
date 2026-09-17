@@ -68,4 +68,12 @@ public class BlockEntityKsMainSignal extends BlockEntityKs<IMainSignalAspect> {
         variantData.addVariantOptionRight(new VariantData.VariantOption("1000_right", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.1000.right"), () -> GermanyModels.KSModels.KS_HP_1000_RIGHT));
         return variantData;
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return true;
+    }
 }

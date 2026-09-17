@@ -91,4 +91,11 @@ public class BlockEntity5CombinedSignal extends BlockEntitySwedishSignal<ICombin
         };
     }
 
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return true;
+    }
 }

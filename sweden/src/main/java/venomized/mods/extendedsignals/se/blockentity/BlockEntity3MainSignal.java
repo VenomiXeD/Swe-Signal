@@ -49,4 +49,12 @@ public class BlockEntity3MainSignal extends BlockEntitySwedishSignal<IMainSignal
     public @NotNull IMainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
         return MainSignalAspect.interpret(state, direction, false);
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return true;
+    }
 }

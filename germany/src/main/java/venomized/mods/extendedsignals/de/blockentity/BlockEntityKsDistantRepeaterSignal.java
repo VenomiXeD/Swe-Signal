@@ -76,4 +76,12 @@ public class BlockEntityKsDistantRepeaterSignal extends BlockEntityKs<IDistantSi
         variantData.addVariantOptionRight(new VariantData.VariantOption("1000_right", Component.translatable("screens.extended_signals_de.modelconfig.ks.offset.variant.1000.right"), () -> GermanyModels.KSModels.KS_VR_R_1000_RIGHT));
         return variantData;
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return false;
+    }
 }

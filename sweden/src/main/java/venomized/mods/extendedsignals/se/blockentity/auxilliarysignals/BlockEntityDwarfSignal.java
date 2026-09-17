@@ -41,4 +41,12 @@ public class BlockEntityDwarfSignal extends BlockEntitySwedishSignal<DwarfSignal
     public @NotNull DwarfSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
         return DwarfSignalAspect.interpret(state, incomingDirection);
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean hasMainSignalCapability() {
+        return false;
+    }
 }

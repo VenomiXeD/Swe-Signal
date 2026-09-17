@@ -11,13 +11,15 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.item.IScrollableItem;
 
+import java.util.Locale;
+
 /**
  * CLIENT -> SERVER
  * Packet for handling when client scrolled
  */
 public record ServerBoundScrollItemPacket(boolean up) implements CustomPacketPayload {
     public static final Type<ServerBoundScrollItemPacket> TYPE =
-            new Type<>(ExtendedSignals.res(ServerBoundScrollItemPacket.class.getSimpleName().toLowerCase()));
+            new Type<>(ExtendedSignals.res(ServerBoundScrollItemPacket.class.getSimpleName().toLowerCase(Locale.ROOT)));
     public static final StreamCodec<FriendlyByteBuf, ServerBoundScrollItemPacket> CODEC = StreamCodec.composite(
             ByteBufCodecs.BOOL,
             ServerBoundScrollItemPacket::up,

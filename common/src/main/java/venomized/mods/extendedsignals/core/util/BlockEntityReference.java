@@ -14,18 +14,16 @@ import java.util.Optional;
  */
 public final class BlockEntityReference<T extends BlockEntity> {
     private final Class<T> compatibleType;
-    private final String saveTag;
 
     private BlockPos posRef;
 
-    public BlockEntityReference(Class<T> compatibleType, String saveTag) {
-        this.saveTag = saveTag;
+    public BlockEntityReference(Class<T> compatibleType) {
         this.compatibleType = compatibleType;
     }
 
     public Optional<T> getReference(BlockGetter world) {
         if (this.posRef == null) {
-            return null;
+            return Optional.empty();
         }
         BlockEntity be = world.getBlockEntity(posRef);
         return valid(be) ? Optional.of((T) be) : Optional.empty();
@@ -43,14 +41,6 @@ public final class BlockEntityReference<T extends BlockEntity> {
 
     public boolean valid(BlockEntity be) {
         return compatibleType.isInstance(be);
-    }
-
-    /**
-     * @param newBlockPosTarget
-     * @apiNote
-     */
-    public void newTarget(BlockPos newBlockPosTarget) {
-        this.posRef = newBlockPosTarget;
     }
 
     /**
@@ -73,12 +63,16 @@ public final class BlockEntityReference<T extends BlockEntity> {
         return true;
     }
 
-    public void toNBT(CompoundTag pTag, HolderLookup.Provider registries) {
+    public CompoundTag toNBT(HolderLookup.Provider registries) {
+        CompoundTag tag = new CompoundTag();
+
         if (this.posRef != null)
-            pTag.put(saveTag, NbtUtils.writeBlockPos(this.posRef));
+            tag.put("reference_position", NbtUtils.writeBlockPos(this.posRef));
+
+        return tag;
     }
 
-    public void fromNBT(CompoundTag pTag) {
-        NbtUtils.readBlockPos(pTag, saveTag).ifPresent(pos -> posRef = pos);
+    public void fromNBT(CompoundTag pTag, HolderLookup.Provider registries) {
+        NbtUtils.readBlockPos(pTag, "reference_position").ifPresent(pos -> posRef = pos);
     }
 }
