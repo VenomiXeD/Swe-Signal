@@ -40,6 +40,7 @@ public class BlockEntity5CombinedSignal extends BlockEntitySwedishSignal<ICombin
     protected VariantData constructVariantData() {
         VariantData variants = super.constructVariantData();
         variants.addVariantOptionRight(new VariantData.VariantOption("gantry", Component.translatable("screens.extended_signals_se.modelconfig.main_signal.gantry"), () -> SwedenModels.SIGNAL_5L_GANTRY));
+        variants.addVariantOptionRight(new VariantData.VariantOption("gantry", Component.translatable("screens.extended_signals_se.modelconfig.main_signal.pole"), () -> SwedenModels.SIGNAL_5L_POLE));
         return variants;
     }
 

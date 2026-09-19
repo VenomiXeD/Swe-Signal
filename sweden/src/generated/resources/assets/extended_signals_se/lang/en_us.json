@@ -20,5 +20,6 @@
   "item.extended_signals_se.incomplete_crossing": "Incomplete Crossing",
   "item.extended_signals_se.incomplete_signal": "Incomplete Signal",
   "itemGroup.extended_signals_se.extended_signals_se": "Extended Signals Se",
-  "screens.extended_signals_se.modelconfig.crossbuck.2_tracks": ">1 Track(s)"
+  "screens.extended_signals_se.modelconfig.crossbuck.2_tracks": ">1 Track(s)",
+  "screens.extended_signals_se.modelconfig.main_signal.pole": "Pole"
 }

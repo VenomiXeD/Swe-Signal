@@ -37,6 +37,7 @@ public class BlockEntity3MainSignal extends BlockEntitySwedishSignal<IMainSignal
     protected VariantData constructVariantData() {
         VariantData variants = super.constructVariantData();
         variants.addVariantOptionRight(new VariantData.VariantOption("gantry", Component.translatable("screens.extended_signals_se.modelconfig.main_signal.gantry"), () -> SwedenModels.SIGNAL_3L_GANTRY));
+        variants.addVariantOptionRight(new VariantData.VariantOption("gantry", Component.translatable("screens.extended_signals_se.modelconfig.main_signal.pole"), () -> SwedenModels.SIGNAL_3L_POLE));
         return variants;
     }
 
