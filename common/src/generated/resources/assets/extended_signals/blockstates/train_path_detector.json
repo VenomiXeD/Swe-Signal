@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "minecraft:iron_block"
+      "model": "extended_signals:block/train_path_detector"
     }
   }
 }

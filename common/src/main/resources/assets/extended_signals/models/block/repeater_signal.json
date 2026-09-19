@@ -5,6 +5,7 @@
     64,
     64
   ],
+  "parent": "minecraft:block/cube_all",
   "textures": {
     "1": "extended_signals:block/repeater_signal",
     "particle": "spruce_planks"

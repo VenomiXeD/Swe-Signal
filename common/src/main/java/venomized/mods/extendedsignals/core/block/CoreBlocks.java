@@ -24,9 +24,9 @@ public final class CoreBlocks {
     public static final BlockEntry<BlockCrossingController> CROSSING_CONTROLLER = registrate()
             .block("crossing_controller", BlockCrossingController::new)
             .lang("Remote Redstone Interface")
-            .blockstate((ctx, prov) -> {
-                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
-            })
+            // .blockstate((ctx, prov) -> {
+            //     prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
+            // })
             .simpleItem()
             .register();
 
@@ -43,9 +43,9 @@ public final class CoreBlocks {
             .block("repeater_signal", BlockRepeaterCreateSignal::new)
             .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
             .lang("Distant/Repeater Signal")
-            .blockstate((ctx, prov) -> {
-                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
-            })
+            // .blockstate((ctx, prov) -> {
+            //     prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
+            // })
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.REPEATER))
             .build()
             .register();
@@ -73,9 +73,9 @@ public final class CoreBlocks {
     public static final BlockEntry<BlockPathTrainDetector> PATH_TRAIN_DETECTOR = registrate()
             .block("train_path_detector", BlockPathTrainDetector::new)
             .lang("Train Scout Observer")
-            .blockstate((ctx, prov) -> {
-                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
-            })
+            // .blockstate((ctx, prov) -> {
+            //     prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
+            // })
             .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.PATH_TRAIN_DETECTOR))
             .build()

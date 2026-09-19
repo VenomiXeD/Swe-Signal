@@ -12,7 +12,7 @@
   "screens.extended_signals_se.modelconfig.main_signal.gantry": "Gantry",
   "screens.extended_signals_se.modelconfig.crossbuck.2_tracks": ">1 Track(s)",
   "screens.extended_signals_se.modelconfig.main_signal.pole": "Pole",
-  "block.extended_signals_se.se.base": "(Swedish) base",
+  "block.extended_signals_se.se.base": "Railway Crossing Gate",
   "block.extended_signals_se.se.continued_driving_permission": "Continued Driving Permission Sign",
   "block.extended_signals_se.se.crossbucks_modern": "Crossbucks",
   "block.extended_signals_se.se.crossing_distant_signal_modern": "Distant Crossing Signal",
