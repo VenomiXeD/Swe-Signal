@@ -1,12 +1,9 @@
 {
-  "block.extended_signals.repeater_signal": "Repeater Signal",
   "block.extended_signals.speed_modifier": "Speed Modifier",
-  "block.extended_signals.train_path_detector": "Train Path Detector",
   "block.extended_signals.atc_controller": "Atc Controller",
-  "block.extended_signals.crossing_controller": "Crossing Controller",
   "block.extended_signals.train_config": "Train Config",
   "item.extended_signals.signalitem": "Programming Unit",
-  "itemGroup.extended_signals.extended_signals": "Extended Signals",
+  "itemGroup.extended_signals.extended_signals": "Extended Signals - Core",
   "message.extendedsignals.createsignal.interact.chaining": "Chaining disabled: %s",
   "message.extendedsignals.blockentitysignal.bind.success": "Signal successfully bound: %s",
   "message.extendedsignals.blockentitysignal.disconnect.success": "Signal successfully disconnected",
@@ -63,5 +60,14 @@
   "extended_signals.schedule.instruction.door": "Close doors",
   "train_map.extended_signals.signal.is_main": "Main Signal: %s",
   "train_map.extended_signals.signal.is_main.true": "Yes",
-  "train_map.extended_signals.signal.is_main.false": "No"
+  "train_map.extended_signals.signal.is_main.false": "No",
+  "screens.extended_signals_de.pointconfig.trigger.label": "Self-trigger",
+  "screens.extended_signals_de.pointconfig.trigger.tooltip": "If enabled, will apply the modifier directly when a train rolls over it",
+  "block.extended_signals.crossing_controller": "Remote Redstone Interface",
+  "block.extended_signals.line_speed_modifier": "Line Speed Modifier",
+  "block.extended_signals.local_speed_modifier": "Local Speed Modifier",
+  "block.extended_signals.path_identifier": "Path Label Identifier",
+  "block.extended_signals.repeater_signal": "Distant/Repeater Signal",
+  "block.extended_signals.steam_muffler": "Steam Muffler",
+  "block.extended_signals.train_path_detector": "Train Scout Observer"
 }

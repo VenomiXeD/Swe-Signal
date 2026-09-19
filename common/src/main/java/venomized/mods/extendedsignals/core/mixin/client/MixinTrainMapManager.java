@@ -144,6 +144,9 @@ public abstract class MixinTrainMapManager {
                                         Component.translatable("train_map.extended_signals.signal.is_main.true").getString() : Component.translatable("train_map.extended_signals.signal.is_main.false").getString())
                 )
         );
+        if (!signalNode.isMainSignal(side)) {
+            return;
+        }
         text.add(Component.literal("    ".repeat(depth)).append(Component.translatable("train_map.extended_signals.signal.direction", side ? "Positive " : "Negative")));
         text.add(Component.literal("    ".repeat(depth)).append(Component.translatable("train_map.extended_signals.signal.state", state.isStop() ? "Stop" : "Proceed")));
         if (state.isProceed()) {

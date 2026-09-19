@@ -33,6 +33,7 @@ public abstract class BlockEntityPointModifier<T extends TrackEdgePoint> extends
         PointModifierProperties defaultProperties = new PointModifierProperties();
         defaultProperties.addProperty("discard", new BoolProperty(Component.translatable("screens.extended_signals_de.pointconfig.discard.label"), Component.translatable("screens.extended_signals_de.pointconfig.discard.tooltip")));
         defaultProperties.addProperty("forced", new BoolProperty(Component.translatable("screens.extended_signals_de.pointconfig.forced.label"), Component.translatable("screens.extended_signals_de.pointconfig.forced.tooltip")));
+        defaultProperties.addProperty("self_trigger", new BoolProperty(Component.translatable("screens.extended_signals_de.pointconfig.trigger.label"), Component.translatable("screens.extended_signals_de.pointconfig.trigger.tooltip")));
 
         attachProperties(defaultProperties);
 
@@ -45,6 +46,8 @@ public abstract class BlockEntityPointModifier<T extends TrackEdgePoint> extends
         if (edgePoint.getEdgePoint() instanceof IConfigurableEdgePoint point) {
             point.refreshPointProperties(getProperties());
         }
+        this.sendData();
+        this.setChanged();
     }
 
     protected abstract EdgePointType<T> edgePointType();

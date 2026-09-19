@@ -29,6 +29,18 @@ public interface ISignalAspect {
         public int argb() {
             return 0xFF000000 | color;
         }
+
+        public int r() {
+            return color >> 16 & 0xFF;
+        }
+
+        public int g() {
+            return color >> 8 & 0xFF;
+        }
+
+        public int b() {
+            return color & 0xFF;
+        }
     }
 
     static boolean blink(float seconds, float blinkRate, float dutyCycle) {

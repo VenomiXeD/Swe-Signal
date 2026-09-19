@@ -80,7 +80,7 @@ public class RegistrateHelper {
         // .build();
     }
 
-    public static <T extends Block> BlockBuilder<T, Registrate> genericCustomModelledBlock(Registrate registrateInstance, String nation, String assetType, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
+    public static <T extends Block> BlockBuilder<T, Registrate> modelledBlock(Registrate registrateInstance, String nation, String assetType, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
         String properName = name.replaceAll("(\\d+)l", "$1 Light")
                 .replaceAll("_post_(\\d+)_?", " (Post $1)")
                 .replace('_', ' ');
@@ -119,7 +119,7 @@ public class RegistrateHelper {
 
     //}
 
-    public static <T extends BlockModelled> BlockBuilder<T, Registrate> genericCustomModelledBlock(Registrate registrateInstance, String nation, String assetType, String name, Function<Supplier<BiFunction<BlockPos, BlockState, BlockEntity>>, NonNullFunction<BlockBehaviour.Properties, T>> blockFactory, BlockEntityBuilder.BlockEntityFactory<? extends ModelBlockEntity> blockEntityFactory) {
+    public static <T extends BlockModelled> BlockBuilder<T, Registrate> modelledBlock(Registrate registrateInstance, String nation, String assetType, String name, Function<Supplier<BiFunction<BlockPos, BlockState, BlockEntity>>, NonNullFunction<BlockBehaviour.Properties, T>> blockFactory, BlockEntityBuilder.BlockEntityFactory<? extends ModelBlockEntity> blockEntityFactory) {
         String properName = name.replaceAll("(\\d+)l", "$1 Light")
                 .replaceAll("_post_(\\d+)_?", " (Post $1)")
                 .replace('_', ' ');

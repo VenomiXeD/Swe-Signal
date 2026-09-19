@@ -21,13 +21,13 @@ public class Events {
 
     @SubscribeEvent
     public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent e) {
-        if (!(e.getEntity() instanceof ServerPlayer serverPlayer)) return;
+        if (e.getEntity() instanceof ServerPlayer serverPlayer && !e.getEntity().level().isClientSide()) {
+            ClientBoundSyncSignalStatesPacket syncPacket = new ClientBoundSyncSignalStatesPacket(
+                    ExtendedSignals.serverNetworkCache().signalStates()
+            );
 
-        ClientBoundSyncSignalStatesPacket syncPacket = new ClientBoundSyncSignalStatesPacket(
-                ExtendedSignals.serverNetworkCache().signalStates()
-        );
-
-        PacketDistributor.sendToPlayer(serverPlayer, syncPacket);
+            PacketDistributor.sendToPlayer(serverPlayer, syncPacket);
+        }
     }
 
     @SubscribeEvent

@@ -1,5 +1,6 @@
 package venomized.mods.extendedsignals.core.create.tracks.points;
 
+import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,9 +8,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import org.apache.commons.lang3.math.NumberUtils;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
+import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.core.util.TrainHelp;
 
-public class LineSpeedModifier extends TrackEdgePointSignalModifier<LineSpeedModifier> implements IConfigurableEdgePoint {
+import java.util.List;
+
+public class LineSpeedModifier extends TrackEdgePointSignalModifier<LineSpeedModifier> implements IConfigurableEdgePoint, ITrainSpeedModifier {
     @Getter
     @Setter
     private float speedModifierKph;
@@ -59,5 +64,16 @@ public class LineSpeedModifier extends TrackEdgePointSignalModifier<LineSpeedMod
     public void read(CompoundTag nbt, HolderLookup.Provider registries, boolean migration, DimensionPalette dimensions) {
         super.read(nbt, registries, migration, dimensions);
         speedModifierKph = nbt.getFloat("line_speed");
+    }
+
+    /**
+     * @param front
+     * @param points
+     * @param train
+     */
+    @Override
+    public void applySpeed(boolean front, List<CollectedEdgePoint> points, Train train) {
+        if (selfTrigger && onAction(front, points, train) == ModifierAction.APPLY)
+            train.throttle = TrainHelp.trainSpeedPercentFromKph(speedModifierKph, train, train.manualTick);
     }
 }

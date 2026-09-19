@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
 import venomized.mods.extendedsignals.core.create.tracks.ISignalStateEvaluator;
 import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
 import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
@@ -32,6 +33,7 @@ import venomized.mods.extendedsignals.core.network.packets.ClientBoundUpdateMain
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.TrainHelp;
 
+import java.util.List;
 import java.util.UUID;
 
 @Mixin(value = SignalBoundary.class, remap = false)
@@ -173,10 +175,11 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
 
     /**
      * @param front
+     * @param points
      * @param train
      */
     @Override
-    public void applySpeed(boolean front, Train train) {
+    public void applySpeed(boolean front, List<CollectedEdgePoint> points, Train train) {
         if (isMainSignal(front))
             train.throttle = TrainHelp.trainSpeedPercentFromKph(currentSignalState(front).getMaxProceedSpeed(), train, train.manualTick);
     }

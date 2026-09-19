@@ -7,7 +7,7 @@ import venomized.mods.extendedsignals.nl.ExtendedSignalsNetherlands;
 
 public final class NetherlandBlocks {
     public static BlockEntry<BlockGate> CROSSING_GATE = RegistrateHelper
-            .genericCustomModelledBlock(registrate(), "nl", "crossings", "gate", BlockGate::new)
+            .modelledBlock(registrate(), "nl", "crossings", "gate", BlockGate::new)
             .lang("Crossing Gate")
             .register();
 

@@ -9,6 +9,6 @@
   "loader": "neoforge:obj",
   "model": "extended_signals:models/block/light.obj",
   "textures": {
-    "light": "extended_signals:block/light"
+    "light": "extended_signals:block/light_1"
   }
 }

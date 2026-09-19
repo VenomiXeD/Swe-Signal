@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.core;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.graph.TrackGraph;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.createmod.catnip.data.Couple;
@@ -18,6 +19,7 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -26,7 +28,7 @@ import java.util.UUID;
 public class ServerSignalNetworkCache extends SavedData implements ISignalNetwork {
     private static final String NAME = "extended_signals_signal_mapping_data";
 
-    private final Object2ObjectMap<UUID, Couple<SignalStateNode>> signalEdgeStateMapping = new Object2ObjectOpenHashMap<>();
+    private final Map<UUID, Couple<SignalStateNode>> signalEdgeStateMapping = new Object2ObjectOpenHashMap<>();
 
     public static ServerSignalNetworkCache get(final MinecraftServer server) {
         ExtendedSignals.LOGGER.info("Extended Signals is loading signal data...");
@@ -84,7 +86,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
      * @return
      */
     @Override
-    public Object2ObjectMap<UUID, Couple<SignalStateNode>> signalStates() {
+    public Map<UUID, Couple<SignalStateNode>> signalStates() {
         return this.signalEdgeStateMapping;
     }
 

@@ -24,6 +24,10 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
 
     @Getter
     @Setter
+    protected boolean selfTrigger;
+
+    @Getter
+    @Setter
     protected String pathIdentifierActivationPattern = "";
 
     public boolean isAligned(boolean primary) {
@@ -40,6 +44,7 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
         super.write(nbt, registries, dimensions);
         nbt.putBoolean("discard", discardMode);
         nbt.putBoolean("forced", forcedMode);
+        nbt.putBoolean("self_trigger", selfTrigger);
         nbt.putString("path_key", pathIdentifierActivationPattern);
     }
 
@@ -66,6 +71,7 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
         super.read(nbt, registries, migration, dimensions);
         discardMode = nbt.getBoolean("discard");
         forcedMode = nbt.getBoolean("forced");
+        selfTrigger = nbt.getBoolean("self_trigger");
         pathIdentifierActivationPattern = nbt.getString("path_key");
     }
 
@@ -73,6 +79,7 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
     public void refreshPointProperties(PointModifierProperties properties) {
         discardMode = (boolean) properties.getProperty("discard").getValue();
         forcedMode = (boolean) properties.getProperty("forced").getValue();
+        selfTrigger = (boolean) properties.getProperty("self_trigger").getValue();
         pathIdentifierActivationPattern = (String) properties.getProperty("path_key").getValue();
     }
 

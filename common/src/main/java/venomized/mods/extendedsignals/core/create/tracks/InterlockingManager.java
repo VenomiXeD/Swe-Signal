@@ -17,9 +17,11 @@ public class InterlockingManager {
     public static final Map<UUID, InterlockedSignalReservation> groupOwnerships = new Object2ObjectLinkedOpenHashMap<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(InterlockingManager.class);
 
-    public static void flushReservations() {
+    public static int flushReservations() {
         // LOGGER.info("Clearing {} reservation entries", groupOwnerships.size());
+        int size = groupOwnerships.size();
         groupOwnerships.clear();
+        return size;
     }
 
     public static ReservationResult tryReserveChain(Train train, Map<UUID, Pair<SignalBoundary, Boolean>> groups) {

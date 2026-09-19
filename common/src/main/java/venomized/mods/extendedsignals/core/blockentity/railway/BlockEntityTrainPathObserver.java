@@ -9,6 +9,7 @@ import com.simibubi.create.foundation.blockEntity.behaviour.CenteredSideValueBox
 import com.simibubi.create.foundation.blockEntity.behaviour.scrollValue.ScrollValueBehaviour;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -45,7 +46,7 @@ public class BlockEntityTrainPathObserver extends SmartBlockEntity implements IS
                 Component.translatable("setting.extendedsignals.pathtraindetector.distance"), this,
                 new CenteredSideValueBoxTransform((s, d) -> true)
         );
-        pathDistanceScrollValue.between(1, (int) ExtendedSignalsConfig.SERVER.defaultScanDistance.get().doubleValue());
+        pathDistanceScrollValue.between(0, Mth.ceil(ExtendedSignalsConfig.SERVER.defaultScanDistance.get().doubleValue() / 10d));
         pathDistanceScrollValue.withCallback(this::pathDetectionRangeChanged);
         behaviours.add(pathDistanceScrollValue);
     }
@@ -80,7 +81,7 @@ public class BlockEntityTrainPathObserver extends SmartBlockEntity implements IS
     }
 
     private void pathDetectionRangeChanged(int val) {
-        pathTrainDetector.getEdgePoint().triggerDistance = val;
+        pathTrainDetector.getEdgePoint().triggerDistance = val * 10;
     }
 
     /**

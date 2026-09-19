@@ -99,10 +99,10 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                     if (e.modifier().onAction(front, ((INavigation) navigation).extendedSignals$currentScoutedEdgePoints(), (Train) (Object) this) == ISignalStateModifier.ModifierAction.APPLY)
                         e.modifier().applyModifier(signalState);
                 });
-                if (trackEdgePoint instanceof ITrainSpeedModifier speedPoint) {
-                    speedPoint.applySpeed(front, ((Train) (Object) this));
-                }
-                throttle = TrainHelp.trainSpeedPercentFromKph(signalState.getMaxProceedSpeed(), (Train) (Object) this, manualTick);
+            }
+
+            if (trackEdgePoint instanceof ITrainSpeedModifier speedPoint) {
+                speedPoint.applySpeed(front, ((INavigation) navigation).extendedSignals$currentScoutedEdgePoints(), ((Train) (Object) this));
             }
 
             if (trackEdgePoint instanceof IExtendedEdgePoint<?> signalBoundary) {

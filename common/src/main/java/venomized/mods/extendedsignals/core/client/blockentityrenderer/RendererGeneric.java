@@ -4,17 +4,20 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.render.CachedBuffers;
+import net.createmod.catnip.render.SpriteShiftEntry;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
@@ -75,11 +78,18 @@ public class RendererGeneric<T extends BlockEntity> implements BlockEntityRender
         //         15728880,
         //         packedOverlay
         // );
+
+        // renderer.renderModel(
+        //         poseStack.last(),
+        //         bufferSource.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)),
+        //         blockEntity.getBlockState(),
+        //         ExtendedSignalsCoreModels.LIGHT_MODEL.get(),
+        //         r, g, b, packedLight, 0, ModelData.EMPTY, RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)
+        //         );
         CachedBuffers.partial(ExtendedSignalsCoreModels.LIGHT_MODEL, blockEntity.getBlockState())
-                .color(r, g, b, 255)
-                .overlay(packedOverlay)
                 .disableDiffuse()
-                .light(0xFFFFFFFF)
+                .useLevelLight(blockEntity.getLevel())
+                .color(r, g, b, 255)
                 .renderInto(
                         poseStack,
                         bufferSource.getBuffer(RenderType.beaconBeam(SignalRendererHelper.SIGNAL_LIGHT_TEX_LOC, true)
@@ -106,7 +116,8 @@ public class RendererGeneric<T extends BlockEntity> implements BlockEntityRender
                         .light(packedLight)
                         .overlay(packedOverlay)
                         .renderInto(poseStack, bufferSource.getBuffer(RenderType.cutoutMipped()));
-                return;
+                if (!configurableModelBlockEntity.variantData().isDisplayBlockModel())
+                    return;
             }
         }
         CachedBuffers.block(CachedBuffers.GENERIC_BLOCK, blockEntity.getBlockState())
@@ -162,7 +173,7 @@ public class RendererGeneric<T extends BlockEntity> implements BlockEntityRender
         renderSelfBlock();
     }
 
-    protected void renderUVMappedTexturedDisplay(Vector3f topLeft, Vector3f bottomRight, ResourceLocation texture, SpriteUV spriteUV, boolean lit) {
+    protected void renderUVMappedTexturedDisplay(Vector3f topLeft, Vector3f bottomRight, SpriteUV spriteUV, boolean lit) {
         Vector3f bottomLeft = new Vector3f(topLeft.x(), bottomRight.y(), topLeft.z());
         Vector3f topRight = new Vector3f(bottomRight.x(), topLeft.y(), topLeft.z());
         Vector3f horizontal = new Vector3f(topRight).sub(topLeft);
@@ -170,8 +181,8 @@ public class RendererGeneric<T extends BlockEntity> implements BlockEntityRender
         Vector3f normal = horizontal.cross(vertical).normalize();
 
         VertexConsumer consumer = lit ?
-                bufferSource.getBuffer(RenderType.beaconBeam(texture, true)) :
-                bufferSource.getBuffer(RenderType.entityCutoutNoCull(texture));
+                bufferSource.getBuffer(RenderType.beaconBeam(spriteUV.texture(), true)) :
+                bufferSource.getBuffer(RenderType.entityCutoutNoCull(spriteUV.texture()));
 
         poseStack.pushPose();
         poseStack.translate(0.5f, 0, .5f);
@@ -201,5 +212,16 @@ public class RendererGeneric<T extends BlockEntity> implements BlockEntityRender
                 .setNormal(normal.x(), normal.y(), normal.z());
 
         poseStack.popPose();
+    }
+
+    protected void quickRenderPartialModel(PartialModel partialModel, float xOffset, float yOffset, float zOffset) {
+        CachedBuffers.partial(partialModel, blockEntity.getBlockState())
+                .translate(xOffset, yOffset, zOffset)
+                .useLevelLight(blockEntity.getLevel())
+                .renderInto(poseStack, bufferSource.getBuffer(RenderType.cutoutMipped()));
+    }
+
+    protected void quickRenderPartialModel(PartialModel partialModel) {
+        quickRenderPartialModel(partialModel, 0, 0, 0);
     }
 }

@@ -31,12 +31,7 @@ public class SignalContainer {
     }
 
     public SignalLight keyedLight(String lightNameKey) {
-        SignalLight light = lights.get(lightNameKey);
-        if (light == null) {
-            ExtendedSignals.LOGGER.error("Attempted to get light with key [{}], but is not a part of the Block Entity. Something is wrong here...", lightNameKey);
-            return null;
-        }
-        return light;
+        return lights.get(lightNameKey);
     }
 
     public void powered(String lightNameKey) {
@@ -53,8 +48,18 @@ public class SignalContainer {
 
     @OnlyIn(Dist.CLIENT)
     public void renderFrameEnd() {
-        powered.forEach(lightNameKey -> keyedLight(lightNameKey).getState().setLit(true));
-        unpowered.forEach(lightNameKey -> keyedLight(lightNameKey).getState().setLit(false));
+        powered.forEach(lightNameKey -> {
+            SignalLight l = keyedLight(lightNameKey);
+            if (l == null)
+                return;
+            l.getState().setLit(true);
+        });
+        unpowered.forEach(lightNameKey -> {
+            SignalLight l = keyedLight(lightNameKey);
+            if (l == null)
+                return;
+            l.getState().setLit(false);
+        });
     }
 
     public Collection<SignalLight> allLights() {

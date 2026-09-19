@@ -17,7 +17,7 @@ public class ClientSignalNetworkCache implements ISignalNetwork {
      * @return
      */
     @Override
-    public Object2ObjectMap<UUID, Couple<SignalStateNode>> signalStates() {
+    public Map<UUID, Couple<SignalStateNode>> signalStates() {
         return this.signalEdgeStateMapping;
     }
 

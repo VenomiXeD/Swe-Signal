@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IExtendedEdgePoint<PathTrainDetector> {
-    public int triggerDistance = 512;
+    public int triggerDistance = 50;
     private boolean trainInbound = false;
 
     /**

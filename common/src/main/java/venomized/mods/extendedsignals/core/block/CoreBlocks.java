@@ -23,6 +23,10 @@ public final class CoreBlocks {
     // public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SwSignal.MOD_ID);
     public static final BlockEntry<BlockCrossingController> CROSSING_CONTROLLER = registrate()
             .block("crossing_controller", BlockCrossingController::new)
+            .lang("Remote Redstone Interface")
+            .blockstate((ctx, prov) -> {
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
+            })
             .simpleItem()
             .register();
 
@@ -38,14 +42,19 @@ public final class CoreBlocks {
     public static final BlockEntry<BlockRepeaterCreateSignal> REPEATER_SIGNAL = registrate()
             .block("repeater_signal", BlockRepeaterCreateSignal::new)
             .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
+            .lang("Distant/Repeater Signal")
+            .blockstate((ctx, prov) -> {
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
+            })
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.REPEATER))
             .build()
             .register();
     public static final BlockEntry<BlockLocalSpeedModifier> LOCAL_SPEED_MODIFIER = registrate()
             .block("local_speed_modifier", BlockLocalSpeedModifier::new)
             .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
+            .lang("Local Speed Modifier")
             .blockstate((ctx, prov) -> {
-                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
             })
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.LOCAL_SPEED_MODIFIER))
             .build()
@@ -54,14 +63,19 @@ public final class CoreBlocks {
     public static final BlockEntry<BlockLineSpeedModifier> LINE_SPEED_MODIFIER = registrate()
             .block("line_speed_modifier", BlockLineSpeedModifier::new)
             .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
+            .lang("Line Speed Modifier")
             .blockstate((ctx, prov) -> {
-                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("stone"));
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
             })
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.LINE_SPEED_MODIFIER))
             .build()
             .register();
     public static final BlockEntry<BlockPathTrainDetector> PATH_TRAIN_DETECTOR = registrate()
             .block("train_path_detector", BlockPathTrainDetector::new)
+            .lang("Train Scout Observer")
+            .blockstate((ctx, prov) -> {
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
+            })
             .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.PATH_TRAIN_DETECTOR))
             .build()
@@ -70,12 +84,20 @@ public final class CoreBlocks {
     public static final BlockEntry<BlockPathIdentifier> PATH_IDENTIFIER = registrate()
             .block("path_identifier", BlockPathIdentifier::new)
             .properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
+            .lang("Path Label Identifier")
+            .blockstate((ctx, prov) -> {
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
+            })
             .item(TrackTargetingBlockItem.ofType(CoreEdgePoints.PATH_IDENTIFIER))
             .build()
             .register();
 
     public static final BlockEntry<BlockSteamMuffler> STEAM_MUFFLER = registrate()
             .block("steam_muffler", BlockSteamMuffler::new)
+            .lang("Steam Muffler")
+            .blockstate((ctx, prov) -> {
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
+            })
             .simpleItem()
             .register();
 

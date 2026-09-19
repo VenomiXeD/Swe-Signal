@@ -21,6 +21,6 @@ public class BlockHVMainBlockSignal extends BlockGermanySignal {
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return GermanyBlockEntities.HV_BLOCK_SIGNAL.create(pPos, pState);
+        return GermanyBlockEntities.HVBlockEntities.HV_BLOCK_SIGNAL.create(pPos, pState);
     }
 }

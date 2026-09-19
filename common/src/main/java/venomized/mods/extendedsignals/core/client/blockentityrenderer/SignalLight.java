@@ -2,7 +2,9 @@ package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.util.Mth;
+import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.util.TrackedValue;
 
 public class SignalLight {
@@ -39,6 +41,10 @@ public class SignalLight {
     public SignalLight(double x, double y, double z, float xScale, float yScale, float zScale, int defaultRed, int defaultGreen, int defaultBlue) {
         this(x, y, z, xScale, yScale, zScale);
         withDefaultColor(defaultRed, defaultGreen, defaultBlue);
+    }
+
+    public SignalLight(double x, double y, double z, float xScale, float yScale, float zScale, ISignalAspect.RGB defaultColor) {
+        this(x, y, z, xScale, yScale, zScale, defaultColor.r(), defaultColor.g(), defaultColor.b());
     }
 
     public static SignalLight redLight(double x, double y, double z, float xScale, float yScale, float zScale) {

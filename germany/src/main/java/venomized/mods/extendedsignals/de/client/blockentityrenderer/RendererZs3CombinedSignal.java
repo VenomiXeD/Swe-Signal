@@ -10,7 +10,7 @@ import org.joml.Matrix4f;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
-import venomized.mods.extendedsignals.de.blockentity.BlockEntityHVCombinedSignal;
+import venomized.mods.extendedsignals.de.blockentity.hv.BlockEntityHVCombinedSignal;
 import venomized.mods.extendedsignals.de.client.GermanyModels;
 import venomized.mods.extendedsignals.de.signalling.HvCombinedSignalAspectCompositor;
 

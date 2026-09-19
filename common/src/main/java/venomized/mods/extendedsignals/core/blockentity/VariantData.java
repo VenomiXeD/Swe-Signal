@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.core.blockentity;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -19,6 +20,10 @@ public class VariantData {
 
     @Getter
     private final List<VariantOption> variants = new ArrayList<>();
+    @Getter
+    @Setter
+    @Accessors(chain = true)
+    private boolean displayBlockModel = false;
     @Getter
     private final List<VariantOption> checkboxOptions = new ArrayList<>();
     @Getter
