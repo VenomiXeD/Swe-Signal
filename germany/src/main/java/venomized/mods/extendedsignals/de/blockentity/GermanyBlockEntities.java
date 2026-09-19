@@ -16,7 +16,10 @@ import venomized.mods.extendedsignals.de.blockentity.ks.BlockEntityKsCombinedSig
 import venomized.mods.extendedsignals.de.blockentity.ks.BlockEntityKsDistantRepeaterSignal;
 import venomized.mods.extendedsignals.de.blockentity.ks.BlockEntityKsDistantSignal;
 import venomized.mods.extendedsignals.de.blockentity.ks.BlockEntityKsMainSignal;
-import venomized.mods.extendedsignals.de.client.blockentityrenderer.*;
+import venomized.mods.extendedsignals.de.client.blockentityrenderer.RendererCrossingLight;
+import venomized.mods.extendedsignals.de.client.blockentityrenderer.RendererHVk;
+import venomized.mods.extendedsignals.de.client.blockentityrenderer.RendererKs;
+import venomized.mods.extendedsignals.de.client.blockentityrenderer.RendererZs3CombinedSignal;
 
 public final class GermanyBlockEntities {
     // HV System

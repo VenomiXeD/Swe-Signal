@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.blockentity;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 
 import java.util.ArrayList;

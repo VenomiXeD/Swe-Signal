@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.client.blockentityrenderer;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.util.ColorRGBA;
 import net.minecraft.util.Mth;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.util.TrackedValue;

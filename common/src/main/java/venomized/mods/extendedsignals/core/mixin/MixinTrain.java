@@ -35,7 +35,6 @@ import venomized.mods.extendedsignals.core.network.packets.ClientBoundMiscTrainD
 import venomized.mods.extendedsignals.core.signalling.ShuntRequest;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.TrackedValue;
-import venomized.mods.extendedsignals.core.util.TrainHelp;
 
 import java.util.Iterator;
 import java.util.List;

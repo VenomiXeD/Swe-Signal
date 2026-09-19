@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.de.client;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
@@ -11,7 +10,7 @@ public final class GermanyModels {
     private static PartialModel model(String path) {
         return PartialModel.of(ExtendedSignalsGermany.res(path));
     }
-    
+
     public static final class HVModels {
 
         public static PartialModel HV_ZS3 = model("block/signals/de/zs3");
@@ -73,11 +72,13 @@ public final class GermanyModels {
     public static PartialModel GATE_ARM = model("block/crossings/de/gate_arm");
     public static PartialModel NE_3_2 = model("block/signs/de/ne_3_2");
     public static PartialModel NE_3_3 = model("block/signs/de/ne_3_3");
+
     public static final class Ne2Models {
         public static PartialModel WEST_REDUCED_BRAKE_DISTANCE = model("block/signs/de/ne_2_west_brake");
         public static PartialModel EAST_REDUCED_BRAKE_DISTANCE = model("block/signs/de/ne_2_east_brake");
         public static PartialModel SMALL_EAST_REDUCED_BRAKE_DISTANCE = model("block/signs/de/ne_2_small_east_brake");
         public static PartialModel SMALL_WEST_REDUCED_BRAKE_DISTANCE = model("block/signs/de/ne_2_small_west_brake");
+
         public static void init() {
         }
     }

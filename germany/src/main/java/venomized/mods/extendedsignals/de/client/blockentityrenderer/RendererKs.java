@@ -1,10 +1,7 @@
 package venomized.mods.extendedsignals.de.client.blockentityrenderer;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.util.Mth;
 import org.joml.Vector3f;
-import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
-import venomized.mods.extendedsignals.core.util.SpriteUV;
 
 public class RendererKs<T extends venomized.mods.extendedsignals.de.blockentity.ks.BlockEntityKs<?>> extends RendererZs3Zs3vCapableSignal<T> {
     public RendererKs(BlockEntityRendererProvider.Context context) {

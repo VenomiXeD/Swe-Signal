@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.de.block.BlockGermanySignal;
-import venomized.mods.extendedsignals.de.block.GermanyBlocks;
 import venomized.mods.extendedsignals.de.blockentity.GermanyBlockEntities;
 
 public class BlockHVKDistantSignal extends BlockGermanySignal {

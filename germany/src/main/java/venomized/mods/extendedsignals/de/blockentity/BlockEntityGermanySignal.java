@@ -1,11 +1,9 @@
 package venomized.mods.extendedsignals.de.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
-import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 
 public abstract class BlockEntityGermanySignal<T extends ISignalAspect> extends BlockEntitySignal<T> {

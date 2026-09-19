@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.util;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.createmod.catnip.data.Couple;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -10,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.apache.commons.lang3.mutable.MutableInt;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundSyncSignalStatesPacket;
