@@ -1,4 +1,6 @@
 {
+  "block.extended_signals_nl.nl.crossing_sign": "Crossing Gate",
   "block.extended_signals_nl.nl.gate": "Crossing Gate",
-  "itemGroup.extended_signals_nl.extended_signals_nl": "Extended Signals Nl"
+  "itemGroup.extended_signals_nl.extended_signals_nl": "Extended Signals Nl",
+  "screens.extended_signals_nl.modelconfig.crossing_sign.variant.let_op_trein": "Beware Trains"
 }

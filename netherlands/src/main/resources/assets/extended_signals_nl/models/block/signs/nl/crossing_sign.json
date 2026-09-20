@@ -2,10 +2,10 @@
   "format_version": "1.9.0",
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "Create Extended Railroad Crossings/placeholder/black",
-    "2": "Create Extended Railroad Crossings/placeholder/red",
-    "4": "Create Extended Railroad Crossings/placeholder/blinklicht_licht_off",
-    "particle": "Create Extended Railroad Crossings/placeholder/black"
+    "0": "extended_signals_nl:block/signs/nl/crossing_sign_0",
+    "2": "extended_signals_nl:block/signs/nl/red_0",
+    "4": "extended_signals_nl:block/signs/nl/plate_0",
+    "particle": "extended_signals_nl:block/signs/nl/plate_0"
   },
   "elements": [
     {
