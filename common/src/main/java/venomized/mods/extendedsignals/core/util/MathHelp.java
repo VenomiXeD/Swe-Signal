@@ -18,6 +18,16 @@ public final class MathHelp {
                 : ((float) Math.pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
     }
 
+    public static int maxOf(int... values) {
+        int max = values[0];
+        for (int value : values) {
+            if (value > max) {
+                max = value;
+            }
+        }
+        return max;
+    }
+
     public static double MsFromKph(final double kph) {
         return kph / 3.6d;
     }

@@ -11,6 +11,7 @@ import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLigh
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.de.block.GermanyBlocks;
 import venomized.mods.extendedsignals.de.client.GermanyModels;
 import venomized.mods.extendedsignals.de.signalling.HvDistantSignalAspect;
 
@@ -40,6 +41,8 @@ public class BlockEntityHVKDistantSignal extends BlockEntityHVKSignal<IDistantSi
      */
     @Override
     public PartialModel getSign() {
+        if (getBlockState().is(GermanyBlocks.HVKBlocks.HVK_REPEATER_SIGNAL))
+            return null;
         return variantData().getSelectedVariant() == 2 ? GermanyModels.HVKModels.SIGN_DISTANT : GermanyModels.HVKModels.SIGN_DISTANT_OFFSET;
     }
 

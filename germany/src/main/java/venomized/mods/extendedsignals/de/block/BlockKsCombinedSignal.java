@@ -21,6 +21,6 @@ public class BlockKsCombinedSignal extends BlockGermanySignal {
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return GermanyBlockEntities.KS_COMBINED_SIGNAL.create(pos, state);
+        return GermanyBlockEntities.KSBlockEntities.KS_COMBINED_SIGNAL.create(pos, state);
     }
 }

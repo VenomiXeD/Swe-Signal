@@ -44,5 +44,8 @@
   "block.extended_signals_de.de.hvk.block_combined": "[HVK] Block Combined Signal",
   "block.extended_signals_de.de.hvk.combined": "[HVK] Combined Signal",
   "block.extended_signals_de.de.hvk.distant": "[HVK] Distant Signal",
-  "block.extended_signals_de.de.hvk.main": "[HVK] Main Signal"
+  "block.extended_signals_de.de.hvk.main": "[HVK] Main Signal",
+  "block.extended_signals_de.de.hvk.repeater": "[HVK] Repeater Signal",
+  "screens.extended_signals_de.modelconfig.screens.textbox.number.label": "Number",
+  "screens.extended_signals_de.modelconfig.screens.textbox.number.tooltip": "Number to display"
 }

@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.de.blockentity;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererCrossingGate;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererGeneric;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
@@ -16,10 +17,9 @@ import venomized.mods.extendedsignals.de.blockentity.ks.BlockEntityKsCombinedSig
 import venomized.mods.extendedsignals.de.blockentity.ks.BlockEntityKsDistantRepeaterSignal;
 import venomized.mods.extendedsignals.de.blockentity.ks.BlockEntityKsDistantSignal;
 import venomized.mods.extendedsignals.de.blockentity.ks.BlockEntityKsMainSignal;
-import venomized.mods.extendedsignals.de.client.blockentityrenderer.RendererCrossingLight;
-import venomized.mods.extendedsignals.de.client.blockentityrenderer.RendererHVk;
-import venomized.mods.extendedsignals.de.client.blockentityrenderer.RendererKs;
-import venomized.mods.extendedsignals.de.client.blockentityrenderer.RendererZs3CombinedSignal;
+import venomized.mods.extendedsignals.de.blockentity.signs.BlockEntityLf6;
+import venomized.mods.extendedsignals.de.blockentity.signs.BlockEntityLf7;
+import venomized.mods.extendedsignals.de.client.blockentityrenderer.*;
 
 public final class GermanyBlockEntities {
     // HV System
@@ -54,7 +54,7 @@ public final class GermanyBlockEntities {
                 .register();
 
         public static BlockEntityEntry<BlockEntityHVKDistantSignal> HVK_DISTANT_SIGNAL = RegistrateHelper
-                .simpleBlockEntity(registrate(), "hvk_distant_signal", BlockEntityHVKDistantSignal::new, GermanyBlocks.HVKBlocks.HVK_DISTANT_SIGNAL)
+                .simpleBlockEntity(registrate(), "hvk_distant_signal", BlockEntityHVKDistantSignal::new, GermanyBlocks.HVKBlocks.HVK_DISTANT_SIGNAL, GermanyBlocks.HVKBlocks.HVK_REPEATER_SIGNAL)
                 .renderer(() -> RendererHVk::new)
                 .register();
 
@@ -78,26 +78,42 @@ public final class GermanyBlockEntities {
     }
 
     // KS System
-    public static BlockEntityEntry<BlockEntityKsMainSignal> KS_MAIN_SIGNAL = RegistrateHelper
-            .simpleBlockEntity(registrate(), "ks_main_signal", BlockEntityKsMainSignal::new, GermanyBlocks.KSBlocks.KS_MAIN_SIGNAL)
-            .renderer(() -> RendererKs::new)
-            .register();
+    public static final class KSBlockEntities {
+        public static BlockEntityEntry<BlockEntityKsMainSignal> KS_MAIN_SIGNAL = RegistrateHelper
+                .simpleBlockEntity(registrate(), "ks_main_signal", BlockEntityKsMainSignal::new, GermanyBlocks.KSBlocks.KS_MAIN_SIGNAL)
+                .renderer(() -> RendererKs::new)
+                .register();
+        public static BlockEntityEntry<BlockEntityKsDistantRepeaterSignal> KS_DISTANT_REPEATER_SIGNAL = RegistrateHelper
+                .simpleBlockEntity(registrate(), "ks_distant_repeater_signal", BlockEntityKsDistantRepeaterSignal::new, GermanyBlocks.KSBlocks.KS_DISTANT_REPEATER_SIGNAL)
+                .renderer(() -> RendererKs::new)
+                .register();
+        public static BlockEntityEntry<BlockEntityKsDistantSignal> KS_DISTANT_SIGNAL = RegistrateHelper
+                .simpleBlockEntity(registrate(), "ks_distant_signal", BlockEntityKsDistantSignal::new, GermanyBlocks.KSBlocks.KS_DISTANT_SIGNAL)
+                .renderer(() -> RendererKs::new)
+                .register();
+        public static BlockEntityEntry<BlockEntityKsCombinedSignal> KS_COMBINED_SIGNAL = RegistrateHelper
+                .simpleBlockEntity(registrate(), "ks_combined_signal", BlockEntityKsCombinedSignal::new, GermanyBlocks.KSBlocks.KS_COMBINED_SIGNAL)
+                .renderer(() -> RendererKs::new)
+                .register();
 
-    public static BlockEntityEntry<BlockEntityKsDistantRepeaterSignal> KS_DISTANT_REPEATER_SIGNAL = RegistrateHelper
-            .simpleBlockEntity(registrate(), "ks_distant_repeater_signal", BlockEntityKsDistantRepeaterSignal::new, GermanyBlocks.KSBlocks.KS_DISTANT_REPEATER_SIGNAL)
-            .renderer(() -> RendererKs::new)
-            .register();
+        public static void init() {
+        }
+    }
 
-    public static BlockEntityEntry<BlockEntityKsDistantSignal> KS_DISTANT_SIGNAL = RegistrateHelper
-            .simpleBlockEntity(registrate(), "ks_distant_signal", BlockEntityKsDistantSignal::new, GermanyBlocks.KSBlocks.KS_DISTANT_SIGNAL)
-            .renderer(() -> RendererKs::new)
-            .register();
+    public static final class SignBlockEntities {
+        public static BlockEntityEntry<BlockEntityLf6> SIGN_LF6 = RegistrateHelper
+                .simpleBlockEntity(registrate(), "lf_6", BlockEntityLf6::new, GermanyBlocks.SignBlocks.LF_6)
+                .renderer(() -> RendererLf::new)
+                .register();
+        public static BlockEntityEntry<BlockEntityLf7> SIGN_LF7 = RegistrateHelper
+                .simpleBlockEntity(registrate(), "lf_7", BlockEntityLf7::new, GermanyBlocks.SignBlocks.LF_7)
+                .renderer(() -> RendererLf::new)
+                .register();
 
+        public static void init() {
+        }
+    }
 
-    public static BlockEntityEntry<BlockEntityKsCombinedSignal> KS_COMBINED_SIGNAL = RegistrateHelper
-            .simpleBlockEntity(registrate(), "ks_combined_signal", BlockEntityKsCombinedSignal::new, GermanyBlocks.KSBlocks.KS_COMBINED_SIGNAL)
-            .renderer(() -> RendererKs::new)
-            .register();
 
     // Misc
     public static BlockEntityEntry<BlockEntityGate> CROSSING_GATE = RegistrateHelper
@@ -117,5 +133,7 @@ public final class GermanyBlockEntities {
     public static void init() {
         HVBlockEntities.init();
         HVKBlockEntities.init();
+        KSBlockEntities.init();
+        SignBlockEntities.init();
     }
 }

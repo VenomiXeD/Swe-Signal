@@ -1,6 +1,8 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
+import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -19,17 +21,17 @@ import java.util.function.Supplier;
 public class VariantData {
 
     @Getter
-    private final List<VariantOption> variants = new ArrayList<>();
+    private final List<VariantOption> variants = new ReferenceArrayList<>();
     @Getter
     @Setter
     @Accessors(chain = true)
     private boolean displayBlockModel = false;
     @Getter
-    private final List<VariantOption> checkboxOptions = new ArrayList<>();
+    private final List<VariantOption> checkboxOptions = new ReferenceArrayList<>();
     @Getter
-    private final List<TextBoxOption> textBoxOptions = new ArrayList<>();
+    private final List<TextBoxOption> textBoxOptions = new ReferenceArrayList<>();
     @Getter
-    private final HashMap<String, String> textBoxValues = new HashMap<>();
+    private final Map<String, String> textBoxValues = new Object2ReferenceArrayMap<>();
     @Setter
     @Getter
     private int selectedVariant = 0;

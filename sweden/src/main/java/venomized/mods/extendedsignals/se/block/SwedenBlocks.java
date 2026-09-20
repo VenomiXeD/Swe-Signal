@@ -73,26 +73,26 @@ public final class SwedenBlocks {
 
 
     public static final BlockEntry<BlockModelled> CROSSBUCKS = RegistrateHelper
-            .modelledBlock(registrate(), "se", "crossings", "crossbucks_modern", BlockModelled::withBlockEntity, BlockEntityCrossbucks::new)
+            .modelledBlock(registrate(), "se", "crossings", "crossbucks_modern", BlockModelled::modelBlockEntity, BlockEntityCrossbucks::new)
             .register();
 
     // == MISC ==
     public static final BlockEntry<BlockModelled> SIGN_CONTINUED_DRIVING_PERMISSION = RegistrateHelper
-            .modelledBlock(registrate(), "se", "signs", "continued_driving_permission", BlockModelled::withBlockEntity, ModelBlockEntity::new)
+            .modelledBlock(registrate(), "se", "signs", "continued_driving_permission", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
             .register();
 
 
     public static final BlockEntry<BlockModelled> SIGN_PLOW_RAISE = RegistrateHelper
-            .modelledBlock(registrate(), "se", "signs", "plow_raise", BlockModelled::withBlockEntity, ModelBlockEntity::new)
+            .modelledBlock(registrate(), "se", "signs", "plow_raise", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
             .register();
 
 
     public static final BlockEntry<BlockModelled> SIGN_SPEED = RegistrateHelper
-            .modelledBlock(registrate(), "se", "signs", "speed_sign", BlockModelled::withBlockEntity, ModelBlockEntity::new)
+            .modelledBlock(registrate(), "se", "signs", "speed_sign", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
             .register();
 
     public static final BlockEntry<BlockModelled> SIGN_WEIGHT = RegistrateHelper
-            .modelledBlock(registrate(), "se", "signs", "weight_signal", BlockModelled::withBlockEntity, ModelBlockEntity::new)
+            .modelledBlock(registrate(), "se", "signs", "weight_signal", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
             .register();
 
     public static final BlockEntry<BlockOnix1500TrainSound> TRAIN_SOUND_X60 = RegistrateHelper

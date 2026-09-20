@@ -20,7 +20,9 @@ public abstract class BlockEntityGermanySignal<T extends ISignalAspect> extends 
 
     public float getZs3vMatrixDisplaySpeed() {
         if (currentSignalState().isProceed() && currentSignalState().getNextState() != null && currentSignalState().getNextState().getMiscTags().containsKey("local_speed")) {
-
+            if (currentSignalState().getMaxProceedSpeed() == currentSignalState().getNextState().getMaxProceedSpeed()) {
+                return -1f;
+            }
             return currentSignalState().getMaxProceedSpeed() >= currentSignalState().getNextState().getMaxProceedSpeed() ? (float) (currentSignalState().getNextState().getMaxProceedSpeed() / 10f) : -1;
         }
         return -1;

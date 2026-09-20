@@ -8,6 +8,7 @@ import venomized.mods.extendedsignals.core.blockentity.ModelBlockEntity;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
 import venomized.mods.extendedsignals.de.block.hvk.*;
+import venomized.mods.extendedsignals.de.blockentity.GermanyBlockEntities;
 import venomized.mods.extendedsignals.de.blockentity.signs.*;
 
 public final class GermanyBlocks {
@@ -47,6 +48,12 @@ public final class GermanyBlocks {
                 .modelledBlock(
                         registrate(), "de", "signals", "hvk.distant", BlockHVKDistantSignal::new)
                 .lang("[HVK] Distant Signal")
+                .register();
+
+        public static BlockEntry<BlockHVKRepeaterSignal> HVK_REPEATER_SIGNAL = RegistrateHelper
+                .modelledBlock(
+                        registrate(), "de", "signals", "hvk.repeater", BlockHVKRepeaterSignal::new)
+                .lang("[HVK] Repeater Signal")
                 .register();
 
         public static BlockEntry<BlockHVKCombinedSignal> HVK_COMBINED_SIGNAL = RegistrateHelper
@@ -93,6 +100,48 @@ public final class GermanyBlocks {
         }
     }
 
+    public static final class SignBlocks {
+        public static BlockEntry<BlockModelled> LF_6 = RegistrateHelper
+                .quickBlockWithBlockEntityAttached(registrate(), "de", "signs", "lf_6", BlockModelled::blockEntity, () -> GermanyBlockEntities.SignBlockEntities.SIGN_LF6::create)
+                .register();
+
+        public static BlockEntry<BlockModelled> LF_7 = RegistrateHelper
+                .quickBlockWithBlockEntityAttached(registrate(), "de", "signs", "lf_7", BlockModelled::blockEntity, () -> GermanyBlockEntities.SignBlockEntities.SIGN_LF7::create)
+                .register();
+
+        public static BlockEntry<BlockModelled> NE_1 = RegistrateHelper
+                .modelledBlock(registrate(), "de", "signs", "ne_1", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
+                .lang("Auxiliary Sign [Ne 1]")
+                .register();
+        public static BlockEntry<BlockModelled> NE_2 = RegistrateHelper
+                .modelledBlock(registrate(), "de", "signs", "ne_2_west", BlockModelled::modelBlockEntity, BlockEntityNe2::new)
+                .lang("Auxiliary Sign [Ne 2]")
+                .register();
+        public static BlockEntry<BlockModelled> NE_2_SMALL = RegistrateHelper
+                .modelledBlock(registrate(), "de", "signs", "ne_2_small_west", BlockModelled::modelBlockEntity, BlockEntityNe2Small::new)
+                .lang("Auxiliary Sign [Ne 2, Small]")
+                .register();
+        public static BlockEntry<BlockModelled> NE_3 = RegistrateHelper
+                .modelledBlock(registrate(), "de", "signs", "ne_3", BlockModelled::modelBlockEntity, BlockEntityNe3::new)
+                .lang("Auxiliary Sign [Ne 3]")
+                .register();
+        public static BlockEntry<BlockModelled> NE_4 = RegistrateHelper
+                .modelledBlock(registrate(), "de", "signs", "ne_4_west", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
+                .lang("Auxiliary Sign [Ne 4]")
+                .register();
+        public static BlockEntry<BlockModelled> NE_5 = RegistrateHelper
+                .modelledBlock(registrate(), "de", "signs", "ne_5_west", BlockModelled::modelBlockEntity, BlockEntityNe5::new)
+                .lang("Auxiliary Sign [Ne 5]")
+                .register();
+        public static BlockEntry<BlockModelled> NE_5_SMALL = RegistrateHelper
+                .modelledBlock(registrate(), "de", "signs", "ne_5_small_west", BlockModelled::modelBlockEntity, BlockEntityNe5Small::new)
+                .lang("Auxiliary Sign [Ne 5, Small]")
+                .register();
+
+        public static void init() {
+        }
+    }
+
     // MISC
     public static BlockEntry<BlockGate> CROSSING_GATE = RegistrateHelper
             .modelledBlock(registrate(), "de", "crossings", "gate", BlockGate::new)
@@ -104,42 +153,6 @@ public final class GermanyBlocks {
             .lang("Railway Crossing Light")
             .register();
 
-    // Signs
-    public static BlockEntry<BlockModelled> NE_1 = RegistrateHelper
-            .modelledBlock(registrate(), "de", "signs", "ne_1", BlockModelled::withBlockEntity, ModelBlockEntity::new)
-            .lang("Auxiliary Sign [Ne 1]")
-            .register();
-
-    public static BlockEntry<BlockModelled> NE_2 = RegistrateHelper
-            .modelledBlock(registrate(), "de", "signs", "ne_2_west", BlockModelled::withBlockEntity, BlockEntityNe2::new)
-            .lang("Auxiliary Sign [Ne 2]")
-            .register();
-
-
-    public static BlockEntry<BlockModelled> NE_2_SMALL = RegistrateHelper
-            .modelledBlock(registrate(), "de", "signs", "ne_2_small_west", BlockModelled::withBlockEntity, BlockEntityNe2Small::new)
-            .lang("Auxiliary Sign [Ne 2, Small]")
-            .register();
-
-    public static BlockEntry<BlockModelled> NE_3 = RegistrateHelper
-            .modelledBlock(registrate(), "de", "signs", "ne_3", BlockModelled::withBlockEntity, BlockEntityNe3::new)
-            .lang("Auxiliary Sign [Ne 3]")
-            .register();
-
-    public static BlockEntry<BlockModelled> NE_4 = RegistrateHelper
-            .modelledBlock(registrate(), "de", "signs", "ne_4_west", BlockModelled::withBlockEntity, ModelBlockEntity::new)
-            .lang("Auxiliary Sign [Ne 4]")
-            .register();
-
-    public static BlockEntry<BlockModelled> NE_5 = RegistrateHelper
-            .modelledBlock(registrate(), "de", "signs", "ne_5_west", BlockModelled::withBlockEntity, BlockEntityNe5::new)
-            .lang("Auxiliary Sign [Ne 5]")
-            .register();
-
-    public static BlockEntry<BlockModelled> NE_5_SMALL = RegistrateHelper
-            .modelledBlock(registrate(), "de", "signs", "ne_5_small_west", BlockModelled::withBlockEntity, BlockEntityNe5Small::new)
-            .lang("Auxiliary Sign [Ne 5, Small]")
-            .register();
 
     public static Registrate registrate() {
         return ExtendedSignalsGermany.REGISTRATE.get();
@@ -149,5 +162,6 @@ public final class GermanyBlocks {
         HVKBlocks.init();
         KSBlocks.init();
         HVBlocks.init();
+        SignBlocks.init();
     }
 }

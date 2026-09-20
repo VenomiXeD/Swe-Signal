@@ -7,6 +7,7 @@ import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import com.tterrag.registrate.util.nullness.NonNullBiFunction;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.core.BlockPos;
@@ -150,6 +151,28 @@ public class RegistrateHelper {
         // .build();
     }
 
+    public static <T extends BlockModelled, E extends BlockEntity> BlockBuilder<T, Registrate> quickBlockWithBlockEntityAttached(Registrate registrateInstance, String nation, String assetType, String name, Function<Supplier<BiFunction<BlockPos, BlockState, E>>, NonNullFunction<BlockBehaviour.Properties, T>> blockFactory, Supplier<NonNullBiFunction<BlockPos, BlockState, E>> blockEntityCreator) {
+        String properName = name.replaceAll("(\\d+)l", "$1 Light")
+                .replaceAll("_post_(\\d+)_?", " (Post $1)")
+                .replace('_', ' ');
+
+        BlockBuilder<T, Registrate> block = registrateInstance
+                .block("%s.%s".formatted(nation, name), blockFactory.apply(blockEntityCreator::get))
+                .lang("(%s) %s".formatted(ExtendedSignalsLang.fromISO639_1(nation), properName))
+                .properties(prop -> BlockBehaviour.Properties.of()
+                        .destroyTime(1f))
+                .blockstate(customBlockModelProvider(assetType, nation, name))
+                .item()
+                .model(modelLocator(assetType, nation, name))
+                .build();
+
+
+        return block;
+        // .item()
+        // .model(modelLocator(assetType, nation, name))
+        // .build();
+    }
+
     private static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateBlockstateProvider> customBlockModelProvider(final String assetType, final String nation, final String name) {
         return (blockTDataGenContext, registrateBlockstateProvider) -> {
             //if (blockTDataGenContext.get() instanceof Sw45DegreeBlock) {
@@ -193,7 +216,8 @@ public class RegistrateHelper {
         };
     }
 
-    public static <T extends BlockEntity> BlockEntityBuilder<T, Registrate> simpleBlockEntity(Registrate registrateInstance, String beName, BlockEntityBuilder.BlockEntityFactory<T> beFactory, NonNullSupplier<? extends Block> validBlock) {
+    @SafeVarargs
+    public static <T extends BlockEntity> BlockEntityBuilder<T, Registrate> simpleBlockEntity(Registrate registrateInstance, String beName, BlockEntityBuilder.BlockEntityFactory<T> beFactory, NonNullSupplier<? extends Block>... validBlock) {
         return registrateInstance
                 .blockEntity(beName, beFactory)
                 .validBlocks(validBlock);

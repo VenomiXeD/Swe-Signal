@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
@@ -54,9 +55,10 @@ public class RendererZs3CombinedSignal extends RendererSignal<BlockEntityHVCombi
 
     /**
      * @param aspect
+     * @param signalLights
      */
     @Override
-    public void renderAdditionalSignals(ISignalAspect aspect) {
+    public void renderAdditionalSignals(ISignalAspect aspect, SignalContainer signalLights) {
         poseStack.pushPose();
         poseStack.translate(0.5f, 0, 0.5f);
         renderZs3((HvCombinedSignalAspectCompositor) aspect);

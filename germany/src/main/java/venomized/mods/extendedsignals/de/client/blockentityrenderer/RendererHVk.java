@@ -3,6 +3,9 @@ package venomized.mods.extendedsignals.de.client.blockentityrenderer;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import org.joml.Vector3f;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
+import venomized.mods.extendedsignals.de.block.GermanyBlocks;
 import venomized.mods.extendedsignals.de.blockentity.hvk.BlockEntityHVKBlockCombinedSignal;
 import venomized.mods.extendedsignals.de.blockentity.hvk.BlockEntityHVKCombinedSignal;
 import venomized.mods.extendedsignals.de.blockentity.hvk.BlockEntityHVKSignal;
@@ -34,7 +37,7 @@ public class RendererHVk<T extends BlockEntityHVKSignal<?>> extends RendererZs3Z
      */
     @Override
     protected Vector3f metalZs3vCorner1() {
-        return new Vector3f(2.25f / 16f, 74f / 16f + getYOffset(), -14.1f / 16f);
+        return new Vector3f(2.25f / 16f, 74f / 16f, -14.1f / 16f);
     }
 
     /**
@@ -42,7 +45,7 @@ public class RendererHVk<T extends BlockEntityHVKSignal<?>> extends RendererZs3Z
      */
     @Override
     protected Vector3f metalZs3vCorner0() {
-        return new Vector3f(-2.25f / 16f, 67.75f / 16f + getYOffset(), -14.1f / 16f);
+        return new Vector3f(-2.25f / 16f, 67.75f / 16f, -14.1f / 16f);
     }
 
     /**
@@ -50,7 +53,7 @@ public class RendererHVk<T extends BlockEntityHVKSignal<?>> extends RendererZs3Z
      */
     @Override
     protected Vector3f matrixZs3Corner0() {
-        return new Vector3f(3f / 16f, 110f / 16f, -8.4f / 16f);
+        return new Vector3f(3f / 16f, 110f / 16f + getYOffset(), -8.4f / 16f);
     }
 
     /**
@@ -58,7 +61,7 @@ public class RendererHVk<T extends BlockEntityHVKSignal<?>> extends RendererZs3Z
      */
     @Override
     protected Vector3f matrixZs3Corner1() {
-        return new Vector3f(-3f / 16f, 103f / 16f, -8.4f / 16f);
+        return new Vector3f(-3f / 16f, 103f / 16f + getYOffset(), -8.4f / 16f);
     }
 
     /**
@@ -91,8 +94,9 @@ public class RendererHVk<T extends BlockEntityHVKSignal<?>> extends RendererZs3Z
             case 4 -> 17.5f; // 1.0 right
             default -> 0f;
         };
-        quickRenderPartialModel(signalTypeIdentifierPlate, offset / 16f, 0, 0);
-
+        if (signalTypeIdentifierPlate != null) {
+            quickRenderPartialModel(signalTypeIdentifierPlate, offset / 16f, 0, 0);
+        }
 
         // A little bit of special implementation, because the position of the matrix display is not fixed unlike Ks signals
         if (blockEntity.variantData().getCheckboxOptionsTicked().contains("zs3_matrix")) {
@@ -104,6 +108,17 @@ public class RendererHVk<T extends BlockEntityHVKSignal<?>> extends RendererZs3Z
         }
 
         super.renderAdditionalModels();
+    }
+
+    /**
+     * @param aspect
+     * @param signalLights
+     */
+    @Override
+    public void renderAdditionalSignals(ISignalAspect aspect, SignalContainer signalLights) {
+        super.renderAdditionalSignals(aspect, signalLights);
+        if (blockEntity.getBlockState().is(GermanyBlocks.HVKBlocks.HVK_REPEATER_SIGNAL))
+            signalLights.powered("vr_braking_distance");
     }
 
     private float getYOffset() {

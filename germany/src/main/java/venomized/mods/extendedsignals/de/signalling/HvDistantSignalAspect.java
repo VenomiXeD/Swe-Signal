@@ -21,10 +21,15 @@ public enum HvDistantSignalAspect implements IDistantSignalAspect {
         if (distant == null || state.isStop())
             return HvDistantSignalAspect.OFF;
 
-        return !distant.isStop()
-                ? distant.getMaxProceedSpeed() <= 40
-                ? HvDistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED : HvDistantSignalAspect.EXPECT_PROCEED
-                : HvDistantSignalAspect.EXPECT_STOP;
+        if (distant.isStop())
+            return HvDistantSignalAspect.EXPECT_STOP;
+
+        if (distant.getMaxProceedSpeed() == state.getMaxProceedSpeed())
+            return HvDistantSignalAspect.EXPECT_PROCEED;
+
+        if (distant.getMaxProceedSpeed() <= 60)
+            return HvDistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED;
+        return HvDistantSignalAspect.EXPECT_PROCEED;
     }
 
     /**

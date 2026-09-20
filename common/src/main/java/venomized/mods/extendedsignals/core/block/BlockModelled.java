@@ -19,10 +19,18 @@ import java.util.function.Supplier;
 public class BlockModelled extends ExtendedSignalsBlock implements EntityBlock {
     private Supplier<BiFunction<BlockPos, BlockState, BlockEntity>> blockEntityFactory;
 
-    public static <BE extends ModelBlockEntity> NonNullFunction<Properties, BlockModelled> withBlockEntity(Supplier<BiFunction<BlockPos, BlockState, BlockEntity>> blockEntityFactory) {
+    public static <E extends ModelBlockEntity> NonNullFunction<Properties, BlockModelled> modelBlockEntity(Supplier<BiFunction<BlockPos, BlockState, BlockEntity>> blockEntityFactory) {
         return (prop) -> {
             BlockModelled block = new BlockModelled(prop);
             block.blockEntityFactory = blockEntityFactory;
+            return block;
+        };
+    }
+
+    public static <E extends ModelBlockEntity> NonNullFunction<Properties, BlockModelled> blockEntity(Supplier<BiFunction<BlockPos, BlockState, E>> blockEntityFactory) {
+        return (prop) -> {
+            BlockModelled block = new BlockModelled(prop);
+            block.blockEntityFactory = () -> blockEntityFactory.get()::apply;
             return block;
         };
     }

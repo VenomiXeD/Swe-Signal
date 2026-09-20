@@ -20,7 +20,7 @@ public enum HvMainSignalAspect implements IMainSignalAspect {
         if (state.isStop())
             return HvMainSignalAspect.STOP;
 
-        return state.getMaxProceedSpeed() <= 40
+        return state.getMaxProceedSpeed() <= 60
                 ? HvMainSignalAspect.PROCEED_40
                 : HvMainSignalAspect.PROCEED;
     }

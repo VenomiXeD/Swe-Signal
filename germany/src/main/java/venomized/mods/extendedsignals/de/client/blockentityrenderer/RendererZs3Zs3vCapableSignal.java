@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.util.Mth;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.joml.Vector3f;
+import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.util.SpriteUV;
@@ -67,10 +68,11 @@ public abstract class RendererZs3Zs3vCapableSignal<T extends BlockEntityGermanyS
 
     /**
      * @param aspect
+     * @param signalLights
      */
     @Override
-    public void renderAdditionalSignals(ISignalAspect aspect) {
-        super.renderAdditionalSignals(aspect);
+    public void renderAdditionalSignals(ISignalAspect aspect, SignalContainer signalLights) {
+        super.renderAdditionalSignals(aspect, signalLights);
         if (blockEntity.variantData().getCheckboxOptionsTicked().contains("zs3_matrix")) {
             SpriteUV uv = GermanRenderHelper.getZs3MatrixSpeedUV(Mth.floor(blockEntity.getZs3MatrixDisplaySpeed()), false);
             if (uv != null) {

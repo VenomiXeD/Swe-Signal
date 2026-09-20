@@ -27,6 +27,6 @@ public abstract class MixinGlobalRailwayManager {
 
 
         boolean anyHeldTracks = AllTags.AllItemTags.TRACKS.matches(Minecraft.getInstance().player.getMainHandItem()) || AllTags.AllItemTags.TRACKS.matches(Minecraft.getInstance().player.getMainHandItem());
-        return anyHeldTracks && ExtendedSignalsConfig.CLIENT.showTrackGraphsWhenUsingTracks.getAsBoolean();
+        return anyHeldTracks && ExtendedSignalsConfig.CLIENT.overlay_showTrackGraph.getAsBoolean();
     }
 }
