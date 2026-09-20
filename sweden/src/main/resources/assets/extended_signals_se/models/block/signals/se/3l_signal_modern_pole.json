@@ -8,7 +8,7 @@
   },
   "loader": "neoforge:obj",
   "flip_v": true,
-  "model": "extended_signals_se:models/block/signals/se/3l_signal_post_1970_pole.obj",
+  "model": "extended_signals_se:models/block/signals/se/3l_signal_pole.obj",
   "textures": {
     "signal": "extended_signals_se:block/signals/se/signal"
   }
