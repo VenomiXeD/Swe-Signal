@@ -91,6 +91,14 @@ public abstract class MixinNavigation implements INavigation {
         return ExtendedSignalsConfig.SERVER.defaultMinScanDistance.get();
     }
 
+    /**
+     * @param cooldown
+     */
+    @Override
+    public void extendedSignals$setSignalScoutCooldown(int cooldown) {
+        this.extendedSignals$signalScoutCooldown = cooldown;
+    }
+
     // @ModifyReturnValue(method = "controlSignalScout", at = @At("RETURN"))
     // public TravellingPoint.ITrackSelector extenededSignals$signalScoutProxy(TravellingPoint.ITrackSelector original) {
     //     return (a, b) -> {
@@ -126,7 +134,7 @@ public abstract class MixinNavigation implements INavigation {
                                      @Local(name = "speedMod") double speedMod,
                                      @Local(name = "leadingPoint") TravellingPoint leadingPoint
     ) {
-        if (extendedSignals$signalScoutCooldown-- > 0)
+        if (extendedSignals$signalScoutCooldown-- > 0 && train.speed != 0)
             return;
         extendedSignals$signalScoutCooldown = SIGNAL_SCOUT_INTERVAL;
 

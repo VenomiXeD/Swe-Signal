@@ -24,6 +24,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
+import venomized.mods.extendedsignals.core.ExtendedSignalsClient;
+import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.create.ITrainDoorData;
 import venomized.mods.extendedsignals.core.create.tracks.DelayedSignalCrossTrigger;
 import venomized.mods.extendedsignals.core.create.tracks.EncounteredPoint;
@@ -34,7 +36,9 @@ import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundMiscTrainDataPacket;
 import venomized.mods.extendedsignals.core.signalling.ShuntRequest;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.core.util.MathHelp;
 import venomized.mods.extendedsignals.core.util.TrackedValue;
+import venomized.mods.extendedsignals.core.util.TrainHelp;
 
 import java.util.Iterator;
 import java.util.List;
@@ -43,8 +47,6 @@ import java.util.UUID;
 
 @Mixin(value = Train.class, remap = false)
 public abstract class MixinTrain implements ITrainDoorData, ITrain {
-    @Unique
-    private static final int TICKS_ON_CROSSED_TRIGGERING_DELAY = 20;
     @Unique
     private final List<DelayedSignalCrossTrigger> extendedSignals$frontDelayedOnCrossedTriggering = new ReferenceArrayList<>();
     @Unique
@@ -74,6 +76,9 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
     @Unique
     private void extendedSignals$onSpeedChanged(double oldValue, double newValue) {
+        if (oldValue == 0 && navigation instanceof INavigation nav) {
+            nav.extendedSignals$setSignalScoutCooldown(0);
+        }
         PacketDistributor.sendToAllPlayers(new ClientBoundMiscTrainDataPacket(id, newValue * 20f, (oldValue - newValue) * 20f));
     }
 
@@ -105,9 +110,9 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
             }
 
             if (trackEdgePoint instanceof IExtendedEdgePoint<?> signalBoundary) {
-                if (speed != 0) {
+                if (this.navigation == null || this.navigation.distanceToSignal != 0) {
                     extendedSignals$frontDelayedOnCrossedTriggering.add(
-                            new DelayedSignalCrossTrigger(TICKS_ON_CROSSED_TRIGGERING_DELAY, front, signalBoundary)
+                            new DelayedSignalCrossTrigger(ExtendedSignalsConfig.SERVER.signalPassedStateChangeDelay.getAsInt(), front, signalBoundary)
                     );
                 }
 
@@ -156,7 +161,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
             if (trackEdgePoint instanceof IExtendedEdgePoint<?> signalBoundary) {
                 extendedSignals$backDelayedOnCrossedTriggering.add(
-                        new DelayedSignalCrossTrigger(TICKS_ON_CROSSED_TRIGGERING_DELAY, front, signalBoundary)
+                        new DelayedSignalCrossTrigger(ExtendedSignalsConfig.SERVER.signalPassedStateChangeDelay.getAsInt(), front, signalBoundary)
                 );
             }
 

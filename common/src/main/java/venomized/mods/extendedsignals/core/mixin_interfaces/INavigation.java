@@ -11,4 +11,6 @@ public interface INavigation {
     Map<ResourceLocation, EncounteredPoint> extendedSignals$encounteredTrackEdgePointModifiers();
 
     List<CollectedEdgePoint> extendedSignals$currentScoutedEdgePoints();
+
+    void extendedSignals$setSignalScoutCooldown(int cooldown);
 }

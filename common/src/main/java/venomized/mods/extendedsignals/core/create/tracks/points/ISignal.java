@@ -31,12 +31,20 @@ public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint<T>
      * @param train
      */
     @Override
-    default void onSignalCrossedLate(Direction.AxisDirection direction, Train train) {
+    default void onSignalCrossedEarly(Direction.AxisDirection direction, Train train) {
         ExtendedSignals.serverNetworkCache()
                 .updateState(((TrackEdgePoint) this).getId(),
                         direction == Direction.AxisDirection.POSITIVE,
                         SignalStateNode.STOP
                 );
+    }
+
+    /**
+     * @param direction
+     * @param train
+     */
+    @Override
+    default void onSignalCrossedLate(Direction.AxisDirection direction, Train train) {
     }
 
     default SignalStateNode currentSignalState(boolean front) {

@@ -23,6 +23,8 @@ public class ExtendedSignalsConfig {
     public static class ServerConfig {
         public final ModConfigSpec.DoubleValue defaultScanDistance;
         public final ModConfigSpec.DoubleValue defaultMinScanDistance;
+        public final ModConfigSpec.IntValue signalPassedStateChangeDelay;
+
         public final ModConfigSpec.BooleanValue creativeBlockBreakingMovementBehavior;
 
         ServerConfig(ModConfigSpec.Builder builder) {
@@ -32,6 +34,9 @@ public class ExtendedSignalsConfig {
 
             defaultMinScanDistance = builder.comment("Default scan distance for signalling, also changes brass signals reservation distance")
                     .defineInRange("defaultMinScanDistance", 128, 16, Double.MAX_VALUE);
+
+            signalPassedStateChangeDelay = builder.comment("The delay (in ticks) for how long it takes for a signal to go from proceed to stop after a train has passed")
+                    .defineInRange("signalPassDelay", 20 * 4, 0, Integer.MAX_VALUE);
             builder.pop();
 
             builder.push("creative");
