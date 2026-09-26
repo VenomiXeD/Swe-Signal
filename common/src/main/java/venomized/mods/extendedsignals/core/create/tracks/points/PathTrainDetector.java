@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.create.tracks.points;
 
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.DimensionPalette;
-import com.simibubi.create.content.trains.signal.SingleBlockEntityEdgePoint;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -18,6 +17,7 @@ public class PathTrainDetector extends DirectionalEdgePoint<PathTrainDetector> {
     public Component getName() {
         return Component.translatable("train_map.extended_signals.edgepoint.path_train_detector.name");
     }
+
     public int triggerDistance = 50;
 
     private boolean trainInbound = false;

@@ -2,7 +2,6 @@ package venomized.mods.extendedsignals.core.create.tracks.points;
 
 import com.simibubi.create.content.trains.graph.DimensionPalette;
 import com.simibubi.create.content.trains.graph.TrackNode;
-import com.simibubi.create.content.trains.signal.SingleBlockEntityEdgePoint;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import lombok.Getter;
 import lombok.Setter;

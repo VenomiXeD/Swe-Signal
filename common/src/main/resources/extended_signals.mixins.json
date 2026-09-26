@@ -19,10 +19,10 @@
   ],
   "client": [
     "client.MixinCarriageSounds",
-    "client.MixinTrainMapManager",
     "client.MixinGlobalRailwayManager",
     "client.MixinSignalVisual",
-    "client.MixinSoundEngine"
+    "client.MixinSoundEngine",
+    "client.MixinTrainMapManager"
   ],
   "minVersion": "0.8"
 }

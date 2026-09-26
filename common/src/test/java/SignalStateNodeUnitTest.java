@@ -1,10 +1,6 @@
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import venomized.mods.extendedsignals.core.ExtendedSignals;
-import venomized.mods.extendedsignals.core.client.ClientSignalNetworkCache;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import static org.junit.jupiter.api.Assertions.*;

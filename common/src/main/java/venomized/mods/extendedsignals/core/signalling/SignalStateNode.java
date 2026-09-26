@@ -92,6 +92,7 @@ public class SignalStateNode {
 
     private boolean nextStateFront;
     private UUID nextStateID;
+
     @Nullable
     public SignalStateNode getNextState() {
         return fromCache(nextStateID, nextStateFront);
@@ -149,6 +150,7 @@ public class SignalStateNode {
     public Direction.AxisDirection getAxisDirection() {
         return nextStateFront ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE;
     }
+
     @NotNull
     @Getter
     @Setter

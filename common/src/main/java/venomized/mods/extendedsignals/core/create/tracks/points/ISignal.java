@@ -8,6 +8,7 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint<T> {
     boolean isMainSignal(boolean front);
+
     void setMainSignal(boolean front, boolean mainSignal);
 
     boolean isBlockSignalMode(boolean front);

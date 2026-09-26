@@ -24,7 +24,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
-import venomized.mods.extendedsignals.core.ExtendedSignalsClient;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.create.ITrainDoorData;
 import venomized.mods.extendedsignals.core.create.tracks.DelayedSignalCrossTrigger;
@@ -36,9 +35,7 @@ import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundMiscTrainDataPacket;
 import venomized.mods.extendedsignals.core.signalling.ShuntRequest;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-import venomized.mods.extendedsignals.core.util.MathHelp;
 import venomized.mods.extendedsignals.core.util.TrackedValue;
-import venomized.mods.extendedsignals.core.util.TrainHelp;
 
 import java.util.Iterator;
 import java.util.List;

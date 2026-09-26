@@ -16,14 +16,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.joml.*;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
 import venomized.mods.extendedsignals.core.util.SpriteUV;
-
-import java.lang.Math;
 
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)

@@ -110,7 +110,6 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
     }
 
 
-
     /**
      * @param upcomingSignal
      * @return

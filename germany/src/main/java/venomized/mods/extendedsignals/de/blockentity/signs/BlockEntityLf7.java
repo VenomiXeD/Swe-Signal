@@ -1,13 +1,10 @@
 package venomized.mods.extendedsignals.de.blockentity.signs;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector3f;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySingleTextModel;
-import venomized.mods.extendedsignals.core.blockentity.ModelBlockEntity;
-import venomized.mods.extendedsignals.core.blockentity.VariantData;
 
 public class BlockEntityLf7 extends BlockEntitySingleTextModel {
     public BlockEntityLf7(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {

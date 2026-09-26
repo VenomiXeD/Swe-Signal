@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector3f;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySingleTextModel;
-import venomized.mods.extendedsignals.core.blockentity.ModelBlockEntity;
 
 public class BlockEntityLf6 extends BlockEntitySingleTextModel {
     public BlockEntityLf6(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {

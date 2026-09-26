@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import venomized.mods.extendedsignals.core.data.ISoundRegistryDataGenProvider;
 
 import java.util.Map;
 

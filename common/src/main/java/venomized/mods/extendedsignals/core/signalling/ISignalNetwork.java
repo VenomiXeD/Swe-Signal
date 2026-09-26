@@ -1,8 +1,5 @@
 package venomized.mods.extendedsignals.core.signalling;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import net.createmod.catnip.data.Couple;
 import net.minecraft.nbt.CompoundTag;
