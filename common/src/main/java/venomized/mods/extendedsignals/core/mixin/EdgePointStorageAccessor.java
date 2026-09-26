@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Mixin(value = EdgePointStorage.class, remap = false)
-public interface MixinEdgePointStorageAccessor {
+public interface EdgePointStorageAccessor {
     @Accessor("pointsByType")
     Map<EdgePointType<?>, Map<UUID, TrackEdgePoint>> getPoints();
 }

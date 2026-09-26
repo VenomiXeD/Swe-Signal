@@ -78,7 +78,7 @@ public class RendererGeneric<T extends BlockEntity> implements BlockEntityRender
         );
         CachedBuffers.partial(ExtendedSignalsCoreModels.LIGHT_MODEL, blockEntity.getBlockState())
                 .disableDiffuse()
-                .useLevelLight(blockEntity.getLevel())
+                .light(0xFFFFFF)
                 .color(r, g, b, 255)
                 .renderInto(
                         poseStack,

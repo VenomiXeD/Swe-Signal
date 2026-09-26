@@ -69,5 +69,12 @@
   "block.extended_signals.path_identifier": "Path Label Identifier",
   "block.extended_signals.repeater_signal": "Distant/Repeater Signal",
   "block.extended_signals.steam_muffler": "Steam Muffler",
-  "block.extended_signals.train_path_detector": "Train Scout Observer"
+  "block.extended_signals.train_path_detector": "Train Scout Observer",
+  "train_map.extended_signals.edgepoint.path_label.name": "Path Label",
+  "train_map.extended_signals.edgepoint.local_speed_modifier.name": "Local Speed Modifier",
+  "train_map.extended_signals.edgepoint.line_speed_modifier.name": "Line Speed Modifier",
+  "train_map.extended_signals.edgepoint.path_train_detector.name": "Signal Scout Observer",
+  "train_map.extended_signals.edgepoint.repeater.name": "Distant/Repeater Signal",
+  "train_map.extended_signals.edgepoint.create_signal.name": "Create Train Signal",
+  "train_map.extended_signals.edgepoint.train_station.name": "Train Station"
 }

@@ -12,6 +12,7 @@ import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLigh
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.de.client.GermanyModels;
+import venomized.mods.extendedsignals.de.signalling.KsDistantSignalAspect;
 
 public class BlockEntityKsDistantRepeaterSignal extends BlockEntityKs<IDistantSignalAspect> {
     public BlockEntityKsDistantRepeaterSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
@@ -38,20 +39,14 @@ public class BlockEntityKsDistantRepeaterSignal extends BlockEntityKs<IDistantSi
      */
     @Override
     public @NotNull IDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
+        if (variantData().getCheckboxOptionsTicked().contains("zs3v_metal")) {
+            state.getMiscTags().put("zs3v_metal", "present");
+        }
+        KsDistantSignalAspect distantAspect = KsDistantSignalAspect.interpret(state, incomingDirection);
         return (seconds, states) -> {
+            distantAspect.applyAspect(seconds, states);
             if (state.getNextState() == null || !state.getNextState().isProceed()) {
-                states.powered("danger");
                 states.powered("repeater");
-                return;
-            }
-
-            if (state.getNextState().getMaxProceedSpeed() >= state.getMaxProceedSpeed()) {
-                states.powered("proceed");
-                return;
-            }
-
-            if (seconds % 1f > 0.5f) {
-                states.powered("proceed");
             }
         };
     }

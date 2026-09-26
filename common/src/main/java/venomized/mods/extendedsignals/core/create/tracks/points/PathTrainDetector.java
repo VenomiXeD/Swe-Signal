@@ -6,11 +6,20 @@ import com.simibubi.create.content.trains.signal.SingleBlockEntityEdgePoint;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-public class PathTrainDetector extends SingleBlockEntityEdgePoint implements IExtendedEdgePoint<PathTrainDetector> {
+public class PathTrainDetector extends DirectionalEdgePoint<PathTrainDetector> {
+    /**
+     * @return
+     */
+    @Override
+    public Component getName() {
+        return Component.translatable("train_map.extended_signals.edgepoint.path_train_detector.name");
+    }
     public int triggerDistance = 50;
+
     private boolean trainInbound = false;
 
     /**

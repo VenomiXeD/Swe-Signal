@@ -8,8 +8,11 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint<T> {
     boolean isMainSignal(boolean front);
-
     void setMainSignal(boolean front, boolean mainSignal);
+
+    boolean isBlockSignalMode(boolean front);
+
+    void setBlockSignalMode(boolean front, boolean blockSignalMode);
 
     /**
      * @param direction
@@ -21,8 +24,7 @@ public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint<T>
     default void onSignalScout(Direction.AxisDirection direction, SignalStateNode newState, final Train train, double distance) {
         ExtendedSignals.serverNetworkCache().updateState(
                 ((TrackEdgePoint) this).getId(),
-                direction == Direction.AxisDirection.POSITIVE,
-                newState.setAxisDirection(direction)
+                direction == Direction.AxisDirection.POSITIVE, newState
         );
     }
 
@@ -33,9 +35,9 @@ public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint<T>
     @Override
     default void onSignalCrossedEarly(Direction.AxisDirection direction, Train train) {
         ExtendedSignals.serverNetworkCache()
-                .updateState(((TrackEdgePoint) this).getId(),
+                .modifyState(((TrackEdgePoint) this).getId(),
                         direction == Direction.AxisDirection.POSITIVE,
-                        SignalStateNode.STOP
+                        state -> state.setProceed(false).setReservedBy(null)
                 );
     }
 
@@ -48,6 +50,6 @@ public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint<T>
     }
 
     default SignalStateNode currentSignalState(boolean front) {
-        return ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY.getSignalState(((TrackEdgePoint) this).getId(), front);
+        return ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY.getSignalState(((TrackEdgePoint) this).id, front);
     }
 }

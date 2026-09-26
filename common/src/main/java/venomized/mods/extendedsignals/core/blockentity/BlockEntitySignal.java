@@ -30,7 +30,7 @@ import venomized.mods.extendedsignals.core.util.NBTHelp;
 import java.util.UUID;
 
 public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBlockEntity
-        implements ISignalTunerToolable, ISignalBlockEntity, ISignalInterpreter<T> {
+        implements ISignalTunerToolable, ISignalInterpreter<T> {
     @Getter
     private final SignalContainer signalContainer;
     protected UUID targetEdgePointId;
@@ -54,9 +54,10 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
 
     public abstract void configureSignalLights(SignalContainer signalLights);
 
+    @Nullable
     public SignalStateNode currentSignalState() {
         if (this.getLevel() == null)
-            return SignalStateNode.INVALID;
+            return null;
         return ExtendedSignals.sidedNetwork(this.getLevel())
                 .getSignalState(targetEdgePointId, signallingDirection == Direction.AxisDirection.POSITIVE);
     }
@@ -72,7 +73,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
             return false;
 
         return ExtendedSignals.sidedNetwork(this.getLevel())
-                .signalStates()
+                .signalStateMapping()
                 .containsKey(targetEdgePointId);
     }
 
@@ -148,7 +149,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
 
         // If the linked signal has no entry yet, push a new empty dummy raw signal state
         ISignalNetwork network = ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY;
-        network.updateState(targetEdgePointId, front, new SignalStateNode());
+        network.updateState(targetEdgePointId, front, new SignalStateNode(targetEdgePointId, front));
 
         if (signalProvider.getTrackTargetingBehavior().getEdgePoint() instanceof ISignal<?> signal) {
             signal.setMainSignal(front, hasMainSignalCapability());

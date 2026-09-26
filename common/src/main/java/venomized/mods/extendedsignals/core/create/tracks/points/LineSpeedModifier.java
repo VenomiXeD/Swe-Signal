@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.math.NumberUtils;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
 import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
@@ -15,6 +16,11 @@ import venomized.mods.extendedsignals.core.util.TrainHelp;
 import java.util.List;
 
 public class LineSpeedModifier extends TrackEdgePointSignalModifier<LineSpeedModifier> implements IConfigurableEdgePoint, ITrainSpeedModifier {
+    @Override
+    public Component getName() {
+        return Component.translatable("train_map.extended_signals.edgepoint.line_speed_modifier.name");
+    }
+
     @Getter
     @Setter
     private float speedModifierKph;

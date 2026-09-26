@@ -36,14 +36,14 @@ public class Debug {
                         .executes(ctx -> {
                             if (ctx.getSource().getLevel().isClientSide())
                                 return Command.SINGLE_SUCCESS;
-                            ExtendedSignals.sidedNetwork(ctx.getSource().getLevel()).signalStates().forEach((k, v) -> {
-                                ExtendedSignals.sidedNetwork(ctx.getSource().getLevel()).signalStates().put(k, Couple.create(
-                                        SignalStateNode.STOP,
-                                        SignalStateNode.STOP
+                            ExtendedSignals.sidedNetwork(ctx.getSource().getLevel()).signalStateMapping().forEach((k, v) -> {
+                                ExtendedSignals.sidedNetwork(ctx.getSource().getLevel()).signalStateMapping().put(k, Couple.create(
+                                        SignalStateNode.STOP(k, false),
+                                        SignalStateNode.STOP(k, true)
                                 ));
                             });
 
-                            PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatesPacket(ExtendedSignals.sidedNetwork(ctx.getSource().getLevel()).signalStates()));
+                            PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatesPacket(ExtendedSignals.sidedNetwork(ctx.getSource().getLevel()).signalStateMapping()));
                             return Command.SINGLE_SUCCESS;
                         })
                 )

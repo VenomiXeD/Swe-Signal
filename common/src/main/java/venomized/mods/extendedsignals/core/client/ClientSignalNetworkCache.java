@@ -2,6 +2,8 @@ package venomized.mods.extendedsignals.core.client;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceMap;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import net.createmod.catnip.data.Couple;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
@@ -11,13 +13,13 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ClientSignalNetworkCache implements ISignalNetwork {
-    private final Object2ObjectMap<UUID, Couple<SignalStateNode>> signalEdgeStateMapping = new Object2ObjectOpenHashMap<>();
+    private final Map<UUID, Couple<SignalStateNode>> signalEdgeStateMapping = new Object2ReferenceOpenHashMap<>();
 
     /**
      * @return
      */
     @Override
-    public Map<UUID, Couple<SignalStateNode>> signalStates() {
+    public Map<UUID, Couple<SignalStateNode>> signalStateMapping() {
         return this.signalEdgeStateMapping;
     }
 

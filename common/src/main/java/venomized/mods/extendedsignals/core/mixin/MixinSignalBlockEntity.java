@@ -5,6 +5,7 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
+import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -12,11 +13,18 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.util.TriState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalBlockEntity;
 import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
 import venomized.mods.extendedsignals.core.blockentity.ITrackEdgePointHolder;
 import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
@@ -25,7 +33,7 @@ import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
 import java.util.UUID;
 
 @Mixin(value = SignalBlockEntity.class, remap = false)
-public abstract class MixinSignalBlockEntity extends SmartBlockEntity implements ISignalTunerToolable, ITrackEdgePointHolder {
+public abstract class MixinSignalBlockEntity extends SmartBlockEntity implements ISignalTunerToolable, ITrackEdgePointHolder, ISignalBlockEntity {
     @Shadow
     public TrackTargetingBehaviour<SignalBoundary> edgePoint;
 
@@ -101,6 +109,29 @@ public abstract class MixinSignalBlockEntity extends SmartBlockEntity implements
                 break;
         }
 
+        return InteractionResult.PASS;
+    }
+
+    /**
+     * @param level
+     * @param entity
+     * @param useItem
+     * @param itemStack
+     * @return
+     */
+    @Override
+    public InteractionResult onRightClick(Level level, Player entity, TriState useItem, ItemStack itemStack) {
+        if (itemStack.is(Tags.Items.GEMS_QUARTZ)) {
+            if (!level.isClientSide()) {
+                boolean front = getTrackTargetingBehavior().getTargetDirection() == Direction.AxisDirection.POSITIVE;
+                ISignal<?> signal = (ISignal<?>) getTrackTargetingBehavior().getEdgePoint();
+                boolean current = signal.isBlockSignalMode(front);
+                signal.setBlockSignalMode(front, !current);
+
+                entity.sendSystemMessage(Component.literal("block signal mode: " + (!current ? "yes" : "no")));
+            }
+            return InteractionResult.CONSUME;
+        }
         return InteractionResult.PASS;
     }
 }

@@ -1,6 +1,8 @@
 package venomized.mods.extendedsignals.core.create.tracks.points;
 
 import com.simibubi.create.content.trains.graph.DimensionPalette;
+import com.simibubi.create.content.trains.graph.TrackNode;
+import com.simibubi.create.content.trains.signal.SingleBlockEntityEdgePoint;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +12,20 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class DirectionalEdgePoint<T extends TrackEdgePoint> extends TrackEdgePoint implements IExtendedEdgePoint<T> {
+public abstract class DirectionalEdgePoint<T extends TrackEdgePoint> extends TrackEdgePoint implements IExtendedEdgePoint<T> {
     @Getter
     @Setter
     private boolean front;
+
+    /**
+     * @param primary
+     * @param node
+     * @return
+     */
+    @Override
+    public boolean facingDirections(boolean primary, TrackNode node) {
+        return front == primary;
+    }
 
     /**
      * @return

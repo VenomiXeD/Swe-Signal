@@ -2,6 +2,8 @@ package venomized.mods.extendedsignals.core.signalling;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import net.createmod.catnip.data.Couple;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -9,6 +11,7 @@ import net.minecraft.nbt.Tag;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public interface ISignalNetwork {
     String TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME = "signal_states";
@@ -26,8 +29,8 @@ public interface ISignalNetwork {
         return signalsCollectionTag;
     }
 
-    static Object2ObjectMap<UUID, Couple<SignalStateNode>> deserializeSignalStatesFromNBTList(final CompoundTag compoundTag) {
-        Object2ObjectMap<UUID, Couple<SignalStateNode>> signalStates = new Object2ObjectOpenHashMap<>();
+    static Map<UUID, Couple<SignalStateNode>> deserializeSignalStatesFromNBTList(final CompoundTag compoundTag) {
+        Map<UUID, Couple<SignalStateNode>> signalStates = new Object2ReferenceOpenHashMap<>();
 
         compoundTag.getList(TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME, Tag.TAG_COMPOUND).forEach(listEntry -> {
             final CompoundTag entry = (CompoundTag) listEntry;
@@ -43,26 +46,40 @@ public interface ISignalNetwork {
         return signalStates;
     }
 
-    Map<UUID, Couple<SignalStateNode>> signalStates();
+    Map<UUID, Couple<SignalStateNode>> signalStateMapping();
+
 
     default void flushAndApplyNewSignalStates(Map<UUID, Couple<SignalStateNode>> newSignalNetwork) {
-        this.signalStates().clear();
-        this.signalStates().putAll(newSignalNetwork);
+        this.signalStateMapping().clear();
+        this.signalStateMapping().putAll(newSignalNetwork);
     }
 
-    default void updateState(UUID id, boolean direction, SignalStateNode newState) {
-        signalStates()
-                .computeIfAbsent(id, uuid -> Couple.create(() -> SignalStateNode.INVALID))
-                .set(direction, newState);
+    @Deprecated
+    default SignalStateNode updateState(UUID id, boolean direction, SignalStateNode newState) {
+        return modifyState(id, direction, s -> s.copyValues(newState));
+    }
+
+    default SignalStateNode modifyState(UUID id, boolean direction, Consumer<SignalStateNode> changeSignalStateCallback) {
+        if (id == null)
+            return null;
+
+        SignalStateNode state = getSignalState(id, direction);
+        state.setThisStateID(id);
+        state.setThisStateFront(direction);
+        changeSignalStateCallback.accept(state);
+
+        return state;
     }
 
 
     default SignalStateNode getSignalState(UUID id, boolean side) {
         if (id == null)
-            return SignalStateNode.INVALID;
+            return SignalStateNode.INVALID((UUID) null, side);
 
-        return signalStates()
-                .computeIfAbsent(id, uuid -> Couple.create(() -> SignalStateNode.INVALID))
-                .get(side);
+        return signalStateMapping().computeIfAbsent(id, ISignalNetwork::emptySignalStateNode).get(side);
+    }
+
+    static Couple<SignalStateNode> emptySignalStateNode(UUID id) {
+        return Couple.createWithContext(s -> new SignalStateNode(id, s));
     }
 }

@@ -4,8 +4,9 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "extendedsignals.refmap.json",
   "mixins": [
+    "EdgePointStorageAccessor",
     "MixinBlockBreakingMovementBehaviour",
-    "MixinEdgePointStorageAccessor",
+    "MixinGlobalStation",
     "MixinNavigation",
     "MixinScheduleRuntime",
     "MixinSignalBlockEntity",
@@ -14,10 +15,11 @@
     "MixinSignalEdgeGroupAccessor",
     "MixinSlidingDoorMovementBehavior",
     "MixinTrain",
-    "client.MixinCarriageSounds",
-    "client.MixinTrainMapManager"
+    "TrackGraphAccessor"
   ],
   "client": [
+    "client.MixinCarriageSounds",
+    "client.MixinTrainMapManager",
     "client.MixinGlobalRailwayManager",
     "client.MixinSignalVisual",
     "client.MixinSoundEngine"

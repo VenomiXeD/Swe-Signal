@@ -9,12 +9,12 @@ import com.simibubi.create.compat.trainmap.TrainMapManager;
 import com.simibubi.create.compat.trainmap.TrainMapRenderer;
 import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.*;
-import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Iterate;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Rect2i;
@@ -28,7 +28,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
+import venomized.mods.extendedsignals.core.create.tracks.points.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
+import venomized.mods.extendedsignals.core.mixin.EdgePointStorageAccessor;
+import venomized.mods.extendedsignals.core.mixin.TrackGraphAccessor;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.MathHelp;
 
@@ -49,34 +52,47 @@ public abstract class MixinTrainMapManager {
     }
 
     @Inject(method = "drawPoints", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/graph/TrackGraph;getPoints(Lcom/simibubi/create/content/trains/graph/EdgePointType;)Ljava/util/Collection;"))
-    private static void extendedSignals$drawSignals(GuiGraphics graphics, int mouseX, int mouseY, Object hoveredElement, Rect2i bounds, CallbackInfoReturnable<Object> cir, @Local(name = "graph") TrackGraph graph, @Local(name = "pose") PoseStack pose, @Local(name = "hoveredElement", index = 0, ordinal = 0, argsOnly = true) LocalRef<Object> hElement) {
-        for (SignalBoundary signal : graph.getPoints(EdgePointType.SIGNAL)) {
-            Couple<TrackNodeLocation> edgeLocation = signal.edgeLocation;
-            TrackNode node = graph.locateNode(edgeLocation.getFirst());
-            TrackNode other = graph.locateNode(edgeLocation.getSecond());
-            if (node == null || other == null)
+    private static void extendedSignals$drawAdvancedPoints(GuiGraphics graphics, int mouseX, int mouseY, Object hoveredElement, Rect2i bounds, CallbackInfoReturnable<Object> cir, @Local(name = "graph") TrackGraph graph, @Local(name = "pose") PoseStack pose, @Local(name = "hoveredElement", index = 0, ordinal = 0, argsOnly = true) LocalRef<Object> hElement) {
+        EdgePointStorage e = ((TrackGraphAccessor) graph).getEdgePoints();
+        TrackEdgePoint[] points = ((EdgePointStorageAccessor) e).getPoints().values().stream().flatMap(o -> o.values().stream()).toArray(TrackEdgePoint[]::new);
+        for (TrackEdgePoint signal : points) {
+            if (signal instanceof IExtendedEdgePoint<?>)
+                extendedSignals$drawExtendedSignalEdgePoint(graphics, mouseX, mouseY, hoveredElement, bounds, graph, pose, hElement, signal);
+        }
+    }
+
+    @Unique
+    private static void extendedSignals$drawExtendedSignalEdgePoint(GuiGraphics graphics, int mouseX, int mouseY, Object hoveredElement, Rect2i bounds, TrackGraph graph, PoseStack pose, LocalRef<Object> hElement, TrackEdgePoint signal) {
+        IExtendedEdgePoint<?> extendedEdgePoint = (IExtendedEdgePoint<?>) signal;
+        Couple<TrackNodeLocation> edgeLocation = signal.edgeLocation;
+        TrackNode node = graph.locateNode(edgeLocation.getFirst());
+        TrackNode other = graph.locateNode(edgeLocation.getSecond());
+        if (node == null || other == null)
+            return;
+        if (node.getLocation().dimension != TrainMapRenderer.INSTANCE.trackingDim)
+            return;
+
+        TrackEdge edge = graph.getConnection(Couple.create(node, other));
+        if (edge == null)
+            return;
+
+        double tLength = signal.getLocationOn(edge);
+        double t = tLength / edge.getLength();
+        Vec3 position = edge.getPosition(graph, t);
+
+        int x = Mth.floor(position.x());
+        int y = Mth.floor(position.z());
+
+        if (!bounds.contains(x, y))
+            return;
+
+        Vec3 diff = edge.getDirectionAt(tLength)
+                .normalize();
+        for (boolean side : Iterate.falseAndTrue) {
+            if (!extendedEdgePoint.facingDirections(side, side ? node : other))
                 continue;
-            if (node.getLocation().dimension != TrainMapRenderer.INSTANCE.trackingDim)
-                continue;
-
-            TrackEdge edge = graph.getConnection(Couple.create(node, other));
-            if (edge == null)
-                continue;
-
-            double tLength = signal.getLocationOn(edge);
-            double t = tLength / edge.getLength();
-            Vec3 position = edge.getPosition(graph, t);
-
-            int x = Mth.floor(position.x());
-            int y = Mth.floor(position.z());
-
-            if (!bounds.contains(x, y))
-                continue;
-
-            Vec3 diff = edge.getDirectionAt(tLength)
-                    .normalize();
             int rotation = Mth.positiveModulo(Mth.floor(0.5
-                            + (Math.atan2(diff.z, diff.x) * Mth.RAD_TO_DEG + 90 + (signal.canNavigateVia(node) ? 180 : 0)) / 45),
+                            + (Math.atan2(diff.z, diff.x) * Mth.RAD_TO_DEG + 90 + (side ? 180 : 0)) / 45),
                     8);
 
             AllGuiTextures sprite = AllGuiTextures.TRAINMAP_STATION_ORTHO;
@@ -103,21 +119,29 @@ public abstract class MixinTrainMapManager {
                 highlightSprite.render(graphics, -1, -1);
                 hElement.set(signal);
             }
-
             pose.popPose();
         }
     }
 
-    @Inject(method = "renderAndPick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch()V", shift = At.Shift.AFTER), cancellable = true)
+    @Inject(method = "renderAndPick", at = @At(value = "RETURN", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch()V"), cancellable = true)
     private static void extendedSignals$additionalRenderAndPick(GuiGraphics graphics, int mouseX, int mouseY, boolean linearFiltering, Rect2i bounds, CallbackInfoReturnable<List<FormattedText>> cir, @Local(name = "hoveredElement") Object hoveredElement) {
-        if (hoveredElement instanceof ISignal<?> signal) {
-            cir.setReturnValue(extendedSignals$listSignalDetails(signal));
+        List<FormattedText> texts = new ReferenceArrayList<>();
+        List<FormattedText> original = cir.getReturnValue() == null ? List.of() : cir.getReturnValue();
+        if (hoveredElement instanceof IExtendedEdgePoint<?> point) {
+            extendedSignals$commonExtendedPointDetails(texts, point);
+            if (point instanceof ISignal<?> signal)
+                extendedSignals$listSignalDetails(texts, signal);
+            else {
+                texts.addAll(original);
+            }
         }
+
+        if (!texts.isEmpty())
+            cir.setReturnValue(texts);
     }
 
     @Unique
-    private static List<FormattedText> extendedSignals$listSignalDetails(ISignal<?> signal) {
-        ReferenceArrayList<FormattedText> text = new ReferenceArrayList<>();
+    private static void extendedSignals$listSignalDetails(final List<FormattedText> text, ISignal<?> signal) {
         text.add(Component.translatable("train_map.extended_signals.signal.id", ((TrackEdgePoint) signal).getId().toString()));
         for (boolean side : Iterate.falseAndTrue) {
             text.add(Component.literal("-".repeat(10)));
@@ -131,8 +155,6 @@ public abstract class MixinTrainMapManager {
                     extendedSignals$populateSignalDetails(text, signal, state.getNextState(), side, 1);
             }
         }
-
-        return text;
     }
 
     @Unique
@@ -157,5 +179,10 @@ public abstract class MixinTrainMapManager {
                     ))
             );
         }
+    }
+
+    @Unique
+    private static void extendedSignals$commonExtendedPointDetails(final List<FormattedText> text, IExtendedEdgePoint<?> point) {
+        text.add(point.getName().copy().withStyle(ChatFormatting.BOLD));
     }
 }

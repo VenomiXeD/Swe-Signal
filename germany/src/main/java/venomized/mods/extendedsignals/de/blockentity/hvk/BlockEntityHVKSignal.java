@@ -27,9 +27,8 @@ public abstract class BlockEntityHVKSignal<T extends ISignalAspect> extends Bloc
      */
     @Override
     public float getZs3MatrixDisplaySpeed() {
-        if (Mth.floor(currentSignalState().getMaxProceedSpeed() / 10f) == 4f)
-            return -1;
-        return super.getZs3MatrixDisplaySpeed();
+        float speed = super.getZs3MatrixDisplaySpeed();
+        return speed == 4 ? -1 : speed;
     }
 
     /**
@@ -37,9 +36,8 @@ public abstract class BlockEntityHVKSignal<T extends ISignalAspect> extends Bloc
      */
     @Override
     public float getZs3vMatrixDisplaySpeed() {
-        if (currentSignalState().getNextState() != null && Mth.floor(currentSignalState().getNextState().getMaxProceedSpeed() / 10f) == 4f)
-            return -1;
-        return super.getZs3vMatrixDisplaySpeed();
+        float speed = super.getZs3vMatrixDisplaySpeed();
+        return speed == 4 ? -1 : speed;
     }
 
     /**

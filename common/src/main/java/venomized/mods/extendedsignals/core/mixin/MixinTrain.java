@@ -98,7 +98,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
             }
 
 
-            if (signalState != SignalStateNode.INVALID && trackEdgePoint instanceof ISignal<?>) {
+            if (signalState != null && signalState.isValid() && trackEdgePoint instanceof ISignal<?>) {
                 ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().values().forEach(e -> {
                     if (e.modifier().onAction(front, ((INavigation) navigation).extendedSignals$currentScoutedEdgePoints(), (Train) (Object) this) == ISignalStateModifier.ModifierAction.APPLY)
                         e.modifier().applyModifier(signalState);

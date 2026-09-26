@@ -4,6 +4,8 @@ import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.graph.TrackGraph;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ReferenceArraySet;
 import net.createmod.catnip.data.Couple;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -15,10 +17,8 @@ import venomized.mods.extendedsignals.core.network.packets.ClientBoundSyncSignal
 import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * A class that represents the signal network for both the client and server.
@@ -26,7 +26,7 @@ import java.util.UUID;
 public class ServerSignalNetworkCache extends SavedData implements ISignalNetwork {
     private static final String NAME = "extended_signals_signal_mapping_data";
 
-    private final Map<UUID, Couple<SignalStateNode>> signalEdgeStateMapping = new Object2ObjectOpenHashMap<>();
+    private final Map<UUID, Couple<SignalStateNode>> signalEdgeStateMapping = new Object2ReferenceOpenHashMap<>();
 
     public static ServerSignalNetworkCache get(final MinecraftServer server) {
         ExtendedSignals.LOGGER.info("Extended Signals is loading signal data...");
@@ -52,9 +52,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
     }
 
     private static ServerSignalNetworkCache create() {
-        ServerSignalNetworkCache test = new ServerSignalNetworkCache();
-        test.setDirty(true);
-        return test;
+        return new ServerSignalNetworkCache();
     }
 
 
@@ -84,7 +82,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
      * @return
      */
     @Override
-    public Map<UUID, Couple<SignalStateNode>> signalStates() {
+    public Map<UUID, Couple<SignalStateNode>> signalStateMapping() {
         return this.signalEdgeStateMapping;
     }
 
@@ -97,24 +95,27 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
         this.removeDeadEdgePointReferences();
 
-        final ListTag signalsCollectionTag = ISignalNetwork.serializeSignalStatesToNBTList(signalStates());
+        final ListTag signalsCollectionTag = ISignalNetwork.serializeSignalStatesToNBTList(signalStateMapping());
         tag.put(ISignalNetwork.TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME, signalsCollectionTag);
         return tag;
     }
 
     /**
      * @param id
-     * @param newState
+     * @param direction
+     * @param changeSignalStateCallback
+     * @return
      */
     @Override
-    public void updateState(UUID id, boolean side, SignalStateNode newState) {
-        if (newState.equals(this.signalEdgeStateMapping.computeIfAbsent(id, uuid -> Couple.create(() -> SignalStateNode.INVALID))))
-            return;
+    public SignalStateNode modifyState(UUID id, boolean direction, Consumer<SignalStateNode> changeSignalStateCallback) {
+        int old = getSignalState(id, direction).networkStateHash();
+        SignalStateNode state = ISignalNetwork.super.modifyState(id, direction, changeSignalStateCallback);
+        if (old == state.networkStateHash())
+            return state;
 
-        ISignalNetwork.super.updateState(id, side, newState);
-
-
-        PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(id, side, newState));
+        PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(id, direction, state));
         this.setDirty(true);
+
+        return state;
     }
 }

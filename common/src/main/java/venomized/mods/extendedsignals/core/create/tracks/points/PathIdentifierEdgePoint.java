@@ -5,9 +5,18 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
 
 public class PathIdentifierEdgePoint extends DirectionalEdgePoint<PathIdentifierEdgePoint> implements IExtendedEdgePoint<PathIdentifierEdgePoint>, IConfigurableEdgePoint {
+    /**
+     * @return
+     */
+    @Override
+    public Component getName() {
+        return Component.translatable("train_map.extended_signals.edgepoint.path_label.name");
+    }
+
     @Getter
     @Setter
     private String pathIdentifierKey = "";

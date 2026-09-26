@@ -305,23 +305,27 @@ public abstract class MixinNavigation implements INavigation {
     @Unique
     private void extendedSignals$resolveSignallingLogic() {
         SignalStateNode upcomingSignalState = null;
-        SignalStateNode currentSignalState = SignalStateNode.INVALID;
+        SignalStateNode currentSignalState = null;
 
         while (!extendedSignals$collectedEdgePoints.isEmpty()) {
             CollectedEdgePoint current = extendedSignals$collectedEdgePoints.pop();
+            TrackEdgePoint edgePoint = (TrackEdgePoint) current.boundary();
 
-            if (current.boundary() instanceof ISignal<?>) {
-                if (current.boundary() instanceof ISignalStateEvaluator evaluator)
+            if (edgePoint instanceof ISignal<?>) {
+                if (edgePoint instanceof ISignalStateEvaluator evaluator)
                     currentSignalState = evaluator.evaluateSignalState(current.signalDirection(), upcomingSignalState, train);
                 else
-                    currentSignalState = new SignalStateNode();
-                currentSignalState.setAxisDirection(current.signalDirection()).setDistanceToNextSignal(current.distanceFromPreviousSignal())
+                    currentSignalState = SignalStateNode.fromCache(edgePoint, current.signalDirection() == Direction.AxisDirection.POSITIVE);
+                currentSignalState.setDistanceToNextSignal(current.distanceFromPreviousSignal())
                         .setNextState(upcomingSignalState)
-                        .setProceed(!current.isStoppingAtThisNode());
+                        .setProceed(!current.isStoppingAtThisNode())
+                        .setReservedBy(train.id);
             }
 
-            for (ISignalStateModifier modifier : current.signalModifierSnapshot()) {
-                modifier.applyModifier(currentSignalState);
+            if (currentSignalState != null) {
+                for (ISignalStateModifier modifier : current.signalModifierSnapshot()) {
+                    modifier.applyModifier(currentSignalState);
+                }
             }
 
             current.boundary().onSignalScout(

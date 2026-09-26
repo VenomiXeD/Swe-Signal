@@ -10,5 +10,12 @@
   "extended_signals.schedule.door.title": "Close doors",
   "extended_signals.schedule.instruction.door": "Close doors",
   "item.extended_signals.signalitem": "Signalitem",
-  "itemGroup.extended_signals.extended_signals": "Extended Signals"
+  "itemGroup.extended_signals.extended_signals": "Extended Signals",
+  "train_map.extended_signals.edgepoint.path_label.name": "Path Label",
+  "train_map.extended_signals.edgepoint.local_speed_modifier.name": "Local Speed Modifier",
+  "train_map.extended_signals.edgepoint.line_speed_modifier.name": "Line Speed Modifier",
+  "train_map.extended_signals.edgepoint.path_train_detector.name": "Signal Scout Observer",
+  "train_map.extended_signals.edgepoint.repeater.name": "Distant/Repeater Signal",
+  "train_map.extended_signals.edgepoint.create_signal.name": "Create Train Signal",
+  "train_map.extended_signals.edgepoint.train_station.name": "Train Station"
 }

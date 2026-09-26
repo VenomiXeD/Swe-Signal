@@ -5,10 +5,12 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
+import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalBlockEntity;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundSyncSignalStatesPacket;
 
 
@@ -23,7 +25,7 @@ public class Events {
     public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent e) {
         if (e.getEntity() instanceof ServerPlayer serverPlayer && !e.getEntity().level().isClientSide()) {
             ClientBoundSyncSignalStatesPacket syncPacket = new ClientBoundSyncSignalStatesPacket(
-                    ExtendedSignals.serverNetworkCache().signalStates()
+                    ExtendedSignals.serverNetworkCache().signalStateMapping()
             );
 
             PacketDistributor.sendToPlayer(serverPlayer, syncPacket);
@@ -36,5 +38,11 @@ public class Events {
         if (blockEntity instanceof CoreBlockEntity blockEntitySignal) {
             blockEntitySignal.onBlockDestroyed(e.getPlayer().level(), e.getPlayer());
         }
+    }
+
+    @SubscribeEvent
+    public static void onBlockRightClicked(PlayerInteractEvent.RightClickBlock e) {
+        if (e.getLevel().getBlockEntity(e.getPos()) instanceof ISignalBlockEntity signalBlockEntity)
+            signalBlockEntity.onRightClick(e.getLevel(), e.getEntity(), e.getUseItem(), e.getItemStack());
     }
 }
