@@ -2,6 +2,7 @@ package venomized.mods.extendedsignals.core.blockentity.railway;
 
 import com.simibubi.create.content.contraptions.StructureTransform;
 import com.simibubi.create.content.trains.graph.EdgePointType;
+import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -30,19 +31,11 @@ public class BlockEntityLocalSpeedModifier extends BlockEntityPointModifier<Loca
     }
 
     /**
-     * @return
-     */
-    @Override
-    protected EdgePointType<LocalSpeedModifier> edgePointType() {
-        return CoreEdgePoints.LOCAL_SPEED_MODIFIER;
-    }
-
-    /**
      * @param behaviours
      */
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        super.addBehaviours(behaviours);
+        behaviours.add(new TrackTargetingBehaviour<>(this, CoreEdgePoints.LOCAL_SPEED_MODIFIER));
     }
 
     /**

@@ -11,5 +11,5 @@ import venomized.mods.extendedsignals.core.create.tracks.points.IExtendedEdgePoi
 public final class DelayedSignalCrossTrigger {
     int remainingDelayTicks;
     boolean primary;
-    IExtendedEdgePoint<?> signalBoundary;
+    IExtendedEdgePoint signalBoundary;
 }

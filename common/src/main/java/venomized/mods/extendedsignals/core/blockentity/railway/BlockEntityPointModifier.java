@@ -50,16 +50,6 @@ public abstract class BlockEntityPointModifier<T extends TrackEdgePoint> extends
         this.setChanged();
     }
 
-    protected abstract EdgePointType<T> edgePointType();
-
-    /**
-     * @param behaviours
-     */
-    @Override
-    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        behaviours.add(edgePoint = new TrackTargetingBehaviour<>(this, edgePointType()));
-    }
-
     public void transform(BlockEntity blockEntity, StructureTransform transform) {
         edgePoint.transform(blockEntity, transform);
     }

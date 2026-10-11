@@ -39,6 +39,7 @@ import venomized.mods.extendedsignals.core.create.tracks.points.TrackEdgePointSi
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -199,7 +200,7 @@ public abstract class MixinNavigation implements INavigation {
                             .getSecond()
                     );
 
-                    if (!(trackEdgePoint instanceof IExtendedEdgePoint<?> extendedSignalPoint)) {
+                    if (!(trackEdgePoint instanceof IExtendedEdgePoint extendedSignalPoint)) {
                         return false;
                     }
                     double deltaSignalDistance = previousSignalDistance.getValue() < 0
@@ -227,10 +228,10 @@ public abstract class MixinNavigation implements INavigation {
         final Map<ResourceLocation, ISignalStateModifier> predictedModifiers = new Object2ReferenceArrayMap<>();
         extendedSignals$encounteredTrackEdgePointModifiers().forEach((key, value) -> {
             ISignalStateModifier.ModifierAction action =
-                    value.modifier().onAction(value.front(), extendedSignals$persistentCollectedEdgePoints, train);
+                    value.modifier().get().onAction(value.front(), extendedSignals$persistentCollectedEdgePoints, train);
 
             if (action == ISignalStateModifier.ModifierAction.APPLY)
-                predictedModifiers.put(key, value.modifier());
+                predictedModifiers.put(key, value.modifier().get());
             else if (action == ISignalStateModifier.ModifierAction.DISCARD)
                 predictedModifiers.remove(key);
         });
@@ -252,7 +253,7 @@ public abstract class MixinNavigation implements INavigation {
                             .remove(modifierPoint.getType().getId());
                 }
             }
-            collected.signalModifierSnapshot().addAll(predictedModifiers.values());
+            collected.signalModifierSnapshot().addAll(predictedModifiers.values().stream().map(WeakReference::new).toList());
         });
 
     }
@@ -316,6 +317,7 @@ public abstract class MixinNavigation implements INavigation {
                     currentSignalState = evaluator.evaluateSignalState(current.signalDirection(), upcomingSignalState, train);
                 else
                     currentSignalState = SignalStateNode.fromCache(edgePoint, current.signalDirection() == Direction.AxisDirection.POSITIVE);
+
                 currentSignalState.setDistanceToNextSignal(current.distanceFromPreviousSignal())
                         .setNextState(upcomingSignalState)
                         .setProceed(!current.isStoppingAtThisNode())
@@ -323,7 +325,7 @@ public abstract class MixinNavigation implements INavigation {
             }
 
             if (currentSignalState != null) {
-                for (ISignalStateModifier modifier : current.signalModifierSnapshot()) {
+                for (ISignalStateModifier modifier : current.signalModifierSnapshot().stream().map(WeakReference::get).toList()) {
                     modifier.applyModifier(currentSignalState);
                 }
             }

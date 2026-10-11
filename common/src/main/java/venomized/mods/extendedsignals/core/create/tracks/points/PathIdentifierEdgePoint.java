@@ -8,7 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
 
-public class PathIdentifierEdgePoint extends DirectionalEdgePoint<PathIdentifierEdgePoint> implements IExtendedEdgePoint<PathIdentifierEdgePoint>, IConfigurableEdgePoint {
+public class PathIdentifierEdgePoint extends DirectionalEdgePoint<PathIdentifierEdgePoint> implements IExtendedEdgePoint, IConfigurableEdgePoint {
     /**
      * @return
      */

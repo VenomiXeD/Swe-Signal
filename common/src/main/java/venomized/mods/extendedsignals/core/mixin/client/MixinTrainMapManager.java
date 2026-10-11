@@ -54,16 +54,18 @@ public abstract class MixinTrainMapManager {
     @Inject(method = "drawPoints", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/graph/TrackGraph;getPoints(Lcom/simibubi/create/content/trains/graph/EdgePointType;)Ljava/util/Collection;"))
     private static void extendedSignals$drawAdvancedPoints(GuiGraphics graphics, int mouseX, int mouseY, Object hoveredElement, Rect2i bounds, CallbackInfoReturnable<Object> cir, @Local(name = "graph") TrackGraph graph, @Local(name = "pose") PoseStack pose, @Local(name = "hoveredElement", index = 0, ordinal = 0, argsOnly = true) LocalRef<Object> hElement) {
         EdgePointStorage e = ((TrackGraphAccessor) graph).getEdgePoints();
-        TrackEdgePoint[] points = ((EdgePointStorageAccessor) e).getPoints().values().stream().flatMap(o -> o.values().stream()).toArray(TrackEdgePoint[]::new);
-        for (TrackEdgePoint signal : points) {
-            if (signal instanceof IExtendedEdgePoint<?>)
-                extendedSignals$drawExtendedSignalEdgePoint(graphics, mouseX, mouseY, hoveredElement, bounds, graph, pose, hElement, signal);
-        }
+        ((EdgePointStorageAccessor) e).getPoints().values().forEach(map ->
+                map.values().forEach(edgePoint -> {
+                    if (edgePoint instanceof IExtendedEdgePoint) {
+                        extendedSignals$drawExtendedSignalEdgePoint(graphics, mouseX, mouseY, hoveredElement, bounds, graph, pose, hElement, edgePoint);
+                    }
+                })
+        );
     }
 
     @Unique
     private static void extendedSignals$drawExtendedSignalEdgePoint(GuiGraphics graphics, int mouseX, int mouseY, Object hoveredElement, Rect2i bounds, TrackGraph graph, PoseStack pose, LocalRef<Object> hElement, TrackEdgePoint signal) {
-        IExtendedEdgePoint<?> extendedEdgePoint = (IExtendedEdgePoint<?>) signal;
+        IExtendedEdgePoint extendedEdgePoint = (IExtendedEdgePoint) signal;
         Couple<TrackNodeLocation> edgeLocation = signal.edgeLocation;
         TrackNode node = graph.locateNode(edgeLocation.getFirst());
         TrackNode other = graph.locateNode(edgeLocation.getSecond());
@@ -123,11 +125,11 @@ public abstract class MixinTrainMapManager {
         }
     }
 
-    @Inject(method = "renderAndPick", at = @At(value = "RETURN", target = "Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;endBatch()V"), cancellable = true)
+    @Inject(method = "renderAndPick", at = @At(value = "TAIL"), cancellable = true)
     private static void extendedSignals$additionalRenderAndPick(GuiGraphics graphics, int mouseX, int mouseY, boolean linearFiltering, Rect2i bounds, CallbackInfoReturnable<List<FormattedText>> cir, @Local(name = "hoveredElement") Object hoveredElement) {
         List<FormattedText> texts = new ReferenceArrayList<>();
         List<FormattedText> original = cir.getReturnValue() == null ? List.of() : cir.getReturnValue();
-        if (hoveredElement instanceof IExtendedEdgePoint<?> point) {
+        if (hoveredElement instanceof IExtendedEdgePoint point) {
             extendedSignals$commonExtendedPointDetails(texts, point);
             if (point instanceof ISignal<?> signal)
                 extendedSignals$listSignalDetails(texts, signal);
@@ -182,7 +184,7 @@ public abstract class MixinTrainMapManager {
     }
 
     @Unique
-    private static void extendedSignals$commonExtendedPointDetails(final List<FormattedText> text, IExtendedEdgePoint<?> point) {
+    private static void extendedSignals$commonExtendedPointDetails(final List<FormattedText> text, IExtendedEdgePoint point) {
         text.add(point.getName().copy().withStyle(ChatFormatting.BOLD));
     }
 }

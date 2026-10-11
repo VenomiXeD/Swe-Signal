@@ -16,6 +16,7 @@ import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
 import java.util.Locale;
 import java.util.UUID;
 
+// ugly packet but it works
 public record ClientBoundUpdateMainSignalEdgePointTagPacket(ResourceLocation edgePointTypeId, UUID point, boolean front,
                                                             boolean value) implements CustomPacketPayload {
     public static final Type<ClientBoundUpdateMainSignalEdgePointTagPacket> TYPE = new Type<>(ExtendedSignals.res(ClientBoundUpdateMainSignalEdgePointTagPacket.class.getSimpleName().toLowerCase(Locale.ROOT)));

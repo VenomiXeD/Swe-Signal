@@ -11,7 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public abstract class DirectionalEdgePoint<T extends TrackEdgePoint> extends TrackEdgePoint implements IExtendedEdgePoint<T> {
+public abstract class DirectionalEdgePoint<T extends TrackEdgePoint> extends TrackEdgePoint implements IExtendedEdgePoint {
     @Getter
     @Setter
     private boolean front;

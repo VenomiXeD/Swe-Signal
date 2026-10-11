@@ -106,7 +106,8 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
      */
     @Override
     public boolean facingDirections(boolean primary, TrackNode node) {
-        return extendedSignals$clientFacingDirections.get(primary);
+        //return extendedSignals$clientFacingDirections.get(primary);
+        return true;
     }
 
 
@@ -118,7 +119,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
     public SignalStateNode evaluateSignalState(Direction.AxisDirection direction, SignalStateNode upcomingSignal, Train train) {
         boolean primary = direction == Direction.AxisDirection.POSITIVE;
         if (extendedSignals$blockSignalModeEnabled.get(primary)) {
-            return SignalStateNode.fromCache(this, primary);
+            return extendedSignals$blockSignalState.get(primary);
         }
         SignalEdgeGroup entering = Create.RAILWAYS.signalEdgeGroups.get(groups.get(primary));
         if (isForcedRed(primary))
@@ -126,7 +127,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
         if (InterlockingManager.trainOwnsGroupIntersecting(train, entering) == InterlockingManager.ReservationResult.CONFLICT)
             return ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY.modifyState(id, primary, state -> state.setProceed(false));
 
-        return ExtendedSignals.serverNetworkCache().modifyState(this.id, primary, state -> state.setProceed(true));
+        return ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY.modifyState(this.id, primary, state -> state.setProceed(true));
     }
 
     @Inject(method = "write(Lnet/minecraft/network/FriendlyByteBuf;Lcom/simibubi/create/content/trains/graph/DimensionPalette;)V", at = @At("TAIL"))
@@ -186,7 +187,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
     }
 
     @Unique
-    private void extendedSignals$rescoutForNextSignal(TrackGraph graph, boolean front) {
+    private void extendedSignals$scoutForNextSignal(TrackGraph graph, boolean front) {
         if (graph == null)
             return;
         Couple<TrackNode> nodes = edgeLocation.map(
@@ -275,11 +276,11 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
             return;
         // Create.RAILWAYS.signalEdgeGroups.get(groups.get(front)).isOccupiedUnless((SignalBoundary)(Object)this)
         extendedSignals$previousSignalState.set(front, cachedStates.get(front));
-        extendedSignals$rescoutForNextSignal(graph, front);
-        UUID point = extendedSignals$nextSignalBoundaryEdgePointId.get(front);
+        extendedSignals$scoutForNextSignal(graph, front);
+        UUID nextPoint = extendedSignals$nextSignalBoundaryEdgePointId.get(front);
         boolean nextFront = extendedSignals$nextSignalBoundaryEdgePointFront.get(front);
         extendedSignals$blockSignalState.set(front, ExtendedSignals.serverNetworkCache().modifyState(this.id, front, state ->
-                state.setNextState(SignalStateNode.fromCache(point, nextFront)).setProceed(cachedStates.get(front) != SignalBlockEntity.SignalState.RED)
+                state.setNextState(SignalStateNode.fromCache(nextPoint, nextFront)).setProceed(cachedStates.get(front) != SignalBlockEntity.SignalState.RED)
         ));
     }
 
@@ -291,6 +292,6 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
     @Override
     public void applySpeed(boolean front, List<CollectedEdgePoint> points, Train train) {
         if (isMainSignal(front))
-            train.throttle = TrainHelp.trainSpeedPercentFromKph(currentSignalState(front).getMaxProceedSpeed(), train, train.manualTick);
+            TrainHelp.updateSpeed(train, currentSignalState(front).getMaxProceedSpeed());
     }
 }

@@ -6,7 +6,7 @@ import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint<T> {
+public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint {
     boolean isMainSignal(boolean front);
 
     void setMainSignal(boolean front, boolean mainSignal);

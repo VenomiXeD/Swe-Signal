@@ -27,4 +27,6 @@ public class BlockLineSpeedModifier extends EdgePointBlock<BlockEntityLineSpeedM
     public BlockEntityType<BlockEntityLineSpeedModifier> getBlockEntityType() {
         return CoreBlockEntities.LINE_SPEED_MODIFIER.get();
     }
+
+
 }

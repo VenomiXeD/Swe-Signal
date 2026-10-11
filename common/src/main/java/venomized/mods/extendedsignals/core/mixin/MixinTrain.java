@@ -1,10 +1,7 @@
 package venomized.mods.extendedsignals.core.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.simibubi.create.content.trains.entity.Carriage;
-import com.simibubi.create.content.trains.entity.Navigation;
-import com.simibubi.create.content.trains.entity.Train;
-import com.simibubi.create.content.trains.entity.TravellingPoint;
+import com.simibubi.create.content.trains.entity.*;
 import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.schedule.ScheduleRuntime;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
@@ -37,6 +34,7 @@ import venomized.mods.extendedsignals.core.signalling.ShuntRequest;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.TrackedValue;
 
+import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -45,13 +43,11 @@ import java.util.UUID;
 @Mixin(value = Train.class, remap = false)
 public abstract class MixinTrain implements ITrainDoorData, ITrain {
     @Unique
-    private final List<DelayedSignalCrossTrigger> extendedSignals$frontDelayedOnCrossedTriggering = new ReferenceArrayList<>();
+    private List<DelayedSignalCrossTrigger> extendedSignals$frontDelayedOnCrossedTriggering;
     @Unique
-    private final List<DelayedSignalCrossTrigger> extendedSignals$backDelayedOnCrossedTriggering = new ReferenceArrayList<>();
+    private List<DelayedSignalCrossTrigger> extendedSignals$backDelayedOnCrossedTriggering;
     @Unique
-    private final TrackedValue<Double> extendedSignals$speedTracker = new TrackedValue<>(0d, this::extendedSignals$onSpeedChanged);
-    @Unique
-    private final int extendedSignals$shuntRequestCooldown = 0;
+    private TrackedValue<Double> extendedSignals$speedTracker;
     @Shadow
     public ScheduleRuntime runtime;
     @Shadow
@@ -79,6 +75,14 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
         PacketDistributor.sendToAllPlayers(new ClientBoundMiscTrainDataPacket(id, newValue * 20f, (oldValue - newValue) * 20f));
     }
 
+    @Inject(method = "<init>(Ljava/util/UUID;Ljava/util/UUID;Lcom/simibubi/create/content/trains/graph/TrackGraph;Ljava/util/List;Ljava/util/List;ZLnet/minecraft/network/chat/Component;Lcom/simibubi/create/content/trains/entity/TrainIconType;I)V", at = @At("RETURN"))
+    public void extendedSignals$Ctor(UUID id, UUID owner, TrackGraph graph, List carriages, List carriageSpacing, boolean doubleEnded, Component name, TrainIconType icon, int mapColorIndex, CallbackInfo ci) {
+        extendedSignals$speedTracker = new TrackedValue<>(0d, this::extendedSignals$onSpeedChanged);
+
+        extendedSignals$backDelayedOnCrossedTriggering = new ReferenceArrayList<>();
+        extendedSignals$frontDelayedOnCrossedTriggering = new ReferenceArrayList<>();
+    }
+
     @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"), order = 900)
     // Order = 900, Steam n' Rails on NeoForge prematurely cancels our handler so it never gets executed and as such, signals never flip to red.
     public TravellingPoint.IEdgePointListener extendedSignals$hookFrontSignalListener(TravellingPoint.IEdgePointListener original) {
@@ -95,10 +99,10 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
             }
 
 
-            if (signalState != null && signalState.isValid() && trackEdgePoint instanceof ISignal<?>) {
+            if (signalState != null && trackEdgePoint instanceof ISignal<?>) {
                 ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().values().forEach(e -> {
-                    if (e.modifier().onAction(front, ((INavigation) navigation).extendedSignals$currentScoutedEdgePoints(), (Train) (Object) this) == ISignalStateModifier.ModifierAction.APPLY)
-                        e.modifier().applyModifier(signalState);
+                    if (e.modifier().get().onAction(front, ((INavigation) navigation).extendedSignals$currentScoutedEdgePoints(), (Train) (Object) this) == ISignalStateModifier.ModifierAction.APPLY)
+                        e.modifier().get().applyModifier(signalState);
                 });
             }
 
@@ -106,7 +110,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                 speedPoint.applySpeed(front, ((INavigation) navigation).extendedSignals$currentScoutedEdgePoints(), ((Train) (Object) this));
             }
 
-            if (trackEdgePoint instanceof IExtendedEdgePoint<?> signalBoundary) {
+            if (trackEdgePoint instanceof IExtendedEdgePoint signalBoundary) {
                 if (this.navigation == null || this.navigation.distanceToSignal != 0) {
                     extendedSignals$frontDelayedOnCrossedTriggering.add(
                             new DelayedSignalCrossTrigger(ExtendedSignalsConfig.SERVER.signalPassedStateChangeDelay.getAsInt(), front, signalBoundary)
@@ -119,10 +123,9 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                         if (modifierPoint.isDiscardMode()) {
                             ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().remove(modifierPoint.getType().getId());
                         } else {
-                            ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().put(modifierPoint.getType().getId(), new EncounteredPoint(front, modifierPoint));
+                            ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().put(modifierPoint.getType().getId(), new EncounteredPoint(front, new WeakReference<>(modifierPoint)));
                         }
                     }
-                    return false;
                 }
             }
 
@@ -156,7 +159,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
             boolean front = trackEdgePoint.isPrimary(couple.getSecond()
                     .getSecond());// Objects.equals(enteringGroup, signalBoundary.groups.getFirst());
 
-            if (trackEdgePoint instanceof IExtendedEdgePoint<?> signalBoundary) {
+            if (trackEdgePoint instanceof IExtendedEdgePoint signalBoundary) {
                 extendedSignals$backDelayedOnCrossedTriggering.add(
                         new DelayedSignalCrossTrigger(ExtendedSignalsConfig.SERVER.signalPassedStateChangeDelay.getAsInt(), front, signalBoundary)
                 );
@@ -197,7 +200,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
                     if (point instanceof SignalBoundary signalBoundary) {
                         @SuppressWarnings("unchecked")
-                        IExtendedEdgePoint<SignalBoundary> boundary = (IExtendedEdgePoint<SignalBoundary>) signalBoundary;
+                        IExtendedEdgePoint boundary = (IExtendedEdgePoint) signalBoundary;
                         boundary.onSignalScout(
                                 primary ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
                                 new SignalStateNode().setProceed(true), ((Train) (Object) this), distance

@@ -4,13 +4,14 @@ import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.create.tracks.points.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.create.tracks.points.ISignalStateModifier;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 public record CollectedEdgePoint(
-        IExtendedEdgePoint<?> boundary,
+        IExtendedEdgePoint boundary,
         Direction.AxisDirection signalDirection,
         boolean isStoppingAtThisNode, double distance,
         double distanceFromPreviousSignal,
-        List<ISignalStateModifier> signalModifierSnapshot
+        List<WeakReference<ISignalStateModifier>> signalModifierSnapshot
 ) {
 }

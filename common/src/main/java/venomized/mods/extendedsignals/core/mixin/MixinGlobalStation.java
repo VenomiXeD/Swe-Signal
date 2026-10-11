@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import venomized.mods.extendedsignals.core.create.tracks.points.IExtendedEdgePoint;
 
 @Mixin(value = GlobalStation.class, remap = false)
-public abstract class MixinGlobalStation implements IExtendedEdgePoint<GlobalStation> {
+public abstract class MixinGlobalStation implements IExtendedEdgePoint {
     /**
      * @return
      */

@@ -23,7 +23,7 @@ import net.neoforged.neoforge.common.util.TriState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
-import venomized.mods.extendedsignals.core.blockentity.ITrackEdgePointHolder;
+import venomized.mods.extendedsignals.core.blockentity.IEdgePointBlockEntity;
 import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalBlockEntity;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
@@ -31,7 +31,7 @@ import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
 import java.util.UUID;
 
 @Mixin(value = SignalBlockEntity.class, remap = false)
-public abstract class MixinSignalBlockEntity extends SmartBlockEntity implements ISignalTunerToolable, ITrackEdgePointHolder, ISignalBlockEntity {
+public abstract class MixinSignalBlockEntity extends SmartBlockEntity implements ISignalTunerToolable, IEdgePointBlockEntity, ISignalBlockEntity {
     @Shadow
     public TrackTargetingBehaviour<SignalBoundary> edgePoint;
 

@@ -4,6 +4,7 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import net.minecraft.util.Mth;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.mixin.MixinSignalEdgeGroupAccessor;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
 
@@ -27,6 +28,15 @@ public class TrainHelp {
 
     public static double trainSpeedMsFromPercent(final double percent, Train train, boolean manual) {
         return train.maxSpeed() * percent * 20d * (speedFactorIfManual(manual));
+    }
+
+    public static void updateSpeed(Train train, double speedInKph) {
+        double old = train.throttle;
+        train.throttle = TrainHelp.trainSpeedPercentFromKph(speedInKph, train, train.manualTick);
+        if (train.throttle <= 0) {
+            ExtendedSignals.LOGGER.warn("Point set speed to 0 for {}; Something is not acting properly... Throttle remains unchanged", train.name.getString());
+            train.throttle = old;
+        }
     }
 
     public static double absoluteTopSpeedForTrainsMs() {

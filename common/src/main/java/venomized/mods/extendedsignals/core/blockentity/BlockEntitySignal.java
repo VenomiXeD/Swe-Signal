@@ -89,7 +89,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
      */
     @Override
     public InteractionResult readerBindingToSource(@UnknownNullability ISignalTunerToolable sourceBlockEntity, SignalTunerMode mode, UseOnContext useContext) {
-        if (sourceBlockEntity instanceof ITrackEdgePointHolder sb) {
+        if (sourceBlockEntity instanceof IEdgePointBlockEntity sb) {
             configureFromSignal(sb);
             if (this.targetEdgePointId == null)
                 return InteractionResult.PASS;
@@ -138,7 +138,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
         return InteractionResult.PASS;
     }
 
-    public void configureFromSignal(ITrackEdgePointHolder signalProvider) {
+    public void configureFromSignal(IEdgePointBlockEntity signalProvider) {
         targetEdgePointId = signalProvider.getTrackTargetingBehavior().getEdgePoint().getId();
         signallingDirection = signalProvider.getTrackTargetingBehavior().getTargetDirection();
 
@@ -170,7 +170,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
             return;
         }
         signalSource.getReference(level).ifPresent(blockEntity -> {
-            if (blockEntity instanceof ITrackEdgePointHolder signalEdgePointProvider) {
+            if (blockEntity instanceof IEdgePointBlockEntity signalEdgePointProvider) {
                 boolean front = signallingDirection == Direction.AxisDirection.POSITIVE;
                 if (signalEdgePointProvider.getTrackTargetingBehavior().getEdgePoint() instanceof ISignal<?> signal) {
                     signal.setMainSignal(front, false);

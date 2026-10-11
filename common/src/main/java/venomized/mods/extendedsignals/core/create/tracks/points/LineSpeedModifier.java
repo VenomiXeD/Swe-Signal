@@ -8,6 +8,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.math.NumberUtils;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
 import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -79,7 +80,8 @@ public class LineSpeedModifier extends TrackEdgePointSignalModifier<LineSpeedMod
      */
     @Override
     public void applySpeed(boolean front, List<CollectedEdgePoint> points, Train train) {
-        if (selfTrigger && onAction(front, points, train) == ModifierAction.APPLY)
-            train.throttle = TrainHelp.trainSpeedPercentFromKph(speedModifierKph, train, train.manualTick);
+        if (selfTrigger && onAction(front, points, train) == ModifierAction.APPLY) {
+            TrainHelp.updateSpeed(train, speedModifierKph);
+        }
     }
 }

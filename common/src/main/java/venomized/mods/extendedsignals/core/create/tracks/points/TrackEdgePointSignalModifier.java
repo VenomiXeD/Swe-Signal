@@ -14,7 +14,7 @@ import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> extends DirectionalEdgePoint<T> implements IExtendedEdgePoint<T>, ISignalStateModifier, IConfigurableEdgePoint {
+public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> extends DirectionalEdgePoint<T> implements ISignalStateModifier, IConfigurableEdgePoint {
     @Getter
     @Setter
     protected boolean discardMode;
@@ -46,18 +46,6 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
         nbt.putBoolean("forced", forcedMode);
         nbt.putBoolean("self_trigger", selfTrigger);
         nbt.putString("path_key", pathIdentifierActivationPattern);
-    }
-
-    /**
-     * @param otherType
-     * @param front
-     * @return
-     */
-    @Override
-    public boolean canCoexistWith(EdgePointType<?> otherType, boolean front) {
-        if (otherType == EdgePointType.SIGNAL)
-            return true;
-        return super.canCoexistWith(otherType, front);
     }
 
     /**
@@ -99,13 +87,5 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
         return points.stream().anyMatch(e -> e.boundary() instanceof PathIdentifierEdgePoint point && Pattern.matches(pathIdentifierActivationPattern, point.getPathIdentifierKey())) ?
                 ModifierAction.APPLY :
                 ModifierAction.NONE;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public boolean canMerge() {
-        return true;
     }
 }
