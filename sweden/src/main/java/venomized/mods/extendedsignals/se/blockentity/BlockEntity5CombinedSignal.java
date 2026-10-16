@@ -80,7 +80,7 @@ public class BlockEntity5CombinedSignal extends BlockEntitySwedishSignal<ICombin
             }
 
             if (distant.getMaxProceedSpeed() >= 80) {
-                if (blink)
+                if (blink && !is40)
                     lights.powered("l3");
             } else {
                 if (blink && !is40) {
