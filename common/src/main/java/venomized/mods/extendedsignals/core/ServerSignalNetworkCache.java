@@ -4,21 +4,21 @@ import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.graph.TrackGraph;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.createmod.catnip.data.Couple;
+import net.createmod.catnip.data.Pair;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ArrayListDeque;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.neoforged.neoforge.network.PacketDistributor;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundSyncSignalStatePacket;
 import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -28,6 +28,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
     private static final String NAME = "extended_signals_signal_mapping_data";
 
     private final Map<UUID, Couple<SignalStateNode>> signalEdgeStateMapping = new Object2ReferenceOpenHashMap<>();
+    private final Queue<Pair<UUID, Boolean>> queuedUpdates = new ArrayListDeque<>();
 
     public static ServerSignalNetworkCache get(final MinecraftServer server) {
         ExtendedSignals.LOGGER.info("Extended Signals is loading signal data...");
@@ -114,9 +115,16 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
         if (old == state.networkStateHash())
             return state;
 
-        PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(id, direction, state));
+        queuedUpdates.add(Pair.of(id, direction));
         this.setDirty(true);
 
         return state;
+    }
+
+    public void tickSynchronize() {
+        while (!queuedUpdates.isEmpty()) {
+            Pair<UUID, Boolean> pair = queuedUpdates.remove();
+            PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(pair.getFirst(), pair.getSecond(), getSignalState(pair.getFirst(), pair.getSecond())));
+        }
     }
 }

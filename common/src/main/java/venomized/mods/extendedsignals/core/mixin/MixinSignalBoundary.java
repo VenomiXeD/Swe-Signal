@@ -211,11 +211,12 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
                 ),
                 (distance, detected) -> {
                     if (detected.getFirst() instanceof SignalBoundary signalBoundary) {
-                        if ((Object) this == signalBoundary)
+                        if ((Object) this == signalBoundary) //Ignore self if we... Scouted self?
                             return false;
                         extendedSignals$nextSignalBoundaryEdgePointId.set(front, signalBoundary.getId());
                         extendedSignals$nextSignalBoundaryEdgePointFront.set(front,
-                                signalBoundary.isPrimary(detected.getSecond().getSecond()) == this.isPrimary(nodes.getSecond()));
+                                signalBoundary.isPrimary(detected.getSecond().getSecond())
+                        );
                         return true;
                     }
                     return false;

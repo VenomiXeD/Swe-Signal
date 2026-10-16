@@ -51,6 +51,6 @@ public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint {
     }
 
     default SignalStateNode currentSignalState(boolean front) {
-        return ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY.getSignalState(((TrackEdgePoint) this).id, front);
+        return SignalStateNode.fromCache(((TrackEdgePoint) this).id, front);
     }
 }

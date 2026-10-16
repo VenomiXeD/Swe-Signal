@@ -42,6 +42,7 @@ import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @Mixin(value = Navigation.class, remap = false)
@@ -227,11 +228,15 @@ public abstract class MixinNavigation implements INavigation {
 
         final Map<ResourceLocation, ISignalStateModifier> predictedModifiers = new Object2ReferenceArrayMap<>();
         extendedSignals$encounteredTrackEdgePointModifiers().forEach((key, value) -> {
+            ISignalStateModifier modifierPoint = value.modifier().get();
+            if (modifierPoint == null)
+                return;
+
             ISignalStateModifier.ModifierAction action =
-                    value.modifier().get().onAction(value.front(), extendedSignals$persistentCollectedEdgePoints, train);
+                    modifierPoint.onAction(value.front(), extendedSignals$persistentCollectedEdgePoints, train);
 
             if (action == ISignalStateModifier.ModifierAction.APPLY)
-                predictedModifiers.put(key, value.modifier().get());
+                predictedModifiers.put(key, modifierPoint);
             else if (action == ISignalStateModifier.ModifierAction.DISCARD)
                 predictedModifiers.remove(key);
         });
@@ -269,7 +274,7 @@ public abstract class MixinNavigation implements INavigation {
                         createSignalBoundary.isForcedRed(primary) ||
                         InterlockingManager.trainOwnsGroupIntersecting(train, signalEdgeGroup) == InterlockingManager.ReservationResult.CONFLICT;
         }
-        return blockOccupied || ((waitingForSignal != null) && trackEdgePoint.id.equals(waitingForSignal.getFirst())) && primary == waitingForSignal.getSecond();
+        return blockOccupied || ((waitingForSignal != null) && Objects.equals(trackEdgePoint.id, waitingForSignal.getFirst())) && primary == waitingForSignal.getSecond();
     }
 
     @Inject(
@@ -325,7 +330,7 @@ public abstract class MixinNavigation implements INavigation {
             }
 
             if (currentSignalState != null) {
-                for (ISignalStateModifier modifier : current.signalModifierSnapshot().stream().map(WeakReference::get).toList()) {
+                for (ISignalStateModifier modifier : current.signalModifierSnapshot().stream().map(WeakReference::get).filter(e -> !Objects.isNull(e)).toList()) {
                     modifier.applyModifier(currentSignalState);
                 }
             }

@@ -8,6 +8,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalBlockEntity;
@@ -30,6 +31,11 @@ public class Events {
 
             PacketDistributor.sendToPlayer(serverPlayer, syncPacket);
         }
+    }
+
+    @SubscribeEvent
+    public static void onLevelTickEvent(LevelTickEvent.Post event) {
+        ExtendedSignals.serverNetworkCache().tickSynchronize();
     }
 
     @SubscribeEvent

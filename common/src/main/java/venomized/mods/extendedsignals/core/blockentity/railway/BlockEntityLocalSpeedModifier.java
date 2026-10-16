@@ -35,7 +35,7 @@ public class BlockEntityLocalSpeedModifier extends BlockEntityPointModifier<Loca
      */
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        behaviours.add(new TrackTargetingBehaviour<>(this, CoreEdgePoints.LOCAL_SPEED_MODIFIER));
+        behaviours.add(edgePoint = new TrackTargetingBehaviour<>(this, CoreEdgePoints.LOCAL_SPEED_MODIFIER));
     }
 
     /**

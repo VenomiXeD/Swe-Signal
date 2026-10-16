@@ -34,7 +34,7 @@ public class BlockEntityLineSpeedModifier extends BlockEntityPointModifier<LineS
      */
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        behaviours.add(new TrackTargetingBehaviour<>(this, CoreEdgePoints.LINE_SPEED_MODIFIER));
+        behaviours.add(edgePoint = new TrackTargetingBehaviour<>(this, CoreEdgePoints.LINE_SPEED_MODIFIER));
     }
 
     /**

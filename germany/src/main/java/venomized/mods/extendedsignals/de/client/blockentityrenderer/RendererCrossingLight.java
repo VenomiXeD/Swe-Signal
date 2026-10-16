@@ -34,7 +34,7 @@ public class RendererCrossingLight extends RendererGeneric<BlockEntityCrossingLi
         boolean yellowLit = t >= 0 && t < 20 * 6;
         boolean redLit = t >= 20 * 6;
 
-        renderLightAt(0f, 10.25d / 16d, -3.25d / 16d, 3.25f, 3.25f, 0f, redLit ? 255 : 0, 0, 0);
-        renderLightAt(0f, 5.25d / 16d, -3.25d / 16d, 3.25f, 3.25f, 0f, yellowLit ? 255 : 0, yellowLit ? 255 : 0, 0);
+        renderLightAt(0f, 10.5d / 16d, -3.25d / 16d, 3.25f, 3.25f, 0f, redLit ? 255 : 0, 0, 0);
+        renderLightAt(0f, 5.5d / 16d, -3.25d / 16d, 3.25f, 3.25f, 0f, yellowLit ? 255 : 0, yellowLit ? 255 : 0, 0);
     }
 }
