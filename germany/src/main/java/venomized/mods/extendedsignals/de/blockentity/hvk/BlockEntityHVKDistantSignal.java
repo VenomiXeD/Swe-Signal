@@ -68,6 +68,6 @@ public class BlockEntityHVKDistantSignal extends BlockEntityHVKSignal<IDistantSi
     public @NotNull IDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
         if (state.getNextState() == null || state.getNextState().isStop())
             return HvDistantSignalAspect.EXPECT_STOP;
-        return HvDistantSignalAspect.interpret(state, incomingDirection);
+        return HvDistantSignalAspect.interpret(state, incomingDirection, true);
     }
 }

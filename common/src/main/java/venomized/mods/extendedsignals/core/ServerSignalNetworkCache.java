@@ -4,9 +4,8 @@ import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.graph.TrackGraph;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.createmod.catnip.data.Couple;
-import net.createmod.catnip.data.Pair;
+import net.createmod.catnip.data.Iterate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -19,7 +18,6 @@ import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * A class that represents the signal network for both the client and server.
@@ -27,8 +25,9 @@ import java.util.function.Consumer;
 public class ServerSignalNetworkCache extends SavedData implements ISignalNetwork {
     private static final String NAME = "extended_signals_signal_mapping_data";
 
-    private final Map<UUID, Couple<SignalStateNode>> signalEdgeStateMapping = new Object2ReferenceOpenHashMap<>();
-    private final Queue<Pair<UUID, Boolean>> queuedUpdates = new ArrayListDeque<>();
+    private final Map<UUID, Couple<SignalStateNode>> signalStateMapping = new Object2ReferenceOpenHashMap<>();
+    private final Map<UUID, Couple<Integer>> signalStateNetworkHashes = new Object2ReferenceOpenHashMap<>();
+    private final Queue<SignalSyncEntry> queuedUpdates = new ArrayListDeque<>();
 
     public static ServerSignalNetworkCache get(final MinecraftServer server) {
         ExtendedSignals.LOGGER.info("Extended Signals is loading signal data...");
@@ -60,7 +59,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
 
     private void removeDeadEdgePointReferences() {
         List<UUID> pointsToRemove = new ArrayList<>();
-        for (UUID uuidSignalStateNodeEntry : signalEdgeStateMapping.keySet()) {
+        for (UUID uuidSignalStateNodeEntry : signalStateMapping.keySet()) {
             boolean doesNotExist = true;
             for (TrackGraph graph : Create.RAILWAYS.trackNetworks.values()) {
                 for (EdgePointType<?> pointTypes : EdgePointType.TYPES.values()) {
@@ -77,7 +76,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
             }
         }
 
-        pointsToRemove.forEach(signalEdgeStateMapping::remove);
+        pointsToRemove.forEach(signalStateMapping::remove);
     }
 
     /**
@@ -85,7 +84,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
      */
     @Override
     public Map<UUID, Couple<SignalStateNode>> signalStateMapping() {
-        return this.signalEdgeStateMapping;
+        return this.signalStateMapping;
     }
 
     /**
@@ -105,26 +104,55 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
     /**
      * @param id
      * @param direction
-     * @param changeSignalStateCallback
      * @return
      */
     @Override
-    public SignalStateNode modifyState(UUID id, boolean direction, Consumer<SignalStateNode> changeSignalStateCallback) {
-        int old = getSignalState(id, direction).networkStateHash();
-        SignalStateNode state = ISignalNetwork.super.modifyState(id, direction, changeSignalStateCallback);
-        if (old == state.networkStateHash())
-            return state;
-
-        queuedUpdates.add(Pair.of(id, direction));
+    public SignalStateNode prepareModification(UUID id, boolean direction) {
+        SignalStateNode state = ISignalNetwork.super.prepareModification(id, direction);
         this.setDirty(true);
 
         return state;
     }
 
-    public void tickSynchronize() {
-        while (!queuedUpdates.isEmpty()) {
-            Pair<UUID, Boolean> pair = queuedUpdates.remove();
-            PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(pair.getFirst(), pair.getSecond(), getSignalState(pair.getFirst(), pair.getSecond())));
+    public void synchronize(UUID id, boolean direction) {
+        if (id == null)
+            return;
+        // TODO: Hash-based network state comparison and synchronization
+        SignalStateNode updatedState = getSignalState(id, direction);
+        if (signalStateNetworkHashes.computeIfAbsent(id, uuid -> Couple.create(0, 0)).get(direction) == updatedState.networkStateHash()) {
+            return;
         }
+
+        queuedUpdates.offer(new SignalSyncEntry(id, direction, updatedState));
+        signalStateNetworkHashes.get(id).set(direction, updatedState.networkStateHash());
+    }
+
+    public void synchronize(SignalStateNode state) {
+        if (state == null)
+            return;
+        synchronize(state.getThisStateID(), state.isThisStateFront());
+    }
+
+    public void tickSynchronize() {
+        // while (!queuedUpdates.isEmpty()) {
+        //     SignalSyncEntry pair = queuedUpdates.remove();
+        //     SignalStateNode state = getSignalState(pair.id(), pair.direction());
+        //     if (state.networkStateHash() == pair.networkStateHash())
+        //         return;
+        //     PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(pair.id(),  pair.direction(), state));
+        // }
+        // TODO: Make so that signals are only updated as needed
+        // for (boolean b : Iterate.trueAndFalse) {
+        //     signalStateMapping().forEach((uuid, signalState) -> {
+        //         PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(uuid, b, signalState.get(b)));
+        //     });
+        // }
+        while (!queuedUpdates.isEmpty()) {
+            SignalSyncEntry entry = queuedUpdates.remove();
+            PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(entry.id(), entry.direction(), entry.newState()));
+        }
+    }
+
+    private record SignalSyncEntry(UUID id, boolean direction, SignalStateNode newState) {
     }
 }

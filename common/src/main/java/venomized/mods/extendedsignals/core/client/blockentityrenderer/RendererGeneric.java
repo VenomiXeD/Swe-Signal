@@ -160,6 +160,9 @@ public class RendererGeneric<T extends BlockEntity> implements BlockEntityRender
      */
     @Override
     public void render(T pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
+        if (pBlockEntity.getLevel() == null)
+            return;
+
         blockEntity = pBlockEntity;
         poseStack = pPoseStack;
         bufferSource = pBuffer;

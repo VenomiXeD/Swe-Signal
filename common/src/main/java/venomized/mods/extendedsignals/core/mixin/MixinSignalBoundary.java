@@ -123,11 +123,11 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
         }
         SignalEdgeGroup entering = Create.RAILWAYS.signalEdgeGroups.get(groups.get(primary));
         if (isForcedRed(primary))
-            return ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY.modifyState(id, primary, state -> state.setProceed(false));
+            return ExtendedSignals.serverNetworkCache().prepareModification(id, primary).setProceed(false);
         if (InterlockingManager.trainOwnsGroupIntersecting(train, entering) == InterlockingManager.ReservationResult.CONFLICT)
-            return ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY.modifyState(id, primary, state -> state.setProceed(false));
+            return ExtendedSignals.serverNetworkCache().prepareModification(id, primary).setProceed(false);
 
-        return ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY.modifyState(this.id, primary, state -> state.setProceed(true));
+        return ExtendedSignals.serverNetworkCache().prepareModification(id, primary).setProceed(true);
     }
 
     @Inject(method = "write(Lnet/minecraft/network/FriendlyByteBuf;Lcom/simibubi/create/content/trains/graph/DimensionPalette;)V", at = @At("TAIL"))
@@ -269,7 +269,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
         return extendedSignals$blockSignalModeEnabled.get(front);
     }
 
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/createmod/catnip/data/Couple;get(Z)Ljava/lang/Object;"))
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/createmod/catnip/data/Couple;get(Z)Ljava/lang/Object;", ordinal = 0))
     public void extendedSignals$tick(CallbackInfo ci, @Local(name = "graph") TrackGraph graph, @Local(name = "front") boolean front) {
         if (!isBlockSignalMode(front))
             return;
@@ -280,9 +280,8 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
         extendedSignals$scoutForNextSignal(graph, front);
         UUID nextPoint = extendedSignals$nextSignalBoundaryEdgePointId.get(front);
         boolean nextFront = extendedSignals$nextSignalBoundaryEdgePointFront.get(front);
-        extendedSignals$blockSignalState.set(front, ExtendedSignals.serverNetworkCache().modifyState(this.id, front, state ->
-                state.setNextState(SignalStateNode.fromCache(nextPoint, nextFront)).setProceed(cachedStates.get(front) != SignalBlockEntity.SignalState.RED)
-        ));
+        extendedSignals$blockSignalState.set(front, ExtendedSignals.serverNetworkCache().prepareModification(this.id, front).setProceed(cachedStates.get(front) != SignalBlockEntity.SignalState.RED));
+        ExtendedSignals.serverNetworkCache().synchronize(extendedSignals$blockSignalState.get(front));
     }
 
     /**

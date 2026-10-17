@@ -16,7 +16,7 @@ public record HvCombinedSignalAspectCompositor(SignalStateNode rawState,
         HvMainSignalAspect.interpret(rawState, direction)
                 .applyAspect(totalTicksForBlockEntity, states);
 
-        HvDistantSignalAspect.interpret(rawState, direction)
+        HvDistantSignalAspect.interpret(rawState, direction, true)
                 .applyAspect(totalTicksForBlockEntity, states);
     }
 }

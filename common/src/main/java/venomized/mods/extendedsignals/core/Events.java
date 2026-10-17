@@ -2,6 +2,7 @@ package venomized.mods.extendedsignals.core;
 
 
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -35,7 +36,11 @@ public class Events {
 
     @SubscribeEvent
     public static void onLevelTickEvent(LevelTickEvent.Post event) {
-        ExtendedSignals.serverNetworkCache().tickSynchronize();
+        if (event.getLevel().isClientSide() || event.getLevel().dimension() != Level.OVERWORLD) return;
+        ServerSignalNetworkCache cache = ExtendedSignals.serverNetworkCache();
+        if (cache == null)
+            return;
+        cache.tickSynchronize();
     }
 
     @SubscribeEvent

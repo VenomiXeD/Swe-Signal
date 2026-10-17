@@ -149,7 +149,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBl
 
         // If the linked signal has no entry yet, push a new empty dummy raw signal state
         ISignalNetwork network = ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY;
-        network.updateState(targetEdgePointId, front, new SignalStateNode(targetEdgePointId, front));
+        network.prepareModification(targetEdgePointId, front).setProceed(false);
 
         if (signalProvider.getTrackTargetingBehavior().getEdgePoint() instanceof ISignal<?> signal) {
             signal.setMainSignal(front, hasMainSignalCapability());

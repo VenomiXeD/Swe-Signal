@@ -70,6 +70,8 @@ public final class GermanyModels {
     }
 
     public static PartialModel GATE_ARM = model("block/crossings/de/gate_arm");
+    public static PartialModel CROSSBUCK_ELECTRIC = model("block/crossings/de/crossbuck_electric");
+
     public static PartialModel NE_3_2 = model("block/signs/de/ne_3_2");
     public static PartialModel NE_3_3 = model("block/signs/de/ne_3_3");
 

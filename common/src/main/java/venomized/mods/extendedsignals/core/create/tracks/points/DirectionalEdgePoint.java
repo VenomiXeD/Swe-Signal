@@ -8,6 +8,7 @@ import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -81,5 +82,25 @@ public abstract class DirectionalEdgePoint<T extends TrackEdgePoint> extends Tra
     public void read(CompoundTag nbt, HolderLookup.Provider registries, boolean migration, DimensionPalette dimensions) {
         super.read(nbt, registries, migration, dimensions);
         front = nbt.getBoolean("primary");
+    }
+
+    /**
+     * @param buffer
+     * @param dimensions
+     */
+    @Override
+    public void read(FriendlyByteBuf buffer, DimensionPalette dimensions) {
+        super.read(buffer, dimensions);
+        front = buffer.readBoolean();
+    }
+
+    /**
+     * @param buffer
+     * @param dimensions
+     */
+    @Override
+    public void write(FriendlyByteBuf buffer, DimensionPalette dimensions) {
+        super.write(buffer, dimensions);
+        buffer.writeBoolean(front);
     }
 }

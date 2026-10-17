@@ -16,9 +16,9 @@ public enum HvDistantSignalAspect implements IDistantSignalAspect {
         this.litLights = litLights;
     }
 
-    public static HvDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction) {
+    public static HvDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction, boolean allowOffAspect) {
         SignalStateNode distant = state.getNextState();
-        if (distant == null || state.isStop())
+        if (distant == null || state.isStop() && allowOffAspect)
             return HvDistantSignalAspect.OFF;
 
         if (distant.isStop())

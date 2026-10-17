@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
 import venomized.mods.extendedsignals.core.blockentity.IEdgePointBlockEntity;
 import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
@@ -89,7 +90,7 @@ public class BlockEntityRepeaterCreateSignal extends SmartBlockEntity implements
 
             p.travel(
                     repeaterSignal.determineGraphLocation().graph,
-                    256,
+                    ExtendedSignalsConfig.SERVER.defaultScanDistance.getAsDouble(),
                     p.steer(
                             TravellingPoint.SteerDirection.NONE,
                             new Vec3(0, 1, 0)

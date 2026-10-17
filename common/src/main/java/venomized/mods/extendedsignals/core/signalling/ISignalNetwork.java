@@ -8,7 +8,6 @@ import net.minecraft.nbt.Tag;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public interface ISignalNetwork {
     String TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME = "signal_states";
@@ -51,19 +50,18 @@ public interface ISignalNetwork {
         this.signalStateMapping().putAll(newSignalNetwork);
     }
 
-    @Deprecated
     default SignalStateNode updateState(UUID id, boolean direction, SignalStateNode newState) {
-        return modifyState(id, direction, s -> s.copyValues(newState));
+        return prepareModification(id, direction).copyValues(newState);
     }
 
-    default SignalStateNode modifyState(UUID id, boolean direction, Consumer<SignalStateNode> changeSignalStateCallback) {
+    default SignalStateNode prepareModification(UUID id, boolean direction) {
         if (id == null)
             return null;
 
         SignalStateNode state = getSignalState(id, direction);
         state.setThisStateID(id);
         state.setThisStateFront(direction);
-        changeSignalStateCallback.accept(state);
+        state.setValid(true);
 
         return state;
     }

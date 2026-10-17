@@ -23,10 +23,7 @@ public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint {
      */
     @Override
     default void onSignalScout(Direction.AxisDirection direction, SignalStateNode newState, final Train train, double distance) {
-        ExtendedSignals.serverNetworkCache().updateState(
-                ((TrackEdgePoint) this).getId(),
-                direction == Direction.AxisDirection.POSITIVE, newState
-        );
+        ExtendedSignals.serverNetworkCache().synchronize(newState);
     }
 
     /**
@@ -35,11 +32,12 @@ public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint {
      */
     @Override
     default void onSignalCrossedEarly(Direction.AxisDirection direction, Train train) {
-        ExtendedSignals.serverNetworkCache()
-                .modifyState(((TrackEdgePoint) this).getId(),
-                        direction == Direction.AxisDirection.POSITIVE,
-                        state -> state.setProceed(false).setReservedBy(null)
-                );
+        SignalStateNode state = ExtendedSignals.serverNetworkCache()
+                .prepareModification(((TrackEdgePoint) this).getId(), direction == Direction.AxisDirection.POSITIVE)
+                .setProceed(false)
+                .setReservedBy(null);
+
+        ExtendedSignals.serverNetworkCache().synchronize(state);
     }
 
     /**

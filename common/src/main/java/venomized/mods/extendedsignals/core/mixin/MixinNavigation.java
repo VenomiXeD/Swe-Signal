@@ -28,6 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
+import venomized.mods.extendedsignals.core.ServerSignalNetworkCache;
 import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
 import venomized.mods.extendedsignals.core.create.tracks.EncounteredPoint;
 import venomized.mods.extendedsignals.core.create.tracks.ISignalStateEvaluator;
@@ -206,7 +207,9 @@ public abstract class MixinNavigation implements INavigation {
                     }
                     double deltaSignalDistance = previousSignalDistance.getValue() < 0
                             ? -1.0 : distance - previousSignalDistance.getValue();
-                    previousSignalDistance.setValue(distance);
+
+                    if (trackEdgePoint instanceof ISignal<?> signal && signal.isMainSignal(front))
+                        previousSignalDistance.setValue(distance);
 
 
                     boolean waiting = extendedSignals$isSignalWaiting(trackEdgePoint, front);
@@ -321,7 +324,7 @@ public abstract class MixinNavigation implements INavigation {
                 if (edgePoint instanceof ISignalStateEvaluator evaluator)
                     currentSignalState = evaluator.evaluateSignalState(current.signalDirection(), upcomingSignalState, train);
                 else
-                    currentSignalState = SignalStateNode.fromCache(edgePoint, current.signalDirection() == Direction.AxisDirection.POSITIVE);
+                    currentSignalState = ExtendedSignals.serverNetworkCache().prepareModification(edgePoint.id, current.signalDirection() == Direction.AxisDirection.POSITIVE);
 
                 currentSignalState.setDistanceToNextSignal(current.distanceFromPreviousSignal())
                         .setNextState(upcomingSignalState)

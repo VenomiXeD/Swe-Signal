@@ -28,11 +28,9 @@ public abstract class BlockSignal extends BlockModelled {
      */
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        if (pLevel.isClientSide()) {
+        if (pLevel.isClientSide() && pBlockEntityType.isValid(pState)) {
             return (level, pos, state, be) -> {
-                if (be instanceof BlockEntitySignal<?> signal) {
-                    BlockEntitySignal.clientTick(signal, pLevel, pos, state);
-                }
+                BlockEntitySignal.clientTick((BlockEntitySignal<?>) be, pLevel, pos, state);
             };
         }
         return super.getTicker(pLevel, pState, pBlockEntityType);

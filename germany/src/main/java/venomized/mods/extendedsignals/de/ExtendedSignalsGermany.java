@@ -5,6 +5,7 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -20,7 +21,7 @@ public class ExtendedSignalsGermany {
     public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
 
     public static final RegistryEntry<CreativeModeTab, ?> CREATIVE_TAB = REGISTRATE.get()
-            .defaultCreativeTab(MOD_ID)
+            .defaultCreativeTab(MOD_ID, builder -> builder.icon(() -> new ItemStack(GermanyBlocks.HVBlocks.HV_MAIN_SIGNAL.asItem())))
             .register();
 
     /**

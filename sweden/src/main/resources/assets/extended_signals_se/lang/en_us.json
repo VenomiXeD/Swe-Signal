@@ -20,7 +20,7 @@
   "block.extended_signals_se.se.crossing_signal_modern": "Crossing Signal",
   "block.extended_signals_se.se.dwarf_main_signal_modern": "Main Dwarf Signal",
   "block.extended_signals_se.se.dwarf_signal_modern": "Dwarf Signal",
-  "block.extended_signals_se.se.endpoint_signal_modern": "(Swedish) endpoint signal modern",
+  "block.extended_signals_se.se.endpoint_signal_modern": "Endpoint Signal",
   "block.extended_signals_se.se.onix1500": "Alstom ONIX 1500 IGBT Inverter",
   "block.extended_signals_se.se.plow_raise": "Plow Raise Sign",
   "block.extended_signals_se.se.speed_sign": "Speed Sign",

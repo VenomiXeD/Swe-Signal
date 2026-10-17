@@ -8,6 +8,7 @@ import venomized.mods.extendedsignals.core.blockentity.ModelBlockEntity;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
 import venomized.mods.extendedsignals.de.block.hvk.*;
+import venomized.mods.extendedsignals.de.blockentity.BlockEntityCrossbuck;
 import venomized.mods.extendedsignals.de.blockentity.GermanyBlockEntities;
 import venomized.mods.extendedsignals.de.blockentity.signs.*;
 
@@ -151,6 +152,11 @@ public final class GermanyBlocks {
     public static BlockEntry<BlockCrossingLight> CROSSING_LIGHT = RegistrateHelper
             .modelledBlock(registrate(), "de", "crossings", "crossing_light", BlockCrossingLight::new)
             .lang("Railway Crossing Light")
+            .register();
+
+    public static BlockEntry<BlockModelled> CROSSBUCKS = RegistrateHelper
+            .modelledBlock(registrate(), "de", "crossings", "crossbuck", BlockModelled::modelBlockEntity, BlockEntityCrossbuck::new)
+            .lang("Crossbucks")
             .register();
 
 

@@ -3,25 +3,34 @@ package venomized.mods.extendedsignals.se;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import venomized.mods.extendedsignals.core.data.SoundEventDataGenerator;
 import venomized.mods.extendedsignals.se.block.SwedenBlocks;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 import venomized.mods.extendedsignals.se.data.SwedenRecipes;
 import venomized.mods.extendedsignals.se.item.SwedenItems;
 
+import java.util.List;
+
 @Mod(ExtendedSignalsSweden.MOD_ID)
 public class ExtendedSignalsSweden {
     public static final String MOD_ID = "extended_signals_se";
     public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
 
-    public static final RegistryEntry<CreativeModeTab, ?> CREATIVE_TAB = REGISTRATE.get().defaultCreativeTab(MOD_ID).register();
+    public static final RegistryEntry<CreativeModeTab, ?> CREATIVE_TAB = REGISTRATE.get()
+            .defaultCreativeTab(MOD_ID, builder -> builder.icon(() -> new ItemStack(SwedenBlocks.SIGNAL_MAIN_2_MODERN.asItem())))
+            .register();
 
     public ExtendedSignalsSweden(ModContainer mod) {
         IEventBus bus = mod.getEventBus();

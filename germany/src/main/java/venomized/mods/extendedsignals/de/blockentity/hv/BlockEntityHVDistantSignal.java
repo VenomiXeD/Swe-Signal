@@ -26,7 +26,7 @@ public class BlockEntityHVDistantSignal extends BlockEntitySignal<IDistantSignal
         if (distant == null || distant.isStop())
             return HvDistantSignalAspect.EXPECT_STOP;
 
-        return HvDistantSignalAspect.interpret(state, direction);
+        return HvDistantSignalAspect.interpret(state, direction, false);
     }
 
     /**

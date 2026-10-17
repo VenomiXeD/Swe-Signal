@@ -94,7 +94,7 @@ public abstract class MixinTrainMapManager {
             if (!extendedEdgePoint.facingDirections(side, side ? node : other))
                 continue;
             int rotation = Mth.positiveModulo(Mth.floor(0.5
-                            + (Math.atan2(diff.z, diff.x) * Mth.RAD_TO_DEG + 90 + (side ? 180 : 0)) / 45),
+                            + (Math.atan2(diff.z, diff.x) * Mth.RAD_TO_DEG + 90 + (!side ? 180 : 0)) / 45),
                     8);
 
             AllGuiTextures sprite = AllGuiTextures.TRAINMAP_STATION_ORTHO;
@@ -125,7 +125,7 @@ public abstract class MixinTrainMapManager {
         }
     }
 
-    @Inject(method = "renderAndPick", at = @At(value = "TAIL"), cancellable = true)
+    @Inject(method = "renderAndPick", at = @At(value = "RETURN"), cancellable = true)
     private static void extendedSignals$additionalRenderAndPick(GuiGraphics graphics, int mouseX, int mouseY, boolean linearFiltering, Rect2i bounds, CallbackInfoReturnable<List<FormattedText>> cir, @Local(name = "hoveredElement") Object hoveredElement) {
         List<FormattedText> texts = new ReferenceArrayList<>();
         List<FormattedText> original = cir.getReturnValue() == null ? List.of() : cir.getReturnValue();
@@ -144,7 +144,7 @@ public abstract class MixinTrainMapManager {
 
     @Unique
     private static void extendedSignals$listSignalDetails(final List<FormattedText> text, ISignal<?> signal) {
-        text.add(Component.translatable("train_map.extended_signals.signal.id", ((TrackEdgePoint) signal).getId().toString()));
+        // text.add(Component.translatable("train_map.extended_signals.signal.id", ((TrackEdgePoint) signal).getId().toString()));
         for (boolean side : Iterate.falseAndTrue) {
             text.add(Component.literal("-".repeat(10)));
             SignalStateNode state = signal.currentSignalState(side);
@@ -186,5 +186,6 @@ public abstract class MixinTrainMapManager {
     @Unique
     private static void extendedSignals$commonExtendedPointDetails(final List<FormattedText> text, IExtendedEdgePoint point) {
         text.add(point.getName().copy().withStyle(ChatFormatting.BOLD));
+        text.add(Component.literal(((TrackEdgePoint) point).getId().toString()).withStyle(ChatFormatting.GRAY));
     }
 }

@@ -2,6 +2,7 @@ package venomized.mods.extendedsignals.core.signalling;
 
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.*;
 import lombok.experimental.Accessors;
 import net.minecraft.core.Direction;
@@ -10,13 +11,12 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
+import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.AccessFlag;
 import java.lang.reflect.Field;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
@@ -26,6 +26,21 @@ import java.util.UUID;
 @With
 @Builder
 public class SignalStateNode {
+    private static Field[] FIELDS_TO_COPY;
+
+    static {
+        ExtendedSignals.LOGGER.info("Building Field copy collection");
+        final List<Field> fields = new ObjectArrayList<>();
+        for (Field declaredField : SignalStateNode.class.getDeclaredFields()) {
+            if (declaredField.accessFlags().contains(AccessFlag.STATIC) || declaredField.accessFlags().contains(AccessFlag.FINAL)) {
+                continue;
+            }
+            ExtendedSignals.LOGGER.info("Adding field <{}>{} to collection", declaredField.getType().getName(), declaredField.getName());
+            fields.add(declaredField);
+        }
+        FIELDS_TO_COPY = fields.toArray(Field[]::new);
+    }
+
     public static final StreamCodec<FriendlyByteBuf, SignalStateNode> STREAM_CODEC = StreamCodec.of(
             SignalStateNode::encode,
             SignalStateNode::decode
@@ -179,6 +194,8 @@ public class SignalStateNode {
         signalStateNode.setValid(tag.getBoolean("valid"));
         if (tag.contains("train_reserved"))
             signalStateNode.setReservedBy(tag.getUUID("train_reserved"));
+        else
+            signalStateNode.setReservedBy(null);
 
         if (tag.contains("next_state_id"))
             signalStateNode.nextStateID = tag.getUUID("next_state_id");
@@ -240,14 +257,11 @@ public class SignalStateNode {
 
     public SignalStateNode copyValues(SignalStateNode other) {
         try {
-            for (Field declaredField : this.getClass().getDeclaredFields()) {
-                if (declaredField.accessFlags().contains(AccessFlag.STATIC) || declaredField.accessFlags().contains(AccessFlag.FINAL)) {
-                    continue;
-                }
+            for (Field declaredField : FIELDS_TO_COPY) {
                 declaredField.set(this, declaredField.get(other));
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ExtendedSignals.LOGGER.warn("Unable to copy state values", e);
         }
         return this;
     }
