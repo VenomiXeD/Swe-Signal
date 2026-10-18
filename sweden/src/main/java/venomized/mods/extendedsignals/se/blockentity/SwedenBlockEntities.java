@@ -8,12 +8,14 @@ import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSi
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.SwedenBlocks;
-import venomized.mods.extendedsignals.se.blockentity.auxilliarysignals.*;
+import venomized.mods.extendedsignals.se.blockentity.auxilliarysignal.*;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityThreeLightCrossingLights;
+import venomized.mods.extendedsignals.se.blockentity.sign.BlockEntitySpeedSign;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingDistantSignal;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingLights;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingSignal;
+import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererSpeedSign;
 
 public final class SwedenBlockEntities {
     // == SIGNALS FROM 2-5 LIGHTS ==
@@ -70,6 +72,9 @@ public final class SwedenBlockEntities {
     public static final BlockEntityEntry<BlockEntityCrossingGate> CROSSING_GATE = RegistrateHelper
             .simpleBlockEntity(registrate(), "crossing_gate", BlockEntityCrossingGate::new, SwedenBlocks.CROSSING_GATE_MODERN)
             .renderer(() -> RendererCrossingGate::new)
+            .register();
+    public static final BlockEntityEntry<BlockEntitySpeedSign> SPEED_SIGN = RegistrateHelper.simpleBlockEntity(registrate(), "speed_sign", BlockEntitySpeedSign::new, SwedenBlocks.SPEED_SIGN)
+            .renderer(() -> RendererSpeedSign::new)
             .register();
     public static BlockEntityEntry<BlockEntityThreeLightCrossingLights> CROSSING_LIGHTS = RegistrateHelper
             .simpleBlockEntity(registrate(), "crossing_lights", BlockEntityThreeLightCrossingLights::new, SwedenBlocks.CROSSING_LIGHTS_MODERN)

@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector3f;
 
-public abstract class BlockEntitySingleTextModel extends ModelBlockEntity {
+public abstract class BlockEntitySingleTextModel extends BlockEntityModelled {
     /**
      * @param pType
      * @param pPos
@@ -26,7 +26,7 @@ public abstract class BlockEntitySingleTextModel extends ModelBlockEntity {
     @Override
     protected VariantData constructVariantData() {
         VariantData variants = super.constructVariantData();
-        variants.addTextBoxOption(new VariantData.TextBoxOption("number", Component.translatable("screens.extended_signals_de.modelconfig.screens.textbox.number.label"), Component.translatable("screens.extended_signals_de.modelconfig.screens.textbox.number.tooltip")));
+        variants.addTextBoxOption(new VariantData.TextBoxOption("number", Component.translatable("screens.extended_signals.modelconfig.screens.textbox.number.label"), Component.translatable("screens.extended_signals_de.modelconfig.screens.textbox.number.tooltip")));
         return variants;
     }
 }

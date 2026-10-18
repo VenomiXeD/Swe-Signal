@@ -5,7 +5,7 @@ import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import net.minecraft.util.Mth;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
-import venomized.mods.extendedsignals.core.mixin.MixinSignalEdgeGroupAccessor;
+import venomized.mods.extendedsignals.core.mixin.AccessorSignalEdgeGroup;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
 
 public class TrainHelp {
@@ -53,7 +53,7 @@ public class TrainHelp {
 
     public static boolean isReservedUnless(SignalEdgeGroup group, Train train) {
         if (group.intersectingResolved.isEmpty()) {
-            ((MixinSignalEdgeGroupAccessor) group).extendedSignals$walkIntersecting(group.intersectingResolved::add);
+            ((AccessorSignalEdgeGroup) group).extendedSignals$walkIntersecting(group.intersectingResolved::add);
         }
 
         for (SignalEdgeGroup intersecting : group.intersectingResolved) {

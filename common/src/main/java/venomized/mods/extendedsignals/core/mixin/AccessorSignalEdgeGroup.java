@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import java.util.function.Consumer;
 
 @Mixin(value = SignalEdgeGroup.class, remap = false)
-public interface MixinSignalEdgeGroupAccessor {
+public interface AccessorSignalEdgeGroup {
     @Invoker("walkIntersecting")
     void extendedSignals$walkIntersecting(Consumer<SignalEdgeGroup> callback);
 }

@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "extended_signals_se:se.weight_signal"
+          "name": "extended_signals_se:se.pole"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "extended_signals_se:blocks/se.weight_signal"
+  "random_sequence": "extended_signals_se:blocks/se.pole"
 }

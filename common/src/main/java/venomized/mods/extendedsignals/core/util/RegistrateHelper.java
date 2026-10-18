@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.block.BlockModelled;
-import venomized.mods.extendedsignals.core.blockentity.ModelBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntityModelled;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererGeneric;
 import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 
@@ -120,14 +120,14 @@ public class RegistrateHelper {
 
     //}
 
-    public static <T extends BlockModelled> BlockBuilder<T, Registrate> modelledBlock(Registrate registrateInstance, String nation, String assetType, String name, Function<Supplier<BiFunction<BlockPos, BlockState, BlockEntity>>, NonNullFunction<BlockBehaviour.Properties, T>> blockFactory, BlockEntityBuilder.BlockEntityFactory<? extends ModelBlockEntity> blockEntityFactory) {
+    public static <T extends BlockModelled> BlockBuilder<T, Registrate> modelledBlock(Registrate registrateInstance, String nation, String assetType, String name, Function<Supplier<BiFunction<BlockPos, BlockState, BlockEntity>>, NonNullFunction<BlockBehaviour.Properties, T>> blockFactory, BlockEntityBuilder.BlockEntityFactory<? extends BlockEntityModelled> blockEntityFactory) {
         String properName = name.replaceAll("(\\d+)l", "$1 Light")
                 .replaceAll("_post_(\\d+)_?", " (Post $1)")
                 .replace('_', ' ');
 
         var blockRef = new Object() {
             BlockBuilder<T, Registrate> block = null;
-            BlockEntityBuilder<? extends ModelBlockEntity, Registrate> blockentity = null;
+            BlockEntityBuilder<? extends BlockEntityModelled, Registrate> blockentity = null;
         };
         blockRef.block = registrateInstance
                 .block("%s.%s".formatted(nation, name), blockFactory.apply(() -> blockRef.blockentity.getEntry()::create))

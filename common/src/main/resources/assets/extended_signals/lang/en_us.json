@@ -76,5 +76,6 @@
   "train_map.extended_signals.edgepoint.path_train_detector.name": "Signal Scout Observer",
   "train_map.extended_signals.edgepoint.repeater.name": "Distant/Repeater Signal",
   "train_map.extended_signals.edgepoint.create_signal.name": "Create Train Signal",
-  "train_map.extended_signals.edgepoint.train_station.name": "Train Station"
+  "train_map.extended_signals.edgepoint.train_station.name": "Train Station",
+  "screens.extended_signals.modelconfig.screens.textbox.number.label": "Number"
 }

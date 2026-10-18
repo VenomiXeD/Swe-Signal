@@ -84,7 +84,7 @@ public abstract class TrackEdgePointSignalModifier<T extends TrackEdgePoint> ext
         if (forcedMode)
             return ModifierAction.APPLY;
 
-        return points.stream().anyMatch(e -> e.boundary() instanceof PathIdentifierEdgePoint point && Pattern.matches(pathIdentifierActivationPattern, point.getPathIdentifierKey())) ?
+        return points.stream().anyMatch(e -> e.boundary().get() instanceof PathIdentifierEdgePoint point && Pattern.matches(pathIdentifierActivationPattern, point.getPathIdentifierKey())) ?
                 ModifierAction.APPLY :
                 ModifierAction.NONE;
     }

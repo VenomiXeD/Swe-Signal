@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public abstract class BlockEntityCrossingObject extends ModelBlockEntity implements ISignalTunerToolable {
+public abstract class BlockEntityCrossingObject extends BlockEntityModelled implements ISignalTunerToolable {
     @Nullable
     public BlockPos railroadCrossingControllerPos;
 

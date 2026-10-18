@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "extended_signals_se:item/signs/se/weight_sign"
+  }
+}

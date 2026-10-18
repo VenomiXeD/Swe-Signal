@@ -4,11 +4,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import venomized.mods.extendedsignals.core.blockentity.ModelBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntityModelled;
 import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.de.client.GermanyModels;
 
-public class BlockEntityNe3 extends ModelBlockEntity {
+public class BlockEntityNe3 extends BlockEntityModelled {
     public BlockEntityNe3(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }

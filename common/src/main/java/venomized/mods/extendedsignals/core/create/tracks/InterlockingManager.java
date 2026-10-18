@@ -8,7 +8,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.createmod.catnip.data.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import venomized.mods.extendedsignals.core.mixin.MixinSignalEdgeGroupAccessor;
+import venomized.mods.extendedsignals.core.mixin.AccessorSignalEdgeGroup;
 
 import java.util.Map;
 import java.util.UUID;
@@ -67,7 +67,7 @@ public class InterlockingManager {
         }
 //
         if (group.intersectingResolved.isEmpty()) {
-            ((MixinSignalEdgeGroupAccessor) group).extendedSignals$walkIntersecting(group.intersectingResolved::add);
+            ((AccessorSignalEdgeGroup) group).extendedSignals$walkIntersecting(group.intersectingResolved::add);
         }
 //
         boolean ownsAny = false;

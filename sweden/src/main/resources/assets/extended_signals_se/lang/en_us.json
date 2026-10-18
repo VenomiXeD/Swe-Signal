@@ -1,5 +1,4 @@
 {
-  "block.swsignal.railroad_crossing_controller": "Railroad crossing controller",
   "block.extended_signals_se.se.2l_signal_modern": "2-Light Main Signal",
   "block.extended_signals_se.se.3l_signal_modern": "3-Light Main Signal",
   "block.extended_signals_se.se.4l_signal_modern": "4-Light Combined Signal",
@@ -11,7 +10,7 @@
   "block.extended_signals_se.se.3l_distant_railroad_crossing_signal": "3L Distant Railroad Crossing Signal",
   "screens.extended_signals_se.modelconfig.main_signal.gantry": "Gantry",
   "screens.extended_signals_se.modelconfig.crossbuck.2_tracks": ">1 Track(s)",
-  "screens.extended_signals_se.modelconfig.main_signal.pole": "Pole",
+  "screens.extended_signals_se.modelconfig.option.pole": "Pole",
   "block.extended_signals_se.se.base": "Railway Crossing Gate",
   "block.extended_signals_se.se.continued_driving_permission": "Continued Driving Permission Sign",
   "block.extended_signals_se.se.crossbucks_modern": "Crossbucks",
@@ -24,10 +23,11 @@
   "block.extended_signals_se.se.onix1500": "Alstom ONIX 1500 IGBT Inverter",
   "block.extended_signals_se.se.plow_raise": "Plow Raise Sign",
   "block.extended_signals_se.se.speed_sign": "Speed Sign",
-  "block.extended_signals_se.se.weight_signal": "Weight Sign",
+  "block.extended_signals_se.se.weight_sign": "Weight Sign",
   "item.extended_signals_se.incomplete_crossing": "Incomplete Crossing",
   "item.extended_signals_se.incomplete_signal": "Incomplete Signal",
-  "itemGroup.extended_signals_se.extended_signals_se": "Extended Signals - Sweden"
+  "itemGroup.extended_signals_se.extended_signals_se": "Extended Signals - Sweden",
+  "block.extended_signals_se.se.pole": "Pole"
 }
 
 

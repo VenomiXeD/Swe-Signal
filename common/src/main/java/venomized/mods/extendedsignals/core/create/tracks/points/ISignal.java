@@ -34,8 +34,7 @@ public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint {
     default void onSignalCrossedEarly(Direction.AxisDirection direction, Train train) {
         SignalStateNode state = ExtendedSignals.serverNetworkCache()
                 .prepareModification(((TrackEdgePoint) this).getId(), direction == Direction.AxisDirection.POSITIVE)
-                .setProceed(false)
-                .setReservedBy(null);
+                .reset();
 
         ExtendedSignals.serverNetworkCache().synchronize(state);
     }

@@ -30,8 +30,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
 import venomized.mods.extendedsignals.core.create.tracks.points.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
-import venomized.mods.extendedsignals.core.mixin.EdgePointStorageAccessor;
-import venomized.mods.extendedsignals.core.mixin.TrackGraphAccessor;
+import venomized.mods.extendedsignals.core.mixin.AccessorEdgePointStorage;
+import venomized.mods.extendedsignals.core.mixin.AccessorTrackGraph;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.MathHelp;
 
@@ -53,8 +53,8 @@ public abstract class MixinTrainMapManager {
 
     @Inject(method = "drawPoints", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/graph/TrackGraph;getPoints(Lcom/simibubi/create/content/trains/graph/EdgePointType;)Ljava/util/Collection;"))
     private static void extendedSignals$drawAdvancedPoints(GuiGraphics graphics, int mouseX, int mouseY, Object hoveredElement, Rect2i bounds, CallbackInfoReturnable<Object> cir, @Local(name = "graph") TrackGraph graph, @Local(name = "pose") PoseStack pose, @Local(name = "hoveredElement", index = 0, ordinal = 0, argsOnly = true) LocalRef<Object> hElement) {
-        EdgePointStorage e = ((TrackGraphAccessor) graph).getEdgePoints();
-        ((EdgePointStorageAccessor) e).getPoints().values().forEach(map ->
+        EdgePointStorage e = ((AccessorTrackGraph) graph).getEdgePoints();
+        ((AccessorEdgePointStorage) e).getPoints().values().forEach(map ->
                 map.values().forEach(edgePoint -> {
                     if (edgePoint instanceof IExtendedEdgePoint) {
                         extendedSignals$drawExtendedSignalEdgePoint(graphics, mouseX, mouseY, hoveredElement, bounds, graph, pose, hElement, edgePoint);

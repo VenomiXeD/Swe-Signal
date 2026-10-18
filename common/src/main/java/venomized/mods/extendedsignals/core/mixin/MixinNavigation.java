@@ -45,19 +45,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Mixin(value = Navigation.class, remap = false)
 public abstract class MixinNavigation implements INavigation {
     @Unique
     private static final int SIGNAL_SCOUT_INTERVAL = 10;
     @Unique
-    private final ReferenceArrayList<CollectedEdgePoint> extendedSignals$persistentCollectedEdgePoints = new ReferenceArrayList<>();
+    private ReferenceArrayList<CollectedEdgePoint> extendedSignals$persistentCollectedEdgePoints = new ReferenceArrayList<>();
     @Unique
-    private final ReferenceArrayList<CollectedEdgePoint> extendedSignals$collectedEdgePoints = new ReferenceArrayList<>();
+    private ReferenceArrayList<CollectedEdgePoint> extendedSignals$collectedEdgePoints = new ReferenceArrayList<>();
     @Unique
-    private final Map<ResourceLocation, EncounteredPoint> extendedSignals$activeModifiers = new Object2ReferenceLinkedOpenHashMap<>();
-    // @Unique
-    // private final Map<ResourceLocation, ISignalModifier> extendedSignals$encounteredModifiers = new Object2ReferenceLinkedOpenHashMap<>();
+    private Map<ResourceLocation, EncounteredPoint> extendedSignals$activeModifiers = new Object2ReferenceLinkedOpenHashMap<>();
+    @Unique
+    private TravellingPoint extendedSignals$signalScoutTriggerCollector;
+    @Unique
+    private long extendedSignals$signalScoutCooldown = 0;
     @Shadow
     public Train train;
     @Shadow
@@ -68,13 +71,17 @@ public abstract class MixinNavigation implements INavigation {
     public Pair<UUID, Boolean> waitingForSignal;
     @Shadow
     private Map<UUID, Pair<SignalBoundary, Boolean>> waitingForChainedGroups;
-    @Unique
-    private long extendedSignals$signalScoutCooldown = 0;
-    @Unique
-    private TravellingPoint extendedSignals$signalScoutTriggerCollector;
 
     @Shadow
     public abstract TravellingPoint.ITrackSelector controlSignalScout();
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    public void extendedSignals$onCtor(Train train, CallbackInfo ci) {
+        extendedSignals$persistentCollectedEdgePoints = new ReferenceArrayList<>();
+        extendedSignals$collectedEdgePoints = new ReferenceArrayList<>();
+        extendedSignals$activeModifiers = new Object2ReferenceLinkedOpenHashMap<>();
+        extendedSignals$signalScoutTriggerCollector = new TravellingPoint();
+    }
 
     @Redirect(
             method = "tick",
@@ -101,7 +108,6 @@ public abstract class MixinNavigation implements INavigation {
     public void extendedSignals$setSignalScoutCooldown(int cooldown) {
         this.extendedSignals$signalScoutCooldown = cooldown;
     }
-
     // @ModifyReturnValue(method = "controlSignalScout", at = @At("RETURN"))
     // public TravellingPoint.ITrackSelector extenededSignals$signalScoutProxy(TravellingPoint.ITrackSelector original) {
     //     return (a, b) -> {
@@ -109,6 +115,7 @@ public abstract class MixinNavigation implements INavigation {
     //         // System.out.println(result);
     //         return result;
     //     };
+
     // }
 
     @Inject(method = "startNavigation", at = @At("HEAD"))
@@ -117,11 +124,6 @@ public abstract class MixinNavigation implements INavigation {
 
         // Force scout on departure
         extendedSignals$signalScoutCooldown = 0;
-    }
-
-    @Inject(method = "<init>", at = @At("TAIL"))
-    public void extendedSignals$onCtor(Train train, CallbackInfo ci) {
-        extendedSignals$signalScoutTriggerCollector = new TravellingPoint();
     }
 
     @Inject(
@@ -215,7 +217,7 @@ public abstract class MixinNavigation implements INavigation {
                     boolean waiting = extendedSignals$isSignalWaiting(trackEdgePoint, front);
                     extendedSignals$collectedEdgePoints.push(
                             new CollectedEdgePoint(
-                                    extendedSignalPoint,
+                                    new WeakReference<>(extendedSignalPoint),
                                     front ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
                                     waiting,
                                     distance,
@@ -229,45 +231,53 @@ public abstract class MixinNavigation implements INavigation {
         extendedSignals$persistentCollectedEdgePoints.clear();
         extendedSignals$persistentCollectedEdgePoints.addAll(extendedSignals$collectedEdgePoints);
 
-        final Map<ResourceLocation, ISignalStateModifier> predictedModifiers = new Object2ReferenceArrayMap<>();
-        extendedSignals$encounteredTrackEdgePointModifiers().forEach((key, value) -> {
+        final Map<ResourceLocation, WeakReference<ISignalStateModifier>> predictedModifiers = new Object2ReferenceArrayMap<>();
+        for (Map.Entry<ResourceLocation, EncounteredPoint> entry : extendedSignals$encounteredTrackEdgePointModifiers().entrySet()) {
+            ResourceLocation key = entry.getKey();
+            EncounteredPoint value = entry.getValue();
             ISignalStateModifier modifierPoint = value.modifier().get();
             if (modifierPoint == null)
-                return;
+                continue;
 
             ISignalStateModifier.ModifierAction action =
                     modifierPoint.onAction(value.front(), extendedSignals$persistentCollectedEdgePoints, train);
 
             if (action == ISignalStateModifier.ModifierAction.APPLY)
-                predictedModifiers.put(key, modifierPoint);
+                predictedModifiers.put(key, value.modifier());
             else if (action == ISignalStateModifier.ModifierAction.DISCARD)
                 predictedModifiers.remove(key);
-        });
+        }
 
-        extendedSignals$collectedEdgePoints.forEach(collected -> {
-            if (collected.boundary() instanceof TrackEdgePointSignalModifier<?> modifierPoint) {
+        for (CollectedEdgePoint collected : extendedSignals$collectedEdgePoints) {
+            IExtendedEdgePoint boundary = collected.boundary().get();
+            if (boundary == null)
+                continue;
+
+            if (boundary instanceof TrackEdgePointSignalModifier<?> modifierPoint) {
                 ISignalStateModifier.ModifierAction modifierAction = modifierPoint.onAction(
                         collected.signalDirection() == Direction.AxisDirection.POSITIVE,
                         extendedSignals$persistentCollectedEdgePoints, train);
                 if (modifierAction == null) {
                     ExtendedSignals.LOGGER.info("A Signal modifier returned *null* as an action. This is undefined behavior: {}", modifierPoint.getClass().getName());
-                    return;
+                    continue;
                 }
 
                 switch (modifierAction) {
                     case APPLY -> predictedModifiers
-                            .put(modifierPoint.getType().getId(), modifierPoint);
+                            .put(modifierPoint.getType().getId(), new WeakReference<>(modifierPoint));
                     case DISCARD -> predictedModifiers
                             .remove(modifierPoint.getType().getId());
                 }
             }
-            collected.signalModifierSnapshot().addAll(predictedModifiers.values().stream().map(WeakReference::new).toList());
-        });
-
+            collected.signalModifierSnapshot().addAll(predictedModifiers.values());
+        }
     }
 
     @Unique
     private boolean extendedSignals$isSignalWaiting(TrackEdgePoint trackEdgePoint, boolean primary) {
+        if (((waitingForSignal != null) && Objects.equals(trackEdgePoint.id, waitingForSignal.getFirst())) && primary == waitingForSignal.getSecond())
+            return true;
+
         boolean blockOccupied = false;
         if (trackEdgePoint instanceof SignalBoundary createSignalBoundary) {
             UUID entering = createSignalBoundary.groups.get(primary);
@@ -277,7 +287,7 @@ public abstract class MixinNavigation implements INavigation {
                         createSignalBoundary.isForcedRed(primary) ||
                         InterlockingManager.trainOwnsGroupIntersecting(train, signalEdgeGroup) == InterlockingManager.ReservationResult.CONFLICT;
         }
-        return blockOccupied || ((waitingForSignal != null) && Objects.equals(trackEdgePoint.id, waitingForSignal.getFirst())) && primary == waitingForSignal.getSecond();
+        return blockOccupied;
     }
 
     @Inject(
@@ -318,10 +328,14 @@ public abstract class MixinNavigation implements INavigation {
 
         while (!extendedSignals$collectedEdgePoints.isEmpty()) {
             CollectedEdgePoint current = extendedSignals$collectedEdgePoints.pop();
-            TrackEdgePoint edgePoint = (TrackEdgePoint) current.boundary();
+            IExtendedEdgePoint iExtendedEdgePoint = current.boundary().get();
+            TrackEdgePoint edgePoint = (TrackEdgePoint) iExtendedEdgePoint;
 
-            if (edgePoint instanceof ISignal<?>) {
-                if (edgePoint instanceof ISignalStateEvaluator evaluator)
+            if (iExtendedEdgePoint == null)
+                return;
+
+            if (iExtendedEdgePoint instanceof ISignal<?>) {
+                if (iExtendedEdgePoint instanceof ISignalStateEvaluator evaluator)
                     currentSignalState = evaluator.evaluateSignalState(current.signalDirection(), upcomingSignalState, train);
                 else
                     currentSignalState = ExtendedSignals.serverNetworkCache().prepareModification(edgePoint.id, current.signalDirection() == Direction.AxisDirection.POSITIVE);
@@ -330,6 +344,7 @@ public abstract class MixinNavigation implements INavigation {
                         .setNextState(upcomingSignalState)
                         .setProceed(!current.isStoppingAtThisNode())
                         .setReservedBy(train.id);
+                // .setMaxProceedSpeed(Double.MAX_VALUE); // Reset the speed value to max, modifiers will end up clamping it
             }
 
             if (currentSignalState != null) {
@@ -338,7 +353,7 @@ public abstract class MixinNavigation implements INavigation {
                 }
             }
 
-            current.boundary().onSignalScout(
+            iExtendedEdgePoint.onSignalScout(
                     current.signalDirection(), currentSignalState, this.train, current.distance()
             );
 

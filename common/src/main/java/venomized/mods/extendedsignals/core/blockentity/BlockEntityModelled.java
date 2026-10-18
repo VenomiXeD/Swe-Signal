@@ -8,14 +8,14 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-public class ModelBlockEntity extends CoreBlockEntity implements IConfigurableModelBlockEntity {
+public class BlockEntityModelled extends CoreBlockEntity implements IConfigurableModelBlockEntity {
     private final float[] orientation;
     private final double[] locOffsets;
     private final double[] gblOffsets;
 
     private final VariantData variantData;
 
-    public ModelBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+    public BlockEntityModelled(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
 
         orientation = new float[3];

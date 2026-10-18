@@ -3,7 +3,7 @@ package venomized.mods.extendedsignals.se.block;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import venomized.mods.extendedsignals.core.block.BlockModelled;
-import venomized.mods.extendedsignals.core.blockentity.ModelBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntityModelled;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingGate;
@@ -77,22 +77,26 @@ public final class SwedenBlocks {
             .register();
 
     // == MISC ==
-    public static final BlockEntry<BlockModelled> SIGN_CONTINUED_DRIVING_PERMISSION = RegistrateHelper
-            .modelledBlock(registrate(), "se", "signs", "continued_driving_permission", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
+    public static final BlockEntry<BlockModelled> CONTINUED_DRIVING_PERMISSION_SIGN = RegistrateHelper
+            .modelledBlock(registrate(), "se", "signs", "continued_driving_permission", BlockModelled::modelBlockEntity, BlockEntityModelled::new)
             .register();
 
 
-    public static final BlockEntry<BlockModelled> SIGN_PLOW_RAISE = RegistrateHelper
-            .modelledBlock(registrate(), "se", "signs", "plow_raise", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
+    public static final BlockEntry<BlockModelled> PLOW_RAISE_SIGN = RegistrateHelper
+            .modelledBlock(registrate(), "se", "signs", "plow_raise", BlockModelled::modelBlockEntity, BlockEntityModelled::new)
             .register();
 
 
-    public static final BlockEntry<BlockModelled> SIGN_SPEED = RegistrateHelper
-            .modelledBlock(registrate(), "se", "signs", "speed_sign", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
+    public static final BlockEntry<BlockSpeedSign> SPEED_SIGN = RegistrateHelper
+            .modelledBlock(registrate(), "se", "signs", "speed_sign", BlockSpeedSign::new)
             .register();
 
     public static final BlockEntry<BlockModelled> SIGN_WEIGHT = RegistrateHelper
-            .modelledBlock(registrate(), "se", "signs", "weight_signal", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
+            .modelledBlock(registrate(), "se", "signs", "weight_sign", BlockModelled::modelBlockEntity, BlockEntityModelled::new)
+            .register();
+
+    public static final BlockEntry<BlockModelled> POLE = RegistrateHelper
+            .modelledBlock(registrate(), "se", "misc", "pole", BlockModelled::modelBlockEntity, BlockEntityModelled::new)
             .register();
 
     public static final BlockEntry<BlockOnix1500TrainSound> TRAIN_SOUND_X60 = RegistrateHelper

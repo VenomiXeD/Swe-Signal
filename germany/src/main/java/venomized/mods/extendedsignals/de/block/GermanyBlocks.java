@@ -4,7 +4,7 @@ import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.world.level.block.Block;
 import venomized.mods.extendedsignals.core.block.BlockModelled;
-import venomized.mods.extendedsignals.core.blockentity.ModelBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntityModelled;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.de.ExtendedSignalsGermany;
 import venomized.mods.extendedsignals.de.block.hvk.*;
@@ -111,7 +111,7 @@ public final class GermanyBlocks {
                 .register();
 
         public static BlockEntry<BlockModelled> NE_1 = RegistrateHelper
-                .modelledBlock(registrate(), "de", "signs", "ne_1", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
+                .modelledBlock(registrate(), "de", "signs", "ne_1", BlockModelled::modelBlockEntity, BlockEntityModelled::new)
                 .lang("Auxiliary Sign [Ne 1]")
                 .register();
         public static BlockEntry<BlockModelled> NE_2 = RegistrateHelper
@@ -127,7 +127,7 @@ public final class GermanyBlocks {
                 .lang("Auxiliary Sign [Ne 3]")
                 .register();
         public static BlockEntry<BlockModelled> NE_4 = RegistrateHelper
-                .modelledBlock(registrate(), "de", "signs", "ne_4_west", BlockModelled::modelBlockEntity, ModelBlockEntity::new)
+                .modelledBlock(registrate(), "de", "signs", "ne_4_west", BlockModelled::modelBlockEntity, BlockEntityModelled::new)
                 .lang("Auxiliary Sign [Ne 4]")
                 .register();
         public static BlockEntry<BlockModelled> NE_5 = RegistrateHelper

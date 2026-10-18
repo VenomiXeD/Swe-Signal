@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.block.railway.BlockCrossingObject;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
-import venomized.mods.extendedsignals.se.blockentity.auxilliarysignals.BlockEntityCrossingSignal;
+import venomized.mods.extendedsignals.se.blockentity.auxilliarysignal.BlockEntityCrossingSignal;
 
 public class BlockCrossingSignal extends BlockCrossingObject<BlockEntityCrossingSignal> {
     public BlockCrossingSignal(Properties properties) {

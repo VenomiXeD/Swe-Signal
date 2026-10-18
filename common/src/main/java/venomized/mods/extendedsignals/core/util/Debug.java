@@ -2,10 +2,7 @@ package venomized.mods.extendedsignals.core.util;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.BoolArgumentType;
-import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.simibubi.create.Create;
-import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import net.createmod.catnip.data.Couple;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -17,16 +14,9 @@ import org.apache.commons.lang3.mutable.MutableInt;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
 import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
-import venomized.mods.extendedsignals.core.mixin.EdgePointStorageAccessor;
-import venomized.mods.extendedsignals.core.mixin.TrackGraphAccessor;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
-import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundSyncSignalStatesPacket;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
 
 public class Debug {
     @SubscribeEvent

@@ -15,11 +15,10 @@
   "block.extended_signals_se.se.endpoint_signal_modern": "(Swedish) endpoint signal modern",
   "block.extended_signals_se.se.onix1500": "(Swedish) onix1500",
   "block.extended_signals_se.se.plow_raise": "(Swedish) plow raise",
+  "block.extended_signals_se.se.pole": "(Swedish) pole",
   "block.extended_signals_se.se.speed_sign": "(Swedish) speed sign",
-  "block.extended_signals_se.se.weight_signal": "(Swedish) weight signal",
+  "block.extended_signals_se.se.weight_sign": "(Swedish) weight sign",
   "item.extended_signals_se.incomplete_crossing": "Incomplete Crossing",
   "item.extended_signals_se.incomplete_signal": "Incomplete Signal",
-  "itemGroup.extended_signals_se.extended_signals_se": "Extended Signals Se",
-  "screens.extended_signals_se.modelconfig.crossbuck.2_tracks": ">1 Track(s)",
-  "screens.extended_signals_se.modelconfig.main_signal.pole": "Pole"
+  "itemGroup.extended_signals_se.extended_signals_se": "Extended Signals Se"
 }

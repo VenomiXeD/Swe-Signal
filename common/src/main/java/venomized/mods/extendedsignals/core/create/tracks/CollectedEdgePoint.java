@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 public record CollectedEdgePoint(
-        IExtendedEdgePoint boundary,
+        WeakReference<IExtendedEdgePoint> boundary,
         Direction.AxisDirection signalDirection,
         boolean isStoppingAtThisNode, double distance,
         double distanceFromPreviousSignal,

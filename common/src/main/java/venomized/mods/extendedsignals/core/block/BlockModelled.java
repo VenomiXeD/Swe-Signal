@@ -11,7 +11,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.core.blockentity.ModelBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntityModelled;
 
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 public class BlockModelled extends ExtendedSignalsBlock implements EntityBlock {
     private Supplier<BiFunction<BlockPos, BlockState, BlockEntity>> blockEntityFactory;
 
-    public static <E extends ModelBlockEntity> NonNullFunction<Properties, BlockModelled> modelBlockEntity(Supplier<BiFunction<BlockPos, BlockState, BlockEntity>> blockEntityFactory) {
+    public static <E extends BlockEntityModelled> NonNullFunction<Properties, BlockModelled> modelBlockEntity(Supplier<BiFunction<BlockPos, BlockState, BlockEntity>> blockEntityFactory) {
         return (prop) -> {
             BlockModelled block = new BlockModelled(prop);
             block.blockEntityFactory = blockEntityFactory;
@@ -27,7 +27,7 @@ public class BlockModelled extends ExtendedSignalsBlock implements EntityBlock {
         };
     }
 
-    public static <E extends ModelBlockEntity> NonNullFunction<Properties, BlockModelled> blockEntity(Supplier<BiFunction<BlockPos, BlockState, E>> blockEntityFactory) {
+    public static <E extends BlockEntityModelled> NonNullFunction<Properties, BlockModelled> blockEntity(Supplier<BiFunction<BlockPos, BlockState, E>> blockEntityFactory) {
         return (prop) -> {
             BlockModelled block = new BlockModelled(prop);
             block.blockEntityFactory = () -> blockEntityFactory.get()::apply;

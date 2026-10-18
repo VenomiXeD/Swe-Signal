@@ -1,4 +1,6 @@
-# Made in Blockbench 5.1.6
-newmtl m_24045301-0e41-3cf2-88ba-fc7b3bfa36d0
+# Made in Blockbench 5.2.0
+newmtl m_629f13e0-0661-2b39-7aed-be55b5a872da
 map_Kd #crossbucks
+newmtl m_e8d08a4a-4994-6355-42e0-bd5595ac95d3
+map_Kd #metal
 newmtl none

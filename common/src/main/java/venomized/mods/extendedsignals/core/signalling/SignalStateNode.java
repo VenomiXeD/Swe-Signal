@@ -255,6 +255,15 @@ public class SignalStateNode {
         return !this.proceed;
     }
 
+    public SignalStateNode reset() {
+        this.proceed = false;
+        this.maxProceedSpeed = Double.MAX_VALUE;
+        this.miscTags.clear();
+        this.reservedBy = null;
+
+        return this;
+    }
+
     public SignalStateNode copyValues(SignalStateNode other) {
         try {
             for (Field declaredField : FIELDS_TO_COPY) {

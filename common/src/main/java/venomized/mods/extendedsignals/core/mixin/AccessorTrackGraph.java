@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(value = TrackGraph.class, remap = false)
-public interface TrackGraphAccessor {
+public interface AccessorTrackGraph {
     @Accessor("edgePoints")
     EdgePointStorage getEdgePoints();
 }

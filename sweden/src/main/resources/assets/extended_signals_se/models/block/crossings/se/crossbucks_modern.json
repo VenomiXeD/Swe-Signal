@@ -10,6 +10,7 @@
   "flip_v": true,
   "model": "extended_signals_se:models/block/crossings/se/crossbucks.obj",
   "textures": {
-    "crossbucks": "extended_signals_se:block/crossings/se/crossbucks"
+    "crossbucks": "extended_signals_se:block/crossings/se/crossbucks",
+    "metal": "extended_signals_se:block/crossings/se/metal"
   }
 }

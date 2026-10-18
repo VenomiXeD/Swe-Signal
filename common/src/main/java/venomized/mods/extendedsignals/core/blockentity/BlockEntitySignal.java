@@ -29,7 +29,7 @@ import venomized.mods.extendedsignals.core.util.NBTHelp;
 
 import java.util.UUID;
 
-public abstract class BlockEntitySignal<T extends ISignalAspect> extends ModelBlockEntity
+public abstract class BlockEntitySignal<T extends ISignalAspect> extends BlockEntityModelled
         implements ISignalTunerToolable, ISignalInterpreter<T> {
     @Getter
     private final SignalContainer signalContainer;
