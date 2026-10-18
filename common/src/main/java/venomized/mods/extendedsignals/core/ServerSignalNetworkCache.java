@@ -97,7 +97,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
         this.removeDeadEdgePointReferences();
 
         final ListTag signalsCollectionTag = ISignalNetwork.serializeSignalStatesToNBTList(signalStateMapping());
-        tag.put(ISignalNetwork.TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME, new ListTag()); //signalsCollectionTag);
+        tag.put(ISignalNetwork.TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME, signalsCollectionTag);
         return tag;
     }
 
