@@ -75,9 +75,6 @@ public abstract class MixinNavigation implements INavigation {
     @Shadow
     public abstract TravellingPoint.ITrackSelector controlSignalScout();
 
-    @Shadow
-    protected abstract boolean currentSignalResolved();
-
     @Inject(method = "<init>", at = @At("TAIL"))
     public void extendedSignals$onCtor(Train train, CallbackInfo ci) {
         extendedSignals$persistentCollectedEdgePoints = new ReferenceArrayList<>();
