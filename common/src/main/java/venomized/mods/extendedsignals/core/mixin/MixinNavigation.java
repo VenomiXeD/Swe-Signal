@@ -75,6 +75,9 @@ public abstract class MixinNavigation implements INavigation {
     @Shadow
     public abstract TravellingPoint.ITrackSelector controlSignalScout();
 
+    @Shadow
+    protected abstract boolean currentSignalResolved();
+
     @Inject(method = "<init>", at = @At("TAIL"))
     public void extendedSignals$onCtor(Train train, CallbackInfo ci) {
         extendedSignals$persistentCollectedEdgePoints = new ReferenceArrayList<>();
@@ -325,9 +328,11 @@ public abstract class MixinNavigation implements INavigation {
     private void extendedSignals$resolveSignallingLogic() {
         SignalStateNode upcomingSignalState = null;
         SignalStateNode currentSignalState = null;
+        CollectedEdgePoint upcoming = null;
+        CollectedEdgePoint current = null;
 
         while (!extendedSignals$collectedEdgePoints.isEmpty()) {
-            CollectedEdgePoint current = extendedSignals$collectedEdgePoints.pop();
+            current = extendedSignals$collectedEdgePoints.pop();
             IExtendedEdgePoint iExtendedEdgePoint = current.boundary().get();
             TrackEdgePoint edgePoint = (TrackEdgePoint) iExtendedEdgePoint;
 
@@ -338,13 +343,13 @@ public abstract class MixinNavigation implements INavigation {
                 if (iExtendedEdgePoint instanceof ISignalStateEvaluator evaluator)
                     currentSignalState = evaluator.evaluateSignalState(current.signalDirection(), upcomingSignalState, train);
                 else
-                    currentSignalState = ExtendedSignals.serverNetworkCache().prepareModification(edgePoint.id, current.signalDirection() == Direction.AxisDirection.POSITIVE);
+                    currentSignalState = ExtendedSignals.serverNetworkCache().getSignalState(edgePoint.getId(), current.signalDirection() == Direction.AxisDirection.POSITIVE);
 
-                currentSignalState.setDistanceToNextSignal(current.distanceFromPreviousSignal())
+                currentSignalState.setDistanceToNextSignal(upcomingSignalState == null ? -1 : upcoming.distance() - current.distance())
                         .setNextState(upcomingSignalState)
                         .setProceed(!current.isStoppingAtThisNode())
-                        .setReservedBy(train.id);
-                // .setMaxProceedSpeed(Double.MAX_VALUE); // Reset the speed value to max, modifiers will end up clamping it
+                        .setReservedBy(train.id)
+                        .setMaxProceedSpeed(Double.MAX_VALUE); // Reset the speed value to max, modifiers will end up clamping it
             }
 
             if (currentSignalState != null) {
@@ -353,13 +358,14 @@ public abstract class MixinNavigation implements INavigation {
                 }
             }
 
-            iExtendedEdgePoint.onSignalScout(
-                    current.signalDirection(), currentSignalState, this.train, current.distance()
-            );
-
-            if (current.boundary() instanceof ISignal<?> signalPoint && signalPoint.isMainSignal(current.signalDirection() == Direction.AxisDirection.POSITIVE)) {
+            if (edgePoint instanceof ISignal<?> signalPoint && signalPoint.isMainSignal(current.signalDirection() == Direction.AxisDirection.POSITIVE)) {
                 upcomingSignalState = currentSignalState;
+                upcoming = current;
             }
+
+            iExtendedEdgePoint.onSignalScout(
+                    current.signalDirection(), currentSignalState, train, current.distance()
+            );
         }
     }
 }

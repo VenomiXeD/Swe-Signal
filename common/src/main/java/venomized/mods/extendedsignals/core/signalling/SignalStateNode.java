@@ -11,7 +11,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
-import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.AccessFlag;
@@ -103,7 +102,7 @@ public class SignalStateNode {
     @EqualsAndHashCode.Exclude
     @Setter
     @Getter
-    private long lastAspectChangeTick = -1;
+    private long lastNetworkSync = -1;
 
     private boolean nextStateFront;
     private UUID nextStateID;

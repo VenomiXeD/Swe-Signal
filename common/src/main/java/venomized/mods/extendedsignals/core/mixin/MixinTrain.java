@@ -236,11 +236,14 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
         while (it.hasNext()) {
             DelayedSignalCrossTrigger delayedSignalCrossTrigger = it.next();
             if (delayedSignalCrossTrigger.getRemainingDelayTicks() <= 0) {
+                SignalStateNode signalState = delayedSignalCrossTrigger.getSignalBoundary() instanceof ISignal
+                        ? ExtendedSignals.serverNetworkCache().getSignalState(((TrackEdgePoint) delayedSignalCrossTrigger.getSignalBoundary()).getId(), delayedSignalCrossTrigger.isPrimary())
+                        : null;
+
                 delayedSignalCrossTrigger.getSignalBoundary()
                         .onSignalCrossedEarly(
-                                delayedSignalCrossTrigger.isPrimary() ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
-                                (Train) (Object) this
-                        );
+                                delayedSignalCrossTrigger.isPrimary() ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE, signalState,
+                                (Train) (Object) this);
                 it.remove();
                 continue;
             }
@@ -258,11 +261,14 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
         while (it.hasNext()) {
             DelayedSignalCrossTrigger delayedSignalCrossTrigger = it.next();
             if (delayedSignalCrossTrigger.getRemainingDelayTicks() <= 0) {
+                SignalStateNode signalState = delayedSignalCrossTrigger.getSignalBoundary() instanceof ISignal
+                        ? ExtendedSignals.serverNetworkCache().getSignalState(((TrackEdgePoint) delayedSignalCrossTrigger.getSignalBoundary()).getId(), delayedSignalCrossTrigger.isPrimary())
+                        : null;
+
                 delayedSignalCrossTrigger.getSignalBoundary()
                         .onSignalCrossedLate(
-                                delayedSignalCrossTrigger.isPrimary() ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
-                                (Train) (Object) this
-                        );
+                                delayedSignalCrossTrigger.isPrimary() ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE, signalState,
+                                (Train) (Object) this);
                 it.remove();
                 continue;
             }

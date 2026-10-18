@@ -90,6 +90,20 @@ public class Debug {
                         })
                 )
         );
+
+        dispatcher.register(Commands.literal(ExtendedSignals.MOD_ID)
+                .requires(commandSourceStack -> commandSourceStack.hasPermission(4))
+                .then(Commands.literal("dump_states")
+                        .executes(ctx -> {
+                            if (ctx.getSource().getLevel().isClientSide())
+                                return Command.SINGLE_SUCCESS;
+
+                            ExtendedSignals.serverNetworkCache().signalStateMapping().clear();
+                            PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatesPacket(ExtendedSignals.sidedNetwork(ctx.getSource().getLevel()).signalStateMapping()));
+                            return Command.SINGLE_SUCCESS;
+                        })
+                )
+        );
     }
 }
 

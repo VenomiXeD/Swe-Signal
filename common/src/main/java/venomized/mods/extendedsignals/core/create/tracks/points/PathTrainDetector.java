@@ -46,7 +46,7 @@ public class PathTrainDetector extends DirectionalEdgePoint<PathTrainDetector> {
     }
 
     @Override
-    public void onSignalCrossedLate(Direction.AxisDirection direction, Train train) {
+    public void onSignalCrossedLate(Direction.AxisDirection direction, SignalStateNode signalState, Train train) {
         trainInbound = false;
     }
 

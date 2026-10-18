@@ -28,23 +28,24 @@ public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint {
 
     /**
      * @param direction
+     * @param signalState
      * @param train
      */
     @Override
-    default void onSignalCrossedEarly(Direction.AxisDirection direction, Train train) {
-        SignalStateNode state = ExtendedSignals.serverNetworkCache()
-                .prepareModification(((TrackEdgePoint) this).getId(), direction == Direction.AxisDirection.POSITIVE)
-                .reset();
+    default void onSignalCrossedEarly(Direction.AxisDirection direction, SignalStateNode signalState, Train train) {
+        if (signalState == null)
+            return;
 
-        ExtendedSignals.serverNetworkCache().synchronize(state);
+        ExtendedSignals.serverNetworkCache().synchronize(signalState.setProceed(false).setReservedBy(null));
     }
 
     /**
      * @param direction
+     * @param signalState
      * @param train
      */
     @Override
-    default void onSignalCrossedLate(Direction.AxisDirection direction, Train train) {
+    default void onSignalCrossedLate(Direction.AxisDirection direction, SignalStateNode signalState, Train train) {
     }
 
     default SignalStateNode currentSignalState(boolean front) {

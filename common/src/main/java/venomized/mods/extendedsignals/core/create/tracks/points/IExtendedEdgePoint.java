@@ -7,6 +7,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
+import javax.annotation.Nullable;
+
 public interface IExtendedEdgePoint {
     Component getName();
 
@@ -14,12 +16,12 @@ public interface IExtendedEdgePoint {
         return false;
     }
 
-    default void onSignalScout(Direction.AxisDirection direction, SignalStateNode newState, final Train train, double distance) {
+    default void onSignalScout(Direction.AxisDirection direction, @Nullable SignalStateNode newState, final Train train, double distance) {
     }
 
-    default void onSignalCrossedEarly(Direction.AxisDirection direction, Train train) {
+    default void onSignalCrossedEarly(Direction.AxisDirection direction, @Nullable SignalStateNode signalState, Train train) {
     }
 
-    default void onSignalCrossedLate(Direction.AxisDirection axisDirection, Train train) {
+    default void onSignalCrossedLate(Direction.AxisDirection axisDirection, @Nullable SignalStateNode signalState, Train train) {
     }
 }

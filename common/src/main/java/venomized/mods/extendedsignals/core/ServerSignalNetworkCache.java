@@ -5,7 +5,6 @@ import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.graph.TrackGraph;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import net.createmod.catnip.data.Couple;
-import net.createmod.catnip.data.Iterate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -13,6 +12,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ArrayListDeque;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundSyncSignalStatePacket;
 import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -97,7 +97,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
         this.removeDeadEdgePointReferences();
 
         final ListTag signalsCollectionTag = ISignalNetwork.serializeSignalStatesToNBTList(signalStateMapping());
-        tag.put(ISignalNetwork.TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME, signalsCollectionTag);
+        tag.put(ISignalNetwork.TAG_SIGNAL_STATE_NBT_LIST_COLLECTION_NAME, new ListTag()); //signalsCollectionTag);
         return tag;
     }
 
@@ -119,12 +119,12 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
             return;
         // TODO: Hash-based network state comparison and synchronization
         SignalStateNode updatedState = getSignalState(id, direction);
-        if (signalStateNetworkHashes.computeIfAbsent(id, uuid -> Couple.create(0, 0)).get(direction) == updatedState.networkStateHash()) {
+        int updatedStateHash = updatedState.hashCode();
+        if (signalStateNetworkHashes.getOrDefault(id, Couple.create(0, 0)).get(direction) == updatedStateHash) {
             return;
         }
 
-        queuedUpdates.offer(new SignalSyncEntry(id, direction, updatedState));
-        signalStateNetworkHashes.get(id).set(direction, updatedState.networkStateHash());
+        queuedUpdates.offer(new SignalSyncEntry(id, direction, updatedState, updatedStateHash));
     }
 
     public void synchronize(SignalStateNode state) {
@@ -134,25 +134,14 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
     }
 
     public void tickSynchronize() {
-        // while (!queuedUpdates.isEmpty()) {
-        //     SignalSyncEntry pair = queuedUpdates.remove();
-        //     SignalStateNode state = getSignalState(pair.id(), pair.direction());
-        //     if (state.networkStateHash() == pair.networkStateHash())
-        //         return;
-        //     PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(pair.id(),  pair.direction(), state));
-        // }
-        // TODO: Make so that signals are only updated as needed
-        // for (boolean b : Iterate.trueAndFalse) {
-        //     signalStateMapping().forEach((uuid, signalState) -> {
-        //         PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(uuid, b, signalState.get(b)));
-        //     });
-        // }
         while (!queuedUpdates.isEmpty()) {
             SignalSyncEntry entry = queuedUpdates.remove();
+            signalStateNetworkHashes.computeIfAbsent(entry.id(), id -> Couple.create(0, 0)).set(entry.direction(), entry.newStateHash());
+            // entry.newState().setLastNetworkSync(ServerLifecycleHooks.getCurrentServer().overworld().getGameTime());
             PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatePacket(entry.id(), entry.direction(), entry.newState()));
         }
     }
 
-    private record SignalSyncEntry(UUID id, boolean direction, SignalStateNode newState) {
+    private record SignalSyncEntry(UUID id, boolean direction, SignalStateNode newState, int newStateHash) {
     }
 }
