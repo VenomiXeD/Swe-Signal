@@ -1,0 +1,61 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "extended_signals_se:se.3l_signal_modern"
+  },
+  "results": [
+    {
+      "id": "extended_signals_se:se.4l_signal_modern"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "tag": "c:plates/iron"
+        }
+      ],
+      "results": [
+        {
+          "id": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        },
+        {
+          "item": "create:electron_tube"
+        }
+      ],
+      "results": [
+        {
+          "id": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "extended_signals_se:incomplete_signal"
+        }
+      ],
+      "results": [
+        {
+          "id": "extended_signals_se:incomplete_signal"
+        }
+      ]
+    }
+  ],
+  "transitional_item": {
+    "id": "extended_signals_se:incomplete_signal"
+  }
+}
