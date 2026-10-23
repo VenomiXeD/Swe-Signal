@@ -99,7 +99,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
             }
 
 
-            if (signalState != null && trackEdgePoint instanceof ISignal<?>) {
+            if (signalState != null && trackEdgePoint instanceof ISignal) {
                 ((INavigation) navigation).extendedSignals$encounteredTrackEdgePointModifiers().values().forEach(e -> {
                     ISignalStateModifier mod = e.modifier().get();
                     if (mod == null)
@@ -115,6 +115,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
             }
 
             if (trackEdgePoint instanceof IExtendedEdgePoint signalBoundary) {
+                signalBoundary.onSignalCrossedImmediate(front ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE, signalState, ((Train) (Object) this));
                 if (this.navigation == null || this.navigation.distanceToSignal != 0) {
                     extendedSignals$frontDelayedOnCrossedTriggering.add(
                             new DelayedSignalCrossTrigger(ExtendedSignalsConfig.SERVER.signalPassedStateChangeDelay.getAsInt(), front, signalBoundary)

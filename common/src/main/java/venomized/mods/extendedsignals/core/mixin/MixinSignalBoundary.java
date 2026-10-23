@@ -12,6 +12,7 @@ import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
+import io.netty.util.Signal;
 import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
@@ -46,7 +47,7 @@ import java.util.UUID;
 
 @Debug(export = true, print = true)
 @Mixin(value = SignalBoundary.class, remap = false)
-public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISignal<SignalBoundary>, ISignalStateEvaluator, ITrainSpeedModifier {
+public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISignal, ISignalStateEvaluator, ITrainSpeedModifier {
     /**
      * @return
      */
@@ -58,9 +59,17 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
     @Unique
     private Couple<SignalStateNode> extendedSignals$blockSignalState;
     @Unique
-    public Couple<UUID> extendedSignals$nextSignalBoundaryEdgePointId;
+    private Couple<UUID> extendedSignals$nextSignalBoundaryEdgePointId;
     @Unique
-    public Couple<Boolean> extendedSignals$nextSignalBoundaryEdgePointFront;
+    private Couple<Boolean> extendedSignals$nextSignalBoundaryEdgePointFront;
+    @Unique
+    private Couple<Boolean> extendedSignals$hasScoutedNextSignalEdgePoint;
+    // @Unique
+    // private Couple<SignalBlockEntity.SignalState> extendedSignals$previousCachedState;
+    @Unique
+    private Couple<Boolean> extendedSignals$frontPassed;
+    @Unique
+    private Couple<Boolean> extendedSignals$blockSignalMarkedProceed;
     @Shadow
     public Couple<UUID> groups;
     @Unique
@@ -69,8 +78,6 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
     private Couple<Boolean> extendedSignals$clientFacingDirections;
     @Unique
     private Couple<Boolean> extendedSignals$blockSignalModeEnabled;
-    @Unique
-    private Couple<SignalBlockEntity.SignalState> extendedSignals$previousSignalState;
 
     @Shadow
     public abstract boolean isForcedRed(boolean primary);
@@ -91,11 +98,15 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
     private void extendedSignals$Ctor(CallbackInfo ci) {
         extendedSignals$isMainSignal = Couple.create(() -> false);
         extendedSignals$clientFacingDirections = Couple.create(() -> false);
+
+        extendedSignals$hasScoutedNextSignalEdgePoint = Couple.create(() -> false);
         extendedSignals$nextSignalBoundaryEdgePointId = Couple.create(() -> null);
         extendedSignals$nextSignalBoundaryEdgePointFront = Couple.create(() -> false);
+        extendedSignals$frontPassed = Couple.create(() -> false);
+        extendedSignals$blockSignalMarkedProceed = Couple.create(() -> false);
+        // extendedSignals$previousCachedState = Couple.create(() -> SignalBlockEntity.SignalState.INVALID);
         extendedSignals$blockSignalState = Couple.create(SignalStateNode.INVALID(this, false), SignalStateNode.INVALID(this, false));
         extendedSignals$blockSignalModeEnabled = Couple.create(() -> false);
-        extendedSignals$previousSignalState = Couple.create(() -> SignalBlockEntity.SignalState.INVALID);
         // extendedSignals$stateRemapperIDs = Couple.create(SignalStateRemapper.NONE.getId(), SignalStateRemapper.NONE.getId());
     }
 
@@ -123,11 +134,11 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
         }
         SignalEdgeGroup entering = Create.RAILWAYS.signalEdgeGroups.get(groups.get(primary));
         if (isForcedRed(primary))
-            return ExtendedSignals.serverNetworkCache().prepareModification(id, primary).setProceed(false);
+            return ExtendedSignals.serverNetworkCache().getSignalState(id, primary).setProceed(false);
         if (InterlockingManager.trainOwnsGroupIntersecting(train, entering) == InterlockingManager.ReservationResult.CONFLICT)
-            return ExtendedSignals.serverNetworkCache().prepareModification(id, primary).setProceed(false);
+            return ExtendedSignals.serverNetworkCache().getSignalState(id, primary).setProceed(false);
 
-        return ExtendedSignals.serverNetworkCache().prepareModification(id, primary).setProceed(true);
+        return ExtendedSignals.serverNetworkCache().getSignalState(id, primary).setProceed(true);
     }
 
     @Inject(method = "write(Lnet/minecraft/network/FriendlyByteBuf;Lcom/simibubi/create/content/trains/graph/DimensionPalette;)V", at = @At("TAIL"))
@@ -190,6 +201,9 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
     private void extendedSignals$scoutForNextSignal(TrackGraph graph, boolean front) {
         if (graph == null)
             return;
+        if (extendedSignals$hasScoutedNextSignalEdgePoint.get(front) && !sidesToUpdate.get(front))
+            return;
+
         Couple<TrackNode> nodes = edgeLocation.map(
                 graph::locateNode
         );
@@ -210,13 +224,18 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
                         new Vec3(0, 1, 0)
                 ),
                 (distance, detected) -> {
-                    if (detected.getFirst() instanceof SignalBoundary signalBoundary) {
+                    if (detected.getFirst() instanceof SignalBoundary signalBoundary && detected.getFirst() instanceof ISignal signalPoint) {
                         if ((Object) this == signalBoundary) //Ignore self if we... Scouted self?
                             return false;
+
+                        if (!signalPoint.isMainSignal(front))
+                            return false;
+
                         extendedSignals$nextSignalBoundaryEdgePointId.set(front, signalBoundary.getId());
                         extendedSignals$nextSignalBoundaryEdgePointFront.set(front,
                                 signalBoundary.isPrimary(detected.getSecond().getSecond())
                         );
+                        extendedSignals$hasScoutedNextSignalEdgePoint.set(front, true);
                         return true;
                     }
                     return false;
@@ -271,17 +290,53 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/createmod/catnip/data/Couple;get(Z)Ljava/lang/Object;", ordinal = 0))
     public void extendedSignals$tick(CallbackInfo ci, @Local(name = "graph") TrackGraph graph, @Local(name = "front") boolean front) {
-        if (!isBlockSignalMode(front))
+        if (!isBlockSignalMode(front)) {
             return;
-        if (!isMainSignal(front))
+        }
+        if (!isMainSignal(front)) {
             return;
-        // Create.RAILWAYS.signalEdgeGroups.get(groups.get(front)).isOccupiedUnless((SignalBoundary)(Object)this)
-        extendedSignals$previousSignalState.set(front, cachedStates.get(front));
+        }
+        if (extendedSignals$frontPassed.get(front)) {
+            return;
+        }
+        if (extendedSignals$blockSignalMarkedProceed.get(front))
+            return;
         extendedSignals$scoutForNextSignal(graph, front);
-        UUID nextPoint = extendedSignals$nextSignalBoundaryEdgePointId.get(front);
-        boolean nextFront = extendedSignals$nextSignalBoundaryEdgePointFront.get(front);
-        extendedSignals$blockSignalState.set(front, ExtendedSignals.serverNetworkCache().prepareModification(this.id, front).setProceed(cachedStates.get(front) != SignalBlockEntity.SignalState.RED));
+
+        final UUID nextPoint = extendedSignals$nextSignalBoundaryEdgePointId.get(front);
+        final boolean nextFront = extendedSignals$nextSignalBoundaryEdgePointFront.get(front);
+
+        boolean proceed = cachedStates.get(front) == SignalBlockEntity.SignalState.GREEN;
+        // cachedStates.get(front)== SignalBlockEntity.SignalState.GREEN
+        extendedSignals$blockSignalState.set(front, ExtendedSignals.serverNetworkCache().prepareModification(this.id, front)
+                .setProceed(proceed)
+                .setNextState(new SignalStateNode(nextPoint, nextFront)));
         ExtendedSignals.serverNetworkCache().synchronize(extendedSignals$blockSignalState.get(front));
+        if (proceed)
+            extendedSignals$blockSignalMarkedProceed.set(front, true);
+    }
+
+    /**
+     * @param direction
+     * @param signalState
+     * @param train
+     */
+    @Override
+    public void onSignalCrossedImmediate(Direction.AxisDirection direction, SignalStateNode signalState, Train train) {
+        extendedSignals$blockSignalMarkedProceed.set(direction == Direction.AxisDirection.POSITIVE, false);
+        extendedSignals$frontPassed.set(direction == Direction.AxisDirection.POSITIVE, true);
+        ISignal.super.onSignalCrossedImmediate(direction, signalState, train);
+    }
+
+    /**
+     * @param direction
+     * @param signalState
+     * @param train
+     */
+    @Override
+    public void onSignalCrossedLate(Direction.AxisDirection direction, SignalStateNode signalState, Train train) {
+        extendedSignals$frontPassed.set(direction == Direction.AxisDirection.POSITIVE, false);
+        ISignal.super.onSignalCrossedLate(direction, signalState, train);
     }
 
     /**

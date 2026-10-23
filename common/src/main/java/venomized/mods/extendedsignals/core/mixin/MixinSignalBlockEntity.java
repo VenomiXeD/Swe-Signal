@@ -63,7 +63,7 @@ public abstract class MixinSignalBlockEntity extends SmartBlockEntity implements
             return InteractionResult.sidedSuccess(context.getLevel().isClientSide());
 
         SignalBoundary boundary = edgePoint.getEdgePoint();
-        ISignal<?> signalPoint = (ISignal<?>) boundary;
+        ISignal signalPoint = (ISignal) boundary;
         boolean primary = edgePoint.getTargetDirection() == Direction.AxisDirection.POSITIVE;
 
         switch (mode) {
@@ -122,7 +122,7 @@ public abstract class MixinSignalBlockEntity extends SmartBlockEntity implements
         if (itemStack.is(Tags.Items.GEMS_QUARTZ)) {
             if (!level.isClientSide()) {
                 boolean front = getTrackTargetingBehavior().getTargetDirection() == Direction.AxisDirection.POSITIVE;
-                ISignal<?> signal = (ISignal<?>) getTrackTargetingBehavior().getEdgePoint();
+                ISignal signal = (ISignal) getTrackTargetingBehavior().getEdgePoint();
                 boolean current = signal.isBlockSignalMode(front);
                 signal.setBlockSignalMode(front, !current);
 

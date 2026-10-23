@@ -1,13 +1,9 @@
 package venomized.mods.extendedsignals.core.create.tracks.points;
 
-import com.simibubi.create.content.trains.graph.TrackNode;
-import com.simibubi.create.content.trains.signal.TrackEdgePoint;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class RepeaterSignalEdgePoint extends DirectionalEdgePoint<RepeaterSignalEdgePoint> implements ISignal<RepeaterSignalEdgePoint> {
+public class RepeaterSignalEdgePoint extends DirectionalEdgePoint<RepeaterSignalEdgePoint> implements ISignal {
     /**
      * @param front
      * @param mainSignal

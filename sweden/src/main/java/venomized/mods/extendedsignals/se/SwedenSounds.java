@@ -19,14 +19,14 @@ public class SwedenSounds {
     // public static final RegistryObject<SoundEvent> SE_ATC_TONE = sound("atc");
     // public static final RegistryObject<SoundEvent> TRAIN_X31K_1 = sound("x31k1");
     public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_HUM = sound(ExtendedSignalsSweden.res("onix1500_hum"));
-    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_ASYNC = sound(ExtendedSignalsSweden.res("onix1500_async"), 64);
-    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P0_ACC = sound(ExtendedSignalsSweden.res("onix1500_p0_acc"), 64);
-    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P1_ACC = sound(ExtendedSignalsSweden.res("onix1500_p1_acc"), 64);
-    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P2_ACC = sound(ExtendedSignalsSweden.res("onix1500_p2_acc"), 64);
-    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P3_ACC = sound(ExtendedSignalsSweden.res("onix1500_p3_acc"), 64);
-    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P4_ACC = sound(ExtendedSignalsSweden.res("onix1500_p4_acc"), 64);
-    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P5_ACC = sound(ExtendedSignalsSweden.res("onix1500_p5_acc"), 64);
-    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P6_ACC = sound(ExtendedSignalsSweden.res("onix1500_p6_acc"), 64);
+    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_ASYNC = sound(ExtendedSignalsSweden.res("onix1500_async"), 128);
+    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P0_ACC = sound(ExtendedSignalsSweden.res("onix1500_p0_acc"), 128);
+    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P1_ACC = sound(ExtendedSignalsSweden.res("onix1500_p1_acc"), 128);
+    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P2_ACC = sound(ExtendedSignalsSweden.res("onix1500_p2_acc"), 128);
+    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P3_ACC = sound(ExtendedSignalsSweden.res("onix1500_p3_acc"), 128);
+    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P4_ACC = sound(ExtendedSignalsSweden.res("onix1500_p4_acc"), 128);
+    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P5_ACC = sound(ExtendedSignalsSweden.res("onix1500_p5_acc"), 128);
+    public static final DeferredHolder<SoundEvent, SoundEvent> ONIX1500_P6_ACC = sound(ExtendedSignalsSweden.res("onix1500_p6_acc"), 128);
 
 
     // // public static final RegistryObject<SoundEvent> ATC_CONFIRM = sound("atc_confirm");

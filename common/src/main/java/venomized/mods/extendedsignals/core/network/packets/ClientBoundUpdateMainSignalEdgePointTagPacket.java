@@ -43,7 +43,7 @@ public record ClientBoundUpdateMainSignalEdgePointTagPacket(ResourceLocation edg
 
     public void handle(final IPayloadContext context) {
         for (TrackGraph trackGraph : CreateClient.RAILWAYS.trackNetworks.values()) {
-            if (trackGraph.getPoint(EdgePointType.TYPES.get(edgePointTypeId), point) instanceof ISignal<?> signalPoint) {
+            if (trackGraph.getPoint(EdgePointType.TYPES.get(edgePointTypeId), point) instanceof ISignal signalPoint) {
                 signalPoint.setMainSignal(front, value);
                 return;
             }

@@ -73,7 +73,7 @@ public abstract class TrainSound {
     }
 
     protected LoopingSound playSound(SoundEvent sound, boolean chorus) {
-        return playSound(sound, chorus, 1.0f, -0.01f);
+        return playSound(sound, chorus, 0.995f, -0.01f);
     }
 
     protected LoopingSound playSound(SoundEvent sound) {

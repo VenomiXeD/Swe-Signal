@@ -15,14 +15,14 @@
     "AccessorSignalEdgeGroup",
     "MixinSlidingDoorMovementBehavior",
     "MixinTrain",
+    "MixinGlobalRailwayManager",
     "AccessorTrackGraph"
   ],
   "client": [
     "client.MixinCarriageSounds",
-    "client.MixinGlobalRailwayManager",
     "client.MixinSignalVisual",
     "client.MixinSoundEngine",
-    "client.MixinTrainMapManager"
+    "MixinTrainMapManager"
   ],
   "minVersion": "0.8"
 }

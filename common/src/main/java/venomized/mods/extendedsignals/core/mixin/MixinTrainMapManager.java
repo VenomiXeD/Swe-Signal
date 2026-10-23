@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.core.mixin.client;
+package venomized.mods.extendedsignals.core.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -30,8 +30,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
 import venomized.mods.extendedsignals.core.create.tracks.points.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
-import venomized.mods.extendedsignals.core.mixin.AccessorEdgePointStorage;
-import venomized.mods.extendedsignals.core.mixin.AccessorTrackGraph;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.MathHelp;
 
@@ -131,7 +129,7 @@ public abstract class MixinTrainMapManager {
         List<FormattedText> original = cir.getReturnValue() == null ? List.of() : cir.getReturnValue();
         if (hoveredElement instanceof IExtendedEdgePoint point) {
             extendedSignals$commonExtendedPointDetails(texts, point);
-            if (point instanceof ISignal<?> signal)
+            if (point instanceof ISignal signal)
                 extendedSignals$listSignalDetails(texts, signal);
             else {
                 texts.addAll(original);
@@ -143,7 +141,7 @@ public abstract class MixinTrainMapManager {
     }
 
     @Unique
-    private static void extendedSignals$listSignalDetails(final List<FormattedText> text, ISignal<?> signal) {
+    private static void extendedSignals$listSignalDetails(final List<FormattedText> text, ISignal signal) {
         // text.add(Component.translatable("train_map.extended_signals.signal.id", ((TrackEdgePoint) signal).getId().toString()));
         for (boolean side : Iterate.falseAndTrue) {
             text.add(Component.literal("-".repeat(10)));
@@ -160,7 +158,7 @@ public abstract class MixinTrainMapManager {
     }
 
     @Unique
-    private static void extendedSignals$populateSignalDetails(final List<FormattedText> text, ISignal<?> signalNode, SignalStateNode state, boolean side, int depth) {
+    private static void extendedSignals$populateSignalDetails(final List<FormattedText> text, ISignal signalNode, SignalStateNode state, boolean side, int depth) {
         text.add(Component.literal("    ".repeat(depth)).append(
                         Component.translatable(
                                 "train_map.extended_signals.signal.is_main",

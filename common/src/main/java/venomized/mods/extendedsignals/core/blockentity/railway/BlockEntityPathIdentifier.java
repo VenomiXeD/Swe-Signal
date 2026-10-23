@@ -24,7 +24,7 @@ public class BlockEntityPathIdentifier extends BlockEntityPointModifier<PathIden
      */
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        behaviours.add(new TrackTargetingBehaviour<>(this, CoreEdgePoints.PATH_IDENTIFIER));
+        behaviours.add(edgePoint = new TrackTargetingBehaviour<>(this, CoreEdgePoints.PATH_IDENTIFIER));
     }
 
     /**

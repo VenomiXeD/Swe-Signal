@@ -18,10 +18,11 @@ public enum HvDistantSignalAspect implements IDistantSignalAspect {
 
     public static HvDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection direction, boolean allowOffAspect) {
         SignalStateNode distant = state.getNextState();
-        if (distant == null || state.isStop() && allowOffAspect)
-            return HvDistantSignalAspect.OFF;
+        if (allowOffAspect)
+            if (distant == null || state.isStop())
+                return HvDistantSignalAspect.OFF;
 
-        if (distant.isStop())
+        if (distant == null || distant.isStop())
             return HvDistantSignalAspect.EXPECT_STOP;
 
         if (distant.getMaxProceedSpeed() == state.getMaxProceedSpeed())
@@ -29,6 +30,7 @@ public enum HvDistantSignalAspect implements IDistantSignalAspect {
 
         if (distant.getMaxProceedSpeed() <= 60)
             return HvDistantSignalAspect.EXPECT_PROCEED_REDUCED_SPEED;
+
         return HvDistantSignalAspect.EXPECT_PROCEED;
     }
 

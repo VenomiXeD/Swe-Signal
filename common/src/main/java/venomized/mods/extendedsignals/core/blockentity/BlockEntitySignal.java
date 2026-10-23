@@ -151,7 +151,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends BlockEn
         ISignalNetwork network = ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY;
         network.prepareModification(targetEdgePointId, front).setProceed(false);
 
-        if (signalProvider.getTrackTargetingBehavior().getEdgePoint() instanceof ISignal<?> signal) {
+        if (signalProvider.getTrackTargetingBehavior().getEdgePoint() instanceof ISignal signal) {
             signal.setMainSignal(front, hasMainSignalCapability());
         }
 
@@ -172,7 +172,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends BlockEn
         signalSource.getReference(level).ifPresent(blockEntity -> {
             if (blockEntity instanceof IEdgePointBlockEntity signalEdgePointProvider) {
                 boolean front = signallingDirection == Direction.AxisDirection.POSITIVE;
-                if (signalEdgePointProvider.getTrackTargetingBehavior().getEdgePoint() instanceof ISignal<?> signal) {
+                if (signalEdgePointProvider.getTrackTargetingBehavior().getEdgePoint() instanceof ISignal signal) {
                     signal.setMainSignal(front, false);
                 }
             }

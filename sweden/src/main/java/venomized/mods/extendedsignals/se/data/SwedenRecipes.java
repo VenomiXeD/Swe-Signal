@@ -13,6 +13,7 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
+import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.SwedenBlocks;
 import venomized.mods.extendedsignals.se.item.SwedenItems;
@@ -29,7 +30,7 @@ public class SwedenRecipes extends RecipeProvider {
      * @param recipeOutput
      */
     @Override
-    protected void buildRecipes(RecipeOutput recipeOutput) {
+    protected void buildRecipes(@NotNull RecipeOutput recipeOutput) {
         sequencedRecipes(recipeOutput);
     }
 
@@ -44,7 +45,7 @@ public class SwedenRecipes extends RecipeProvider {
                 .addOutput(SwedenBlocks.SIGNAL_ENDPOINT.asItem(), 1)
                 .build(p_recipeOutput);
 
-        new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("main_2_signal"))
+        new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("2_signal"))
                 .require(SwedenBlocks.SIGNAL_ENDPOINT.asItem())
                 .transitionTo(SwedenItems.INCOMPLETE_SIGNAL.get())
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(CommonMetal.IRON.plates))
@@ -54,7 +55,7 @@ public class SwedenRecipes extends RecipeProvider {
                 .addOutput(SwedenBlocks.SIGNAL_MAIN_2_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
 
-        new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("main_3_signal"))
+        new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("3_signal"))
                 .require(SwedenBlocks.SIGNAL_MAIN_2_MODERN.asItem())
                 .transitionTo(SwedenItems.INCOMPLETE_SIGNAL.get())
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(CommonMetal.IRON.plates))
@@ -64,7 +65,7 @@ public class SwedenRecipes extends RecipeProvider {
                 .addOutput(SwedenBlocks.SIGNAL_MAIN_3_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
 
-        new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("combined_4_signal"))
+        new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("4_signal"))
                 .require(SwedenBlocks.SIGNAL_MAIN_3_MODERN.asItem())
                 .transitionTo(SwedenItems.INCOMPLETE_SIGNAL.get())
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(CommonMetal.IRON.plates))
@@ -74,7 +75,7 @@ public class SwedenRecipes extends RecipeProvider {
                 .addOutput(SwedenBlocks.SIGNAL_COMBINED_4_MODERN.asItem(), 1)
                 .build(p_recipeOutput);
 
-        new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("combined_5_signal"))
+        new SequencedAssemblyRecipeBuilder(ExtendedSignalsSweden.res("5_signal"))
                 .require(SwedenBlocks.SIGNAL_COMBINED_4_MODERN.asItem())
                 .transitionTo(SwedenItems.INCOMPLETE_SIGNAL.get())
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(CommonMetal.IRON.plates))

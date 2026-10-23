@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import venomized.mods.extendedsignals.core.mixin.AccessorSignalEdgeGroup;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class InterlockingManager {
@@ -30,12 +31,14 @@ public class InterlockingManager {
         //     if (result == ReservationResult.CONFLICT)
         //         return ReservationResult.CONFLICT;
         // }
-        groups.forEach((uuid, signalBoundaryBooleanPair) -> {
+        for (Map.Entry<UUID, Pair<SignalBoundary, Boolean>> entry : groups.entrySet()) {
+            UUID uuid = entry.getKey();
+            Pair<SignalBoundary, Boolean> signalBoundaryBooleanPair = entry.getValue();
             groupOwnerships.put(uuid, new InterlockedSignalReservation(
                     train.id, signalBoundaryBooleanPair.getFirst(),
                     0
             ));
-        });
+        }
         // LOGGER.info("Train {} reserved group of size {}", train.id, groups.size());
 
         return ReservationResult.OWNED;
@@ -47,7 +50,7 @@ public class InterlockingManager {
         InterlockedSignalReservation interlockedSignalReservation = groupOwnerships.get(group.id);
         if (interlockedSignalReservation == null)
             return ReservationResult.NONE;
-        return interlockedSignalReservation.train().equals(self.id) ? ReservationResult.OWNED : ReservationResult.CONFLICT;
+        return Objects.equals(interlockedSignalReservation.train(), self.id) ? ReservationResult.OWNED : ReservationResult.CONFLICT;
     }
 
     //
@@ -100,13 +103,9 @@ public class InterlockingManager {
         if (group == null)
             return;
 
-        boolean removed = groupOwnerships.entrySet().removeIf(
-                entry -> entry.getKey().equals(group.id) && entry.getValue().train.equals(self.id)
+        groupOwnerships.entrySet().removeIf(
+                entry -> Objects.equals(entry.getKey(), group.id) && Objects.equals(entry.getValue().train, self.id)
         );
-
-        // if (removed) {
-        //     //LOGGER.info("Cleared reservation for {} ({})", self.id, group.id);
-        // }
     }
 
     public static void clearReservationForTrain(Train self, UUID groupId) {

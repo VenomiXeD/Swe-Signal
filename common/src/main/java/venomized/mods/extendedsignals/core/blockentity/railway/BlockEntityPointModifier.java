@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.BoolProperty;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
+import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.create.tracks.points.IConfigurableEdgePoint;
 
 import java.util.List;
@@ -38,6 +39,11 @@ public abstract class BlockEntityPointModifier<T extends TrackEdgePoint> extends
         attachProperties(defaultProperties);
 
         properties = defaultProperties;
+
+
+        if (edgePoint == null) {
+            throw new NullPointerException("Edge point is null, did you forget to attach an edge point?");
+        }
     }
 
     protected abstract void attachProperties(PointModifierProperties properties);

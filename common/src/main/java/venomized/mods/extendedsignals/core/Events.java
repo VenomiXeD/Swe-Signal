@@ -4,6 +4,7 @@ package venomized.mods.extendedsignals.core;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -34,14 +35,14 @@ public class Events {
         }
     }
 
-    @SubscribeEvent
-    public static void onLevelTickEvent(LevelTickEvent.Post event) {
-        if (event.getLevel().isClientSide() || event.getLevel().dimension() != Level.OVERWORLD) return;
-        ServerSignalNetworkCache cache = ExtendedSignals.serverNetworkCache();
-        if (cache == null)
-            return;
-        cache.tickSynchronize();
-    }
+    // @SubscribeEvent(priority = EventPriority.LOWEST)
+    // public static void onLevelTickEvent(LevelTickEvent.Post event) {
+    //     if (event.getLevel().isClientSide() || event.getLevel().dimension() != Level.OVERWORLD) return;
+    //     ServerSignalNetworkCache cache = ExtendedSignals.serverNetworkCache();
+    //     if (cache == null)
+    //         return;
+    //     cache.tickSynchronize();
+    // }
 
     @SubscribeEvent
     public static void onBlockBreakEvent(BlockEvent.BreakEvent e) {

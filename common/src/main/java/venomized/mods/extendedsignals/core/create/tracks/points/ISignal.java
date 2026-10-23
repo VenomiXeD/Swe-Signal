@@ -6,8 +6,12 @@ import net.minecraft.core.Direction;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
-public interface ISignal<T extends TrackEdgePoint> extends IExtendedEdgePoint {
+public interface ISignal extends IExtendedEdgePoint {
     boolean isMainSignal(boolean front);
+
+    default boolean isDistantSignal(boolean front) {
+        return true;
+    } // TODO: Allow signals to determine if they're a distant signal too
 
     void setMainSignal(boolean front, boolean mainSignal);
 

@@ -19,6 +19,9 @@ public interface IExtendedEdgePoint {
     default void onSignalScout(Direction.AxisDirection direction, @Nullable SignalStateNode newState, final Train train, double distance) {
     }
 
+    default void onSignalCrossedImmediate(Direction.AxisDirection direction, @Nullable SignalStateNode signalState, Train train) {
+    }
+
     default void onSignalCrossedEarly(Direction.AxisDirection direction, @Nullable SignalStateNode signalState, Train train) {
     }
 

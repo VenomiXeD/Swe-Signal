@@ -28,7 +28,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
-import venomized.mods.extendedsignals.core.ServerSignalNetworkCache;
 import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
 import venomized.mods.extendedsignals.core.create.tracks.EncounteredPoint;
 import venomized.mods.extendedsignals.core.create.tracks.ISignalStateEvaluator;
@@ -41,11 +40,7 @@ import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Mixin(value = Navigation.class, remap = false)
 public abstract class MixinNavigation implements INavigation {
@@ -74,6 +69,12 @@ public abstract class MixinNavigation implements INavigation {
 
     @Shadow
     public abstract TravellingPoint.ITrackSelector controlSignalScout();
+
+    @Shadow
+    private TravellingPoint signalScout;
+
+    @Shadow
+    public boolean announceArrival;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void extendedSignals$onCtor(Train train, CallbackInfo ci) {
@@ -210,7 +211,7 @@ public abstract class MixinNavigation implements INavigation {
                     double deltaSignalDistance = previousSignalDistance.getValue() < 0
                             ? -1.0 : distance - previousSignalDistance.getValue();
 
-                    if (trackEdgePoint instanceof ISignal<?> signal && signal.isMainSignal(front))
+                    if (trackEdgePoint instanceof ISignal signal && signal.isMainSignal(front))
                         previousSignalDistance.setValue(distance);
 
 
@@ -300,11 +301,11 @@ public abstract class MixinNavigation implements INavigation {
             )
     )
     private void extendedSignals$updateDistantReservations(Level level, CallbackInfo ci) {
-        if (train.graph == null)
+        if ((waitingForSignal != null && train.speed == 0) || train.graph == null) {
+            InterlockingManager.clearReservationsForTrain(train);
             return;
-        if (waitingForSignal != null)
-            return;
-//
+        }
+
         InterlockingManager.groupOwnerships.entrySet().stream().filter(e -> e.getValue().train().equals(train.id))
                 .forEach(entry -> {
                     SignalEdgeGroup signalEdgeGroup = Create.RAILWAYS.signalEdgeGroups.get(entry.getKey());
@@ -313,10 +314,12 @@ public abstract class MixinNavigation implements INavigation {
 //
                     if (signalEdgeGroup.reserved == null)
                         signalEdgeGroup.reserved = entry.getValue().boundary();
+
+                    train.reservedSignalBlocks.add(entry.getKey());
                 });
     }
 
-    @Inject(method = "cancelNavigation", at = @At("RETURN"))
+    @Inject(method = "cancelNavigation", at = @At("HEAD"))
     public void extendedSignals$navigationCancelled(CallbackInfo ci) {
         InterlockingManager.clearReservationsForTrain(train);
     }
@@ -331,12 +334,12 @@ public abstract class MixinNavigation implements INavigation {
         while (!extendedSignals$collectedEdgePoints.isEmpty()) {
             current = extendedSignals$collectedEdgePoints.pop();
             IExtendedEdgePoint iExtendedEdgePoint = current.boundary().get();
+            if (iExtendedEdgePoint == null) {
+                continue;
+            }
+
             TrackEdgePoint edgePoint = (TrackEdgePoint) iExtendedEdgePoint;
-
-            if (iExtendedEdgePoint == null)
-                return;
-
-            if (iExtendedEdgePoint instanceof ISignal<?>) {
+            if (iExtendedEdgePoint instanceof ISignal) {
                 if (iExtendedEdgePoint instanceof ISignalStateEvaluator evaluator)
                     currentSignalState = evaluator.evaluateSignalState(current.signalDirection(), upcomingSignalState, train);
                 else
@@ -350,12 +353,12 @@ public abstract class MixinNavigation implements INavigation {
             }
 
             if (currentSignalState != null) {
-                for (ISignalStateModifier modifier : current.signalModifierSnapshot().stream().map(WeakReference::get).filter(e -> !Objects.isNull(e)).toList()) {
+                for (ISignalStateModifier modifier : current.signalModifierSnapshot().stream().map(WeakReference::get).filter(Objects::nonNull).toList()) {
                     modifier.applyModifier(currentSignalState);
                 }
             }
 
-            if (edgePoint instanceof ISignal<?> signalPoint && signalPoint.isMainSignal(current.signalDirection() == Direction.AxisDirection.POSITIVE)) {
+            if (edgePoint instanceof ISignal signalPoint && signalPoint.isMainSignal(current.signalDirection() == Direction.AxisDirection.POSITIVE)) {
                 upcomingSignalState = currentSignalState;
                 upcoming = current;
             }
