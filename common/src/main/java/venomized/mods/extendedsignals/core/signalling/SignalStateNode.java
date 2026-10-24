@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.*;
 import lombok.experimental.Accessors;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -78,6 +77,7 @@ public class SignalStateNode {
         return ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY.getSignalState(id, front);
     }
 
+    //region regular train traversal
     @Getter
     @Setter
     private boolean thisStateFront;
@@ -153,17 +153,13 @@ public class SignalStateNode {
         return this;
     }
 
-    @Deprecated
-    public SignalStateNode setAxisDirection(Direction.AxisDirection direction) {
-        nextStateFront = direction == Direction.AxisDirection.POSITIVE;
-        return this;
-    }
+    //endregion
 
-    @Deprecated
-    @Nullable
-    public Direction.AxisDirection getAxisDirection() {
-        return nextStateFront ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE;
-    }
+    //region shunt stuff
+    @Getter
+    @Setter
+    private boolean shuntingProceed;
+    //endregion
 
     @NotNull
     @Getter
@@ -208,6 +204,8 @@ public class SignalStateNode {
             signalStateNode.setNextState(SignalStateNode.fromNBT(tag.getCompound("next_state")));
         }
 
+        signalStateNode.setShuntingProceed(tag.getBoolean("shunting_proceed"));
+
         CompoundTag miscCompTag = tag.getCompound("misc_tags");
         miscCompTag.getAllKeys().forEach(e -> signalStateNode.miscTags.put(e, miscCompTag.getString(e)));
         return signalStateNode;
@@ -239,6 +237,9 @@ public class SignalStateNode {
         miscTags.entrySet().forEach(entry -> {
             miscCompTag.putString(entry.getKey(), entry.getValue());
         });
+
+        tag.putBoolean("shunting_proceed", isShuntingProceed());
+
         tag.put("misc_tags", miscCompTag);
         return tag;
     }

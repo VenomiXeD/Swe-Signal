@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "extended_signals_hu:block/signals/hu/interlocked_2_signal"
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "format_version": "26.3",
+  "credit": "Made with Blockbench",
+  "texture_size": [
+    64,
+    64
+  ],
+  "textures": {
+    "0": "extended_signals_hu:block/signs/hu/indicators"
+  },
+  "elements": [
+    {
+      "from": [
+        5,
+        -16,
+        7.5
+      ],
+      "to": [
+        11,
+        16,
+        8.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          8,
+          14.5,
+          6.5
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            7.5,
+            0,
+            9,
+            8.25
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            2.75,
+            0,
+            3,
+            8.25
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            1.5,
+            0,
+            3,
+            8.25
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            2.75,
+            0,
+            3,
+            8.25
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            1.5,
+            0,
+            3,
+            0.25
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            1.5,
+            0,
+            3,
+            0.25
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

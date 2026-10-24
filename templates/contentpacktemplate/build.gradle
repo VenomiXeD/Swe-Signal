@@ -1,0 +1,5 @@
+dependencies {
+    implementation(project(":common"))
+}
+
+version = "0.0.0-snapshot"

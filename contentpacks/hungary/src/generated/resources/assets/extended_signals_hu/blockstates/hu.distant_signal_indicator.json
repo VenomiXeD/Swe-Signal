@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "extended_signals_hu:block/signs/hu/distant_signal_indicator"
+    }
+  }
+}

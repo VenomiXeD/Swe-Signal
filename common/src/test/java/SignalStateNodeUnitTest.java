@@ -70,6 +70,5 @@ class SignalStateNodeUnitTest {
         assertEquals(15.5, state.getMaxProceedSpeed());
         assertEquals(80.0, state.getDistanceToNextSignal());
         assertNull(state.getNextState());
-        assertNull(state.getAxisDirection());
     }
 }

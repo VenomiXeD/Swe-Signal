@@ -1,0 +1,10 @@
+# Made in Blockbench 5.2.2
+newmtl m_665dea00-d5cd-8beb-a728-3a41b9d85080
+map_Kd #shader
+newmtl m_d799abce-c680-0338-ab57-29cd994b364f
+map_Kd #light
+newmtl m_68264659-5a19-cd44-1a6f-3ec90d1fe4da
+map_Kd #lamp
+newmtl m_4b138f49-60c9-ddea-94c1-29dc31136061
+map_Kd #base
+newmtl none

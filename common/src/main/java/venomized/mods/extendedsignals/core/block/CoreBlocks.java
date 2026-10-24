@@ -96,7 +96,7 @@ public final class CoreBlocks {
             .block("steam_muffler", BlockSteamMuffler::new)
             .lang("Steam Muffler")
             .blockstate((ctx, prov) -> {
-                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile("iron_block"));
+                prov.simpleBlock(ctx.get(), new ModelFile.UncheckedModelFile(ExtendedSignals.res("block/steam_muffler")));
             })
             .simpleItem()
             .register();

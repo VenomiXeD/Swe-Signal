@@ -10,7 +10,10 @@ plugins {
 }
 
 rootProject.name = "extendedsignals"
+
 include 'common'
-include 'germany'
-include 'sweden'
-include 'netherlands'
+
+file('contentpacks').eachDir { dir ->
+    include dir.name
+    project(":${dir.name}").projectDir = dir
+}

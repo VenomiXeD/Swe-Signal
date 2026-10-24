@@ -1,0 +1,18 @@
+{
+  "transform": {
+    "translation": [
+      0.5,
+      0,
+      0.5
+    ]
+  },
+  "loader": "neoforge:obj",
+  "flip_v": true,
+  "model": "extended_signals_hu:models/block/signals/hu/signal_3.obj",
+  "textures": {
+    "base": "extended_signals_hu:block/signals/hu/base",
+    "light_upper": "extended_signals_hu:block/signals/hu/light_upper",
+    "lamp": "extended_signals_hu:block/signals/hu/lamp",
+    "shader": "extended_signals_hu:block/signals/hu/shader"
+  }
+}
