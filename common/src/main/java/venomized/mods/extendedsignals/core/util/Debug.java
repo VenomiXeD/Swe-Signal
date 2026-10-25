@@ -12,6 +12,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.mutable.MutableInt;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
+import venomized.mods.extendedsignals.core.create.AdvancedSignalScout;
 import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
 import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
@@ -40,12 +41,12 @@ public class Debug {
                         .executes(ctx -> {
                             MutableInt count = new MutableInt(0);
                             Create.RAILWAYS.trains.forEach((id, train) -> {
-                                if (train.navigation instanceof INavigation nav) {
-                                    count.add(nav.extendedSignals$encounteredTrackEdgePointModifiers().size());
+                                count.add(AdvancedSignalScout.cast(train).getActiveModifiers().size());
 
-                                    nav.extendedSignals$currentScoutedEdgePoints().clear();
-                                    nav.extendedSignals$encounteredTrackEdgePointModifiers().clear();
-                                }
+                                AdvancedSignalScout.cast(train).getPersistentCollectedEdgePoints().clear();
+                                AdvancedSignalScout.cast(train).getCollectedEdgePoints().clear();
+                                AdvancedSignalScout.cast(train).getActiveModifiers().clear();
+
                                 train.throttle = 1f;
                             });
 

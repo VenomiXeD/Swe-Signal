@@ -5,24 +5,25 @@
   "refmap": "extendedsignals.refmap.json",
   "mixins": [
     "AccessorEdgePointStorage",
+    "AccessorNavigation",
+    "AccessorSignalEdgeGroup",
+    "AccessorTrackGraph",
     "MixinBlockBreakingMovementBehaviour",
+    "MixinGlobalRailwayManager",
     "MixinGlobalStation",
     "MixinNavigation",
     "MixinScheduleRuntime",
     "MixinSignalBlockEntity",
     "MixinSignalBoundary",
     "MixinSignalEdgeGroup",
-    "AccessorSignalEdgeGroup",
     "MixinSlidingDoorMovementBehavior",
-    "MixinTrain",
-    "MixinGlobalRailwayManager",
-    "AccessorTrackGraph"
+    "MixinTrain"
   ],
   "client": [
+    "MixinTrainMapManager",
     "client.MixinCarriageSounds",
     "client.MixinSignalVisual",
-    "client.MixinSoundEngine",
-    "MixinTrainMapManager"
+    "client.MixinSoundEngine"
   ],
   "minVersion": "0.8"
 }
