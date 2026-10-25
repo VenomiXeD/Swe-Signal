@@ -57,10 +57,16 @@ public class AdvancedSignalScout {
     @Setter
     private long signalScoutCooldown = 0;
 
+    @Getter
+    @Setter
+    private SignalPolicy signalPolicyMode;
+
 
     public AdvancedSignalScout(Train train, Navigation navigation) {
         this.train = train;
         this.navigation = navigation;
+
+        signalPolicyMode = SignalPolicy.JOURNEY;
 
         persistentCollectedEdgePoints = new ReferenceArrayList<>();
         collectedEdgePoints = new ReferenceArrayList<>();
@@ -78,7 +84,7 @@ public class AdvancedSignalScout {
             return;
         signalScoutCooldown = SIGNAL_SCOUT_INTERVAL;
 
-        boolean behind = Mth.sign(train.speed) == -1;
+        boolean behind = train.manualTick ? Mth.sign(train.speed) == -1 : navigation.destinationBehindTrain;
         double speedMod = behind ? -1 : 1; // navigation.destinationBehindTrain ? -1 : 1;
         TravellingPoint leadingPoint = /*!navigation.destinationBehindTrain*/ !behind ? train.carriages.getFirst()
                 .getLeadingPoint()
