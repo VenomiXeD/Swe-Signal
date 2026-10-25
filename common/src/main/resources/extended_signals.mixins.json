@@ -9,6 +9,7 @@
     "AccessorSignalEdgeGroup",
     "AccessorTrackGraph",
     "MixinBlockBreakingMovementBehaviour",
+    "MixinCarriage",
     "MixinGlobalRailwayManager",
     "MixinGlobalStation",
     "MixinNavigation",

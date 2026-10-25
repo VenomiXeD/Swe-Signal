@@ -15,7 +15,6 @@ import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.create.AdvancedSignalScout;
 import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
 import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
-import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundSyncSignalStatesPacket;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -41,11 +40,11 @@ public class Debug {
                         .executes(ctx -> {
                             MutableInt count = new MutableInt(0);
                             Create.RAILWAYS.trains.forEach((id, train) -> {
-                                count.add(AdvancedSignalScout.cast(train).getActiveModifiers().size());
+                                count.add(AdvancedSignalScout.from(train).getActiveModifiers().size());
 
-                                AdvancedSignalScout.cast(train).getPersistentCollectedEdgePoints().clear();
-                                AdvancedSignalScout.cast(train).getCollectedEdgePoints().clear();
-                                AdvancedSignalScout.cast(train).getActiveModifiers().clear();
+                                AdvancedSignalScout.from(train).getPersistentCollectedEdgePoints().clear();
+                                AdvancedSignalScout.from(train).getCollectedEdgePoints().clear();
+                                AdvancedSignalScout.from(train).getActiveModifiers().clear();
 
                                 train.throttle = 1f;
                             });

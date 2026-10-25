@@ -7,7 +7,7 @@
   "message.extendedsignals.createsignal.interact.chaining": "Chaining disabled: %s",
   "message.extendedsignals.blockentitysignal.bind.success": "Signal successfully bound: %s",
   "message.extendedsignals.blockentitysignal.disconnect.success": "Signal successfully disconnected",
-  "key.categories.extendedsignals": "Extended Signals",
+  "key.categories.immersive_signals": "Extended Signals",
   "key.extendedsignals.train.shunt": "Request Shunt",
   "message.extendedsignals.blockentitysignal.tool.unknown": "Signal linking is done with the \"CONNECT\" mode.",
   "setting.extendedsignals.pathtraindetector.distance": "Trigger Distance",

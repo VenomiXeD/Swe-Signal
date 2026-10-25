@@ -1,5 +1,6 @@
 package venomized.mods.extendedsignals.core.util;
 
+import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +16,7 @@ import java.util.Optional;
 public final class BlockEntityReference<T extends BlockEntity> {
     private final Class<T> compatibleType;
 
+    @Getter
     private BlockPos posRef;
 
     public BlockEntityReference(Class<T> compatibleType) {

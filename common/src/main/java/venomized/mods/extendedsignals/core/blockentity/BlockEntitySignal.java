@@ -40,6 +40,7 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends BlockEn
     @Nullable
     private Direction.AxisDirection signallingDirection;
     @NotNull
+    @Getter
     private final BlockEntityReference<BlockEntity> signalSource = new BlockEntityReference<>(BlockEntity.class);
 
     public BlockEntitySignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {

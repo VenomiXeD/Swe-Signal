@@ -5,11 +5,14 @@ import com.simibubi.create.content.contraptions.actors.trainControls.ControlsHan
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -21,6 +24,7 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntity;
 import venomized.mods.extendedsignals.core.blockentity.IConfigurableModelBlockEntity;
 import venomized.mods.extendedsignals.core.item.IScrollableItem;
@@ -70,10 +74,18 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onLevelTickEvent(LevelTickEvent.Pre e) {
         CLIENT_TICK_TRACKER++;
+
+        // if(Minecraft.getInstance().hitResult instanceof BlockHitResult bhr) {
+        //     BlockEntity blockEntity = Minecraft.getInstance().level.getBlockEntity(bhr.getBlockPos());
+        //     if (blockEntity instanceof BlockEntitySignal<?> blockEntitySignal && blockEntitySignal.getSignalSource().getPosRef() != null) {
+        //         BlockPos p = blockEntitySignal.getSignalSource().getPosRef();
+        //         blockEntitySignal.getLevel().addAlwaysVisibleParticle(ParticleTypes.ELECTRIC_SPARK, true, p.getX(), p.getY(), p.getZ(), 0.1D, 0.1D, 0.1D);
+        //     }
+        // }
     }
 
     @SubscribeEvent
-    public static void onLevelTickEvent(LevelEvent.Load e) {
+    public static void onLevelLoadEvent(LevelEvent.Load e) {
         CLIENT_TICK_TRACKER = 0;
     }
 
