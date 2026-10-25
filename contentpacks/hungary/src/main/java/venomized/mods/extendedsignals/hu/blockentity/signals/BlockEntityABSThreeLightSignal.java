@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.hu.signalling.ABS3Signal;
 import venomized.mods.extendedsignals.hu.signalling.Interlocked2Signal;
 
 public class BlockEntityABSThreeLightSignal extends BlockEntityThreeLightSignal<ISignalAspect> {
@@ -30,6 +31,6 @@ public class BlockEntityABSThreeLightSignal extends BlockEntityThreeLightSignal<
      */
     @Override
     public @NotNull IMainSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
-        return Interlocked2Signal.interpret(state);
+        return ABS3Signal.interpret(state);
     }
 }

@@ -2,4 +2,4 @@ dependencies {
     implementation(project(":common"))
 }
 
-version = "0.0.0-snapshot"
+version = "0.0.1-beta-devbuild"

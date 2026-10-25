@@ -21,6 +21,6 @@ public abstract class BlockEntityThreeLightSignal<T extends ISignalAspect> exten
         signalLights
                 .withLight("l0", new SignalLight(0, 24.75d / 16d, -1.5015d / 16d, 4.75f, 4.75f, 0, ISignalAspect.RGB.GREEN))
                 .withLight("l1", new SignalLight(0, 16.875d / 16d, -1.5015d / 16d, 4.75f, 4.75f, 0, ISignalAspect.RGB.RED))
-                .withLight("l2", new SignalLight(0, 9 / 16d, -1.5015d / 16d, 4.75f, 4.75f, 0, ISignalAspect.RGB.YELLOW));
+                .withLight("l2", new SignalLight(0, 9d / 16d, -1.5015d / 16d, 4.75f, 4.75f, 0, ISignalAspect.RGB.YELLOW));
     }
 }

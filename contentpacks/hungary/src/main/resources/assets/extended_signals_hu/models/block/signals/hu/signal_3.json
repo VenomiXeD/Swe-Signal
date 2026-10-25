@@ -11,7 +11,7 @@
   "model": "extended_signals_hu:models/block/signals/hu/signal_3.obj",
   "textures": {
     "base": "extended_signals_hu:block/signals/hu/base",
-    "light_upper": "extended_signals_hu:block/signals/hu/light_upper",
+    "light": "extended_signals_hu:block/signals/hu/light",
     "lamp": "extended_signals_hu:block/signals/hu/lamp",
     "shader": "extended_signals_hu:block/signals/hu/shader"
   }

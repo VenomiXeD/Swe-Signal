@@ -11,8 +11,7 @@ import java.util.List;
 public enum ABS3Signal implements IMainSignalAspect, IDistantSignalAspect {
     CLEAR(new Aspect(List.of("l0"), null)),
     EXPECT_STOP(new Aspect(List.of("l2"), null)),
-    STOP(new Aspect(List.of("l1"), null)),
-    ;
+    STOP(new Aspect(List.of("l1"), null));
 
     private final Aspect aspect;
 

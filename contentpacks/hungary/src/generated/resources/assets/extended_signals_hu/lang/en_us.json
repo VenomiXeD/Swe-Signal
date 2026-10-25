@@ -1,5 +1,6 @@
 {
+  "block.extended_signals_hu.hu.abs_3_signal": "3 Light Signal (Automatic Block Signal)",
   "block.extended_signals_hu.hu.distant_signal_indicator": "Distant Signal Indicator",
-  "block.extended_signals_hu.hu.interlocked_2_signal": "Interlocked 2 Light Signal",
+  "block.extended_signals_hu.hu.interlocked_2_signal": "2 Light Signal (Interlocked)",
   "itemGroup.extended_signals_hu.extended_signals_hu": "Extended Signals Hu"
 }
