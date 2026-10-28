@@ -45,7 +45,7 @@ public class BlockEntityKsDistantRepeaterSignal extends BlockEntityKs<IDistantSi
         KsDistantSignalAspect distantAspect = KsDistantSignalAspect.interpret(state, incomingDirection);
         return (seconds, states) -> {
             distantAspect.applyAspect(seconds, states);
-            if (state.getNextState() == null || !state.getNextState().isProceed()) {
+            if (state.getNextState() == null || !state.getNextState().isJourneyPermitted()) {
                 states.powered("repeater");
             }
         };

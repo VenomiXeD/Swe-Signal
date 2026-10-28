@@ -77,5 +77,13 @@
   "train_map.extended_signals.edgepoint.repeater.name": "Distant/Repeater Signal",
   "train_map.extended_signals.edgepoint.create_signal.name": "Create Train Signal",
   "train_map.extended_signals.edgepoint.train_station.name": "Train Station",
-  "screens.extended_signals.modelconfig.screens.textbox.number.label": "Number"
+  "screens.extended_signals.modelconfig.screens.textbox.number.label": "Number",
+  "extended_signals.schedule.instruction.signal_mode.mode.journey": "Journey mode",
+  "extended_signals.schedule.instruction.signal_mode.mode.none": "None",
+  "extended_signals.schedule.instruction.signal_mode.mode.shunt_movement": "Shunting (Movement)",
+  "extended_signals.schedule.instruction.signal_mode.mode.shunt_coupling": "Shunting (Coupling)",
+  "extended_signals.schedule.signal_mode.summary": "Signalling Operating Mode",
+  "extended_signals.schedule.instruction.signal_mode": "Operation Mode",
+  "extended_signals.generic.true": "True",
+  "extended_signals.generic.fasle": "False"
 }

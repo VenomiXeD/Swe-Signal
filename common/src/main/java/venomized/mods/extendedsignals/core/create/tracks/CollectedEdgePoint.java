@@ -10,7 +10,7 @@ import java.util.List;
 public record CollectedEdgePoint(
         WeakReference<IExtendedEdgePoint> boundary,
         Direction.AxisDirection signalDirection,
-        boolean isStoppingAtThisNode,
+        boolean obstacle,
         double distance,
         double distanceFromPreviousSignal,
         List<WeakReference<ISignalStateModifier>> signalModifierSnapshot

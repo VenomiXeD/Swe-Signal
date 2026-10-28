@@ -171,7 +171,7 @@ public abstract class MixinTrainMapManager {
         }
         text.add(Component.literal("    ".repeat(depth)).append(Component.translatable("train_map.extended_signals.signal.direction", side ? "Positive " : "Negative")));
         text.add(Component.literal("    ".repeat(depth)).append(Component.translatable("train_map.extended_signals.signal.state", state.isStop() ? "Stop" : "Proceed")));
-        if (state.isProceed()) {
+        if (state.isJourneyPermitted()) {
             text.add(Component.literal("    ".repeat(depth))
                     .append(Component.translatable(
                             "train_map.extended_signals.signal.max_speed",

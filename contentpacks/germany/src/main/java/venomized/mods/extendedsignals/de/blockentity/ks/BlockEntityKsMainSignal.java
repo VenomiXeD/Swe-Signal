@@ -35,11 +35,11 @@ public class BlockEntityKsMainSignal extends BlockEntityKs<IMainSignalAspect> {
                 .withLight("stop", SignalLight.redLight(0d, 93.25 / 16d, -8.55 / 16d, 2.75f, 2.75f, 0f))
                 .withLight("proceed", SignalLight.greenLight(0d, 89.25 / 16d, -8.55 / 16d, 2.75f, 2.75f, 0f))
 
-                .withLight("zs7_0", SignalLight.yellowLight(2.5d / 16d, 85.5d / 16d, -8.4d / 16d, 1.75f, 1.75f, 0f))
-                .withLight("zs7_1", SignalLight.yellowLight(-3.5d / 16d, 85.5d / 16d, -8.4d / 16d, 1.75f, 1.75f, 0f))
-                .withLight("zs7_2", SignalLight.yellowLight(-0.5d / 16d, 82.5d / 16d, -8.4d / 16d, 1.75f, 1.75f, 0f))
+                .withLight("aux_0", SignalLight.yellowLight(2.5d / 16d, 85.5d / 16d, -8.4d / 16d, 1.75f, 1.75f, 0f))
+                .withLight("aux_1", SignalLight.whiteLight(-0.5d / 16d, 85.5d / 16d, -8.4d / 16d, 1.75f, 1.75f, 0f))
+                .withLight("aux_2", SignalLight.yellowLight(-3.5d / 16d, 85.5d / 16d, -8.4d / 16d, 1.75f, 1.75f, 0f))
 
-                .withLight("unused", SignalLight.yellowLight(-0.5d / 16d, 85.5d / 16d, -8.4d / 16d, 1.75f, 1.75f, 0f))
+                .withLight("aux_3", SignalLight.yellowLight(-0.5d / 16d, 82.5d / 16d, -8.4d / 16d, 1.75f, 1.75f, 0f))
 
                 .withLight("zs1", SignalLight.whiteLight(3.5 / 16d, 82.5 / 16d, -8.4d / 16d, 1.75f, 1.75f, 0f))
 

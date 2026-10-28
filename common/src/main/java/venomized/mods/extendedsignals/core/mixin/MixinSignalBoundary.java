@@ -12,7 +12,6 @@ import com.simibubi.create.content.trains.signal.SignalBlockEntity;
 import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
-import io.netty.util.Signal;
 import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Iterate;
 import net.minecraft.core.BlockPos;
@@ -105,7 +104,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
         extendedSignals$frontPassed = Couple.create(() -> false);
         extendedSignals$blockSignalMarkedProceed = Couple.create(() -> false);
         // extendedSignals$previousCachedState = Couple.create(() -> SignalBlockEntity.SignalState.INVALID);
-        extendedSignals$blockSignalState = Couple.create(SignalStateNode.INVALID(this, false), SignalStateNode.INVALID(this, false));
+        extendedSignals$blockSignalState = Couple.create(SignalStateNode::EMPTY);
         extendedSignals$blockSignalModeEnabled = Couple.create(() -> false);
         // extendedSignals$stateRemapperIDs = Couple.create(SignalStateRemapper.NONE.getId(), SignalStateRemapper.NONE.getId());
     }
@@ -134,11 +133,11 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
         }
         SignalEdgeGroup entering = Create.RAILWAYS.signalEdgeGroups.get(groups.get(primary));
         if (isForcedRed(primary))
-            return ExtendedSignals.serverNetworkCache().getSignalState(id, primary).setProceed(false);
+            return ExtendedSignals.serverNetworkCache().getSignalState(id, primary).setJourneyPermitted(false);
         if (InterlockingManager.trainOwnsGroupIntersecting(train, entering) == InterlockingManager.ReservationResult.CONFLICT)
-            return ExtendedSignals.serverNetworkCache().getSignalState(id, primary).setProceed(false);
+            return ExtendedSignals.serverNetworkCache().getSignalState(id, primary).setJourneyPermitted(false);
 
-        return ExtendedSignals.serverNetworkCache().getSignalState(id, primary).setProceed(true);
+        return ExtendedSignals.serverNetworkCache().getSignalState(id, primary).setJourneyPermitted(true);
     }
 
     @Inject(method = "write(Lnet/minecraft/network/FriendlyByteBuf;Lcom/simibubi/create/content/trains/graph/DimensionPalette;)V", at = @At("TAIL"))
@@ -309,7 +308,7 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
         boolean proceed = cachedStates.get(front) == SignalBlockEntity.SignalState.GREEN;
         // cachedStates.get(front)== SignalBlockEntity.SignalState.GREEN
         extendedSignals$blockSignalState.set(front, ExtendedSignals.serverNetworkCache().prepareModification(this.id, front)
-                .setProceed(proceed)
+                .setJourneyPermitted(proceed)
                 .setNextState(new SignalStateNode(nextPoint, nextFront)));
         ExtendedSignals.serverNetworkCache().synchronize(extendedSignals$blockSignalState.get(front));
         if (proceed)

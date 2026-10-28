@@ -2,7 +2,7 @@
   "required": true,
   "package": "venomized.mods.extendedsignals.core.mixin",
   "compatibilityLevel": "JAVA_21",
-  "refmap": "extendedsignals.refmap.json",
+  "refmap": "extended_signals.refmap.json",
   "mixins": [
     "AccessorEdgePointStorage",
     "AccessorNavigation",
@@ -26,5 +26,8 @@
     "client.MixinSignalVisual",
     "client.MixinSoundEngine"
   ],
-  "minVersion": "0.8"
+  "minVersion": "0.8",
+  "mixinextras": {
+    "minVersion": "0.5.3"
+  }
 }

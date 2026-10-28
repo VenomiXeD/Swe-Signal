@@ -29,7 +29,7 @@ public abstract class MixinCarriage {
             ),
             index = 2
     )
-    public TravellingPoint.ITrackSelector extendedSignals$listenSwitchEncounter(TravellingPoint.ITrackSelector trackSelector, @Local(name = "frontTrackSelector") TravellingPoint.ITrackSelector frontTrackSelector, @Local(name = "atFront") boolean atFront) {
+    public TravellingPoint.ITrackSelector extendedSignals$listenSwitchEncounter(TravellingPoint.ITrackSelector trackSelector, @Local(name = "atFront") boolean atFront) {
         return (graph, options) -> {
             if (atFront)
                 AdvancedSignalScout.from(train).onPassSwitch(options.getFirst(), options.getSecond().getFirst().getKey());

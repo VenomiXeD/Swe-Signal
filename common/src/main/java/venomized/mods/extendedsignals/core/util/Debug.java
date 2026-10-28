@@ -4,6 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.simibubi.create.Create;
 import net.createmod.catnip.data.Couple;
+import net.createmod.catnip.data.Iterate;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -55,41 +56,21 @@ public class Debug {
                 )
         );
 
-        dispatcher.register(Commands.literal(ExtendedSignals.MOD_ID)
-                .requires(commandSourceStack -> commandSourceStack.hasPermission(4))
-                .then(Commands.literal("void_modifiers")
-                        .executes(ctx -> {
-                            MutableInt count = new MutableInt(0);
-                            Create.RAILWAYS.trackNetworks.forEach((id, track) -> {
-                                track.getPoints(CoreEdgePoints.LOCAL_SPEED_MODIFIER).clear();
-                                track.getPoints(CoreEdgePoints.LOCAL_SPEED_MODIFIER).clear();
-                            });
-
-                            ctx.getSource().sendSuccess(() -> Component.literal("Modifier points reset reset: " + count), false);
-                            return Command.SINGLE_SUCCESS;
-                        })
-                )
-        );
-
-
-        dispatcher.register(Commands.literal(ExtendedSignals.MOD_ID)
-                .requires(commandSourceStack -> commandSourceStack.hasPermission(4))
-                .then(Commands.literal("all_force_red")
-                        .executes(ctx -> {
-                            if (ctx.getSource().getLevel().isClientSide())
-                                return Command.SINGLE_SUCCESS;
-                            ExtendedSignals.sidedNetwork(ctx.getSource().getLevel()).signalStateMapping().forEach((k, v) -> {
-                                ExtendedSignals.sidedNetwork(ctx.getSource().getLevel()).signalStateMapping().put(k, Couple.create(
-                                        SignalStateNode.STOP(k, false),
-                                        SignalStateNode.STOP(k, true)
-                                ));
-                            });
-
-                            PacketDistributor.sendToAllPlayers(new ClientBoundSyncSignalStatesPacket(ExtendedSignals.sidedNetwork(ctx.getSource().getLevel()).signalStateMapping()));
-                            return Command.SINGLE_SUCCESS;
-                        })
-                )
-        );
+        // dispatcher.register(Commands.literal(ExtendedSignals.MOD_ID)
+        //         .requires(commandSourceStack -> commandSourceStack.hasPermission(4))
+        //         .then(Commands.literal("void_modifiers")
+        //                 .executes(ctx -> {
+        //                     MutableInt count = new MutableInt(0);
+        //                     Create.RAILWAYS.trackNetworks.forEach((id, track) -> {
+        //                         track.getPoints(CoreEdgePoints.LOCAL_SPEED_MODIFIER).clear();
+        //                         track.getPoints(CoreEdgePoints.LINE_SPEED_MODIFIER).clear();
+        //                     });
+//
+        //                     ctx.getSource().sendSuccess(() -> Component.literal("Modifier points reset reset: " + count), false);
+        //                     return Command.SINGLE_SUCCESS;
+        //                 })
+        //         )
+        // );
 
         dispatcher.register(Commands.literal(ExtendedSignals.MOD_ID)
                 .requires(commandSourceStack -> commandSourceStack.hasPermission(4))

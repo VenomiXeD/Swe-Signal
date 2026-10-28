@@ -22,7 +22,7 @@ public interface IExtendedEdgePoint {
     default void onSignalCrossedImmediate(Direction.AxisDirection direction, @Nullable SignalStateNode signalState, Train train) {
     }
 
-    default void onSignalCrossedEarly(Direction.AxisDirection direction, @Nullable SignalStateNode signalState, Train train) {
+    default void onSignalCrossedFrontDelayed(Direction.AxisDirection direction, @Nullable SignalStateNode signalState, Train train) {
     }
 
     default void onSignalCrossedLate(Direction.AxisDirection axisDirection, @Nullable SignalStateNode signalState, Train train) {

@@ -11,7 +11,7 @@ public enum KsDistantSignalAspect implements IDistantSignalAspect {
     EXPECT_STOP;
 
     public static KsDistantSignalAspect interpret(SignalStateNode state, Direction.AxisDirection incomingDirection) {
-        if (state.getNextState() == null || !state.getNextState().isProceed()) {
+        if (state.getNextState() == null || !state.getNextState().isJourneyPermitted()) {
             return KsDistantSignalAspect.EXPECT_STOP;
         }
 

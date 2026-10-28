@@ -36,11 +36,11 @@ public interface ISignal extends IExtendedEdgePoint {
      * @param train
      */
     @Override
-    default void onSignalCrossedEarly(Direction.AxisDirection direction, SignalStateNode signalState, Train train) {
+    default void onSignalCrossedFrontDelayed(Direction.AxisDirection direction, SignalStateNode signalState, Train train) {
         if (signalState == null)
             return;
 
-        ExtendedSignals.serverNetworkCache().synchronize(signalState.setProceed(false).setReservedBy(null));
+        ExtendedSignals.serverNetworkCache().synchronize(signalState.passed());
     }
 
     /**

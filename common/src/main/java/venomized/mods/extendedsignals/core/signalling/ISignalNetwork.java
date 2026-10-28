@@ -69,7 +69,7 @@ public interface ISignalNetwork {
 
     default SignalStateNode getSignalState(UUID id, boolean side) {
         if (id == null)
-            return SignalStateNode.INVALID((UUID) null, side);
+            return SignalStateNode.EMPTY();
 
         return signalStateMapping().computeIfAbsent(id, ISignalNetwork::emptySignalStateNode).get(side);
     }

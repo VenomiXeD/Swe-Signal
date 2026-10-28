@@ -3,6 +3,8 @@ package venomized.mods.extendedsignals.core.signalling;
 import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 
+import java.util.Set;
+
 @FunctionalInterface
 public interface ISignalAspect {
     void applyAspect(float seconds, SignalContainer states);
@@ -46,5 +48,9 @@ public interface ISignalAspect {
     static boolean blink(float seconds, float blinkRate, float dutyCycle) {
         float period = 60.0f / blinkRate;
         return seconds % period < period * dutyCycle;
+    }
+
+    static ISignalAspect combo(Set<? extends ISignalAspect> signals) {
+        return (s, c) -> signals.forEach(signal -> signal.applyAspect(s, c));
     }
 }

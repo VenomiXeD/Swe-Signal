@@ -1,18 +1,20 @@
 package venomized.mods.extendedsignals.core.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.simibubi.create.content.trains.entity.*;
 import com.simibubi.create.content.trains.graph.TrackGraph;
 import com.simibubi.create.content.trains.schedule.ScheduleRuntime;
-import com.simibubi.create.content.trains.signal.SignalBoundary;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import com.simibubi.create.content.trains.station.GlobalStation;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
+import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,6 +27,7 @@ import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.create.AdvancedSignalScout;
 import venomized.mods.extendedsignals.core.create.ITrainDoorData;
+import venomized.mods.extendedsignals.core.create.SignalPolicy;
 import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
 import venomized.mods.extendedsignals.core.create.tracks.DelayedSignalCrossTrigger;
 import venomized.mods.extendedsignals.core.create.tracks.EncounteredPoint;
@@ -90,6 +93,12 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
         extendedSignals$advancedSignalScout = new AdvancedSignalScout((Train) (Object) this, navigation);
     }
 
+
+    @ModifyExpressionValue(method = "lambda$frontSignalListener$14", at = @At(value = "INVOKE", target = "Ljava/util/UUID;equals(Ljava/lang/Object;)Z"))
+    public boolean extendedSignals$ignoreRedSignalsAtFrontListener(boolean original) {
+        return original && !extendedSignals$advancedSignalScout.bypassesRedSignals();
+    }
+
     @ModifyReturnValue(method = "frontSignalListener", at = @At("RETURN"), order = 900)
     // Order = 900, Steam n' Rails on NeoForge prematurely cancels our handler so it never gets executed and as such, signals never flip to red.
     public TravellingPoint.IEdgePointListener extendedSignals$hookFrontSignalListener(TravellingPoint.IEdgePointListener original) {
@@ -123,7 +132,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
             if (trackEdgePoint instanceof IExtendedEdgePoint signalBoundary) {
                 signalBoundary.onSignalCrossedImmediate(front ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE, signalState, ((Train) (Object) this));
-                if (this.navigation.distanceToSignal != 0) {
+                if (navigation.distanceToSignal != 0 || ITrain.cast((Train) (Object) this).isManual()) {
                     extendedSignals$frontDelayedOnCrossedTriggering.add(
                             new DelayedSignalCrossTrigger(ExtendedSignalsConfig.SERVER.signalPassedStateChangeDelay.getAsInt(), front, signalBoundary)
                     );
@@ -211,33 +220,33 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                 referencePoint.upsideDown
         );
 
-        shuntScout.travel(
-                this.graph,
-                shuntRequest.shuntRequestDistance() * (shuntRequest.front() ? 1 : -1),
-                shuntScout.steer(TravellingPoint.SteerDirection.NONE, new Vec3(0, 1, 0)),
-                (distance, edgePointCouplePair) -> {
-                    TrackEdgePoint point = edgePointCouplePair.getFirst();
-
-                    boolean primary = point.isPrimary(edgePointCouplePair.getSecond().getSecond());
-
-                    if (point instanceof SignalBoundary signalBoundary) {
-                        @SuppressWarnings("unchecked")
-                        IExtendedEdgePoint boundary = (IExtendedEdgePoint) signalBoundary;
-                        boundary.onSignalScout(
-                                primary ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
-                                new SignalStateNode().setProceed(true), ((Train) (Object) this), distance
-                        );
-
-                        shuntRequest.requester().sendSystemMessage(
-                                Component.translatable("message.extendedsignals.train.shunt.ok")
-                        );
-
-                        return true;
-                    }
-
-                    return false;
-                }
-        );
+        // shuntScout.travel(
+        //         this.graph,
+        //         shuntRequest.shuntRequestDistance() * (shuntRequest.front() ? 1 : -1),
+        //         shuntScout.steer(TravellingPoint.SteerDirection.NONE, new Vec3(0, 1, 0)),
+        //         (distance, edgePointCouplePair) -> {
+        //             TrackEdgePoint point = edgePointCouplePair.getFirst();
+//
+        //             boolean primary = point.isPrimary(edgePointCouplePair.getSecond().getSecond());
+//
+        //             if (point instanceof SignalBoundary signalBoundary) {
+        //                 @SuppressWarnings("unchecked")
+        //                 IExtendedEdgePoint boundary = (IExtendedEdgePoint) signalBoundary;
+        //                 boundary.onSignalScout(
+        //                         primary ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
+        //                         new SignalStateNode().setProceed(true), ((Train) (Object) this), distance
+        //                 );
+//
+        //                 shuntRequest.requester().sendSystemMessage(
+        //                         Component.translatable("message.extendedsignals.train.shunt.ok")
+        //                 );
+//
+        //                 return true;
+        //             }
+//
+        //             return false;
+        //         }
+        // );
     }
 
     @Inject(method = "tick", at = @At("RETURN"))
@@ -264,7 +273,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
                         : null;
 
                 delayedSignalCrossTrigger.getSignalBoundary()
-                        .onSignalCrossedEarly(
+                        .onSignalCrossedFrontDelayed(
                                 delayedSignalCrossTrigger.isPrimary() ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE, signalState,
                                 (Train) (Object) this);
                 it.remove();
@@ -302,6 +311,18 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
         }
     }
 
+    @ModifyReturnValue(method = "write", at = @At("RETURN"))
+    public CompoundTag extendedSignals$write(CompoundTag original) {
+        NBTHelper.writeEnum(original, "signal_policy_mode", extendedSignals$advancedSignalScout.getSignalPolicyMode());
+        return original;
+    }
+
+    @ModifyReturnValue(method = "read", at = @At("RETURN"))
+    private static Train extendedSignals$read(Train original, @Local(name = "tag") CompoundTag tag) {
+        AdvancedSignalScout.from(original).setSignalPolicyMode(NBTHelper.readEnum(tag, "signal_policy_mode", SignalPolicy.class));
+        return original;
+    }
+
     /**
      * @return
      */
@@ -325,6 +346,14 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     @Override
     public AdvancedSignalScout getAdvancedSignalScout() {
         return extendedSignals$advancedSignalScout;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean isManual() {
+        return runtime.getSchedule() == null || runtime.paused;
     }
 }
 

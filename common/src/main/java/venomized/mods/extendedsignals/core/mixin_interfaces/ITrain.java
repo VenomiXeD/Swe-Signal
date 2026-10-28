@@ -8,6 +8,8 @@ public interface ITrain {
     AdvancedSignalScout getAdvancedSignalScout();
     void requestShunting(ShuntRequest shuntRequest);
 
+    boolean isManual();
+
     static ITrain cast(Train train) {
         return (ITrain) train;
     }

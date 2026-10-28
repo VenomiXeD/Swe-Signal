@@ -24,7 +24,8 @@ import venomized.mods.extendedsignals.core.block.CoreBlocks;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.client.ClientSignalNetworkCache;
 import venomized.mods.extendedsignals.core.client.KeyMappings;
-import venomized.mods.extendedsignals.core.create.DoorInstruction;
+import venomized.mods.extendedsignals.core.create.schedule.DoorInstruction;
+import venomized.mods.extendedsignals.core.create.schedule.SignalModeInstruction;
 import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 import venomized.mods.extendedsignals.core.item.ExtendedSignalsItems;
@@ -73,8 +74,8 @@ public class ExtendedSignals {
         CoreMenus.register(eventBus);
 
 
-        Schedule.INSTRUCTION_TYPES.add(Pair.of(res("door"), DoorInstruction::new));
-
+        Schedule.INSTRUCTION_TYPES.add(Pair.of(DoorInstruction.ID, DoorInstruction::new));
+        Schedule.INSTRUCTION_TYPES.add(Pair.of(SignalModeInstruction.ID, SignalModeInstruction::new));
 
     }
 

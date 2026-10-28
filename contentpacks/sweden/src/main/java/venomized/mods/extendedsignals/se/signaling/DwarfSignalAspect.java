@@ -38,11 +38,17 @@ public enum DwarfSignalAspect implements ISignalAspect {
     private final boolean l3Lit;
 
     public static DwarfSignalAspect interpret(SignalStateNode node) {
+        if (node.isShuntingPermitted())
+            if (node.isObstacle())
+                return PROCEED_OBSTACLE;
+            else
+                return PROCEED;
+
         if (node.isStop()) {
             return STOP;
         }
 
-        if (node.isProceed())
+        if (node.isJourneyPermitted())
             return PROCEED;
 
         return PROCEED_UNKNOWN;

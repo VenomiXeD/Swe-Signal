@@ -46,9 +46,9 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
 
     private static ServerSignalNetworkCache load(CompoundTag compoundTag, HolderLookup.Provider provider) {
         ServerSignalNetworkCache serverSignalNetworkCache = new ServerSignalNetworkCache();
-        serverSignalNetworkCache.flushAndApplyNewSignalStates(
-                ISignalNetwork.deserializeSignalStatesFromNBTList(compoundTag)
-        );
+        // serverSignalNetworkCache.flushAndApplyNewSignalStates(
+        //         ISignalNetwork.deserializeSignalStatesFromNBTList(compoundTag)
+        // );
         return serverSignalNetworkCache;
     }
 
@@ -119,7 +119,7 @@ public class ServerSignalNetworkCache extends SavedData implements ISignalNetwor
             return;
         // TODO: Hash-based network state comparison and synchronization
         SignalStateNode updatedState = getSignalState(id, direction);
-        int updatedStateHash = updatedState.hashCode();
+        int updatedStateHash = updatedState.networkStateHash();
         if (signalStateNetworkHashes.getOrDefault(id, Couple.create(0, 0)).get(direction) == updatedStateHash) {
             return;
         }

@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.core.create;
+package venomized.mods.extendedsignals.core.create.schedule;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.decoration.slidingDoor.SlidingDoorMovementBehaviour;
@@ -14,12 +14,15 @@ import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.client.sound.train.ICarriageSounds;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
+import venomized.mods.extendedsignals.core.create.ITrainDoorData;
 import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 
 import java.util.List;
 import java.util.Optional;
 
 public class DoorInstruction extends ScheduleInstruction {
+    public static final ResourceLocation ID = ExtendedSignals.res("door");
+
     /**
      *
      */
@@ -82,15 +85,6 @@ public class DoorInstruction extends ScheduleInstruction {
      */
     @Override
     public ResourceLocation getId() {
-        return ExtendedSignals.res("door");
-    }
-
-    /**
-     * @param type
-     * @return
-     */
-    @Override
-    public List<Component> getTitleAs(String type) {
-        return List.of(Component.translatable("instruction.extendedsignals.door"));
+        return ID;
     }
 }

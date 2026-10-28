@@ -19,10 +19,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
+import venomized.mods.extendedsignals.core.ServerSignalNetworkCache;
 import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalInterpreter;
-import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.BlockEntityReference;
 import venomized.mods.extendedsignals.core.util.NBTHelp;
@@ -147,17 +147,20 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends BlockEn
 
         if (this.level == null)
             return;
-
-        // If the linked signal has no entry yet, push a new empty dummy raw signal state
-        ISignalNetwork network = ExtendedSignals.EXTENDED_SIGNAL_CACHE_PROXY;
-        network.prepareModification(targetEdgePointId, front).setProceed(false);
-
         if (signalProvider.getTrackTargetingBehavior().getEdgePoint() instanceof ISignal signal) {
             signal.setMainSignal(front, hasMainSignalCapability());
         }
-
         signalSource.newTarget((BlockEntity) signalProvider);
 
+        if (this.level.isClientSide()) {
+            return;
+        }
+
+        // If the linked signal has no entry yet, push a new empty dummy raw signal state
+        ServerSignalNetworkCache network = ExtendedSignals.serverNetworkCache();
+        SignalStateNode state = network.prepareModification(targetEdgePointId, front).setJourneyPermitted(false);
+
+        network.synchronize(state);
         this.sync();
     }
 

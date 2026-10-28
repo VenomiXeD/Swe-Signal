@@ -18,7 +18,6 @@ import java.util.*;
 
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @With
@@ -39,29 +38,24 @@ public class SignalStateNode {
         FIELDS_TO_COPY = fields.toArray(Field[]::new);
     }
 
+    public static SignalStateNode EMPTY() {
+        return new SignalStateNode().setValid(false);
+    }
+
     public static final StreamCodec<FriendlyByteBuf, SignalStateNode> STREAM_CODEC = StreamCodec.of(
             SignalStateNode::encode,
             SignalStateNode::decode
     );
 
-    public static SignalStateNode STOP(TrackEdgePoint trackEdgePoint, boolean front) {
-        return new SignalStateNode(trackEdgePoint, front).setProceed(false);
-    }
-
-    public static SignalStateNode STOP(UUID trackEdgePoint, boolean front) {
-        return new SignalStateNode(trackEdgePoint, front).setProceed(false);
-    }
-
     public static SignalStateNode INVALID(TrackEdgePoint trackEdgePoint, boolean front) {
-        return new SignalStateNode(trackEdgePoint, front).setValid(false);
+        return fromCache(trackEdgePoint.getId(), front).setValid(false);
     }
 
     public static SignalStateNode INVALID(UUID trackEdgePoint, boolean front) {
-        return new SignalStateNode(trackEdgePoint, front).setValid(false);
+        return fromCache(trackEdgePoint, front).setValid(false);
     }
 
-    public SignalStateNode(TrackEdgePoint point, boolean front) {
-        this(point.getId(), front);
+    private SignalStateNode() {
     }
 
     public SignalStateNode(UUID point, boolean front) {
@@ -89,7 +83,10 @@ public class SignalStateNode {
     public UUID reservedBy;
     @Setter
     @Getter
-    private boolean proceed;
+    private boolean journeyPermitted;
+    @Setter
+    @Getter
+    private boolean obstacle;
     @Setter
     @Getter
     private double maxProceedSpeed = Double.MAX_VALUE;
@@ -158,7 +155,7 @@ public class SignalStateNode {
     //region shunt stuff
     @Getter
     @Setter
-    private boolean shuntingProceed;
+    private boolean shuntingPermitted;
     //endregion
 
     @NotNull
@@ -183,7 +180,7 @@ public class SignalStateNode {
             signalStateNode.thisStateID = tag.getUUID("this_state_id");
         signalStateNode.thisStateFront = tag.getBoolean("this_state_front");
 
-        signalStateNode.setProceed(tag.getBoolean("proceed"));
+        signalStateNode.setJourneyPermitted(tag.getBoolean("proceed"));
         signalStateNode.setMaxProceedSpeed(tag.getDouble("proceed_speed"));
         signalStateNode.setDistanceToNextSignal(tag.getDouble("distance_next_signal"));
         signalStateNode.setValid(tag.getBoolean("valid"));
@@ -204,7 +201,8 @@ public class SignalStateNode {
             signalStateNode.setNextState(SignalStateNode.fromNBT(tag.getCompound("next_state")));
         }
 
-        signalStateNode.setShuntingProceed(tag.getBoolean("shunting_proceed"));
+        signalStateNode.setShuntingPermitted(tag.getBoolean("shunting_proceed"));
+        signalStateNode.setObstacle(tag.getBoolean("obstacle"));
 
         CompoundTag miscCompTag = tag.getCompound("misc_tags");
         miscCompTag.getAllKeys().forEach(e -> signalStateNode.miscTags.put(e, miscCompTag.getString(e)));
@@ -217,7 +215,7 @@ public class SignalStateNode {
             tag.putUUID("this_state_id", thisStateID);
         tag.putBoolean("this_state_front", thisStateFront);
 
-        tag.putBoolean("proceed", isProceed());
+        tag.putBoolean("proceed", isJourneyPermitted());
         tag.putDouble("proceed_speed", getMaxProceedSpeed());
         tag.putDouble("distance_next_signal", getDistanceToNextSignal());
         tag.putBoolean("valid", isValid());
@@ -238,7 +236,8 @@ public class SignalStateNode {
             miscCompTag.putString(entry.getKey(), entry.getValue());
         });
 
-        tag.putBoolean("shunting_proceed", isShuntingProceed());
+        tag.putBoolean("shunting_proceed", isShuntingPermitted());
+        tag.putBoolean("obstacle", isObstacle());
 
         tag.put("misc_tags", miscCompTag);
         return tag;
@@ -252,14 +251,16 @@ public class SignalStateNode {
         // Either if the signal is not aligned to the current signaling state - stop
         // OR
         // If the signal is not displaying a proceed aspect - stop
-        return !this.proceed;
+        return !this.journeyPermitted;
     }
 
-    public SignalStateNode reset() {
-        this.proceed = false;
+    public SignalStateNode passed() {
+        this.journeyPermitted = false;
         this.maxProceedSpeed = Double.MAX_VALUE;
         this.miscTags.clear();
         this.reservedBy = null;
+        this.shuntingPermitted = false;
+        this.obstacle = true;
 
         return this;
     }
@@ -283,12 +284,14 @@ public class SignalStateNode {
                 nextStateFront,
                 previousStateID,
                 previousStateFront,
-                proceed,
+                journeyPermitted,
                 maxProceedSpeed,
                 distanceToNextSignal,
                 valid,
                 miscTags,
-                reservedBy
+                reservedBy,
+                obstacle,
+                shuntingPermitted
         );
     }
 }

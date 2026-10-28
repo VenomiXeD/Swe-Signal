@@ -1,18 +1,21 @@
 package venomized.mods.extendedsignals.core.mixin_interfaces;
 
-import com.simibubi.create.content.trains.entity.TravellingPoint;
-import net.minecraft.resources.ResourceLocation;
-import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
-import venomized.mods.extendedsignals.core.create.tracks.EncounteredPoint;
-
-import java.util.List;
-import java.util.Map;
+import com.simibubi.create.content.trains.entity.Train;
+import com.simibubi.create.content.trains.graph.TrackEdge;
+import com.simibubi.create.content.trains.graph.TrackNode;
 
 public interface INavigation {
-    /**
-     * Signal scout Travelling Point
-     *
-     * @return
-     */
-    TravellingPoint signalScoutTP();
+    double extendedSignals$speedMod();
+
+    TrackNode extendedSignals$startScoutNode1();
+
+    TrackNode extendedSignals$startScoutNode2();
+
+    TrackEdge extendedSignals$startScoutEdge();
+
+    double extendedSignals$startScoutPosition();
+
+    static INavigation from(Train train) {
+        return (INavigation) train.navigation;
+    }
 }
