@@ -69,7 +69,7 @@ public class ExtendedSignalsConfig {
                     .define("showTrackGraphsWhileUsingTracks", true);
 
             builder.push("flare");
-            flareEnabled = builder.comment("[EXPRIMENTAL]\nRender a signal flare over lights").define("flareEnabled", false);
+            flareEnabled = builder.comment("[EXPRIMENTAL]\nRender a signal flare over lights").define("flareEnabled", true);
             flareMinDistance = builder.comment("Flare minimum distance where brightness is 0").defineInRange("flareMinDist", 16d, 0, Double.MAX_VALUE);
             flareMaxDistance = builder.comment("Flare maximum distance where brightness is 1").defineInRange("flareMaxDist", 32d, 0, Double.MAX_VALUE);
 
