@@ -1,30 +1,28 @@
 package venomized.mods.extendedsignals.core.blockentity;
 
+import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-public class SignalContainer {
-    private final HashMap<String, SignalLight> lights = new HashMap<>();
+public class LightContainer {
+    private final Map<String, SignalLight> lights = new Object2ReferenceOpenHashMap<>();
     private final List<String> powered = new ArrayList<>();
     private final List<String> unpowered = new ArrayList<>();
 
-    public SignalContainer withLight(String lightNameKey, SignalLight light) {
+    public LightContainer withLight(String lightNameKey, SignalLight light) {
         lights.put(lightNameKey, light);
         return this;
     }
 
-    public SignalContainer withFadeSeconds(float seconds) {
+    public LightContainer withFadeSeconds(float seconds) {
         allLights().forEach(e -> e.getState().setFadeSeconds(seconds));
         return this;
     }
 
-    public SignalContainer withFadeMilliSeconds(float milliSeconds) {
+    public LightContainer withFadeMilliSeconds(float milliSeconds) {
         withFadeSeconds(milliSeconds / 1000f);
         return this;
     }

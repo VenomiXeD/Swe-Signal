@@ -1,13 +1,13 @@
 package venomized.mods.extendedsignals.core.signalling;
 
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 
 import java.util.Set;
 
 @FunctionalInterface
 public interface ISignalAspect {
-    void applyAspect(float seconds, SignalContainer states);
+    void applyAspect(float seconds, LightContainer states);
 
     record RGB(int color) {
         public static final RGB RED = new RGB(0xFF0000);

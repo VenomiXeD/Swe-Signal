@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
@@ -27,7 +27,7 @@ public class BlockEntity4CombinedSignal extends BlockEntitySwedishSignal<ICombin
      *
      */
     @Override
-    public void configureSignalLights(SignalContainer signalLights) {
+    public void configureSignalLights(LightContainer signalLights) {
         signalLights
                 .withLight("l0", new SignalLight(0, 40.75d / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(0, 255, 0))
                 .withLight("l1", new SignalLight(0, 33.75 / 16d, 0.25d / 16d, 3.25f, 3.25f, 0).withDefaultColor(255, 0, 0))

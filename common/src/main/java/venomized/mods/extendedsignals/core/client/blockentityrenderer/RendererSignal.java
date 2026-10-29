@@ -4,13 +4,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.util.MathHelp;
 
@@ -52,7 +51,7 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
 
     }
 
-    public void renderAdditionalSignals(ISignalAspect aspect, SignalContainer signalLights) {
+    public void renderAdditionalSignals(ISignalAspect aspect, LightContainer signalLights) {
 
     }
 
@@ -60,13 +59,13 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
         ISignalAspect aspect = blockEntity.interpret(blockEntity.currentSignalState(), blockEntity.getSignallingDirection());
 
 
-        final SignalContainer signals = blockEntity.getSignalContainer();
+        final LightContainer signals = blockEntity.getLightContainer();
         signals.allLights().forEach(light -> light.getState().setIgnoreFadeTicks(!blockEntity.isSignalValid()));
         if (!blockEntity.isSignalValid()) {
             if (blockEntity.getLevel().getGameTime() % 20 == 0) {
-                blockEntity.getSignalContainer().allLights().forEach(light -> light.getState().setColor(255, 0, 0));
+                blockEntity.getLightContainer().allLights().forEach(light -> light.getState().setColor(255, 0, 0));
             } else {
-                blockEntity.getSignalContainer().allLights().forEach(light -> light.getState().setColor(0, 0, 0));
+                blockEntity.getLightContainer().allLights().forEach(light -> light.getState().setColor(0, 0, 0));
             }
             renderFinalLightValues();
             return;
@@ -80,14 +79,14 @@ public class RendererSignal<T extends BlockEntitySignal<?>>
         signals.allLights().forEach(light -> light.getState().setCurrentTick(blockEntity.getLevel().getGameTime()));
         signals.renderFrameBegin();
         renderAdditionalSignals(aspect, signals);
-        aspect.applyAspect(System.nanoTime() / 1_000_000_000f, blockEntity.getSignalContainer());
+        aspect.applyAspect(System.nanoTime() / 1_000_000_000f, blockEntity.getLightContainer());
         renderFinalLightValues();
         signals.renderFrameEnd();
 
     }
 
     private void renderFinalLightValues() {
-        blockEntity.getSignalContainer().allLights().forEach(light -> {
+        blockEntity.getLightContainer().allLights().forEach(light -> {
             SignalLight.LightState state = light.getState();
 
             int r = state.getRedOutput(partialTick);

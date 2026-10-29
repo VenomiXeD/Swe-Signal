@@ -2,8 +2,7 @@ package venomized.mods.extendedsignals.hu.signalling;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
-import venomized.mods.extendedsignals.core.signalling.IDwarfSignalAspect;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -26,7 +25,7 @@ public enum ShuntSignal implements ISignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(float seconds, SignalContainer states) {
+    public void applyAspect(float seconds, LightContainer states) {
         states.powered(litLight);
     }
 }

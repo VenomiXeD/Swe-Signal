@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
@@ -39,7 +39,7 @@ public class BlockEntityKsCombinedSignal extends BlockEntityKs<ICombinedSignalAs
      *
      */
     @Override
-    public void configureSignalLights(SignalContainer signalLights) {
+    public void configureSignalLights(LightContainer signalLights) {
         signalLights
                 .withLight("braking_distance", SignalLight.whiteLight(3.5d / 16d, 96.5 / 16f, -8.4 / 16d, 1.75f, 1.75f, 0f))
 

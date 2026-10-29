@@ -9,7 +9,7 @@ import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 public abstract class BlockEntitySwedishSignal<T extends ISignalAspect> extends BlockEntitySignal<T> {
     public BlockEntitySwedishSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
-        getSignalContainer()
+        getLightContainer()
                 .withFadeMilliSeconds(375);
     }
 }

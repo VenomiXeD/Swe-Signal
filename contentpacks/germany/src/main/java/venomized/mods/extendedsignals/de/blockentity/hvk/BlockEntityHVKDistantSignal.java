@@ -6,7 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
@@ -50,7 +50,7 @@ public class BlockEntityHVKDistantSignal extends BlockEntityHVKSignal<IDistantSi
      * @param signalLights
      */
     @Override
-    public void configureSignalLights(SignalContainer signalLights) {
+    public void configureSignalLights(LightContainer signalLights) {
         signalLights
                 .withLight("vr_braking_distance", new SignalLight(3d / 16d, 93d / 16d, -8.4d / 16d, 1.5f, 1.5f, 0f, ISignalAspect.RGB.WHITE))
                 .withLight("vr_green_right", new SignalLight(-2.75d / 16d, 93.1d / 16d, -8.55d / 16d, 2.75f, 2.75f, 0, ISignalAspect.RGB.GREEN))

@@ -1,8 +1,7 @@
 package venomized.mods.extendedsignals.hu.signalling;
 
 import lombok.RequiredArgsConstructor;
-import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.signalling.*;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public enum ABS3Signal implements IMainSignalAspect, IDistantSignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(float seconds, SignalContainer states) {
+    public void applyAspect(float seconds, LightContainer states) {
         aspect.applyAspect(seconds, states);
     }
 

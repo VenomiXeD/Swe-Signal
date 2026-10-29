@@ -3,7 +3,7 @@ package venomized.mods.extendedsignals.de.client.blockentityrenderer;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import org.joml.Vector3f;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.de.block.GermanyBlocks;
 import venomized.mods.extendedsignals.de.blockentity.hvk.BlockEntityHVKBlockCombinedSignal;
@@ -115,7 +115,7 @@ public class RendererHVk<T extends BlockEntityHVKSignal<?>> extends RendererZs3Z
      * @param signalLights
      */
     @Override
-    public void renderAdditionalSignals(ISignalAspect aspect, SignalContainer signalLights) {
+    public void renderAdditionalSignals(ISignalAspect aspect, LightContainer signalLights) {
         super.renderAdditionalSignals(aspect, signalLights);
         if (blockEntity.getBlockState().is(GermanyBlocks.HVKBlocks.HVK_REPEATER_SIGNAL))
             signalLights.powered("vr_braking_distance");

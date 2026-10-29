@@ -1,11 +1,9 @@
 package venomized.mods.extendedsignals.core.signalling;
 
-import lombok.RequiredArgsConstructor;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,7 +41,7 @@ public class Aspect implements ISignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(float seconds, SignalContainer states) {
+    public void applyAspect(float seconds, LightContainer states) {
         for (String litLight : litLights) {
             states.powered(litLight);
         }

@@ -6,7 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
@@ -23,7 +23,7 @@ public class BlockEntityHVKCombinedSignal extends BlockEntityHVKSignal<IDistantS
      * @param signalLights
      */
     @Override
-    public void configureSignalLights(SignalContainer signalLights) {
+    public void configureSignalLights(LightContainer signalLights) {
         signalLights
                 .withLight("hp_proceed", new SignalLight(2.25d / 16d, 115.3d / 16d, -8.55d / 16d, 2.75f, 2.75f, 0, ISignalAspect.RGB.GREEN))
                 .withLight("hp_stop_left", new SignalLight(2.25d / 16d, 111.6d / 16d, -8.55d / 16d, 2.75f, 2.75f, 0, ISignalAspect.RGB.RED))

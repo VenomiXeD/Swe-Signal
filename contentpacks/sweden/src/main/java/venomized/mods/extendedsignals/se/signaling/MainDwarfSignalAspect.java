@@ -1,6 +1,6 @@
 package venomized.mods.extendedsignals.se.signaling;
 
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
@@ -10,7 +10,7 @@ public record MainDwarfSignalAspect(SignalStateNode state) implements ISignalAsp
      * @param states
      */
     @Override
-    public void applyAspect(float seconds, SignalContainer states) {
+    public void applyAspect(float seconds, LightContainer states) {
         DwarfSignalAspect.interpret(state).applyAspect(seconds, states);
 
         if (state.isStop()) {

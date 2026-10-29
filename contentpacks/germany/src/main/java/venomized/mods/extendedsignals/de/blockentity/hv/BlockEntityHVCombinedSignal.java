@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -21,7 +21,7 @@ public class BlockEntityHVCombinedSignal extends BlockEntitySignal<ICombinedSign
      *
      */
     @Override
-    public void configureSignalLights(SignalContainer signalLights) {
+    public void configureSignalLights(LightContainer signalLights) {
         signalLights
                 .withLight("hp_proceed", SignalLight.greenLight(2.75d / 16d, 114 / 16d, -7.65 / 16d, 2.75f, 2.75f, 0.1f))
                 .withLight("hp_stop_left", SignalLight.redLight(2.75d / 16d, 109 / 16d, -7.65 / 16d, 2.75f, 2.75f, 0.1f))

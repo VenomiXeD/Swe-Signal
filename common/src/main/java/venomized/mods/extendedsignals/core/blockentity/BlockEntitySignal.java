@@ -32,7 +32,7 @@ import java.util.UUID;
 public abstract class BlockEntitySignal<T extends ISignalAspect> extends BlockEntityModelled
         implements ISignalTunerToolable, ISignalInterpreter<T> {
     @Getter
-    private final SignalContainer signalContainer;
+    private final LightContainer lightContainer;
     protected UUID targetEdgePointId;
     @Getter
     private ISignalAspect currentDisplayedAspect;
@@ -45,15 +45,15 @@ public abstract class BlockEntitySignal<T extends ISignalAspect> extends BlockEn
 
     public BlockEntitySignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
         super(t, pPos, pBlockState);
-        signalContainer = new SignalContainer();
-        configureSignalLights(signalContainer);
+        lightContainer = new LightContainer();
+        configureSignalLights(lightContainer);
     }
 
     public static void clientTick(BlockEntitySignal<?> be, Level pLevel, BlockPos pPos, BlockState pBlockState) {
         be.currentDisplayedAspect = be.interpret(be.currentSignalState(), be.getSignallingDirection());
     }
 
-    public abstract void configureSignalLights(SignalContainer signalLights);
+    public abstract void configureSignalLights(LightContainer signalLights);
 
     @Nullable
     public SignalStateNode currentSignalState() {

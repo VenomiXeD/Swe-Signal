@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
@@ -24,7 +24,7 @@ public class BlockEntityKsDistantRepeaterSignal extends BlockEntityKs<IDistantSi
      *
      */
     @Override
-    public void configureSignalLights(SignalContainer signalLights) {
+    public void configureSignalLights(LightContainer signalLights) {
         signalLights
                 .withLight("proceed", SignalLight.greenLight(2.5d / 16d, 88.25 / 16d, -8.55d / 16d, 2.75f, 2.75f, 0f))
                 .withLight("danger", SignalLight.yellowLight(-2.5d / 16d, 88.25 / 16f, -8.55 / 16d, 2.75f, 2.75f, 0f))

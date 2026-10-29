@@ -6,12 +6,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
-import venomized.mods.extendedsignals.se.block.SwedenBlocks;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
 import venomized.mods.extendedsignals.se.signaling.DistantSignalAspect;
 
@@ -24,7 +23,7 @@ public class BlockEntity3DistantSignal extends BlockEntitySwedishSignal<IDistant
      *
      */
     @Override
-    public void configureSignalLights(SignalContainer signalLights) {
+    public void configureSignalLights(LightContainer signalLights) {
         signalLights
                 .withLight("l0", new SignalLight(0d, 30.25d / 16d, 0.75d / 16d, 3.25f, 3.25f, 0).withDefaultColor(0, 255, 0))
                 .withLight("l1", new SignalLight(0d, 24.25d / 16d, 0.75d / 16d, 3.25f, 3.25f, 0).withDefaultColor(255, 255, 255))

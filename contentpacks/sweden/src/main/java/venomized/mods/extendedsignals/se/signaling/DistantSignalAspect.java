@@ -2,7 +2,7 @@ package venomized.mods.extendedsignals.se.signaling;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.core.Direction;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
@@ -54,7 +54,7 @@ public enum DistantSignalAspect implements IDistantSignalAspect {
      * @param states
      */
     @Override
-    public void applyAspect(float seconds, SignalContainer states) {
+    public void applyAspect(float seconds, LightContainer states) {
         boolean lit = ISignalAspect.blink(seconds, 80, 0.5f);
 
 

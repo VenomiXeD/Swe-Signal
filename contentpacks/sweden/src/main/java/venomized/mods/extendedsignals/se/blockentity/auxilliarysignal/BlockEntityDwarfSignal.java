@@ -5,7 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import venomized.mods.extendedsignals.core.blockentity.SignalContainer;
+import venomized.mods.extendedsignals.core.blockentity.LightContainer;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.se.blockentity.BlockEntitySwedishSignal;
@@ -20,7 +20,7 @@ public class BlockEntityDwarfSignal extends BlockEntitySwedishSignal<DwarfSignal
      *
      */
     @Override
-    public void configureSignalLights(SignalContainer signalLights) {
+    public void configureSignalLights(LightContainer signalLights) {
         signalLights
                 .withLight(
                         "l0", new SignalLight(-0.18611, 0.896875d, -0.175d, 3.25f, 3.25f, 0f).withDefaultColor(255, 255, 255))
