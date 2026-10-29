@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Navigation.class)
 public interface AccessorNavigation {
-    @Accessor
-    TravellingPoint getSignalScout();
+    @Accessor(value = "signalScout")
+    TravellingPoint signalScout();
 
     @Invoker(value = "currentSignalResolved")
     boolean signalResolved();

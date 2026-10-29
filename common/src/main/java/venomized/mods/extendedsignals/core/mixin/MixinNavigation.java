@@ -16,6 +16,7 @@ import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import net.createmod.catnip.data.Pair;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,6 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
 import venomized.mods.extendedsignals.core.create.AdvancedSignalScout;
+import venomized.mods.extendedsignals.core.create.NavigationDistanceValuesSnapshot;
 import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
 
@@ -34,6 +36,9 @@ import java.util.UUID;
 
 @Mixin(value = Navigation.class, remap = false)
 public abstract class MixinNavigation implements INavigation {
+    @Unique
+    private NavigationDistanceValuesSnapshot extendedSignals$navigationDistanceValuesSnapshot;
+
     @Unique
     private double extendedSignals$capturedSpeedMod;
 
@@ -87,6 +92,14 @@ public abstract class MixinNavigation implements INavigation {
         return extendedSignals$capturedSpeedMod;
     }
 
+    /**
+     * @return
+     */
+    @Override
+    public @NotNull NavigationDistanceValuesSnapshot extendedSignals$postSignalScoutCapturedValues() {
+        return extendedSignals$navigationDistanceValuesSnapshot;
+    }
+
     @Shadow
     public Train train;
     @Shadow
@@ -99,6 +112,11 @@ public abstract class MixinNavigation implements INavigation {
 
     @Shadow
     public double distanceToDestination;
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    public void extendedSignals$onCtor(Train train, CallbackInfo ci) {
+        extendedSignals$navigationDistanceValuesSnapshot = new NavigationDistanceValuesSnapshot(0, 0, null);
+    }
 
     @Redirect(
             method = "tick",
@@ -122,8 +140,7 @@ public abstract class MixinNavigation implements INavigation {
             method = "tick",
             at = @At(
                     value = "INVOKE",
-                    target = "Ljava/util/Map;clear()V",
-                    ordinal = 1,
+                    target = "Lcom/simibubi/create/content/trains/entity/TravellingPoint;travel(Lcom/simibubi/create/content/trains/graph/TrackGraph;DLcom/simibubi/create/content/trains/entity/TravellingPoint$ITrackSelector;Lcom/simibubi/create/content/trains/entity/TravellingPoint$IEdgePointListener;Lcom/simibubi/create/content/trains/entity/TravellingPoint$ITurnListener;)D",
                     shift = At.Shift.AFTER)
     )
     public void extendedSignals$captureVariables(Level level, CallbackInfo ci, @Local(name = "speedMod") double speedMod, @Local(name = "leadingPoint") TravellingPoint leadingPoint) {
@@ -133,6 +150,8 @@ public abstract class MixinNavigation implements INavigation {
         extendedSignals$startScoutNode2 = leadingPoint.node2;
         extendedSignals$startScoutEdge = leadingPoint.edge;
         extendedSignals$startScoutPosition = leadingPoint.position;
+
+        extendedSignals$navigationDistanceValuesSnapshot = new NavigationDistanceValuesSnapshot(distanceToDestination, distanceToSignal, waitingForSignal == null ? null : waitingForSignal.copy());
     }
 
     @Inject(method = "startNavigation", at = @At("HEAD"))
@@ -186,4 +205,5 @@ public abstract class MixinNavigation implements INavigation {
             targetDistance.set(distanceToDestination);
         }
     }
+
 }

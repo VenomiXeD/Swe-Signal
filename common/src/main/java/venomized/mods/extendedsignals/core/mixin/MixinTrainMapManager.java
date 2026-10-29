@@ -44,7 +44,17 @@ public abstract class MixinTrainMapManager {
         final int bright = 0xFFEFEF;
         final int orange = 0xFFAD60;
 
-        original.add(Component.literal(" >> %.2f Km/h".formatted(MathHelp.KphFromMs(MiscTrainDataClientSync.getTrainData(train.id).speed()))));
+        MiscTrainDataClientSync.TrainData trainData = MiscTrainDataClientSync.getTrainData(train.id);
+
+
+        original.add(Component.literal(" >> %.2f Km/h".formatted(MathHelp.KphFromMs(trainData.speed()))).withColor(blue));
+        original.add(
+                Component.literal(" >> ")
+                        .append(Component.translatable("train_map.extended_signals.train.operating_mode")
+                                .append(trainData.signalPolicyMode() == null ? Component.literal("???") : trainData.signalPolicyMode().getTranslatedName())
+                        )
+                        .withColor(blue)
+        );
 
         return original;
     }

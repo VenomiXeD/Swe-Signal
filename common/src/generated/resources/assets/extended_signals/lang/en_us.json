@@ -11,5 +11,6 @@
   "extended_signals.schedule.instruction.door": "Close doors",
   "item.extended_signals.signalitem": "Signalitem",
   "itemGroup.extended_signals.extended_signals": "Extended Signals",
-  "extended_signals.schedule.signal_mode.summary": "Operation Mode"
+  "extended_signals.schedule.signal_mode.summary": "Operation Mode",
+  "train_map.extended_signals.train.operating_mode": "Operating Mode:"
 }

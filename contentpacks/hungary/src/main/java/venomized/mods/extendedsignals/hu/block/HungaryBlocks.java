@@ -7,6 +7,7 @@ import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.hu.ExtendedSignalsHungary;
 import venomized.mods.extendedsignals.hu.block.signals.BlockABS3LightSignal;
 import venomized.mods.extendedsignals.hu.block.signals.BlockInterlocked2LightSignal;
+import venomized.mods.extendedsignals.hu.block.signals.BlockShuntSignal;
 import venomized.mods.extendedsignals.hu.blockentity.signs.BlockEntityDistantSignalIndicator;
 
 public final class HungaryBlocks {
@@ -24,6 +25,10 @@ public final class HungaryBlocks {
 
     public static final BlockEntry<BlockABS3LightSignal> ABS_3_LIGHT_SIGNAL = RegistrateHelper.modelledBlock(registrate(), "hu", "signals", "abs_3_signal", BlockABS3LightSignal::new)
             .lang("3 Light Signal (Automatic Block Signal)")
+            .register();
+
+    public static final BlockEntry<BlockShuntSignal> SHUNT_SIGNAL = RegistrateHelper.modelledBlock(registrate(), "hu", "signals", "shunt_signal", BlockShuntSignal::new)
+            .lang("2 Light Signal (Shunt Signal)")
             .register();
 
     public static void init() {

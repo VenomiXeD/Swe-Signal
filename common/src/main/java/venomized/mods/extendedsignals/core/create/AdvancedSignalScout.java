@@ -15,7 +15,9 @@ import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import net.createmod.catnip.data.Pair;
+import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -33,6 +35,7 @@ import venomized.mods.extendedsignals.core.create.tracks.points.TrackEdgePointSi
 import venomized.mods.extendedsignals.core.mixin.AccessorNavigation;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
+import venomized.mods.extendedsignals.core.network.packets.ClientBoundMiscTrainDataPacket;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.lang.ref.WeakReference;
@@ -57,8 +60,12 @@ public class AdvancedSignalScout {
     private long signalScoutCooldown = 0;
 
     @Getter
-    @Setter
     private SignalPolicy signalPolicyMode;
+
+    public void setSignalPolicyMode(SignalPolicy signalPolicyMode) {
+        this.signalPolicyMode = signalPolicyMode;
+        ClientBoundMiscTrainDataPacket.broadcastTrainUpdate(train, false);
+    }
 
     @Getter
     private Deque<SwitchSelection> switchSelections = new ArrayDeque<>();
@@ -67,12 +74,10 @@ public class AdvancedSignalScout {
     public AdvancedSignalScout(Train train, Navigation navigation) {
         this.train = train;
         this.navigation = navigation;
-
-        signalPolicyMode = SignalPolicy.JOURNEY;
     }
 
     public static AdvancedSignalScout from(Train train) {
-        return ITrain.cast(train).getAdvancedSignalScout();
+        return ITrain.cast(train).advancedSignalScout();
     }
 
     public void tick(Level level) {
@@ -80,6 +85,11 @@ public class AdvancedSignalScout {
 
         if (signalScoutCooldown-- > 0 && train.speed != 0)
             return;
+
+        if (signalPolicyMode == null) {
+            ExtendedSignals.LOGGER.info("Train {} was missing a signal policy mode. Defaulting to Journey", train.name.getString());
+            signalPolicyMode = SignalPolicy.JOURNEY;
+        }
 
         signalScoutCooldown = SIGNAL_SCOUT_INTERVAL;
         collectSignals((ServerLevel) level);
@@ -100,8 +110,8 @@ public class AdvancedSignalScout {
                     ? train.carriages.getFirst().getLeadingPoint()
                     : train.carriages.getLast().getTrailingPoint();
 
-            // Manually assign the signal scout values so we can replicate it
-            TravellingPoint signalScout = ((AccessorNavigation) navigation).getSignalScout();
+            // Manually assign the signal scout values so we can replicate
+            TravellingPoint signalScout = ((AccessorNavigation) navigation).signalScout();
             signalScout.node1 = leadingPoint.node1;
             signalScout.node2 = leadingPoint.node2;
             signalScout.edge = leadingPoint.edge;
@@ -114,28 +124,29 @@ public class AdvancedSignalScout {
 
             lookAheadDistance = train.targetSpeed == 0 ? 0 : ExtendedSignalsConfig.SERVER.defaultScanDistance.get();
         } else {
-            speedMod = ((INavigation) navigation).extendedSignals$speedMod();
+            speedMod = INavigation.from(train).extendedSignals$speedMod();
 
             TravellingPoint leadingPoint = !navigation.destinationBehindTrain
                     ? train.carriages.getFirst().getLeadingPoint()
                     : train.carriages.getLast().getTrailingPoint();
 
             // For automatic routing, we can simply reuse the signal scout values that are captured by the mixin
-            signalScoutTriggerCollector.node1 = leadingPoint.node1;
-            signalScoutTriggerCollector.node2 = leadingPoint.node2;
-            signalScoutTriggerCollector.edge = leadingPoint.edge;
+            signalScoutTriggerCollector.node1 = nav.extendedSignals$startScoutNode1();
+            signalScoutTriggerCollector.node2 = nav.extendedSignals$startScoutNode2();
+            signalScoutTriggerCollector.edge = nav.extendedSignals$startScoutEdge();
 
             // Shift it a bit back - otherwise it can't see the track edge point it's currently standing on
-            signalScoutTriggerCollector.position = leadingPoint.position - (speedMod * 0.05f);
+            signalScoutTriggerCollector.position = nav.extendedSignals$startScoutPosition();// - (speedMod * 0.1f);
 
+            NavigationDistanceValuesSnapshot values = nav.extendedSignals$postSignalScoutCapturedValues();
             lookAheadDistance = Math.min(
                     ExtendedSignalsConfig.SERVER.defaultScanDistance.get(),
-                    Math.min(navigation.distanceToDestination, navigation.distanceToSignal)
+                    Math.min(values.distanceToDestination(), values.distanceToSignal())
             );
 
+            if (train.name.getString().equals("DBG"))
+                ExtendedSignals.LOGGER.info("look dist: {} {} {}(clamp, dest, sign), speedmod: {}", lookAheadDistance, values.distanceToDestination(), values.distanceToSignal(), speedMod);
         }
-
-        TravellingPoint.ITrackSelector signalScoutTrackSelector = navigation.controlSignalScout();
 
         collectedEdgePoints.clear();
 
@@ -143,6 +154,17 @@ public class AdvancedSignalScout {
         List<Pair<Boolean, List<Map.Entry<TrackNode, TrackEdge>>>> switches = new ReferenceArrayList<>();
         final MutableDouble previousSignalDistance = new MutableDouble(-1);
 
+        // if (lookAheadDistance < 5 && train.speed != 0)
+        // {
+        //     ExtendedSignals.LOGGER.info("Train {} has a very short lookAhead distance", train.name.getString());
+        // }
+
+        if (((AccessorNavigation) navigation).signalScout().edge == null) {
+            ExtendedSignals.LOGGER.warn("Signal Scout Edge was null...? Should probably not happen; prevented crashing from NPE");
+            return;
+        }
+
+        TravellingPoint.ITrackSelector signalScoutTrackSelector = navigation.controlSignalScout();
         signalScoutTriggerCollector.travel(
                 train.graph,
                 (lookAheadDistance + 1f) * speedMod,
@@ -233,7 +255,8 @@ public class AdvancedSignalScout {
     }
 
     private boolean isWaitingAtPoint(TrackEdgePoint trackEdgePoint, boolean primary) {
-        if ((navigation.waitingForSignal != null && navigation.waitingForSignal.getFirst().equals(trackEdgePoint.id)) && primary == navigation.waitingForSignal.getSecond())
+        NavigationDistanceValuesSnapshot values = INavigation.from(train).extendedSignals$postSignalScoutCapturedValues();
+        if ((values.waitingForSignal() != null && values.waitingForSignal().getFirst().equals(trackEdgePoint.id)) && primary == values.waitingForSignal().getSecond())
             return true;
 
         boolean blockOccupied = false;
@@ -241,9 +264,10 @@ public class AdvancedSignalScout {
             UUID entering = createSignalBoundary.groups.get(primary);
             SignalEdgeGroup signalEdgeGroup = Create.RAILWAYS.signalEdgeGroups.get(entering);
             if (signalEdgeGroup != null)
-                blockOccupied = (!signalEdgeGroup.trains.contains(train) && !signalEdgeGroup.trains.isEmpty()) ||
-                        createSignalBoundary.isForcedRed(primary) ||
-                        InterlockingManager.trainOwnsGroupIntersecting(train, signalEdgeGroup) == InterlockingManager.ReservationResult.CONFLICT;
+                blockOccupied =
+                        (!signalEdgeGroup.trains.contains(train) && !signalEdgeGroup.trains.isEmpty()) ||
+                                createSignalBoundary.isForcedRed(primary) ||
+                                InterlockingManager.trainOwnsGroupIntersecting(train, signalEdgeGroup) == InterlockingManager.ReservationResult.CONFLICT;
         }
         return blockOccupied;
     }
@@ -299,8 +323,8 @@ public class AdvancedSignalScout {
             );
         }
 
-        if (current != null && current.obstacle() && manualTrainDriving)
-            navigation.distanceToSignal = current.distance();
+        // if (current != null && current.obstacle() && manualTrainDriving)
+        //     navigation.distanceToSignal = current.distance();
     }
 
     public boolean bypassesRedSignals() {
@@ -309,4 +333,14 @@ public class AdvancedSignalScout {
 
     public void onPassSwitch(boolean direction, TrackNode targetNode) {
     }
+
+    public void fromNBT(CompoundTag tag) {
+        if (tag.contains("signal_mode"))
+            signalPolicyMode = NBTHelper.readEnum(tag, "signal_mode", SignalPolicy.class);
+    }
+
+    public void toNBT(CompoundTag tag) {
+        NBTHelper.writeEnum(tag, "signal_mode", signalPolicyMode);
+    }
+
 }

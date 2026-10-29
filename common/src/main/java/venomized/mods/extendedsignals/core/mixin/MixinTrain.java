@@ -13,6 +13,7 @@ import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -54,6 +55,15 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
     private List<DelayedSignalCrossTrigger> extendedSignals$backDelayedOnCrossedTriggering;
     @Unique
     private TrackedValue<Double> extendedSignals$speedTracker;
+
+    /**
+     * @return
+     */
+    @Override
+    public TrackedValue<Double> extendedSignals$trackedSpeed() {
+        return extendedSignals$speedTracker;
+    }
+
     @Unique
     private AdvancedSignalScout extendedSignals$advancedSignalScout;
     @Shadow
@@ -80,7 +90,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
         if (oldValue == 0) {
             extendedSignals$advancedSignalScout.setSignalScoutCooldown(0);
         }
-        PacketDistributor.sendToAllPlayers(new ClientBoundMiscTrainDataPacket(id, newValue * 20f, (oldValue - newValue) * 20f));
+        ClientBoundMiscTrainDataPacket.broadcastTrainUpdate(((Train) (Object) this), false);
     }
 
     @Inject(method = "<init>(Ljava/util/UUID;Ljava/util/UUID;Lcom/simibubi/create/content/trains/graph/TrackGraph;Ljava/util/List;Ljava/util/List;ZLnet/minecraft/network/chat/Component;Lcom/simibubi/create/content/trains/entity/TrainIconType;I)V", at = @At("RETURN"))
@@ -167,7 +177,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
     @Inject(method = "arriveAt", at = @At("RETURN"))
     public void extendedSignals$flushReservationsOnArrival(GlobalStation station, CallbackInfo ci) {
-        PacketDistributor.sendToAllPlayers(new ClientBoundMiscTrainDataPacket(id, 0, 0));
+        ClientBoundMiscTrainDataPacket.broadcastTrainUpdate((Train) (Object) this, true);
 
         InterlockingManager.clearReservationsForTrain((Train) (Object) this);
         if (navigation != null)
@@ -176,7 +186,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
     @Inject(method = "crash", at = @At("RETURN"))
     public void extendedSignals$flushReservationsOnCrash(CallbackInfo ci) {
-        PacketDistributor.sendToAllPlayers(new ClientBoundMiscTrainDataPacket(id, 0, 0));
+        ClientBoundMiscTrainDataPacket.broadcastTrainUpdate((Train) (Object) this, true);
 
         InterlockingManager.clearReservationsForTrain((Train) (Object) this);
         if (navigation != null)
@@ -313,13 +323,15 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
     @ModifyReturnValue(method = "write", at = @At("RETURN"))
     public CompoundTag extendedSignals$write(CompoundTag original) {
-        NBTHelper.writeEnum(original, "signal_policy_mode", extendedSignals$advancedSignalScout.getSignalPolicyMode());
+        CompoundTag signalScoutTag = new CompoundTag();
+        extendedSignals$advancedSignalScout.toNBT(signalScoutTag);
+        original.put("signal_scout", signalScoutTag);
         return original;
     }
 
     @ModifyReturnValue(method = "read", at = @At("RETURN"))
     private static Train extendedSignals$read(Train original, @Local(name = "tag") CompoundTag tag) {
-        AdvancedSignalScout.from(original).setSignalPolicyMode(NBTHelper.readEnum(tag, "signal_policy_mode", SignalPolicy.class));
+        AdvancedSignalScout.from(original).fromNBT(tag.getCompound("signal_scout"));
         return original;
     }
 
@@ -344,7 +356,7 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
      * @return
      */
     @Override
-    public AdvancedSignalScout getAdvancedSignalScout() {
+    public AdvancedSignalScout advancedSignalScout() {
         return extendedSignals$advancedSignalScout;
     }
 

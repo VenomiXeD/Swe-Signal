@@ -8,6 +8,7 @@ import venomized.mods.extendedsignals.hu.ExtendedSignalsHungary;
 import venomized.mods.extendedsignals.hu.block.HungaryBlocks;
 import venomized.mods.extendedsignals.hu.blockentity.signals.BlockEntityABSThreeLightSignal;
 import venomized.mods.extendedsignals.hu.blockentity.signals.BlockEntityInterlockedTwoLightSignal;
+import venomized.mods.extendedsignals.hu.blockentity.signals.BlockEntityShuntSignal;
 
 public final class HungaryBlockEntities {
     public static Registrate registrate() {
@@ -22,6 +23,12 @@ public final class HungaryBlockEntities {
 
     public static final BlockEntityEntry<BlockEntityABSThreeLightSignal> ABS_THREE_LIGHT_SIGNAL = RegistrateHelper.simpleBlockEntity(
                     registrate(), "abs_3_signal", BlockEntityABSThreeLightSignal::new, HungaryBlocks.ABS_3_LIGHT_SIGNAL
+            )
+            .renderer(() -> RendererSignal::new)
+            .register();
+
+    public static final BlockEntityEntry<BlockEntityShuntSignal> SHUNT_SIGNAL = RegistrateHelper.simpleBlockEntity(
+                    registrate(), "shunt_signal", BlockEntityShuntSignal::new, HungaryBlocks.SHUNT_SIGNAL
             )
             .renderer(() -> RendererSignal::new)
             .register();

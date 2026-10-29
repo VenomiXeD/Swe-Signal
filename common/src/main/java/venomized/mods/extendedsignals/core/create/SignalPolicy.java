@@ -1,7 +1,9 @@
 package venomized.mods.extendedsignals.core.create;
 
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.common.TranslatableEnum;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,12 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum SignalPolicy implements TranslatableEnum {
-    NONE,
     JOURNEY,
     SHUNT_MOVEMENT,
     SHUNT_COUPLING;
 
     private MutableComponent translated;
+
+    public static StreamCodec<FriendlyByteBuf, SignalPolicy> STREAM_CODEC = StreamCodec.of(FriendlyByteBuf::writeEnum, buffer -> buffer.readEnum(SignalPolicy.class));
 
     /**
      * @return

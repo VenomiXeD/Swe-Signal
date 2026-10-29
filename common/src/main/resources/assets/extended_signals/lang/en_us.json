@@ -85,5 +85,6 @@
   "extended_signals.schedule.signal_mode.summary": "Signalling Operating Mode",
   "extended_signals.schedule.instruction.signal_mode": "Operation Mode",
   "extended_signals.generic.true": "True",
-  "extended_signals.generic.fasle": "False"
+  "extended_signals.generic.fasle": "False",
+  "train_map.extended_signals.train.operating_mode": "Operating Mode: "
 }
