@@ -18,9 +18,7 @@ public class BlockEntityDistantSignalIndicator extends BlockEntityModelled {
      */
     @Override
     protected VariantData constructVariantData(VariantData variantData) {
-        VariantData variants = super.constructVariantData(variantData);
-        variants.addVariantOption(new VariantData.VariantOption("b", Component.translatable("screens.extended_signals_hu.modelconfig.variant.distant_type_b"), () -> HungaryModels.DISTANT_SIGNAL_INDICATOR_TYPE_B));
-
-        return variants;
+        variantData.addVariantOption(new VariantData.VariantOption("b", Component.translatable("screens.extended_signals_hu.modelconfig.variant.distant_type_b"), () -> HungaryModels.DISTANT_SIGNAL_INDICATOR_TYPE_B));
+        return variantData;
     }
 }
