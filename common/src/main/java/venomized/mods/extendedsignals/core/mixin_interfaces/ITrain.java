@@ -9,6 +9,7 @@ public interface ITrain {
     TrackedValue<Double> extendedSignals$trackedSpeed();
 
     AdvancedSignalScout advancedSignalScout();
+
     void requestShunting(ShuntRequest shuntRequest);
 
     boolean isManual();

@@ -2,11 +2,9 @@ package venomized.mods.extendedsignals.core.blockentity.railway;
 
 import com.simibubi.create.api.contraption.transformable.TransformableBlockEntity;
 import com.simibubi.create.content.contraptions.StructureTransform;
-import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -17,10 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.BoolProperty;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
-import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.create.tracks.points.IConfigurableEdgePoint;
-
-import java.util.List;
 
 public abstract class BlockEntityPointModifier<T extends TrackEdgePoint> extends SmartBlockEntity implements TransformableBlockEntity {
     protected TrackTargetingBehaviour<T> edgePoint;

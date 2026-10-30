@@ -17,8 +17,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import venomized.mods.extendedsignals.core.ExtendedSignalsConfig;
-import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
 import venomized.mods.extendedsignals.core.blockentity.IEdgePointBlockEntity;
+import venomized.mods.extendedsignals.core.blockentity.ISignalTunerToolable;
 import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.create.tracks.points.RepeaterSignalEdgePoint;
 

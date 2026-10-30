@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import venomized.mods.extendedsignals.core.create.schedule.DoorInstruction;
 import venomized.mods.extendedsignals.core.create.ITrainDoorData;
+import venomized.mods.extendedsignals.core.create.schedule.DoorInstruction;
 
 @Mixin(value = ScheduleRuntime.class, remap = false)
 public class MixinScheduleRuntime {

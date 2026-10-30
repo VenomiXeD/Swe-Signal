@@ -2,7 +2,10 @@ package venomized.mods.extendedsignals.hu.signalling;
 
 import lombok.RequiredArgsConstructor;
 import venomized.mods.extendedsignals.core.blockentity.LightContainer;
-import venomized.mods.extendedsignals.core.signalling.*;
+import venomized.mods.extendedsignals.core.signalling.Aspect;
+import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
+import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
+import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 import java.util.List;
 

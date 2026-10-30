@@ -5,7 +5,10 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class LightContainer {
     private final Map<String, SignalLight> lights = new Object2ReferenceOpenHashMap<>();

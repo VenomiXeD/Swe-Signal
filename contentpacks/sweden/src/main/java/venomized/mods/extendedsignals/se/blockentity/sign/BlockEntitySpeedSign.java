@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector3f;
-import venomized.mods.extendedsignals.core.blockentity.BlockEntityModelled;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySingleTextModel;
 
 public class BlockEntitySpeedSign extends BlockEntitySingleTextModel {

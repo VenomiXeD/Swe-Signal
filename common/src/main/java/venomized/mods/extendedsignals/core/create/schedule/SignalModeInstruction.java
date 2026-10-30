@@ -1,13 +1,11 @@
 package venomized.mods.extendedsignals.core.create.schedule;
 
-import com.google.common.collect.ImmutableList;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.trains.graph.DiscoveredPath;
 import com.simibubi.create.content.trains.schedule.ScheduleRuntime;
 import com.simibubi.create.content.trains.schedule.destination.ScheduleInstruction;
 import com.simibubi.create.foundation.gui.ModularGuiLineBuilder;
 import net.createmod.catnip.data.Pair;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -16,9 +14,6 @@ import org.jetbrains.annotations.Nullable;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.create.AdvancedSignalScout;
 import venomized.mods.extendedsignals.core.create.SignalPolicy;
-
-import java.awt.*;
-import java.util.List;
 
 public class SignalModeInstruction extends ScheduleInstruction {
     public static final ResourceLocation ID = ExtendedSignals.res("signal_mode");

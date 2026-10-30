@@ -8,7 +8,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.math.NumberUtils;
-import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
 import venomized.mods.extendedsignals.core.create.tracks.CollectedEdgePoint;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;

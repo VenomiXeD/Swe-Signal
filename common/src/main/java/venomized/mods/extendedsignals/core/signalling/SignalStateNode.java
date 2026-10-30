@@ -14,7 +14,10 @@ import venomized.mods.extendedsignals.core.ExtendedSignals;
 import javax.annotation.Nullable;
 import java.lang.reflect.AccessFlag;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)

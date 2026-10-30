@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core.signalling;
 
 import venomized.mods.extendedsignals.core.blockentity.LightContainer;
-import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
 
 import javax.annotation.Nullable;
 import java.util.Collection;

@@ -3,7 +3,6 @@ package venomized.mods.extendedsignals.se.block;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import venomized.mods.extendedsignals.core.block.BlockModelled;
-import venomized.mods.extendedsignals.core.block.BlockSignal;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityModelled;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;

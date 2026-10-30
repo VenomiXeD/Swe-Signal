@@ -4,17 +4,11 @@ import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.signal.SignalEdgeGroup;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.mixin.AccessorSignalEdgeGroup;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
-
-import java.util.Optional;
 
 public class TrainHelp {
     public static double trainSpeedPercentFromKph(final double speedInKph, Train train, boolean manual) {

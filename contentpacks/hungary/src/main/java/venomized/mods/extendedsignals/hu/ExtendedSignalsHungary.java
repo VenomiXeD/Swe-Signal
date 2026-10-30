@@ -10,7 +10,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import venomized.mods.extendedsignals.core.data.SoundEventDataGenerator;
-import venomized.mods.extendedsignals.hu.HungarySounds;
 import venomized.mods.extendedsignals.hu.block.HungaryBlocks;
 import venomized.mods.extendedsignals.hu.blockentity.HungaryBlockEntities;
 

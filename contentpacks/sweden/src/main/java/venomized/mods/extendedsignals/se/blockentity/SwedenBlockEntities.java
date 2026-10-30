@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.se.blockentity;
 
 
-import com.simibubi.create.content.trains.signal.SignalRenderer;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererCrossingGate;
@@ -13,7 +12,10 @@ import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossin
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityThreeLightCrossingLights;
 import venomized.mods.extendedsignals.se.blockentity.sign.BlockEntitySpeedSign;
 import venomized.mods.extendedsignals.se.blockentity.signals.*;
-import venomized.mods.extendedsignals.se.blockentity.signals.auxillary.*;
+import venomized.mods.extendedsignals.se.blockentity.signals.auxillary.BlockEntityCrossingDistantSignal;
+import venomized.mods.extendedsignals.se.blockentity.signals.auxillary.BlockEntityCrossingSignal;
+import venomized.mods.extendedsignals.se.blockentity.signals.auxillary.BlockEntityDwarfSignal;
+import venomized.mods.extendedsignals.se.blockentity.signals.auxillary.BlockEntityEndpointSignal;
 import venomized.mods.extendedsignals.se.blockentity.signals.tgoj.BlockEntityTGOJ2BlockSignal;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingDistantSignal;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingLights;

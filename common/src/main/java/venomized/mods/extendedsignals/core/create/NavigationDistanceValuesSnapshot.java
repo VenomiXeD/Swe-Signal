@@ -1,6 +1,5 @@
 package venomized.mods.extendedsignals.core.create;
 
-import net.createmod.catnip.data.Couple;
 import net.createmod.catnip.data.Pair;
 
 import javax.annotation.Nullable;

@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core.client;
 
 import net.minecraft.client.KeyMapping;
-import org.jline.keymap.KeyMap;
 import org.lwjgl.glfw.GLFW;
 
 public class KeyMappings {

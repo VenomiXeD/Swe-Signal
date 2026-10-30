@@ -17,7 +17,6 @@ import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
 import venomized.mods.extendedsignals.core.create.ITrainDoorData;
 import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 
-import java.util.List;
 import java.util.Optional;
 
 public class DoorInstruction extends ScheduleInstruction {

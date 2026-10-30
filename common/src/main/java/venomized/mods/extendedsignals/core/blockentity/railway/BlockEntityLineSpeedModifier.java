@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core.blockentity.railway;
 
 import com.simibubi.create.content.contraptions.StructureTransform;
-import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.track.TrackTargetingBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import net.minecraft.core.BlockPos;
@@ -29,6 +28,7 @@ public class BlockEntityLineSpeedModifier extends BlockEntityPointModifier<LineS
         properties.addProperty("path_key", new TextProperty(Component.translatable("screens.extended_signals_de.pointconfig.path_key.label"), Component.translatable("screens.extended_signals_de.pointconfig.path_key.tooltip")));
         properties.addProperty("speed", new TextProperty(Component.translatable("screens.extended_signals_de.pointconfig.speed.label"), Component.translatable("screens.extended_signals_de.pointconfig.speed.tooltip")));
     }
+
     /**
      * @param behaviours
      */

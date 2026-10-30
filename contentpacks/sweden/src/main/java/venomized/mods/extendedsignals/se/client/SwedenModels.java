@@ -10,7 +10,7 @@ public final class SwedenModels {
     public static PartialModel model(String path) {
         return PartialModel.of(ExtendedSignalsSweden.res(path));
     }
-    
+
     public static final PartialModel ARM_6 = PartialModel.of(ExtendedSignalsSweden.res("block/crossings/se/arm6"));
 
     public static class SignalModels {

@@ -1,6 +1,5 @@
 package venomized.mods.extendedsignals.core.client;
 
-import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
 import venomized.mods.extendedsignals.core.create.SignalPolicy;
 
 import java.util.Map;

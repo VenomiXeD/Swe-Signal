@@ -19,7 +19,6 @@ import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.mutable.MutableDouble;
@@ -72,6 +71,7 @@ public class AdvancedSignalScout {
     private Deque<SwitchSelection> switchSelections = new ArrayDeque<>();
 
     private boolean manualTrainDriving;
+
     public AdvancedSignalScout(Train train, Navigation navigation) {
         this.train = train;
         this.navigation = navigation;

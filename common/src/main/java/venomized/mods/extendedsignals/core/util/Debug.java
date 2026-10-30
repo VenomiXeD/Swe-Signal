@@ -3,8 +3,6 @@ package venomized.mods.extendedsignals.core.util;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.simibubi.create.Create;
-import net.createmod.catnip.data.Couple;
-import net.createmod.catnip.data.Iterate;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -15,9 +13,7 @@ import org.apache.commons.lang3.mutable.MutableInt;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.create.AdvancedSignalScout;
 import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
-import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundSyncSignalStatesPacket;
-import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 
 public class Debug {
     @SubscribeEvent

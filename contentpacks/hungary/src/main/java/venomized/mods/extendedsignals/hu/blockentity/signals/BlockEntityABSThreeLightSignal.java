@@ -9,7 +9,6 @@ import venomized.mods.extendedsignals.core.signalling.IMainSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.hu.signalling.ABS3Signal;
-import venomized.mods.extendedsignals.hu.signalling.Interlocked2Signal;
 
 public class BlockEntityABSThreeLightSignal extends BlockEntityThreeLightSignal<ISignalAspect> {
     public BlockEntityABSThreeLightSignal(BlockEntityType<?> t, BlockPos pPos, BlockState pBlockState) {
