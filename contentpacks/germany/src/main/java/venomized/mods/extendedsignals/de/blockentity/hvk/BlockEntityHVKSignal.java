@@ -44,26 +44,26 @@ public abstract class BlockEntityHVKSignal<T extends ISignalAspect> extends Bloc
      */
     @Override
     protected VariantData constructVariantData(VariantData variantData) {
-        VariantData variants = new VariantData().setDisplayBlockModel(true);
-        variants.addVariantOption(new VariantData.VariantOption("default", Component.translatable("screens.extended_signals.modelconfig.variants.default"), () -> GermanyModels.HVKModels.MAST_CENTER));
-        variants.addVariantOptionLeft(new VariantData.VariantOption("400_left", Component.translatable("screens.extended_signals_de.modelconfig.offset.400.left"), () -> GermanyModels.HVKModels.LEFT_400));
-        variants.addVariantOptionRight(new VariantData.VariantOption("400_right", Component.translatable("screens.extended_signals_de.modelconfig.offset.400.right"), () -> GermanyModels.HVKModels.RIGHT_400));
-        variants.addVariantOptionLeft(new VariantData.VariantOption("1000_left", Component.translatable("screens.extended_signals_de.modelconfig.offset.1000.left"), () -> GermanyModels.HVKModels.LEFT_1000));
-        variants.addVariantOptionRight(new VariantData.VariantOption("1000_right", Component.translatable("screens.extended_signals_de.modelconfig.offset.1000.right"), () -> GermanyModels.HVKModels.RIGHT_1000));
+        super.constructVariantData(variantData).setDisplayBlockModel(true);
+        variantData.addVariantOption(new VariantData.VariantOption("default", Component.translatable("screens.extended_signals.modelconfig.variants.default"), () -> GermanyModels.HVKModels.MAST_CENTER));
+        variantData.addVariantOptionLeft(new VariantData.VariantOption("400_left", Component.translatable("screens.extended_signals_de.modelconfig.offset.400.left"), () -> GermanyModels.HVKModels.LEFT_400));
+        variantData.addVariantOptionRight(new VariantData.VariantOption("400_right", Component.translatable("screens.extended_signals_de.modelconfig.offset.400.right"), () -> GermanyModels.HVKModels.RIGHT_400));
+        variantData.addVariantOptionLeft(new VariantData.VariantOption("1000_left", Component.translatable("screens.extended_signals_de.modelconfig.offset.1000.left"), () -> GermanyModels.HVKModels.LEFT_1000));
+        variantData.addVariantOptionRight(new VariantData.VariantOption("1000_right", Component.translatable("screens.extended_signals_de.modelconfig.offset.1000.right"), () -> GermanyModels.HVKModels.RIGHT_1000));
 
         if (mainSignal()) {
-            variants.addCheckboxOption(new VariantData.VariantOption("zs3_matrix", Component.translatable("screens.extended_signals_de.modelconfig.screens.zs3_matrix"), () -> null));
-            variants.addCheckboxOption(new VariantData.VariantOption("zs3_metal", Component.translatable("screens.extended_signals_de.modelconfig.screens.zs3_metal"), () -> null));
+            variantData.addCheckboxOption(new VariantData.VariantOption("zs3_matrix", Component.translatable("screens.extended_signals_de.modelconfig.screens.zs3_matrix"), () -> null));
+            variantData.addCheckboxOption(new VariantData.VariantOption("zs3_metal", Component.translatable("screens.extended_signals_de.modelconfig.screens.zs3_metal"), () -> null));
 
-            variants.addTextBoxOption(new VariantData.TextBoxOption("zs3_value", Component.translatable("screens.extended_signals_de.modelconfig.screens.textbox.zs3.label"), Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3.tooltip")));
+            variantData.addTextBoxOption(new VariantData.TextBoxOption("zs3_value", Component.translatable("screens.extended_signals_de.modelconfig.screens.textbox.zs3.label"), Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3.tooltip")));
         }
         if (distantSignal()) {
-            variants.addCheckboxOption(new VariantData.VariantOption("zs3v_matrix", Component.translatable("screens.extended_signals_de.modelconfig.screens.zs3v_matrix"), () -> GermanyModels.HVKModels.ZS3V_MATRIX));
-            variants.addCheckboxOption(new VariantData.VariantOption("zs3v_metal", Component.translatable("screens.extended_signals_de.modelconfig.screens.zs3v_metal"), () -> GermanyModels.HVKModels.ZS3V_METAL));
+            variantData.addCheckboxOption(new VariantData.VariantOption("zs3v_matrix", Component.translatable("screens.extended_signals_de.modelconfig.screens.zs3v_matrix"), () -> GermanyModels.HVKModels.ZS3V_MATRIX));
+            variantData.addCheckboxOption(new VariantData.VariantOption("zs3v_metal", Component.translatable("screens.extended_signals_de.modelconfig.screens.zs3v_metal"), () -> GermanyModels.HVKModels.ZS3V_METAL));
 
-            variants.addTextBoxOption(new VariantData.TextBoxOption("zs3v_value", Component.translatable("screens.extended_signals_de.modelconfig.screens.textbox.zs3v.label"), Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3v.tooltip")));
+            variantData.addTextBoxOption(new VariantData.TextBoxOption("zs3v_value", Component.translatable("screens.extended_signals_de.modelconfig.screens.textbox.zs3v.label"), Component.translatable("screens.extended_signals_de.modelconfig.screens.ks.textbox.zs3v.tooltip")));
         }
-        return variants;
+        return variantData;
     }
 
     @OnlyIn(Dist.CLIENT)

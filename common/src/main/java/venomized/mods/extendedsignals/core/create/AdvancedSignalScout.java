@@ -332,7 +332,7 @@ public class AdvancedSignalScout {
 
     public void fromNBT(CompoundTag tag) {
         if (tag.contains("signal_mode"))
-            signalPolicyMode = NBTHelper.readEnum(tag, "signal_mode", SignalPolicy.class);
+            setSignalPolicyMode(NBTHelper.readEnum(tag, "signal_mode", SignalPolicy.class));
     }
 
     public void toNBT(CompoundTag tag) {
