@@ -113,9 +113,12 @@ public abstract class MixinNavigation implements INavigation {
     @Shadow
     public double distanceToDestination;
 
+    @Shadow
+    public abstract TravellingPoint.ITrackSelector controlSignalScout();
+
     @Inject(method = "<init>", at = @At("RETURN"))
     public void extendedSignals$onCtor(Train train, CallbackInfo ci) {
-        extendedSignals$navigationDistanceValuesSnapshot = new NavigationDistanceValuesSnapshot(0, 0, null);
+        extendedSignals$navigationDistanceValuesSnapshot = new NavigationDistanceValuesSnapshot(0, 0, null, controlSignalScout());
     }
 
     @Redirect(
@@ -151,7 +154,7 @@ public abstract class MixinNavigation implements INavigation {
         extendedSignals$startScoutEdge = leadingPoint.edge;
         extendedSignals$startScoutPosition = leadingPoint.position;
 
-        extendedSignals$navigationDistanceValuesSnapshot = new NavigationDistanceValuesSnapshot(distanceToDestination, distanceToSignal, waitingForSignal == null ? null : waitingForSignal.copy());
+        extendedSignals$navigationDistanceValuesSnapshot = new NavigationDistanceValuesSnapshot(distanceToDestination, distanceToSignal, waitingForSignal == null ? null : waitingForSignal.copy(), controlSignalScout());
     }
 
     @Inject(method = "startNavigation", at = @At("HEAD"))

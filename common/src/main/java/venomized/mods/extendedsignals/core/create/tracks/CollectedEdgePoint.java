@@ -12,7 +12,6 @@ public record CollectedEdgePoint(
         Direction.AxisDirection signalDirection,
         boolean obstacle,
         double distance,
-        double distanceFromPreviousSignal,
         List<WeakReference<ISignalStateModifier>> signalModifierSnapshot
 ) {
 }

@@ -93,15 +93,15 @@ public class AdvancedSignalScout {
         }
 
         signalScoutCooldown = SIGNAL_SCOUT_INTERVAL;
-        collectSignals(level);
-        computeSignalStates();
+        triggerForwardSignals(level);
     }
 
-    private void collectSignals(Level level) {
+    private void triggerForwardSignals(Level level) {
         INavigation nav = INavigation.from(train);
+        NavigationDistanceValuesSnapshot navigationSnapshot = nav.extendedSignals$postSignalScoutCapturedValues();
+
         double lookAheadDistance;
         double speedMod = 0;
-
 
         if (manualTrainDriving) {
             // When manually driving, we need to get our own leadingPoint object
@@ -139,14 +139,13 @@ public class AdvancedSignalScout {
             // Shift it a bit back - otherwise it can't see the track edge point it's currently standing on
             signalScoutTriggerCollector.position = nav.extendedSignals$startScoutPosition();// - (speedMod * 0.1f);
 
-            NavigationDistanceValuesSnapshot values = nav.extendedSignals$postSignalScoutCapturedValues();
             lookAheadDistance = Math.min(
                     ExtendedSignalsConfig.SERVER.defaultScanDistance.get(),
-                    Math.min(values.distanceToDestination(), values.distanceToSignal())
+                    Math.min(navigationSnapshot.distanceToDestination(), navigationSnapshot.distanceToSignal())
             );
 
             if (train.name.getString().equals("DBG"))
-                ExtendedSignals.LOGGER.info("look dist: {} {} {}(clamp, dest, sign), speedmod: {}", lookAheadDistance, values.distanceToDestination(), values.distanceToSignal(), speedMod);
+                ExtendedSignals.LOGGER.info("look dist: {} {} {}(clamp, dest, sign), speedmod: {}", lookAheadDistance, navigationSnapshot.distanceToDestination(), navigationSnapshot.distanceToSignal(), speedMod);
         }
 
         collectedEdgePoints.clear();
@@ -165,17 +164,10 @@ public class AdvancedSignalScout {
             return;
         }
 
-        TravellingPoint.ITrackSelector signalScoutTrackSelector = navigation.controlSignalScout();
         signalScoutTriggerCollector.travel(
                 train.graph,
-                (lookAheadDistance + 1f) * speedMod,
-                signalScoutTrackSelector,// (a, b) -> {
-                //     // Vec3i v = b.getSecond().getFirst().getValue().node1.getLocation();
-                //     // level.sendParticles(ParticleTypes.FIREWORK, v.getX()/2f, v.getY()/2f, v.getZ()/2f, 5600, 0, 0, 0, 0.5f);
-                //     // level.setBlock(new BlockPos(v.above(4)), level.getGameTime() % 2 == 0 ? Blocks.GLASS.defaultBlockState() : Blocks.STONE.defaultBlockState(), 2);
-                //     switches.add(b);
-                //     return signalScoutTrackSelector.apply(a, b);
-                // },
+                (lookAheadDistance + 50f) * speedMod,
+                navigationSnapshot.iTrackSelector(),
                 (distance, point) -> {
                     // if (!switches.isEmpty() && train.manualTick) {
                     //     return true;
@@ -187,11 +179,6 @@ public class AdvancedSignalScout {
                     if (!(trackEdgePoint instanceof IExtendedEdgePoint extendedSignalPoint)) {
                         return false;
                     }
-                    double deltaSignalDistance = previousSignalDistance.getValue() < 0
-                            ? -1.0 : distance - previousSignalDistance.getValue();
-
-                    if (trackEdgePoint instanceof ISignal signal && signal.isMainSignal(front))
-                        previousSignalDistance.setValue(distance);
 
                     boolean occupied = isWaitingAtPoint(trackEdgePoint, front);
                     collectedEdgePoints.push(
@@ -200,7 +187,6 @@ public class AdvancedSignalScout {
                                     front ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE,
                                     occupied,
                                     distance,
-                                    deltaSignalDistance,
                                     new ReferenceArrayList<>()
                             )
                     );
@@ -253,6 +239,8 @@ public class AdvancedSignalScout {
             }
             collected.signalModifierSnapshot().addAll(predictedModifiers.values());
         }
+
+        processForwardSignals(lookAheadDistance);
     }
 
     private boolean isWaitingAtPoint(TrackEdgePoint trackEdgePoint, boolean primary) {
@@ -273,7 +261,7 @@ public class AdvancedSignalScout {
         return blockOccupied;
     }
 
-    private void computeSignalStates() {
+    private void processForwardSignals(double scoutingDistance) {
         SignalStateNode upcomingSignalState = null;
         SignalStateNode currentSignalState = null;
         CollectedEdgePoint upcoming = null;
@@ -285,13 +273,16 @@ public class AdvancedSignalScout {
             if (iExtendedEdgePoint == null) {
                 continue;
             }
+            boolean isInRange = current.distance() <= scoutingDistance;
 
             TrackEdgePoint edgePoint = (TrackEdgePoint) iExtendedEdgePoint;
             if (iExtendedEdgePoint instanceof ISignal) {
-                if (iExtendedEdgePoint instanceof ISignalStateEvaluator evaluator)
+                if (iExtendedEdgePoint instanceof ISignalStateEvaluator evaluator) {
                     currentSignalState = evaluator.evaluateSignalState(current.signalDirection(), upcomingSignalState, train);
-                else
+                } else {
                     currentSignalState = ExtendedSignals.serverNetworkCache().getSignalState(edgePoint.getId(), current.signalDirection() == Direction.AxisDirection.POSITIVE);
+                }
+
 
                 boolean shuntingPermitted =
                         signalPolicyMode == SignalPolicy.SHUNT_COUPLING || signalPolicyMode == SignalPolicy.SHUNT_MOVEMENT && !current.obstacle();
@@ -299,20 +290,20 @@ public class AdvancedSignalScout {
                 boolean journeyPermitted =
                         !current.obstacle() && signalPolicyMode == SignalPolicy.JOURNEY && !shuntingPermitted;
 
+
                 currentSignalState.setDistanceToNextSignal(upcomingSignalState == null ? -1 : upcoming.distance() - current.distance())
                         .setNextState(upcomingSignalState)
-                        .setJourneyPermitted(journeyPermitted)
-                        .setShuntingPermitted(shuntingPermitted)
+                        .setJourneyPermitted(journeyPermitted && isInRange)
+                        .setShuntingPermitted(shuntingPermitted && isInRange)
                         .setObstacle(current.obstacle())
                         .setReservedBy(train.id)
                         .setMaxProceedSpeed(Double.MAX_VALUE); // Reset the speed value to max, modifiers will end up clamping it
-            }
 
-            if (currentSignalState != null) {
                 for (ISignalStateModifier modifier : current.signalModifierSnapshot().stream().map(WeakReference::get).filter(Objects::nonNull).toList()) {
                     modifier.applyModifier(currentSignalState);
                 }
             }
+
 
             if (edgePoint instanceof ISignal signalPoint && signalPoint.isMainSignal(current.signalDirection() == Direction.AxisDirection.POSITIVE)) {
                 upcomingSignalState = currentSignalState;
@@ -322,6 +313,10 @@ public class AdvancedSignalScout {
             iExtendedEdgePoint.onSignalScout(
                     current.signalDirection(), currentSignalState, train, current.distance()
             );
+
+            // Just track one signal ahead and then exit early - we just want the last signal so we can ping it and set distant signals to stop
+            if (!isInRange)
+                return;
         }
 
         // if (current != null && current.obstacle() && manualTrainDriving)
