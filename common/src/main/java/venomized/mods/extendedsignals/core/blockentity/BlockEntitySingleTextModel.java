@@ -24,8 +24,8 @@ public abstract class BlockEntitySingleTextModel extends BlockEntityModelled {
      * @return
      */
     @Override
-    protected VariantData constructVariantData() {
-        VariantData variants = super.constructVariantData();
+    protected VariantData constructVariantData(VariantData variantData) {
+        VariantData variants = super.constructVariantData(variantData);
         variants.addTextBoxOption(new VariantData.TextBoxOption("number", Component.translatable("screens.extended_signals.modelconfig.screens.textbox.number.label"), Component.translatable("screens.extended_signals_de.modelconfig.screens.textbox.number.tooltip")));
         return variants;
     }

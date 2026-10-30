@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.se.blockentity;
+package venomized.mods.extendedsignals.se.blockentity.signals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,6 +14,7 @@ import venomized.mods.extendedsignals.core.signalling.ICombinedSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.signalling.SignalStateRemapper;
+import venomized.mods.extendedsignals.se.blockentity.BlockEntitySwedishSignal;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
 
 public class BlockEntity4CombinedSignal extends BlockEntitySwedishSignal<ICombinedSignalAspect> {
@@ -39,10 +40,10 @@ public class BlockEntity4CombinedSignal extends BlockEntitySwedishSignal<ICombin
      * @return
      */
     @Override
-    protected VariantData constructVariantData() {
-        VariantData variants = super.constructVariantData();
-        variants.addVariantOptionRight(new VariantData.VariantOption("gantry", Component.translatable("screens.extended_signals_se.modelconfig.main_signal.gantry"), () -> SwedenModels.SIGNAL_4L_GANTRY));
-        variants.addVariantOptionRight(new VariantData.VariantOption("gantry", Component.translatable("screens.extended_signals_se.modelconfig.option.pole"), () -> SwedenModels.SIGNAL_4L_POLE));
+    protected VariantData constructVariantData(VariantData variantData) {
+        VariantData variants = super.constructVariantData(variantData);
+        variants.addVariantOptionRight(new VariantData.VariantOption("gantry", Component.translatable("screens.extended_signals_se.modelconfig.main_signal.gantry"), () -> SwedenModels.SignalModels.SIGNAL_4L_GANTRY));
+        variants.addVariantOptionRight(new VariantData.VariantOption("gantry", Component.translatable("screens.extended_signals_se.modelconfig.option.pole"), () -> SwedenModels.SignalModels.SIGNAL_4L_POLE));
         return variants;
     }
 

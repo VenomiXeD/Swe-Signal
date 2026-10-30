@@ -20,6 +20,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
@@ -92,11 +93,11 @@ public class AdvancedSignalScout {
         }
 
         signalScoutCooldown = SIGNAL_SCOUT_INTERVAL;
-        collectSignals((ServerLevel) level);
+        collectSignals(level);
         computeSignalStates();
     }
 
-    private void collectSignals(ServerLevel level) {
+    private void collectSignals(Level level) {
         INavigation nav = INavigation.from(train);
         double lookAheadDistance;
         double speedMod = 0;
@@ -104,7 +105,7 @@ public class AdvancedSignalScout {
 
         if (manualTrainDriving) {
             // When manually driving, we need to get our own leadingPoint object
-            speedMod = train.speed == 0 ? 0 : train.speed < 0 ? -1 : 1;
+            speedMod = -Mth.sign(train.speed);
 
             TravellingPoint leadingPoint = train.speed > 0
                     ? train.carriages.getFirst().getLeadingPoint()
@@ -122,13 +123,13 @@ public class AdvancedSignalScout {
             signalScoutTriggerCollector.edge = leadingPoint.edge;
             signalScoutTriggerCollector.position = leadingPoint.position;
 
-            lookAheadDistance = train.targetSpeed == 0 ? 0 : ExtendedSignalsConfig.SERVER.defaultScanDistance.get();
+            lookAheadDistance = train.speed == 0 ? 0 : ExtendedSignalsConfig.SERVER.defaultScanDistance.get();
         } else {
             speedMod = INavigation.from(train).extendedSignals$speedMod();
 
-            TravellingPoint leadingPoint = !navigation.destinationBehindTrain
-                    ? train.carriages.getFirst().getLeadingPoint()
-                    : train.carriages.getLast().getTrailingPoint();
+            // TravellingPoint leadingPoint = !navigation.destinationBehindTrain
+            //         ? train.carriages.getFirst().getLeadingPoint()
+            //         : train.carriages.getLast().getTrailingPoint();
 
             // For automatic routing, we can simply reuse the signal scout values that are captured by the mixin
             signalScoutTriggerCollector.node1 = nav.extendedSignals$startScoutNode1();
@@ -340,7 +341,8 @@ public class AdvancedSignalScout {
     }
 
     public void toNBT(CompoundTag tag) {
-        NBTHelper.writeEnum(tag, "signal_mode", signalPolicyMode);
+        if (signalPolicyMode != null)
+            NBTHelper.writeEnum(tag, "signal_mode", signalPolicyMode);
     }
 
 }

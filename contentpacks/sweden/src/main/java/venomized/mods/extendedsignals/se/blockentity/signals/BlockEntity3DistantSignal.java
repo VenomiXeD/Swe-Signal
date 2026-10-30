@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.se.blockentity;
+package venomized.mods.extendedsignals.se.blockentity.signals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,6 +11,7 @@ import venomized.mods.extendedsignals.core.blockentity.VariantData;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.SignalLight;
 import venomized.mods.extendedsignals.core.signalling.IDistantSignalAspect;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
+import venomized.mods.extendedsignals.se.blockentity.BlockEntitySwedishSignal;
 import venomized.mods.extendedsignals.se.client.SwedenModels;
 import venomized.mods.extendedsignals.se.signaling.DistantSignalAspect;
 
@@ -44,9 +45,9 @@ public class BlockEntity3DistantSignal extends BlockEntitySwedishSignal<IDistant
      * @return
      */
     @Override
-    protected VariantData constructVariantData() {
-        VariantData variants = super.constructVariantData();
-        variants.addVariantOption(new VariantData.VariantOption("pole", Component.translatable("screens.extended_signals_se.modelconfig.option.pole"), () -> SwedenModels.DISTANT_SIGNAL_3L_POLE));
+    protected VariantData constructVariantData(VariantData variantData) {
+        VariantData variants = super.constructVariantData(variantData);
+        variants.addVariantOption(new VariantData.VariantOption("pole", Component.translatable("screens.extended_signals_se.modelconfig.option.pole"), () -> SwedenModels.SignalModels.DISTANT_SIGNAL_3L_POLE));
 
         return variants;
     }

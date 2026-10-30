@@ -1,18 +1,18 @@
-package venomized.mods.extendedsignals.se.block;
+package venomized.mods.extendedsignals.se.block.signals;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import venomized.mods.extendedsignals.se.block.BlockSwedenSignal;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 
-public class BlockModernThreeLightDistantSignal extends BlockSwedenSignal implements EntityBlock {
+public class Block4CombinedSignal extends BlockSwedenSignal {
     /**
-     * @param properties
+     * @param pProperties
      */
-    public BlockModernThreeLightDistantSignal(Properties properties) {
-        super(properties);
+    public Block4CombinedSignal(Properties pProperties) {
+        super(pProperties);
     }
 
     /**
@@ -22,6 +22,7 @@ public class BlockModernThreeLightDistantSignal extends BlockSwedenSignal implem
      */
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return SwedenBlockEntities.DISTANT_THREE_LIGHT.get().create(pPos, pState);
+        return SwedenBlockEntities.COMBINED_4_SIGNAL.get()
+                .create(pPos, pState);
     }
 }

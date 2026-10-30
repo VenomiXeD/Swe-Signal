@@ -75,8 +75,8 @@ public class BlockEntityKsCombinedSignal extends BlockEntityKs<ICombinedSignalAs
      * @return
      */
     @Override
-    protected VariantData constructVariantData() {
-        VariantData variants = super.constructVariantData();
+    protected VariantData constructVariantData(VariantData variantData) {
+        VariantData variants = super.constructVariantData(variantData);
         variants.addVariantOptionLeft(new VariantData.VariantOption("400_left", Component.translatable("screens.extended_signals_de.modelconfig.offset.400.left"), () -> GermanyModels.KSModels.KS_HP_VR_400_LEFT));
         variants.addVariantOptionRight(new VariantData.VariantOption("400_right", Component.translatable("screens.extended_signals_de.modelconfig.offset.400.right"), () -> GermanyModels.KSModels.KS_HP_VR_400_RIGHT));
         variants.addVariantOptionLeft(new VariantData.VariantOption("1000_left", Component.translatable("screens.extended_signals_de.modelconfig.offset.1000.left"), () -> GermanyModels.KSModels.KS_HP_VR_1000_LEFT));

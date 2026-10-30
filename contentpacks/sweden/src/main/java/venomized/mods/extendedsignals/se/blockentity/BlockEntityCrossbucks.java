@@ -17,8 +17,8 @@ public class BlockEntityCrossbucks extends BlockEntityModelled {
      * @return
      */
     @Override
-    public VariantData constructVariantData() {
-        VariantData variants = super.constructVariantData();
+    public VariantData constructVariantData(VariantData variantData) {
+        VariantData variants = super.constructVariantData(variantData);
         variants.addCheckboxOption(new VariantData.VariantOption("2_tracks", Component.translatable("screens.extended_signals_se.modelconfig.crossbuck.2_tracks"), () -> SwedenModels.CROSSBUCK_EXTRA));
         return variants;
     }

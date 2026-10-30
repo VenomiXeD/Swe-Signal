@@ -3,11 +3,15 @@ package venomized.mods.extendedsignals.se.block;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import venomized.mods.extendedsignals.core.block.BlockModelled;
+import venomized.mods.extendedsignals.core.block.BlockSignal;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityModelled;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingGate;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingLights;
+import venomized.mods.extendedsignals.se.block.signals.*;
+import venomized.mods.extendedsignals.se.block.signals.tgoj.BlockTGOJ2BlockSignal;
+import venomized.mods.extendedsignals.se.block.signs.BlockSpeedSign;
 import venomized.mods.extendedsignals.se.block.trainsound.BlockOnix1500TrainSound;
 import venomized.mods.extendedsignals.se.blockentity.BlockEntityCrossbucks;
 
@@ -34,17 +38,17 @@ public final class SwedenBlocks {
             .register();
 
     // == DISTANT SIGNALS ==
-    public static final BlockEntry<BlockModernThreeLightDistantSignal> SIGNAL_DISTANT_3_MODERN = RegistrateHelper
-            .modelledBlock(registrate(), "se", "signals", "3l_distant_signal_modern", BlockModernThreeLightDistantSignal::new)
+    public static final BlockEntry<Block3LightDistantSignalModern> SIGNAL_DISTANT_3_MODERN = RegistrateHelper
+            .modelledBlock(registrate(), "se", "signals", "3l_distant_signal_modern", Block3LightDistantSignalModern::new)
             .register();
 
     // == DWARF SIGNALS ==
-    public static final BlockEntry<BlockModernDwarfSignal> SIGNAL_DWARF_MODERN = RegistrateHelper
-            .modelledBlock(registrate(), "se", "signals", "dwarf_signal_modern", BlockModernDwarfSignal::new)
+    public static final BlockEntry<BlockDwarfSignalModern> SIGNAL_DWARF_MODERN = RegistrateHelper
+            .modelledBlock(registrate(), "se", "signals", "dwarf_signal_modern", BlockDwarfSignalModern::new)
             .register();
 
-    public static final BlockEntry<BlockModernMainDwarfSignal> SIGNAL_MAIN_DWARF_MODERN = RegistrateHelper
-            .modelledBlock(registrate(), "se", "signals", "dwarf_main_signal_modern", BlockModernMainDwarfSignal::new)
+    public static final BlockEntry<BlockMainDwarfSignalModern> SIGNAL_MAIN_DWARF_MODERN = RegistrateHelper
+            .modelledBlock(registrate(), "se", "signals", "dwarf_main_signal_modern", BlockMainDwarfSignalModern::new)
             .register();
 
     // == MISC SIGNALS ==
@@ -101,6 +105,10 @@ public final class SwedenBlocks {
 
     public static final BlockEntry<BlockOnix1500TrainSound> TRAIN_SOUND_X60 = RegistrateHelper
             .modelledBlock(registrate(), "se", "trainsound", "onix1500", BlockOnix1500TrainSound::new)
+            .register();
+
+    public static final BlockEntry<BlockTGOJ2BlockSignal> TGOJ_BLOCK_SIGNAL = RegistrateHelper
+            .modelledBlock(registrate(), "se", "signals", "tgoj.block_2l_signal", BlockTGOJ2BlockSignal::new)
             .register();
 
     private static Registrate registrate() {

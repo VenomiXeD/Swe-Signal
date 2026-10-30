@@ -11,7 +11,7 @@ import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 /**
  * General purpose, generic signal block intended to cover most basic signals
  */
-public abstract class BlockSignal extends BlockModelled {
+public class BlockSignal extends BlockModelled {
     /**
      * @param pProperties
      */

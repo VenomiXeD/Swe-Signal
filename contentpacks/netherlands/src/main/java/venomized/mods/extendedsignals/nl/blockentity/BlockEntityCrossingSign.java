@@ -17,8 +17,8 @@ public class BlockEntityCrossingSign extends BlockEntityModelled {
      * @return
      */
     @Override
-    protected VariantData constructVariantData() {
-        VariantData variants = super.constructVariantData();
+    protected VariantData constructVariantData(VariantData variantData) {
+        VariantData variants = super.constructVariantData(variantData);
         variants.addVariantOption(new VariantData.VariantOption("variant1", Component.translatable("screens.extended_signals_nl.modelconfig.crossing_sign.variant.let_op_trein"), () -> NetherlandModels.CROSSING_SIGN_LET_OP_TREIN));
         return variants;
     }

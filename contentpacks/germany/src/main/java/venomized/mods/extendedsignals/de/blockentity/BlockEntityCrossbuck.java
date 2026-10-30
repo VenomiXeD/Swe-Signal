@@ -17,8 +17,8 @@ public class BlockEntityCrossbuck extends BlockEntityModelled {
      * @return
      */
     @Override
-    protected VariantData constructVariantData() {
-        VariantData variants = super.constructVariantData();
+    protected VariantData constructVariantData(VariantData variantData) {
+        VariantData variants = super.constructVariantData(variantData);
         variants.addVariantOption(new VariantData.VariantOption("electric", Component.translatable("screens.extended_signals_de.modelconfig.variant.crossbuck.electric"), () -> GermanyModels.CROSSBUCK_ELECTRIC));
 
         return variants;

@@ -27,7 +27,7 @@ public class BlockModelled extends ExtendedSignalsBlock implements EntityBlock {
         };
     }
 
-    public static <E extends BlockEntityModelled> NonNullFunction<Properties, BlockModelled> blockEntity(Supplier<BiFunction<BlockPos, BlockState, E>> blockEntityFactory) {
+    public static <B, E extends BlockEntityModelled> NonNullFunction<Properties, BlockModelled> blockEntity(Supplier<BiFunction<BlockPos, BlockState, E>> blockEntityFactory) {
         return (prop) -> {
             BlockModelled block = new BlockModelled(prop);
             block.blockEntityFactory = () -> blockEntityFactory.get()::apply;

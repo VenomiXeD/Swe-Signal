@@ -17,8 +17,8 @@ public class BlockEntityNe5Small extends BlockEntityModelled {
      * @return
      */
     @Override
-    protected VariantData constructVariantData() {
-        VariantData data = super.constructVariantData();
+    protected VariantData constructVariantData(VariantData variantData) {
+        VariantData data = super.constructVariantData(variantData);
         data.addVariantOptionLeft(new VariantData.VariantOption("west_right", Component.translatable("screens.extended_signals_de.modelconfig.variant.west_right"), () -> GermanyModels.Ne5Models.SMALL_WEST_RIGHT));
         data.addVariantOptionLeft(new VariantData.VariantOption("west_both", Component.translatable("screens.extended_signals_de.modelconfig.variant.west_both"), () -> GermanyModels.Ne5Models.SMALL_WEST_BOTH));
         data.addVariantOptionLeft(new VariantData.VariantOption("west_left", Component.translatable("screens.extended_signals_de.modelconfig.variant.west_left"), () -> GermanyModels.Ne5Models.SMALL_WEST_LEFT));

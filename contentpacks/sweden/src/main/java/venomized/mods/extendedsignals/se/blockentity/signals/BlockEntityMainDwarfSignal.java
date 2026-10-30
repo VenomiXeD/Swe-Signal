@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.se.blockentity.auxilliarysignal;
+package venomized.mods.extendedsignals.se.blockentity.signals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

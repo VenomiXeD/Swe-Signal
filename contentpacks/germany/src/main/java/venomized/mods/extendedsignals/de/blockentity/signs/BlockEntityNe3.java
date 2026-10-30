@@ -17,8 +17,7 @@ public class BlockEntityNe3 extends BlockEntityModelled {
      * @return
      */
     @Override
-    public VariantData constructVariantData() {
-        VariantData variantData = super.constructVariantData();
+    public VariantData constructVariantData(VariantData variantData) {
         variantData.addVariantOptionRight(new VariantData.VariantOption("2", Component.translatable("screens.extended_signals_de.modelconfig.variant.ne3.2"), () -> GermanyModels.NE_3_2));
         variantData.addVariantOptionRight(new VariantData.VariantOption("3", Component.translatable("screens.extended_signals_de.modelconfig.variant.ne3.3"), () -> GermanyModels.NE_3_3));
 

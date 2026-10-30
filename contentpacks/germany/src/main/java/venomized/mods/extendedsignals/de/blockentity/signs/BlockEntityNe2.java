@@ -17,8 +17,7 @@ public class BlockEntityNe2 extends BlockEntityModelled {
      * @return
      */
     @Override
-    public VariantData constructVariantData() {
-        VariantData variantData = super.constructVariantData();
+    public VariantData constructVariantData(VariantData variantData) {
         variantData.addVariantOptionLeft(new VariantData.VariantOption("west_brake", Component.translatable("screens.extended_signals_de.modelconfig.variant.ne_2.west.brake"), () -> GermanyModels.Ne2Models.WEST_REDUCED_BRAKE_DISTANCE));
         variantData.addVariantOptionRight(new VariantData.VariantOption("east_brake", Component.translatable("screens.extended_signals_de.modelconfig.variant.ne_2.east.brake"), () -> GermanyModels.Ne2Models.EAST_REDUCED_BRAKE_DISTANCE));
         return variantData;

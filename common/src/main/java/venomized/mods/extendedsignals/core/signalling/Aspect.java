@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.core.signalling;
 
 import venomized.mods.extendedsignals.core.blockentity.LightContainer;
+import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -12,7 +13,8 @@ import java.util.List;
 public class Aspect implements ISignalAspect {
     private final Collection<String> litLights;
     private final Collection<String> flashingLights;
-    private final float flashInterval;
+    private final float flashFrequency;
+    private final float flashDutyCycle;
 
     /**
      * Constructs an instance of a signal aspect
@@ -21,10 +23,15 @@ public class Aspect implements ISignalAspect {
      * @param flashingLights Flashing lights, supplying null defaults to an empty collection
      * @param flashInterval  Flash interval in seconds
      */
-    public Aspect(@Nullable Collection<String> litLights, @Nullable Collection<String> flashingLights, float flashInterval) {
+    public Aspect(@Nullable Collection<String> litLights, @Nullable Collection<String> flashingLights, float flashFrequency, float flashDutyCycle) {
         this.litLights = litLights != null ? List.copyOf(litLights) : List.of();
         this.flashingLights = flashingLights != null ? List.copyOf(flashingLights) : List.of();
-        this.flashInterval = flashInterval;
+        this.flashFrequency = flashFrequency;
+        this.flashDutyCycle = flashDutyCycle;
+    }
+
+    public Aspect(@Nullable Collection<String> litLights, @Nullable Collection<String> blinkingLights, float flashFrequency) {
+        this(litLights, blinkingLights, flashFrequency, 0.5f);
     }
 
     /**
@@ -34,8 +41,9 @@ public class Aspect implements ISignalAspect {
      * @param blinkingLights
      */
     public Aspect(@Nullable Collection<String> litLights, @Nullable Collection<String> blinkingLights) {
-        this(litLights, blinkingLights, 0.5f);
+        this(litLights, blinkingLights, 60f, 0.5f);
     }
+
     /**
      * @param totalTicksForBlockEntity
      * @param states
@@ -46,7 +54,7 @@ public class Aspect implements ISignalAspect {
             states.powered(litLight);
         }
         for (String blinkingLight : flashingLights) {
-            if (seconds % 1 > flashInterval)
+            if (ISignalAspect.blink(seconds, flashFrequency, flashDutyCycle))
                 states.powered(blinkingLight);
         }
     }

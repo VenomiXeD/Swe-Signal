@@ -322,7 +322,8 @@ public abstract class MixinSignalBoundary extends TrackEdgePoint implements ISig
      */
     @Override
     public void onSignalCrossedImmediate(Direction.AxisDirection direction, SignalStateNode signalState, Train train) {
-        extendedSignals$blockSignalMarkedProceed.set(direction == Direction.AxisDirection.POSITIVE, false);
+        for (boolean side : Iterate.trueAndFalse)
+            extendedSignals$blockSignalMarkedProceed.set(side, false);
         extendedSignals$frontPassed.set(direction == Direction.AxisDirection.POSITIVE, true);
         ISignal.super.onSignalCrossedImmediate(direction, signalState, train);
     }

@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.se.block;
+package venomized.mods.extendedsignals.se.block.signs;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;

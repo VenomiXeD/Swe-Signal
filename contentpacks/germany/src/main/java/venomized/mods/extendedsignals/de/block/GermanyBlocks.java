@@ -103,11 +103,11 @@ public final class GermanyBlocks {
 
     public static final class SignBlocks {
         public static BlockEntry<BlockModelled> LF_6 = RegistrateHelper
-                .quickBlockWithBlockEntityAttached(registrate(), "de", "signs", "lf_6", BlockModelled::blockEntity, () -> GermanyBlockEntities.SignBlockEntities.SIGN_LF6::create)
+                .blockEntityAttached(registrate(), "de", "signs", "lf_6", BlockModelled::blockEntity, () -> GermanyBlockEntities.SignBlockEntities.SIGN_LF6::create)
                 .register();
 
         public static BlockEntry<BlockModelled> LF_7 = RegistrateHelper
-                .quickBlockWithBlockEntityAttached(registrate(), "de", "signs", "lf_7", BlockModelled::blockEntity, () -> GermanyBlockEntities.SignBlockEntities.SIGN_LF7::create)
+                .blockEntityAttached(registrate(), "de", "signs", "lf_7", BlockModelled::blockEntity, () -> GermanyBlockEntities.SignBlockEntities.SIGN_LF7::create)
                 .register();
 
         public static BlockEntry<BlockModelled> NE_1 = RegistrateHelper

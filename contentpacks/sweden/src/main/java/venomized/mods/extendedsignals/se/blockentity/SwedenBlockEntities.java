@@ -1,6 +1,7 @@
 package venomized.mods.extendedsignals.se.blockentity;
 
 
+import com.simibubi.create.content.trains.signal.SignalRenderer;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererCrossingGate;
@@ -8,10 +9,12 @@ import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSi
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.SwedenBlocks;
-import venomized.mods.extendedsignals.se.blockentity.auxilliarysignal.*;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityCrossingGate;
 import venomized.mods.extendedsignals.se.blockentity.crossing.BlockEntityThreeLightCrossingLights;
 import venomized.mods.extendedsignals.se.blockentity.sign.BlockEntitySpeedSign;
+import venomized.mods.extendedsignals.se.blockentity.signals.*;
+import venomized.mods.extendedsignals.se.blockentity.signals.auxillary.*;
+import venomized.mods.extendedsignals.se.blockentity.signals.tgoj.BlockEntityTGOJ2BlockSignal;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingDistantSignal;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingLights;
 import venomized.mods.extendedsignals.se.client.blockentityrenderer.se.crossing.RendererCrossingSignal;
@@ -79,6 +82,11 @@ public final class SwedenBlockEntities {
     public static BlockEntityEntry<BlockEntityThreeLightCrossingLights> CROSSING_LIGHTS = RegistrateHelper
             .simpleBlockEntity(registrate(), "crossing_lights", BlockEntityThreeLightCrossingLights::new, SwedenBlocks.CROSSING_LIGHTS_MODERN)
             .renderer(() -> RendererCrossingLights::new)
+            .register();
+
+    public static BlockEntityEntry<BlockEntityTGOJ2BlockSignal> TGOJ_BLOCK_SIGNAL = RegistrateHelper
+            .simpleBlockEntity(registrate(), "tgoj_block_signal", BlockEntityTGOJ2BlockSignal::new, SwedenBlocks.TGOJ_BLOCK_SIGNAL)
+            .renderer(() -> RendererSignal::new)
             .register();
 
     // public static BlockEntityEntry<BlockEntityCrossbucks> CROSSBUCKS = RegistrateHelper
