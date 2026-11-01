@@ -30,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
 import venomized.mods.extendedsignals.core.create.tracks.points.IExtendedEdgePoint;
 import venomized.mods.extendedsignals.core.create.tracks.points.ISignal;
+import venomized.mods.extendedsignals.core.mixin_interfaces.IEdgePointStorage;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 import venomized.mods.extendedsignals.core.util.MathHelp;
 
@@ -61,14 +62,11 @@ public abstract class MixinTrainMapManager {
 
     @Inject(method = "drawPoints", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/graph/TrackGraph;getPoints(Lcom/simibubi/create/content/trains/graph/EdgePointType;)Ljava/util/Collection;"))
     private static void extendedSignals$drawAdvancedPoints(GuiGraphics graphics, int mouseX, int mouseY, Object hoveredElement, Rect2i bounds, CallbackInfoReturnable<Object> cir, @Local(name = "graph") TrackGraph graph, @Local(name = "pose") PoseStack pose, @Local(name = "hoveredElement", index = 0, ordinal = 0, argsOnly = true) LocalRef<Object> hElement) {
-        EdgePointStorage e = ((AccessorTrackGraph) graph).getEdgePoints();
-        ((AccessorEdgePointStorage) e).getPoints().values().forEach(map ->
-                map.values().forEach(edgePoint -> {
-                    if (edgePoint instanceof IExtendedEdgePoint) {
-                        extendedSignals$drawExtendedSignalEdgePoint(graphics, mouseX, mouseY, hoveredElement, bounds, graph, pose, hElement, edgePoint);
-                    }
-                })
-        );
+        IEdgePointStorage.from(graph).listEdgePoints().forEach(edgePoint -> {
+            if (edgePoint instanceof IExtendedEdgePoint) {
+                extendedSignals$drawExtendedSignalEdgePoint(graphics, mouseX, mouseY, hoveredElement, bounds, graph, pose, hElement, edgePoint);
+            }
+        });
     }
 
     @Unique

@@ -7,7 +7,6 @@ import com.simibubi.create.content.trains.entity.Carriage;
 import com.simibubi.create.content.trains.entity.CarriageContraptionEntity;
 import com.simibubi.create.content.trains.entity.CarriageSounds;
 import net.createmod.catnip.animation.LerpedFloat;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -18,17 +17,15 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import venomized.mods.extendedsignals.core.block.ITrainSoundModifierBlock;
 import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
 import venomized.mods.extendedsignals.core.client.sound.train.ICarriageSounds;
 import venomized.mods.extendedsignals.core.client.sound.train.TrainSound;
-import venomized.mods.extendedsignals.core.util.IEntityMotionData;
 
 import java.util.Optional;
 
 @Mixin(value = CarriageSounds.class, remap = false)
-public abstract class MixinCarriageSounds implements ICarriageSounds, IEntityMotionData {
+public abstract class MixinCarriageSounds implements ICarriageSounds {
     @Unique
     TrainSound extendedSignals$trainSound;
     @Shadow
@@ -48,9 +45,6 @@ public abstract class MixinCarriageSounds implements ICarriageSounds, IEntityMot
     @Shadow
     int prevSharedTick;
 
-    @Unique
-    Vec3 contraptionMotion = Vec3.ZERO;
-
     // @Unique
     // private Vec3 combinedMotion = Vec3.ZERO;
 
@@ -63,12 +57,6 @@ public abstract class MixinCarriageSounds implements ICarriageSounds, IEntityMot
             extendedSignals$trainSound.init(this, dce);
         }
         // swe_Signal$trainSound.ifPresent(trainSound -> trainSound.init(this, dce));
-    }
-
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/trains/entity/CarriageContraptionEntity;getCarriage()Lcom/simibubi/create/content/trains/entity/Carriage;", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
-    public void onTick_updateMotion(Carriage.DimensionalCarriageEntity dce, CallbackInfo ci, Minecraft mc, Entity camEntity, Vec3 leadingAnchor, Vec3 trailingAnchor, Vec3 cam, Vec3 contraptionMotion, Vec3 combinedMotion) {
-        this.contraptionMotion = contraptionMotion;
-        // this.combinedMotion = combinedMotion;
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
@@ -161,13 +149,5 @@ public abstract class MixinCarriageSounds implements ICarriageSounds, IEntityMot
     @Override
     public Optional<TrainSound> getCustomTrainSound() {
         return Optional.empty();
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public Vec3 getMotion() {
-        return this.contraptionMotion;
     }
 }

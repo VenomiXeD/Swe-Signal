@@ -10,6 +10,7 @@
     "AccessorTrackGraph",
     "MixinBlockBreakingMovementBehaviour",
     "MixinCarriage",
+    "MixinEdgePointStorage",
     "MixinGlobalRailwayManager",
     "MixinGlobalStation",
     "MixinNavigation",
