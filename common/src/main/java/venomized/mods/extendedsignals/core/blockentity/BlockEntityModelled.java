@@ -23,7 +23,6 @@ public class BlockEntityModelled extends CoreBlockEntity implements IConfigurabl
         gblOffsets = new double[3];
 
         variantData = new VariantData();
-        variantData.addVariantOption(new VariantData.VariantOption("default", Component.translatable("screens.extended_signals.modelconfig.variants.default"), () -> null));
         constructVariantData(variantData);
     }
 
@@ -269,6 +268,7 @@ public class BlockEntityModelled extends CoreBlockEntity implements IConfigurabl
 
 
     protected VariantData constructVariantData(VariantData variantData) {
+        variantData.addVariantOption(new VariantData.VariantOption("default", Component.translatable("screens.extended_signals.modelconfig.variants.default"), () -> null));
         return variantData;
     }
 }

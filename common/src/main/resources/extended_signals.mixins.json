@@ -18,7 +18,8 @@
     "MixinSignalBoundary",
     "MixinSignalEdgeGroup",
     "MixinSlidingDoorMovementBehavior",
-    "MixinTrain"
+    "MixinTrain",
+    "MixinTravellingPoint"
   ],
   "client": [
     "MixinTrainMapManager",

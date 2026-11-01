@@ -44,7 +44,7 @@ public abstract class BlockEntityHVKSignal<T extends ISignalAspect> extends Bloc
      */
     @Override
     protected VariantData constructVariantData(VariantData variantData) {
-        super.constructVariantData(variantData).setDisplayBlockModel(true);
+        variantData.setDisplayBlockModel(true);
         variantData.addVariantOption(new VariantData.VariantOption("default", Component.translatable("screens.extended_signals.modelconfig.variants.default"), () -> GermanyModels.HVKModels.MAST_CENTER));
         variantData.addVariantOptionLeft(new VariantData.VariantOption("400_left", Component.translatable("screens.extended_signals_de.modelconfig.offset.400.left"), () -> GermanyModels.HVKModels.LEFT_400));
         variantData.addVariantOptionRight(new VariantData.VariantOption("400_right", Component.translatable("screens.extended_signals_de.modelconfig.offset.400.right"), () -> GermanyModels.HVKModels.RIGHT_400));
