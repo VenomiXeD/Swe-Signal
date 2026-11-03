@@ -151,6 +151,44 @@ public class RegistrateHelper {
         // .build();
     }
 
+    public static <T extends BlockModelled> BlockBuilder<T, Registrate> defaultSignalBlock(
+            Registrate registrateInstance,
+            String nation,
+            String assetType,
+            String name,
+            Function<Supplier<BiFunction<BlockPos, BlockState, BlockEntity>>, NonNullFunction<BlockBehaviour.Properties, T>> blockFactory,
+            BlockEntityBuilder.BlockEntityFactory<? extends BlockEntityModelled> blockEntityFactory
+    ) {
+        String properName = name.replaceAll("(\\d+)l", "$1 Light")
+                .replaceAll("_post_(\\d+)_?", " (Post $1)")
+                .replace('_', ' ');
+
+        var blockRef = new Object() {
+            BlockBuilder<T, Registrate> block = null;
+            BlockEntityBuilder<? extends BlockEntityModelled, Registrate> blockentity = null;
+        };
+        blockRef.block = registrateInstance
+                .block("%s.%s".formatted(nation, name), blockFactory.apply(() -> blockRef.blockentity.getEntry()::create))
+                .lang("(%s) %s".formatted(ExtendedSignalsLang.fromISO639_1(nation), properName))
+                .properties(prop -> BlockBehaviour.Properties.of()
+                        .destroyTime(1f))
+                .blockstate(customBlockModelProvider(assetType, nation, name))
+                .item()
+                .model(modelLocator(assetType, nation, name))
+                .build();
+
+        blockRef.blockentity = registrateInstance.blockEntity(name, blockEntityFactory)
+                .renderer(() -> RendererGeneric::new)
+                .validBlock(() -> blockRef.block.getEntry());
+
+
+        blockRef.blockentity.register();
+        return blockRef.block;
+        // .item()
+        // .model(modelLocator(assetType, nation, name))
+        // .build();
+    }
+
     public static <T extends BlockModelled, E extends BlockEntity> BlockBuilder<T, Registrate> blockEntityAttached(Registrate registrateInstance, String nation, String assetType, String name, Function<Supplier<BiFunction<BlockPos, BlockState, E>>, NonNullFunction<BlockBehaviour.Properties, T>> blockFactory, Supplier<NonNullBiFunction<BlockPos, BlockState, E>> blockEntityCreator) {
         String properName = name.replaceAll("(\\d+)l", "$1 Light")
                 .replaceAll("_post_(\\d+)_?", " (Post $1)")

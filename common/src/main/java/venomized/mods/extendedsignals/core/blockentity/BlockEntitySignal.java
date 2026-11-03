@@ -34,6 +34,7 @@ import java.util.UUID;
 
 public abstract class BlockEntitySignal<T extends ISignalAspect> extends BlockEntityModelled
         implements ISignalTunerToolable, ISignalInterpreter<T> {
+
     @Getter
     private final LightContainer lightContainer;
     protected UUID targetEdgePointId;
