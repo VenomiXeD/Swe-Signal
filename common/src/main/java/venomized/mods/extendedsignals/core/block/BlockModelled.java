@@ -24,7 +24,7 @@ public class BlockModelled extends ExtendedSignalsBlock implements EntityBlock, 
     @Override
     public void setBlockEntityFactory(BiFunction<BlockPos, BlockState, BlockEntity> factory) {
         if (this.blockEntityFactory != null) {
-            throw new IllegalStateException("Already intialized with a BlockEntityFactory");
+            throw new IllegalStateException("Already initialized with a BlockEntityFactory");
         }
         ExtendedSignals.LOGGER.info("Attached BlockEntityFactory to BlockModelled");
         blockEntityFactory = () -> factory;

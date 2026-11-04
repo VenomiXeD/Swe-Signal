@@ -23,6 +23,7 @@ public abstract class BlockEntityKs<T extends ISignalAspect> extends BlockEntity
      */
     @Override
     protected VariantData constructVariantData(VariantData variantData) {
+        super.constructVariantData(variantData);
         if (mainSignal()) {
             variantData.addCheckboxOption(new VariantData.VariantOption("zs3_matrix", Component.translatable("screens.extended_signals_de.modelconfig.screens.zs3_matrix"), () -> GermanyModels.KSModels.KS_MATRIX));
             variantData.addCheckboxOption(new VariantData.VariantOption("zs3_metal", Component.translatable("screens.extended_signals_de.modelconfig.screens.zs3_metal"), () -> GermanyModels.KSModels.KS_ZS3_METAL));

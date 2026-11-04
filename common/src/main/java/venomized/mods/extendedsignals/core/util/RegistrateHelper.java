@@ -37,6 +37,10 @@ import java.util.function.Supplier;
 public class RegistrateHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrateHelper.class);
 
+    @Deprecated
+    /**
+     * @deprecated Use {@link venomized.mods.extendedsignals.core.registry.ExtendedSignalsRegistrate#blockWithBlockEntityAttached(String, String, String, NonNullFunction, BlockEntityBuilder.BlockEntityFactory)}
+     */
     public static <T extends Block> BlockBuilder<T, Registrate> modelledBlock(Registrate registrateInstance, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
         return registrateInstance
                 .block(name, blockCreator)
@@ -81,6 +85,10 @@ public class RegistrateHelper {
         // .build();
     }
 
+    @Deprecated
+    /**
+     * @deprecated Use {@link venomized.mods.extendedsignals.core.registry.ExtendedSignalsRegistrate#blockWithBlockEntityAttached(String, String, String, NonNullFunction, BlockEntityBuilder.BlockEntityFactory)}
+     */
     public static <T extends Block> BlockBuilder<T, Registrate> modelledBlock(Registrate registrateInstance, String nation, String assetType, String name, NonNullFunction<BlockBehaviour.Properties, T> blockCreator) {
         String properName = name.replaceAll("(\\d+)l", "$1 Light")
                 .replaceAll("_post_(\\d+)_?", " (Post $1)")
@@ -120,6 +128,10 @@ public class RegistrateHelper {
 
     //}
 
+    @Deprecated
+    /**
+     * @deprecated Use {@link venomized.mods.extendedsignals.core.registry.ExtendedSignalsRegistrate#blockWithBlockEntityAttached(String, String, String, NonNullFunction, BlockEntityBuilder.BlockEntityFactory)}
+     */
     public static <T extends BlockModelled> BlockBuilder<T, Registrate> modelledBlock(Registrate registrateInstance, String nation, String assetType, String name, Function<Supplier<BiFunction<BlockPos, BlockState, BlockEntity>>, NonNullFunction<BlockBehaviour.Properties, T>> blockFactory, BlockEntityBuilder.BlockEntityFactory<? extends BlockEntityModelled> blockEntityFactory) {
         String properName = name.replaceAll("(\\d+)l", "$1 Light")
                 .replaceAll("_post_(\\d+)_?", " (Post $1)")
@@ -151,6 +163,10 @@ public class RegistrateHelper {
         // .build();
     }
 
+    @Deprecated
+    /**
+     * @deprecated Use {@link venomized.mods.extendedsignals.core.registry.ExtendedSignalsRegistrate#blockWithBlockEntityAttached(String, String, String, NonNullFunction, BlockEntityBuilder.BlockEntityFactory)}
+     */
     public static <T extends BlockModelled> BlockBuilder<T, Registrate> defaultSignalBlock(
             Registrate registrateInstance,
             String nation,
@@ -189,6 +205,10 @@ public class RegistrateHelper {
         // .build();
     }
 
+    @Deprecated
+    /**
+     * @deprecated Use {@link venomized.mods.extendedsignals.core.registry.ExtendedSignalsRegistrate#blockWithBlockEntityAttached(String, String, String, NonNullFunction, BlockEntityBuilder.BlockEntityFactory)}
+     */
     public static <T extends BlockModelled, E extends BlockEntity> BlockBuilder<T, Registrate> blockEntityAttached(Registrate registrateInstance, String nation, String assetType, String name, Function<Supplier<BiFunction<BlockPos, BlockState, E>>, NonNullFunction<BlockBehaviour.Properties, T>> blockFactory, Supplier<NonNullBiFunction<BlockPos, BlockState, E>> blockEntityCreator) {
         String properName = name.replaceAll("(\\d+)l", "$1 Light")
                 .replaceAll("_post_(\\d+)_?", " (Post $1)")
@@ -254,6 +274,10 @@ public class RegistrateHelper {
         };
     }
 
+    @Deprecated
+    /**
+     * @deprecated Use {@link venomized.mods.extendedsignals.core.registry.ExtendedSignalsRegistrate#blockWithBlockEntityAttached(String, String, String, NonNullFunction, BlockEntityBuilder.BlockEntityFactory)}
+     */
     @SafeVarargs
     public static <T extends BlockEntity> BlockEntityBuilder<T, Registrate> simpleBlockEntity(Registrate registrateInstance, String beName, BlockEntityBuilder.BlockEntityFactory<T> beFactory, NonNullSupplier<? extends Block>... validBlock) {
         return registrateInstance
