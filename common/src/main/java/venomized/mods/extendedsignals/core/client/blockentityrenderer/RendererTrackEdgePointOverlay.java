@@ -15,9 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.data.ModelData;
 import venomized.mods.extendedsignals.core.blockentity.IEdgePointBlockEntity;
-import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
 
 import java.util.function.Supplier;
 

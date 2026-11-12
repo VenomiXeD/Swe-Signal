@@ -1,7 +1,5 @@
 package venomized.mods.extendedsignals.core.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.simibubi.create.content.trains.entity.TravellingPoint;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
