@@ -3,6 +3,7 @@ package venomized.mods.extendedsignals.se.client;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 
 @OnlyIn(Dist.CLIENT)
@@ -10,6 +11,8 @@ public final class SwedenModels {
     public static PartialModel model(String path) {
         return PartialModel.of(ExtendedSignalsSweden.res(path));
     }
+
+    public static final PartialModel ATC = PartialModel.of(ExtendedSignalsSweden.res("tracks/balise"));
 
     public static final PartialModel ARM_6 = PartialModel.of(ExtendedSignalsSweden.res("block/crossings/se/arm6"));
 

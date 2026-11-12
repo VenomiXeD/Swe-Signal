@@ -1,11 +1,9 @@
-package venomized.mods.extendedsignals.core.create.tracks.points;
+package venomized.mods.extendedsignals.se.create.tracks;
 
 import com.simibubi.create.content.trains.entity.Train;
-import com.simibubi.create.content.trains.graph.EdgePointType;
 import com.simibubi.create.content.trains.signal.SingleBlockEntityEdgePoint;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import venomized.mods.extendedsignals.core.ExtendedSignals;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -13,14 +11,7 @@ import java.util.UUID;
 
 //  venomized.mods.extendedsignals.core.network.packets.UpdateATCEventPacket;
 
-public class ATCController extends SingleBlockEntityEdgePoint {
-    public static final EdgePointType<ATCController> ATC = EdgePointType.register(
-            ExtendedSignals.res("balise"), ATCController::new
-    );
-
-    public ATCController() {
-    }
-
+public class ATCBalise extends SingleBlockEntityEdgePoint {
 
     /**
      * Executed when a train runs over.

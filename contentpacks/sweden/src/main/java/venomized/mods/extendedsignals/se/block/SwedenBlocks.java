@@ -1,9 +1,17 @@
 package venomized.mods.extendedsignals.se.block;
 
-import com.tterrag.registrate.Registrate;
+import com.jcraft.jorbis.Block;
+import com.simibubi.create.content.trains.track.TrackTargetingBlockItem;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import venomized.mods.extendedsignals.core.block.BlockModelled;
+import venomized.mods.extendedsignals.core.block.BlockWithEntityWrapper;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityModelled;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererTrackEdgePointOverlay;
+import venomized.mods.extendedsignals.core.registry.BlockBlockEntityCoEntry;
+import venomized.mods.extendedsignals.se.blockentity.BlockEntityATCController;
+import venomized.mods.extendedsignals.se.client.SwedenModels;
+import venomized.mods.extendedsignals.core.registry.ExtendedSignalsRegistrate;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 import venomized.mods.extendedsignals.se.ExtendedSignalsSweden;
 import venomized.mods.extendedsignals.se.block.crossing.BlockCrossingGate;
@@ -13,6 +21,7 @@ import venomized.mods.extendedsignals.se.block.signals.tgoj.BlockTGOJ2BlockSigna
 import venomized.mods.extendedsignals.se.block.signs.BlockSpeedSign;
 import venomized.mods.extendedsignals.se.block.trainsound.BlockOnix1500TrainSound;
 import venomized.mods.extendedsignals.se.blockentity.BlockEntityCrossbucks;
+import venomized.mods.extendedsignals.se.create.tracks.SwedenEdgePoints;
 
 /**
  * Swedish railway content (blocks)
@@ -109,8 +118,14 @@ public final class SwedenBlocks {
     public static final BlockEntry<BlockTGOJ2BlockSignal> TGOJ_BLOCK_SIGNAL = RegistrateHelper
             .modelledBlock(registrate(), "se", "signals", "tgoj.block_2l_signal", BlockTGOJ2BlockSignal::new)
             .register();
+    public static final BlockBlockEntityCoEntry<BlockATCBalise, BlockEntityATCController> ATC_CONTROLLER = ExtendedSignalsSweden.REGISTRATE.get()
+            .blockWithBlockEntityAttached("se", "utils", "balise", BlockATCBalise::new, BlockEntityATCController::new)
+            .actOnRight(b -> b.renderer(() -> RendererTrackEdgePointOverlay.partialModel(() -> SwedenModels.ATC)))
+            .actOnLeft(b -> b.item(TrackTargetingBlockItem.ofType(SwedenEdgePoints.BALISE)).build())
+            .register();
 
-    private static Registrate registrate() {
+
+    private static ExtendedSignalsRegistrate registrate() {
         return ExtendedSignalsSweden.REGISTRATE.get();
     }
 

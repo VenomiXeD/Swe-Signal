@@ -115,12 +115,6 @@ public abstract class MixinTrain implements ITrainDoorData, ITrain {
 
             SignalStateNode signalState = ExtendedSignals.serverNetworkCache().getSignalState(trackEdgePoint.getId(), front);
 
-            if (trackEdgePoint instanceof ATCController atcController) {
-                atcController.onATCAction(((Train) (Object) this));
-                return false;
-            }
-
-
             if (signalState != null && trackEdgePoint instanceof ISignal) {
                 extendedSignals$encounteredPoints().values().forEach(e -> {
                     ISignalStateModifier mod = e.modifier().get();

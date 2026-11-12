@@ -14,8 +14,8 @@ public class RendererGate<T extends BlockEntityCrossingGate> extends RendererCro
      *
      */
     @Override
-    public void doRender() {
-        super.doRender();
+    public void postRender() {
+        super.postRender();
 
         boolean rLeft = blockEntity.getLevel().getGameTime() % 10 > 5;
         boolean rRight = !rLeft;

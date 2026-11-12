@@ -18,7 +18,7 @@ public class RendererCrossingLight extends RendererGeneric<BlockEntityCrossingLi
      *
      */
     @Override
-    public void doRender() {
+    public void postRender() {
         renderSelfBlock();
 
         if (blockEntity.crossingControllerActive()) {

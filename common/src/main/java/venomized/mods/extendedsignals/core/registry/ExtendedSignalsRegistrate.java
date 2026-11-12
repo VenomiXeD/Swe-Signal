@@ -1,6 +1,6 @@
 package venomized.mods.extendedsignals.core.registry;
 
-import com.tterrag.registrate.AbstractRegistrate;
+import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.builders.BlockEntityBuilder;
 import com.tterrag.registrate.providers.DataGenContext;
@@ -8,6 +8,9 @@ import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.BlockItem;
@@ -28,7 +31,7 @@ import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSi
 
 import java.util.Optional;
 
-public class ExtendedSignalsRegistrate extends AbstractRegistrate<ExtendedSignalsRegistrate> {
+public class ExtendedSignalsRegistrate extends Registrate {
     public ExtendedSignalsRegistrate(String modid) {
         super(modid);
     }
@@ -72,9 +75,21 @@ public class ExtendedSignalsRegistrate extends AbstractRegistrate<ExtendedSignal
                 .build();
 
         blockEntityBuilder.validBlock(signalBlockBuilder.asSupplier());
-        signalBlockBuilder.onRegisterAfter(blockEntityBuilder.getRegistryKey(), b -> b.setBlockEntityFactory(blockEntityBuilder.getEntry()::create));
+        signalBlockBuilder.onRegisterAfter(blockEntityBuilder.getRegistryKey(), b -> b.setBlockEntityType(blockEntityBuilder.getEntry()::create));
 
         return new BlockBlockEntityCoBuilder<>(signalBlockBuilder, blockEntityBuilder);
+    }
+
+    public <B extends Block & IAutoBlockEntityBlock, E extends BlockEntity> BlockBlockEntityCoBuilder<B, E, ExtendedSignalsRegistrate> blockWithBlockEntityAttached(
+            String nation,
+            String assetType,
+            String name,
+            NonNullFunction<BlockBehaviour.Properties, B> blockFactory,
+            BlockEntityBuilder.BlockEntityFactory<E> blockEntityFactory,
+            NonNullSupplier<NonNullFunction<Context, BlockEntityRenderer<E>>> renderer
+    ) {
+        return blockWithBlockEntityAttached(nation, assetType, name, blockFactory, blockEntityFactory)
+                .actOnRight(e -> renderer.get());
     }
 
     public BlockBlockEntityCoBuilder<BlockSignal, BlockEntitySignal<?>, ExtendedSignalsRegistrate> blockSignal(
@@ -82,11 +97,20 @@ public class ExtendedSignalsRegistrate extends AbstractRegistrate<ExtendedSignal
             String assetType,
             String name,
             BlockEntityBuilder.BlockEntityFactory<BlockEntitySignal<?>> blockEntityFactory) {
-        BlockBlockEntityCoBuilder<BlockSignal, BlockEntitySignal<?>, ExtendedSignalsRegistrate> builder = blockWithBlockEntityAttached(
-                nation, assetType, name, BlockSignal::new, blockEntityFactory
+        return blockWithBlockEntityAttached(
+                nation, assetType, name, BlockSignal::new, blockEntityFactory, () -> RendererSignal::new
         );
+    }
 
-        return builder.actOnRight(e -> e.renderer(() -> RendererSignal::new));
+    public BlockBlockEntityCoBuilder<BlockSignal, BlockEntitySignal<?>, ExtendedSignalsRegistrate> blockSignal(
+            String nation,
+            String assetType,
+            String name,
+            BlockEntityBuilder.BlockEntityFactory<BlockEntitySignal<?>> blockEntityFactory,
+            NonNullSupplier<NonNullFunction<Context, BlockEntityRenderer<BlockEntitySignal<?>>>> renderer) {
+        return blockWithBlockEntityAttached(
+                nation, assetType, name, BlockSignal::new, blockEntityFactory, renderer
+        );
     }
 
     private static <T extends net.minecraft.world.level.block.Block> NonNullBiConsumer<DataGenContext<net.minecraft.world.level.block.Block, T>, RegistrateBlockstateProvider> customBlockModelProvider(final String assetType, final String nation, final String name) {

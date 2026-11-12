@@ -14,8 +14,8 @@ public class RendererLf<T extends BlockEntitySingleTextModel> extends RendererGe
      *
      */
     @Override
-    public void doRender() {
-        super.doRender();
+    public void postRender() {
+        super.postRender();
         int num = NumberUtils.toInt(blockEntity.variantData().getTextBoxValues().get("number"));
         if (num >= 1 && num <= 16) {
             renderUVMappedTexturedDisplay(

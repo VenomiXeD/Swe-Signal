@@ -13,9 +13,9 @@ public class RendererCrossingLights<T extends BlockEntityThreeLightCrossingLight
      *
      */
     @Override
-    public void doRender() {
+    public void postRender() {
         boolean blink = blockEntity.getLevel().getGameTime() % 40 < 20;
-        super.doRender();
+        super.postRender();
         renderSelfBlock();
 
         boolean standbyLit = !blockEntity.crossingControllerActive() && blink;

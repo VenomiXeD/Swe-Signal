@@ -15,8 +15,8 @@ public class RendererCrossingGate<T extends BlockEntityCrossingGate> extends Ren
     }
 
     @Override
-    public void doRender() {
-        super.doRender();
+    public void postRender() {
+        super.postRender();
         renderSelfBlock();
 
         blockEntity.setGateDown(blockEntity.crossingControllerActive());

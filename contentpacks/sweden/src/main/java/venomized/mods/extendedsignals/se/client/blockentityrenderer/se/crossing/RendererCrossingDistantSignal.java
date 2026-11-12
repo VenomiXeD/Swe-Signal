@@ -13,10 +13,10 @@ public class RendererCrossingDistantSignal<T extends BlockEntityCrossingDistantS
      *
      */
     @Override
-    public void doRender() {
+    public void postRender() {
         boolean lit = this.blockEntity.crossingControllerActive();
         float brightness = lit ? 1 : (float) ((Math.sin(2.0 * Math.PI * (blockEntity.getLevel().getGameTime() + partialTick) / 15.0) + 1.0) / 2.0);
-        super.doRender();
+        super.postRender();
         renderSelfBlock();
 
         int redPower = blockEntity.crossingControllerActive() ? 255 : 0;

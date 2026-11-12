@@ -13,8 +13,8 @@ public class RendererCrossingSignal<T extends BlockEntityCrossingSignal> extends
      *
      */
     @Override
-    public void doRender() {
-        super.doRender();
+    public void postRender() {
+        super.postRender();
         super.renderSelfBlock();
 
         int r = 255;

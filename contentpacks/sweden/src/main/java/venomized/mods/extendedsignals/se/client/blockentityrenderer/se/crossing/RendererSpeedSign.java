@@ -15,8 +15,8 @@ public class RendererSpeedSign extends RendererGeneric<BlockEntitySpeedSign> {
      *
      */
     @Override
-    public void doRender() {
-        super.doRender();
+    public void postRender() {
+        super.postRender();
         int num = NumberUtils.toInt(blockEntity.variantData().getTextBoxValues().get("number"));
         if (num >= 10 && num <= 120) {
             int speed = Mth.floor((float) num / 10);

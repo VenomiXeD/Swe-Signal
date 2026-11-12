@@ -112,7 +112,7 @@ public class RendererGeneric<T extends BlockEntity> implements BlockEntityRender
 
         poseStack.pushPose();
         poseStack.translate(x, y, z);
-        renderUVMappedTexturedDisplayColored(
+        renderUVMappedTexturedDisplay(
                 new Vector3f(1f, 1f, -8f / 16f),
                 new Vector3f(-1f, -1f, -8f / 16f),
                 new SpriteUV(0, 0, 1, 1, ExtendedSignals.res("textures/block/flare.png")),
@@ -170,78 +170,54 @@ public class RendererGeneric<T extends BlockEntity> implements BlockEntityRender
         packedOverlay = pPackedOverlay;
         partialTick = pPartialTick;
 
-        if (blockEntity instanceof IConfigurableModelBlockEntity configurableModel) {
-            poseStack.translate(0.5f, 0.5f, 0.5f);
-            poseStack.translate(
-                    configurableModel.getXGblOffset(),
-                    configurableModel.getYGblOffset(),
-                    configurableModel.getZGblOffset()
-            );
-            pPoseStack.mulPose(
-                    new Quaternionf()
-                            .rotateXYZ(
-                                    Mth.DEG_TO_RAD * configurableModel.getXOrientation(),
-                                    Mth.DEG_TO_RAD * -configurableModel.getYOrientation(),
-                                    Mth.DEG_TO_RAD * configurableModel.getZOrientation()
-                            )
-            );
-            poseStack.translate(-0.5f, -0.5f, -0.5f);
-            poseStack.translate(
-                    configurableModel.getXLocOffset(),
-                    configurableModel.getYLocOffset(),
-                    configurableModel.getZLocOffset()
-            );
-        }
-
-        doRender();
+        preRender();
+        prepareTransform();
+        postRender();
     }
 
-    public void doRender() {
+    /**
+     * Override to allow pre-transforming or translation of the rendered objects
+     *
+     */
+    protected void prepareTransform() {
+        if (!(blockEntity instanceof IConfigurableModelBlockEntity configurableModel)) {
+            return;
+        }
+
+        poseStack.translate(0.5f, 0.5f, 0.5f);
+        poseStack.translate(
+                configurableModel.getXGblOffset(),
+                configurableModel.getYGblOffset(),
+                configurableModel.getZGblOffset()
+        );
+        poseStack.mulPose(
+                new Quaternionf()
+                        .rotateXYZ(
+                                Mth.DEG_TO_RAD * configurableModel.getXOrientation(),
+                                Mth.DEG_TO_RAD * -configurableModel.getYOrientation(),
+                                Mth.DEG_TO_RAD * configurableModel.getZOrientation()
+                        )
+        );
+        poseStack.translate(-0.5f, -0.5f, -0.5f);
+        poseStack.translate(
+                configurableModel.getXLocOffset(),
+                configurableModel.getYLocOffset(),
+                configurableModel.getZLocOffset()
+        );
+    }
+
+    protected void preRender() {
+    }
+
+    protected void postRender() {
         renderSelfBlock();
     }
 
     protected void renderUVMappedTexturedDisplay(Vector3f topLeft, Vector3f bottomRight, SpriteUV spriteUV, boolean lit) {
-        Vector3f bottomLeft = new Vector3f(topLeft.x(), bottomRight.y(), topLeft.z());
-        Vector3f topRight = new Vector3f(bottomRight.x(), topLeft.y(), topLeft.z());
-        Vector3f horizontal = new Vector3f(topRight).sub(topLeft);
-        Vector3f vertical = new Vector3f(bottomLeft).sub(topLeft);
-        Vector3f normal = horizontal.cross(vertical).normalize();
-
-        VertexConsumer consumer = lit ?
-                bufferSource.getBuffer(RenderType.beaconBeam(spriteUV.texture(), true)) :
-                bufferSource.getBuffer(RenderType.entityCutoutNoCull(spriteUV.texture()));
-
-        poseStack.pushPose();
-        poseStack.translate(0.5f, 0, .5f);
-        consumer.addVertex(poseStack.last(), topLeft.x(), topLeft.y(), topLeft.z())
-                .setColor(255, 255, 255, 255)
-                .setUv(spriteUV.u0(), spriteUV.v0())
-                .setOverlay(packedOverlay)
-                .setLight(lit ? 0xFFFFFFFF : packedLight)
-                .setNormal(normal.x(), normal.y(), normal.z());
-        consumer.addVertex(poseStack.last(), bottomLeft.x(), bottomLeft.y(), bottomLeft.z())
-                .setColor(255, 255, 255, 255)
-                .setUv(spriteUV.u0(), spriteUV.v1())
-                .setOverlay(packedOverlay)
-                .setLight(lit ? 0xFFFFFFFF : packedLight)
-                .setNormal(normal.x(), normal.y(), normal.z());
-        consumer.addVertex(poseStack.last(), bottomRight.x(), bottomRight.y(), bottomRight.z())
-                .setColor(255, 255, 255, 255)
-                .setUv(spriteUV.u1(), spriteUV.v1())
-                .setOverlay(packedOverlay)
-                .setLight(lit ? 0xFFFFFFFF : packedLight)
-                .setNormal(normal.x(), normal.y(), normal.z());
-        consumer.addVertex(poseStack.last(), topRight.x(), topRight.y(), topRight.z())
-                .setColor(255, 255, 255, 255)
-                .setUv(spriteUV.u1(), spriteUV.v0())
-                .setOverlay(packedOverlay)
-                .setLight(lit ? 0xFFFFFFFF : packedLight)
-                .setNormal(normal.x(), normal.y(), normal.z());
-
-        poseStack.popPose();
+        renderUVMappedTexturedDisplay(topLeft, bottomRight, spriteUV, lit, 255, 255, 255, 255);
     }
 
-    protected void renderUVMappedTexturedDisplayColored(Vector3f topLeft, Vector3f bottomRight, SpriteUV spriteUV, boolean lit, int r, int g, int b, int a) {
+    protected void renderUVMappedTexturedDisplay(Vector3f topLeft, Vector3f bottomRight, SpriteUV spriteUV, boolean lit, int r, int g, int b, int a) {
         Vector3f bottomLeft = new Vector3f(topLeft.x(), bottomRight.y(), topLeft.z());
         Vector3f topRight = new Vector3f(bottomRight.x(), topLeft.y(), topLeft.z());
         Vector3f horizontal = new Vector3f(topRight).sub(topLeft);

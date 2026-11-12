@@ -1,10 +1,8 @@
 package venomized.mods.extendedsignals.core.block;
 
 import com.tterrag.registrate.util.nullness.NonNullFunction;
-import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -12,24 +10,12 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntityModelled;
 
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-public class BlockModelled extends ExtendedSignalsBlock implements EntityBlock, IAutoBlockEntityBlock {
-    private Supplier<BiFunction<BlockPos, BlockState, BlockEntity>> blockEntityFactory;
-
-    @Override
-    public void setBlockEntityFactory(BiFunction<BlockPos, BlockState, BlockEntity> factory) {
-        if (this.blockEntityFactory != null) {
-            throw new IllegalStateException("Already initialized with a BlockEntityFactory");
-        }
-        ExtendedSignals.LOGGER.info("Attached BlockEntityFactory to BlockModelled");
-        blockEntityFactory = () -> factory;
-    }
-
+public class BlockModelled extends BlockWithEntityWrapper {
     public static <E extends BlockEntityModelled> NonNullFunction<Properties, BlockModelled> modelBlockEntity(Supplier<BiFunction<BlockPos, BlockState, BlockEntity>> blockEntityFactory) {
         return (prop) -> {
             BlockModelled block = new BlockModelled(prop);
@@ -37,6 +23,7 @@ public class BlockModelled extends ExtendedSignalsBlock implements EntityBlock, 
             return block;
         };
     }
+
 
     public static <B, E extends BlockEntityModelled> NonNullFunction<Properties, BlockModelled> blockEntity(Supplier<BiFunction<BlockPos, BlockState, E>> blockEntityFactory) {
         return (prop) -> {
@@ -119,18 +106,5 @@ public class BlockModelled extends ExtendedSignalsBlock implements EntityBlock, 
     @Override
     public boolean useShapeForLightOcclusion(BlockState pState) {
         return false;
-    }
-
-
-    /**
-     * @param pos
-     * @param state
-     * @return
-     */
-    @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        if (blockEntityFactory == null)
-            return null;
-        return blockEntityFactory.get().apply(pos, state);
     }
 }

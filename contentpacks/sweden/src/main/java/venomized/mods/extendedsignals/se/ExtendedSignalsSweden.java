@@ -12,6 +12,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import venomized.mods.extendedsignals.core.data.SoundEventDataGenerator;
+import venomized.mods.extendedsignals.core.registry.ExtendedSignalsRegistrate;
 import venomized.mods.extendedsignals.se.block.SwedenBlocks;
 import venomized.mods.extendedsignals.se.blockentity.SwedenBlockEntities;
 import venomized.mods.extendedsignals.se.data.SwedenRecipes;
@@ -20,7 +21,7 @@ import venomized.mods.extendedsignals.se.item.SwedenItems;
 @Mod(ExtendedSignalsSweden.MOD_ID)
 public class ExtendedSignalsSweden {
     public static final String MOD_ID = "extended_signals_se";
-    public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
+    public static final NonNullSupplier<ExtendedSignalsRegistrate> REGISTRATE = NonNullSupplier.lazy(() -> ExtendedSignalsRegistrate.create(MOD_ID));
 
     public static final RegistryEntry<CreativeModeTab, ?> CREATIVE_TAB = REGISTRATE.get()
             .defaultCreativeTab(MOD_ID, builder -> builder.icon(() -> new ItemStack(SwedenBlocks.SIGNAL_MAIN_2_MODERN.asItem())))

@@ -5,6 +5,8 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.block.CoreBlocks;
 import venomized.mods.extendedsignals.core.blockentity.railway.*;
+import venomized.mods.extendedsignals.core.client.ExtendedSignalsCoreModels;
+import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererTrackEdgePointOverlay;
 import venomized.mods.extendedsignals.core.util.RegistrateHelper;
 
 public final class CoreBlockEntities {
@@ -21,10 +23,12 @@ public final class CoreBlockEntities {
     //         .register();
     public static final BlockEntityEntry<BlockEntityLocalSpeedModifier> LOCAL_SPEED_MODIFIER = RegistrateHelper
             .simpleBlockEntity(registrate(), "local_modifier_speed", BlockEntityLocalSpeedModifier::new, CoreBlocks.LOCAL_SPEED_MODIFIER)
+            .renderer(() -> RendererTrackEdgePointOverlay.partialModel(() -> ExtendedSignalsCoreModels.OVERLAY_MODIFIER))
             .register();
 
     public static final BlockEntityEntry<BlockEntityLineSpeedModifier> LINE_SPEED_MODIFIER = RegistrateHelper
             .simpleBlockEntity(registrate(), "line_modifier_speed", BlockEntityLineSpeedModifier::new, CoreBlocks.LINE_SPEED_MODIFIER)
+            .renderer(() -> RendererTrackEdgePointOverlay.partialModel(() -> ExtendedSignalsCoreModels.OVERLAY_MODIFIER))
             .register();
     // public static BlockEntityEntry<BlockEntityTrainConfig> TRAIN_CONFIG = RegistrateHelper
     //         .simpleBlockEntity(registrate(), "train_config", BlockEntityTrainConfig::new, CoreBlocks.BLOCK_TRAIN_CONFIG)
@@ -34,6 +38,7 @@ public final class CoreBlockEntities {
             .register();
     public static BlockEntityEntry<BlockEntityPathIdentifier> PATH_IDENTIFIER = RegistrateHelper
             .simpleBlockEntity(registrate(), "path_identifier", BlockEntityPathIdentifier::new, CoreBlocks.PATH_IDENTIFIER)
+            .renderer(() -> RendererTrackEdgePointOverlay.partialModel(() -> ExtendedSignalsCoreModels.OVERLAY_PATH_LABEL))
             .register();
 
     private static Registrate registrate() {
@@ -41,10 +46,6 @@ public final class CoreBlockEntities {
     }
 
     public static void init() {
-
-    }
-
-    public static void finalizeBlockEntities() {
 
     }
 }

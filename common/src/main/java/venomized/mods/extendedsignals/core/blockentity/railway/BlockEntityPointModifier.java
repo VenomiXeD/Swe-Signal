@@ -13,11 +13,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import venomized.mods.extendedsignals.core.blockentity.IEdgePointBlockEntity;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.BoolProperty;
 import venomized.mods.extendedsignals.core.blockentity.dynamic.PointModifierProperties;
 import venomized.mods.extendedsignals.core.create.tracks.points.IConfigurableEdgePoint;
 
-public abstract class BlockEntityPointModifier<T extends TrackEdgePoint> extends SmartBlockEntity implements TransformableBlockEntity {
+public abstract class BlockEntityPointModifier<T extends TrackEdgePoint> extends SmartBlockEntity implements TransformableBlockEntity, IEdgePointBlockEntity {
     protected TrackTargetingBehaviour<T> edgePoint;
 
     @Getter
@@ -75,5 +76,13 @@ public abstract class BlockEntityPointModifier<T extends TrackEdgePoint> extends
     protected void read(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
         super.read(tag, registries, clientPacket);
         getProperties().fromNBT(tag.getCompound("properties"));
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public TrackTargetingBehaviour<?> getTrackTargetingBehavior() {
+        return edgePoint;
     }
 }
