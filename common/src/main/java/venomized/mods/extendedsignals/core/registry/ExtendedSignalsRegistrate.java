@@ -64,8 +64,8 @@ public class ExtendedSignalsRegistrate extends Registrate {
             NonNullFunction<BlockBehaviour.Properties, B> blockFactory,
             BlockEntityBuilder.BlockEntityFactory<E> blockEntityFactory
     ) {
-        BlockBuilder<B, ExtendedSignalsRegistrate> signalBlockBuilder = this.block(this, "%s.%s".formatted(nation, name), blockFactory);
-        BlockEntityBuilder<E, ExtendedSignalsRegistrate> blockEntityBuilder = this.blockEntity(this, name, blockEntityFactory);
+        BlockBuilder<B, ExtendedSignalsRegistrate> signalBlockBuilder = block(this, "%s.%s".formatted(nation, name), blockFactory);
+        BlockEntityBuilder<E, ExtendedSignalsRegistrate> blockEntityBuilder = blockEntity(this, name, blockEntityFactory);
 
 
         signalBlockBuilder.properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
