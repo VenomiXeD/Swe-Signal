@@ -66,6 +66,26 @@ public class SignalLight {
         return new SignalLight(x, y, z, xScale, yScale, zScale).withDefaultColor(255, 191, 0);
     }
 
+    public static SignalLight redLightPx(double x, double y, double z, float xScale, float yScale, float zScale) {
+        return new SignalLight(x / 16d, y / 16d, z / 16d, xScale, yScale, zScale).withDefaultColor(255, 0, 0);
+    }
+
+    public static SignalLight greenLightPx(double x, double y, double z, float xScale, float yScale, float zScale) {
+        return new SignalLight(x / 16d, y / 16d, z / 16d, xScale, yScale, zScale).withDefaultColor(0, 255, 0);
+    }
+
+    public static SignalLight blueLightPx(double x, double y, double z, float xScale, float yScale, float zScale) {
+        return new SignalLight(x / 16d, y / 16d, z / 16d, xScale, yScale, zScale).withDefaultColor(0, 0, 255);
+    }
+
+    public static SignalLight whiteLightPx(double x, double y, double z, float xScale, float yScale, float zScale) {
+        return new SignalLight(x / 16d, y / 16d, z / 16d, xScale, yScale, zScale).withDefaultColor(255, 255, 255);
+    }
+
+    public static SignalLight yellowLightPx(double x, double y, double z, float xScale, float yScale, float zScale) {
+        return new SignalLight(x / 16d, y / 16d, z / 16d, xScale, yScale, zScale).withDefaultColor(255, 191, 0);
+    }
+
     public SignalLight withDefaultColor(int r, int g, int b) {
         state.defaultRed = r;
         state.defaultGreen = g;

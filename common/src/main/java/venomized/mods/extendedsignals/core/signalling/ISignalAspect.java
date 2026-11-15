@@ -50,6 +50,14 @@ public interface ISignalAspect {
         return seconds % period < period * dutyCycle;
     }
 
+    static boolean blink(float seconds, float blinkRate) {
+        return blink(seconds, blinkRate, 0.5f);
+    }
+
+    static boolean blink(float seconds) {
+        return blink(seconds, 60, 0.5f);
+    }
+
     static ISignalAspect combo(Set<? extends ISignalAspect> signals) {
         return (s, c) -> signals.forEach(signal -> signal.applyAspect(s, c));
     }

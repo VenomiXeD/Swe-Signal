@@ -28,6 +28,7 @@ import venomized.mods.extendedsignals.core.block.BlockSignal;
 import venomized.mods.extendedsignals.core.block.IAutoBlockEntityBlock;
 import venomized.mods.extendedsignals.core.blockentity.BlockEntitySignal;
 import venomized.mods.extendedsignals.core.client.blockentityrenderer.RendererSignal;
+import venomized.mods.extendedsignals.core.signalling.ISignalAspect;
 
 import java.util.Optional;
 
@@ -89,25 +90,25 @@ public class ExtendedSignalsRegistrate extends Registrate {
             NonNullSupplier<NonNullFunction<Context, BlockEntityRenderer<E>>> renderer
     ) {
         return blockWithBlockEntityAttached(nation, assetType, name, blockFactory, blockEntityFactory)
-                .actOnRight(e -> renderer.get());
+                .actOnRight(e -> e.renderer(() -> ctx -> renderer.get().apply(ctx)));
     }
 
-    public BlockBlockEntityCoBuilder<BlockSignal, BlockEntitySignal<?>, ExtendedSignalsRegistrate> blockSignal(
+    public <S extends ISignalAspect> BlockBlockEntityCoBuilder<BlockSignal, BlockEntitySignal<S>, ExtendedSignalsRegistrate> blockSignal(
             String nation,
             String assetType,
             String name,
-            BlockEntityBuilder.BlockEntityFactory<BlockEntitySignal<?>> blockEntityFactory) {
-        return blockWithBlockEntityAttached(
-                nation, assetType, name, BlockSignal::new, blockEntityFactory, () -> RendererSignal::new
+            BlockEntityBuilder.BlockEntityFactory<BlockEntitySignal<S>> blockEntityFactory) {
+        return blockSignal(
+                nation, assetType, name, blockEntityFactory, () -> RendererSignal::new
         );
     }
 
-    public BlockBlockEntityCoBuilder<BlockSignal, BlockEntitySignal<?>, ExtendedSignalsRegistrate> blockSignal(
+    public <S extends ISignalAspect> BlockBlockEntityCoBuilder<BlockSignal, BlockEntitySignal<S>, ExtendedSignalsRegistrate> blockSignal(
             String nation,
             String assetType,
             String name,
-            BlockEntityBuilder.BlockEntityFactory<BlockEntitySignal<?>> blockEntityFactory,
-            NonNullSupplier<NonNullFunction<Context, BlockEntityRenderer<BlockEntitySignal<?>>>> renderer) {
+            BlockEntityBuilder.BlockEntityFactory<BlockEntitySignal<S>> blockEntityFactory,
+            NonNullSupplier<NonNullFunction<Context, BlockEntityRenderer<BlockEntitySignal<S>>>> renderer) {
         return blockWithBlockEntityAttached(
                 nation, assetType, name, BlockSignal::new, blockEntityFactory, renderer
         );

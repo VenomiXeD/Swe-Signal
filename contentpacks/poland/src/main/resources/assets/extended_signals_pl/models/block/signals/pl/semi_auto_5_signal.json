@@ -2,7 +2,7 @@
   "loader": "neoforge:composite",
   "children": {
     "part_1": {
-      "parent": "extended_signals_pl:block/signals/pl/5_light"
+      "parent": "extended_signals_pl:block/signals/pl/5_chamber_left"
     },
     "part_2": {
       "parent": "extended_signals_pl:block/masts/pl/default_mast"
