@@ -11,9 +11,3 @@ java.base/sun.security.util=cpw.mods.securejarhandler
 --add-exports
 jdk.naming.dns/com.sun.jndi.dns=java.naming
 -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump
--Dforge.logging.markers=REGISTRIES
--Dforge.logging.console.level=debug
--Dmixin.debug.export=true
--DlegacyClassPath.file=D:\Projects\Java\Swe-Signal\contentpacks\germany\build\neoForm\neoFormJoined1.21.1-20240808.144430\steps\writeMinecraftClasspathJunit\classpath.txt
--DignoreList=mixinextras-neoforge-0.5.3.jar,client-extra,neoforge-
--Djava.net.preferIPv6Addresses=system
