@@ -44,7 +44,7 @@ public record SemiAuto5Aspect(double currentSpeed, double nextSpeed) implements 
 
     private void handleMainAspect(float seconds, LightContainer states) {
         if (currentSpeed <= 100)
-            states.powered("l3w");
+            states.powered("l3");
 
         // Missing the weird multicolor light bar
     }
