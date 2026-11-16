@@ -8,8 +8,11 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.block.railway.*;
+import venomized.mods.extendedsignals.core.blockentity.BlockEntityRuleTest;
 import venomized.mods.extendedsignals.core.blockentity.CoreBlockEntities;
 import venomized.mods.extendedsignals.core.create.tracks.points.CoreEdgePoints;
+import venomized.mods.extendedsignals.core.registry.BlockBlockEntityCoEntry;
+import venomized.mods.extendedsignals.core.registry.ExtendedSignalsRegistrate;
 
 public final class CoreBlocks {
     // public static final BlockEntry<BlockTrainConfig> BLOCK_TRAIN_CONFIG = registrate()
@@ -101,7 +104,11 @@ public final class CoreBlocks {
             .simpleItem()
             .register();
 
-    public static Registrate registrate() {
+    public static final BlockBlockEntityCoEntry<BlockRuleTest, BlockEntityRuleTest> TEST = registrate()
+            .blockWithBlockEntityAttached("test", BlockRuleTest::new, BlockEntityRuleTest::new)
+            .register();
+
+    public static ExtendedSignalsRegistrate registrate() {
         return ExtendedSignals.REGISTRATE.get();
     }
 

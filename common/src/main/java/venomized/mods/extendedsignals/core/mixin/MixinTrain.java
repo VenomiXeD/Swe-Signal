@@ -30,7 +30,7 @@ import venomized.mods.extendedsignals.core.create.tracks.DelayedSignalCrossTrigg
 import venomized.mods.extendedsignals.core.create.tracks.EncounteredPoint;
 import venomized.mods.extendedsignals.core.create.tracks.InterlockingManager;
 import venomized.mods.extendedsignals.core.create.tracks.points.*;
-import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
+import venomized.mods.extendedsignals.core.api.ITrain;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundMiscTrainDataPacket;
 import venomized.mods.extendedsignals.core.signalling.ShuntRequest;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;

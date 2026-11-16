@@ -8,7 +8,7 @@ import net.minecraft.util.Mth;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.mixin.AccessorSignalEdgeGroup;
 import venomized.mods.extendedsignals.core.mixin_interfaces.ISignalEdgeGroup;
-import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
+import venomized.mods.extendedsignals.core.api.ITrain;
 
 public class TrainHelp {
     public static double trainSpeedPercentFromKph(final double speedInKph, Train train, boolean manual) {

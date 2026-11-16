@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import venomized.mods.extendedsignals.core.ExtendedSignals;
 import venomized.mods.extendedsignals.core.client.MiscTrainDataClientSync;
 import venomized.mods.extendedsignals.core.create.SignalPolicy;
-import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
+import venomized.mods.extendedsignals.core.api.ITrain;
 
 import java.util.Locale;
 import java.util.UUID;

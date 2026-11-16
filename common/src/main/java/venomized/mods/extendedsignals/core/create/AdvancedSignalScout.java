@@ -34,7 +34,7 @@ import venomized.mods.extendedsignals.core.create.tracks.points.ISignalStateModi
 import venomized.mods.extendedsignals.core.create.tracks.points.TrackEdgePointSignalModifier;
 import venomized.mods.extendedsignals.core.mixin.AccessorNavigation;
 import venomized.mods.extendedsignals.core.mixin_interfaces.INavigation;
-import venomized.mods.extendedsignals.core.mixin_interfaces.ITrain;
+import venomized.mods.extendedsignals.core.api.ITrain;
 import venomized.mods.extendedsignals.core.network.packets.ClientBoundMiscTrainDataPacket;
 import venomized.mods.extendedsignals.core.signalling.SignalStateNode;
 

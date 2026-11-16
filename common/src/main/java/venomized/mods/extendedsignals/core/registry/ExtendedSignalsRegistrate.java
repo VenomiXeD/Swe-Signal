@@ -59,6 +59,27 @@ public class ExtendedSignalsRegistrate extends Registrate {
     }
 
     public <B extends Block & IAutoBlockEntityBlock, E extends BlockEntity> BlockBlockEntityCoBuilder<B, E, ExtendedSignalsRegistrate> blockWithBlockEntityAttached(
+            String name,
+            NonNullFunction<BlockBehaviour.Properties, B> blockFactory,
+            BlockEntityBuilder.BlockEntityFactory<E> blockEntityFactory
+    ) {
+        BlockBuilder<B, ExtendedSignalsRegistrate> blockBuilder = block(this, name, blockFactory);
+        BlockEntityBuilder<E, ExtendedSignalsRegistrate> blockEntityBuilder = blockEntity(this, name, blockEntityFactory);
+
+
+        blockBuilder.properties(p -> BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK))
+                // .blockstate(customBlockModelProvider(assetType, nation, name))
+                .item()
+                // .model(modelLocator(assetType, nation, name))
+                .build();
+
+        blockEntityBuilder.validBlock(blockBuilder.asSupplier());
+        blockBuilder.onRegisterAfter(blockEntityBuilder.getRegistryKey(), b -> b.setBlockEntityType(blockEntityBuilder.getEntry()::create));
+
+        return new BlockBlockEntityCoBuilder<>(blockBuilder, blockEntityBuilder);
+    }
+
+    public <B extends Block & IAutoBlockEntityBlock, E extends BlockEntity> BlockBlockEntityCoBuilder<B, E, ExtendedSignalsRegistrate> blockWithBlockEntityAttached(
             String nation,
             String assetType,
             String name,

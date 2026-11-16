@@ -1,4 +1,4 @@
-package venomized.mods.extendedsignals.core.mixin_interfaces;
+package venomized.mods.extendedsignals.core.api;
 
 import com.simibubi.create.content.trains.entity.Train;
 import venomized.mods.extendedsignals.core.create.AdvancedSignalScout;

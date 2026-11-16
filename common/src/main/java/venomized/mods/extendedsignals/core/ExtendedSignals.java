@@ -31,6 +31,7 @@ import venomized.mods.extendedsignals.core.data.ExtendedSignalsLang;
 import venomized.mods.extendedsignals.core.item.ExtendedSignalsItems;
 import venomized.mods.extendedsignals.core.menu.CoreMenus;
 import venomized.mods.extendedsignals.core.network.ExtendedSignalsNetworking;
+import venomized.mods.extendedsignals.core.registry.ExtendedSignalsRegistrate;
 import venomized.mods.extendedsignals.core.signalling.ISignalNetwork;
 import venomized.mods.extendedsignals.core.util.Debug;
 
@@ -39,7 +40,7 @@ public class ExtendedSignals {
     public static final String MOD_ID = "extended_signals";
     public static final Logger LOGGER = LogManager.getLogger(ExtendedSignals.class);
 
-    public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MOD_ID));
+    public static final NonNullSupplier<ExtendedSignalsRegistrate> REGISTRATE = NonNullSupplier.lazy(() -> ExtendedSignalsRegistrate.create(MOD_ID));
 
     public static final RegistryEntry<CreativeModeTab, ?> CREATIVE_TAB = REGISTRATE.get()
             .defaultCreativeTab("extended_signals")
