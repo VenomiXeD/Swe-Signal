@@ -51,6 +51,7 @@ public record SemiAuto5Aspect(double currentSpeed, double nextSpeed, boolean shu
         if (currentSpeed <= 100)
             states.powered("l3");
         // Missing the weird multicolor light bar
+        // light bar logic: 60≤vmax≤90 orange, 100≤vmax≤140 green
     }
 
     public static SemiAuto5Aspect interpret(SignalStateNode signalState) {
