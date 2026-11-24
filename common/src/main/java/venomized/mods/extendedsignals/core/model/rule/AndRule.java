@@ -1,6 +1,6 @@
 package venomized.mods.extendedsignals.core.model.rule;
 
-public class AndRule extends ComposableRule<AndRule> {
+public class AndRule extends CompositeRule<AndRule> {
     public AndRule(RuleType<AndRule> selfRuleType) {
         super(selfRuleType);
     }
@@ -10,7 +10,7 @@ public class AndRule extends ComposableRule<AndRule> {
      */
     @Override
     public boolean evaluate(IRuleEvaluationContext context) {
-        for (IRule rule : getChildren()) {
+        for (IRule rule : children()) {
             if (!rule.evaluate(context)) {
                 return false;
             }

@@ -285,10 +285,10 @@ public class AdvancedSignalScout {
 
 
                 boolean shuntingPermitted =
-                        signalPolicyMode == SignalPolicy.SHUNT_COUPLING || signalPolicyMode == SignalPolicy.SHUNT_MOVEMENT && !current.obstacle();
+                        signalPolicyMode == SignalPolicy.SHUNT_COUPLING || (signalPolicyMode == SignalPolicy.SHUNT_MOVEMENT && !current.obstacle());
 
                 boolean journeyPermitted =
-                        !current.obstacle() && signalPolicyMode == SignalPolicy.JOURNEY && !shuntingPermitted;
+                        !current.obstacle() && signalPolicyMode == SignalPolicy.JOURNEY;
 
 
                 currentSignalState.setDistanceToNextSignal(upcomingSignalState == null ? -1 : upcoming.distance() - current.distance())
@@ -313,10 +313,6 @@ public class AdvancedSignalScout {
             iExtendedEdgePoint.onSignalScout(
                     current.signalDirection(), currentSignalState, train, current.distance()
             );
-
-            // Just track one signal ahead and then exit early - we just want the last signal so we can ping it and set distant signals to stop
-            if (!isInRange)
-                return;
         }
 
         // if (current != null && current.obstacle() && manualTrainDriving)
