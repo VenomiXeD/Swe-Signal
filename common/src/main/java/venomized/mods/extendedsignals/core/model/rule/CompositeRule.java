@@ -8,7 +8,7 @@ import net.minecraft.nbt.Tag;
 
 import java.util.List;
 
-public abstract class CompositeRule<S extends Rule<S>> extends Rule<S> implements ICompositeRule {
+public abstract class CompositeRule<S extends IRule> extends Rule<S> implements ICompositeRule {
     private final List<IRule> children = new ReferenceArrayList<>();
 
     /**
