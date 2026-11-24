@@ -1,6 +1,6 @@
 package venomized.mods.extendedsignals.core.model.rule;
 
-public class OrRule extends ComposableRule<OrRule> {
+public class OrRule extends CompositeRule<OrRule> {
     public OrRule(RuleType<OrRule> selfRuleType) {
         super(selfRuleType);
     }
@@ -10,7 +10,7 @@ public class OrRule extends ComposableRule<OrRule> {
      */
     @Override
     public boolean evaluate(IRuleEvaluationContext context) {
-        for (IRule rule : getChildren()) {
+        for (IRule rule : children()) {
             if (rule.evaluate(context)) {
                 return true;
             }

@@ -1,7 +1,6 @@
 package venomized.mods.extendedsignals.core.model.rule;
 
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
-import lombok.Getter;
 import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -9,9 +8,16 @@ import net.minecraft.nbt.Tag;
 
 import java.util.List;
 
-public abstract class ComposableRule<S extends Rule<S>> extends Rule<S> {
-    @Getter
+public abstract class CompositeRule<S extends Rule<S>> extends Rule<S> implements ICompositeRule {
     private final List<IRule> children = new ReferenceArrayList<>();
+
+    /**
+     * @return
+     */
+    @Override
+    public List<IRule> children() {
+        return children;
+    }
 
     public void addRule(IRule rule) {
         children.add(rule);
@@ -29,7 +35,7 @@ public abstract class ComposableRule<S extends Rule<S>> extends Rule<S> {
         children.remove(index);
     }
 
-    public ComposableRule(RuleType<S> selfRuleType) {
+    public CompositeRule(RuleType<S> selfRuleType) {
         super(selfRuleType);
     }
 
@@ -40,7 +46,7 @@ public abstract class ComposableRule<S extends Rule<S>> extends Rule<S> {
     public void writeToNbt(CompoundTag tag) {
         super.writeToNbt(tag);
         ListTag listTag = new ListTag();
-        for (IRule rule : getChildren()) {
+        for (IRule rule : children()) {
             listTag.add(Rules.serialize(rule));
         }
         tag.put("rules", listTag);
@@ -52,6 +58,7 @@ public abstract class ComposableRule<S extends Rule<S>> extends Rule<S> {
     @Override
     public void readFromNbt(CompoundTag tag) {
         super.readFromNbt(tag);
+        children.clear();
         NBTHelper.iterateCompoundList(tag.getList("rules", Tag.TAG_COMPOUND), ruleNBT -> children.add(Rules.deserialize(ruleNBT)));
     }
 }

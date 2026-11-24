@@ -1,28 +1,31 @@
 package venomized.mods.extendedsignals.core.model.rule;
 
 import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
+import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import net.createmod.catnip.nbt.NBTHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class Rules {
     private static final Map<ResourceLocation, RuleType<?>> RULES = new Object2ReferenceArrayMap<>();
 
-    public static <T extends Rule<T>> RuleType<T> registerRule(RuleType<T> rule) {
+    public static <T extends IRule> RuleType<T> registerRule(RuleType<T> rule) {
         if (RULES.putIfAbsent(rule.id(), rule) != null)
             throw new IllegalStateException("Duplicate rule ID: " + rule.id());
 
         return rule;
     }
 
-    public static <T extends Rule<T>> RuleType<T> registerRule(ResourceLocation id, IRuleFactory<T> factory) {
+    public static <T extends IRule> RuleType<T> registerRule(ResourceLocation id, IRuleFactory<T> factory) {
         return registerRule(new RuleType<>(id, factory));
     }
 
-    static <T extends Rule<T>> RuleType<T> registerRule(String name, IRuleFactory<T> factory) {
+    static <T extends IRule> RuleType<T> registerRule(String name, IRuleFactory<T> factory) {
         return registerRule(ResourceLocation.fromNamespaceAndPath("extended_signals", name), factory);
     }
 
@@ -58,5 +61,26 @@ public class Rules {
         IRule instance = getRule(id).create();
         instance.readFromNbt(data);
         return instance;
+    }
+
+    public static List<RuleGraphEntry> flatten(IRule instance) {
+        List<RuleGraphEntry> entries = new ReferenceArrayList<>();
+        innerFlatten(instance, 0, entries);
+
+        return entries;
+    }
+
+    private static void innerFlatten(IRule instance, int currentDepth, List<RuleGraphEntry> result) {
+        if (instance == null)
+            return;
+        result.add(new RuleGraphEntry(instance, currentDepth));
+        if (instance instanceof ICompositeRule compositeRule) {
+            for (IRule child : compositeRule.children()) {
+                innerFlatten(child, currentDepth + 1, result);
+            }
+        }
+    }
+
+    public record RuleGraphEntry(IRule ruleInstance, int nesting) {
     }
 }
