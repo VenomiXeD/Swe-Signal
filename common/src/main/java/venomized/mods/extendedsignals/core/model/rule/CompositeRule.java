@@ -58,6 +58,7 @@ public abstract class CompositeRule<S extends Rule<S>> extends Rule<S> implement
     @Override
     public void readFromNbt(CompoundTag tag) {
         super.readFromNbt(tag);
+        children.clear();
         NBTHelper.iterateCompoundList(tag.getList("rules", Tag.TAG_COMPOUND), ruleNBT -> children.add(Rules.deserialize(ruleNBT)));
     }
 }
